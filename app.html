@@ -25,11 +25,11 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.wrap { max-width: 760px; margin: 0 auto; padding: 10px max(16px, env(safe-area-inset-right, 0px)) 110px max(16px, env(safe-area-inset-left, 0px)); }
+.wrap { max-width: 760px; margin: 0 auto; padding: 10px max(16px, env(safe-area-inset-right, 0px)) 200px max(16px, env(safe-area-inset-left, 0px)); }
 .wrap.wide { max-width: 1080px; }
 
 .top { display: flex; align-items: center; gap: 12px; padding-block: 6px 10px; flex-wrap: wrap; }
-@media (max-width: 440px) { .brand p { display: none; } }
+@media (max-width: 440px) { .brand p { display: none; } .site-link { display: none; } }
 .site-link { font-size: 12px; font-weight: 600; text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 5px 10px; }
 .mark { width: 44px; height: 44px; border-radius: 50%; background: #000; display: grid; place-items: center; flex: none; }
 .mark svg { width: 40px; height: 40px; }
@@ -41,7 +41,7 @@ button { cursor: pointer; }
 .switch button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 .demo { font-size: 12px; color: var(--muted); background: var(--card); border: 1px dashed var(--line); border-radius: 10px; padding: 6px 10px; margin-bottom: 8px; }
 
-.tabs { display: flex; gap: 6px; overflow-x: auto; padding-block: 4px 12px; scrollbar-width: none; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--paper); z-index: 5; }
+.tabs { max-width: 100%; contain: inline-size; display: flex; gap: 6px; overflow-x: auto; padding-block: 4px 12px; scrollbar-width: none; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--paper); z-index: 5; }
 .tabs button { flex: none; border: 1.5px solid var(--line); background: var(--card); border-radius: 999px; padding: 7px 14px; font-weight: 600; font-size: 14px; }
 .tabs button[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 .tabs .dot { display: inline-block; min-width: 18px; padding: 0 5px; margin-left: 6px; border-radius: 9px; background: var(--accent); color: var(--accent-ink); font-size: 11px; line-height: 18px; text-align: center; }
@@ -116,7 +116,7 @@ legend { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
 .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .between { justify-content: space-between; }
 
-.basket { position: fixed; left: 0; right: 0; bottom: 0; z-index: 8; padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); background: var(--ink); color: var(--paper); }
+.basket { position: fixed; left: 0; right: 0; bottom: calc(96px + env(safe-area-inset-bottom, 0px)); border-radius: 16px 16px 0 0; z-index: 8; padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); background: var(--ink); color: var(--paper); }
 .basket .in { max-width: 728px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .basket b { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 
@@ -139,7 +139,7 @@ legend { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
 .empty { text-align: center; padding: 26px 16px; color: var(--muted); border: 1.5px dashed var(--line); border-radius: 16px; }
 .empty b { display: block; color: var(--ink); font-size: 16px; margin-bottom: 4px; }
 .skel { height: 80px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); }
-#toast { position: fixed; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 10px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; z-index: 20; max-width: calc(100% - 32px); text-align: center; }
+#toast { position: fixed; left: 50%; bottom: calc(168px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 10px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; z-index: 20; max-width: calc(100% - 32px); text-align: center; }
 
 /* Bija Card: black and white Kawung, themeable */
 .bcard { border: 1px solid rgba(255,255,255,.18); --c-bg: #0b0b0b; --c-ink: #ffffff; --c-sub: rgba(255,255,255,.7); --c-stamp: #ffffff; --c-stamp-ink: #0b0b0b; --c-empty: rgba(255,255,255,.35);
@@ -188,6 +188,81 @@ legend { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
 .gpick .gcard .t, .gpick .gcard .to, .gpick .gcard .msg { display: none; }
 .gpick .gcard .amt { font-size: 22px; }
 .stack > *, fieldset { min-width: 0; }
+/* bottom navigation, like a native app */
+.bnav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 9; background: rgba(0,0,0,.92); backdrop-filter: blur(10px); border-top: 1px solid var(--line); padding: 6px max(8px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px)); }
+.bnav .in { max-width: 520px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; }
+.bnav .side { position: relative; }
+.bnav .side::after { content: ""; position: absolute; left: 50%; bottom: -2px; width: 18px; height: 3px; border-radius: 2px; background: #fff; transform: translateX(-50%) scaleX(0); transition: transform .35s cubic-bezier(.3,1.6,.5,1); }
+.bnav .side[aria-current="page"]::after { transform: translateX(-50%) scaleX(1); }
+.bnav .side svg { transition: transform .35s cubic-bezier(.3,1.6,.5,1); }
+.bnav .side:active svg { transform: scale(.82); }
+.bnav .side[aria-current="page"] svg { transform: translateY(-2px); }
+/* centre Order button: the Bija mark, breathing at rest, blooming when pressed */
+.fab { position: relative; width: 70px; height: 70px; margin: -30px 18px 0; border-radius: 50%; border: 0; background: #fff; color: #000; display: grid; place-items: center; box-shadow: 0 0 0 6px #000, 0 10px 30px rgba(255,255,255,.12); transition: transform .3s cubic-bezier(.3,1.6,.5,1); padding: 0; cursor: pointer; }
+.fab:active { transform: scale(.92); }
+.fab svg { width: 44px; height: 44px; overflow: visible; }
+.fab .mk2 { transform-origin: 50px 50px; animation: fab-turn 14s linear infinite; }
+.fab .mk2 circle.m { transform-box: view-box; animation: fab-breathe 3.2s ease-in-out infinite; }
+.fab .mk2 circle.m:nth-child(1) { --dx: 0px; --dy: -3px; } .fab .mk2 circle.m:nth-child(2) { --dx: 3px; --dy: 0px; } .fab .mk2 circle.m:nth-child(3) { --dx: 0px; --dy: 3px; } .fab .mk2 circle.m:nth-child(4) { --dx: -3px; --dy: 0px; }
+@keyframes fab-turn { to { transform: rotate(360deg); } }
+@keyframes fab-breathe { 50% { transform: translate(var(--dx), var(--dy)); } }
+.fab.burst .mk2 circle.m { animation: fab-bloom .7s cubic-bezier(.2,.8,.2,1); }
+.fab.burst .mk2 circle.m:nth-child(1) { --dx: 0px; --dy: -16px; } .fab.burst .mk2 circle.m:nth-child(2) { --dx: 16px; --dy: 0px; } .fab.burst .mk2 circle.m:nth-child(3) { --dx: 0px; --dy: 16px; } .fab.burst .mk2 circle.m:nth-child(4) { --dx: -16px; --dy: 0px; }
+@keyframes fab-bloom { 40% { transform: translate(var(--dx), var(--dy)) scale(.7); } }
+.fab::before, .fab::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #fff; opacity: 0; pointer-events: none; }
+.fab.burst::before { animation: fab-ring .7s ease-out; } .fab.burst::after { animation: fab-ring .7s ease-out .12s; }
+@keyframes fab-ring { from { opacity: .9; transform: scale(1); } to { opacity: 0; transform: scale(1.9); } }
+.fab.bump { animation: fab-bump .45s cubic-bezier(.3,1.6,.5,1); }
+@keyframes fab-bump { 40% { transform: scale(1.14); } }
+.fab.ready { animation: fab-glow 1.6s ease-in-out infinite; }
+@keyframes fab-glow { 50% { box-shadow: 0 0 0 6px #000, 0 0 0 10px rgba(143,191,127,.9), 0 0 34px rgba(143,191,127,.7); } }
+.fab .cnt { position: absolute; top: -4px; right: -4px; min-width: 22px; height: 22px; border-radius: 11px; background: #000; color: #fff; border: 2px solid #fff; font: 700 11px/18px var(--sans); padding: 0 5px; }
+.fab .cnt.pop { animation: cnt-pop .45s cubic-bezier(.3,1.8,.5,1); }
+@keyframes cnt-pop { from { transform: scale(0); } }
+.fab-l { display: block; text-align: center; font-size: 11px; font-weight: 600; color: var(--muted); margin-top: 4px; }
+.fab-l.on { color: #fff; }
+.flydot { position: fixed; z-index: 40; width: 14px; height: 14px; border-radius: 50%; background: #fff; box-shadow: 0 0 12px rgba(255,255,255,.8); pointer-events: none; }
+/* page change: content rises in */
+@media (prefers-reduced-motion: no-preference) { #main.enter { animation: page-in .38s cubic-bezier(.2,.7,.2,1); } @keyframes page-in { from { opacity: 0; transform: translateY(12px); } } }
+@media (prefers-reduced-motion: reduce) { .fab .mk2, .fab .mk2 circle.m, .fab.burst::before, .fab.burst::after, .fab.ready, .fab.bump { animation: none !important; } }
+.bnav button.side { border: 0; background: transparent; display: grid; justify-items: center; gap: 2px; padding: 6px 0; font-size: 11px; font-weight: 600; color: var(--muted); position: relative; }
+.bnav button.side svg { width: 24px; height: 24px; }
+.bnav button.side[aria-current="page"] { color: var(--ink); }
+.bnav .dot { position: absolute; top: 2px; left: 56%; min-width: 16px; height: 16px; border-radius: 8px; background: #fff; color: #000; font-size: 10px; line-height: 16px; padding: 0 4px; }
+body.barista-view .bnav { display: none; } .bnav .in > span { display: grid; } body.barista-view .basket { bottom: 0; } body:not(.barista-view) .tabs { display: none; }
+.back { border: 0; background: transparent; color: var(--muted); font-weight: 600; padding: 4px 0 10px; }
+/* item options sheet */
+.sheet { position: fixed; inset: 0; z-index: 30; }
+.sheet .bg { position: absolute; inset: 0; background: rgba(0,0,0,.6); opacity: 0; transition: opacity .25s; }
+.sheet .pan { position: absolute; left: 0; right: 0; bottom: 0; max-width: 760px; margin: 0 auto; background: var(--card); border: 1px solid var(--line); border-bottom: 0; border-radius: 22px 22px 0 0; padding: 18px max(16px, env(safe-area-inset-right, 0px)) calc(18px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); transform: translateY(100%); transition: transform .32s cubic-bezier(.2,.8,.2,1); max-height: 88vh; overflow-y: auto; }
+.sheet.show .bg { opacity: 1; } .sheet.show .pan { transform: none; }
+.sheet .grab { width: 40px; height: 4px; border-radius: 2px; background: var(--line); margin: -6px auto 12px; }
+/* home */
+.greet { font-size: 28px; font-weight: 300; margin: 6px 0 14px; }
+.mini { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; align-items: center; border-radius: 18px; padding: 16px; background: #0b0b0b; border: 1px solid var(--line); background-size: 56px 56px; }
+.mini .n { font-size: 34px; font-weight: 300; line-height: 1; }
+.tiles2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tile2 { border: 1px solid var(--line); background: var(--card); border-radius: 16px; padding: 14px; text-align: left; display: grid; gap: 4px; }
+.tile2 b { font-size: 16px; } .tile2 span { font-size: 13px; color: var(--muted); }
+.usual { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
+.usual small { display: block; color: var(--muted); font-size: 12px; }
+.install { border: 1px dashed var(--line); border-radius: 14px; padding: 12px 14px; display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+/* flip card */
+.flip { perspective: 1400px; cursor: pointer; }
+.flip-in { position: relative; transition: transform .7s cubic-bezier(.2,.7,.2,1); transform-style: preserve-3d; }
+.flip.on .flip-in { transform: rotateY(180deg); }
+.flip .face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.flip .back { position: absolute; inset: 0; transform: rotateY(180deg); background: #fff; color: #000; border-radius: 20px; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 4%; padding: 5%; container-type: inline-size; }
+.flip .back svg { width: 38cqi; height: 38cqi; display: block; }
+.flip .back .code { font-size: clamp(14px, 6cqi, 26px); letter-spacing: .1em; }
+.flip .back p { margin: 6px 0 0; font-size: clamp(10px, 3.4cqi, 13px); color: #555; }
+@media (prefers-reduced-motion: reduce) { .flip-in, .sheet .pan, .sheet .bg { transition: none; } }
+.hist { display: grid; gap: 0; }
+.hist div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.hist small { color: var(--muted); font-size: 12px; }
+.hist b.plus { color: var(--leaf); } .hist b.minus { color: var(--warn); }
+.chal { display: grid; gap: 8px; }
+.chal .panel { display: grid; gap: 6px; }
 .passport { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
 .visa { border-radius: 14px; padding: 12px; border: 1.5px dashed var(--line); min-height: 92px; display: grid; align-content: space-between; }
 .visa.got { border-style: solid; background: var(--card); }
@@ -260,6 +335,8 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
   <main id="main"></main>
 </div>
 <div class="basket" id="basket" hidden></div>
+<nav class="bnav" id="bnav" aria-label="App sections"></nav>
+<div class="sheet" id="sheet" hidden></div>
 <div id="toast" role="status" hidden></div>
 
 <script>
@@ -2576,7 +2653,16 @@ var qrcode = function() {
     { id: 'drink', name: 'Any drink', pts: 400, match: (l) => isDrink(l) },
     { id: 'beans', name: 'A 250 g bag of beans', pts: 1200, match: (l) => l.cat === 'Beans' },
   ];
-  const BONUS = { welcome: 100, secret: 400, passport: 600 };
+  const BONUS = { welcome: 100, secret: 400, passport: 600, week: 150, explorer: 150, birthday: 200 };
+  const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  // per-drink options: which choices each drink offers
+  const OPT = { milk: ['Whole', 'Oat', 'Soya', 'Coconut'], sweet: ['Less sweet', 'Normal', 'Extra aren'], temp: ['Hot', 'Iced'] };
+  const OPT_LABEL = { milk: 'Milk', sweet: 'Sweetness', temp: 'Hot or iced' };
+  const HAS = { milk: new Set(['fw', 'lat', 'ks', 'choc', 'tea']), sweet: new Set(['ks', 'tea', 'turmeric', 'cold', 'affogato']), temp: new Set(['fw', 'lat', 'ks', 'choc', 'tea']) };
+  const optsFor = (m) => { if (!m || m.cat === 'Cakes' || m.cat === 'Beans') return null; const o = {}; for (const k of Object.keys(OPT)) if (HAS[k].has(m.id)) o[k] = OPT[k]; return Object.keys(o).length ? o : null; };
+  const keyOf = (id, opts) => opts && Object.keys(opts).length ? [id, opts.milk || '', opts.sweet || '', opts.temp || ''].join('~') : id;
+  const optText = (l) => l.opts ? Object.values(l.opts).filter(Boolean).join(' · ') : '';
+  const weekKey = (iso) => { const d = new Date(iso); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d.toISOString().slice(0, 10); };
   const GIFT_AMOUNTS = [10, 25, 50];
   const memberCode = (uid) => uid ? 'BIJA-' + String(uid).replace(/[^a-z0-9]/gi, '').slice(-5).toUpperCase() : 'BIJA-·····';
   const STATUS = { received: 'Received', brewing: 'Brewing', ready: 'Ready', collected: 'Collected', cancelled: 'Cancelled' };
@@ -2637,7 +2723,7 @@ var qrcode = function() {
   const S = {
     db: null, user: null, uid: null, admin: false, noDb: false, demo: false,
     config: null, configLoaded: false, me: null, meLoaded: false, bar: null, customers: [], bars: {}, custLoaded: false,
-    view: 'customer', tab: 'order', btab: 'queue', cat: null, qFilter: 'active',
+    view: 'customer', tab: 'home', btab: 'queue', sheet: null, lastOpts: {}, installEvt: null, bdayPick: '', cat: null, qFilter: 'active',
     cart: {}, form: { name: '', milk: 'Whole', sweet: 'Normal', slot: 'ASAP', note: '', reward: '', gift: false },
     gift: { amount: 25, custom: '', to: '', from: '', message: '', design: 'noir' }, redeemCode: '', instore: { code: '', amount: '' }, showScan: false, bump: false,
     busy: false, lastOrder: null, spot: null, dealt: null, fresh: -1, rate: {}, draft: null, theme: 'noir',
@@ -2710,25 +2796,46 @@ var qrcode = function() {
   const tierAt = (p) => TIERS.filter((t) => p >= t.min).pop();
   function stats(c, b) {
     const os = ordersOf(c, b), col = os.filter((o) => o.status === 'collected'), live = os.filter((o) => o.status !== 'cancelled');
+    const asc = col.slice().sort((x, y) => String(x.createdAt).localeCompare(String(y.createdAt)));
     // points are earned only on orders the bar marked collected and on in-store spend the bar added
-    const earns = [...col.map((o) => ({ at: o.createdAt, amount: +o.total || 0 })), ...Object.values(b?.instore || {}).map((x) => ({ at: x.at, amount: +x.amount || 0 }))]
+    const earns = [...asc.map((o) => ({ at: o.createdAt, amount: +o.total || 0, label: `Order ${o.code}` })), ...Object.values(b?.instore || {}).map((x) => ({ at: x.at, amount: +x.amount || 0, label: 'In store' }))]
       .sort((x, y) => String(x.at).localeCompare(String(y.at)));
-    let lifetime = 0;
-    for (const e of earns) lifetime += Math.round(e.amount * PTS * (1 + tierAt(lifetime).boost));
+    let lifetime = 0; const hist = [];
+    for (const e of earns) { const pts = Math.round(e.amount * PTS * (1 + tierAt(lifetime).boost)); lifetime += pts; hist.push({ at: e.at, label: e.label, sub: money(e.amount), pts }); }
     const dealt = SPOTS.slice(0, Math.min(SPOTS.length, 1 + col.length));
     const visited = c?.secret?.visited || {};
     const found = dealt.filter((x) => visited[x.id]).length;
-    const origins = new Set(col.flatMap((o) => (o.lines || []).filter((l) => l.origin).map((l) => l.origin)));
-    const bonus = (col.length ? BONUS.welcome : 0) + (found === SPOTS.length ? BONUS.secret : 0) + (origins.size === ORIGINS.length ? BONUS.passport : 0);
-    lifetime += bonus;
+    const origins = new Set(), kinds = new Set(), weeks = new Map(), bdYears = new Set(), bm = +c?.birthMonth || 0;
+    const bonus = (at, label, pts) => { lifetime += pts; hist.push({ at, label, sub: 'Bonus', pts }); };
+    if (asc.length) bonus(asc[0].createdAt, 'Welcome to Bija', BONUS.welcome);
+    for (const o of asc) {
+      const had = origins.size; for (const l of o.lines || []) if (l.origin) origins.add(l.origin);
+      if (had < ORIGINS.length && origins.size === ORIGINS.length) bonus(o.createdAt, 'Origins Passport complete', BONUS.passport);
+      const k0 = kinds.size; for (const l of o.lines || []) if (isDrink(l)) kinds.add(l.id);
+      if (k0 < 5 && kinds.size >= 5) bonus(o.createdAt, 'Explorer: five different drinks', BONUS.explorer);
+      const wk = weekKey(o.createdAt), n = (weeks.get(wk) || 0) + 1; weeks.set(wk, n);
+      if (n === 3) bonus(o.createdAt, 'Regular: three visits in a week', BONUS.week);
+      const d = new Date(o.createdAt);
+      if (bm && d.getMonth() + 1 === bm && !bdYears.has(d.getFullYear())) { bdYears.add(d.getFullYear()); bonus(o.createdAt, 'Happy birthday', BONUS.birthday); }
+    }
+    if (found === SPOTS.length) bonus(Object.values(visited).sort().pop(), 'Secret St James\'s complete', BONUS.secret);
+    for (const o of live) if (o.reward) hist.push({ at: o.createdAt, label: `Reward: ${o.reward.name}`, sub: `Order ${o.code}`, pts: -o.reward.pts });
+    hist.sort((x, y) => String(y.at).localeCompare(String(x.at)));
     const spent = live.reduce((a, o) => a + (+o.reward?.pts || 0), 0);
     const credits = Object.values(b?.credits || {}).reduce((a, x) => a + (+x.amount || 0), 0);
     const giftUsed = live.reduce((a, o) => a + (+o.giftPay || 0), 0);
-    return { os, col, lifetime, bonus, spent, balance: Math.max(0, lifetime - spent), tier: tierAt(lifetime), nextTier: TIERS.find((t) => t.min > lifetime),
+    return { os, col, lifetime, spent, balance: Math.max(0, lifetime - spent), tier: tierAt(lifetime), nextTier: TIERS.find((t) => t.min > lifetime), hist,
+      thisWeek: weeks.get(weekKey(new Date().toISOString())) || 0, kinds: kinds.size, birthMonth: bm,
       dealt, visited, found, origins, credits, wallet: Math.max(0, Math.round((credits - giftUsed) * 100) / 100), instore: Object.keys(b?.instore || {}).length };
   }
   const mine = () => stats(S.me, S.bar);
-  const cartLines = () => menu().filter((m) => S.cart[m.id] > 0).map((m) => ({ id: m.id, name: m.name, price: +m.price, qty: S.cart[m.id], cat: m.cat, ...(m.filter ? { origin: cfg().filter } : m.origin ? { origin: m.origin } : {}) }));
+  const cartLines = () => Object.entries(S.cart).filter(([, q]) => q > 0).map(([key, qty]) => {
+    const [id, milk, sweet, temp] = key.split('~'), m = menu().find((x) => x.id === id);
+    if (!m) return null;
+    const opts = Object.fromEntries([['milk', milk], ['sweet', sweet], ['temp', temp]].filter(([, v]) => v));
+    return { key, id, name: m.name, price: +m.price, qty, cat: m.cat, ...(Object.keys(opts).length ? { opts } : {}), ...(m.filter ? { origin: cfg().filter } : m.origin ? { origin: m.origin } : {}) };
+  }).filter(Boolean);
+  const itemQty = (id) => Object.entries(S.cart).reduce((a, [k, q]) => a + (k === id || k.startsWith(id + '~') ? q : 0), 0);
   function totals(lines) {
     const st = mine(), rw = REWARDS.find((r) => r.id === S.form.reward && st.balance >= r.pts);
     const units = rw ? lines.filter(rw.match).flatMap((l) => Array(l.qty).fill(l.price)) : [];
@@ -2742,12 +2849,14 @@ var qrcode = function() {
   function render() {
     const active = document.activeElement, aid = active && active.id;
     let s0, s1; try { s0 = active.selectionStart; s1 = active.selectionEnd; } catch {}
-    $('#wrap').classList.toggle('wide', S.view === 'bar');
+    $('#wrap').classList.toggle('wide', S.view === 'bar'); document.body.classList.toggle('barista-view', S.view === 'bar');
     renderSwitch(); renderTabs();
     const sl = document.querySelector('.site-link'); if (sl) sl.hidden = !S.demo; // the claude.ai page has no website beside it
     $('#demo').innerHTML = S.demo ? `<div class="demo">Demo: Concept mockup by Firman Insan M. Not affiliated with or endorsed by Bija Coffee. Orders, points and gift cards stay in this browser; switch to Barista to play both sides. <a href="index.html" style="color:inherit">Website</a></div>` : '';
+    const pageKey = S.view + ':' + (S.view === 'bar' ? S.btab : S.tab);
     $('#main').innerHTML = S.view === 'bar' ? barista() : customer();
-    renderBasket();
+    if (pageKey !== S.lastPage) { S.lastPage = pageKey; const mn = $('#main'); mn.classList.remove('enter'); void mn.offsetWidth; mn.classList.add('enter'); }
+    renderBasket(); renderSheet();
     if (aid) { const el = document.getElementById(aid); if (el) { el.focus({ preventScroll: true }); try { if (s0 != null) el.setSelectionRange(s0, s1); } catch {} } }
   }
   function renderSwitch() {
@@ -2762,17 +2871,62 @@ var qrcode = function() {
       tabs = [['queue', 'Queue', open], ['members', 'Members'], ['gifts', 'Gift cards', waiting], ['insights', 'Insights'], ['menu', 'Menu']]; key = 'btab';
     } else {
       const st = mine(), live = st.os.filter((o) => o.status !== 'collected' && o.status !== 'cancelled').length;
-      const unseen = st.dealt.filter((x) => !st.visited[x.id]).length;
       const canRedeem = REWARDS.filter((r) => st.balance >= r.pts).length;
-      tabs = [['order', 'Order'], ['beans', 'Beans'], ['card', 'Bija Card', canRedeem], ['gifts', 'Gift cards'], ['secret', 'Secret', unseen], ['orders', 'My orders', live]]; key = 'tab';
+      const qty = cartLines().reduce((a, l) => a + l.qty, 0), ready = st.os.some((o) => o.status === 'ready');
+      const cur = ['home', 'beans', 'secret', 'gifts', 'orders'].includes(S.tab) ? 'home' : S.tab;
+      const side = (id, l, path, n) => `<button class="side" data-act="tab" data-v="${id}" ${cur === id ? 'aria-current="page"' : ''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">${path}</svg>${l}${n ? `<span class="dot">${n}</span>` : ''}</button>`;
+      const nav = $('#bnav');
+      if (!nav.querySelector('.fab')) nav.innerHTML = `<div class="in"><span id="nav-l"></span><div><button class="fab" data-act="fab" aria-label="Order"><svg viewBox="-6 -6 112 112" aria-hidden="true"><defs><clipPath id="fab-clip"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></clipPath></defs><g class="mk2" fill="none" stroke="currentColor" stroke-width="4"><circle class="m" cx="50" cy="25" r="25"/><circle class="m" cx="75" cy="50" r="25"/><circle class="m" cx="50" cy="75" r="25"/><circle class="m" cx="25" cy="50" r="25"/><g clip-path="url(#fab-clip)" stroke-width="2.4"><circle cx="25" cy="0" r="25"/><circle cx="75" cy="0" r="25"/><circle cx="100" cy="25" r="25"/><circle cx="100" cy="75" r="25"/><circle cx="75" cy="100" r="25"/><circle cx="25" cy="100" r="25"/><circle cx="0" cy="75" r="25"/><circle cx="0" cy="25" r="25"/></g></g></svg><span class="cnt" hidden></span></button><span class="fab-l">Order</span></div><span id="nav-r"></span></div>`;
+      // the centre button stays in the DOM between renders so its idle animation never restarts
+      $('#nav-l').outerHTML = `<span id="nav-l">${side('home', 'Home', '<path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/>', live)}</span>`;
+      $('#nav-r').outerHTML = `<span id="nav-r">${side('card', 'Bija Card', '<rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="12" cy="10" r="2.2"/><circle cx="14.2" cy="12.2" r="2.2"/><circle cx="12" cy="14.4" r="2.2"/><circle cx="9.8" cy="12.2" r="2.2"/>', canRedeem)}</span>`;
+      const fab = nav.querySelector('.fab'), cnt = fab.querySelector('.cnt');
+      if (String(qty) !== cnt.textContent) { cnt.textContent = qty; cnt.hidden = !qty; if (qty) { cnt.classList.remove('pop'); void cnt.offsetWidth; cnt.classList.add('pop'); } }
+      fab.classList.toggle('ready', ready); fab.setAttribute('aria-label', qty ? `Order, ${qty} item${qty > 1 ? 's' : ''} in basket` : 'Order');
+      nav.querySelector('.fab-l').classList.toggle('on', cur === 'order');
+      tabs = []; key = 'tab';
     }
     $('#tabs').innerHTML = tabs.map(([id, l, n]) => `<button role="tab" data-act="tab" data-v="${id}" aria-selected="${S[key] === id}">${l}${n ? `<span class="dot">${n}</span>` : ''}</button>`).join('');
   }
   function renderBasket() {
     const t = totals(cartLines()), el = $('#basket');
-    const show = S.view === 'customer' && (S.tab === 'order' || S.tab === 'beans') && !S.lastOrder && t.qty > 0;
+    const show = S.view === 'customer' && ['order', 'beans', 'home'].includes(S.tab) && !S.lastOrder && t.qty > 0;
     el.hidden = !show;
     if (show) el.innerHTML = `<div class="in"><span>${t.qty} item${t.qty > 1 ? 's' : ''} · <b>${money(t.total)}</b></span><button class="btn sm" data-act="goto-checkout">Checkout</button></div>`;
+  }
+  function renderSheet() {
+    const el = $('#sheet'), sh = S.sheet, m = sh && menu().find((x) => x.id === sh.id);
+    if (!m || S.view !== 'customer') { if (!el.hidden) { el.classList.remove('show'); setTimeout(() => { if (!S.sheet) el.hidden = true; }, 300); } return; }
+    const o = optsFor(m) || {};
+    const wasHidden = el.hidden;
+    el.hidden = false;
+    el.innerHTML = `<div class="bg" data-act="sclose"></div><div class="pan" role="dialog" aria-modal="true" aria-label="${esc(m.name)}">
+      <div class="grab"></div>
+      <div class="row between" style="align-items:flex-start"><div><h3 style="margin:0;font-size:22px;font-weight:500">${esc(m.name)}</h3><p class="hint" style="margin:4px 0 0">${esc(m.desc || '')}</p></div><button class="back" data-act="sclose" aria-label="Close" style="font-size:26px;padding:0 4px">×</button></div>
+      ${Object.entries(o).map(([k, vals]) => `<fieldset style="margin-top:14px"><legend>${OPT_LABEL[k]}</legend><div class="opts">${vals.map((v) => `<button data-act="sopt" data-k="${k}" data-v="${esc(v)}" aria-pressed="${sh.opts[k] === v}">${esc(v)}</button>`).join('')}</div></fieldset>`).join('')}
+      <div class="row between" style="margin-top:18px"><div class="step" role="group" aria-label="Quantity"><button data-act="sqty" data-d="-1" ${sh.qty > 1 ? '' : 'disabled'} aria-label="One less">−</button><output>${sh.qty}</output><button data-act="sqty" data-d="1" aria-label="One more">+</button></div>
+        <button class="btn" data-act="sadd">Add · ${money(sh.qty * m.price)}</button></div>
+    </div>`;
+    if (wasHidden) requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show'))); else el.classList.add('show');
+  }
+  const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function fabFx(cls) { const f = document.querySelector('.fab'); if (!f || calm()) return; f.classList.remove(cls); void f.offsetWidth; f.classList.add(cls); setTimeout(() => f.classList.remove(cls), 750); }
+  // a dot flies from what you tapped into the centre button, then the button bumps
+  function flyToBasket(from) {
+    const f = document.querySelector('.fab'); if (!f) return;
+    if (calm() || !from || !from.getBoundingClientRect) return fabFx('bump');
+    const a = from.getBoundingClientRect(), z = f.getBoundingClientRect();
+    const x0 = a.left + a.width / 2 - 7, y0 = a.top + a.height / 2 - 7, x1 = z.left + z.width / 2 - 7, y1 = z.top + z.height / 2 - 7;
+    const d = document.createElement('div'); d.className = 'flydot'; d.style.left = x0 + 'px'; d.style.top = y0 + 'px'; document.body.appendChild(d);
+    const mx = (x1 - x0) / 2, my = Math.min(y0, y1) - y0 - 90;
+    d.animate([{ transform: 'translate(0,0) scale(1)' }, { transform: `translate(${mx}px, ${my}px) scale(1.25)`, offset: .45 }, { transform: `translate(${x1 - x0}px, ${y1 - y0}px) scale(.4)`, opacity: .6 }], { duration: 650, easing: 'cubic-bezier(.3,.7,.4,1)' }).finished.then(() => { d.remove(); fabFx('bump'); if (navigator.vibrate) navigator.vibrate(12); });
+  }
+  function openSheet(id, from) {
+    const m = menu().find((x) => x.id === id), o = optsFor(m);
+    if (!o) { S.cart[id] = Math.min(20, (S.cart[id] || 0) + 1); toast(`${m.name} added`); render(); return flyToBasket(from); }
+    const last = S.lastOpts[id] || {};
+    S.sheet = { id, qty: 1, opts: Object.fromEntries(Object.entries(o).map(([k, vals]) => [k, vals.includes(last[k]) ? last[k] : (k === 'sweet' ? 'Normal' : vals[0])])) };
+    render();
   }
   function notReady() {
     if (S.noDb) return `<div class="empty"><b>Open this page in Claude while signed in</b>Orders, Bija Card points, gift cards and Secret St James's cards are saved to your account.</div>`;
@@ -2790,11 +2944,13 @@ var qrcode = function() {
   function customer() {
     if (S.noDb || !S.configLoaded) return notReady();
     if (!S.config) return `<div class="empty"><b>The menu isn't up yet</b>${S.admin ? 'Switch to Barista → Menu and publish the starter menu.' : 'Follow @bija.london for opening news.'}</div>`;
-    if (S.tab === 'beans') return beansPage();
+    const back = '<button class="back" data-act="tab" data-v="home">‹ Home</button>';
+    if (S.tab === 'home') return homePage();
+    if (S.tab === 'beans') return back + beansPage();
     if (S.tab === 'card') return cardPage();
-    if (S.tab === 'gifts') return giftsPage();
-    if (S.tab === 'secret') return secretPage();
-    if (S.tab === 'orders') return ordersPage();
+    if (S.tab === 'gifts') return back + giftsPage();
+    if (S.tab === 'secret') return back + secretPage();
+    if (S.tab === 'orders') return back + ordersPage();
     return orderPage();
   }
   function dishRatings() {
@@ -2814,6 +2970,41 @@ var qrcode = function() {
       <div class="list">${show.map((e) => `<article class="order"><div class="h"><b>${esc(e.title)}</b><span class="pill ${up.length ? 'ready' : 'collected'}">${day(e.date)}${e.end ? '–' + day(e.end) : ''}</span></div><div class="lines">${esc(e.text)}</div></article>`).join('')}
       ${cfg().perk ? `<div class="hint">♻ ${esc(cfg().perk)}</div>` : ''}</div></section>`;
   }
+  function homePage() {
+    const st = mine(), h = new Date().getHours(), name = (S.me?.name || S.form.name || '').split(' ')[0];
+    const hello = h < 11 ? 'Selamat pagi' : h < 15 ? 'Selamat siang' : h < 18 ? 'Selamat sore' : 'Selamat malam';
+    const active = st.os.find((o) => ['received', 'brewing', 'ready'].includes(o.status));
+    const nextR = REWARDS.find((r) => r.pts > st.balance), f = origin(cfg().filter), filt = menu().find((m) => m.filter && m.available);
+    // your usual: most collected item + options, else the house favourites
+    const tally = new Map();
+    for (const o of st.col) for (const l of o.lines || []) { const k = l.key || keyOf(l.id, l.opts); const t = tally.get(k) || { l, n: 0 }; t.n += l.qty; tally.set(k, t); }
+    let usual = [...tally.entries()].sort((a, b) => b[1].n - a[1].n).map(([k, t]) => ({ key: k, l: t.l, m: menu().find((m) => m.id === t.l.id) })).filter((x) => x.m && x.m.available).slice(0, 3);
+    const fav = !usual.length;
+    if (fav) usual = ['ks', 'fw', 'cold'].map((id) => menu().find((m) => m.id === id && m.available)).filter(Boolean).map((m) => ({ key: m.id, l: { id: m.id, name: m.name }, m }));
+    const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) && !navigator.standalone;
+    const showInstall = S.demo && /^https?:$/.test(location.protocol) && !matchMedia('(display-mode: standalone)').matches && store.get('bija.install') !== 'no' && (S.installEvt || ios);
+    return `<div class="greet">${hello}${name ? ', ' + esc(name) : ''}.</div>
+      ${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
+      <button class="mini" data-act="tab" data-v="card" style="width:100%;text-align:left;color:#fff;background-image:${pat.kawung('#ffffff', .08)}">
+        <div><span class="hint">Bija Card · ${esc(st.tier.name)}</span><div class="n">${st.balance.toLocaleString('en-GB')} <span style="font-size:14px;color:var(--muted)">points</span></div></div>
+        <span class="btn sm" style="background:#fff;color:#000">Scan</span>
+        <div class="prog" style="grid-column:1/-1;background:rgba(255,255,255,.18)"><i style="width:${nextR ? (st.balance / nextR.pts) * 100 : 100}%;background:#fff"></i></div>
+        <span class="hint" style="grid-column:1/-1">${nextR ? `${nextR.pts - st.balance} points to ${nextR.name.toLowerCase()}` : 'Every reward unlocked. Choose one at checkout.'}</span>
+      </button>
+      ${showInstall ? `<div class="install" style="margin-top:12px"><span><b>Put Bija on your home screen</b><br><span class="hint">${S.installEvt ? 'One tap, opens full screen like an app.' : 'Tap Share, then “Add to Home Screen”.'}</span></span><span class="row">${S.installEvt ? '<button class="btn sm" data-act="install">Install</button>' : ''}<button class="btn sm ghost" data-act="noinstall">Not now</button></span></div>` : ''}
+      <section class="sec"><div class="sec-h"><h3>${fav ? 'House favourites' : 'Your usual'}</h3><button class="back" data-act="tab" data-v="order" style="padding:0">Full menu ›</button></div>
+        <div class="list">${usual.map((u) => `<div class="usual"><div><b>${esc(u.m.name)}</b><small>${esc(optText(u.l) || u.m.desc || '')} · ${money(u.m.price)}</small></div>${fav && optsFor(u.m) ? `<button class="btn sm dark" data-act="sheet" data-id="${esc(u.m.id)}" ${isOpen() ? '' : 'disabled'}>Add</button>` : `<button class="btn sm dark" data-act="kadd" data-key="${esc(u.key)}" ${isOpen() ? '' : 'disabled'}>Add</button>`}</div>`).join('')}</div>
+      </section>
+      ${f && filt ? `<div class="filter"><div><span class="hint">On filter today</span><b>${esc(f.name)}, ${esc(f.where)}</b><div class="notes">${f.notes.map((n) => `<span>${esc(n)}</span>`).join('')}</div></div><button class="btn sm dark" data-act="qty" data-id="${esc(filt.id)}" data-d="1" ${isOpen() ? '' : 'disabled'}>Add · ${money(filt.price)}</button></div>` : ''}
+      <section class="sec tiles2">
+        <button class="tile2" data-act="tab" data-v="beans"><b>Beans</b><span>${menu().filter((m) => m.cat === 'Beans' && m.available).length} to take home · ${st.origins.size}/${ORIGINS.length} passport</span></button>
+        <button class="tile2" data-act="tab" data-v="secret"><b>Secret St James's</b><span>${st.found}/${SPOTS.length} found${st.dealt.some((x) => !st.visited[x.id]) ? ' · new card waiting' : ''}</span></button>
+        <button class="tile2" data-act="tab" data-v="gifts"><b>Gift cards</b><span>${st.wallet ? money(st.wallet) + ' balance' : 'Send one from £5'}</span></button>
+        <button class="tile2" data-act="tab" data-v="orders"><b>My orders</b><span>${st.os.length ? st.os.length + ' so far · reorder in one tap' : 'Your order history'}</span></button>
+      </section>
+      ${whatsOn()}
+      ${cfg().award ? `<p class="hint" style="margin-top:16px">★ ${esc(cfg().award)}</p>` : ''}`;
+  }
   function orderPage() {
     if (S.lastOrder) return confirmation();
     const open = isOpen(), cats = [...new Set(menu().map((m) => m.cat))];
@@ -2832,28 +3023,26 @@ var qrcode = function() {
     <section class="sec">
       <div class="cats">${cats.map((c) => `<button data-act="cat" data-v="${esc(c)}" aria-pressed="${S.cat === c}">${esc(c)}</button>`).join('')}</div>
       <div class="menu">${menu().filter((m) => m.cat === S.cat).map((m) => {
-        const q = S.cart[m.id] || 0, off = !m.available || !open, rr = rt[m.id];
+        const q = itemQty(m.id), off = !m.available || !open, rr = rt[m.id];
         return `<article class="prod ${m.available ? '' : 'off'}">
           <div class="ic">${icon(m.ic)}</div>
           <div style="min-width:0"><h4>${esc(m.name)} ${m.badge ? `<span class="badge">${esc(m.badge)}</span>` : ''}</h4><p>${esc(m.filter && f ? `Today: ${f.name}. ` : '')}${esc(m.desc || '')}</p>
             <span class="price">${money(m.price)}</span>${!m.available ? ' · <b>Sold out</b>' : ''}${rr && rr.length ? ` · <span class="stars">★ ${(rr.reduce((a, b) => a + b, 0) / rr.length).toFixed(1)}</span>` : ''}</div>
-          <div class="step" role="group" aria-label="Quantity of ${esc(m.name)}"><button data-act="qty" data-id="${esc(m.id)}" data-d="-1" ${q ? '' : 'disabled'} aria-label="Remove one">−</button><output>${q}</output><button data-act="qty" data-id="${esc(m.id)}" data-d="1" ${off ? 'disabled' : ''} aria-label="Add one">+</button></div>
+          <div class="step" role="group" aria-label="Quantity of ${esc(m.name)}"><button data-act="dec" data-id="${esc(m.id)}" ${q ? '' : 'disabled'} aria-label="Remove one">−</button><output>${q}</output><button data-act="sheet" data-id="${esc(m.id)}" ${off ? 'disabled' : ''} aria-label="Add ${esc(m.name)}">+</button></div>
         </article>`;
       }).join('')}</div>
     </section>
     <section class="sec" id="checkout">
       <div class="sec-h"><h3>Your order</h3>${t.qty ? `<small>${t.qty} item${t.qty > 1 ? 's' : ''}</small>` : ''}</div>
-      ${!t.qty ? `<div class="empty"><b>Nothing in your order yet</b>Tap + on a drink. Every £1 earns ${PTS} points on your Bija Card.</div>` : `
+      ${!t.qty ? `<div class="empty"><b>Nothing in your order yet</b>Tap + on a drink to choose milk, sweetness and hot or iced. Every £1 earns ${PTS} points on your Bija Card.</div>` : `
       <div class="panel stack">
         <div class="sum">
-          ${lines.map((l) => `<div><span>${l.qty}× ${esc(l.name)}${l.origin ? ` (${esc(origin(l.origin)?.name || '')})` : ''}</span><span>${money(l.qty * l.price)}</span></div>`).join('')}
+          ${lines.map((l) => `<div style="align-items:center"><span style="min-width:0">${esc(l.name)}${l.origin ? ` (${esc(origin(l.origin)?.name || '')})` : ''}${optText(l) ? `<br><small class="hint">${esc(optText(l))}</small>` : ''}</span><span class="row" style="flex-wrap:nowrap;gap:10px"><span class="step" style="transform:scale(.85)"><button data-act="kqty" data-key="${esc(l.key)}" data-d="-1" aria-label="One less">−</button><output>${l.qty}</output><button data-act="kqty" data-key="${esc(l.key)}" data-d="1" aria-label="One more">+</button></span><span>${money(l.qty * l.price)}</span></span></div>`).join('')}
           ${t.discount ? `<div class="deal"><span>${esc(t.reward.name)} · −${t.reward.pts} pts</span><span>−${money(t.discount)}</span></div>` : ''}
           <div class="tot"><span>Total</span><span>${money(t.total)}</span></div>
           ${t.giftPay ? `<div class="deal"><span>Gift card balance</span><span>−${money(t.giftPay)}</span></div><div><span>Left to pay at the bar</span><span>${money(t.due)}</span></div>` : ''}
           <div class="hint" style="margin-top:4px">You'll earn about ${t.earn} points · ${esc(st.tier.name)} level</div>
         </div>
-        <fieldset><legend>Milk</legend><div class="opts">${['Whole', 'Oat', 'Soya', 'Coconut'].map((m) => `<button data-act="opt" data-k="milk" data-v="${m}" aria-pressed="${S.form.milk === m}">${m}</button>`).join('')}</div></fieldset>
-        <fieldset><legend>Sweetness</legend><div class="opts">${['Less sweet', 'Normal', 'Extra aren'].map((m) => `<button data-act="opt" data-k="sweet" data-v="${m}" aria-pressed="${S.form.sweet === m}">${m}</button>`).join('')}</div></fieldset>
         <fieldset><legend>Pick up at the bar</legend><div class="opts">${(cfg().slots || ['ASAP']).map((m) => `<button data-act="opt" data-k="slot" data-v="${esc(m)}" aria-pressed="${S.form.slot === m}">${esc(m)}</button>`).join('')}</div></fieldset>
         <div class="grid2">
           <label class="f">Name for the cup<input type="text" id="f-name" data-f="name" value="${esc(S.form.name)}" autocomplete="given-name" maxlength="40"></label>
@@ -2883,7 +3072,7 @@ var qrcode = function() {
     <section class="sec panel stack">
       <div class="row between"><b>${STATUS[o.status]}</b><span class="pill ${o.status}">${STATUS[o.status]}</span></div>
       <div class="track">${[1, 2, 3].map((i) => `<span class="${i <= step ? 'on' : ''}"></span>`).join('')}</div>
-      <div class="lines">${o.lines.map((l) => `<b>${l.qty}×</b> ${esc(l.name)}`).join(' · ')}</div>
+      <div class="lines">${o.lines.map((l) => `<b>${l.qty}×</b> ${esc(l.name)}${optText(l) ? ` <small>(${esc(optText(l))})</small>` : ''}`).join(' · ')}</div>
       <p class="hint" style="margin:0">This updates live. Your points and a new Secret St James's card arrive when we hand it over.</p>
       <div class="row"><button class="btn sm ghost" data-act="again">Back to menu</button><button class="btn sm ghost" data-act="tab" data-v="orders">My orders</button></div>
     </section>`;
@@ -2914,10 +3103,22 @@ var qrcode = function() {
     const st = mine(), t = themeById(S.theme), no = memberCode(S.uid);
     const nextR = REWARDS.find((r) => r.pts > st.balance), pct = nextR ? (st.balance / nextR.pts) * 100 : 100;
     let qr = '';
-    if (S.showScan) { try { const q = qrcode(0, 'M'); q.addData(no); q.make(); qr = q.createSvgTag(6, 2); } catch { qr = ''; } }
-    return `${cardHTML(t, { name: S.me?.name || 'Your card', no, pts: st.balance, tier: st.tier.name, pct, next: nextR ? `${nextR.pts - st.balance} pts to ${nextR.name.toLowerCase()}` : 'Every reward unlocked', bump: S.bump })}
-      <div class="row" style="margin-top:12px"><button class="btn dark" data-act="scan">${S.showScan ? 'Hide code' : 'Scan at the till'}</button><span class="hint">Earn points in store too</span></div>
-      ${S.showScan ? `<div class="scan" style="margin-top:12px">${qr || ''}<div class="code">${esc(no)}</div><div style="font-size:13px;color:#555">Show this when you pay at the bar. The barista adds your points.</div></div>` : ''}
+    try { const q = qrcode(0, 'M'); q.addData(no); q.make(); qr = q.createSvgTag(6, 2); } catch { qr = ''; }
+    const wkLeft = Math.max(0, 3 - st.thisWeek);
+    return `<div class="flip ${S.showScan ? 'on' : ''}" data-act="scan" role="button" tabindex="0" aria-label="${S.showScan ? 'Show points' : 'Show member code to scan'}"><div class="flip-in">
+        <div class="face">${cardHTML(t, { name: S.me?.name || 'Your card', no, pts: st.balance, tier: st.tier.name, pct, next: nextR ? `${nextR.pts - st.balance} pts to ${nextR.name.toLowerCase()}` : 'Every reward unlocked', bump: S.bump })}</div>
+        <div class="face back">${qr}<div><div class="code">${esc(no)}</div><p>Show this when you pay at the bar. The barista scans it or types the code and your points land straight away.</p></div></div>
+      </div></div>
+      <div class="row" style="margin-top:12px"><button class="btn dark" data-act="scan">${S.showScan ? 'Show my points' : 'Scan at the till'}</button><span class="hint">Tap the card to flip it</span></div>
+      <section class="sec"><div class="sec-h"><h3>Challenges</h3><small>Bonus points</small></div>
+        <div class="chal">
+          <div class="panel"><div class="row between"><b>Regular</b><span class="pill ${wkLeft ? 'collected' : 'ready'}">+${BONUS.week}</span></div><span class="hint">${wkLeft ? `Visit ${wkLeft} more time${wkLeft === 1 ? '' : 's'} this week (Mon–Sun). Every week counts.` : 'Done this week. Back on Monday.'}</span><div class="prog"><i style="width:${Math.min(3, st.thisWeek) / 3 * 100}%"></i></div></div>
+          <div class="panel"><div class="row between"><b>Explorer</b><span class="pill ${st.kinds >= 5 ? 'ready' : 'collected'}">+${BONUS.explorer}</span></div><span class="hint">${st.kinds >= 5 ? 'Done. You have tried five different drinks.' : `Try five different drinks: ${st.kinds} of 5 so far.`}</span><div class="prog"><i style="width:${Math.min(5, st.kinds) / 5 * 100}%"></i></div></div>
+          <div class="panel"><div class="row between"><b>Birthday</b><span class="pill ${st.birthMonth ? 'ready' : 'collected'}">+${BONUS.birthday}</span></div>
+            ${st.birthMonth ? `<span class="hint">Your first order in ${MONTHS[st.birthMonth - 1]} each year earns a birthday bonus.</span>`
+              : `<span class="hint">Tell us your birthday month (just the month) for a bonus every year.</span><div class="row" style="flex-wrap:nowrap"><select id="bm" style="flex:1"><option value="">Month…</option>${MONTHS.map((m, i) => `<option value="${i + 1}" ${String(i + 1) === S.bdayPick ? 'selected' : ''}>${m}</option>`).join('')}</select><button class="btn sm" data-act="bday" ${S.busy || !S.uid ? 'disabled' : ''}>Save</button></div><span class="hint">You can set it once.</span>`}</div>
+        </div>
+      </section>
       <section class="sec"><div class="sec-h"><h3>Rewards</h3><small>${st.balance} points to spend</small></div>
         <div class="list">${REWARDS.map((r) => { const ok = st.balance >= r.pts; return `<div class="panel rw"><div><b>${esc(r.name)}</b><div class="hint">${ok ? 'Unlocked: choose it at checkout' : `${r.pts - st.balance} more points`}</div></div><span class="pill ${ok ? 'ready' : 'collected'}">${r.pts} pts</span>${ok ? '' : `<div class="prog" style="grid-column:1/-1"><i style="width:${(st.balance / r.pts) * 100}%"></i></div>`}</div>`; }).join('')}</div>
       </section>
@@ -2928,10 +3129,13 @@ var qrcode = function() {
       <section class="sec"><div class="sec-h"><h3>Ways to earn</h3></div>
         <div class="panel stack" style="gap:6px">
           <div>${PTS} points for every £1, in the app and at the till. Points land when the barista hands over your order.</div>
-          <div>+${BONUS.welcome} welcome points with your first order.</div>
+          <div>+${BONUS.welcome} welcome points with your first order. Plus the challenges above.</div>
           <div>+${BONUS.secret} when you find all ${SPOTS.length} Secret St James's spots${st.found === SPOTS.length ? ' ✓' : ` (${st.found}/${SPOTS.length})`}.</div>
           <div>+${BONUS.passport} when your Origins Passport is full${st.origins.size === ORIGINS.length ? ' ✓' : ` (${st.origins.size}/${ORIGINS.length})`}.</div>
         </div>
+      </section>
+      <section class="sec"><div class="sec-h"><h3>Points history</h3><small>${st.hist.length} entr${st.hist.length === 1 ? 'y' : 'ies'}</small></div>
+        ${!st.hist.length ? '<div class="empty"><b>Nothing yet</b>Your first collected order starts the list.</div>' : `<div class="panel hist">${st.hist.slice(0, S.histAll ? 200 : 8).map((h) => `<div><span>${esc(h.label)}<br><small>${fmt(h.at)} · ${esc(h.sub)}</small></span><b class="${h.pts >= 0 ? 'plus' : 'minus'}">${h.pts >= 0 ? '+' : '−'}${Math.abs(h.pts)}</b></div>`).join('')}</div>${st.hist.length > 8 && !S.histAll ? '<button class="back" data-act="histall">Show all</button>' : ''}`}
       </section>
       <section class="sec"><div class="sec-h"><h3>Origins Passport</h3><small>${st.origins.size} of ${ORIGINS.length}</small></div>
         <p class="hint" style="margin-top:0">Order the single-origin filter or take home a bag of single-origin beans: that island is stamped here. Fill it for +${BONUS.passport} points.</p>
@@ -3064,7 +3268,7 @@ var qrcode = function() {
       const r = ratings[o.id], d = S.rate[o.id] || { stars: 0, comment: '' };
       return `<article class="order">
         <div class="h"><span class="code">${esc(o.code)}</span><span class="pill ${o.status}">${STATUS[o.status]}</span></div>
-        <div class="lines">${(o.lines || []).map((l) => `<b>${l.qty}×</b> ${esc(l.name)}`).join(' · ')}</div>
+        <div class="lines">${(o.lines || []).map((l) => `<b>${l.qty}×</b> ${esc(l.name)}${optText(l) ? ` <small>(${esc(optText(l))})</small>` : ''}`).join(' · ')}</div>
         <div class="hint">${fmt(o.createdAt)} · ${esc(o.slot)} · ${money(o.total)}${o.reward ? ' · ' + esc(o.reward.name) + ' reward' : ''}${o.giftPay ? ' · gift card ' + money(o.giftPay) : ''}</div>
         ${step[o.status] ? `<div class="track">${[1, 2, 3].map((i) => `<span class="${i <= step[o.status] ? 'on' : ''}"></span>`).join('')}</div>` : ''}
         <div class="row">
@@ -3112,8 +3316,8 @@ var qrcode = function() {
       const st = o.st();
       return `<article class="order">
         <div class="h"><span><span class="code" style="font-size:18px">${esc(o.code)}</span> · <b>${esc(o.cname)}</b></span><span class="pill ${o.status}">${STATUS[o.status]}</span></div>
-        <div class="lines">${(o.lines || []).map((l) => `<b>${l.qty}×</b> ${esc(l.name)}${l.origin ? ` (${esc(origin(l.origin)?.name || '')})` : ''}`).join(' · ')}</div>
-        <div class="hint">${esc(o.milk)} milk · ${esc(o.sweet)} · ${esc(o.slot)} · <b style="color:var(--ink)">${money(o.total)}</b> · ${fmt(o.createdAt)}</div>
+        <div class="lines">${(o.lines || []).map((l) => `<b>${l.qty}×</b> ${esc(l.name)}${l.origin ? ` (${esc(origin(l.origin)?.name || '')})` : ''}${optText(l) ? ` — <b style="color:var(--ink)">${esc(optText(l))}</b>` : ''}`).join(' · ')}</div>
+        <div class="hint">${o.milk ? esc(o.milk) + ' milk · ' + esc(o.sweet) + ' · ' : ''}${esc(o.slot)} · <b style="color:var(--ink)">${money(o.total)}</b> · ${fmt(o.createdAt)}</div>
         ${o.note ? `<p class="quote">${esc(o.note)}</p>` : ''}
         ${o.reward ? `<div class="hint warn"><b>Points reward:</b> ${esc(o.reward.name)} (−${o.reward.pts} pts) · ${money(o.discount)} off</div>` : ''}
         ${o.giftPay ? `<div class="hint"><b>Gift card:</b> ${money(o.giftPay)} paid in the app · take ${money(o.due ?? 0)}</div>` : ''}
@@ -3203,7 +3407,7 @@ var qrcode = function() {
     if (!t.qty) return toast('Add at least one drink.');
     if (!f.name.trim()) { toast('Add a name so we can call your cup.'); return document.getElementById('f-name')?.focus(); }
     const oid = 'o' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
-    const order = { code: newCode(), lines, subtotal: t.subtotal, discount: t.discount, total: t.total, giftPay: t.giftPay, due: t.due, milk: f.milk, sweet: f.sweet, slot: f.slot, note: f.note.trim(),
+    const order = { code: newCode(), lines, subtotal: t.subtotal, discount: t.discount, total: t.total, giftPay: t.giftPay, due: t.due, slot: f.slot, note: f.note.trim(),
       ...(t.reward ? { reward: { id: t.reward.id, name: t.reward.name, pts: t.reward.pts } } : {}), name: f.name.trim(), createdAt: new Date().toISOString() };
     await run(async () => {
       await saveMine({ name: f.name.trim(), updatedAt: new Date().toISOString(), orders: { [oid]: order } });
@@ -3219,7 +3423,7 @@ var qrcode = function() {
     if (a === 'view') { S.view = b.dataset.v; render(); window.scrollTo({ top: 0 }); }
     else if (a === 'tab') { if (S.view === 'bar') S.btab = b.dataset.v; else { S.tab = b.dataset.v; S.lastOrder = null; S.fresh = -1; S.dealt = null; } render(); window.scrollTo({ top: 0 }); }
     else if (a === 'cat') { S.cat = b.dataset.v; render(); }
-    else if (a === 'qty') { const id = b.dataset.id; S.cart[id] = Math.max(0, Math.min(20, (S.cart[id] || 0) + +b.dataset.d)); render(); }
+    else if (a === 'qty') { const id = b.dataset.id, r = b.getBoundingClientRect(); S.cart[id] = Math.max(0, Math.min(20, (S.cart[id] || 0) + +b.dataset.d)); render(); if (+b.dataset.d > 0) flyToBasket({ getBoundingClientRect: () => r }); }
     else if (a === 'opt') { S.form[b.dataset.k] = b.dataset.v; render(); }
     else if (a === 'goto-checkout') { if (S.tab !== 'order') { S.tab = 'order'; render(); } document.getElementById('checkout')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
     else if (a === 'place') placeOrder();
@@ -3230,7 +3434,7 @@ var qrcode = function() {
     else if (a === 'cancel') run(() => myRef().update({ orders: { [b.dataset.id]: { cancelled: true } } }), 'Order cancelled');
     else if (a === 'reorder') {
       const o = mine().os.find((x) => x.id === b.dataset.id); if (!o) return;
-      for (const l of o.lines || []) if (menu().some((m) => m.id === l.id && m.available)) S.cart[l.id] = (S.cart[l.id] || 0) + l.qty;
+      for (const l of o.lines || []) if (menu().some((m) => m.id === l.id && m.available)) { const k = l.key || keyOf(l.id, l.opts); S.cart[k] = (S.cart[k] || 0) + l.qty; }
       S.tab = 'order'; render(); document.getElementById('checkout')?.scrollIntoView();
     }
     else if (a === 'star') { (S.rate[b.dataset.id] ||= { stars: 0, comment: '' }).stars = +b.dataset.n; render(); }
@@ -3243,6 +3447,28 @@ var qrcode = function() {
     else if (a === 'qf') { S.qFilter = b.dataset.v; render(); }
     else if (a === 'status') { const s = b.dataset.s; run(() => saveBar(b.dataset.c, { orders: { [b.dataset.o]: { status: s, at: new Date().toISOString() } } }), s === 'collected' ? 'Collected. Points and a secret card added.' : s === 'ready' ? 'Marked ready' : 'Updated'); }
     else if (a === 'scan') { S.showScan = !S.showScan; render(); }
+    else if (a === 'sheet') openSheet(b.dataset.id, b);
+    else if (a === 'fab') {
+      fabFx('burst'); if (navigator.vibrate) navigator.vibrate(8);
+      const qty = cartLines().reduce((x, l) => x + l.qty, 0);
+      if (S.tab === 'order' && qty) { document.getElementById('checkout')?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth' }); }
+      else { S.tab = 'order'; S.lastOrder = null; render(); window.scrollTo({ top: 0 }); }
+    }
+    else if (a === 'sopt') { S.sheet.opts[b.dataset.k] = b.dataset.v; render(); }
+    else if (a === 'sqty') { S.sheet.qty = Math.max(1, Math.min(20, S.sheet.qty + +b.dataset.d)); render(); }
+    else if (a === 'sclose') { S.sheet = null; render(); }
+    else if (a === 'sadd') {
+      const sh = S.sheet, m = menu().find((x) => x.id === sh.id), k = keyOf(sh.id, sh.opts);
+      S.cart[k] = Math.min(20, (S.cart[k] || 0) + sh.qty); S.lastOpts[sh.id] = sh.opts; try { localStorage.setItem('bija.opts', JSON.stringify(S.lastOpts)); } catch {}
+      const src = document.querySelector('.sheet [data-act=sadd]'); const r = src && src.getBoundingClientRect(); S.sheet = null; toast(`${sh.qty}× ${m.name} added`); render(); flyToBasket(r ? { getBoundingClientRect: () => r } : null);
+    }
+    else if (a === 'dec') { const id = b.dataset.id, k = Object.keys(S.cart).filter((x) => (x === id || x.startsWith(id + '~')) && S.cart[x] > 0).pop(); if (k) { S.cart[k]--; if (!S.cart[k]) delete S.cart[k]; } render(); }
+    else if (a === 'kqty') { const k = b.dataset.key; S.cart[k] = Math.max(0, Math.min(20, (S.cart[k] || 0) + +b.dataset.d)); if (!S.cart[k]) delete S.cart[k]; render(); }
+    else if (a === 'kadd') { const k = b.dataset.key, r = b.getBoundingClientRect(); S.cart[k] = Math.min(20, (S.cart[k] || 0) + 1); toast('Added to your order'); render(); flyToBasket({ getBoundingClientRect: () => r }); }
+    else if (a === 'histall') { S.histAll = true; render(); }
+    else if (a === 'bday') { const n = +S.bdayPick; if (!(n >= 1 && n <= 12)) return toast('Pick a month first.'); run(() => saveMine({ birthMonth: n }), 'Saved. See you in ' + MONTHS[n - 1] + '!'); }
+    else if (a === 'install') { const ev = S.installEvt; S.installEvt = null; if (ev) { ev.prompt(); ev.userChoice.finally(render); } }
+    else if (a === 'noinstall') { store.set('bija.install', 'no'); render(); }
     else if (a === 'gamt') { S.gift.amount = b.dataset.v === 'other' ? 'other' : +b.dataset.v; render(); }
     else if (a === 'gdesign') { S.gift.design = b.dataset.v; render(); }
     else if (a === 'gbuy') {
@@ -3291,11 +3517,13 @@ var qrcode = function() {
       run(async () => { await S.db.doc('config/current').set(next); S.draft = null; }, S.config ? 'Menu saved' : 'Menu is live');
     }
   });
-  document.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches?.('g.pin[data-act]')) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent('click', { bubbles: true })); } });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && S.sheet) { S.sheet = null; render(); } });
+  document.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches?.('g.pin[data-act], .flip[data-act]')) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent('click', { bubbles: true })); } });
   document.addEventListener('input', (e) => {
     const el = e.target, val = el.type === 'checkbox' ? el.checked : el.value;
     if (el.dataset.f) { S.form[el.dataset.f] = val; if (el.dataset.f === 'name') store.set('bija.name', val); if (el.type === 'checkbox') render(); }
     else if (el.dataset.rc) (S.rate[el.dataset.rc] ||= { stars: 0, comment: '' }).comment = val;
+    else if (el.id === 'bm') S.bdayPick = val;
     else if (el.dataset.g) { S.gift[el.dataset.g] = val; if (el.dataset.g === 'custom') render(); }
     else if (el.hasAttribute('data-redeem')) S.redeemCode = val;
     else if (el.dataset.is) S.instore[el.dataset.is] = val;
@@ -3331,7 +3559,9 @@ var qrcode = function() {
 
   // ---------- boot ----------
   try { const v = new URLSearchParams(location.search).get('view'); if (v === 'app' || v === 'site') localStorage.setItem('bija.view', v); } catch {}
-  if (['#beans', '#card', '#gifts'].includes(location.hash)) S.tab = location.hash.slice(1);
+  if (['#home', '#order', '#beans', '#card', '#gifts', '#secret', '#orders'].includes(location.hash)) S.tab = location.hash.slice(1);
+  try { S.lastOpts = JSON.parse(localStorage.getItem('bija.opts')) || {}; } catch {}
+  addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); S.installEvt = e; render(); });
   S.form.name = store.get('bija.name') || '';
   S.theme = store.get('bija.theme') || 'noir';
   render();
@@ -3365,7 +3595,13 @@ var qrcode = function() {
   }
   (async () => {
     const c = window.claude;
-    if (!c || typeof c.use !== 'function') { S.demo = true; S.db = demoDb(); S.uid = 'you'; S.admin = true; listen(S.db); return; }
+    if (!c || typeof c.use !== 'function') {
+      // standalone hosting (GitHub Pages): make it installable and work offline
+      if (/^https?:$/.test(location.protocol)) {
+        document.head.insertAdjacentHTML('beforeend', '<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Bija">');
+        if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+      }
+      S.demo = true; S.db = demoDb(); S.uid = 'you'; S.admin = true; listen(S.db); return; }
     const [db, user] = await Promise.all([c.use('db'), c.use('user')]);
     if (!db) { S.noDb = true; render(); return; }
     S.db = db; S.user = user;
