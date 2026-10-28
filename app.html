@@ -1,0 +1,874 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Bija Coffee</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@500&display=swap">
+<style>
+/* Bija brand: black page, white Helvetica-style type, four-circle mark (matches bijacoffee.co.uk).
+   Layout: one phone-first column (max 760px) that fills the real screen, built the way Stirring Up Joy is:
+   sticky pill tabs, a fixed basket bar, checkout on the same page. Barista view widens to 1080px.
+   The Bija Card and Secret St James's cards stay black and white; the rest is warm espresso and paper. */
+:root {
+  --paper: #000000; --card: #121212; --ink: #f2f2f2; --muted: #a3a3a3; --line: rgba(255, 255, 255, .16); --accent: #ffffff; --accent-ink: #000000; --gold: #d9b46a; --leaf: #8fbf7f; --warn: #f0a35a; color-scheme: dark;
+  --serif: "Helvetica Neue", Helvetica, Inter, Arial, sans-serif; --sans: "Helvetica Neue", Helvetica, Inter, Arial, sans-serif; --mono: "DM Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --paper: #000000; --card: #121212; --ink: #f2f2f2; --muted: #a3a3a3; --line: rgba(255, 255, 255, .16); --accent: #ffffff; --accent-ink: #000000; --gold: #d9b46a; --leaf: #8fbf7f; --warn: #f0a35a; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --paper: #000000; --card: #121212; --ink: #f2f2f2; --muted: #a3a3a3; --line: rgba(255, 255, 255, .16); --accent: #ffffff; --accent-ink: #000000; --gold: #d9b46a; --leaf: #8fbf7f; --warn: #f0a35a; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.5 var(--sans); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 10px max(16px, env(safe-area-inset-right, 0px)) 110px max(16px, env(safe-area-inset-left, 0px)); }
+.wrap.wide { max-width: 1080px; }
+
+.top { display: flex; align-items: center; gap: 12px; padding-block: 6px 10px; flex-wrap: wrap; }
+@media (max-width: 440px) { .brand p { display: none; } }
+.site-link { font-size: 12px; font-weight: 600; text-decoration: none; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 5px 10px; }
+.mark { width: 44px; height: 44px; border-radius: 50%; background: #000; display: grid; place-items: center; flex: none; }
+.mark svg { width: 40px; height: 40px; }
+.brand { flex: 1; min-width: 0; }
+.brand h1 { margin: 0; font-family: var(--sans); font-weight: 500; letter-spacing: -.02em; font-size: 30px; line-height: 1; }
+.brand p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 3px 0 0; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.switch { display: inline-flex; border: 1.5px solid var(--ink); border-radius: 999px; overflow: hidden; }
+.switch button { border: 0; background: transparent; padding: 6px 12px; font-weight: 600; font-size: 13px; }
+.switch button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.demo { font-size: 12px; color: var(--muted); background: var(--card); border: 1px dashed var(--line); border-radius: 10px; padding: 6px 10px; margin-bottom: 8px; }
+
+.tabs { display: flex; gap: 6px; overflow-x: auto; padding-block: 4px 12px; scrollbar-width: none; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--paper); z-index: 5; }
+.tabs button { flex: none; border: 1.5px solid var(--line); background: var(--card); border-radius: 999px; padding: 7px 14px; font-weight: 600; font-size: 14px; }
+.tabs button[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.tabs .dot { display: inline-block; min-width: 18px; padding: 0 5px; margin-left: 6px; border-radius: 9px; background: var(--accent); color: var(--accent-ink); font-size: 11px; line-height: 18px; text-align: center; }
+
+.hero { border-radius: 20px; padding: 20px 18px; border: 1px solid var(--line); background: #0b0b0b; color: #fff; position: relative; overflow: hidden; background-size: 56px 56px; }
+.hero .kick { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; opacity: .75; }
+.hero h2 { margin: 6px 0 4px; font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 8.5vw, 44px); line-height: 1.02; text-wrap: balance; }
+.hero p { margin: 0; opacity: .8; font-size: 14px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; background: var(--paper); color: var(--ink); border: 1px solid var(--line); font-size: 13px; font-weight: 600; }
+.chip.open::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--leaf); }
+.chip.closed::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--warn); }
+.hero .chip { background: rgba(255,255,255,.1); color: #fff; border-color: rgba(255,255,255,.2); }
+
+.sec { margin-top: 20px; }
+.sec-h { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.sec-h h3 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: 22px; }
+.sec-h small { color: var(--muted); }
+.cats { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin-bottom: 10px; }
+.cats button { flex: none; border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600; }
+.cats button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+.filter { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 14px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); margin-top: 12px; }
+.filter b { font-family: var(--serif); font-weight: 400; font-size: 19px; display: block; }
+.notes { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.notes span { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); }
+
+.menu { display: grid; gap: 8px; }
+.prod { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); }
+.prod.off { opacity: .55; }
+.ic { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: var(--paper); border: 1px solid var(--line); color: var(--ink); }
+.ic svg { width: 28px; height: 28px; }
+.prod h4 { margin: 0; font-size: 15px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.prod p { margin: 2px 0 0; color: var(--muted); font-size: 13px; line-height: 1.35; }
+.price { font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; }
+.badge { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.stars { color: var(--gold); font-size: 12px; font-weight: 700; }
+.step { display: inline-flex; align-items: center; border: 1.5px solid var(--ink); border-radius: 999px; }
+.step button { width: 34px; height: 34px; border: 0; background: transparent; font-size: 19px; font-weight: 700; line-height: 1; border-radius: 50%; }
+.step button:disabled { opacity: .3; cursor: default; }
+.step output { min-width: 22px; text-align: center; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
+.stack { display: grid; gap: 12px; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 520px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+label.f { display: grid; gap: 4px; font-size: 13px; font-weight: 600; }
+label.f .h { font-weight: 400; color: var(--muted); font-size: 12px; }
+input[type=text], input[type=tel], input[type=number], select, textarea { width: 100%; min-width: 0; padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--paper); }
+textarea { resize: vertical; min-height: 60px; }
+fieldset { border: 0; padding: 0; margin: 0; }
+legend { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+.opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.opts button { border: 1.5px solid var(--line); background: var(--paper); border-radius: 10px; padding: 7px 11px; font-size: 13px; font-weight: 500; }
+.opts button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+.check { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; padding: 10px 12px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--paper); }
+.check:has(input:checked) { border-color: var(--leaf); }
+.sum { display: grid; gap: 4px; font-variant-numeric: tabular-nums; }
+.sum div { display: flex; justify-content: space-between; gap: 12px; }
+.sum .tot { font-weight: 700; font-size: 18px; border-top: 1.5px dashed var(--line); padding-top: 8px; margin-top: 4px; }
+.sum .deal { color: var(--leaf); }
+.hint { font-size: 13px; color: var(--muted); }
+.hint.warn { color: var(--warn); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 999px; padding: 11px 20px; font-weight: 700; background: var(--accent); color: var(--accent-ink); }
+.btn.dark { background: var(--ink); color: var(--paper); }
+.btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.btn.ok { background: var(--leaf); color: var(--card); }
+.btn.sm { padding: 6px 12px; font-size: 13px; }
+.btn.block { width: 100%; }
+.btn:disabled { opacity: .45; cursor: default; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.between { justify-content: space-between; }
+
+.basket { position: fixed; left: 0; right: 0; bottom: 0; z-index: 8; padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); background: var(--ink); color: var(--paper); }
+.basket .in { max-width: 728px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.basket b { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+.big-code { font-family: var(--mono); font-size: clamp(40px, 14vw, 64px); letter-spacing: .08em; line-height: 1; margin: 10px 0; }
+.list { display: grid; gap: 10px; }
+.order { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: grid; gap: 6px; }
+.order .h { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: center; }
+.code { font-family: var(--mono); letter-spacing: .04em; }
+.pill { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 2px 9px; border-radius: 999px; border: 1.5px solid currentColor; }
+.pill.received { color: var(--gold); } .pill.brewing { color: var(--accent); } .pill.ready { color: var(--leaf); } .pill.collected { color: var(--muted); } .pill.cancelled { color: var(--muted); text-decoration: line-through; }
+.track { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.track span { height: 4px; border-radius: 2px; background: var(--line); }
+.track span.on { background: var(--leaf); }
+.lines { font-size: 14px; color: var(--muted); }
+.lines b { color: var(--ink); font-weight: 600; }
+.quote { border-left: 3px solid var(--gold); padding-left: 10px; margin: 0; font-size: 14px; }
+.rate { display: inline-flex; gap: 2px; }
+.rate button { border: 0; background: transparent; font-size: 24px; line-height: 1; padding: 2px; color: var(--line); }
+.rate button.on { color: var(--gold); }
+.empty { text-align: center; padding: 26px 16px; color: var(--muted); border: 1.5px dashed var(--line); border-radius: 16px; }
+.empty b { display: block; color: var(--ink); font-size: 16px; margin-bottom: 4px; }
+.skel { height: 80px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); }
+#toast { position: fixed; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 10px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; z-index: 20; max-width: calc(100% - 32px); text-align: center; }
+
+/* Bija Card: black and white Kawung, themeable */
+.bcard { border: 1px solid rgba(255,255,255,.18); --c-bg: #0b0b0b; --c-ink: #ffffff; --c-sub: rgba(255,255,255,.7); --c-stamp: #ffffff; --c-stamp-ink: #0b0b0b; --c-empty: rgba(255,255,255,.35);
+  position: relative; border-radius: 20px; padding: 18px; color: var(--c-ink); background-color: var(--c-bg); background-size: 56px 56px; overflow: hidden; box-shadow: 0 14px 34px rgba(0, 0, 0, .28); aspect-ratio: 1.586; display: flex; flex-direction: column; container-type: inline-size; }
+.bcard .t { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.bcard .name { font-family: var(--c-font, var(--serif)); font-size: clamp(18px, 9cqi, 34px); line-height: 1; }
+.bcard .who { font-size: clamp(11px, 3.6cqi, 13px); color: var(--c-sub); margin-top: 4px; }
+.bcard .no { font-family: var(--mono); font-size: clamp(8px, 3cqi, 11px); letter-spacing: .12em; text-align: right; color: var(--c-sub); }
+.bcard .stamps { margin-top: auto; display: grid; grid-template-columns: repeat(5, 1fr); gap: 5cqi 4cqi; padding: 0 2cqi; }
+.bcard .st { aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; border: 1.5px dashed var(--c-empty); color: var(--c-empty); font: 600 clamp(8px, 3.2cqi, 12px) var(--mono); }
+.bcard .st.on { border: 0; background: var(--c-stamp); color: var(--c-stamp-ink); transform: rotate(-12deg); }
+.bcard .st.on svg { width: 62%; height: 62%; }
+.bcard .st.gift { border-style: solid; border-color: var(--c-stamp); color: var(--c-stamp); font-size: clamp(7px, 2.6cqi, 10px); }
+.bcard .f { display: flex; justify-content: space-between; font-size: clamp(9px, 3.2cqi, 12px); color: var(--c-sub); margin-top: 4cqi; }
+@media (prefers-reduced-motion: no-preference) { .bcard .st.on.new { animation: thump .4s ease-out; } @keyframes thump { from { transform: scale(1.5) rotate(-30deg); opacity: 0; } } }
+.themes { display: grid; grid-auto-flow: column; grid-auto-columns: 46%; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+.themes button { border: 0; background: transparent; padding: 0; text-align: left; display: grid; gap: 6px; font-size: 12px; font-weight: 600; }
+.themes button[aria-pressed="true"] .bcard { outline: 3px solid var(--accent); outline-offset: 2px; }
+.themes .bcard { box-shadow: none; padding: 10px; border-radius: 12px; }
+.passport { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
+.visa { border-radius: 14px; padding: 12px; border: 1.5px dashed var(--line); min-height: 92px; display: grid; align-content: space-between; }
+.visa.got { border-style: solid; background: var(--card); }
+.visa b { font-family: var(--serif); font-weight: 400; font-size: 17px; }
+.visa small { font-size: 11px; color: var(--muted); }
+.visa .seal { justify-self: end; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-size: 9px; font-weight: 700; letter-spacing: .06em; transform: rotate(-14deg); background: var(--ink); color: var(--paper); }
+
+/* Secret St James's: always black and white */
+.sc { position: relative; aspect-ratio: 5 / 7; border-radius: 14px; background: #ffffff; color: #0b0b0b; border: 1.5px solid #0b0b0b; padding: 12px; display: flex; flex-direction: column; gap: 6px; container-type: inline-size; box-shadow: 0 8px 20px rgba(0, 0, 0, .16); text-align: left; }
+button.sc { cursor: pointer; font: inherit; }
+.sc .no { display: flex; justify-content: space-between; font: 500 clamp(9px, 5.6cqi, 11px) var(--mono); letter-spacing: .14em; }
+.sc h4 { font-family: var(--serif); font-weight: 400; font-size: clamp(15px, 10.5cqi, 24px); line-height: 1.05; margin: 2px 0 0; text-wrap: balance; }
+.sc .sc-story { margin: 0; font-size: clamp(10px, 6.2cqi, 13.5px); line-height: 1.42; color: #3a3a3a; }
+.sc .pair { font-size: clamp(9px, 5.4cqi, 12px); color: #5e5e5e; }
+.sc .walk { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 6px; font: 500 clamp(9px, 5.4cqi, 11px) var(--mono); border-top: 1px dashed #0b0b0b; padding-top: 8px; }
+.sc .mk { width: 22%; aspect-ratio: 1; }
+.sc.visited::after { content: "FOUND"; position: absolute; right: 8%; top: 38%; transform: rotate(-14deg); border: 2px solid #0b0b0b; background: #ffffff; padding: 2px 10px; font: 700 clamp(10px, 6cqi, 13px) var(--sans); letter-spacing: .16em; }
+.sc.back { background-color: #0b0b0b; color: #ffffff; align-items: center; justify-content: center; text-align: center; background-size: 44px 44px; }
+.sc.back b { font-family: var(--serif); font-weight: 400; font-size: clamp(13px, 9cqi, 20px); line-height: 1.1; }
+.sc.back small { font-size: clamp(9px, 5.6cqi, 12px); opacity: .7; }
+.sc.mini { padding: 9px; border-radius: 12px; box-shadow: none; overflow: hidden; }
+.sc.mini h4 { font-size: clamp(12px, 12cqi, 16px); }
+.sc.mini .sc-story, .sc.mini .pair { display: none; }
+.sc.mini.visited::after { top: auto; bottom: 34%; right: 6%; font-size: 9px; padding: 1px 6px; }
+.sc.mini[aria-pressed="true"] { outline: 2px solid var(--ink); outline-offset: 2px; }
+.sgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+@media (min-width: 600px) { .sgrid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.smap { border: 1.5px solid #0b0b0b; border-radius: 16px; background: #ffffff; overflow: hidden; }
+.smap svg { width: 100%; height: auto; display: block; }
+.smap .pin { cursor: pointer; }
+.prog { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.prog i { display: block; height: 100%; background: var(--ink); }
+.cardslot { max-width: 280px; margin: 0 auto; }
+.cardslot .sc { aspect-ratio: auto; min-height: 300px; }
+@media (prefers-reduced-motion: no-preference) { .sc.deal { animation: deal .5s ease-out; } @keyframes deal { from { transform: rotateY(90deg) translateY(10px); opacity: .3; } } }
+
+/* barista */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); gap: 10px; }
+.tile { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+.tile small { display: block; color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
+.tile b { font-family: var(--serif); font-weight: 400; font-size: clamp(22px, 6vw, 30px); font-variant-numeric: tabular-nums; }
+.tile span { display: block; font-size: 12px; color: var(--muted); }
+.cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 760px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+.bars { display: grid; gap: 8px; }
+.bar { display: grid; grid-template-columns: minmax(0, 9em) minmax(0, 1fr) 3.5em; gap: 10px; align-items: center; font-size: 13px; }
+.bar .n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bar .tr { height: 10px; border-radius: 5px; background: var(--paper); overflow: hidden; }
+.bar .fl { display: block; height: 100%; border-radius: 5px; background: var(--ink); }
+.bar .v { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.edit-item { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }
+@media (max-width: 520px) { .edit-item { grid-template-columns: minmax(0, 1fr) 90px; } .edit-item .check { grid-column: 1 / -1; } }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+
+<div class="wrap" id="wrap">
+  <header class="top">
+    <div class="mark" aria-hidden="true"><svg viewBox="0 0 100 100"><g fill="none" stroke="#fff" stroke-width="4"><circle cx="50" cy="27" r="23"/><circle cx="73" cy="50" r="23"/><circle cx="50" cy="73" r="23"/><circle cx="27" cy="50" r="23"/></g></svg></div>
+    <div class="brand"><h1>Bija</h1><p>St James's · London</p></div>
+    <a class="site-link" href="index.html?view=site">Website</a>
+    <div class="switch" id="switch" hidden></div>
+  </header>
+  <div id="demo"></div>
+  <nav class="tabs" id="tabs" role="tablist"></nav>
+  <main id="main"></main>
+</div>
+<div class="basket" id="basket" hidden></div>
+<div id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+  // ---------- constants ----------
+  const NEED = 10; // 9 beans, 10th drink free
+  const STATUS = { received: 'Received', brewing: 'Brewing', ready: 'Ready', collected: 'Collected', cancelled: 'Cancelled' };
+  const FLOW = { received: 'brewing', brewing: 'ready', ready: 'collected' };
+  const ORIGINS = [
+    { id: 'lintong', name: 'Lintong', where: 'North Sumatra', notes: ['Herbal', 'Cocoa', 'Heavy body'] },
+    { id: 'mandheling', name: 'Mandheling', where: 'North Sumatra', notes: ['Dark chocolate', 'Earthy', 'Syrupy'] },
+    { id: 'gayo', name: 'Gayo', where: 'Aceh, Sumatra', notes: ['Spice', 'Cedar', 'Dark sugar'] },
+    { id: 'kintamani', name: 'Kintamani', where: 'Bali', notes: ['Citrus', 'Brown sugar', 'Bright'] },
+    { id: 'java', name: 'Old Brown Java', where: 'Java', notes: ['Woody', 'Spice', 'Very low acidity'] },
+  ];
+  // Starter menu: only used to pre-fill the Barista menu editor and the local demo. Live data comes from config/current.
+  const STARTER = {
+    open: true, filter: 'lintong', note: 'Mon–Fri 08:00–17:30 · Sat 11:00–18:00 · Sun 12:00–18:00',
+    slots: ['ASAP', 'In 10 min', 'In 20 min', 'In 30 min'],
+    award: 'Best New Coffee Shop of the Year · London Coffee Festival 2025',
+    perk: 'Free used coffee grounds for your plants. Just ask at the bar.',
+    events: [{"date": "2026-09-11", "end": "2026-09-13", "title": "Bija at Celebrasia", "text": "Find our coffee at one of London's biggest celebrations of Asian culture."}, {"date": "2026-08-17", "title": "Indonesian Independence Day", "text": "Wear batik for a free slice of cake, try the Arenga Affogato, with Edge Group Conservation raising support for the Javan rhino."}, {"date": "2026-05-14", "title": "London Coffee Festival", "text": "Founder Devi Trianna on the Ones to Watch stage at the Truman Brewery."}, {"date": "2026-04-30", "title": "Thursday Afterhours with DUNIA", "text": "An evening of Indonesian-powered businesses: drinks, pastries and Indonesian music selectors."}, {"date": "2026-04-22", "title": "Earth Day", "text": "Free bags of used coffee grounds for your plants and garden."}],
+    menu: [
+      { id: 'esp', cat: 'Coffee', name: 'Espresso', price: 3.0, desc: 'Bija House Blend', ic: 'cup', available: true },
+      { id: 'fw', cat: 'Coffee', name: 'Flat White', price: 3.9, desc: 'Double shot, silky milk', ic: 'cup', available: true },
+      { id: 'lat', cat: 'Coffee', name: 'Latte', price: 4.0, desc: 'Double shot, more milk', ic: 'cup', available: true },
+      { id: 'ks', cat: 'Coffee', name: 'Kopi Susu Aren', price: 4.5, desc: 'Espresso, milk, gula aren palm sugar. Hot or iced.', ic: 'iced', badge: 'Signature', available: true },
+      { id: 'filt', cat: 'Coffee', name: 'Single-origin filter', price: 4.5, desc: "Today's island, brewed by hand", ic: 'filter', filter: true, available: true },
+      { id: 'cold', cat: 'Coffee', name: 'Cold Brew', price: 4.5, desc: 'Steeped overnight: smooth, bold, over ice', ic: 'iced', available: true },
+      { id: 'affogato', cat: 'Coffee', name: 'Arenga Affogato', price: 5.5, desc: 'Ice cream, espresso and arenga palm sugar', ic: 'iced', badge: 'Weekend special', available: true },
+      { id: 'tub', cat: 'Coffee', name: 'Kopi Tubruk', price: 3.5, desc: 'Javanese-style, grounds in the cup', ic: 'cup', available: true },
+      { id: 'tea', cat: 'Not coffee', name: 'Teh Tarik', price: 4.0, desc: 'Pulled black tea, condensed milk', ic: 'iced', available: true },
+      { id: 'turmeric', cat: 'Not coffee', name: 'Iced Turmeric Blend', price: 4.5, desc: 'Turmeric blend, served iced', ic: 'iced', available: true },
+      { id: 'mangga', cat: 'Not coffee', name: 'Mangga Passion Smoothie', price: 5.5, desc: 'Mango and passion fruit', ic: 'iced', badge: 'New', available: true },
+      { id: 'juice', cat: 'Not coffee', name: 'Fresh juice', price: 4.0, desc: 'Ask what is in the fridge today', ic: 'iced', available: true },
+      { id: 'choc', cat: 'Not coffee', name: 'Hot chocolate', price: 4.0, desc: 'Indonesian cocoa', ic: 'cup', available: true },
+      { id: 'lapis', cat: 'Cakes', name: 'Lapis Legit', price: 3.0, desc: 'Thousand-layer spice cake', ic: 'cake', available: true },
+      { id: 'pandan', cat: 'Cakes', name: 'Bolu Pandan', price: 3.0, desc: 'Fluffy pandan chiffon', ic: 'cake', available: true },
+      { id: 'klepon', cat: 'Cakes', name: 'Klepon (3)', price: 3.0, desc: 'Pandan rice balls, molten palm sugar', ic: 'cake', available: true },
+      // Beans: facts typical of each region and placeholder prices; Bija to confirm.
+      { id: 'b-lintong', cat: 'Beans', name: 'Sumatra Lintong · 250 g', price: 14.5, desc: 'Herbal, cocoa, low acidity, heavy body', ic: 'bag', origin: 'lintong', available: true, info: { region: 'Lintong Nihuta, south-west of Lake Toba, North Sumatra', altitude: '1,200–1,500 m', process: 'Wet-hulled (giling basah)', use: 'Espresso, cafetière' } },
+      { id: 'b-mandheling', cat: 'Beans', name: 'Sumatra Mandheling · 250 g', price: 14.5, desc: 'Dark chocolate, earthy, syrupy', ic: 'bag', origin: 'mandheling', available: true, info: { region: 'North Sumatra, named after the Mandailing people', altitude: '1,100–1,500 m', process: 'Wet-hulled (giling basah)', use: 'Espresso, milk drinks' } },
+      { id: 'b-house', cat: 'Beans', name: 'Bija House Blend · 250 g', price: 13.0, desc: 'Balanced, chocolate, caramel', ic: 'bag', available: true, info: { region: 'Indonesian blend', altitude: 'Various', process: 'Mixed', use: 'Our espresso at the bar' } },
+      { id: 'b-oldbrown', cat: 'Beans', name: 'Old Brown Java · 250 g', price: 15.0, desc: 'Woody, spice, very low acidity', ic: 'bag', origin: 'java', available: true, info: { region: 'Java, aged after harvest', altitude: '1,000–1,600 m', process: 'Aged for years before roasting', use: 'Espresso, iced coffee' } },
+      { id: 'b-gayo', cat: 'Beans', name: 'Aceh Gayo · 250 g', price: 15.0, desc: 'Spice, cedar, dark sugar', ic: 'bag', origin: 'gayo', available: false, soon: true, info: { region: 'Gayo highlands around Lake Laut Tawar, Aceh', altitude: '1,200–1,600 m', process: 'Wet-hulled or washed', use: 'Filter, espresso' } },
+      { id: 'b-kintamani', cat: 'Beans', name: 'Bali Kintamani · 250 g', price: 15.0, desc: 'Citrus, brown sugar, bright', ic: 'bag', origin: 'kintamani', available: false, soon: true, info: { region: 'Kintamani highlands near Mount Batur, Bali', altitude: '1,200–1,600 m', process: 'Washed or natural', use: 'Filter' } },
+    ],
+  };
+  const SPOTS = [
+    { id: 'arcade', name: 'Royal Opera Arcade', walk: 1, x: 292, y: 142, pair: 'Kopi Susu Aren', story: "London's first covered shopping arcade, built by John Nash in the 1810s. Look up at the bow-fronted windows and the little glass domes." },
+    { id: 'church', name: "St James's Church", walk: 4, x: 178, y: 46, pair: 'Espresso', story: 'Designed by Sir Christopher Wren and consecrated in 1684. The poet William Blake was baptised here. Market stalls fill the courtyard most days.' },
+    { id: 'brummell', name: 'Beau Brummell', walk: 5, x: 112, y: 70, pair: 'Flat White', story: 'A bronze of the Regency dandy who made the dark suit fashionable, standing on Jermyn Street among the shirtmakers.' },
+    { id: 'library', name: 'The London Library', walk: 4, x: 158, y: 104, pair: 'Kintamani filter', story: 'Behind an ordinary door at No. 14 St James\'s Square is a private lending library founded in 1841, with miles of shelves.' },
+    { id: 'crown', name: 'Crown Passage', walk: 6, x: 108, y: 158, pair: 'Kopi Tubruk', story: 'A narrow lane off Pall Mall that still feels like old London, with a tiny pub and a sandwich bar squeezed in.' },
+    { id: 'berry', name: 'The Coffee Scales', walk: 8, x: 64, y: 182, pair: 'Gayo filter', story: 'Berry Bros. & Rudd have traded at No. 3 St James\'s Street since 1698. They began as grocers selling coffee, and the giant scales they weighed customers on are still inside.' },
+    { id: 'pickering', name: 'Pickering Place', walk: 8, x: 86, y: 194, pair: 'Toraja filter', story: 'Through a timber-lined passage beside No. 3 is one of London\'s smallest squares. A plaque recalls the Republic of Texas legation of the 1840s.' },
+    { id: 'lock', name: 'Lock & Co. Hatters', walk: 8, x: 60, y: 150, pair: 'Latte', story: 'One of the oldest hat shops in the world, on St James\'s Street since the 17th century. Peek at the wooden head forms in the window.' },
+    { id: 'giro', name: "Giro's Grave", walk: 5, x: 226, y: 196, pair: 'Teh Tarik', story: 'Behind railings near the Duke of York Steps is a tiny headstone for Giro, a dog of the German embassy who died in 1934.' },
+    { id: 'bridge', name: 'The Blue Bridge', walk: 12, x: 150, y: 246, pair: 'Iced Kopi Susu', story: 'Stand mid-bridge in St James\'s Park: Buckingham Palace one way, the rooftops of Whitehall the other. Finish your kopi here.' },
+  ];
+
+  const S = {
+    db: null, user: null, uid: null, admin: false, noDb: false, demo: false,
+    config: null, configLoaded: false, me: null, meLoaded: false, bar: null, customers: [], bars: {}, custLoaded: false,
+    view: 'customer', tab: 'order', btab: 'queue', cat: null, qFilter: 'active',
+    cart: {}, form: { name: '', milk: 'Whole', sweet: 'Normal', slot: 'ASAP', note: '', reward: false, sreward: false },
+    busy: false, lastOrder: null, spot: null, dealt: null, fresh: -1, rate: {}, draft: null, theme: 'noir',
+  };
+  const $ = (s) => document.querySelector(s);
+  const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const money = (n) => '£' + (Math.round((+n || 0) * 100) / 100).toFixed(2);
+  const fmt = (iso) => { try { return new Date(iso).toLocaleString('en-GB', { timeZone: 'Europe/London', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch { return ''; } };
+  const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+  let toastT;
+  function toast(msg) { const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => (t.hidden = true), 2600); }
+
+  const pat = {
+    kawung: (c, o = .22) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'><g fill='${c}' fill-opacity='${o}'><ellipse cx='28' cy='13' rx='7' ry='12'/><ellipse cx='28' cy='43' rx='7' ry='12'/><ellipse cx='13' cy='28' rx='12' ry='7'/><ellipse cx='43' cy='28' rx='12' ry='7'/><ellipse cx='0' cy='13' rx='7' ry='12'/><ellipse cx='56' cy='13' rx='7' ry='12'/><ellipse cx='0' cy='43' rx='7' ry='12'/><ellipse cx='56' cy='43' rx='7' ry='12'/></g><circle cx='28' cy='28' r='3' fill='${c}' fill-opacity='${o * 1.6}'/></svg>`)}")`,
+    parang: (c, o = .2) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><g fill='none' stroke='${c}' stroke-opacity='${o}' stroke-width='5'><path d='M-10 30 Q0 20 10 30 T30 30 T50 30' transform='rotate(-45 20 20)'/><path d='M-10 10 Q0 0 10 10 T30 10 T50 10' transform='rotate(-45 20 20)'/></g></svg>`)}")`,
+    contour: (c, o = .22) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='120' height='80' viewBox='0 0 120 80'><g fill='none' stroke='${c}' stroke-opacity='${o}' stroke-width='1.5'><path d='M0 60 Q30 30 60 50 T120 40'/><path d='M0 45 Q30 15 60 35 T120 25'/><path d='M0 30 Q30 0 60 20 T120 10'/><path d='M0 75 Q30 45 60 65 T120 55'/></g></svg>`)}")`,
+    toraja: (c, o = .22) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'><g fill='none' stroke='${c}' stroke-opacity='${o}' stroke-width='3'><path d='M0 24 L12 12 L24 24 L36 12 L48 24'/><path d='M0 48 L12 36 L24 48 L36 36 L48 48'/><circle cx='24' cy='36' r='4'/><circle cx='0' cy='12' r='4'/><circle cx='48' cy='12' r='4'/></g></svg>`)}")`,
+    dots: (c, o = .2) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'><circle cx='7' cy='7' r='3' fill='${c}' fill-opacity='${o}'/><circle cx='21' cy='21' r='5' fill='${c}' fill-opacity='${o * .7}'/></svg>`)}")`,
+    sun: (c, o = .25) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='300' height='190' viewBox='0 0 300 190'><g fill='none' stroke='${c}' stroke-opacity='${o}' stroke-width='2'><circle cx='250' cy='200' r='60'/><circle cx='250' cy='200' r='90'/><circle cx='250' cy='200' r='120'/><circle cx='250' cy='200' r='150'/></g><path d='M120 190 L200 110 L280 190 Z' fill='${c}' fill-opacity='${o * .6}'/></svg>`)}")`,
+    grid: (c, o = .16) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path d='M32 0H0V32' fill='none' stroke='${c}' stroke-opacity='${o}' stroke-width='1'/></svg>`)}")`,
+    cherry: (c, o = .22) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'><g fill='${c}' fill-opacity='${o}'><circle cx='16' cy='20' r='7'/><circle cx='26' cy='16' r='6'/><circle cx='48' cy='48' r='7'/></g><path d='M20 12 Q26 2 36 4' stroke='${c}' stroke-opacity='${o}' stroke-width='2' fill='none'/></svg>`)}")`,
+    leaf: (c, o = .2) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'><g fill='${c}' fill-opacity='${o}'><path d='M10 40 Q24 14 50 12 Q44 38 10 40Z'/><path d='M40 66 Q50 48 70 46 Q64 64 40 66Z'/></g></svg>`)}")`,
+  };
+  const THEMES = [
+    { id: 'noir', name: 'Kawung Noir', rec: true, why: 'White Kawung beans on solid black. Batik heritage that reads as coffee, in the sharpest contrast.', bg: '#0b0b0b', ink: '#ffffff', stamp: '#ffffff', sink: '#0b0b0b', p: pat.kawung('#ffffff', .16) },
+    { id: 'paper', name: 'Kawung Paper', why: 'The same motif inverted: black beans on white, like a printed loyalty card.', bg: '#ffffff', ink: '#0b0b0b', stamp: '#0b0b0b', sink: '#ffffff', empty: 'rgba(0,0,0,.3)', sub: 'rgba(0,0,0,.6)', p: pat.kawung('#0b0b0b', .09) },
+    { id: 'parang', name: 'Parang Ink', why: 'Diagonal Parang batik waves in grey on black. Moves when you tilt the phone.', bg: '#111111', ink: '#f4f4f4', stamp: '#f4f4f4', sink: '#111111', p: pat.parang('#ffffff', .14), size: '40px 40px' },
+    { id: 'parangw', name: 'Parang Paper', why: 'Black Parang waves on off-white. Quiet and editorial.', bg: '#f1f1ef', ink: '#0b0b0b', stamp: '#0b0b0b', sink: '#f1f1ef', empty: 'rgba(0,0,0,.3)', sub: 'rgba(0,0,0,.6)', p: pat.parang('#0b0b0b', .1), size: '40px 40px' },
+    { id: 'contour', name: 'Highland Contour', why: 'Map contour lines of the Gayo highlands on charcoal.', bg: '#1c1c1c', ink: '#f4f4f4', stamp: '#f4f4f4', sink: '#1c1c1c', p: pat.contour('#ffffff', .22) },
+    { id: 'toraja', name: 'Toraja Lines', why: 'Carved tongkonan geometry in black on white, bold and graphic.', bg: '#ffffff', ink: '#0b0b0b', stamp: '#0b0b0b', sink: '#ffffff', empty: 'rgba(0,0,0,.3)', sub: 'rgba(0,0,0,.6)', p: pat.toraja('#0b0b0b', .14) },
+    { id: 'grid', name: 'Piccadilly Grid', why: 'Graphite with a fine grid and sans-serif title. Most London, least batik.', bg: '#2a2a2a', ink: '#f0f0f0', stamp: '#f0f0f0', sink: '#2a2a2a', p: pat.grid('#ffffff', .1), size: '32px 32px', font: 'DM Sans' },
+    { id: 'news', name: 'Newsprint', why: 'Light grey halftone dots, like a coffee shop zine.', bg: '#e6e6e4', ink: '#0b0b0b', stamp: '#0b0b0b', sink: '#e6e6e4', empty: 'rgba(0,0,0,.3)', sub: 'rgba(0,0,0,.6)', p: pat.dots('#0b0b0b', .14) },
+    { id: 'leaf', name: 'Silver Leaf', why: 'Silver grey with coffee-leaf prints, softer than pure black.', bg: '#bdbdbd', ink: '#0b0b0b', stamp: '#0b0b0b', sink: '#bdbdbd', empty: 'rgba(0,0,0,.35)', sub: 'rgba(0,0,0,.65)', p: pat.leaf('#ffffff', .35) },
+    { id: 'spot', name: 'Midnight Spotlight', why: 'Black with a soft white glow and a faint Kawung. Premium, members-club feel.', bg: '#050505', ink: '#ffffff', stamp: '#ffffff', sink: '#050505', p: `${pat.kawung('#ffffff', .06)}, radial-gradient(circle at 85% 0%, rgba(255,255,255,.22), transparent 55%)`, size: '56px 56px, cover' },
+  ];
+  const themeById = (id) => THEMES.find((t) => t.id === id) || THEMES[0];
+  function cardStyle(t) {
+    return `--c-bg:${t.bg};--c-ink:${t.ink};--c-stamp:${t.stamp};--c-stamp-ink:${t.sink};--c-empty:${t.empty || 'rgba(255,255,255,.4)'};--c-sub:${t.sub || 'color-mix(in srgb, ' + t.ink + ' 72%, transparent)'};background-image:${t.p};${t.size ? `background-size:${t.size};` : ''}${t.font ? `--c-font:'${t.font}',sans-serif;` : ''}`;
+  }
+  const bean = `<svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="11" ry="15" transform="rotate(25 20 20)" fill="currentColor"/><path d="M20 6c-6 6 6 10 0 14s-6 8 0 14" transform="rotate(25 20 20)" stroke="var(--c-stamp)" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`;
+  function cardHTML(t, { name = 'Sekar W.', on = 6, no = 'BIJA-0427', fresh = -1 } = {}) {
+    const st = Array.from({ length: NEED }, (_, i) => i < on ? `<div class="st on ${i === fresh ? 'new' : ''}">${bean}</div>` : i === NEED - 1 ? `<div class="st gift">FREE</div>` : `<div class="st">${i + 1}</div>`).join('');
+    return `<div class="bcard" style="${cardStyle(t)}">
+      <div class="t"><div><div class="name">Bija Card</div><div class="who">${esc(name)}</div></div><div class="no">BIJA COFFEE<br>${esc(no)}</div></div>
+      <div class="stamps">${st}</div>
+      <div class="f"><span>${on} of ${NEED - 1} beans</span><span>10th drink free</span></div>
+    </div>`;
+  }
+
+  // ---------- derived data (stamps come from orders the bar marked collected, never from counters the customer writes) ----------
+  const cfg = () => S.config || {};
+  const menu = () => cfg().menu || [];
+  const isOpen = () => !!cfg().open;
+  const origin = (id) => ORIGINS.find((o) => o.id === id);
+  const isDrink = (l) => l.cat !== 'Cakes' && l.cat !== 'Beans';
+  const drinksIn = (lines) => (lines || []).filter(isDrink).reduce((a, l) => a + l.qty, 0);
+  function ordersOf(c, b) {
+    return Object.entries((c && c.orders) || {}).map(([id, o]) => ({ id, ...o, status: o.cancelled ? 'cancelled' : (b?.orders?.[id]?.status || 'received') }))
+      .sort((x, y) => String(y.createdAt).localeCompare(String(x.createdAt)));
+  }
+  function stats(c, b) {
+    const os = ordersOf(c, b), col = os.filter((o) => o.status === 'collected');
+    const beans = col.reduce((a, o) => a + drinksIn(o.lines), 0), redeemed = +b?.redeemed || 0;
+    const progress = Math.max(0, beans - redeemed * (NEED - 1)), ready = progress >= NEED - 1;
+    const dealt = SPOTS.slice(0, Math.min(SPOTS.length, 1 + col.length));
+    const visited = c?.secret?.visited || {};
+    const found = dealt.filter((x) => visited[x.id]).length;
+    const origins = new Set(col.flatMap((o) => (o.lines || []).filter((l) => l.origin).map((l) => l.origin)));
+    return { os, col, beans, redeemed, ready, onCard: ready ? NEED - 1 : progress, dealt, visited, found, secretReady: found === SPOTS.length && !b?.secretUsed, secretUsed: !!b?.secretUsed, origins };
+  }
+  const mine = () => stats(S.me, S.bar);
+  const cartLines = () => menu().filter((m) => S.cart[m.id] > 0).map((m) => ({ id: m.id, name: m.name, price: +m.price, qty: S.cart[m.id], cat: m.cat, ...(m.filter ? { origin: cfg().filter } : m.origin ? { origin: m.origin } : {}) }));
+  function totals(lines) {
+    const st = mine();
+    const n = (st.ready && S.form.reward ? 1 : 0) + (st.secretReady && S.form.sreward ? 1 : 0);
+    const prices = lines.filter(isDrink).flatMap((l) => Array(l.qty).fill(l.price)).sort((a, b) => b - a);
+    const subtotal = lines.reduce((a, l) => a + l.qty * l.price, 0);
+    const free = prices.slice(0, n).reduce((a, p) => a + p, 0);
+    return { qty: lines.reduce((a, l) => a + l.qty, 0), subtotal, free, total: subtotal - free };
+  }
+
+  // ---------- render (keeps focus and caret, like Stirring Up Joy) ----------
+  function render() {
+    const active = document.activeElement, aid = active && active.id;
+    let s0, s1; try { s0 = active.selectionStart; s1 = active.selectionEnd; } catch {}
+    $('#wrap').classList.toggle('wide', S.view === 'bar');
+    renderSwitch(); renderTabs();
+    const sl = document.querySelector('.site-link'); if (sl) sl.hidden = !S.demo; // the claude.ai page has no website beside it
+    $('#demo').innerHTML = S.demo ? `<div class="demo">Demo: Concept mockup by Firman Insan M. Not affiliated with or endorsed by Bija Coffee. Orders and stamps stay in this browser; switch to Barista to play both sides. <a href="index.html" style="color:inherit">Website</a></div>` : '';
+    $('#main').innerHTML = S.view === 'bar' ? barista() : customer();
+    renderBasket();
+    if (aid) { const el = document.getElementById(aid); if (el) { el.focus({ preventScroll: true }); try { if (s0 != null) el.setSelectionRange(s0, s1); } catch {} } }
+  }
+  function renderSwitch() {
+    const sw = $('#switch'); sw.hidden = !S.admin;
+    if (S.admin) sw.innerHTML = `<button data-act="view" data-v="customer" aria-pressed="${S.view === 'customer'}">Customer</button><button data-act="view" data-v="bar" aria-pressed="${S.view === 'bar'}">Barista</button>`;
+  }
+  function renderTabs() {
+    let tabs, key;
+    if (S.view === 'bar') {
+      const open = S.customers.reduce((a, c) => a + ordersOf(c, S.bars[c.id]).filter((o) => o.status !== 'collected' && o.status !== 'cancelled').length, 0);
+      tabs = [['queue', 'Queue', open], ['members', 'Members'], ['insights', 'Insights'], ['menu', 'Menu']]; key = 'btab';
+    } else {
+      const st = mine(), live = st.os.filter((o) => o.status !== 'collected' && o.status !== 'cancelled').length;
+      const unseen = st.dealt.filter((x) => !st.visited[x.id]).length;
+      tabs = [['order', 'Order'], ['beans', 'Beans'], ['card', 'Bija Card', st.ready ? 1 : 0], ['secret', 'Secret', unseen], ['orders', 'My orders', live]]; key = 'tab';
+    }
+    $('#tabs').innerHTML = tabs.map(([id, l, n]) => `<button role="tab" data-act="tab" data-v="${id}" aria-selected="${S[key] === id}">${l}${n ? `<span class="dot">${n}</span>` : ''}</button>`).join('');
+  }
+  function renderBasket() {
+    const t = totals(cartLines()), el = $('#basket');
+    const show = S.view === 'customer' && (S.tab === 'order' || S.tab === 'beans') && !S.lastOrder && t.qty > 0;
+    el.hidden = !show;
+    if (show) el.innerHTML = `<div class="in"><span>${t.qty} item${t.qty > 1 ? 's' : ''} · <b>${money(t.total)}</b></span><button class="btn sm" data-act="goto-checkout">Checkout</button></div>`;
+  }
+  function notReady() {
+    if (S.noDb) return `<div class="empty"><b>Open this page in Claude while signed in</b>Orders, Bija Card beans and Secret St James's cards are saved to your account.</div>`;
+    return `<div class="list"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>`;
+  }
+  const icon = (k) => ({
+    cup: `<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 12h18v4a9 9 0 0 1-18 0z" fill="currentColor"/><path d="M23 14h2a3.5 3.5 0 0 1 0 7h-3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M11 9c0-2 2-2 2-4M16 9c0-2 2-2 2-4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>`,
+    iced: `<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 8h16l-2 20H10z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 16h14l-1 11H10z" fill="currentColor"/></svg>`,
+    filter: `<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 6h20l-8 10v2h-4v-2z" fill="currentColor"/><path d="M9 22h14v6H9z" fill="none" stroke="currentColor" stroke-width="2"/></svg>`,
+    bag: `<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M9 8h14l2 20H7z" fill="currentColor"/><path d="M11 8V6h10v2" stroke="currentColor" stroke-width="2" fill="none"/><g transform="translate(16 18) scale(.16)" fill="none" stroke="var(--card)" stroke-width="7"><circle cx="0" cy="-23" r="23"/><circle cx="23" cy="0" r="23"/><circle cx="0" cy="23" r="23"/><circle cx="-23" cy="0" r="23"/></g></svg>`,
+    cake: `<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 14h22v12H5z" fill="currentColor"/><path d="M5 18h22M5 22h22" stroke="var(--card)" stroke-width="1.5"/><path d="M8 14c0-4 16-4 16 0" fill="currentColor" opacity=".6"/></svg>`,
+  }[k] || '');
+
+  // ===== customer =====
+  function customer() {
+    if (S.noDb || !S.configLoaded) return notReady();
+    if (!S.config) return `<div class="empty"><b>The menu isn't up yet</b>${S.admin ? 'Switch to Barista → Menu and publish the starter menu.' : 'Follow @bija.london for opening news.'}</div>`;
+    if (S.tab === 'beans') return beansPage();
+    if (S.tab === 'card') return cardPage();
+    if (S.tab === 'secret') return secretPage();
+    if (S.tab === 'orders') return ordersPage();
+    return orderPage();
+  }
+  function dishRatings() {
+    const r = {};
+    if (!S.admin) return r;
+    for (const c of S.customers) for (const rt of Object.values(c.ratings || {})) if (rt.drink && rt.stars) (r[rt.drink] ||= []).push(+rt.stars);
+    return r;
+  }
+  function whatsOn() {
+    const today = new Date().toISOString().slice(0, 10);
+    const ev = (cfg().events || []).slice().sort((a, b) => String(a.date).localeCompare(String(b.date)));
+    const up = ev.filter((e) => (e.end || e.date) >= today), past = ev.filter((e) => (e.end || e.date) < today).reverse();
+    const show = up.length ? up.slice(0, 2) : past.slice(0, 2);
+    const day = (d) => { try { return new Date(d + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }); } catch { return d; } };
+    if (!show.length && !cfg().perk) return '';
+    return `<section class="sec"><div class="sec-h"><h3>${up.length ? "What's on" : 'Recently at Bija'}</h3><small>@bija.london</small></div>
+      <div class="list">${show.map((e) => `<article class="order"><div class="h"><b>${esc(e.title)}</b><span class="pill ${up.length ? 'ready' : 'collected'}">${day(e.date)}${e.end ? '–' + day(e.end) : ''}</span></div><div class="lines">${esc(e.text)}</div></article>`).join('')}
+      ${cfg().perk ? `<div class="hint">♻ ${esc(cfg().perk)}</div>` : ''}</div></section>`;
+  }
+  function orderPage() {
+    if (S.lastOrder) return confirmation();
+    const open = isOpen(), cats = [...new Set(menu().map((m) => m.cat))];
+    if (!S.cat || !cats.includes(S.cat)) S.cat = cats[0];
+    const f = origin(cfg().filter), filt = menu().find((m) => m.filter && m.available);
+    const lines = cartLines(), t = totals(lines), st = mine(), rt = dishRatings();
+    return `<section class="hero" style="background-image:${pat.kawung('#ffffff', .12)}">
+      <div class="kick">${open ? 'Order ahead' : 'Ordering paused'}</div>
+      <h2>${open ? 'Skip the queue.<br>We\'ll call your code.' : 'We\'re not taking app orders right now.'}</h2>
+      <p>${esc(cfg().note || '')}</p>
+      <div class="meta"><span class="chip ${open ? 'open' : 'closed'}">${open ? 'Open for orders' : 'Closed'}</span><span class="chip">2a St James's Market</span></div>
+      ${cfg().award ? `<p style="margin-top:12px;font-size:13px">★ ${esc(cfg().award)}</p>` : ''}
+    </section>
+    ${whatsOn()}
+    ${f && filt ? `<div class="filter"><div><span class="hint">On filter today</span><b>${esc(f.name)}, ${esc(f.where)}</b><div class="notes">${f.notes.map((n) => `<span>${esc(n)}</span>`).join('')}</div></div><button class="btn sm dark" data-act="qty" data-id="${esc(filt.id)}" data-d="1" ${open ? '' : 'disabled'}>Add · ${money(filt.price)}</button></div>` : ''}
+    <section class="sec">
+      <div class="cats">${cats.map((c) => `<button data-act="cat" data-v="${esc(c)}" aria-pressed="${S.cat === c}">${esc(c)}</button>`).join('')}</div>
+      <div class="menu">${menu().filter((m) => m.cat === S.cat).map((m) => {
+        const q = S.cart[m.id] || 0, off = !m.available || !open, rr = rt[m.id];
+        return `<article class="prod ${m.available ? '' : 'off'}">
+          <div class="ic">${icon(m.ic)}</div>
+          <div style="min-width:0"><h4>${esc(m.name)} ${m.badge ? `<span class="badge">${esc(m.badge)}</span>` : ''}</h4><p>${esc(m.filter && f ? `Today: ${f.name}. ` : '')}${esc(m.desc || '')}</p>
+            <span class="price">${money(m.price)}</span>${!m.available ? ' · <b>Sold out</b>' : ''}${rr && rr.length ? ` · <span class="stars">★ ${(rr.reduce((a, b) => a + b, 0) / rr.length).toFixed(1)}</span>` : ''}</div>
+          <div class="step" role="group" aria-label="Quantity of ${esc(m.name)}"><button data-act="qty" data-id="${esc(m.id)}" data-d="-1" ${q ? '' : 'disabled'} aria-label="Remove one">−</button><output>${q}</output><button data-act="qty" data-id="${esc(m.id)}" data-d="1" ${off ? 'disabled' : ''} aria-label="Add one">+</button></div>
+        </article>`;
+      }).join('')}</div>
+    </section>
+    <section class="sec" id="checkout">
+      <div class="sec-h"><h3>Your order</h3>${t.qty ? `<small>${t.qty} item${t.qty > 1 ? 's' : ''}</small>` : ''}</div>
+      ${!t.qty ? `<div class="empty"><b>Nothing in your order yet</b>Tap + on a drink. Every drink we hand you adds a bean to your Bija Card.</div>` : `
+      <div class="panel stack">
+        <div class="sum">
+          ${lines.map((l) => `<div><span>${l.qty}× ${esc(l.name)}${l.origin ? ` (${esc(origin(l.origin)?.name || '')})` : ''}</span><span>${money(l.qty * l.price)}</span></div>`).join('')}
+          ${t.free ? `<div class="deal"><span>Free drink reward</span><span>−${money(t.free)}</span></div>` : ''}
+          <div class="tot"><span>Total</span><span>${money(t.total)}</span></div>
+        </div>
+        <fieldset><legend>Milk</legend><div class="opts">${['Whole', 'Oat', 'Soya', 'Coconut'].map((m) => `<button data-act="opt" data-k="milk" data-v="${m}" aria-pressed="${S.form.milk === m}">${m}</button>`).join('')}</div></fieldset>
+        <fieldset><legend>Sweetness</legend><div class="opts">${['Less sweet', 'Normal', 'Extra aren'].map((m) => `<button data-act="opt" data-k="sweet" data-v="${m}" aria-pressed="${S.form.sweet === m}">${m}</button>`).join('')}</div></fieldset>
+        <fieldset><legend>Pick up at the bar</legend><div class="opts">${(cfg().slots || ['ASAP']).map((m) => `<button data-act="opt" data-k="slot" data-v="${esc(m)}" aria-pressed="${S.form.slot === m}">${esc(m)}</button>`).join('')}</div></fieldset>
+        <div class="grid2">
+          <label class="f">Name for the cup<input type="text" id="f-name" data-f="name" value="${esc(S.form.name)}" autocomplete="given-name" maxlength="40"></label>
+          <label class="f">Note for the bar <span class="h">Optional</span><input type="text" id="f-note" data-f="note" value="${esc(S.form.note)}" maxlength="120" placeholder="Extra hot, no lid…"></label>
+        </div>
+        ${st.ready ? `<label class="check"><input type="checkbox" id="f-reward" data-f="reward" ${S.form.reward ? 'checked' : ''}><span><b>Use my free drink</b><br><span class="hint">Your Bija Card is full</span></span></label>` : ''}
+        ${st.secretReady ? `<label class="check"><input type="checkbox" id="f-sreward" data-f="sreward" ${S.form.sreward ? 'checked' : ''}><span><b>Use my Secret St James's drink</b><br><span class="hint">You found all ${SPOTS.length} spots</span></span></label>` : ''}
+        ${!S.uid ? `<p class="hint warn">Sign in to claude.ai to place an order.</p>` : ''}
+        <div class="row between"><span class="hint">Pay at the bar when you collect.</span><button class="btn" data-act="place" ${!open || S.busy || !S.uid ? 'disabled' : ''}>${S.busy ? 'Sending…' : 'Place order · ' + money(t.total)}</button></div>
+      </div>`}
+    </section>`;
+  }
+  function confirmation() {
+    const o = ordersOf(S.me, S.bar).find((x) => x.id === S.lastOrder) || null;
+    if (!o) return notReady();
+    const step = { received: 1, brewing: 2, ready: 3, collected: 3, cancelled: 0 }[o.status];
+    return `<section class="hero" style="background-image:${pat.kawung('#ffffff', .12)};text-align:center">
+      <div class="kick">${o.status === 'ready' ? 'Ready at the bar' : 'Order sent'}</div>
+      <div class="big-code">${esc(o.code)}</div>
+      <p>Show this code at the bar · ${esc(o.slot)} · ${money(o.total)}</p>
+    </section>
+    <section class="sec panel stack">
+      <div class="row between"><b>${STATUS[o.status]}</b><span class="pill ${o.status}">${STATUS[o.status]}</span></div>
+      <div class="track">${[1, 2, 3].map((i) => `<span class="${i <= step ? 'on' : ''}"></span>`).join('')}</div>
+      <div class="lines">${o.lines.map((l) => `<b>${l.qty}×</b> ${esc(l.name)}`).join(' · ')}</div>
+      <p class="hint" style="margin:0">This updates live. Your beans and a new Secret St James's card arrive when we hand it over.</p>
+      <div class="row"><button class="btn sm ghost" data-act="again">Back to menu</button><button class="btn sm ghost" data-act="tab" data-v="orders">My orders</button></div>
+    </section>`;
+  }
+  function beansPage() {
+    const beans = menu().filter((m) => m.cat === 'Beans'), open = isOpen(), st = mine();
+    if (!beans.length) return `<div class="empty"><b>No beans listed yet</b>${S.admin ? 'Add them in Barista → Menu.' : 'Ask at the bar what is on the shelf.'}</div>`;
+    return `<section class="hero" style="background-image:${pat.kawung('#ffffff', .1)}"><div class="kick">Bija Coffee Beans</div><h2>Take the islands home.</h2><p>Roasted with Kindred Forest. Reserve a bag here and pick it up at the bar. Each single origin stamps your Origins Passport.</p></section>
+    <div class="list sec">${beans.map((m) => {
+      const q = S.cart[m.id] || 0, i = m.info || {}, o = origin(m.origin);
+      return `<article class="panel stack" style="gap:8px">
+        <div class="row between"><h3 style="margin:0;font-size:18px;font-weight:600">${esc(m.name)}</h3>${m.soon ? '<span class="pill received">Coming soon</span>' : m.available ? `<span class="price">${money(m.price)}</span>` : '<span class="pill cancelled">Sold out</span>'}</div>
+        <div class="notes">${String(m.desc || '').split(',').map((n) => `<span>${esc(n.trim())}</span>`).join('')}</div>
+        <dl style="display:grid;grid-template-columns:96px minmax(0,1fr);gap:4px 12px;margin:4px 0;font-size:14px">
+          <dt class="hint">Region</dt><dd style="margin:0">${esc(i.region || '')}</dd>
+          <dt class="hint">Altitude</dt><dd style="margin:0">${esc(i.altitude || '')}</dd>
+          <dt class="hint">Process</dt><dd style="margin:0">${esc(i.process || '')}</dd>
+          <dt class="hint">Best for</dt><dd style="margin:0">${esc(i.use || '')}</dd>
+        </dl>
+        ${o ? `<div class="hint">${st.origins.has(o.id) ? 'Stamped in your passport' : 'Stamps ' + esc(o.name) + ' in your Origins Passport'}</div>` : ''}
+        ${m.available && !m.soon ? `<div class="row between"><span class="hint">Pay and collect at the bar</span><div class="step" role="group" aria-label="Bags of ${esc(m.name)}"><button data-act="qty" data-id="${esc(m.id)}" data-d="-1" ${q ? '' : 'disabled'} aria-label="Remove one">−</button><output>${q}</output><button data-act="qty" data-id="${esc(m.id)}" data-d="1" ${open ? '' : 'disabled'} aria-label="Add one">+</button></div></div>` : ''}
+      </article>`;
+    }).join('')}</div>
+    <p class="hint" style="margin-top:12px">Details are typical of each region. Lot, roast date and price to be confirmed by Bija.</p>`;
+  }
+  function cardPage() {
+    if (!S.meLoaded) return notReady();
+    const st = mine(), t = themeById(S.theme);
+    const no = S.uid ? 'BIJA-' + S.uid.replace(/[^a-z0-9]/gi, '').slice(-5).toUpperCase() : 'BIJA-·····';
+    return `${cardHTML(t, { name: S.me?.name || 'Your card', on: st.onCard, no, fresh: S.fresh })}
+      ${st.ready ? `<div class="panel" style="margin-top:12px;background:var(--leaf);color:var(--card);border:0"><b>Free drink ready.</b> Tick “Use my free drink” at checkout.</div>` : ''}
+      <section class="sec"><div class="sec-h"><h3>How it works</h3></div>
+        <div class="panel stack" style="gap:6px"><div>1 drink handed over = 1 bean. Beans appear when the barista marks your order collected.</div><div>${NEED - 1} beans = your ${NEED}th drink free. Cakes don't earn beans.</div><div class="hint">${st.beans} bean${st.beans === 1 ? '' : 's'} all time · ${st.redeemed} free drink${st.redeemed === 1 ? '' : 's'} used</div></div>
+      </section>
+      <section class="sec"><div class="sec-h"><h3>Origins Passport</h3><small>${st.origins.size} of ${ORIGINS.length}</small></div>
+        <p class="hint" style="margin-top:0">Order the single-origin filter or take home a bag of single-origin beans: that island is stamped here. All ${ORIGINS.length} = a free 250 g bag.</p>
+        <div class="passport">${ORIGINS.map((o) => `<div class="visa ${st.origins.has(o.id) ? 'got' : ''}"><div><b>${esc(o.name)}</b><br><small>${esc(o.where)}</small></div>${st.origins.has(o.id) ? '<span class="seal">KOPI</span>' : `<small>${esc(o.notes[0])}</small>`}</div>`).join('')}</div>
+      </section>
+      <section class="sec"><div class="sec-h"><h3>Card style</h3><small>Saved on this device</small></div>
+        <div class="themes">${THEMES.map((x) => `<button data-act="theme" data-v="${x.id}" aria-pressed="${S.theme === x.id}">${cardHTML(x, { name: '', on: 4, no: '' })}${esc(x.name)}</button>`).join('')}</div>
+      </section>`;
+  }
+
+  // ----- Secret St James's -----
+  const spotNo = (x) => String(SPOTS.indexOf(x) + 1).padStart(2, '0');
+  function spotCard(x, { mini = false, face = true, pressed = false, deal = false, act = '', visited = false } = {}) {
+    const tag = act ? 'button' : 'div';
+    if (!face) return `<div class="sc back ${mini ? 'mini' : ''}" style="background-image:${pat.kawung('#ffffff', .14)}"><div><b>No. ${spotNo(x)}</b><br><small>${mini ? 'Next coffee' : 'Comes with your next coffee'}</small></div></div>`;
+    const attrs = act ? ` data-act="${act}" data-id="${x.id}" aria-pressed="${pressed}" aria-label="${esc(x.name)}"` : '';
+    return `<${tag} class="sc ${mini ? 'mini' : ''} ${visited ? 'visited' : ''} ${deal ? 'deal' : ''}"${attrs}>
+      <div class="no"><span>No. ${spotNo(x)}</span><span>${mini ? '' : 'SECRET ST JAMES\'S'}</span></div>
+      <h4>${esc(x.name)}</h4><p class="sc-story">${esc(x.story)}</p><div class="pair">Pairs with: ${esc(x.pair)}</div>
+      <div class="walk"><span>≈ ${x.walk} min walk</span><svg class="mk" viewBox="0 0 40 40" aria-hidden="true"><g fill="#0b0b0b"><ellipse cx="20" cy="9" rx="6" ry="9"/><ellipse cx="20" cy="31" rx="6" ry="9"/><ellipse cx="9" cy="20" rx="9" ry="6"/><ellipse cx="31" cy="20" rx="9" ry="6"/></g><circle cx="20" cy="20" r="2.5" fill="#fff"/></svg></div>
+    </${tag}>`;
+  }
+  function secretMap(st) {
+    const pins = SPOTS.map((x) => {
+      const v = st.visited[x.id] && st.dealt.includes(x), d = st.dealt.includes(x), sel = S.spot === x.id;
+      const body = v ? `<ellipse rx="7" ry="9.5" transform="rotate(25)" fill="#0b0b0b"/><path d="M0 -8c-3.5 4 3.5 6 0 8s-3.5 5 0 8" transform="rotate(25)" stroke="#fff" stroke-width="1.8" fill="none"/>`
+        : d ? `<circle r="9" fill="#fff" stroke="#0b0b0b" stroke-width="2"/><text y="3.5" text-anchor="middle" font-size="10" font-weight="700" font-family="DM Sans, sans-serif" fill="#0b0b0b">${SPOTS.indexOf(x) + 1}</text>`
+        : `<circle r="5" fill="#fff" stroke="#0b0b0b" stroke-width="1.5" stroke-dasharray="2 2"/>`;
+      return `<g class="pin" transform="translate(${x.x} ${x.y})" ${d ? `data-act="spot" data-id="${x.id}" role="button" tabindex="0" aria-label="${esc(x.name)}"` : ''}>${sel ? '<circle r="14" fill="none" stroke="#0b0b0b" stroke-width="1.5"/>' : ''}${body}</g>`;
+    }).join('');
+    return `<div class="smap"><svg viewBox="0 0 340 270" role="img" aria-label="Map of St James's with ${st.found} of ${SPOTS.length} secret spots found">
+      <rect x="0" y="222" width="340" height="48" fill="#ececec"/><ellipse cx="190" cy="248" rx="120" ry="9" fill="#d6d6d6"/>
+      <g stroke="#0b0b0b" stroke-opacity=".16" stroke-width="10" fill="none" stroke-linecap="round"><path d="M0 30 L340 18"/><path d="M30 72 L310 62"/><path d="M48 26 L58 214"/><path d="M50 172 L330 160"/><path d="M308 8 L316 170"/><path d="M236 14 L244 170"/><path d="M0 214 L340 204"/><path d="M150 250 L150 214" stroke-width="5"/></g>
+      <rect x="128" y="92" width="62" height="40" rx="4" fill="none" stroke="#0b0b0b" stroke-opacity=".25" stroke-width="2"/>
+      <g font-family="DM Sans, sans-serif" font-size="8.5" fill="#6a6a6a" letter-spacing=".08em"><text x="70" y="22">PICCADILLY</text><text x="250" y="58">JERMYN ST</text><text x="140" y="178">PALL MALL</text><text x="236" y="218">THE MALL</text><text x="20" y="262">ST JAMES'S PARK</text><text x="138" y="88">ST JAMES'S SQ</text><text x="62" y="120" transform="rotate(84 62 120)">ST JAMES'S ST</text><text x="322" y="96" transform="rotate(86 322 96)">HAYMARKET</text></g>
+      <g transform="translate(268 110)"><rect x="-17" y="-11" width="34" height="22" rx="11" fill="#0b0b0b"/><text y="4" text-anchor="middle" font-size="10" font-weight="700" fill="#fff" font-family="DM Sans, sans-serif">BIJA</text></g>
+      ${pins}</svg></div>`;
+  }
+  function secretPage() {
+    if (!S.meLoaded) return notReady();
+    const st = mine();
+    const cur = st.dealt.find((x) => x.id === S.spot) || st.dealt.find((x) => !st.visited[x.id]) || null;
+    return `<div class="sec-h" style="margin-top:4px"><h3>${st.found} of ${SPOTS.length} found</h3><small>Every coffee deals a card</small></div>
+      <div class="prog" style="margin-bottom:12px"><i style="width:${(st.found / SPOTS.length) * 100}%"></i></div>
+      ${secretMap(st)}
+      ${st.secretReady ? `<div class="panel" style="margin-top:12px;background:var(--ink);color:var(--paper);border:0"><b>All ten found.</b> Your next drink is free: tick it at checkout.</div>` : ''}
+      ${st.secretUsed ? `<div class="panel" style="margin-top:12px"><b>Map complete.</b> <span class="hint">Free drink used. New cards next season.</span></div>` : ''}
+      <section class="sec">${cur ? `<div class="cardslot">${spotCard(cur, { deal: S.dealt === cur.id, visited: !!st.visited[cur.id] })}</div>
+        ${st.visited[cur.id] ? `<p class="hint" style="text-align:center">Found. Tap another pin or card.</p>`
+          : `<div style="max-width:280px;margin:12px auto 0"><button class="btn dark block" data-act="checkin" data-id="${cur.id}" ${S.busy || !S.uid ? 'disabled' : ''}>${S.busy ? 'Saving…' : "I'm here · check in"}</button><p class="hint" style="text-align:center">Honour system for now. A live app can check your location.</p></div>`}`
+        : `<div class="empty"><b>No card in hand</b>Collect your next order and a new secret card comes with it.</div>`}</section>
+      <section class="sec"><div class="sec-h"><h3>Your cards</h3><small>${st.dealt.length} of ${SPOTS.length} dealt</small></div>
+        <div class="sgrid">${SPOTS.map((x) => st.dealt.includes(x) ? spotCard(x, { mini: true, act: 'spot', pressed: cur === x, visited: !!st.visited[x.id] }) : spotCard(x, { mini: true, face: false })).join('')}</div>
+      </section>`;
+  }
+  function ordersPage() {
+    if (!S.meLoaded) return notReady();
+    const os = mine().os;
+    if (!os.length) return `<div class="empty"><b>No orders yet</b>Order ahead and watch it go from received to ready here.<br><br><button class="btn sm" data-act="tab" data-v="order">Order now</button></div>`;
+    const ratings = S.me?.ratings || {};
+    const step = { received: 1, brewing: 2, ready: 3 };
+    return `<div class="list">${os.map((o) => {
+      const r = ratings[o.id], d = S.rate[o.id] || { stars: 0, comment: '' };
+      return `<article class="order">
+        <div class="h"><span class="code">${esc(o.code)}</span><span class="pill ${o.status}">${STATUS[o.status]}</span></div>
+        <div class="lines">${(o.lines || []).map((l) => `<b>${l.qty}×</b> ${esc(l.name)}`).join(' · ')}</div>
+        <div class="hint">${fmt(o.createdAt)} · ${esc(o.slot)} · ${money(o.total)}${o.useReward || o.useSecret ? ' · free drink' : ''}</div>
+        ${step[o.status] ? `<div class="track">${[1, 2, 3].map((i) => `<span class="${i <= step[o.status] ? 'on' : ''}"></span>`).join('')}</div>` : ''}
+        <div class="row">
+          ${o.status === 'received' ? `<button class="btn sm ghost" data-act="cancel" data-id="${esc(o.id)}" ${S.busy ? 'disabled' : ''}>Cancel</button>` : ''}
+          ${o.status === 'collected' || o.status === 'cancelled' ? `<button class="btn sm ghost" data-act="reorder" data-id="${esc(o.id)}">Order again</button>` : ''}
+        </div>
+        ${o.status === 'collected' && r ? `<div class="hint">You rated this <span class="stars">${'★'.repeat(r.stars || 0)}</span>${r.comment ? ` · “${esc(r.comment)}”` : ''}</div>` : ''}
+        ${o.status === 'collected' && !r ? `<div class="panel stack" style="background:var(--paper)">
+          <div class="row between"><b>How was it?</b><span class="rate" role="radiogroup" aria-label="Rating">${[1, 2, 3, 4, 5].map((n) => `<button type="button" role="radio" aria-checked="${d.stars === n}" aria-label="${n} star${n > 1 ? 's' : ''}" class="${d.stars >= n ? 'on' : ''}" data-act="star" data-id="${esc(o.id)}" data-n="${n}">★</button>`).join('')}</span></div>
+          <label class="f">Anything to tell the bar? <span class="h">Optional</span><input type="text" id="rc-${esc(o.id)}" data-rc="${esc(o.id)}" value="${esc(d.comment)}" maxlength="200"></label>
+          <div><button class="btn sm" data-act="rate" data-id="${esc(o.id)}" ${!d.stars || S.busy ? 'disabled' : ''}>Send rating</button></div>
+        </div>` : ''}
+      </article>`;
+    }).join('')}</div>`;
+  }
+
+  // ===== barista =====
+  function barista() {
+    if (!S.custLoaded || !S.configLoaded) return notReady();
+    if (S.btab === 'members') return members();
+    if (S.btab === 'insights') return insights();
+    if (S.btab === 'menu') return menuEditor();
+    return queue();
+  }
+  function allOrders() {
+    const out = [];
+    for (const c of S.customers) { const b = S.bars[c.id]; for (const o of ordersOf(c, b)) out.push({ ...o, cid: c.id, cname: c.name || 'Guest', st: () => stats(c, b) }); }
+    return out.sort((x, y) => String(y.createdAt).localeCompare(String(x.createdAt)));
+  }
+  function queue() {
+    const all = allOrders();
+    const active = all.filter((o) => o.status !== 'collected' && o.status !== 'cancelled').reverse();
+    const today = new Date().toDateString();
+    const todays = all.filter((o) => o.status !== 'cancelled' && new Date(o.createdAt).toDateString() === today);
+    const list = S.qFilter === 'active' ? active : S.qFilter === 'collected' ? all.filter((o) => o.status === 'collected') : all;
+    const nextLabel = { received: 'Start brewing', brewing: 'Ready · call code', ready: 'Collected · give beans' };
+    return `<div class="tiles">
+      <div class="tile"><small>In the queue</small><b>${active.length}</b><span>${active.filter((o) => o.status === 'ready').length} ready to collect</span></div>
+      <div class="tile"><small>Today</small><b>${money(todays.reduce((a, o) => a + (+o.total || 0), 0))}</b><span>${todays.length} order${todays.length === 1 ? '' : 's'}, after free drinks</span></div>
+      <div class="tile"><small>App ordering</small><b>${isOpen() ? 'On' : 'Off'}</b><span><button class="btn sm ghost" data-act="toggle-open" ${S.busy ? 'disabled' : ''}>${isOpen() ? 'Pause orders' : 'Resume orders'}</button></span></div>
+    </div>
+    <div class="cats" style="margin-top:14px">${[['active', 'Active'], ['collected', 'Collected'], ['all', 'All']].map(([k, l]) => `<button data-act="qf" data-v="${k}" aria-pressed="${S.qFilter === k}">${l}</button>`).join('')}</div>
+    <div class="list">${!list.length ? `<div class="empty"><b>${S.qFilter === 'active' ? 'Queue is clear' : 'Nothing here yet'}</b>New app orders appear here the moment they're placed, oldest first.</div>` : list.map((o) => {
+      const st = o.st();
+      return `<article class="order">
+        <div class="h"><span><span class="code" style="font-size:18px">${esc(o.code)}</span> · <b>${esc(o.cname)}</b></span><span class="pill ${o.status}">${STATUS[o.status]}</span></div>
+        <div class="lines">${(o.lines || []).map((l) => `<b>${l.qty}×</b> ${esc(l.name)}${l.origin ? ` (${esc(origin(l.origin)?.name || '')})` : ''}`).join(' · ')}</div>
+        <div class="hint">${esc(o.milk)} milk · ${esc(o.sweet)} · ${esc(o.slot)} · <b style="color:var(--ink)">${money(o.total)}</b> · ${fmt(o.createdAt)}</div>
+        ${o.note ? `<p class="quote">${esc(o.note)}</p>` : ''}
+        ${o.useReward ? `<div class="hint warn"><b>Bija Card free drink</b> · ${st.ready ? 'card is full' : 'already used or not earned'} ${st.ready ? `<button class="btn sm ok" data-act="redeem" data-id="${esc(o.cid)}" ${S.busy ? 'disabled' : ''}>Mark used</button>` : ''}</div>` : ''}
+        ${o.useSecret ? `<div class="hint warn"><b>Secret St James's free drink</b> · ${st.secretReady ? 'all spots found' : 'already used or not earned'} ${st.secretReady ? `<button class="btn sm ok" data-act="sredeem" data-id="${esc(o.cid)}" ${S.busy ? 'disabled' : ''}>Mark used</button>` : ''}</div>` : ''}
+        <div class="row">
+          ${FLOW[o.status] ? `<button class="btn sm ${o.status === 'ready' ? 'ok' : ''}" data-act="status" data-c="${esc(o.cid)}" data-o="${esc(o.id)}" data-s="${FLOW[o.status]}" ${S.busy ? 'disabled' : ''}>${nextLabel[o.status]}</button>` : ''}
+          ${o.status === 'collected' ? `<button class="btn sm ghost" data-act="status" data-c="${esc(o.cid)}" data-o="${esc(o.id)}" data-s="ready" ${S.busy ? 'disabled' : ''}>Undo</button>` : ''}
+        </div>
+      </article>`;
+    }).join('')}</div>`;
+  }
+  function members() {
+    const rows = S.customers.map((c) => ({ c, st: stats(c, S.bars[c.id]) })).filter((r) => r.st.os.length).sort((a, b) => b.st.beans - a.st.beans);
+    if (!rows.length) return `<div class="empty"><b>No Bija Card members yet</b>Everyone who orders in the app gets a card automatically.</div>`;
+    return `<div class="panel tablewrap"><table>
+      <thead><tr><th>Name</th><th class="num">Beans</th><th class="num">On card</th><th class="num">Free used</th><th class="num">Secrets</th><th>Last order</th></tr></thead>
+      <tbody>${rows.map(({ c, st }) => `<tr><td><b>${esc(c.name || 'Guest')}</b>${st.ready ? ' <span class="pill ready">Free drink</span>' : ''}${st.secretReady ? ' <span class="pill brewing">Secret drink</span>' : ''}</td><td class="num">${st.beans}</td><td class="num">${st.onCard}/${NEED - 1}</td><td class="num">${st.redeemed}${st.secretUsed ? ' +1' : ''}</td><td class="num">${st.found}/${SPOTS.length}</td><td>${fmt(st.os[0]?.createdAt)}</td></tr>`).join('')}</tbody>
+    </table></div>`;
+  }
+  function bars(entries, fmtv) {
+    if (!entries.length) return `<p class="hint">No data yet.</p>`;
+    const max = Math.max(...entries.map((e) => e[1]), 1);
+    return `<div class="bars">${entries.map(([n, v]) => `<div class="bar"><span class="n" title="${esc(n)}">${esc(n)}</span><span class="tr"><span class="fl" style="width:${(v / max) * 100}%"></span></span><span class="v">${fmtv ? fmtv(v) : v}</span></div>`).join('')}</div>`;
+  }
+  function insights() {
+    const all = allOrders().filter((o) => o.status !== 'cancelled');
+    const buyers = S.customers.filter((c) => ordersOf(c, S.bars[c.id]).some((o) => o.status !== 'cancelled'));
+    const repeat = buyers.filter((c) => ordersOf(c, S.bars[c.id]).filter((o) => o.status !== 'cancelled').length >= 2).length;
+    const qty = new Map(); for (const o of all) for (const l of o.lines || []) qty.set(l.name, (qty.get(l.name) || 0) + l.qty);
+    const hours = new Map(); for (const o of all) { const h = new Date(o.createdAt).getHours(); const k = String(h).padStart(2, '0') + ':00'; hours.set(k, (hours.get(k) || 0) + 1); }
+    const spots = SPOTS.map((x) => [x.name, S.customers.filter((c) => c.secret?.visited?.[x.id]).length]);
+    const ratings = S.customers.flatMap((c) => Object.values(c.ratings || {}).map((r) => ({ ...r, name: c.name })));
+    const avg = ratings.length ? ratings.reduce((a, r) => a + (+r.stars || 0), 0) / ratings.length : 0;
+    const comments = ratings.filter((r) => r.comment).sort((a, b) => String(b.at).localeCompare(String(a.at))).slice(0, 6);
+    return `<div class="tiles">
+      <div class="tile"><small>App customers</small><b>${buyers.length}</b><span>${repeat} came back</span></div>
+      <div class="tile"><small>Revenue</small><b>${money(all.reduce((a, o) => a + (+o.total || 0), 0))}</b><span>${all.length} order${all.length === 1 ? '' : 's'}, all time</span></div>
+      <div class="tile"><small>Rating</small><b>${ratings.length ? avg.toFixed(1) : '–'}</b><span>${ratings.length} rating${ratings.length === 1 ? '' : 's'}</span></div>
+    </div>
+    <div class="cols sec">
+      <div class="panel"><div class="sec-h"><h3>Best sellers</h3></div>${bars([...qty].sort((a, b) => b[1] - a[1]).slice(0, 8))}</div>
+      <div class="panel"><div class="sec-h"><h3>Order times</h3></div>${bars([...hours].sort((a, b) => a[0].localeCompare(b[0])))}</div>
+      <div class="panel"><div class="sec-h"><h3>Secret spots found</h3></div>${bars(spots.filter((s) => s[1]))}</div>
+      <div class="panel"><div class="sec-h"><h3>What people say</h3></div>${comments.length ? `<div class="list">${comments.map((r) => `<p class="quote">${esc(r.comment)}<br><span class="hint">${esc(r.name || 'Guest')} · ${'★'.repeat(r.stars || 0)}</span></p>`).join('')}</div>` : '<p class="hint">No comments yet.</p>'}</div>
+    </div>`;
+  }
+  function menuEditor() {
+    const d = S.draft || (S.draft = JSON.parse(JSON.stringify(S.config || STARTER)));
+    return `${!S.config ? `<div class="panel" style="margin-bottom:12px"><b>No menu is live yet.</b> <span class="hint">This is the starter menu. Edit it and publish to open the app.</span></div>` : ''}
+    <div class="panel stack">
+      <div class="grid2">
+        <label class="f">On filter today<select id="m-filter" data-d="filter">${ORIGINS.map((o) => `<option value="${o.id}" ${d.filter === o.id ? 'selected' : ''}>${esc(o.name)}, ${esc(o.where)}</option>`).join('')}</select></label>
+        <label class="f">Opening line <span class="h">Shown on the order screen</span><input type="text" id="m-note" data-d="note" value="${esc(d.note || '')}" maxlength="120"></label>
+      </div>
+      <label class="check"><input type="checkbox" id="m-open" data-d="open" ${d.open ? 'checked' : ''}><span><b>Take app orders</b><br><span class="hint">Untick to pause ordering, for example when the bar is slammed.</span></span></label>
+      <div>${(d.menu || []).map((m, i) => `<div class="edit-item">
+        <label class="f"><span class="sr">Name</span><input type="text" id="mi-n-${i}" data-m="${i}" data-k="name" value="${esc(m.name)}"></label>
+        <label class="f"><span class="sr">Price</span><input type="number" step="0.1" min="0" id="mi-p-${i}" data-m="${i}" data-k="price" value="${esc(m.price)}"></label>
+        <label class="check" style="padding:6px 10px"><input type="checkbox" id="mi-a-${i}" data-m="${i}" data-k="available" ${m.available ? 'checked' : ''}><span>${esc(m.cat)} · on</span></label>
+      </div>`).join('')}</div>
+      <div class="row between"><button class="btn sm ghost" data-act="reset-draft">Discard changes</button><button class="btn" data-act="save-cfg" ${S.busy ? 'disabled' : ''}>${S.busy ? 'Saving…' : S.config ? 'Save menu' : 'Publish menu'}</button></div>
+    </div>`;
+  }
+
+  // ---------- actions ----------
+  async function run(fn, okMsg) {
+    if (S.busy) return;
+    S.busy = true; render();
+    try { await fn(); if (okMsg) toast(okMsg); }
+    catch (e) {
+      const c = e && e.code;
+      toast(c === 'invalid_argument' ? 'You don’t have permission to save this.' : c === 'quota_exceeded' ? 'Storage is full. Ask the owner to clear old data.' : 'Couldn’t save. Check your connection and try again.');
+    } finally { S.busy = false; render(); }
+  }
+  function newCode() { const a = 'ACDEFGHJKMNPQRTUVWXY34679'; let s = ''; for (let i = 0; i < 3; i++) s += a[Math.floor(Math.random() * a.length)]; return 'B' + s; }
+  const myRef = () => S.db.doc('customers/' + S.uid);
+  async function saveMine(patch) { if (S.me) await myRef().update(patch); else await myRef().set({ name: S.form.name.trim(), joinedAt: new Date().toISOString(), orders: {}, ratings: {}, secret: { visited: {} }, ...patch }); }
+  async function saveBar(cid, patch) { const ref = S.db.doc('bar/' + cid); if (S.bars[cid]) await ref.update(patch); else await ref.set({ orders: {}, redeemed: 0, secretUsed: false, ...patch }); }
+
+  async function placeOrder() {
+    const lines = cartLines(), t = totals(lines), f = S.form, st = mine();
+    if (!t.qty) return toast('Add at least one drink.');
+    if (!f.name.trim()) { toast('Add a name so we can call your cup.'); return document.getElementById('f-name')?.focus(); }
+    const oid = 'o' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+    const order = { code: newCode(), lines, subtotal: t.subtotal, free: t.free, total: t.total, milk: f.milk, sweet: f.sweet, slot: f.slot, note: f.note.trim(),
+      useReward: !!(f.reward && st.ready), useSecret: !!(f.sreward && st.secretReady), name: f.name.trim(), createdAt: new Date().toISOString() };
+    await run(async () => {
+      await saveMine({ name: f.name.trim(), updatedAt: new Date().toISOString(), orders: { [oid]: order } });
+      S.lastOrder = oid; S.cart = {}; S.form.note = ''; S.form.reward = false; S.form.sreward = false;
+      window.scrollTo({ top: 0 });
+    }, 'Order sent to the bar');
+  }
+
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-act]');
+    if (!b || b.disabled) return;
+    const a = b.dataset.act;
+    if (a === 'view') { S.view = b.dataset.v; render(); window.scrollTo({ top: 0 }); }
+    else if (a === 'tab') { if (S.view === 'bar') S.btab = b.dataset.v; else { S.tab = b.dataset.v; S.lastOrder = null; S.fresh = -1; S.dealt = null; } render(); window.scrollTo({ top: 0 }); }
+    else if (a === 'cat') { S.cat = b.dataset.v; render(); }
+    else if (a === 'qty') { const id = b.dataset.id; S.cart[id] = Math.max(0, Math.min(20, (S.cart[id] || 0) + +b.dataset.d)); render(); }
+    else if (a === 'opt') { S.form[b.dataset.k] = b.dataset.v; render(); }
+    else if (a === 'goto-checkout') { if (S.tab !== 'order') { S.tab = 'order'; render(); } document.getElementById('checkout')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
+    else if (a === 'place') placeOrder();
+    else if (a === 'again') { S.lastOrder = null; render(); window.scrollTo({ top: 0 }); }
+    else if (a === 'theme') { S.theme = b.dataset.v; store.set('bija.theme', S.theme); render(); }
+    else if (a === 'spot') { S.spot = b.dataset.id; S.dealt = null; render(); }
+    else if (a === 'checkin') { const id = b.dataset.id; run(() => saveMine({ secret: { visited: { [id]: new Date().toISOString() } } }), 'Found! A bean lands on the map'); }
+    else if (a === 'cancel') run(() => myRef().update({ orders: { [b.dataset.id]: { cancelled: true } } }), 'Order cancelled');
+    else if (a === 'reorder') {
+      const o = mine().os.find((x) => x.id === b.dataset.id); if (!o) return;
+      for (const l of o.lines || []) if (menu().some((m) => m.id === l.id && m.available)) S.cart[l.id] = (S.cart[l.id] || 0) + l.qty;
+      S.tab = 'order'; render(); document.getElementById('checkout')?.scrollIntoView();
+    }
+    else if (a === 'star') { (S.rate[b.dataset.id] ||= { stars: 0, comment: '' }).stars = +b.dataset.n; render(); }
+    else if (a === 'rate') {
+      const id = b.dataset.id, d = S.rate[id]; if (!d?.stars) return;
+      const o = mine().os.find((x) => x.id === id);
+      run(async () => { await myRef().update({ ratings: { [id]: { stars: d.stars, comment: (d.comment || '').trim(), drink: o?.lines?.find(isDrink)?.id || '', at: new Date().toISOString() } } }); delete S.rate[id]; }, 'Terima kasih!');
+    }
+    // barista
+    else if (a === 'qf') { S.qFilter = b.dataset.v; render(); }
+    else if (a === 'status') { const s = b.dataset.s; run(() => saveBar(b.dataset.c, { orders: { [b.dataset.o]: { status: s, at: new Date().toISOString() } } }), s === 'collected' ? 'Collected. Beans and a secret card added.' : s === 'ready' ? 'Marked ready' : 'Updated'); }
+    else if (a === 'redeem') { const cid = b.dataset.id; run(() => saveBar(cid, { redeemed: (+S.bars[cid]?.redeemed || 0) + 1 }), 'Free drink marked as used'); }
+    else if (a === 'sredeem') run(() => saveBar(b.dataset.id, { secretUsed: true }), 'Secret St James\'s drink marked as used');
+    else if (a === 'toggle-open') run(() => S.db.doc('config/current').update({ open: !isOpen() }), isOpen() ? 'App ordering paused' : 'App ordering resumed');
+    else if (a === 'reset-draft') { S.draft = null; render(); }
+    else if (a === 'save-cfg') {
+      const d = S.draft;
+      const next = { ...d, open: !!d.open, note: (d.note || '').trim(), menu: d.menu.filter((m) => m.name.trim()).map((m) => ({ ...m, name: m.name.trim(), price: Math.max(0, +m.price || 0), available: !!m.available })) };
+      if (!next.menu.length) return toast('Add at least one item.');
+      run(async () => { await S.db.doc('config/current').set(next); S.draft = null; }, S.config ? 'Menu saved' : 'Menu is live');
+    }
+  });
+  document.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches?.('g.pin[data-act]')) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent('click', { bubbles: true })); } });
+  document.addEventListener('input', (e) => {
+    const el = e.target, val = el.type === 'checkbox' ? el.checked : el.value;
+    if (el.dataset.f) { S.form[el.dataset.f] = val; if (el.dataset.f === 'name') store.set('bija.name', val); if (el.type === 'checkbox') render(); }
+    else if (el.dataset.rc) (S.rate[el.dataset.rc] ||= { stars: 0, comment: '' }).comment = val;
+    else if (el.dataset.d && S.draft) S.draft[el.dataset.d] = val;
+    else if (el.dataset.m && S.draft) S.draft.menu[+el.dataset.m][el.dataset.k] = val;
+  });
+
+  // ---------- local demo store: same calls as the db capability, kept in this browser ----------
+  function demoDb() {
+    const KEY = 'bija.app.demo';
+    let data = {}; try { data = JSON.parse(localStorage.getItem(KEY)) || {}; } catch {}
+    const subs = new Set(), clone = (v) => v === undefined ? v : JSON.parse(JSON.stringify(v));
+    const save = () => { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch {} setTimeout(() => subs.forEach((f) => f()), 0); };
+    const merge = (t, p) => { for (const [k, v] of Object.entries(p)) { if (v && typeof v === 'object' && !Array.isArray(v) && t[k] && typeof t[k] === 'object' && !Array.isArray(t[k])) merge(t[k], v); else t[k] = clone(v); } };
+    const snap = (p) => ({ id: p.split('/').pop(), exists: p in data, data: () => clone(data[p]) });
+    if (!data['config/current']) data['config/current'] = clone(STARTER);
+    return {
+      doc: (p) => ({
+        get: async () => snap(p),
+        set: async (v) => { data[p] = clone(v); save(); },
+        update: async (v) => { if (!(p in data)) throw { code: 'not_found' }; merge(data[p], v); save(); },
+        onSnapshot: (cb) => { const f = () => cb(snap(p)); subs.add(f); setTimeout(f, 0); return () => subs.delete(f); },
+      }),
+      collection: (p) => ({
+        onSnapshot: (cb) => {
+          const depth = p.split('/').length + 1;
+          const f = () => cb({ docs: Object.keys(data).filter((k) => k.startsWith(p + '/') && k.split('/').length === depth).map(snap) });
+          subs.add(f); setTimeout(f, 0); return () => subs.delete(f);
+        },
+      }),
+    };
+  }
+
+  // ---------- boot ----------
+  try { const v = new URLSearchParams(location.search).get('view'); if (v === 'app' || v === 'site') localStorage.setItem('bija.view', v); } catch {}
+  if (location.hash === '#beans') S.tab = 'beans';
+  S.form.name = store.get('bija.name') || '';
+  S.theme = store.get('bija.theme') || 'noir';
+  render();
+  function listen(db) {
+    db.doc('config/current').onSnapshot((s) => { S.config = s.exists ? s.data() : null; S.configLoaded = true; if (S.config && !(S.config.slots || []).includes(S.form.slot)) S.form.slot = (S.config.slots || ['ASAP'])[0]; render(); }, () => { S.configLoaded = true; render(); });
+    if (S.uid) {
+      db.doc('customers/' + S.uid).onSnapshot((s) => {
+        S.me = s.exists ? s.data() : null; S.meLoaded = true;
+        if (S.me && !S.form.name) S.form.name = S.me.name || '';
+        render();
+      }, () => { S.meLoaded = true; render(); });
+      db.doc('bar/' + S.uid).onSnapshot((s) => {
+        const before = stats(S.me, S.bar);
+        S.bar = s.exists ? s.data() : null;
+        const after = stats(S.me, S.bar);
+        if (S.barLoaded && S.meLoaded && after.col.length > before.col.length) {
+          const dealt = after.dealt.length > before.dealt.length ? after.dealt[after.dealt.length - 1] : null;
+          S.fresh = Math.max(0, after.onCard - 1);
+          if (dealt) { S.dealt = dealt.id; S.spot = dealt.id; }
+          toast(`+${after.beans - before.beans} bean${after.beans - before.beans === 1 ? '' : 's'}${dealt ? ' and a new secret card' : ''}`);
+        }
+        S.barLoaded = true; render();
+      }, () => { S.barLoaded = true; render(); });
+    } else S.meLoaded = true;
+    if (S.admin) {
+      db.collection('customers').onSnapshot((q) => { S.customers = q.docs.map((d) => ({ id: d.id, ...d.data() })); S.custLoaded = true; render(); }, () => { S.custLoaded = true; render(); });
+      db.collection('bar').onSnapshot((q) => { S.bars = Object.fromEntries(q.docs.map((d) => [d.id, d.data()])); render(); }, () => render());
+    }
+    render();
+  }
+  (async () => {
+    const c = window.claude;
+    if (!c || typeof c.use !== 'function') { S.demo = true; S.db = demoDb(); S.uid = 'you'; S.admin = true; listen(S.db); return; }
+    const [db, user] = await Promise.all([c.use('db'), c.use('user')]);
+    if (!db) { S.noDb = true; render(); return; }
+    S.db = db; S.user = user;
+    S.uid = user ? await user.id() : null;
+    S.admin = user ? await user.canEdit() : false;
+    listen(db);
+  })();
+})();
+</script>
+</body></html>
