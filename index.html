@@ -6,6 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#000000">
 <title>Bija Coffee</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
 <script>
 /* One link, two modes: phones and tablets (touch-only or ≤1024px wide) open the app; computers get the website.
    ?view=site or ?view=app overrides it and is remembered on this device. */
@@ -56,6 +57,17 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .ph .lbl { position: absolute; left: 12px; bottom: 10px; right: 12px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: #6f6f6f; }
 .ph .pm { position: absolute; left: 50%; top: 50%; width: 22%; max-width: 70px; transform: translate(-50%, -60%); opacity: .18; }
 .ph.loaded .lbl, .ph.loaded .pm { display: none; }
+.ph.loaded { cursor: zoom-in; }
+.lb { position: fixed; inset: 0; z-index: 50; display: none; }
+.lb.open { display: block; }
+.lb .bg { position: absolute; inset: 0; background: #000; opacity: 0; transition: opacity .22s cubic-bezier(.4,0,.22,1); }
+.lb.show .bg { opacity: .96; }
+.lb img { position: fixed; object-fit: contain; transition: left .33s cubic-bezier(.4,0,.22,1), top .33s cubic-bezier(.4,0,.22,1), width .33s cubic-bezier(.4,0,.22,1), height .33s cubic-bezier(.4,0,.22,1); cursor: zoom-out; }
+.lb button { position: fixed; border: 0; background: transparent; color: #fff; font-size: 34px; line-height: 1; padding: 10px 14px; opacity: 0; transition: opacity .3s; z-index: 1; }
+.lb.show button { opacity: .8; }
+.lb button:hover { opacity: 1; }
+.lb .lb-x { top: 12px; right: 12px; } .lb .lb-p { left: 8px; top: 50%; transform: translateY(-50%); } .lb .lb-n { right: 8px; top: 50%; transform: translateY(-50%); }
+.lb .lb-c { position: fixed; left: 0; right: 0; bottom: 14px; text-align: center; font-size: 12px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
 
 .grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .grid3.cap { margin-top: 22px; gap: 20px; }
@@ -92,6 +104,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .events h3 { margin: 6px 0 8px; font-size: 15px; font-weight: 600; }
 .events p { margin: 0; color: #e4e4e4; font-size: 14px; }
 .perk { text-align: center; color: var(--muted); margin: 26px 0 0; }
+.loyal { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 26px; }
+@media (max-width: 760px) { .loyal { grid-template-columns: 1fr; } }
+.loyal h3 { margin: 0 0 12px; font-size: 15px; font-weight: 600; }
+.loyal p { margin: 0 0 14px; color: #e4e4e4; max-width: 60ch; }
 .partners { text-align: center; max-width: 1080px; margin: 34px auto 0; }
 .partners h3 { margin: 0 0 6px; font-size: 14px; font-weight: 600; letter-spacing: .06em; }
 .partners p { margin: 0 0 22px; color: #e4e4e4; }
@@ -133,7 +149,7 @@ body.about-open .mark-btn { visibility: hidden; }
 body.about-open .mark-btn .m { opacity: 0; transform: rotate(90deg) scale(.6); }
 body.about-open .mark-btn .x { opacity: 1; transform: none; }
 /* the four-circle mark cycles outline -> dotted fill -> solid while turning a quarter */
-.mk .l-out { fill: none; stroke: currentColor; stroke-width: 2.2; }
+.mk .l-out { fill: none; stroke: currentColor; stroke-width: 1.3; }
 .mk .l-dot { fill: url(#dots); opacity: 0; }
 .mk .l-sol { fill: currentColor; opacity: 0; }
 .mk.cycle { animation: mk-turn 9s cubic-bezier(.65,0,.35,1) infinite; transform-origin: 50% 50%; }
@@ -145,7 +161,7 @@ body.about-open .mark-btn .x { opacity: 1; transform: none; }
 @keyframes mk-sol { 0%, 55% { opacity: 0; } 66%, 88% { opacity: 1; } 100% { opacity: 0; } }
 @keyframes mk-out { 0%, 55% { opacity: 1; } 66%, 88% { opacity: .15; } 100% { opacity: 1; } }
 /* section marks draw themselves in, then keep cycling */
-.icons .mk .l-out circle { stroke-dasharray: 145; stroke-dashoffset: 145; transition: stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1); }
+.icons .mk .l-out circle { stroke-dasharray: 158; stroke-dashoffset: 158; transition: stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1); }
 .icons .mk.in .l-out circle { stroke-dashoffset: 0; }
 .icons .mk .l-out circle:nth-child(2) { transition-delay: .15s; } .icons .mk .l-out circle:nth-child(3) { transition-delay: .3s; } .icons .mk .l-out circle:nth-child(4) { transition-delay: .45s; }
 /* scroll reveal */
@@ -176,10 +192,11 @@ dialog::backdrop { background: transparent; }
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <pattern id="dots" width="3" height="3" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r=".9" fill="#fff"/></pattern>
+    <pattern id="dots" width="2.4" height="2.4" patternUnits="userSpaceOnUse"><circle cx="1.2" cy="1.2" r=".75" fill="#fff"/></pattern>
     <!-- four overlapping circles, outline -->
-    <symbol id="mark" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="50" cy="27" r="23"/><circle cx="73" cy="50" r="23"/><circle cx="50" cy="73" r="23"/><circle cx="27" cy="50" r="23"/></g></symbol>
-    <symbol id="mark-solid" viewBox="0 0 100 100"><path fill="currentColor" fill-rule="evenodd" d="M27 27a23 23 0 1 0 46 0a23 23 0 1 0 -46 0Z M50 50a23 23 0 1 0 46 0a23 23 0 1 0 -46 0Z M27 73a23 23 0 1 0 46 0a23 23 0 1 0 -46 0Z M4 50a23 23 0 1 0 46 0a23 23 0 1 0 -46 0Z"/></symbol>
+    <clipPath id="bija-clip"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></clipPath>
+    <symbol id="mark" viewBox="-1.5 -1.5 103 103"><g class="l-out" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/><g clip-path="url(#bija-clip)"><circle cx="25" cy="0" r="25"/><circle cx="75" cy="0" r="25"/><circle cx="100" cy="25" r="25"/><circle cx="100" cy="75" r="25"/><circle cx="75" cy="100" r="25"/><circle cx="25" cy="100" r="25"/><circle cx="0" cy="75" r="25"/><circle cx="0" cy="25" r="25"/></g></g></symbol>
+    <symbol id="mark-solid" viewBox="-1.5 -1.5 103 103"><path fill="currentColor" fill-rule="evenodd" d="M25 25a25 25 0 1 0 50 0a25 25 0 1 0 -50 0Z M50 50a25 25 0 1 0 50 0a25 25 0 1 0 -50 0Z M25 75a25 25 0 1 0 50 0a25 25 0 1 0 -50 0Z M0 50a25 25 0 1 0 50 0a25 25 0 1 0 -50 0Z"/></symbol>
   </defs>
 </svg>
 
@@ -260,11 +277,19 @@ dialog::backdrop { background: transparent; }
     <p><b>Kindred Forest</b> sources and roasts Indonesian specialty coffee with us, with a focus on traceability, growers' livelihoods and protecting Indonesia's coffee forests. <a href="https://www.kindredforest.co.uk/shop" rel="noopener">kindredforest.co.uk</a></p>
   </div>
 
+  <h2 class="title">Bija Card &amp; Gift Cards</h2>
+  <div class="loyal">
+    <div><h3>Bija Card</h3><p>Earn 10 points for every £1, in the app and at the till. Spend them on a free cake, any drink or a bag of beans. Grow from Seed to Sprout to Kopi Tree for bonus points, with extra rewards for finding all ten Secret St James's spots and filling your Origins Passport.</p><a class="cta" href="app.html?view=app#card">Open my Bija Card</a></div>
+    <div><h3>Gift Cards</h3><p>Send someone a digital Bija gift card from £5 to £200, in one of ten black-and-white designs with your own message. It loads straight into their app balance for coffee, cakes or beans.</p><a class="cta" href="app.html?view=app#gifts">Send a gift card</a></div>
+  </div>
+
   <h2 class="title">Join the Bija Community</h2>
   <p class="community">Bija is a community of coffee lovers as much as a coffee shop. Follow <b>@bija.london</b> for new beans, events and collaborations, or <a href="app.html?view=app">get the app</a> to order ahead and collect beans on your Bija Card.</p>
 
   <footer>© Bija Coffee Limited · Concept rebuild by Firman Insan M, not an official Bija page. Photos and final wording to be supplied by Bija.</footer>
 </div>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo"><div class="bg"></div><img alt=""><button class="lb-x" aria-label="Close">×</button><button class="lb-p" aria-label="Previous">‹</button><button class="lb-n" aria-label="Next">›</button><div class="lb-c"></div></div>
 
 <dialog id="about" aria-label="About Us">
   <div class="ov">
@@ -308,10 +333,10 @@ dialog::backdrop { background: transparent; }
 
   // ---------- motion ----------
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const markSVG = (cls) => `<svg class="mk ${cls}" viewBox="0 0 100 100" aria-hidden="true">
-    <path class="l-sol" fill-rule="evenodd" d="M27 27a23 23 0 1 0 46 0a23 23 0 1 0 -46 0Z M50 50a23 23 0 1 0 46 0a23 23 0 1 0 -46 0Z M27 73a23 23 0 1 0 46 0a23 23 0 1 0 -46 0Z M4 50a23 23 0 1 0 46 0a23 23 0 1 0 -46 0Z"/>
-    <path class="l-dot" fill-rule="evenodd" d="M27 27a23 23 0 1 0 46 0a23 23 0 1 0 -46 0Z M50 50a23 23 0 1 0 46 0a23 23 0 1 0 -46 0Z M27 73a23 23 0 1 0 46 0a23 23 0 1 0 -46 0Z M4 50a23 23 0 1 0 46 0a23 23 0 1 0 -46 0Z"/>
-    <g class="l-out"><circle cx="50" cy="27" r="23"/><circle cx="73" cy="50" r="23"/><circle cx="50" cy="73" r="23"/><circle cx="27" cy="50" r="23"/></g></svg>`;
+  const markSVG = (cls) => `<svg class="mk ${cls}" viewBox="-1.5 -1.5 103 103" aria-hidden="true">
+    <path class="l-sol" fill-rule="evenodd" d="M25 25a25 25 0 1 0 50 0a25 25 0 1 0 -50 0Z M50 50a25 25 0 1 0 50 0a25 25 0 1 0 -50 0Z M25 75a25 25 0 1 0 50 0a25 25 0 1 0 -50 0Z M0 50a25 25 0 1 0 50 0a25 25 0 1 0 -50 0Z"/>
+    <path class="l-dot" fill-rule="evenodd" d="M25 25a25 25 0 1 0 50 0a25 25 0 1 0 -50 0Z M50 50a25 25 0 1 0 50 0a25 25 0 1 0 -50 0Z M25 75a25 25 0 1 0 50 0a25 25 0 1 0 -50 0Z M0 50a25 25 0 1 0 50 0a25 25 0 1 0 -50 0Z"/>
+    <g class="l-out" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/><g clip-path="url(#bija-clip)"><circle cx="25" cy="0" r="25"/><circle cx="75" cy="0" r="25"/><circle cx="100" cy="25" r="25"/><circle cx="100" cy="75" r="25"/><circle cx="75" cy="100" r="25"/><circle cx="25" cy="100" r="25"/><circle cx="0" cy="75" r="25"/><circle cx="0" cy="25" r="25"/></g></g></svg>`;
   document.querySelectorAll('[data-marks]').forEach((el) => { el.innerHTML = Array.from({ length: +el.dataset.marks }, () => markSVG('cycle')).join(''); el.querySelectorAll('.mk').forEach((m, i) => (m.style.animationDelay = `${-i * 3}s`)); });
   document.querySelector('[data-big]').outerHTML = markSVG('big cycle');
 
@@ -334,6 +359,28 @@ dialog::backdrop { background: transparent; }
   const hideD = (d) => { d.classList.remove('show'); if (d === about) document.body.classList.remove('about-open'); setTimeout(() => { if (!d.classList.contains('show')) d.close(); }, reduce ? 0 : 650); };
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { const d = document.querySelector('dialog[open]'); if (d) { e.preventDefault(); hideD(d); } } });
   const open = (id) => showD(document.getElementById(id));
+
+  // photo viewer (own implementation of the zoom-from-thumbnail viewer the live site uses)
+  const lb = document.getElementById('lb'), lbImg = lb.querySelector('img'), lbCap = lb.querySelector('.lb-c');
+  let lbList = [], lbIdx = 0, lbFrom = null;
+  const rectOf = (el) => { const r = el.getBoundingClientRect(); return { left: r.left, top: r.top, width: r.width, height: r.height }; };
+  const fit = (img) => { const pad = 40, vw = innerWidth - pad * 2, vh = innerHeight - pad * 2, ar = (img.naturalWidth || 4) / (img.naturalHeight || 3); let w = vw, h = vw / ar; if (h > vh) { h = vh; w = vh * ar; } return { left: (innerWidth - w) / 2, top: (innerHeight - h) / 2, width: w, height: h }; };
+  const place = (r) => Object.assign(lbImg.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
+  const lbShow = (i, animate) => { lbIdx = (i + lbList.length) % lbList.length; const f = lbList[lbIdx], src = f.querySelector('img'); lbImg.src = src.src; lbImg.alt = src.alt; lbCap.textContent = `${lbIdx + 1} / ${lbList.length}`; if (!animate) place(fit(src)); };
+  const lbOpen = (fig) => {
+    lbList = [...document.querySelectorAll('.ph.loaded')]; lbFrom = fig;
+    lbShow(lbList.indexOf(fig), true);
+    lb.classList.add('open'); place(rectOf(fig));
+    requestAnimationFrame(() => requestAnimationFrame(() => { lb.classList.add('show'); place(fit(fig.querySelector('img'))); }));
+    lb.querySelector('.lb-x').focus({ preventScroll: true });
+  };
+  const lbClose = () => { lb.classList.remove('show'); const back = lbList[lbIdx] || lbFrom; if (back) place(rectOf(back)); setTimeout(() => lb.classList.remove('open'), reduce ? 0 : 340); };
+  lb.addEventListener('click', (e) => { e.stopPropagation(); if (e.target.closest('.lb-p')) lbShow(lbIdx - 1); else if (e.target.closest('.lb-n')) lbShow(lbIdx + 1); else lbClose(); });
+  document.addEventListener('keydown', (e) => { if (!lb.classList.contains('open')) return; if (e.key === 'Escape') lbClose(); if (e.key === 'ArrowLeft') lbShow(lbIdx - 1); if (e.key === 'ArrowRight') lbShow(lbIdx + 1); });
+  let tx = null; lb.addEventListener('touchstart', (e) => { tx = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', (e) => { if (tx == null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) lbShow(lbIdx + (dx < 0 ? 1 : -1)); tx = null; });
+  addEventListener('resize', () => { if (lb.classList.contains('show')) place(fit(lbImg)); });
+  document.addEventListener('click', (e) => { const f = e.target.closest('.ph.loaded'); if (f && !lb.contains(f)) lbOpen(f); });
   document.addEventListener('click', (e) => {
     if (e.target.closest('[data-toggle-about]')) { about.open ? hideD(about) : showD(about); return; }
     const t = e.target.closest('[data-open],[data-close],[data-bean]');

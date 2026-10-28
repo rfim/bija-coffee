@@ -1,5 +1,6 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Bija Coffee</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
 <meta name="robots" content="noindex, nofollow">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -158,6 +159,35 @@ legend { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
 .themes button { border: 0; background: transparent; padding: 0; text-align: left; display: grid; gap: 6px; font-size: 12px; font-weight: 600; }
 .themes button[aria-pressed="true"] .bcard { outline: 3px solid var(--accent); outline-offset: 2px; }
 .themes .bcard { box-shadow: none; padding: 10px; border-radius: 12px; }
+.opts button:disabled { opacity: .35; cursor: default; }
+.bcard .pts { margin-top: auto; display: flex; align-items: baseline; gap: 8px; }
+.bcard .pts b { font: 300 clamp(30px, 17cqi, 64px)/1 var(--sans); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.bcard .pts span { font-size: clamp(11px, 3.8cqi, 14px); color: var(--c-sub); }
+.bcard .prg { height: 4px; border-radius: 2px; background: var(--c-empty); margin-top: 3cqi; overflow: hidden; }
+.bcard .prg i { display: block; height: 100%; background: var(--c-stamp); }
+@media (prefers-reduced-motion: no-preference) { .bcard.bump .pts b { animation: bump .6s ease-out; } @keyframes bump { 30% { transform: scale(1.12); } } }
+.scan { background: #fff; color: #000; border-radius: 16px; padding: 16px; display: grid; justify-items: center; gap: 8px; text-align: center; }
+.scan svg { width: 200px; height: 200px; }
+.scan .code { font-size: 20px; letter-spacing: .12em; }
+.ladder { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.ladder > div { border: 1.5px solid var(--line); border-radius: 14px; padding: 12px; display: grid; gap: 4px; font-size: 13px; }
+.ladder > div.on { border-color: var(--ink); }
+.ladder b { font-size: 15px; }
+@media (max-width: 420px) { .ladder { grid-template-columns: minmax(0, 1fr); } }
+.rw { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; }
+.gcard { position: relative; border-radius: 20px; padding: 18px; color: var(--c-ink); background-color: var(--c-bg); background-size: 56px 56px; aspect-ratio: 1.586; display: flex; flex-direction: column; container-type: inline-size; border: 1px solid rgba(255,255,255,.18); overflow: hidden; }
+.gcard .t { display: flex; justify-content: space-between; gap: 10px; font-size: clamp(10px, 3.4cqi, 13px); letter-spacing: .14em; text-transform: uppercase; color: var(--c-sub); }
+.gcard .amt { font: 300 clamp(36px, 20cqi, 72px)/1 var(--sans); margin-top: auto; }
+.gcard .to { font-size: clamp(12px, 4cqi, 16px); margin-top: 2cqi; }
+.gcard .msg { font-size: clamp(11px, 3.6cqi, 14px); color: var(--c-sub); font-style: italic; margin-top: 1cqi; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.gcard .gc { font-family: var(--mono); font-size: clamp(10px, 3.6cqi, 14px); letter-spacing: .1em; margin-top: 2cqi; }
+.gpick { display: grid; grid-auto-flow: column; grid-auto-columns: 38%; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.gpick button { border: 0; background: transparent; padding: 0; }
+.gpick button[aria-pressed="true"] .gcard { outline: 3px solid var(--accent); outline-offset: 2px; }
+.gpick .gcard { padding: 8px; border-radius: 10px; }
+.gpick .gcard .t, .gpick .gcard .to, .gpick .gcard .msg { display: none; }
+.gpick .gcard .amt { font-size: 22px; }
+.stack > *, fieldset { min-width: 0; }
 .passport { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
 .visa { border-radius: 14px; padding: 12px; border: 1.5px dashed var(--line); min-height: 92px; display: grid; align-content: space-between; }
 .visa.got { border-style: solid; background: var(--card); }
@@ -220,7 +250,7 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
 
 <div class="wrap" id="wrap">
   <header class="top">
-    <div class="mark" aria-hidden="true"><svg viewBox="0 0 100 100"><g fill="none" stroke="#fff" stroke-width="4"><circle cx="50" cy="27" r="23"/><circle cx="73" cy="50" r="23"/><circle cx="50" cy="73" r="23"/><circle cx="27" cy="50" r="23"/></g></svg></div>
+    <div class="mark" aria-hidden="true"><svg viewBox="-1.5 -1.5 103 103"><defs><clipPath id="bija-clip-a"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></clipPath></defs><g fill="none" stroke="#fff" stroke-width="3"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/><g clip-path="url(#bija-clip-a)"><circle cx="25" cy="0" r="25"/><circle cx="75" cy="0" r="25"/><circle cx="100" cy="25" r="25"/><circle cx="100" cy="75" r="25"/><circle cx="75" cy="100" r="25"/><circle cx="25" cy="100" r="25"/><circle cx="0" cy="75" r="25"/><circle cx="0" cy="25" r="25"/></g></g></svg></div>
     <div class="brand"><h1>Bija</h1><p>St James's · London</p></div>
     <a class="site-link" href="index.html?view=site">Website</a>
     <div class="switch" id="switch" hidden></div>
@@ -233,9 +263,2322 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
 <div id="toast" role="status" hidden></div>
 
 <script>
+//---------------------------------------------------------------------
+//
+// QR Code Generator for JavaScript
+//
+// Copyright (c) 2009 Kazuhiko Arase
+//
+// URL: http://www.d-project.com/
+//
+// Licensed under the MIT license:
+//  http://www.opensource.org/licenses/mit-license.php
+//
+// The word 'QR Code' is registered trademark of
+// DENSO WAVE INCORPORATED
+//  http://www.denso-wave.com/qrcode/faqpatent-e.html
+//
+//---------------------------------------------------------------------
+
+var qrcode = function() {
+
+  //---------------------------------------------------------------------
+  // qrcode
+  //---------------------------------------------------------------------
+
+  /**
+   * qrcode
+   * @param typeNumber 1 to 40
+   * @param errorCorrectionLevel 'L','M','Q','H'
+   */
+  var qrcode = function(typeNumber, errorCorrectionLevel) {
+
+    var PAD0 = 0xEC;
+    var PAD1 = 0x11;
+
+    var _typeNumber = typeNumber;
+    var _errorCorrectionLevel = QRErrorCorrectionLevel[errorCorrectionLevel];
+    var _modules = null;
+    var _moduleCount = 0;
+    var _dataCache = null;
+    var _dataList = [];
+
+    var _this = {};
+
+    var makeImpl = function(test, maskPattern) {
+
+      _moduleCount = _typeNumber * 4 + 17;
+      _modules = function(moduleCount) {
+        var modules = new Array(moduleCount);
+        for (var row = 0; row < moduleCount; row += 1) {
+          modules[row] = new Array(moduleCount);
+          for (var col = 0; col < moduleCount; col += 1) {
+            modules[row][col] = null;
+          }
+        }
+        return modules;
+      }(_moduleCount);
+
+      setupPositionProbePattern(0, 0);
+      setupPositionProbePattern(_moduleCount - 7, 0);
+      setupPositionProbePattern(0, _moduleCount - 7);
+      setupPositionAdjustPattern();
+      setupTimingPattern();
+      setupTypeInfo(test, maskPattern);
+
+      if (_typeNumber >= 7) {
+        setupTypeNumber(test);
+      }
+
+      if (_dataCache == null) {
+        _dataCache = createData(_typeNumber, _errorCorrectionLevel, _dataList);
+      }
+
+      mapData(_dataCache, maskPattern);
+    };
+
+    var setupPositionProbePattern = function(row, col) {
+
+      for (var r = -1; r <= 7; r += 1) {
+
+        if (row + r <= -1 || _moduleCount <= row + r) continue;
+
+        for (var c = -1; c <= 7; c += 1) {
+
+          if (col + c <= -1 || _moduleCount <= col + c) continue;
+
+          if ( (0 <= r && r <= 6 && (c == 0 || c == 6) )
+              || (0 <= c && c <= 6 && (r == 0 || r == 6) )
+              || (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
+            _modules[row + r][col + c] = true;
+          } else {
+            _modules[row + r][col + c] = false;
+          }
+        }
+      }
+    };
+
+    var getBestMaskPattern = function() {
+
+      var minLostPoint = 0;
+      var pattern = 0;
+
+      for (var i = 0; i < 8; i += 1) {
+
+        makeImpl(true, i);
+
+        var lostPoint = QRUtil.getLostPoint(_this);
+
+        if (i == 0 || minLostPoint > lostPoint) {
+          minLostPoint = lostPoint;
+          pattern = i;
+        }
+      }
+
+      return pattern;
+    };
+
+    var setupTimingPattern = function() {
+
+      for (var r = 8; r < _moduleCount - 8; r += 1) {
+        if (_modules[r][6] != null) {
+          continue;
+        }
+        _modules[r][6] = (r % 2 == 0);
+      }
+
+      for (var c = 8; c < _moduleCount - 8; c += 1) {
+        if (_modules[6][c] != null) {
+          continue;
+        }
+        _modules[6][c] = (c % 2 == 0);
+      }
+    };
+
+    var setupPositionAdjustPattern = function() {
+
+      var pos = QRUtil.getPatternPosition(_typeNumber);
+
+      for (var i = 0; i < pos.length; i += 1) {
+
+        for (var j = 0; j < pos.length; j += 1) {
+
+          var row = pos[i];
+          var col = pos[j];
+
+          if (_modules[row][col] != null) {
+            continue;
+          }
+
+          for (var r = -2; r <= 2; r += 1) {
+
+            for (var c = -2; c <= 2; c += 1) {
+
+              if (r == -2 || r == 2 || c == -2 || c == 2
+                  || (r == 0 && c == 0) ) {
+                _modules[row + r][col + c] = true;
+              } else {
+                _modules[row + r][col + c] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+
+    var setupTypeNumber = function(test) {
+
+      var bits = QRUtil.getBCHTypeNumber(_typeNumber);
+
+      for (var i = 0; i < 18; i += 1) {
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+        _modules[Math.floor(i / 3)][i % 3 + _moduleCount - 8 - 3] = mod;
+      }
+
+      for (var i = 0; i < 18; i += 1) {
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+        _modules[i % 3 + _moduleCount - 8 - 3][Math.floor(i / 3)] = mod;
+      }
+    };
+
+    var setupTypeInfo = function(test, maskPattern) {
+
+      var data = (_errorCorrectionLevel << 3) | maskPattern;
+      var bits = QRUtil.getBCHTypeInfo(data);
+
+      // vertical
+      for (var i = 0; i < 15; i += 1) {
+
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+
+        if (i < 6) {
+          _modules[i][8] = mod;
+        } else if (i < 8) {
+          _modules[i + 1][8] = mod;
+        } else {
+          _modules[_moduleCount - 15 + i][8] = mod;
+        }
+      }
+
+      // horizontal
+      for (var i = 0; i < 15; i += 1) {
+
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+
+        if (i < 8) {
+          _modules[8][_moduleCount - i - 1] = mod;
+        } else if (i < 9) {
+          _modules[8][15 - i - 1 + 1] = mod;
+        } else {
+          _modules[8][15 - i - 1] = mod;
+        }
+      }
+
+      // fixed module
+      _modules[_moduleCount - 8][8] = (!test);
+    };
+
+    var mapData = function(data, maskPattern) {
+
+      var inc = -1;
+      var row = _moduleCount - 1;
+      var bitIndex = 7;
+      var byteIndex = 0;
+      var maskFunc = QRUtil.getMaskFunction(maskPattern);
+
+      for (var col = _moduleCount - 1; col > 0; col -= 2) {
+
+        if (col == 6) col -= 1;
+
+        while (true) {
+
+          for (var c = 0; c < 2; c += 1) {
+
+            if (_modules[row][col - c] == null) {
+
+              var dark = false;
+
+              if (byteIndex < data.length) {
+                dark = ( ( (data[byteIndex] >>> bitIndex) & 1) == 1);
+              }
+
+              var mask = maskFunc(row, col - c);
+
+              if (mask) {
+                dark = !dark;
+              }
+
+              _modules[row][col - c] = dark;
+              bitIndex -= 1;
+
+              if (bitIndex == -1) {
+                byteIndex += 1;
+                bitIndex = 7;
+              }
+            }
+          }
+
+          row += inc;
+
+          if (row < 0 || _moduleCount <= row) {
+            row -= inc;
+            inc = -inc;
+            break;
+          }
+        }
+      }
+    };
+
+    var createBytes = function(buffer, rsBlocks) {
+
+      var offset = 0;
+
+      var maxDcCount = 0;
+      var maxEcCount = 0;
+
+      var dcdata = new Array(rsBlocks.length);
+      var ecdata = new Array(rsBlocks.length);
+
+      for (var r = 0; r < rsBlocks.length; r += 1) {
+
+        var dcCount = rsBlocks[r].dataCount;
+        var ecCount = rsBlocks[r].totalCount - dcCount;
+
+        maxDcCount = Math.max(maxDcCount, dcCount);
+        maxEcCount = Math.max(maxEcCount, ecCount);
+
+        dcdata[r] = new Array(dcCount);
+
+        for (var i = 0; i < dcdata[r].length; i += 1) {
+          dcdata[r][i] = 0xff & buffer.getBuffer()[i + offset];
+        }
+        offset += dcCount;
+
+        var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+        var rawPoly = qrPolynomial(dcdata[r], rsPoly.getLength() - 1);
+
+        var modPoly = rawPoly.mod(rsPoly);
+        ecdata[r] = new Array(rsPoly.getLength() - 1);
+        for (var i = 0; i < ecdata[r].length; i += 1) {
+          var modIndex = i + modPoly.getLength() - ecdata[r].length;
+          ecdata[r][i] = (modIndex >= 0)? modPoly.getAt(modIndex) : 0;
+        }
+      }
+
+      var totalCodeCount = 0;
+      for (var i = 0; i < rsBlocks.length; i += 1) {
+        totalCodeCount += rsBlocks[i].totalCount;
+      }
+
+      var data = new Array(totalCodeCount);
+      var index = 0;
+
+      for (var i = 0; i < maxDcCount; i += 1) {
+        for (var r = 0; r < rsBlocks.length; r += 1) {
+          if (i < dcdata[r].length) {
+            data[index] = dcdata[r][i];
+            index += 1;
+          }
+        }
+      }
+
+      for (var i = 0; i < maxEcCount; i += 1) {
+        for (var r = 0; r < rsBlocks.length; r += 1) {
+          if (i < ecdata[r].length) {
+            data[index] = ecdata[r][i];
+            index += 1;
+          }
+        }
+      }
+
+      return data;
+    };
+
+    var createData = function(typeNumber, errorCorrectionLevel, dataList) {
+
+      var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectionLevel);
+
+      var buffer = qrBitBuffer();
+
+      for (var i = 0; i < dataList.length; i += 1) {
+        var data = dataList[i];
+        buffer.put(data.getMode(), 4);
+        buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber) );
+        data.write(buffer);
+      }
+
+      // calc num max data.
+      var totalDataCount = 0;
+      for (var i = 0; i < rsBlocks.length; i += 1) {
+        totalDataCount += rsBlocks[i].dataCount;
+      }
+
+      if (buffer.getLengthInBits() > totalDataCount * 8) {
+        throw 'code length overflow. ('
+          + buffer.getLengthInBits()
+          + '>'
+          + totalDataCount * 8
+          + ')';
+      }
+
+      // end code
+      if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
+        buffer.put(0, 4);
+      }
+
+      // padding
+      while (buffer.getLengthInBits() % 8 != 0) {
+        buffer.putBit(false);
+      }
+
+      // padding
+      while (true) {
+
+        if (buffer.getLengthInBits() >= totalDataCount * 8) {
+          break;
+        }
+        buffer.put(PAD0, 8);
+
+        if (buffer.getLengthInBits() >= totalDataCount * 8) {
+          break;
+        }
+        buffer.put(PAD1, 8);
+      }
+
+      return createBytes(buffer, rsBlocks);
+    };
+
+    _this.addData = function(data, mode) {
+
+      mode = mode || 'Byte';
+
+      var newData = null;
+
+      switch(mode) {
+      case 'Numeric' :
+        newData = qrNumber(data);
+        break;
+      case 'Alphanumeric' :
+        newData = qrAlphaNum(data);
+        break;
+      case 'Byte' :
+        newData = qr8BitByte(data);
+        break;
+      case 'Kanji' :
+        newData = qrKanji(data);
+        break;
+      default :
+        throw 'mode:' + mode;
+      }
+
+      _dataList.push(newData);
+      _dataCache = null;
+    };
+
+    _this.isDark = function(row, col) {
+      if (row < 0 || _moduleCount <= row || col < 0 || _moduleCount <= col) {
+        throw row + ',' + col;
+      }
+      return _modules[row][col];
+    };
+
+    _this.getModuleCount = function() {
+      return _moduleCount;
+    };
+
+    _this.make = function() {
+      if (_typeNumber < 1) {
+        var typeNumber = 1;
+
+        for (; typeNumber < 40; typeNumber++) {
+          var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, _errorCorrectionLevel);
+          var buffer = qrBitBuffer();
+
+          for (var i = 0; i < _dataList.length; i++) {
+            var data = _dataList[i];
+            buffer.put(data.getMode(), 4);
+            buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber) );
+            data.write(buffer);
+          }
+
+          var totalDataCount = 0;
+          for (var i = 0; i < rsBlocks.length; i++) {
+            totalDataCount += rsBlocks[i].dataCount;
+          }
+
+          if (buffer.getLengthInBits() <= totalDataCount * 8) {
+            break;
+          }
+        }
+
+        _typeNumber = typeNumber;
+      }
+
+      makeImpl(false, getBestMaskPattern() );
+    };
+
+    _this.createTableTag = function(cellSize, margin) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var qrHtml = '';
+
+      qrHtml += '<table style="';
+      qrHtml += ' border-width: 0px; border-style: none;';
+      qrHtml += ' border-collapse: collapse;';
+      qrHtml += ' padding: 0px; margin: ' + margin + 'px;';
+      qrHtml += '">';
+      qrHtml += '<tbody>';
+
+      for (var r = 0; r < _this.getModuleCount(); r += 1) {
+
+        qrHtml += '<tr>';
+
+        for (var c = 0; c < _this.getModuleCount(); c += 1) {
+          qrHtml += '<td style="';
+          qrHtml += ' border-width: 0px; border-style: none;';
+          qrHtml += ' border-collapse: collapse;';
+          qrHtml += ' padding: 0px; margin: 0px;';
+          qrHtml += ' width: ' + cellSize + 'px;';
+          qrHtml += ' height: ' + cellSize + 'px;';
+          qrHtml += ' background-color: ';
+          qrHtml += _this.isDark(r, c)? '#000000' : '#ffffff';
+          qrHtml += ';';
+          qrHtml += '"/>';
+        }
+
+        qrHtml += '</tr>';
+      }
+
+      qrHtml += '</tbody>';
+      qrHtml += '</table>';
+
+      return qrHtml;
+    };
+
+    _this.createSvgTag = function(cellSize, margin, alt, title) {
+
+      var opts = {};
+      if (typeof arguments[0] == 'object') {
+        // Called by options.
+        opts = arguments[0];
+        // overwrite cellSize and margin.
+        cellSize = opts.cellSize;
+        margin = opts.margin;
+        alt = opts.alt;
+        title = opts.title;
+      }
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      // Compose alt property surrogate
+      alt = (typeof alt === 'string') ? {text: alt} : alt || {};
+      alt.text = alt.text || null;
+      alt.id = (alt.text) ? alt.id || 'qrcode-description' : null;
+
+      // Compose title property surrogate
+      title = (typeof title === 'string') ? {text: title} : title || {};
+      title.text = title.text || null;
+      title.id = (title.text) ? title.id || 'qrcode-title' : null;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var c, mc, r, mr, qrSvg='', rect;
+
+      rect = 'l' + cellSize + ',0 0,' + cellSize +
+        ' -' + cellSize + ',0 0,-' + cellSize + 'z ';
+
+      qrSvg += '<svg version="1.1" xmlns="http://www.w3.org/2000/svg"';
+      qrSvg += !opts.scalable ? ' width="' + size + 'px" height="' + size + 'px"' : '';
+      qrSvg += ' viewBox="0 0 ' + size + ' ' + size + '" ';
+      qrSvg += ' preserveAspectRatio="xMinYMin meet"';
+      qrSvg += (title.text || alt.text) ? ' role="img" aria-labelledby="' +
+          escapeXml([title.id, alt.id].join(' ').trim() ) + '"' : '';
+      qrSvg += '>';
+      qrSvg += (title.text) ? '<title id="' + escapeXml(title.id) + '">' +
+          escapeXml(title.text) + '</title>' : '';
+      qrSvg += (alt.text) ? '<description id="' + escapeXml(alt.id) + '">' +
+          escapeXml(alt.text) + '</description>' : '';
+      qrSvg += '<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>';
+      qrSvg += '<path d="';
+
+      for (r = 0; r < _this.getModuleCount(); r += 1) {
+        mr = r * cellSize + margin;
+        for (c = 0; c < _this.getModuleCount(); c += 1) {
+          if (_this.isDark(r, c) ) {
+            mc = c*cellSize+margin;
+            qrSvg += 'M' + mc + ',' + mr + rect;
+          }
+        }
+      }
+
+      qrSvg += '" stroke="transparent" fill="black"/>';
+      qrSvg += '</svg>';
+
+      return qrSvg;
+    };
+
+    _this.createDataURL = function(cellSize, margin) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      return createDataURL(size, size, function(x, y) {
+        if (min <= x && x < max && min <= y && y < max) {
+          var c = Math.floor( (x - min) / cellSize);
+          var r = Math.floor( (y - min) / cellSize);
+          return _this.isDark(r, c)? 0 : 1;
+        } else {
+          return 1;
+        }
+      } );
+    };
+
+    _this.createImgTag = function(cellSize, margin, alt) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+
+      var img = '';
+      img += '<img';
+      img += '\u0020src="';
+      img += _this.createDataURL(cellSize, margin);
+      img += '"';
+      img += '\u0020width="';
+      img += size;
+      img += '"';
+      img += '\u0020height="';
+      img += size;
+      img += '"';
+      if (alt) {
+        img += '\u0020alt="';
+        img += escapeXml(alt);
+        img += '"';
+      }
+      img += '/>';
+
+      return img;
+    };
+
+    var escapeXml = function(s) {
+      var escaped = '';
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charAt(i);
+        switch(c) {
+        case '<': escaped += '&lt;'; break;
+        case '>': escaped += '&gt;'; break;
+        case '&': escaped += '&amp;'; break;
+        case '"': escaped += '&quot;'; break;
+        default : escaped += c; break;
+        }
+      }
+      return escaped;
+    };
+
+    var _createHalfASCII = function(margin) {
+      var cellSize = 1;
+      margin = (typeof margin == 'undefined')? cellSize * 2 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      var y, x, r1, r2, p;
+
+      var blocks = {
+        '██': '█',
+        '█ ': '▀',
+        ' █': '▄',
+        '  ': ' '
+      };
+
+      var blocksLastLineNoMargin = {
+        '██': '▀',
+        '█ ': '▀',
+        ' █': ' ',
+        '  ': ' '
+      };
+
+      var ascii = '';
+      for (y = 0; y < size; y += 2) {
+        r1 = Math.floor((y - min) / cellSize);
+        r2 = Math.floor((y + 1 - min) / cellSize);
+        for (x = 0; x < size; x += 1) {
+          p = '█';
+
+          if (min <= x && x < max && min <= y && y < max && _this.isDark(r1, Math.floor((x - min) / cellSize))) {
+            p = ' ';
+          }
+
+          if (min <= x && x < max && min <= y+1 && y+1 < max && _this.isDark(r2, Math.floor((x - min) / cellSize))) {
+            p += ' ';
+          }
+          else {
+            p += '█';
+          }
+
+          // Output 2 characters per pixel, to create full square. 1 character per pixels gives only half width of square.
+          ascii += (margin < 1 && y+1 >= max) ? blocksLastLineNoMargin[p] : blocks[p];
+        }
+
+        ascii += '\n';
+      }
+
+      if (size % 2 && margin > 0) {
+        return ascii.substring(0, ascii.length - size - 1) + Array(size+1).join('▀');
+      }
+
+      return ascii.substring(0, ascii.length-1);
+    };
+
+    _this.createASCII = function(cellSize, margin) {
+      cellSize = cellSize || 1;
+
+      if (cellSize < 2) {
+        return _createHalfASCII(margin);
+      }
+
+      cellSize -= 1;
+      margin = (typeof margin == 'undefined')? cellSize * 2 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      var y, x, r, p;
+
+      var white = Array(cellSize+1).join('██');
+      var black = Array(cellSize+1).join('  ');
+
+      var ascii = '';
+      var line = '';
+      for (y = 0; y < size; y += 1) {
+        r = Math.floor( (y - min) / cellSize);
+        line = '';
+        for (x = 0; x < size; x += 1) {
+          p = 1;
+
+          if (min <= x && x < max && min <= y && y < max && _this.isDark(r, Math.floor((x - min) / cellSize))) {
+            p = 0;
+          }
+
+          // Output 2 characters per pixel, to create full square. 1 character per pixels gives only half width of square.
+          line += p ? white : black;
+        }
+
+        for (r = 0; r < cellSize; r += 1) {
+          ascii += line + '\n';
+        }
+      }
+
+      return ascii.substring(0, ascii.length-1);
+    };
+
+    _this.renderTo2dContext = function(context, cellSize) {
+      cellSize = cellSize || 2;
+      var length = _this.getModuleCount();
+      for (var row = 0; row < length; row++) {
+        for (var col = 0; col < length; col++) {
+          context.fillStyle = _this.isDark(row, col) ? 'black' : 'white';
+          context.fillRect(row * cellSize, col * cellSize, cellSize, cellSize);
+        }
+      }
+    }
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrcode.stringToBytes
+  //---------------------------------------------------------------------
+
+  qrcode.stringToBytesFuncs = {
+    'default' : function(s) {
+      var bytes = [];
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charCodeAt(i);
+        bytes.push(c & 0xff);
+      }
+      return bytes;
+    }
+  };
+
+  qrcode.stringToBytes = qrcode.stringToBytesFuncs['default'];
+
+  //---------------------------------------------------------------------
+  // qrcode.createStringToBytes
+  //---------------------------------------------------------------------
+
+  /**
+   * @param unicodeData base64 string of byte array.
+   * [16bit Unicode],[16bit Bytes], ...
+   * @param numChars
+   */
+  qrcode.createStringToBytes = function(unicodeData, numChars) {
+
+    // create conversion map.
+
+    var unicodeMap = function() {
+
+      var bin = base64DecodeInputStream(unicodeData);
+      var read = function() {
+        var b = bin.read();
+        if (b == -1) throw 'eof';
+        return b;
+      };
+
+      var count = 0;
+      var unicodeMap = {};
+      while (true) {
+        var b0 = bin.read();
+        if (b0 == -1) break;
+        var b1 = read();
+        var b2 = read();
+        var b3 = read();
+        var k = String.fromCharCode( (b0 << 8) | b1);
+        var v = (b2 << 8) | b3;
+        unicodeMap[k] = v;
+        count += 1;
+      }
+      if (count != numChars) {
+        throw count + ' != ' + numChars;
+      }
+
+      return unicodeMap;
+    }();
+
+    var unknownChar = '?'.charCodeAt(0);
+
+    return function(s) {
+      var bytes = [];
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charCodeAt(i);
+        if (c < 128) {
+          bytes.push(c);
+        } else {
+          var b = unicodeMap[s.charAt(i)];
+          if (typeof b == 'number') {
+            if ( (b & 0xff) == b) {
+              // 1byte
+              bytes.push(b);
+            } else {
+              // 2bytes
+              bytes.push(b >>> 8);
+              bytes.push(b & 0xff);
+            }
+          } else {
+            bytes.push(unknownChar);
+          }
+        }
+      }
+      return bytes;
+    };
+  };
+
+  //---------------------------------------------------------------------
+  // QRMode
+  //---------------------------------------------------------------------
+
+  var QRMode = {
+    MODE_NUMBER :    1 << 0,
+    MODE_ALPHA_NUM : 1 << 1,
+    MODE_8BIT_BYTE : 1 << 2,
+    MODE_KANJI :     1 << 3
+  };
+
+  //---------------------------------------------------------------------
+  // QRErrorCorrectionLevel
+  //---------------------------------------------------------------------
+
+  var QRErrorCorrectionLevel = {
+    L : 1,
+    M : 0,
+    Q : 3,
+    H : 2
+  };
+
+  //---------------------------------------------------------------------
+  // QRMaskPattern
+  //---------------------------------------------------------------------
+
+  var QRMaskPattern = {
+    PATTERN000 : 0,
+    PATTERN001 : 1,
+    PATTERN010 : 2,
+    PATTERN011 : 3,
+    PATTERN100 : 4,
+    PATTERN101 : 5,
+    PATTERN110 : 6,
+    PATTERN111 : 7
+  };
+
+  //---------------------------------------------------------------------
+  // QRUtil
+  //---------------------------------------------------------------------
+
+  var QRUtil = function() {
+
+    var PATTERN_POSITION_TABLE = [
+      [],
+      [6, 18],
+      [6, 22],
+      [6, 26],
+      [6, 30],
+      [6, 34],
+      [6, 22, 38],
+      [6, 24, 42],
+      [6, 26, 46],
+      [6, 28, 50],
+      [6, 30, 54],
+      [6, 32, 58],
+      [6, 34, 62],
+      [6, 26, 46, 66],
+      [6, 26, 48, 70],
+      [6, 26, 50, 74],
+      [6, 30, 54, 78],
+      [6, 30, 56, 82],
+      [6, 30, 58, 86],
+      [6, 34, 62, 90],
+      [6, 28, 50, 72, 94],
+      [6, 26, 50, 74, 98],
+      [6, 30, 54, 78, 102],
+      [6, 28, 54, 80, 106],
+      [6, 32, 58, 84, 110],
+      [6, 30, 58, 86, 114],
+      [6, 34, 62, 90, 118],
+      [6, 26, 50, 74, 98, 122],
+      [6, 30, 54, 78, 102, 126],
+      [6, 26, 52, 78, 104, 130],
+      [6, 30, 56, 82, 108, 134],
+      [6, 34, 60, 86, 112, 138],
+      [6, 30, 58, 86, 114, 142],
+      [6, 34, 62, 90, 118, 146],
+      [6, 30, 54, 78, 102, 126, 150],
+      [6, 24, 50, 76, 102, 128, 154],
+      [6, 28, 54, 80, 106, 132, 158],
+      [6, 32, 58, 84, 110, 136, 162],
+      [6, 26, 54, 82, 110, 138, 166],
+      [6, 30, 58, 86, 114, 142, 170]
+    ];
+    var G15 = (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0);
+    var G18 = (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0);
+    var G15_MASK = (1 << 14) | (1 << 12) | (1 << 10) | (1 << 4) | (1 << 1);
+
+    var _this = {};
+
+    var getBCHDigit = function(data) {
+      var digit = 0;
+      while (data != 0) {
+        digit += 1;
+        data >>>= 1;
+      }
+      return digit;
+    };
+
+    _this.getBCHTypeInfo = function(data) {
+      var d = data << 10;
+      while (getBCHDigit(d) - getBCHDigit(G15) >= 0) {
+        d ^= (G15 << (getBCHDigit(d) - getBCHDigit(G15) ) );
+      }
+      return ( (data << 10) | d) ^ G15_MASK;
+    };
+
+    _this.getBCHTypeNumber = function(data) {
+      var d = data << 12;
+      while (getBCHDigit(d) - getBCHDigit(G18) >= 0) {
+        d ^= (G18 << (getBCHDigit(d) - getBCHDigit(G18) ) );
+      }
+      return (data << 12) | d;
+    };
+
+    _this.getPatternPosition = function(typeNumber) {
+      return PATTERN_POSITION_TABLE[typeNumber - 1];
+    };
+
+    _this.getMaskFunction = function(maskPattern) {
+
+      switch (maskPattern) {
+
+      case QRMaskPattern.PATTERN000 :
+        return function(i, j) { return (i + j) % 2 == 0; };
+      case QRMaskPattern.PATTERN001 :
+        return function(i, j) { return i % 2 == 0; };
+      case QRMaskPattern.PATTERN010 :
+        return function(i, j) { return j % 3 == 0; };
+      case QRMaskPattern.PATTERN011 :
+        return function(i, j) { return (i + j) % 3 == 0; };
+      case QRMaskPattern.PATTERN100 :
+        return function(i, j) { return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 == 0; };
+      case QRMaskPattern.PATTERN101 :
+        return function(i, j) { return (i * j) % 2 + (i * j) % 3 == 0; };
+      case QRMaskPattern.PATTERN110 :
+        return function(i, j) { return ( (i * j) % 2 + (i * j) % 3) % 2 == 0; };
+      case QRMaskPattern.PATTERN111 :
+        return function(i, j) { return ( (i * j) % 3 + (i + j) % 2) % 2 == 0; };
+
+      default :
+        throw 'bad maskPattern:' + maskPattern;
+      }
+    };
+
+    _this.getErrorCorrectPolynomial = function(errorCorrectLength) {
+      var a = qrPolynomial([1], 0);
+      for (var i = 0; i < errorCorrectLength; i += 1) {
+        a = a.multiply(qrPolynomial([1, QRMath.gexp(i)], 0) );
+      }
+      return a;
+    };
+
+    _this.getLengthInBits = function(mode, type) {
+
+      if (1 <= type && type < 10) {
+
+        // 1 - 9
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 10;
+        case QRMode.MODE_ALPHA_NUM : return 9;
+        case QRMode.MODE_8BIT_BYTE : return 8;
+        case QRMode.MODE_KANJI     : return 8;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else if (type < 27) {
+
+        // 10 - 26
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 12;
+        case QRMode.MODE_ALPHA_NUM : return 11;
+        case QRMode.MODE_8BIT_BYTE : return 16;
+        case QRMode.MODE_KANJI     : return 10;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else if (type < 41) {
+
+        // 27 - 40
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 14;
+        case QRMode.MODE_ALPHA_NUM : return 13;
+        case QRMode.MODE_8BIT_BYTE : return 16;
+        case QRMode.MODE_KANJI     : return 12;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else {
+        throw 'type:' + type;
+      }
+    };
+
+    _this.getLostPoint = function(qrcode) {
+
+      var moduleCount = qrcode.getModuleCount();
+
+      var lostPoint = 0;
+
+      // LEVEL1
+
+      for (var row = 0; row < moduleCount; row += 1) {
+        for (var col = 0; col < moduleCount; col += 1) {
+
+          var sameCount = 0;
+          var dark = qrcode.isDark(row, col);
+
+          for (var r = -1; r <= 1; r += 1) {
+
+            if (row + r < 0 || moduleCount <= row + r) {
+              continue;
+            }
+
+            for (var c = -1; c <= 1; c += 1) {
+
+              if (col + c < 0 || moduleCount <= col + c) {
+                continue;
+              }
+
+              if (r == 0 && c == 0) {
+                continue;
+              }
+
+              if (dark == qrcode.isDark(row + r, col + c) ) {
+                sameCount += 1;
+              }
+            }
+          }
+
+          if (sameCount > 5) {
+            lostPoint += (3 + sameCount - 5);
+          }
+        }
+      };
+
+      // LEVEL2
+
+      for (var row = 0; row < moduleCount - 1; row += 1) {
+        for (var col = 0; col < moduleCount - 1; col += 1) {
+          var count = 0;
+          if (qrcode.isDark(row, col) ) count += 1;
+          if (qrcode.isDark(row + 1, col) ) count += 1;
+          if (qrcode.isDark(row, col + 1) ) count += 1;
+          if (qrcode.isDark(row + 1, col + 1) ) count += 1;
+          if (count == 0 || count == 4) {
+            lostPoint += 3;
+          }
+        }
+      }
+
+      // LEVEL3
+
+      for (var row = 0; row < moduleCount; row += 1) {
+        for (var col = 0; col < moduleCount - 6; col += 1) {
+          if (qrcode.isDark(row, col)
+              && !qrcode.isDark(row, col + 1)
+              &&  qrcode.isDark(row, col + 2)
+              &&  qrcode.isDark(row, col + 3)
+              &&  qrcode.isDark(row, col + 4)
+              && !qrcode.isDark(row, col + 5)
+              &&  qrcode.isDark(row, col + 6) ) {
+            lostPoint += 40;
+          }
+        }
+      }
+
+      for (var col = 0; col < moduleCount; col += 1) {
+        for (var row = 0; row < moduleCount - 6; row += 1) {
+          if (qrcode.isDark(row, col)
+              && !qrcode.isDark(row + 1, col)
+              &&  qrcode.isDark(row + 2, col)
+              &&  qrcode.isDark(row + 3, col)
+              &&  qrcode.isDark(row + 4, col)
+              && !qrcode.isDark(row + 5, col)
+              &&  qrcode.isDark(row + 6, col) ) {
+            lostPoint += 40;
+          }
+        }
+      }
+
+      // LEVEL4
+
+      var darkCount = 0;
+
+      for (var col = 0; col < moduleCount; col += 1) {
+        for (var row = 0; row < moduleCount; row += 1) {
+          if (qrcode.isDark(row, col) ) {
+            darkCount += 1;
+          }
+        }
+      }
+
+      var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+      lostPoint += ratio * 10;
+
+      return lostPoint;
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // QRMath
+  //---------------------------------------------------------------------
+
+  var QRMath = function() {
+
+    var EXP_TABLE = new Array(256);
+    var LOG_TABLE = new Array(256);
+
+    // initialize tables
+    for (var i = 0; i < 8; i += 1) {
+      EXP_TABLE[i] = 1 << i;
+    }
+    for (var i = 8; i < 256; i += 1) {
+      EXP_TABLE[i] = EXP_TABLE[i - 4]
+        ^ EXP_TABLE[i - 5]
+        ^ EXP_TABLE[i - 6]
+        ^ EXP_TABLE[i - 8];
+    }
+    for (var i = 0; i < 255; i += 1) {
+      LOG_TABLE[EXP_TABLE[i] ] = i;
+    }
+
+    var _this = {};
+
+    _this.glog = function(n) {
+
+      if (n < 1) {
+        throw 'glog(' + n + ')';
+      }
+
+      return LOG_TABLE[n];
+    };
+
+    _this.gexp = function(n) {
+
+      while (n < 0) {
+        n += 255;
+      }
+
+      while (n >= 256) {
+        n -= 255;
+      }
+
+      return EXP_TABLE[n];
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // qrPolynomial
+  //---------------------------------------------------------------------
+
+  function qrPolynomial(num, shift) {
+
+    if (typeof num.length == 'undefined') {
+      throw num.length + '/' + shift;
+    }
+
+    var _num = function() {
+      var offset = 0;
+      while (offset < num.length && num[offset] == 0) {
+        offset += 1;
+      }
+      var _num = new Array(num.length - offset + shift);
+      for (var i = 0; i < num.length - offset; i += 1) {
+        _num[i] = num[i + offset];
+      }
+      return _num;
+    }();
+
+    var _this = {};
+
+    _this.getAt = function(index) {
+      return _num[index];
+    };
+
+    _this.getLength = function() {
+      return _num.length;
+    };
+
+    _this.multiply = function(e) {
+
+      var num = new Array(_this.getLength() + e.getLength() - 1);
+
+      for (var i = 0; i < _this.getLength(); i += 1) {
+        for (var j = 0; j < e.getLength(); j += 1) {
+          num[i + j] ^= QRMath.gexp(QRMath.glog(_this.getAt(i) ) + QRMath.glog(e.getAt(j) ) );
+        }
+      }
+
+      return qrPolynomial(num, 0);
+    };
+
+    _this.mod = function(e) {
+
+      if (_this.getLength() - e.getLength() < 0) {
+        return _this;
+      }
+
+      var ratio = QRMath.glog(_this.getAt(0) ) - QRMath.glog(e.getAt(0) );
+
+      var num = new Array(_this.getLength() );
+      for (var i = 0; i < _this.getLength(); i += 1) {
+        num[i] = _this.getAt(i);
+      }
+
+      for (var i = 0; i < e.getLength(); i += 1) {
+        num[i] ^= QRMath.gexp(QRMath.glog(e.getAt(i) ) + ratio);
+      }
+
+      // recursive call
+      return qrPolynomial(num, 0).mod(e);
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // QRRSBlock
+  //---------------------------------------------------------------------
+
+  var QRRSBlock = function() {
+
+    var RS_BLOCK_TABLE = [
+
+      // L
+      // M
+      // Q
+      // H
+
+      // 1
+      [1, 26, 19],
+      [1, 26, 16],
+      [1, 26, 13],
+      [1, 26, 9],
+
+      // 2
+      [1, 44, 34],
+      [1, 44, 28],
+      [1, 44, 22],
+      [1, 44, 16],
+
+      // 3
+      [1, 70, 55],
+      [1, 70, 44],
+      [2, 35, 17],
+      [2, 35, 13],
+
+      // 4
+      [1, 100, 80],
+      [2, 50, 32],
+      [2, 50, 24],
+      [4, 25, 9],
+
+      // 5
+      [1, 134, 108],
+      [2, 67, 43],
+      [2, 33, 15, 2, 34, 16],
+      [2, 33, 11, 2, 34, 12],
+
+      // 6
+      [2, 86, 68],
+      [4, 43, 27],
+      [4, 43, 19],
+      [4, 43, 15],
+
+      // 7
+      [2, 98, 78],
+      [4, 49, 31],
+      [2, 32, 14, 4, 33, 15],
+      [4, 39, 13, 1, 40, 14],
+
+      // 8
+      [2, 121, 97],
+      [2, 60, 38, 2, 61, 39],
+      [4, 40, 18, 2, 41, 19],
+      [4, 40, 14, 2, 41, 15],
+
+      // 9
+      [2, 146, 116],
+      [3, 58, 36, 2, 59, 37],
+      [4, 36, 16, 4, 37, 17],
+      [4, 36, 12, 4, 37, 13],
+
+      // 10
+      [2, 86, 68, 2, 87, 69],
+      [4, 69, 43, 1, 70, 44],
+      [6, 43, 19, 2, 44, 20],
+      [6, 43, 15, 2, 44, 16],
+
+      // 11
+      [4, 101, 81],
+      [1, 80, 50, 4, 81, 51],
+      [4, 50, 22, 4, 51, 23],
+      [3, 36, 12, 8, 37, 13],
+
+      // 12
+      [2, 116, 92, 2, 117, 93],
+      [6, 58, 36, 2, 59, 37],
+      [4, 46, 20, 6, 47, 21],
+      [7, 42, 14, 4, 43, 15],
+
+      // 13
+      [4, 133, 107],
+      [8, 59, 37, 1, 60, 38],
+      [8, 44, 20, 4, 45, 21],
+      [12, 33, 11, 4, 34, 12],
+
+      // 14
+      [3, 145, 115, 1, 146, 116],
+      [4, 64, 40, 5, 65, 41],
+      [11, 36, 16, 5, 37, 17],
+      [11, 36, 12, 5, 37, 13],
+
+      // 15
+      [5, 109, 87, 1, 110, 88],
+      [5, 65, 41, 5, 66, 42],
+      [5, 54, 24, 7, 55, 25],
+      [11, 36, 12, 7, 37, 13],
+
+      // 16
+      [5, 122, 98, 1, 123, 99],
+      [7, 73, 45, 3, 74, 46],
+      [15, 43, 19, 2, 44, 20],
+      [3, 45, 15, 13, 46, 16],
+
+      // 17
+      [1, 135, 107, 5, 136, 108],
+      [10, 74, 46, 1, 75, 47],
+      [1, 50, 22, 15, 51, 23],
+      [2, 42, 14, 17, 43, 15],
+
+      // 18
+      [5, 150, 120, 1, 151, 121],
+      [9, 69, 43, 4, 70, 44],
+      [17, 50, 22, 1, 51, 23],
+      [2, 42, 14, 19, 43, 15],
+
+      // 19
+      [3, 141, 113, 4, 142, 114],
+      [3, 70, 44, 11, 71, 45],
+      [17, 47, 21, 4, 48, 22],
+      [9, 39, 13, 16, 40, 14],
+
+      // 20
+      [3, 135, 107, 5, 136, 108],
+      [3, 67, 41, 13, 68, 42],
+      [15, 54, 24, 5, 55, 25],
+      [15, 43, 15, 10, 44, 16],
+
+      // 21
+      [4, 144, 116, 4, 145, 117],
+      [17, 68, 42],
+      [17, 50, 22, 6, 51, 23],
+      [19, 46, 16, 6, 47, 17],
+
+      // 22
+      [2, 139, 111, 7, 140, 112],
+      [17, 74, 46],
+      [7, 54, 24, 16, 55, 25],
+      [34, 37, 13],
+
+      // 23
+      [4, 151, 121, 5, 152, 122],
+      [4, 75, 47, 14, 76, 48],
+      [11, 54, 24, 14, 55, 25],
+      [16, 45, 15, 14, 46, 16],
+
+      // 24
+      [6, 147, 117, 4, 148, 118],
+      [6, 73, 45, 14, 74, 46],
+      [11, 54, 24, 16, 55, 25],
+      [30, 46, 16, 2, 47, 17],
+
+      // 25
+      [8, 132, 106, 4, 133, 107],
+      [8, 75, 47, 13, 76, 48],
+      [7, 54, 24, 22, 55, 25],
+      [22, 45, 15, 13, 46, 16],
+
+      // 26
+      [10, 142, 114, 2, 143, 115],
+      [19, 74, 46, 4, 75, 47],
+      [28, 50, 22, 6, 51, 23],
+      [33, 46, 16, 4, 47, 17],
+
+      // 27
+      [8, 152, 122, 4, 153, 123],
+      [22, 73, 45, 3, 74, 46],
+      [8, 53, 23, 26, 54, 24],
+      [12, 45, 15, 28, 46, 16],
+
+      // 28
+      [3, 147, 117, 10, 148, 118],
+      [3, 73, 45, 23, 74, 46],
+      [4, 54, 24, 31, 55, 25],
+      [11, 45, 15, 31, 46, 16],
+
+      // 29
+      [7, 146, 116, 7, 147, 117],
+      [21, 73, 45, 7, 74, 46],
+      [1, 53, 23, 37, 54, 24],
+      [19, 45, 15, 26, 46, 16],
+
+      // 30
+      [5, 145, 115, 10, 146, 116],
+      [19, 75, 47, 10, 76, 48],
+      [15, 54, 24, 25, 55, 25],
+      [23, 45, 15, 25, 46, 16],
+
+      // 31
+      [13, 145, 115, 3, 146, 116],
+      [2, 74, 46, 29, 75, 47],
+      [42, 54, 24, 1, 55, 25],
+      [23, 45, 15, 28, 46, 16],
+
+      // 32
+      [17, 145, 115],
+      [10, 74, 46, 23, 75, 47],
+      [10, 54, 24, 35, 55, 25],
+      [19, 45, 15, 35, 46, 16],
+
+      // 33
+      [17, 145, 115, 1, 146, 116],
+      [14, 74, 46, 21, 75, 47],
+      [29, 54, 24, 19, 55, 25],
+      [11, 45, 15, 46, 46, 16],
+
+      // 34
+      [13, 145, 115, 6, 146, 116],
+      [14, 74, 46, 23, 75, 47],
+      [44, 54, 24, 7, 55, 25],
+      [59, 46, 16, 1, 47, 17],
+
+      // 35
+      [12, 151, 121, 7, 152, 122],
+      [12, 75, 47, 26, 76, 48],
+      [39, 54, 24, 14, 55, 25],
+      [22, 45, 15, 41, 46, 16],
+
+      // 36
+      [6, 151, 121, 14, 152, 122],
+      [6, 75, 47, 34, 76, 48],
+      [46, 54, 24, 10, 55, 25],
+      [2, 45, 15, 64, 46, 16],
+
+      // 37
+      [17, 152, 122, 4, 153, 123],
+      [29, 74, 46, 14, 75, 47],
+      [49, 54, 24, 10, 55, 25],
+      [24, 45, 15, 46, 46, 16],
+
+      // 38
+      [4, 152, 122, 18, 153, 123],
+      [13, 74, 46, 32, 75, 47],
+      [48, 54, 24, 14, 55, 25],
+      [42, 45, 15, 32, 46, 16],
+
+      // 39
+      [20, 147, 117, 4, 148, 118],
+      [40, 75, 47, 7, 76, 48],
+      [43, 54, 24, 22, 55, 25],
+      [10, 45, 15, 67, 46, 16],
+
+      // 40
+      [19, 148, 118, 6, 149, 119],
+      [18, 75, 47, 31, 76, 48],
+      [34, 54, 24, 34, 55, 25],
+      [20, 45, 15, 61, 46, 16]
+    ];
+
+    var qrRSBlock = function(totalCount, dataCount) {
+      var _this = {};
+      _this.totalCount = totalCount;
+      _this.dataCount = dataCount;
+      return _this;
+    };
+
+    var _this = {};
+
+    var getRsBlockTable = function(typeNumber, errorCorrectionLevel) {
+
+      switch(errorCorrectionLevel) {
+      case QRErrorCorrectionLevel.L :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+      case QRErrorCorrectionLevel.M :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+      case QRErrorCorrectionLevel.Q :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+      case QRErrorCorrectionLevel.H :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+      default :
+        return undefined;
+      }
+    };
+
+    _this.getRSBlocks = function(typeNumber, errorCorrectionLevel) {
+
+      var rsBlock = getRsBlockTable(typeNumber, errorCorrectionLevel);
+
+      if (typeof rsBlock == 'undefined') {
+        throw 'bad rs block @ typeNumber:' + typeNumber +
+            '/errorCorrectionLevel:' + errorCorrectionLevel;
+      }
+
+      var length = rsBlock.length / 3;
+
+      var list = [];
+
+      for (var i = 0; i < length; i += 1) {
+
+        var count = rsBlock[i * 3 + 0];
+        var totalCount = rsBlock[i * 3 + 1];
+        var dataCount = rsBlock[i * 3 + 2];
+
+        for (var j = 0; j < count; j += 1) {
+          list.push(qrRSBlock(totalCount, dataCount) );
+        }
+      }
+
+      return list;
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // qrBitBuffer
+  //---------------------------------------------------------------------
+
+  var qrBitBuffer = function() {
+
+    var _buffer = [];
+    var _length = 0;
+
+    var _this = {};
+
+    _this.getBuffer = function() {
+      return _buffer;
+    };
+
+    _this.getAt = function(index) {
+      var bufIndex = Math.floor(index / 8);
+      return ( (_buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
+    };
+
+    _this.put = function(num, length) {
+      for (var i = 0; i < length; i += 1) {
+        _this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
+      }
+    };
+
+    _this.getLengthInBits = function() {
+      return _length;
+    };
+
+    _this.putBit = function(bit) {
+
+      var bufIndex = Math.floor(_length / 8);
+      if (_buffer.length <= bufIndex) {
+        _buffer.push(0);
+      }
+
+      if (bit) {
+        _buffer[bufIndex] |= (0x80 >>> (_length % 8) );
+      }
+
+      _length += 1;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrNumber
+  //---------------------------------------------------------------------
+
+  var qrNumber = function(data) {
+
+    var _mode = QRMode.MODE_NUMBER;
+    var _data = data;
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _data.length;
+    };
+
+    _this.write = function(buffer) {
+
+      var data = _data;
+
+      var i = 0;
+
+      while (i + 2 < data.length) {
+        buffer.put(strToNum(data.substring(i, i + 3) ), 10);
+        i += 3;
+      }
+
+      if (i < data.length) {
+        if (data.length - i == 1) {
+          buffer.put(strToNum(data.substring(i, i + 1) ), 4);
+        } else if (data.length - i == 2) {
+          buffer.put(strToNum(data.substring(i, i + 2) ), 7);
+        }
+      }
+    };
+
+    var strToNum = function(s) {
+      var num = 0;
+      for (var i = 0; i < s.length; i += 1) {
+        num = num * 10 + chatToNum(s.charAt(i) );
+      }
+      return num;
+    };
+
+    var chatToNum = function(c) {
+      if ('0' <= c && c <= '9') {
+        return c.charCodeAt(0) - '0'.charCodeAt(0);
+      }
+      throw 'illegal char :' + c;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrAlphaNum
+  //---------------------------------------------------------------------
+
+  var qrAlphaNum = function(data) {
+
+    var _mode = QRMode.MODE_ALPHA_NUM;
+    var _data = data;
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _data.length;
+    };
+
+    _this.write = function(buffer) {
+
+      var s = _data;
+
+      var i = 0;
+
+      while (i + 1 < s.length) {
+        buffer.put(
+          getCode(s.charAt(i) ) * 45 +
+          getCode(s.charAt(i + 1) ), 11);
+        i += 2;
+      }
+
+      if (i < s.length) {
+        buffer.put(getCode(s.charAt(i) ), 6);
+      }
+    };
+
+    var getCode = function(c) {
+
+      if ('0' <= c && c <= '9') {
+        return c.charCodeAt(0) - '0'.charCodeAt(0);
+      } else if ('A' <= c && c <= 'Z') {
+        return c.charCodeAt(0) - 'A'.charCodeAt(0) + 10;
+      } else {
+        switch (c) {
+        case ' ' : return 36;
+        case '$' : return 37;
+        case '%' : return 38;
+        case '*' : return 39;
+        case '+' : return 40;
+        case '-' : return 41;
+        case '.' : return 42;
+        case '/' : return 43;
+        case ':' : return 44;
+        default :
+          throw 'illegal char :' + c;
+        }
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qr8BitByte
+  //---------------------------------------------------------------------
+
+  var qr8BitByte = function(data) {
+
+    var _mode = QRMode.MODE_8BIT_BYTE;
+    var _data = data;
+    var _bytes = qrcode.stringToBytes(data);
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _bytes.length;
+    };
+
+    _this.write = function(buffer) {
+      for (var i = 0; i < _bytes.length; i += 1) {
+        buffer.put(_bytes[i], 8);
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrKanji
+  //---------------------------------------------------------------------
+
+  var qrKanji = function(data) {
+
+    var _mode = QRMode.MODE_KANJI;
+    var _data = data;
+
+    var stringToBytes = qrcode.stringToBytesFuncs['SJIS'];
+    if (!stringToBytes) {
+      throw 'sjis not supported.';
+    }
+    !function(c, code) {
+      // self test for sjis support.
+      var test = stringToBytes(c);
+      if (test.length != 2 || ( (test[0] << 8) | test[1]) != code) {
+        throw 'sjis not supported.';
+      }
+    }('\u53cb', 0x9746);
+
+    var _bytes = stringToBytes(data);
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return ~~(_bytes.length / 2);
+    };
+
+    _this.write = function(buffer) {
+
+      var data = _bytes;
+
+      var i = 0;
+
+      while (i + 1 < data.length) {
+
+        var c = ( (0xff & data[i]) << 8) | (0xff & data[i + 1]);
+
+        if (0x8140 <= c && c <= 0x9FFC) {
+          c -= 0x8140;
+        } else if (0xE040 <= c && c <= 0xEBBF) {
+          c -= 0xC140;
+        } else {
+          throw 'illegal char at ' + (i + 1) + '/' + c;
+        }
+
+        c = ( (c >>> 8) & 0xff) * 0xC0 + (c & 0xff);
+
+        buffer.put(c, 13);
+
+        i += 2;
+      }
+
+      if (i < data.length) {
+        throw 'illegal char at ' + (i + 1);
+      }
+    };
+
+    return _this;
+  };
+
+  //=====================================================================
+  // GIF Support etc.
+  //
+
+  //---------------------------------------------------------------------
+  // byteArrayOutputStream
+  //---------------------------------------------------------------------
+
+  var byteArrayOutputStream = function() {
+
+    var _bytes = [];
+
+    var _this = {};
+
+    _this.writeByte = function(b) {
+      _bytes.push(b & 0xff);
+    };
+
+    _this.writeShort = function(i) {
+      _this.writeByte(i);
+      _this.writeByte(i >>> 8);
+    };
+
+    _this.writeBytes = function(b, off, len) {
+      off = off || 0;
+      len = len || b.length;
+      for (var i = 0; i < len; i += 1) {
+        _this.writeByte(b[i + off]);
+      }
+    };
+
+    _this.writeString = function(s) {
+      for (var i = 0; i < s.length; i += 1) {
+        _this.writeByte(s.charCodeAt(i) );
+      }
+    };
+
+    _this.toByteArray = function() {
+      return _bytes;
+    };
+
+    _this.toString = function() {
+      var s = '';
+      s += '[';
+      for (var i = 0; i < _bytes.length; i += 1) {
+        if (i > 0) {
+          s += ',';
+        }
+        s += _bytes[i];
+      }
+      s += ']';
+      return s;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // base64EncodeOutputStream
+  //---------------------------------------------------------------------
+
+  var base64EncodeOutputStream = function() {
+
+    var _buffer = 0;
+    var _buflen = 0;
+    var _length = 0;
+    var _base64 = '';
+
+    var _this = {};
+
+    var writeEncoded = function(b) {
+      _base64 += String.fromCharCode(encode(b & 0x3f) );
+    };
+
+    var encode = function(n) {
+      if (n < 0) {
+        // error.
+      } else if (n < 26) {
+        return 0x41 + n;
+      } else if (n < 52) {
+        return 0x61 + (n - 26);
+      } else if (n < 62) {
+        return 0x30 + (n - 52);
+      } else if (n == 62) {
+        return 0x2b;
+      } else if (n == 63) {
+        return 0x2f;
+      }
+      throw 'n:' + n;
+    };
+
+    _this.writeByte = function(n) {
+
+      _buffer = (_buffer << 8) | (n & 0xff);
+      _buflen += 8;
+      _length += 1;
+
+      while (_buflen >= 6) {
+        writeEncoded(_buffer >>> (_buflen - 6) );
+        _buflen -= 6;
+      }
+    };
+
+    _this.flush = function() {
+
+      if (_buflen > 0) {
+        writeEncoded(_buffer << (6 - _buflen) );
+        _buffer = 0;
+        _buflen = 0;
+      }
+
+      if (_length % 3 != 0) {
+        // padding
+        var padlen = 3 - _length % 3;
+        for (var i = 0; i < padlen; i += 1) {
+          _base64 += '=';
+        }
+      }
+    };
+
+    _this.toString = function() {
+      return _base64;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // base64DecodeInputStream
+  //---------------------------------------------------------------------
+
+  var base64DecodeInputStream = function(str) {
+
+    var _str = str;
+    var _pos = 0;
+    var _buffer = 0;
+    var _buflen = 0;
+
+    var _this = {};
+
+    _this.read = function() {
+
+      while (_buflen < 8) {
+
+        if (_pos >= _str.length) {
+          if (_buflen == 0) {
+            return -1;
+          }
+          throw 'unexpected end of file./' + _buflen;
+        }
+
+        var c = _str.charAt(_pos);
+        _pos += 1;
+
+        if (c == '=') {
+          _buflen = 0;
+          return -1;
+        } else if (c.match(/^\s$/) ) {
+          // ignore if whitespace.
+          continue;
+        }
+
+        _buffer = (_buffer << 6) | decode(c.charCodeAt(0) );
+        _buflen += 6;
+      }
+
+      var n = (_buffer >>> (_buflen - 8) ) & 0xff;
+      _buflen -= 8;
+      return n;
+    };
+
+    var decode = function(c) {
+      if (0x41 <= c && c <= 0x5a) {
+        return c - 0x41;
+      } else if (0x61 <= c && c <= 0x7a) {
+        return c - 0x61 + 26;
+      } else if (0x30 <= c && c <= 0x39) {
+        return c - 0x30 + 52;
+      } else if (c == 0x2b) {
+        return 62;
+      } else if (c == 0x2f) {
+        return 63;
+      } else {
+        throw 'c:' + c;
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // gifImage (B/W)
+  //---------------------------------------------------------------------
+
+  var gifImage = function(width, height) {
+
+    var _width = width;
+    var _height = height;
+    var _data = new Array(width * height);
+
+    var _this = {};
+
+    _this.setPixel = function(x, y, pixel) {
+      _data[y * _width + x] = pixel;
+    };
+
+    _this.write = function(out) {
+
+      //---------------------------------
+      // GIF Signature
+
+      out.writeString('GIF87a');
+
+      //---------------------------------
+      // Screen Descriptor
+
+      out.writeShort(_width);
+      out.writeShort(_height);
+
+      out.writeByte(0x80); // 2bit
+      out.writeByte(0);
+      out.writeByte(0);
+
+      //---------------------------------
+      // Global Color Map
+
+      // black
+      out.writeByte(0x00);
+      out.writeByte(0x00);
+      out.writeByte(0x00);
+
+      // white
+      out.writeByte(0xff);
+      out.writeByte(0xff);
+      out.writeByte(0xff);
+
+      //---------------------------------
+      // Image Descriptor
+
+      out.writeString(',');
+      out.writeShort(0);
+      out.writeShort(0);
+      out.writeShort(_width);
+      out.writeShort(_height);
+      out.writeByte(0);
+
+      //---------------------------------
+      // Local Color Map
+
+      //---------------------------------
+      // Raster Data
+
+      var lzwMinCodeSize = 2;
+      var raster = getLZWRaster(lzwMinCodeSize);
+
+      out.writeByte(lzwMinCodeSize);
+
+      var offset = 0;
+
+      while (raster.length - offset > 255) {
+        out.writeByte(255);
+        out.writeBytes(raster, offset, 255);
+        offset += 255;
+      }
+
+      out.writeByte(raster.length - offset);
+      out.writeBytes(raster, offset, raster.length - offset);
+      out.writeByte(0x00);
+
+      //---------------------------------
+      // GIF Terminator
+      out.writeString(';');
+    };
+
+    var bitOutputStream = function(out) {
+
+      var _out = out;
+      var _bitLength = 0;
+      var _bitBuffer = 0;
+
+      var _this = {};
+
+      _this.write = function(data, length) {
+
+        if ( (data >>> length) != 0) {
+          throw 'length over';
+        }
+
+        while (_bitLength + length >= 8) {
+          _out.writeByte(0xff & ( (data << _bitLength) | _bitBuffer) );
+          length -= (8 - _bitLength);
+          data >>>= (8 - _bitLength);
+          _bitBuffer = 0;
+          _bitLength = 0;
+        }
+
+        _bitBuffer = (data << _bitLength) | _bitBuffer;
+        _bitLength = _bitLength + length;
+      };
+
+      _this.flush = function() {
+        if (_bitLength > 0) {
+          _out.writeByte(_bitBuffer);
+        }
+      };
+
+      return _this;
+    };
+
+    var getLZWRaster = function(lzwMinCodeSize) {
+
+      var clearCode = 1 << lzwMinCodeSize;
+      var endCode = (1 << lzwMinCodeSize) + 1;
+      var bitLength = lzwMinCodeSize + 1;
+
+      // Setup LZWTable
+      var table = lzwTable();
+
+      for (var i = 0; i < clearCode; i += 1) {
+        table.add(String.fromCharCode(i) );
+      }
+      table.add(String.fromCharCode(clearCode) );
+      table.add(String.fromCharCode(endCode) );
+
+      var byteOut = byteArrayOutputStream();
+      var bitOut = bitOutputStream(byteOut);
+
+      // clear code
+      bitOut.write(clearCode, bitLength);
+
+      var dataIndex = 0;
+
+      var s = String.fromCharCode(_data[dataIndex]);
+      dataIndex += 1;
+
+      while (dataIndex < _data.length) {
+
+        var c = String.fromCharCode(_data[dataIndex]);
+        dataIndex += 1;
+
+        if (table.contains(s + c) ) {
+
+          s = s + c;
+
+        } else {
+
+          bitOut.write(table.indexOf(s), bitLength);
+
+          if (table.size() < 0xfff) {
+
+            if (table.size() == (1 << bitLength) ) {
+              bitLength += 1;
+            }
+
+            table.add(s + c);
+          }
+
+          s = c;
+        }
+      }
+
+      bitOut.write(table.indexOf(s), bitLength);
+
+      // end code
+      bitOut.write(endCode, bitLength);
+
+      bitOut.flush();
+
+      return byteOut.toByteArray();
+    };
+
+    var lzwTable = function() {
+
+      var _map = {};
+      var _size = 0;
+
+      var _this = {};
+
+      _this.add = function(key) {
+        if (_this.contains(key) ) {
+          throw 'dup key:' + key;
+        }
+        _map[key] = _size;
+        _size += 1;
+      };
+
+      _this.size = function() {
+        return _size;
+      };
+
+      _this.indexOf = function(key) {
+        return _map[key];
+      };
+
+      _this.contains = function(key) {
+        return typeof _map[key] != 'undefined';
+      };
+
+      return _this;
+    };
+
+    return _this;
+  };
+
+  var createDataURL = function(width, height, getPixel) {
+    var gif = gifImage(width, height);
+    for (var y = 0; y < height; y += 1) {
+      for (var x = 0; x < width; x += 1) {
+        gif.setPixel(x, y, getPixel(x, y) );
+      }
+    }
+
+    var b = byteArrayOutputStream();
+    gif.write(b);
+
+    var base64 = base64EncodeOutputStream();
+    var bytes = b.toByteArray();
+    for (var i = 0; i < bytes.length; i += 1) {
+      base64.writeByte(bytes[i]);
+    }
+    base64.flush();
+
+    return 'data:image/gif;base64,' + base64;
+  };
+
+  //---------------------------------------------------------------------
+  // returns qrcode function.
+
+  return qrcode;
+}();
+
+// multibyte support
+!function() {
+
+  qrcode.stringToBytesFuncs['UTF-8'] = function(s) {
+    // http://stackoverflow.com/questions/18729405/how-to-convert-utf8-string-to-byte-array
+    function toUTF8Array(str) {
+      var utf8 = [];
+      for (var i=0; i < str.length; i++) {
+        var charcode = str.charCodeAt(i);
+        if (charcode < 0x80) utf8.push(charcode);
+        else if (charcode < 0x800) {
+          utf8.push(0xc0 | (charcode >> 6),
+              0x80 | (charcode & 0x3f));
+        }
+        else if (charcode < 0xd800 || charcode >= 0xe000) {
+          utf8.push(0xe0 | (charcode >> 12),
+              0x80 | ((charcode>>6) & 0x3f),
+              0x80 | (charcode & 0x3f));
+        }
+        // surrogate pair
+        else {
+          i++;
+          // UTF-16 encodes 0x10000-0x10FFFF by
+          // subtracting 0x10000 and splitting the
+          // 20 bits of 0x0-0xFFFFF into two halves
+          charcode = 0x10000 + (((charcode & 0x3ff)<<10)
+            | (str.charCodeAt(i) & 0x3ff));
+          utf8.push(0xf0 | (charcode >>18),
+              0x80 | ((charcode>>12) & 0x3f),
+              0x80 | ((charcode>>6) & 0x3f),
+              0x80 | (charcode & 0x3f));
+        }
+      }
+      return utf8;
+    }
+    return toUTF8Array(s);
+  };
+
+}();
+
+(function (factory) {
+  if (typeof define === 'function' && define.amd) {
+      define([], factory);
+  } else if (typeof exports === 'object') {
+      module.exports = factory();
+  }
+}(function () {
+    return qrcode;
+}));
+</script>
+<script>
 (() => {
   // ---------- constants ----------
-  const NEED = 10; // 9 beans, 10th drink free
+  // Bija Card: points, levels and rewards (the pattern big UK coffee apps use), plus gift cards
+  const PTS = 10; // points per £1 paid
+  const TIERS = [
+    { id: 'seed', name: 'Seed', min: 0, boost: 0, perk: '10 points for every £1' },
+    { id: 'sprout', name: 'Sprout', min: 1500, boost: 0.1, perk: '+10% points on everything' },
+    { id: 'tree', name: 'Kopi Tree', min: 5000, boost: 0.25, perk: '+25% points, first taste of new beans' },
+  ];
+  const REWARDS = [
+    { id: 'cake', name: 'Any cake', pts: 250, match: (l) => l.cat === 'Cakes' },
+    { id: 'drink', name: 'Any drink', pts: 400, match: (l) => isDrink(l) },
+    { id: 'beans', name: 'A 250 g bag of beans', pts: 1200, match: (l) => l.cat === 'Beans' },
+  ];
+  const BONUS = { welcome: 100, secret: 400, passport: 600 };
+  const GIFT_AMOUNTS = [10, 25, 50];
+  const memberCode = (uid) => uid ? 'BIJA-' + String(uid).replace(/[^a-z0-9]/gi, '').slice(-5).toUpperCase() : 'BIJA-·····';
   const STATUS = { received: 'Received', brewing: 'Brewing', ready: 'Ready', collected: 'Collected', cancelled: 'Cancelled' };
   const FLOW = { received: 'brewing', brewing: 'ready', ready: 'collected' };
   const ORIGINS = [
@@ -295,7 +2638,8 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     db: null, user: null, uid: null, admin: false, noDb: false, demo: false,
     config: null, configLoaded: false, me: null, meLoaded: false, bar: null, customers: [], bars: {}, custLoaded: false,
     view: 'customer', tab: 'order', btab: 'queue', cat: null, qFilter: 'active',
-    cart: {}, form: { name: '', milk: 'Whole', sweet: 'Normal', slot: 'ASAP', note: '', reward: false, sreward: false },
+    cart: {}, form: { name: '', milk: 'Whole', sweet: 'Normal', slot: 'ASAP', note: '', reward: '', gift: false },
+    gift: { amount: 25, custom: '', to: '', from: '', message: '', design: 'noir' }, redeemCode: '', instore: { code: '', amount: '' }, showScan: false, bump: false,
     busy: false, lastOrder: null, spot: null, dealt: null, fresh: -1, rate: {}, draft: null, theme: 'noir',
   };
   const $ = (s) => document.querySelector(s);
@@ -334,12 +2678,21 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     return `--c-bg:${t.bg};--c-ink:${t.ink};--c-stamp:${t.stamp};--c-stamp-ink:${t.sink};--c-empty:${t.empty || 'rgba(255,255,255,.4)'};--c-sub:${t.sub || 'color-mix(in srgb, ' + t.ink + ' 72%, transparent)'};background-image:${t.p};${t.size ? `background-size:${t.size};` : ''}${t.font ? `--c-font:'${t.font}',sans-serif;` : ''}`;
   }
   const bean = `<svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="11" ry="15" transform="rotate(25 20 20)" fill="currentColor"/><path d="M20 6c-6 6 6 10 0 14s-6 8 0 14" transform="rotate(25 20 20)" stroke="var(--c-stamp)" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`;
-  function cardHTML(t, { name = 'Sekar W.', on = 6, no = 'BIJA-0427', fresh = -1 } = {}) {
-    const st = Array.from({ length: NEED }, (_, i) => i < on ? `<div class="st on ${i === fresh ? 'new' : ''}">${bean}</div>` : i === NEED - 1 ? `<div class="st gift">FREE</div>` : `<div class="st">${i + 1}</div>`).join('');
-    return `<div class="bcard" style="${cardStyle(t)}">
-      <div class="t"><div><div class="name">Bija Card</div><div class="who">${esc(name)}</div></div><div class="no">BIJA COFFEE<br>${esc(no)}</div></div>
-      <div class="stamps">${st}</div>
-      <div class="f"><span>${on} of ${NEED - 1} beans</span><span>10th drink free</span></div>
+  function cardHTML(t, { name = '', no = '', pts = 0, tier = 'Seed', pct = 0, next = '', bump = false } = {}) {
+    return `<div class="bcard ${bump ? 'bump' : ''}" style="${cardStyle(t)}">
+      <div class="t"><div><div class="name">Bija Card</div><div class="who">${esc(name)}</div></div><div class="no">${esc(tier.toUpperCase())}<br>${esc(no)}</div></div>
+      <div class="pts"><b>${Number(pts).toLocaleString('en-GB')}</b><span>points</span></div>
+      <div class="prg"><i style="width:${Math.max(0, Math.min(100, pct))}%"></i></div>
+      <div class="f"><span>${esc(next)}</span><span>Bija Coffee</span></div>
+    </div>`;
+  }
+  function giftCardHTML(t, { amount = 25, to = '', from = '', message = '', code = '' } = {}) {
+    return `<div class="gcard" style="${cardStyle(t)}">
+      <div class="t"><span>Bija Gift Card</span><span>St James's</span></div>
+      <div class="amt">${money(amount).replace('.00', '')}</div>
+      ${to ? `<div class="to">For ${esc(to)}${from ? ` · from ${esc(from)}` : ''}</div>` : ''}
+      ${message ? `<div class="msg">“${esc(message)}”</div>` : ''}
+      ${code ? `<div class="gc">${esc(code)}</div>` : ''}
     </div>`;
   }
 
@@ -354,25 +2707,35 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     return Object.entries((c && c.orders) || {}).map(([id, o]) => ({ id, ...o, status: o.cancelled ? 'cancelled' : (b?.orders?.[id]?.status || 'received') }))
       .sort((x, y) => String(y.createdAt).localeCompare(String(x.createdAt)));
   }
+  const tierAt = (p) => TIERS.filter((t) => p >= t.min).pop();
   function stats(c, b) {
-    const os = ordersOf(c, b), col = os.filter((o) => o.status === 'collected');
-    const beans = col.reduce((a, o) => a + drinksIn(o.lines), 0), redeemed = +b?.redeemed || 0;
-    const progress = Math.max(0, beans - redeemed * (NEED - 1)), ready = progress >= NEED - 1;
+    const os = ordersOf(c, b), col = os.filter((o) => o.status === 'collected'), live = os.filter((o) => o.status !== 'cancelled');
+    // points are earned only on orders the bar marked collected and on in-store spend the bar added
+    const earns = [...col.map((o) => ({ at: o.createdAt, amount: +o.total || 0 })), ...Object.values(b?.instore || {}).map((x) => ({ at: x.at, amount: +x.amount || 0 }))]
+      .sort((x, y) => String(x.at).localeCompare(String(y.at)));
+    let lifetime = 0;
+    for (const e of earns) lifetime += Math.round(e.amount * PTS * (1 + tierAt(lifetime).boost));
     const dealt = SPOTS.slice(0, Math.min(SPOTS.length, 1 + col.length));
     const visited = c?.secret?.visited || {};
     const found = dealt.filter((x) => visited[x.id]).length;
     const origins = new Set(col.flatMap((o) => (o.lines || []).filter((l) => l.origin).map((l) => l.origin)));
-    return { os, col, beans, redeemed, ready, onCard: ready ? NEED - 1 : progress, dealt, visited, found, secretReady: found === SPOTS.length && !b?.secretUsed, secretUsed: !!b?.secretUsed, origins };
+    const bonus = (col.length ? BONUS.welcome : 0) + (found === SPOTS.length ? BONUS.secret : 0) + (origins.size === ORIGINS.length ? BONUS.passport : 0);
+    lifetime += bonus;
+    const spent = live.reduce((a, o) => a + (+o.reward?.pts || 0), 0);
+    const credits = Object.values(b?.credits || {}).reduce((a, x) => a + (+x.amount || 0), 0);
+    const giftUsed = live.reduce((a, o) => a + (+o.giftPay || 0), 0);
+    return { os, col, lifetime, bonus, spent, balance: Math.max(0, lifetime - spent), tier: tierAt(lifetime), nextTier: TIERS.find((t) => t.min > lifetime),
+      dealt, visited, found, origins, credits, wallet: Math.max(0, Math.round((credits - giftUsed) * 100) / 100), instore: Object.keys(b?.instore || {}).length };
   }
   const mine = () => stats(S.me, S.bar);
   const cartLines = () => menu().filter((m) => S.cart[m.id] > 0).map((m) => ({ id: m.id, name: m.name, price: +m.price, qty: S.cart[m.id], cat: m.cat, ...(m.filter ? { origin: cfg().filter } : m.origin ? { origin: m.origin } : {}) }));
   function totals(lines) {
-    const st = mine();
-    const n = (st.ready && S.form.reward ? 1 : 0) + (st.secretReady && S.form.sreward ? 1 : 0);
-    const prices = lines.filter(isDrink).flatMap((l) => Array(l.qty).fill(l.price)).sort((a, b) => b - a);
-    const subtotal = lines.reduce((a, l) => a + l.qty * l.price, 0);
-    const free = prices.slice(0, n).reduce((a, p) => a + p, 0);
-    return { qty: lines.reduce((a, l) => a + l.qty, 0), subtotal, free, total: subtotal - free };
+    const st = mine(), rw = REWARDS.find((r) => r.id === S.form.reward && st.balance >= r.pts);
+    const units = rw ? lines.filter(rw.match).flatMap((l) => Array(l.qty).fill(l.price)) : [];
+    const discount = units.length ? Math.max(...units) : 0;
+    const subtotal = lines.reduce((a, l) => a + l.qty * l.price, 0), total = Math.round((subtotal - discount) * 100) / 100;
+    const giftPay = S.form.gift && st.wallet > 0 ? Math.min(st.wallet, total) : 0;
+    return { qty: lines.reduce((a, l) => a + l.qty, 0), subtotal, discount, reward: discount ? rw : null, total, giftPay, due: Math.round((total - giftPay) * 100) / 100, earn: Math.round(total * PTS * (1 + st.tier.boost)) };
   }
 
   // ---------- render (keeps focus and caret, like Stirring Up Joy) ----------
@@ -382,7 +2745,7 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     $('#wrap').classList.toggle('wide', S.view === 'bar');
     renderSwitch(); renderTabs();
     const sl = document.querySelector('.site-link'); if (sl) sl.hidden = !S.demo; // the claude.ai page has no website beside it
-    $('#demo').innerHTML = S.demo ? `<div class="demo">Demo: Concept mockup by Firman Insan M. Not affiliated with or endorsed by Bija Coffee. Orders and stamps stay in this browser; switch to Barista to play both sides. <a href="index.html" style="color:inherit">Website</a></div>` : '';
+    $('#demo').innerHTML = S.demo ? `<div class="demo">Demo: Concept mockup by Firman Insan M. Not affiliated with or endorsed by Bija Coffee. Orders, points and gift cards stay in this browser; switch to Barista to play both sides. <a href="index.html" style="color:inherit">Website</a></div>` : '';
     $('#main').innerHTML = S.view === 'bar' ? barista() : customer();
     renderBasket();
     if (aid) { const el = document.getElementById(aid); if (el) { el.focus({ preventScroll: true }); try { if (s0 != null) el.setSelectionRange(s0, s1); } catch {} } }
@@ -395,11 +2758,13 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     let tabs, key;
     if (S.view === 'bar') {
       const open = S.customers.reduce((a, c) => a + ordersOf(c, S.bars[c.id]).filter((o) => o.status !== 'collected' && o.status !== 'cancelled').length, 0);
-      tabs = [['queue', 'Queue', open], ['members', 'Members'], ['insights', 'Insights'], ['menu', 'Menu']]; key = 'btab';
+      const waiting = giftData().claims.length + giftData().gifts.filter((g) => !g.paid).length;
+      tabs = [['queue', 'Queue', open], ['members', 'Members'], ['gifts', 'Gift cards', waiting], ['insights', 'Insights'], ['menu', 'Menu']]; key = 'btab';
     } else {
       const st = mine(), live = st.os.filter((o) => o.status !== 'collected' && o.status !== 'cancelled').length;
       const unseen = st.dealt.filter((x) => !st.visited[x.id]).length;
-      tabs = [['order', 'Order'], ['beans', 'Beans'], ['card', 'Bija Card', st.ready ? 1 : 0], ['secret', 'Secret', unseen], ['orders', 'My orders', live]]; key = 'tab';
+      const canRedeem = REWARDS.filter((r) => st.balance >= r.pts).length;
+      tabs = [['order', 'Order'], ['beans', 'Beans'], ['card', 'Bija Card', canRedeem], ['gifts', 'Gift cards'], ['secret', 'Secret', unseen], ['orders', 'My orders', live]]; key = 'tab';
     }
     $('#tabs').innerHTML = tabs.map(([id, l, n]) => `<button role="tab" data-act="tab" data-v="${id}" aria-selected="${S[key] === id}">${l}${n ? `<span class="dot">${n}</span>` : ''}</button>`).join('');
   }
@@ -410,7 +2775,7 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     if (show) el.innerHTML = `<div class="in"><span>${t.qty} item${t.qty > 1 ? 's' : ''} · <b>${money(t.total)}</b></span><button class="btn sm" data-act="goto-checkout">Checkout</button></div>`;
   }
   function notReady() {
-    if (S.noDb) return `<div class="empty"><b>Open this page in Claude while signed in</b>Orders, Bija Card beans and Secret St James's cards are saved to your account.</div>`;
+    if (S.noDb) return `<div class="empty"><b>Open this page in Claude while signed in</b>Orders, Bija Card points, gift cards and Secret St James's cards are saved to your account.</div>`;
     return `<div class="list"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>`;
   }
   const icon = (k) => ({
@@ -427,6 +2792,7 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     if (!S.config) return `<div class="empty"><b>The menu isn't up yet</b>${S.admin ? 'Switch to Barista → Menu and publish the starter menu.' : 'Follow @bija.london for opening news.'}</div>`;
     if (S.tab === 'beans') return beansPage();
     if (S.tab === 'card') return cardPage();
+    if (S.tab === 'gifts') return giftsPage();
     if (S.tab === 'secret') return secretPage();
     if (S.tab === 'orders') return ordersPage();
     return orderPage();
@@ -477,12 +2843,14 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     </section>
     <section class="sec" id="checkout">
       <div class="sec-h"><h3>Your order</h3>${t.qty ? `<small>${t.qty} item${t.qty > 1 ? 's' : ''}</small>` : ''}</div>
-      ${!t.qty ? `<div class="empty"><b>Nothing in your order yet</b>Tap + on a drink. Every drink we hand you adds a bean to your Bija Card.</div>` : `
+      ${!t.qty ? `<div class="empty"><b>Nothing in your order yet</b>Tap + on a drink. Every £1 earns ${PTS} points on your Bija Card.</div>` : `
       <div class="panel stack">
         <div class="sum">
           ${lines.map((l) => `<div><span>${l.qty}× ${esc(l.name)}${l.origin ? ` (${esc(origin(l.origin)?.name || '')})` : ''}</span><span>${money(l.qty * l.price)}</span></div>`).join('')}
-          ${t.free ? `<div class="deal"><span>Free drink reward</span><span>−${money(t.free)}</span></div>` : ''}
+          ${t.discount ? `<div class="deal"><span>${esc(t.reward.name)} · −${t.reward.pts} pts</span><span>−${money(t.discount)}</span></div>` : ''}
           <div class="tot"><span>Total</span><span>${money(t.total)}</span></div>
+          ${t.giftPay ? `<div class="deal"><span>Gift card balance</span><span>−${money(t.giftPay)}</span></div><div><span>Left to pay at the bar</span><span>${money(t.due)}</span></div>` : ''}
+          <div class="hint" style="margin-top:4px">You'll earn about ${t.earn} points · ${esc(st.tier.name)} level</div>
         </div>
         <fieldset><legend>Milk</legend><div class="opts">${['Whole', 'Oat', 'Soya', 'Coconut'].map((m) => `<button data-act="opt" data-k="milk" data-v="${m}" aria-pressed="${S.form.milk === m}">${m}</button>`).join('')}</div></fieldset>
         <fieldset><legend>Sweetness</legend><div class="opts">${['Less sweet', 'Normal', 'Extra aren'].map((m) => `<button data-act="opt" data-k="sweet" data-v="${m}" aria-pressed="${S.form.sweet === m}">${m}</button>`).join('')}</div></fieldset>
@@ -491,10 +2859,15 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
           <label class="f">Name for the cup<input type="text" id="f-name" data-f="name" value="${esc(S.form.name)}" autocomplete="given-name" maxlength="40"></label>
           <label class="f">Note for the bar <span class="h">Optional</span><input type="text" id="f-note" data-f="note" value="${esc(S.form.note)}" maxlength="120" placeholder="Extra hot, no lid…"></label>
         </div>
-        ${st.ready ? `<label class="check"><input type="checkbox" id="f-reward" data-f="reward" ${S.form.reward ? 'checked' : ''}><span><b>Use my free drink</b><br><span class="hint">Your Bija Card is full</span></span></label>` : ''}
-        ${st.secretReady ? `<label class="check"><input type="checkbox" id="f-sreward" data-f="sreward" ${S.form.sreward ? 'checked' : ''}><span><b>Use my Secret St James's drink</b><br><span class="hint">You found all ${SPOTS.length} spots</span></span></label>` : ''}
+        ${(() => {
+          const opts = REWARDS.filter((r) => st.balance >= r.pts), next = REWARDS.find((r) => r.pts > st.balance);
+          if (!opts.length) return `<div class="hint">${st.balance} points${next ? ` · ${next.pts - st.balance} more for ${next.name.toLowerCase()}` : ''}</div>`;
+          return `<fieldset><legend>Use your points · ${st.balance} available</legend><div class="opts"><button data-act="opt" data-k="reward" data-v="" aria-pressed="${!S.form.reward}">Save them</button>${opts.map((r) => `<button data-act="opt" data-k="reward" data-v="${r.id}" aria-pressed="${S.form.reward === r.id}" ${lines.some(r.match) ? '' : 'disabled'}>${esc(r.name)} · ${r.pts}</button>`).join('')}</div>
+            ${opts.some((r) => !lines.some(r.match)) ? '<p class="hint" style="margin:6px 0 0">Greyed out? Add that item to your order first.</p>' : ''}</fieldset>`;
+        })()}
+        ${st.wallet > 0 ? `<label class="check"><input type="checkbox" id="f-gift" data-f="gift" ${S.form.gift ? 'checked' : ''}><span><b>Pay with gift card balance</b><br><span class="hint">${money(st.wallet)} available</span></span></label>` : ''}
         ${!S.uid ? `<p class="hint warn">Sign in to claude.ai to place an order.</p>` : ''}
-        <div class="row between"><span class="hint">Pay at the bar when you collect.</span><button class="btn" data-act="place" ${!open || S.busy || !S.uid ? 'disabled' : ''}>${S.busy ? 'Sending…' : 'Place order · ' + money(t.total)}</button></div>
+        <div class="row between"><span class="hint">${t.due === 0 ? 'Fully paid with your gift card.' : 'Pay at the bar when you collect.'}</span><button class="btn" data-act="place" ${!open || S.busy || !S.uid ? 'disabled' : ''}>${S.busy ? 'Sending…' : 'Place order · ' + money(t.due)}</button></div>
       </div>`}
     </section>`;
   }
@@ -505,13 +2878,13 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     return `<section class="hero" style="background-image:${pat.kawung('#ffffff', .12)};text-align:center">
       <div class="kick">${o.status === 'ready' ? 'Ready at the bar' : 'Order sent'}</div>
       <div class="big-code">${esc(o.code)}</div>
-      <p>Show this code at the bar · ${esc(o.slot)} · ${money(o.total)}</p>
+      <p>Show this code at the bar · ${esc(o.slot)} · ${o.giftPay ? 'pay ' + money(o.due ?? 0) + ' at the bar' : money(o.total)}</p>
     </section>
     <section class="sec panel stack">
       <div class="row between"><b>${STATUS[o.status]}</b><span class="pill ${o.status}">${STATUS[o.status]}</span></div>
       <div class="track">${[1, 2, 3].map((i) => `<span class="${i <= step ? 'on' : ''}"></span>`).join('')}</div>
       <div class="lines">${o.lines.map((l) => `<b>${l.qty}×</b> ${esc(l.name)}`).join(' · ')}</div>
-      <p class="hint" style="margin:0">This updates live. Your beans and a new Secret St James's card arrive when we hand it over.</p>
+      <p class="hint" style="margin:0">This updates live. Your points and a new Secret St James's card arrive when we hand it over.</p>
       <div class="row"><button class="btn sm ghost" data-act="again">Back to menu</button><button class="btn sm ghost" data-act="tab" data-v="orders">My orders</button></div>
     </section>`;
   }
@@ -538,20 +2911,103 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
   }
   function cardPage() {
     if (!S.meLoaded) return notReady();
-    const st = mine(), t = themeById(S.theme);
-    const no = S.uid ? 'BIJA-' + S.uid.replace(/[^a-z0-9]/gi, '').slice(-5).toUpperCase() : 'BIJA-·····';
-    return `${cardHTML(t, { name: S.me?.name || 'Your card', on: st.onCard, no, fresh: S.fresh })}
-      ${st.ready ? `<div class="panel" style="margin-top:12px;background:var(--leaf);color:var(--card);border:0"><b>Free drink ready.</b> Tick “Use my free drink” at checkout.</div>` : ''}
-      <section class="sec"><div class="sec-h"><h3>How it works</h3></div>
-        <div class="panel stack" style="gap:6px"><div>1 drink handed over = 1 bean. Beans appear when the barista marks your order collected.</div><div>${NEED - 1} beans = your ${NEED}th drink free. Cakes don't earn beans.</div><div class="hint">${st.beans} bean${st.beans === 1 ? '' : 's'} all time · ${st.redeemed} free drink${st.redeemed === 1 ? '' : 's'} used</div></div>
+    const st = mine(), t = themeById(S.theme), no = memberCode(S.uid);
+    const nextR = REWARDS.find((r) => r.pts > st.balance), pct = nextR ? (st.balance / nextR.pts) * 100 : 100;
+    let qr = '';
+    if (S.showScan) { try { const q = qrcode(0, 'M'); q.addData(no); q.make(); qr = q.createSvgTag(6, 2); } catch { qr = ''; } }
+    return `${cardHTML(t, { name: S.me?.name || 'Your card', no, pts: st.balance, tier: st.tier.name, pct, next: nextR ? `${nextR.pts - st.balance} pts to ${nextR.name.toLowerCase()}` : 'Every reward unlocked', bump: S.bump })}
+      <div class="row" style="margin-top:12px"><button class="btn dark" data-act="scan">${S.showScan ? 'Hide code' : 'Scan at the till'}</button><span class="hint">Earn points in store too</span></div>
+      ${S.showScan ? `<div class="scan" style="margin-top:12px">${qr || ''}<div class="code">${esc(no)}</div><div style="font-size:13px;color:#555">Show this when you pay at the bar. The barista adds your points.</div></div>` : ''}
+      <section class="sec"><div class="sec-h"><h3>Rewards</h3><small>${st.balance} points to spend</small></div>
+        <div class="list">${REWARDS.map((r) => { const ok = st.balance >= r.pts; return `<div class="panel rw"><div><b>${esc(r.name)}</b><div class="hint">${ok ? 'Unlocked: choose it at checkout' : `${r.pts - st.balance} more points`}</div></div><span class="pill ${ok ? 'ready' : 'collected'}">${r.pts} pts</span>${ok ? '' : `<div class="prog" style="grid-column:1/-1"><i style="width:${(st.balance / r.pts) * 100}%"></i></div>`}</div>`; }).join('')}</div>
+      </section>
+      <section class="sec"><div class="sec-h"><h3>Your level</h3><small>${st.lifetime.toLocaleString('en-GB')} points all time</small></div>
+        <div class="ladder">${TIERS.map((x) => `<div class="${x.id === st.tier.id ? 'on' : ''}"><b>${esc(x.name)}</b><span class="hint">${x.min ? x.min.toLocaleString('en-GB') + '+ points' : 'Where everyone starts'}</span><span>${esc(x.perk)}</span></div>`).join('')}</div>
+        ${st.nextTier ? `<div class="prog" style="margin-top:10px"><i style="width:${(st.lifetime / st.nextTier.min) * 100}%"></i></div><p class="hint">${(st.nextTier.min - st.lifetime).toLocaleString('en-GB')} points to ${esc(st.nextTier.name)}. Levels count everything you've earned, so spending points never drops you down.</p>` : '<p class="hint">Top level. Terima kasih for being part of Bija.</p>'}
+      </section>
+      <section class="sec"><div class="sec-h"><h3>Ways to earn</h3></div>
+        <div class="panel stack" style="gap:6px">
+          <div>${PTS} points for every £1, in the app and at the till. Points land when the barista hands over your order.</div>
+          <div>+${BONUS.welcome} welcome points with your first order.</div>
+          <div>+${BONUS.secret} when you find all ${SPOTS.length} Secret St James's spots${st.found === SPOTS.length ? ' ✓' : ` (${st.found}/${SPOTS.length})`}.</div>
+          <div>+${BONUS.passport} when your Origins Passport is full${st.origins.size === ORIGINS.length ? ' ✓' : ` (${st.origins.size}/${ORIGINS.length})`}.</div>
+        </div>
       </section>
       <section class="sec"><div class="sec-h"><h3>Origins Passport</h3><small>${st.origins.size} of ${ORIGINS.length}</small></div>
-        <p class="hint" style="margin-top:0">Order the single-origin filter or take home a bag of single-origin beans: that island is stamped here. All ${ORIGINS.length} = a free 250 g bag.</p>
+        <p class="hint" style="margin-top:0">Order the single-origin filter or take home a bag of single-origin beans: that island is stamped here. Fill it for +${BONUS.passport} points.</p>
         <div class="passport">${ORIGINS.map((o) => `<div class="visa ${st.origins.has(o.id) ? 'got' : ''}"><div><b>${esc(o.name)}</b><br><small>${esc(o.where)}</small></div>${st.origins.has(o.id) ? '<span class="seal">KOPI</span>' : `<small>${esc(o.notes[0])}</small>`}</div>`).join('')}</div>
       </section>
       <section class="sec"><div class="sec-h"><h3>Card style</h3><small>Saved on this device</small></div>
-        <div class="themes">${THEMES.map((x) => `<button data-act="theme" data-v="${x.id}" aria-pressed="${S.theme === x.id}">${cardHTML(x, { name: '', on: 4, no: '' })}${esc(x.name)}</button>`).join('')}</div>
+        <div class="themes">${THEMES.map((x) => `<button data-act="theme" data-v="${x.id}" aria-pressed="${S.theme === x.id}">${cardHTML(x, { pts: 1240, tier: 'Sprout', pct: 60 })}${esc(x.name)}</button>`).join('')}</div>
       </section>`;
+  }
+
+  // ----- gift cards -----
+  const giftCode = () => { const a = 'ACDEFGHJKMNPQRTUVWXY34679'; const r = (n) => Array.from({ length: n }, () => a[Math.floor(Math.random() * a.length)]).join(''); return `BIJA-${r(4)}-${r(4)}`; };
+  function giftData() {
+    const gifts = [], credited = new Map();
+    for (const [cid, bd] of Object.entries(S.bars)) for (const [code, x] of Object.entries(bd?.credits || {})) credited.set(code, { ...x, to: cid });
+    for (const c of S.customers) for (const [gid, g] of Object.entries(c.gifts || {})) gifts.push({ ...g, gid, buyer: c.id, bname: c.name || 'Guest', paid: S.bars[c.id]?.giftsPaid?.[gid], used: credited.get(g.code) });
+    const claims = [];
+    for (const c of S.customers) for (const [code, cl] of Object.entries(c.claims || {})) if (!S.bars[c.id]?.credits?.[code] && !cl.rejected) claims.push({ code, cid: c.id, cname: c.name || 'Guest', at: cl.at, gift: gifts.find((g) => g.code === code) });
+    return { gifts, claims, credited };
+  }
+  function giftsPage() {
+    if (!S.meLoaded) return notReady();
+    const st = mine(), g = S.gift, amount = g.amount === 'other' ? +g.custom || 0 : g.amount;
+    const bought = Object.entries(S.me?.gifts || {}).map(([gid, x]) => ({ gid, ...x, paid: S.bar?.giftsPaid?.[gid], used: S.bar?.giftsRedeemed?.[gid] })).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+    const claims = Object.entries(S.me?.claims || {}).filter(([code, c]) => !S.bar?.credits?.[code]);
+    return `<section class="hero" style="background-image:${pat.kawung('#ffffff', .1)}"><div class="kick">Bija Gift Cards</div><h2>Give someone a cup of the islands.</h2><p>Send a digital gift card. It loads straight into their Bija app, and they spend it on coffee, cakes or beans.</p></section>
+      <section class="sec panel stack">
+        <div class="row between"><div><span class="hint">Your gift card balance</span><div style="font-size:30px;font-weight:300">${money(st.wallet)}</div></div>${st.wallet > 0 ? '<span class="hint">Tick “Pay with gift card balance” at checkout</span>' : ''}</div>
+        <div class="row" style="flex-wrap:nowrap"><label class="f" style="flex:1"><span class="sr">Gift card code</span><input type="text" id="g-redeem" data-redeem value="${esc(S.redeemCode)}" placeholder="BIJA-XXXX-XXXX" autocomplete="off" style="text-transform:uppercase;font-family:var(--mono)"></label><button class="btn sm dark" data-act="claim" ${S.busy || !S.uid ? 'disabled' : ''}>Add card</button></div>
+        ${claims.length ? `<div class="list">${claims.map(([code, c]) => `<div class="hint">${esc(code)} · ${c.rejected ? '<span style="color:var(--warn)">Not valid. Check the code or ask at the bar.</span>' : 'Waiting for the bar to confirm'}</div>`).join('')}</div>` : ''}
+      </section>
+      <section class="sec"><div class="sec-h"><h3>Send a gift card</h3></div>
+        <div class="panel stack">
+          ${giftCardHTML(themeById(g.design), { amount: amount || 0, to: g.to || 'Someone lovely', from: g.from || S.form.name, message: g.message })}
+          <fieldset><legend>Amount</legend><div class="opts">${GIFT_AMOUNTS.map((v) => `<button data-act="gamt" data-v="${v}" aria-pressed="${g.amount === v}">£${v}</button>`).join('')}<button data-act="gamt" data-v="other" aria-pressed="${g.amount === 'other'}">Other</button></div>
+            ${g.amount === 'other' ? `<label class="f" style="margin-top:8px">Amount in £ <span class="h">5 to 200</span><input type="number" min="5" max="200" step="1" id="g-custom" data-g="custom" value="${esc(g.custom)}"></label>` : ''}</fieldset>
+          <fieldset><legend>Design</legend><div class="gpick">${THEMES.map((x) => `<button data-act="gdesign" data-v="${x.id}" aria-pressed="${g.design === x.id}" aria-label="${esc(x.name)}">${giftCardHTML(x, { amount: amount || 25 })}</button>`).join('')}</div></fieldset>
+          <div class="grid2">
+            <label class="f">To<input type="text" id="g-to" data-g="to" value="${esc(g.to)}" maxlength="40" placeholder="Their name"></label>
+            <label class="f">From<input type="text" id="g-from" data-g="from" value="${esc(g.from || S.form.name)}" maxlength="40"></label>
+          </div>
+          <label class="f">Message <span class="h">Optional, up to 140 characters</span><textarea id="g-msg" data-g="message" maxlength="140">${esc(g.message)}</textarea></label>
+          <div class="row between"><span class="hint">Pay at the bar to activate. Card payment can be added later.</span><button class="btn" data-act="gbuy" ${S.busy || !S.uid ? 'disabled' : ''}>${S.busy ? 'Saving…' : `Buy ${money(amount || 0)} gift card`}</button></div>
+        </div>
+      </section>
+      <section class="sec"><div class="sec-h"><h3>Gift cards you've bought</h3></div>
+        ${!bought.length ? '<div class="empty"><b>None yet</b>Cards you buy show up here with the code to send.</div>' : `<div class="list">${bought.map((x) => `<article class="panel stack">
+          ${giftCardHTML(themeById(x.design), { amount: x.amount, to: x.to, from: x.from, message: x.message, code: x.paid ? x.code : '' })}
+          <div class="row between"><span class="pill ${x.used ? 'collected' : x.paid ? 'ready' : 'received'}">${x.used ? 'Redeemed' : x.paid ? 'Ready to send' : 'Pay at the bar'}</span>
+          ${x.paid && !x.used ? `<button class="btn sm ghost" data-act="gcopy" data-id="${esc(x.gid)}">Copy message to send</button>` : ''}</div>
+          ${!x.paid ? `<p class="hint" style="margin:0">Show the barista your name. Once paid, the code appears here.</p>` : ''}
+        </article>`).join('')}</div>`}
+      </section>`;
+  }
+  function giftsBar() {
+    const { gifts, claims } = giftData();
+    const unpaid = gifts.filter((g) => !g.paid), sold = gifts.filter((g) => g.paid);
+    return `<div class="tiles">
+      <div class="tile"><small>Gift cards sold</small><b>${money(sold.reduce((a, g) => a + (+g.amount || 0), 0))}</b><span>${sold.length} card${sold.length === 1 ? '' : 's'}</span></div>
+      <div class="tile"><small>To take payment</small><b>${unpaid.length}</b><span>customer pays at the bar</span></div>
+      <div class="tile"><small>Codes to confirm</small><b>${claims.length}</b><span>redeemed in the app</span></div>
+    </div>
+    <section class="sec"><div class="sec-h"><h3>Take payment</h3></div>
+      ${!unpaid.length ? '<div class="empty"><b>Nothing waiting</b>Gift cards bought in the app appear here until they are paid.</div>' : `<div class="list">${unpaid.map((g) => `<article class="order"><div class="h"><b>${money(g.amount)} for ${esc(g.to || 'someone')}</b><span class="hint">${fmt(g.createdAt)}</span></div><div class="lines">Bought by <b>${esc(g.bname)}</b>${g.message ? ` · “${esc(g.message)}”` : ''}</div><div><button class="btn sm ok" data-act="gpaid" data-c="${esc(g.buyer)}" data-g="${esc(g.gid)}" ${S.busy ? 'disabled' : ''}>Paid · activate card</button></div></article>`).join('')}</div>`}
+    </section>
+    <section class="sec"><div class="sec-h"><h3>Codes to confirm</h3></div>
+      ${!claims.length ? '<div class="empty"><b>No codes waiting</b>When someone adds a gift card in the app, you confirm it here.</div>' : `<div class="list">${claims.map((c) => {
+        const g = c.gift, ok = g && g.paid && !g.used;
+        const why = !g ? 'No gift card has this code' : !g.paid ? 'Not paid yet' : 'Already redeemed';
+        return `<article class="order"><div class="h"><span class="code">${esc(c.code)}</span><span class="hint">${fmt(c.at)}</span></div><div class="lines"><b>${esc(c.cname)}</b> ${ok ? `adds ${money(g.amount)} from ${esc(g.bname)}` : `· <span style="color:var(--warn)">${why}</span>`}</div>
+          <div class="row">${ok ? `<button class="btn sm ok" data-act="gok" data-c="${esc(c.cid)}" data-code="${esc(c.code)}" ${S.busy ? 'disabled' : ''}>Confirm · add balance</button>` : ''}<button class="btn sm ghost" data-act="gno" data-c="${esc(c.cid)}" data-code="${esc(c.code)}" ${S.busy ? 'disabled' : ''}>Reject</button></div></article>`;
+      }).join('')}</div>`}
+    </section>
+    <section class="sec"><div class="sec-h"><h3>All gift cards</h3></div>
+      ${!gifts.length ? '<p class="hint">None yet.</p>' : `<div class="panel tablewrap"><table><thead><tr><th>Code</th><th class="num">Amount</th><th>From</th><th>To</th><th>Status</th></tr></thead><tbody>${gifts.map((g) => `<tr><td class="code">${g.paid ? esc(g.code) : '·'}</td><td class="num">${money(g.amount)}</td><td>${esc(g.bname)}</td><td>${esc(g.to || '')}</td><td>${g.used ? 'Redeemed' : g.paid ? 'Active' : 'Unpaid'}</td></tr>`).join('')}</tbody></table></div>`}
+    </section>`;
   }
 
   // ----- Secret St James's -----
@@ -589,8 +3045,7 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     return `<div class="sec-h" style="margin-top:4px"><h3>${st.found} of ${SPOTS.length} found</h3><small>Every coffee deals a card</small></div>
       <div class="prog" style="margin-bottom:12px"><i style="width:${(st.found / SPOTS.length) * 100}%"></i></div>
       ${secretMap(st)}
-      ${st.secretReady ? `<div class="panel" style="margin-top:12px;background:var(--ink);color:var(--paper);border:0"><b>All ten found.</b> Your next drink is free: tick it at checkout.</div>` : ''}
-      ${st.secretUsed ? `<div class="panel" style="margin-top:12px"><b>Map complete.</b> <span class="hint">Free drink used. New cards next season.</span></div>` : ''}
+      ${st.found === SPOTS.length ? `<div class="panel" style="margin-top:12px;background:var(--ink);color:var(--paper);border:0"><b>All ten found.</b> +${BONUS.secret} bonus points are on your Bija Card.</div>` : `<p class="hint">Find all ${SPOTS.length} for +${BONUS.secret} bonus points on your Bija Card.</p>`}
       <section class="sec">${cur ? `<div class="cardslot">${spotCard(cur, { deal: S.dealt === cur.id, visited: !!st.visited[cur.id] })}</div>
         ${st.visited[cur.id] ? `<p class="hint" style="text-align:center">Found. Tap another pin or card.</p>`
           : `<div style="max-width:280px;margin:12px auto 0"><button class="btn dark block" data-act="checkin" data-id="${cur.id}" ${S.busy || !S.uid ? 'disabled' : ''}>${S.busy ? 'Saving…' : "I'm here · check in"}</button><p class="hint" style="text-align:center">Honour system for now. A live app can check your location.</p></div>`}`
@@ -610,7 +3065,7 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
       return `<article class="order">
         <div class="h"><span class="code">${esc(o.code)}</span><span class="pill ${o.status}">${STATUS[o.status]}</span></div>
         <div class="lines">${(o.lines || []).map((l) => `<b>${l.qty}×</b> ${esc(l.name)}`).join(' · ')}</div>
-        <div class="hint">${fmt(o.createdAt)} · ${esc(o.slot)} · ${money(o.total)}${o.useReward || o.useSecret ? ' · free drink' : ''}</div>
+        <div class="hint">${fmt(o.createdAt)} · ${esc(o.slot)} · ${money(o.total)}${o.reward ? ' · ' + esc(o.reward.name) + ' reward' : ''}${o.giftPay ? ' · gift card ' + money(o.giftPay) : ''}</div>
         ${step[o.status] ? `<div class="track">${[1, 2, 3].map((i) => `<span class="${i <= step[o.status] ? 'on' : ''}"></span>`).join('')}</div>` : ''}
         <div class="row">
           ${o.status === 'received' ? `<button class="btn sm ghost" data-act="cancel" data-id="${esc(o.id)}" ${S.busy ? 'disabled' : ''}>Cancel</button>` : ''}
@@ -630,6 +3085,7 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
   function barista() {
     if (!S.custLoaded || !S.configLoaded) return notReady();
     if (S.btab === 'members') return members();
+    if (S.btab === 'gifts') return giftsBar();
     if (S.btab === 'insights') return insights();
     if (S.btab === 'menu') return menuEditor();
     return queue();
@@ -645,7 +3101,7 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     const today = new Date().toDateString();
     const todays = all.filter((o) => o.status !== 'cancelled' && new Date(o.createdAt).toDateString() === today);
     const list = S.qFilter === 'active' ? active : S.qFilter === 'collected' ? all.filter((o) => o.status === 'collected') : all;
-    const nextLabel = { received: 'Start brewing', brewing: 'Ready · call code', ready: 'Collected · give beans' };
+    const nextLabel = { received: 'Start brewing', brewing: 'Ready · call code', ready: 'Collected · add points' };
     return `<div class="tiles">
       <div class="tile"><small>In the queue</small><b>${active.length}</b><span>${active.filter((o) => o.status === 'ready').length} ready to collect</span></div>
       <div class="tile"><small>Today</small><b>${money(todays.reduce((a, o) => a + (+o.total || 0), 0))}</b><span>${todays.length} order${todays.length === 1 ? '' : 's'}, after free drinks</span></div>
@@ -659,8 +3115,8 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
         <div class="lines">${(o.lines || []).map((l) => `<b>${l.qty}×</b> ${esc(l.name)}${l.origin ? ` (${esc(origin(l.origin)?.name || '')})` : ''}`).join(' · ')}</div>
         <div class="hint">${esc(o.milk)} milk · ${esc(o.sweet)} · ${esc(o.slot)} · <b style="color:var(--ink)">${money(o.total)}</b> · ${fmt(o.createdAt)}</div>
         ${o.note ? `<p class="quote">${esc(o.note)}</p>` : ''}
-        ${o.useReward ? `<div class="hint warn"><b>Bija Card free drink</b> · ${st.ready ? 'card is full' : 'already used or not earned'} ${st.ready ? `<button class="btn sm ok" data-act="redeem" data-id="${esc(o.cid)}" ${S.busy ? 'disabled' : ''}>Mark used</button>` : ''}</div>` : ''}
-        ${o.useSecret ? `<div class="hint warn"><b>Secret St James's free drink</b> · ${st.secretReady ? 'all spots found' : 'already used or not earned'} ${st.secretReady ? `<button class="btn sm ok" data-act="sredeem" data-id="${esc(o.cid)}" ${S.busy ? 'disabled' : ''}>Mark used</button>` : ''}</div>` : ''}
+        ${o.reward ? `<div class="hint warn"><b>Points reward:</b> ${esc(o.reward.name)} (−${o.reward.pts} pts) · ${money(o.discount)} off</div>` : ''}
+        ${o.giftPay ? `<div class="hint"><b>Gift card:</b> ${money(o.giftPay)} paid in the app · take ${money(o.due ?? 0)}</div>` : ''}
         <div class="row">
           ${FLOW[o.status] ? `<button class="btn sm ${o.status === 'ready' ? 'ok' : ''}" data-act="status" data-c="${esc(o.cid)}" data-o="${esc(o.id)}" data-s="${FLOW[o.status]}" ${S.busy ? 'disabled' : ''}>${nextLabel[o.status]}</button>` : ''}
           ${o.status === 'collected' ? `<button class="btn sm ghost" data-act="status" data-c="${esc(o.cid)}" data-o="${esc(o.id)}" data-s="ready" ${S.busy ? 'disabled' : ''}>Undo</button>` : ''}
@@ -669,12 +3125,17 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     }).join('')}</div>`;
   }
   function members() {
-    const rows = S.customers.map((c) => ({ c, st: stats(c, S.bars[c.id]) })).filter((r) => r.st.os.length).sort((a, b) => b.st.beans - a.st.beans);
-    if (!rows.length) return `<div class="empty"><b>No Bija Card members yet</b>Everyone who orders in the app gets a card automatically.</div>`;
-    return `<div class="panel tablewrap"><table>
-      <thead><tr><th>Name</th><th class="num">Beans</th><th class="num">On card</th><th class="num">Free used</th><th class="num">Secrets</th><th>Last order</th></tr></thead>
-      <tbody>${rows.map(({ c, st }) => `<tr><td><b>${esc(c.name || 'Guest')}</b>${st.ready ? ' <span class="pill ready">Free drink</span>' : ''}${st.secretReady ? ' <span class="pill brewing">Secret drink</span>' : ''}</td><td class="num">${st.beans}</td><td class="num">${st.onCard}/${NEED - 1}</td><td class="num">${st.redeemed}${st.secretUsed ? ' +1' : ''}</td><td class="num">${st.found}/${SPOTS.length}</td><td>${fmt(st.os[0]?.createdAt)}</td></tr>`).join('')}</tbody>
-    </table></div>`;
+    const rows = S.customers.map((c) => ({ c, st: stats(c, S.bars[c.id]) })).filter((r) => r.st.os.length || r.st.instore || r.st.credits).sort((a, b) => b.st.lifetime - a.st.lifetime);
+    return `<div class="panel stack">
+      <div><b>Add in-store spend</b><div class="hint">Customer shows their Bija Card code or QR when paying at the till.</div></div>
+      <div class="grid2"><label class="f">Member code<input type="text" id="is-code" data-is="code" value="${esc(S.instore.code)}" placeholder="BIJA-XXXXX" style="text-transform:uppercase;font-family:var(--mono)"></label>
+      <label class="f">Amount paid (£)<input type="number" min="0" step="0.1" id="is-amt" data-is="amount" value="${esc(S.instore.amount)}"></label></div>
+      <div><button class="btn sm" data-act="instore" ${S.busy ? 'disabled' : ''}>Add points</button></div>
+    </div>
+    <section class="sec">${!rows.length ? '<div class="empty"><b>No Bija Card members yet</b>Everyone who orders in the app gets a card automatically.</div>' : `<div class="panel tablewrap"><table>
+      <thead><tr><th>Name</th><th>Code</th><th>Level</th><th class="num">Points</th><th class="num">All time</th><th class="num">Gift £</th><th class="num">Secrets</th><th>Last order</th></tr></thead>
+      <tbody>${rows.map(({ c, st }) => `<tr><td><b>${esc(c.name || 'Guest')}</b></td><td class="code">${esc(memberCode(c.id))}</td><td>${esc(st.tier.name)}</td><td class="num">${st.balance}</td><td class="num">${st.lifetime}</td><td class="num">${money(st.wallet)}</td><td class="num">${st.found}/${SPOTS.length}</td><td>${fmt(st.os[0]?.createdAt)}</td></tr>`).join('')}</tbody>
+    </table></div>`}</section>`;
   }
   function bars(entries, fmtv) {
     if (!entries.length) return `<p class="hint">No data yet.</p>`;
@@ -694,6 +3155,7 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     return `<div class="tiles">
       <div class="tile"><small>App customers</small><b>${buyers.length}</b><span>${repeat} came back</span></div>
       <div class="tile"><small>Revenue</small><b>${money(all.reduce((a, o) => a + (+o.total || 0), 0))}</b><span>${all.length} order${all.length === 1 ? '' : 's'}, all time</span></div>
+      <div class="tile"><small>Points issued</small><b>${S.customers.reduce((a, c) => a + stats(c, S.bars[c.id]).lifetime, 0).toLocaleString('en-GB')}</b><span>${S.customers.reduce((a, c) => a + stats(c, S.bars[c.id]).spent, 0).toLocaleString('en-GB')} spent on rewards</span></div>
       <div class="tile"><small>Rating</small><b>${ratings.length ? avg.toFixed(1) : '–'}</b><span>${ratings.length} rating${ratings.length === 1 ? '' : 's'}</span></div>
     </div>
     <div class="cols sec">
@@ -733,19 +3195,19 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
   }
   function newCode() { const a = 'ACDEFGHJKMNPQRTUVWXY34679'; let s = ''; for (let i = 0; i < 3; i++) s += a[Math.floor(Math.random() * a.length)]; return 'B' + s; }
   const myRef = () => S.db.doc('customers/' + S.uid);
-  async function saveMine(patch) { if (S.me) await myRef().update(patch); else await myRef().set({ name: S.form.name.trim(), joinedAt: new Date().toISOString(), orders: {}, ratings: {}, secret: { visited: {} }, ...patch }); }
-  async function saveBar(cid, patch) { const ref = S.db.doc('bar/' + cid); if (S.bars[cid]) await ref.update(patch); else await ref.set({ orders: {}, redeemed: 0, secretUsed: false, ...patch }); }
+  async function saveMine(patch) { if (S.me) await myRef().update(patch); else await myRef().set({ name: S.form.name.trim(), joinedAt: new Date().toISOString(), orders: {}, ratings: {}, secret: { visited: {} }, gifts: {}, claims: {}, ...patch }); }
+  async function saveBar(cid, patch) { const ref = S.db.doc('bar/' + cid); if (S.bars[cid]) await ref.update(patch); else await ref.set({ orders: {}, ...patch }); }
 
   async function placeOrder() {
     const lines = cartLines(), t = totals(lines), f = S.form, st = mine();
     if (!t.qty) return toast('Add at least one drink.');
     if (!f.name.trim()) { toast('Add a name so we can call your cup.'); return document.getElementById('f-name')?.focus(); }
     const oid = 'o' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
-    const order = { code: newCode(), lines, subtotal: t.subtotal, free: t.free, total: t.total, milk: f.milk, sweet: f.sweet, slot: f.slot, note: f.note.trim(),
-      useReward: !!(f.reward && st.ready), useSecret: !!(f.sreward && st.secretReady), name: f.name.trim(), createdAt: new Date().toISOString() };
+    const order = { code: newCode(), lines, subtotal: t.subtotal, discount: t.discount, total: t.total, giftPay: t.giftPay, due: t.due, milk: f.milk, sweet: f.sweet, slot: f.slot, note: f.note.trim(),
+      ...(t.reward ? { reward: { id: t.reward.id, name: t.reward.name, pts: t.reward.pts } } : {}), name: f.name.trim(), createdAt: new Date().toISOString() };
     await run(async () => {
       await saveMine({ name: f.name.trim(), updatedAt: new Date().toISOString(), orders: { [oid]: order } });
-      S.lastOrder = oid; S.cart = {}; S.form.note = ''; S.form.reward = false; S.form.sreward = false;
+      S.lastOrder = oid; S.cart = {}; S.form.note = ''; S.form.reward = ''; S.form.gift = false;
       window.scrollTo({ top: 0 });
     }, 'Order sent to the bar');
   }
@@ -779,9 +3241,47 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     }
     // barista
     else if (a === 'qf') { S.qFilter = b.dataset.v; render(); }
-    else if (a === 'status') { const s = b.dataset.s; run(() => saveBar(b.dataset.c, { orders: { [b.dataset.o]: { status: s, at: new Date().toISOString() } } }), s === 'collected' ? 'Collected. Beans and a secret card added.' : s === 'ready' ? 'Marked ready' : 'Updated'); }
-    else if (a === 'redeem') { const cid = b.dataset.id; run(() => saveBar(cid, { redeemed: (+S.bars[cid]?.redeemed || 0) + 1 }), 'Free drink marked as used'); }
-    else if (a === 'sredeem') run(() => saveBar(b.dataset.id, { secretUsed: true }), 'Secret St James\'s drink marked as used');
+    else if (a === 'status') { const s = b.dataset.s; run(() => saveBar(b.dataset.c, { orders: { [b.dataset.o]: { status: s, at: new Date().toISOString() } } }), s === 'collected' ? 'Collected. Points and a secret card added.' : s === 'ready' ? 'Marked ready' : 'Updated'); }
+    else if (a === 'scan') { S.showScan = !S.showScan; render(); }
+    else if (a === 'gamt') { S.gift.amount = b.dataset.v === 'other' ? 'other' : +b.dataset.v; render(); }
+    else if (a === 'gdesign') { S.gift.design = b.dataset.v; render(); }
+    else if (a === 'gbuy') {
+      const g = S.gift, amount = g.amount === 'other' ? Math.round(+g.custom || 0) : g.amount;
+      if (!(amount >= 5 && amount <= 200)) return toast('Choose an amount between £5 and £200.');
+      if (!g.to.trim()) { toast('Who is it for?'); return document.getElementById('g-to')?.focus(); }
+      const gid = 'g' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+      run(async () => { await saveMine({ gifts: { [gid]: { code: giftCode(), amount, to: g.to.trim(), from: (g.from || S.form.name).trim(), message: g.message.trim(), design: g.design, createdAt: new Date().toISOString() } } }); S.gift = { ...S.gift, to: '', message: '' }; }, 'Gift card saved. Pay at the bar to activate it.');
+    }
+    else if (a === 'gcopy') {
+      const x = S.me?.gifts?.[b.dataset.id]; if (!x) return;
+      const txt = `${x.to ? 'Hi ' + x.to + '! ' : ''}${x.from ? x.from + ' sent you' : 'You have'} a ${money(x.amount)} Bija Coffee gift card.${x.message ? ' “' + x.message + '”' : ''} Add code ${x.code} in the Bija app (Gift cards tab), or show it at 2a St James's Market, London.`;
+      try { navigator.clipboard.writeText(txt).then(() => toast('Copied. Paste it into a message.'), () => toast(x.code)); } catch { toast(x.code); }
+    }
+    else if (a === 'claim') {
+      const code = S.redeemCode.trim().toUpperCase().replace(/\s+/g, '');
+      if (!/^BIJA-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code)) { toast('Codes look like BIJA-XXXX-XXXX.'); return document.getElementById('g-redeem')?.focus(); }
+      if (S.me?.claims?.[code] && !S.me.claims[code].rejected) return toast('You already added this code.');
+      run(async () => { await saveMine({ claims: { [code]: { at: new Date().toISOString() } } }); S.redeemCode = ''; }, 'Code sent. The bar will confirm it.');
+    }
+    else if (a === 'gpaid') run(() => saveBar(b.dataset.c, { giftsPaid: { [b.dataset.g]: new Date().toISOString() } }), 'Gift card activated');
+    else if (a === 'gok') {
+      const cid = b.dataset.c, code = b.dataset.code, g = giftData().gifts.find((x) => x.code === code);
+      if (!g || !g.paid || g.used) return toast('This code can’t be used.');
+      const at = new Date().toISOString(), credit = { credits: { [code]: { amount: g.amount, gid: g.gid, buyer: g.buyer, at } } };
+      run(async () => {
+        if (g.buyer === cid) await saveBar(cid, { ...credit, giftsRedeemed: { [g.gid]: at } });
+        else { await saveBar(cid, credit); await saveBar(g.buyer, { giftsRedeemed: { [g.gid]: at } }); }
+      }, `${money(g.amount)} added to their balance`);
+    }
+    else if (a === 'gno') run(() => S.db.doc('customers/' + b.dataset.c).update({ claims: { [b.dataset.code]: { rejected: true } } }), 'Code rejected');
+    else if (a === 'instore') {
+      const code = S.instore.code.trim().toUpperCase(), amount = Math.round((+S.instore.amount || 0) * 100) / 100;
+      const c = S.customers.find((x) => memberCode(x.id) === code);
+      if (!c) return toast('No member with that code.');
+      if (!(amount > 0 && amount <= 500)) return toast('Enter the amount paid, up to £500.');
+      const id = 's' + Date.now().toString(36);
+      run(async () => { await saveBar(c.id, { instore: { [id]: { amount, at: new Date().toISOString() } } }); S.instore = { code: '', amount: '' }; }, `Added ${Math.round(amount * PTS)} points for ${c.name || 'member'}`);
+    }
     else if (a === 'toggle-open') run(() => S.db.doc('config/current').update({ open: !isOpen() }), isOpen() ? 'App ordering paused' : 'App ordering resumed');
     else if (a === 'reset-draft') { S.draft = null; render(); }
     else if (a === 'save-cfg') {
@@ -796,6 +3296,9 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     const el = e.target, val = el.type === 'checkbox' ? el.checked : el.value;
     if (el.dataset.f) { S.form[el.dataset.f] = val; if (el.dataset.f === 'name') store.set('bija.name', val); if (el.type === 'checkbox') render(); }
     else if (el.dataset.rc) (S.rate[el.dataset.rc] ||= { stars: 0, comment: '' }).comment = val;
+    else if (el.dataset.g) { S.gift[el.dataset.g] = val; if (el.dataset.g === 'custom') render(); }
+    else if (el.hasAttribute('data-redeem')) S.redeemCode = val;
+    else if (el.dataset.is) S.instore[el.dataset.is] = val;
     else if (el.dataset.d && S.draft) S.draft[el.dataset.d] = val;
     else if (el.dataset.m && S.draft) S.draft.menu[+el.dataset.m][el.dataset.k] = val;
   });
@@ -828,7 +3331,7 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
 
   // ---------- boot ----------
   try { const v = new URLSearchParams(location.search).get('view'); if (v === 'app' || v === 'site') localStorage.setItem('bija.view', v); } catch {}
-  if (location.hash === '#beans') S.tab = 'beans';
+  if (['#beans', '#card', '#gifts'].includes(location.hash)) S.tab = location.hash.slice(1);
   S.form.name = store.get('bija.name') || '';
   S.theme = store.get('bija.theme') || 'noir';
   render();
@@ -844,11 +3347,12 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
         const before = stats(S.me, S.bar);
         S.bar = s.exists ? s.data() : null;
         const after = stats(S.me, S.bar);
-        if (S.barLoaded && S.meLoaded && after.col.length > before.col.length) {
+        if (S.barLoaded && S.meLoaded) {
           const dealt = after.dealt.length > before.dealt.length ? after.dealt[after.dealt.length - 1] : null;
-          S.fresh = Math.max(0, after.onCard - 1);
           if (dealt) { S.dealt = dealt.id; S.spot = dealt.id; }
-          toast(`+${after.beans - before.beans} bean${after.beans - before.beans === 1 ? '' : 's'}${dealt ? ' and a new secret card' : ''}`);
+          const gained = after.lifetime - before.lifetime, topped = after.credits - before.credits;
+          if (gained > 0) { S.bump = true; setTimeout(() => { S.bump = false; }, 800); }
+          if (gained > 0 || topped > 0) toast([gained > 0 ? `+${gained} points` : '', dealt ? 'a new secret card' : '', topped > 0 ? `${money(topped)} gift card added` : ''].filter(Boolean).join(' · '));
         }
         S.barLoaded = true; render();
       }, () => { S.barLoaded = true; render(); });
