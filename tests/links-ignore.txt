@@ -1,3 +1,3 @@
 # Internal links the checker should not report. One path per line; keep a reason next to each.
-# Founder photo still to come from Bija (README "To confirm"); the site shows a labelled placeholder until it exists.
-photos/founder.jpg
+# 404.html sets <base href="/bija-coffee/"> because GitHub Pages serves it at any path; the checker reads the base as a link.
+bija-coffee/

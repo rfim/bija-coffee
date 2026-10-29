@@ -2,8 +2,6 @@
    Everything is transform/opacity, everything stops under reduced motion (or window.__BIJA_TEST_NO_MOTION). */
 (() => {
   const W = window, D = document, H = D.documentElement;
-  // the motion stylesheet is preloaded, not render-blocking: attach it here (the launch splash rules are inline in app.html)
-  if (!D.querySelector('link[rel=stylesheet][href$="app-motion.css"]')) { const l = D.createElement('link'); l.rel = 'stylesheet'; l.href = 'app-motion.css'; D.head.appendChild(l); }
   const calm = () => !!W.__BIJA_TEST_NO_MOTION || matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $ = (s, r = D) => r.querySelector(s), $$ = (s, r = D) => [...r.querySelectorAll(s)];
   const ss = { get: (k) => { try { return sessionStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { sessionStorage.setItem(k, v); } catch {} } };

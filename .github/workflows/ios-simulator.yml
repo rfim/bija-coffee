@@ -39,7 +39,8 @@ jobs:
       - name: Copy the site into the app and sync iOS (runs pod install)
         run: |
           node scripts/build-www.mjs --no-sync
-          npx cap sync ios
+          # Google ML Kit (the native QR scanner) needs iOS 15.5+ and a fresh pod index on the runner
+          npx cap sync ios || (cd ios/App && pod install --repo-update)
 
       - name: Build for the iOS simulator
         working-directory: native/ios/App
