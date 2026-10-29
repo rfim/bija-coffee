@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
+
 <style>
 .shophead { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px; align-items: end; padding: 26px 0 22px; }
 .shophead h1 { margin: 6px 0 10px; font-size: clamp(48px, 8vw, 120px);  line-height: 1; }
@@ -35,7 +36,7 @@
 <main id="main">
   <div class="wrap">
     <p class="crumbs"><a href="./">Home</a> / Shop coffee</p>
-    <div class="shophead"><div><span class="eyebrow">Kopi from the archipelago</span><h1>Shop coffee</h1><p>Specialty beans from Sumatra and Java, roasted with Kindred Forest. 200 g bags at £12, ground to order. Subscribe for £10.80 a bag with free delivery.</p></div><div class="mkwrap" data-mk></div></div>
+    <div class="shophead"><div><span class="eyebrow">Kopi from the archipelago</span><h1>Shop coffee</h1><p>Specialty beans from Sumatra and Java, sourced with our partner Kindred Forest and roasted by Bija's baristas<!-- to confirm: public Redber case study suggests Redber roasts; owner to confirm -->. 200 g bags at £12, ground to order. Subscribe for £10.80 a bag with free delivery.</p></div><div class="mkwrap" data-mk></div></div>
     <div class="toolbar">
       <div class="chips" role="group" aria-label="Filter coffees">
         <button class="chip" data-f="all" aria-pressed="true">All</button>
@@ -51,10 +52,9 @@
     <div class="pgrid" id="grid"></div>
   </div>
 
-  <div class="kband" aria-hidden="true"><span data-mk></span></div>
 
   <section class="batik" aria-labelledby="disc-h">
-    <img src="photos/feature-1.jpg" alt="" loading="lazy">
+    <img src="photos/feature-1.jpg" width="740" height="640" alt="" loading="lazy" decoding="async">
     <div class="wrap"><span class="eyebrow" style="color:#e4e4e4">Not sure where to start?</span><h2 id="disc-h">Taste three islands side by side.</h2><p>The Discovery set brings Sumatra Mandheling, Sumatra Lintong and Old Brown Java together: three 200 g bags for £33.</p><a class="btn" href="product.html?id=set">See the Discovery set</a></div>
   </section>
 
@@ -63,7 +63,7 @@
       <div class="sec-h"><div><span class="eyebrow">Every bag</span><h2 id="why-h">Made the Bija way</h2></div></div>
       <div class="earn3">
         <div><h3>Ground to order</h3><p>Whole bean or ground for espresso, moka pot, filter, cafetière, V60 or AeroPress. Each product page has a brew guide for your grind.</p></div>
-        <div><h3>Delivered or collected</h3><p>Royal Mail Tracked 48 for £3.95, free over £30 and on every subscription. Or collect free from 2a St James's Market.</p></div>
+        <div><h3>Delivered or collected</h3><p>Royal Mail Tracked 48 for £3.95, free on orders of £30 or more and on every subscription. Or collect free from 2a St James's Market.</p></div>
         <div><h3>Points on every bag</h3><p>10 points for every £1 on your Bija Card, the same as in the café and the app. <a href="rewards.html">How rewards work</a>.</p></div>
       </div>
     </section>

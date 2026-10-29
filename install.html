@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Put the Bija app on your home screen in three taps, on iPhone or Android. No app store needed.">
+<title>Get the app · Bija</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="site-shop.css">
+<script src="site-shop.js" defer></script>
+<style>
+.ihead { padding: 32px 0 24px; max-width: 760px; }
+.ihead h1 { margin: 8px 0 16px; font-size: clamp(44px, 7vw, 104px); line-height: .95; }
+.ihead p { margin: 0; color: #3d3d3d; max-width: 56ch; }
+.tabs { display: flex; gap: 8px; margin: 8px 0 32px; flex-wrap: wrap; }
+.done { display: none; background: var(--tile); border-radius: 16px; padding: 24px; margin-bottom: 32px; }
+.done.on { display: block; }
+.done h2 { margin: 0 0 8px; font-size: 28px; }
+.done p { margin: 0 0 16px; color: #3d3d3d; }
+.quick { display: none; align-items: center; gap: 16px; flex-wrap: wrap; background: var(--tile); border-radius: 16px; padding: 20px 24px; margin-bottom: 32px; }
+.quick.on { display: flex; }
+.quick p { margin: 0; flex: 1 1 240px; }
+.isteps { list-style: none; margin: 0 0 48px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; counter-reset: s; }
+.isteps li { counter-increment: s; background: var(--tile); border-radius: 16px; padding: 24px; display: grid; gap: 16px; align-content: start; min-width: 0; }
+.isteps svg { width: 100%; max-width: 220px; height: auto; margin: 0 auto; display: block; color: var(--ink); }
+.isteps h3 { margin: 0; font: 900 20px/1.05 var(--disp); text-transform: uppercase; }
+.isteps h3::before { content: counter(s) ". "; }
+.isteps p { margin: 0; color: #3d3d3d; font-size: 15px; }
+.why { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 0 0 64px; padding: 0; list-style: none; }
+.why li { border-top: 2px solid var(--ink); padding-top: 16px; }
+.why b { display: block; font: 900 18px/1.1 var(--disp); text-transform: uppercase; margin-bottom: 8px; }
+.why span { color: #3d3d3d; font-size: 15px; }
+.note { color: var(--muted); font-size: 14px; margin: -24px 0 56px; }
+[hidden] { display: none !important; }
+.apk { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 2px solid var(--ink); padding: 24px 0 0; margin: -16px 0 56px; }
+.apk h2 { margin: 0 0 8px; font: 900 22px/1.05 var(--disp); text-transform: uppercase; }
+.apk p { margin: 0; color: #3d3d3d; font-size: 15px; max-width: 52ch; }
+@media (max-width: 900px) { .isteps, .why { grid-template-columns: minmax(0, 1fr); } .isteps li { grid-template-columns: 120px minmax(0, 1fr); align-items: center; } .isteps svg { max-width: 120px; grid-row: span 2; } }
+@media (max-width: 420px) { .isteps li { grid-template-columns: minmax(0, 1fr); } .isteps svg { max-width: 160px; grid-row: auto; } }
+</style>
+</head>
+<body class="shop-page">
+<a class="skip" href="#main">Skip to content</a>
+<div id="shop-top"></div>
+<main id="main">
+  <div class="wrap">
+    <p class="crumbs"><a href="./">Home</a> / Get the app</p>
+    <div class="ihead">
+      <span class="eyebrow">The Bija app</span>
+      <h1>Bija on your home screen</h1>
+      <p>Order ahead, collect stamps and points, and scan your Bija Card at the till. No app store and nothing to download: it takes three taps and about ten seconds.</p>
+    </div>
+
+    <div class="done" id="done" role="status">
+      <h2>You're all set</h2>
+      <p>You're already using the Bija app from your home screen.</p>
+      <a class="btn" href="app.html?view=app">Open the app</a>
+    </div>
+
+    <div class="quick" id="quick">
+      <p>Your browser can add Bija straight to your home screen.</p>
+      <button class="btn" type="button" id="installBtn">Install the app</button>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Choose your phone">
+      <button class="chip" type="button" role="tab" id="t-ios" aria-controls="p-ios" aria-selected="true">iPhone</button>
+      <button class="chip" type="button" role="tab" id="t-android" aria-controls="p-android" aria-selected="false" tabindex="-1">Android</button>
+    </div>
+
+    <section id="p-ios" role="tabpanel" aria-labelledby="t-ios">
+      <ol class="isteps">
+        <li>
+          <svg viewBox="0 0 160 200" role="img" aria-label="A phone showing the Bija app page open in Safari">
+            <rect x="30" y="8" width="100" height="184" rx="16" fill="#fff" stroke="currentColor" stroke-width="3"/>
+            <rect x="62" y="16" width="36" height="6" rx="3" fill="currentColor"/>
+            <g fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="80" cy="66" r="11"/><circle cx="91" cy="77" r="11"/><circle cx="80" cy="88" r="11"/><circle cx="69" cy="77" r="11"/></g>
+            <rect x="48" y="112" width="64" height="8" rx="4" fill="currentColor"/>
+            <rect x="56" y="126" width="48" height="5" rx="2.5" fill="#bdbdbd"/>
+            <rect x="38" y="164" width="84" height="20" rx="6" fill="#f2f2f0" stroke="currentColor" stroke-width="2"/>
+            <rect x="48" y="171" width="44" height="6" rx="3" fill="#bdbdbd"/>
+          </svg>
+          <h3>Open in Safari</h3>
+          <p>Open <a href="app.html?view=app">the Bija app</a> in Safari. Other iPhone browsers can't add apps to the home screen.</p>
+        </li>
+        <li>
+          <svg viewBox="0 0 160 200" role="img" aria-label="Safari's toolbar with the Share button highlighted">
+            <rect x="30" y="8" width="100" height="184" rx="16" fill="#fff" stroke="currentColor" stroke-width="3"/>
+            <rect x="38" y="30" width="84" height="110" rx="6" fill="#f2f2f0"/>
+            <rect x="30" y="150" width="100" height="42" rx="0" fill="#f2f2f0"/>
+            <path d="M30 150h100v26a16 16 0 0 1-16 16H46a16 16 0 0 1-16-16z" fill="#f2f2f0" stroke="currentColor" stroke-width="3"/>
+            <circle cx="80" cy="170" r="17" fill="#fff" stroke="currentColor" stroke-width="3"/>
+            <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M80 160v14"/><path d="M75 165l5-5 5 5"/><path d="M73 168h-2v10h18v-10h-2"/></g>
+            <g stroke="#9a9a9a" stroke-width="2.5" stroke-linecap="round"><path d="M46 170h8"/><path d="M106 170h8"/></g>
+          </svg>
+          <h3>Tap Share</h3>
+          <p>Tap the Share button: the square with an arrow pointing up, at the bottom of the screen (at the top on iPad).</p>
+        </li>
+        <li>
+          <svg viewBox="0 0 160 200" role="img" aria-label="The share menu with Add to Home Screen highlighted">
+            <rect x="30" y="8" width="100" height="184" rx="16" fill="#fff" stroke="currentColor" stroke-width="3"/>
+            <rect x="34" y="72" width="92" height="116" rx="12" fill="#f2f2f0"/>
+            <rect x="42" y="84" width="76" height="16" rx="5" fill="#fff"/>
+            <rect x="42" y="106" width="76" height="22" rx="6" fill="#fff" stroke="currentColor" stroke-width="3"/>
+            <rect x="48" y="111" width="12" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M54 114v6M51 117h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <rect x="66" y="114" width="44" height="6" rx="3" fill="currentColor"/>
+            <rect x="42" y="134" width="76" height="16" rx="5" fill="#fff"/>
+            <rect x="42" y="156" width="76" height="16" rx="5" fill="#fff"/>
+          </svg>
+          <h3>Add to Home Screen</h3>
+          <p>Scroll the menu, tap Add to Home Screen, then Add. Bija appears with your other apps.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="p-android" role="tabpanel" aria-labelledby="t-android" hidden>
+      <ol class="isteps">
+        <li>
+          <svg viewBox="0 0 160 200" role="img" aria-label="A phone showing the Bija app page open in Chrome">
+            <rect x="30" y="8" width="100" height="184" rx="14" fill="#fff" stroke="currentColor" stroke-width="3"/>
+            <rect x="38" y="18" width="70" height="16" rx="8" fill="#f2f2f0" stroke="currentColor" stroke-width="2"/>
+            <g fill="currentColor"><circle cx="117" cy="21" r="2"/><circle cx="117" cy="26" r="2"/><circle cx="117" cy="31" r="2"/></g>
+            <g fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="80" cy="74" r="11"/><circle cx="91" cy="85" r="11"/><circle cx="80" cy="96" r="11"/><circle cx="69" cy="85" r="11"/></g>
+            <rect x="48" y="122" width="64" height="8" rx="4" fill="currentColor"/>
+            <rect x="56" y="136" width="48" height="5" rx="2.5" fill="#bdbdbd"/>
+          </svg>
+          <h3>Open in Chrome</h3>
+          <p>Open <a href="app.html?view=app">the Bija app</a> in Chrome. If a bar offers to install Bija, tap it and you're done.</p>
+        </li>
+        <li>
+          <svg viewBox="0 0 160 200" role="img" aria-label="Chrome's menu button, three dots at the top right, highlighted">
+            <rect x="30" y="8" width="100" height="184" rx="14" fill="#fff" stroke="currentColor" stroke-width="3"/>
+            <rect x="38" y="18" width="62" height="16" rx="8" fill="#f2f2f0"/>
+            <circle cx="115" cy="26" r="11" fill="#fff" stroke="currentColor" stroke-width="3"/>
+            <g fill="currentColor"><circle cx="115" cy="20.5" r="2"/><circle cx="115" cy="26" r="2"/><circle cx="115" cy="31.5" r="2"/></g>
+            <rect x="38" y="44" width="84" height="138" rx="6" fill="#f2f2f0"/>
+          </svg>
+          <h3>Open the menu</h3>
+          <p>Tap the three dots in the top-right corner of Chrome.</p>
+        </li>
+        <li>
+          <svg viewBox="0 0 160 200" role="img" aria-label="Chrome's menu with Install app highlighted">
+            <rect x="30" y="8" width="100" height="184" rx="14" fill="#fff" stroke="currentColor" stroke-width="3"/>
+            <rect x="58" y="16" width="68" height="128" rx="8" fill="#f2f2f0" stroke="currentColor" stroke-width="2"/>
+            <rect x="66" y="26" width="52" height="10" rx="4" fill="#fff"/>
+            <rect x="66" y="42" width="52" height="10" rx="4" fill="#fff"/>
+            <rect x="62" y="58" width="60" height="20" rx="6" fill="#fff" stroke="currentColor" stroke-width="3"/>
+            <rect x="68" y="65" width="40" height="6" rx="3" fill="currentColor"/>
+            <rect x="66" y="84" width="52" height="10" rx="4" fill="#fff"/>
+            <rect x="66" y="100" width="52" height="10" rx="4" fill="#fff"/>
+            <rect x="66" y="116" width="52" height="10" rx="4" fill="#fff"/>
+          </svg>
+          <h3>Install app</h3>
+          <p>Tap Install app (on some phones it says Add to Home screen), then Install.</p>
+        </li>
+      </ol>
+      <div class="apk">
+        <div>
+          <h2>Or download the Android app</h2>
+          <p>Test build: Android may ask you to allow installs from this source. Play Store version coming soon.</p>
+        </div>
+        <a class="btn ghost" href="https://github.com/rfim/bija-coffee/releases/download/android-latest/bija-android.apk" download>Download for Android (APK)</a>
+      </div>
+    </section>
+
+    <ul class="why" aria-label="Why use the app">
+      <li><b>Skip the queue</b><span>Order ahead and collect at the bar when it's ready.</span></li>
+      <li><b>Stamps and points</b><span>Every drink earns a stamp; the 10th is on us.</span></li>
+      <li><b>Works offline</b><span>Your Bija Card opens even when the signal drops at the till.</span></li>
+    </ul>
+    <p class="note">The app is a web app: it uses no storage beyond what's described in our <a href="privacy.html">privacy notice</a>, and you can remove it like any other app.</p>
+  </div>
+</main>
+<div id="shop-foot"></div>
+<script>
+(function () {
+  var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  if (standalone) document.getElementById('done').classList.add('on');
+
+  var tabs = [document.getElementById('t-ios'), document.getElementById('t-android')];
+  function show(i) {
+    tabs.forEach(function (t, k) {
+      var on = k === i;
+      t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { show(i); });
+    t.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); var n = (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length; show(n); tabs[n].focus(); }
+    });
+  });
+  if (/android/i.test(navigator.userAgent)) show(1);
+
+  var deferred = null, quick = document.getElementById('quick');
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferred = e; if (!standalone) quick.classList.add('on'); });
+  document.getElementById('installBtn').addEventListener('click', function () {
+    if (!deferred) return;
+    deferred.prompt();
+    deferred.userChoice.then(function () { deferred = null; quick.classList.remove('on'); });
+  });
+  window.addEventListener('appinstalled', function () { quick.classList.remove('on'); document.getElementById('done').classList.add('on'); });
+})();
+</script>
+</body>
+</html>

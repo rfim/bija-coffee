@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Brew Bija coffee at home: V60, cafetière, AeroPress, moka pot and espresso, with a ratio calculator and a step-by-step timer.">
+<title>Brew guides · Bija</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="site-shop.css">
+<script src="site-shop.js" defer></script>
+<script src="site-discover.js" defer></script>
+
+<style>
+.tip { margin: 16px 0 0; font-size: 14px; color: #3d3d3d; }
+</style>
+</head>
+<body class="shop-page">
+<a class="skip" href="#main">Skip to content</a>
+<div id="shop-top"></div>
+<main id="main"><div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="./?view=site">Home</a> / Brew guides</nav>
+  <section class="dhero" aria-labelledby="h">
+    <div><span class="eyebrow">At home</span><h1 id="h">Brew it like the bar.</h1></div>
+    <p>Pick your kit, set how much you want to make, and follow the timer. Every guide works with any Bija coffee; ask us to grind it for you.</p>
+  </section>
+  <div class="btabs" role="tablist" aria-label="Brew method" id="tabs"></div>
+  <div class="bwrap" id="panel" role="tabpanel" tabindex="-1">
+    <section class="bpanel" aria-labelledby="rh">
+      <div class="bhead"><div><span class="eyebrow" id="mname"></span><h2 id="rh">Your ratio</h2></div><img class="ill" id="mill" src="illustrations/brew-v60.svg" width="110" height="110" alt=""></div>
+      <div class="ratio">
+        <label for="dose">Coffee (g)<input class="inp" id="dose" type="number" inputmode="decimal" min="5" max="120" step="1"></label>
+        <span class="x" aria-hidden="true">→</span>
+        <label for="water"><span id="wlabel">Water</span><input class="inp" id="water" type="number" inputmode="decimal" min="10" max="2000" step="5"></label>
+      </div>
+      <label class="rslide" for="rat"><span>Strength: <b id="ratv"></b></span><input id="rat" type="range" step="0.1"></label>
+      <ul class="bfacts" id="facts"></ul>
+      <p class="tip" id="tip"></p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px" id="buy"></div>
+    </section>
+    <section class="bpanel" aria-labelledby="th">
+      <span class="eyebrow">Step by step</span><h2 id="th">Timer</h2>
+      <div class="timer">
+        <div class="ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="tr" cx="60" cy="60" r="52"/><circle class="pg" id="pg" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7"/></svg><span class="t" id="clock" role="timer" aria-label="Time brewing">0:00</span></div>
+        <ol class="bsteps" id="steps"></ol>
+      </div>
+      <div class="tctl"><button class="btn" id="go">Start</button><button class="btn ghost" id="reset">Reset</button></div>
+      <p class="vh" aria-live="assertive" id="say"></p>
+    </section>
+  </div>
+</div></main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const D = window.BijaDiscover, S = window.BijaShop, esc = D.esc, M = D.METHODS, ids = Object.keys(M);
+  const $ = (i) => document.getElementById(i);
+  let id = ids.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'v60', ratio, t = 0, run = null, last = -1;
+  const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  const total = () => M[id].steps.reduce((a, s) => a + s[1], 0);
+  function tabsHTML() { $('tabs').innerHTML = ids.map((k) => `<button class="chip" role="tab" id="tab-${k}" aria-controls="panel" aria-selected="${k === id}" tabindex="${k === id ? 0 : -1}" data-m="${k}">${esc(M[k].name)}</button>`).join(''); $('panel').setAttribute('aria-labelledby', 'tab-' + id); }
+  function setMethod(k, focus) {
+    id = k; const m = M[k]; ratio = m.ratio; stop(); t = 0; last = -1;
+    try { history.replaceState(null, '', '#' + k); } catch {}
+    tabsHTML(); if (focus) $('tab-' + k).focus();
+    $('mname').textContent = m.name; $('mill').src = `illustrations/brew-${k}.svg`;
+    $('wlabel').textContent = k === 'espresso' ? 'Espresso out (g)' : `Water (${m.unit})`;
+    const r = $('rat'); r.min = k === 'espresso' ? 1.5 : k === 'moka' ? 6 : 12; r.max = k === 'espresso' ? 3 : k === 'moka' ? 10 : 18; r.value = ratio;
+    $('dose').value = m.dose; calc('dose');
+    $('facts').innerHTML = `<li>Grind: ${esc(m.grind)}</li><li>Water: ${esc(m.temp)}</li><li>About ${fmt(total())}</li>`;
+    $('tip').textContent = S.BREW[m.grind] || '';
+    $('buy').innerHTML = `<a class="btn sm" href="shop.html">Beans ground for ${esc(m.name)}</a><a class="btn sm ghost" href="find.html">Find your kopi</a>`;
+    paint();
+  }
+  function calc(from) {
+    const d = +$('dose').value, w = +$('water').value;
+    if (from === 'dose' && d > 0) $('water').value = Math.round(d * ratio);
+    if (from === 'water' && w > 0) $('dose').value = Math.round((w / ratio) * 10) / 10;
+    $('ratv').textContent = `1 : ${(+ratio).toFixed(1).replace('.0', '')}${id === 'espresso' ? ' (in : out)' : ''}`;
+  }
+  function paint() {
+    const steps = M[id].steps, T = total(); let acc = 0, now = -1;
+    $('steps').innerHTML = steps.map(([txt, s], i) => { const st = acc; acc += s; const cls = t >= acc && t > 0 && (s > 0 || t > st) ? 'done' : (t >= st && t < acc) || (s === 0 && t === st && run) ? 'now' : ''; if (cls === 'now') now = i; return `<li class="${cls}">${esc(txt)}<small>${s ? fmt(st) : ''}</small></li>`; }).join('');
+    $('clock').textContent = fmt(t);
+    $('pg').style.strokeDashoffset = 326.7 * (1 - Math.min(1, t / T));
+    if (run && now !== last && now >= 0) { $('say').textContent = `Step ${now + 1}: ${steps[now][0]}`; last = now; }
+    if (t >= T && run) { stop(); $('say').textContent = 'Done. Enjoy your kopi.'; $('go').textContent = 'Start again'; }
+  }
+  function stop() { clearInterval(run); run = null; $('go').textContent = t > 0 && t < total() ? 'Resume' : 'Start'; }
+  $('go').addEventListener('click', () => {
+    if (run) { stop(); return; }
+    if (t >= total()) t = 0;
+    const t0 = Date.now() - t * 1000; $('go').textContent = 'Pause';
+    run = setInterval(() => { t = Math.min(total(), (Date.now() - t0) / 1000); paint(); }, 250); paint();
+  });
+  $('reset').addEventListener('click', () => { stop(); t = 0; last = -1; $('say').textContent = ''; paint(); });
+  $('dose').addEventListener('input', () => calc('dose'));
+  $('water').addEventListener('input', () => calc('water'));
+  $('rat').addEventListener('input', (e) => { ratio = +e.target.value; calc('dose'); });
+  $('tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-m]'); if (b) setMethod(b.dataset.m, true); });
+  $('tabs').addEventListener('keydown', (e) => { const i = ids.indexOf(id), j = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: ids.length - 1 }[e.key]; if (j == null) return; e.preventDefault(); setMethod(ids[(j + ids.length) % ids.length], true); });
+  window.__brew = { get t() { return t; } };
+  setMethod(id, false);
+});
+</script>
+<div id="shop-foot"></div>
+</body>
+</html>

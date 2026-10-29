@@ -21,3 +21,13 @@ Live (GitHub Pages): https://rfim.github.io/bija-coffee/
 
 ## To confirm with Bija
 Wording, prices, bean details, loyalty numbers, the Beans Club discount, the app offers (own cup 25p, students 10%, early-bird double points), the referral bonus, delivery terms, Secret St James's facts, retention periods in the privacy notice, and the founder photo.
+
+## Overnight build (29–30 October 2026)
+
+- **Website** (Grind-style, light, minimal): shop-first home, plus `find.html` (coffee quiz), `origins.html`, `brew.html`, `visit.html`, `menu.html`, `events.html`, `help.html`, `contact.html`, `sustainability.html`, `gifts.html`, `offices.html`, `press.html`, `install.html`, `allergens.html`, `404.html`.
+- **Bean passport:** `trace.html?b=<bean>&r=<roast date>&l=<lot>&c=bag|cup` is what the QR on a bag or cup opens; `labels.html` prints A4 sheets of 21 QR labels.
+- **App** (`app.html`): Grind-style UI, Profile with live order tracking, Bija Card with loyalty stamps (10th drink free) and a stamp drawer, motion (`app-motion.*`), finance for the owner, security fixes S1–S12 (see `docs/audit/security-status.md`).
+- **Staff mode:** hold the round Order button for 3 seconds, then enter the PIN. **Demo PIN: 111111.** Change it in the staff area. On the live backend the PIN is checked on the server.
+- **Backend:** Supabase project `bija` (London). Loaded only on the live https site (or `?backend=supabase`); `?demo=1` keeps everything in this browser. Owner must turn on **Authentication → Anonymous sign-ins** in the Supabase dashboard. Ledger API: `docs/backend/ledger-api.md`.
+- **Native apps:** `native/` (Capacitor). The Android test APK is built by `.github/workflows/android-apk.yml` and published at `https://github.com/rfim/bija-coffee/releases/download/android-latest/bija-android.apk`. See `native/README.md`.
+- **Sprint reports:** `docs/sprints/` (video and PDF each hour).

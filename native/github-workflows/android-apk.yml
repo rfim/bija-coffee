@@ -1,0 +1,117 @@
+# Builds the Bija Android app (Capacitor) and publishes it as a downloadable APK.
+# Stable download link: https://github.com/rfim/bija-coffee/releases/download/android-latest/bija-android.apk
+name: Android APK
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'app.html'
+      - '*.html'
+      - '*.js'
+      - '*.css'
+      - 'manifest.webmanifest'
+      - 'fonts/**'
+      - 'icons/**'
+      - 'photos/**'
+      - 'illustrations/**'
+      - 'vendor/**'
+      - 'native/**'
+      - '.github/workflows/android-apk.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-apk
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: native
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+        with:
+          distribution: temurin
+          java-version: '21' # Capacitor 8 compiles for Java 21
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: native/package-lock.json
+
+      - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3.2.2
+
+      - uses: gradle/actions/setup-gradle@ac638b010cf58a27ee6c972d7336334ccaf61c96 # v4.4.1
+
+      - name: Install Capacitor
+        run: npm ci
+
+      - name: Copy the site into the app and sync Android
+        run: |
+          node scripts/build-www.mjs --no-sync
+          npx cap sync android
+
+      - name: Build debug APK
+        working-directory: native/android
+        env:
+          BIJA_VERSION_CODE: ${{ github.run_number }}
+          BIJA_VERSION_NAME: 1.0.${{ github.run_number }}
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug
+          cp app/build/outputs/apk/debug/app-debug.apk "$GITHUB_WORKSPACE/bija-android.apk"
+
+      # Optional: a signed release build for the Play Store, only when the signing secrets exist.
+      - name: Build signed release (optional)
+        working-directory: native/android
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          BIJA_VERSION_CODE: ${{ github.run_number }}
+          BIJA_VERSION_NAME: 1.0.${{ github.run_number }}
+        run: |
+          if [ -z "$ANDROID_KEYSTORE_BASE64" ]; then
+            echo "No signing secrets: skipping the signed release build."
+            exit 0
+          fi
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/bija-release.jks"
+          export ANDROID_KEYSTORE_FILE="$RUNNER_TEMP/bija-release.jks"
+          ./gradlew --no-daemon bundleRelease assembleRelease
+          cp app/build/outputs/bundle/release/app-release.aab "$GITHUB_WORKSPACE/bija-android-release.aab"
+          cp app/build/outputs/apk/release/app-release.apk "$GITHUB_WORKSPACE/bija-android-release.apk"
+          rm -f "$ANDROID_KEYSTORE_FILE"
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: bija-android
+          path: |
+            bija-android.apk
+            bija-android-release.aab
+            bija-android-release.apk
+          if-no-files-found: warn
+
+      - name: Publish to the android-latest release
+        working-directory: .
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release delete android-latest --yes --cleanup-tag || true
+          files="bija-android.apk"
+          if [ -f bija-android-release.apk ]; then files="$files bija-android-release.apk"; fi
+          # shellcheck disable=SC2086
+          gh release create android-latest $files \
+            --target "$GITHUB_SHA" \
+            --prerelease \
+            --title "Bija for Android (test build ${GITHUB_RUN_NUMBER})" \
+            --notes "Test build of the Bija app for Android, built from ${GITHUB_SHA}. Install bija-android.apk: Android may ask you to allow installs from this source. The Play Store version needs Bija's signing key and Play account."

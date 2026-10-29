@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#ffffff">
-<meta name="description" content="Earn 10 points for every £1 at Bija's café, in the app and in the online shop. Free cake at 350 points, any drink at 400, a bag of beans at 1,200.">
+<meta name="description" content="Earn 10 points for every £1 at Bija's café, in the app and in the online shop. A stamp on every handcrafted drink with the 10th free, and points for cake at 350 or a bag of beans at 1,200.">
 <title>Rewards · Bija Card</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
+
 <style>
 .rhero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: center; padding: 36px 0 10px; }
 @media (max-width: 860px) { .rhero { grid-template-columns: minmax(0, 1fr); } }
@@ -28,7 +29,7 @@
 .bcard .pts { margin-top: auto; position: relative; font: 300 15cqi/1 var(--sans); } .bcard .pts span { font-size: 3.6cqi; color: #bbb; margin-left: 2cqi; }
 .bcard .prg { position: relative; height: 4px; background: rgba(255,255,255,.3); border-radius: 2px; margin-top: 3cqi; } .bcard .prg i { display: block; width: 62%; height: 100%; background: #fff; border-radius: 2px; }
 @media (prefers-reduced-motion: no-preference) { .bcard { animation: float 6s ease-in-out infinite; } @keyframes float { 50% { transform: rotate(-2deg) translateY(-8px); } } .bcard .bm { animation: spin 60s linear infinite; } @keyframes spin { to { transform: rotate(360deg); } } }
-.rewards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.rewards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 @media (max-width: 760px) { .rewards { grid-template-columns: minmax(0, 1fr); } }
 .rewards div { background: var(--tile); border-radius: 16px; padding: 26px; }
 .rewards b { display: block; font: 900 56px/1 var(--disp); font-variant-numeric: tabular-nums; line-height: 1; }
@@ -44,6 +45,11 @@
 .bonus td { padding: 12px 0; border-bottom: 1px solid var(--line); } .bonus td:last-child { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; padding-left: 12px; }
 .appqr { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
 .appqr img { background: #fff; padding: 8px; image-rendering: pixelated; }
+.stampcard { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: clamp(6px, 1vw, 16px); }
+.stampcard li { aspect-ratio: 1; border-radius: 50%; border: 2px solid var(--ink); display: grid; place-items: center; }
+.stampcard li.on { background: var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='%23fff'%3E%3Cellipse cx='20' cy='11' rx='4.5' ry='7.5'/%3E%3Cellipse cx='20' cy='29' rx='4.5' ry='7.5'/%3E%3Cellipse cx='11' cy='20' rx='7.5' ry='4.5'/%3E%3Cellipse cx='29' cy='20' rx='7.5' ry='4.5'/%3E%3C/g%3E%3C/svg%3E") center / 62% no-repeat; }
+.stampcard li.free { background: var(--ink); color: #fff; font: 900 clamp(10px, 1.4vw, 18px)/1 var(--disp); text-transform: uppercase; }
+@media (max-width: 600px) { .stampcard { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 </style>
 </head>
 <body class="shop-page">
@@ -52,7 +58,7 @@
 <main id="main">
   <div class="wrap">
     <div class="rhero">
-      <div><span class="eyebrow">The Bija Card</span><h1>Earn everywhere you drink Bija.</h1><p>10 points for every £1 at the bar, in the app and in our online shop. Free to join, and your first order brings 100 welcome points.</p>
+      <div><span class="eyebrow">The Bija Card</span><h1>Earn everywhere you drink Bija.</h1><p>A stamp on every handcrafted drink, with the 10th on us. Plus 10 points for every £1 at the bar, in the app and online. Free to join.</p>
         <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="app.html?view=app#card">Get your Bija Card</a><a class="btn ghost" href="shop.html">Shop and earn</a></div></div>
       <div class="bcard" aria-label="Example Bija Card showing 1,240 points at Sprout level" role="img">
         <svg class="bm" viewBox="-2 -2 104 104" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/><circle cx="50" cy="50" r="9"/></g></svg>
@@ -71,17 +77,26 @@
       <p class="small">Points are added by our team when an order is collected or dispatched, so they can't be added by mistake. Delivery charges don't earn points.</p>
     </section>
 
+    <section class="sec" aria-labelledby="stamp-h">
+      <div class="sec-h"><div><span class="eyebrow">Stamps</span><h2 id="stamp-h">Your 10th drink is on us</h2><p>One stamp for every handcrafted drink, ordered in the app or bought at the bar. Collect nine and the next one is free.</p></div></div>
+      <ol class="stampcard" aria-label="Stamp card example: 3 stamps collected, the 10th drink free">
+        <li class="on"><span class="vh">Stamp 1 collected</span></li><li class="on"><span class="vh">Stamp 2 collected</span></li><li class="on"><span class="vh">Stamp 3 collected</span></li><li><span class="vh">Stamp 4</span></li><li><span class="vh">Stamp 5</span></li><li><span class="vh">Stamp 6</span></li><li><span class="vh">Stamp 7</span></li><li><span class="vh">Stamp 8</span></li><li><span class="vh">Stamp 9</span></li><li class="free"><span>Free</span></li>
+      </ol>
+    </section>
+
+    <section class="sec" aria-labelledby="ref-h">
+      <div class="sec-h"><div><span class="eyebrow">Refer</span><h2 id="ref-h">Invite a friend</h2><p>Invite a friend: you both get 300 points once their first paid order of £3 or more is collected. Share your invite code from the Bija Card in <a href="app.html?view=app#card">the app</a>.</p></div></div>
+    </section>
+
     <section class="sec" aria-labelledby="spend-h">
-      <div class="sec-h"><div><span class="eyebrow">Spend</span><h2 id="spend-h">Rewards</h2><p>Choose a reward at checkout in the app or show your card at the bar.</p></div></div>
+      <div class="sec-h"><div><span class="eyebrow">Spend</span><h2 id="spend-h">Points rewards</h2><p>10 points for every £1, everywhere. Choose a reward at checkout in the app or show your card at the bar.</p></div></div>
       <div class="rewards">
         <div><b>350</b><span>points</span><h3>Any cake</h3><p class="small">About £35 of spend at 10 points per £1</p></div>
-        <div><b>400</b><span>points</span><h3>Any drink</h3><p class="small">About £40 of spend at 10 points per £1</p></div>
         <div><b>1,200</b><span>points</span><h3>A 200 g bag of beans</h3><p class="small">About £120 of spend at 10 points per £1</p></div>
       </div>
     </section>
   </div>
 
-  <div class="kband" aria-hidden="true"><span data-mk></span></div>
 
   <section class="band" aria-labelledby="tiers-h"><div class="wrap" style="padding-top:56px;padding-bottom:56px">
     <div class="sec-h"><div><span class="eyebrow">Grow with us</span><h2 id="tiers-h">Seed, Sprout, Kopi Tree</h2><p>Levels add perks, not multipliers: everyone earns 10 points per £1. <i>Bija</i> means seed.</p></div></div>
@@ -106,10 +121,9 @@
       <p class="small">Weekly, explorer and birthday bonuses add up to 200 points a month.</p>
     </section>
 
-    <section class="sec split" aria-labelledby="app-h" style="align-items:center;gap:28px">
+    <section class="sec" aria-labelledby="app-h">
       <div><span class="eyebrow">Your card lives in the app</span><h2 id="app-h" style="font-size:clamp(36px,4.6vw,72px);margin:8px 0 12px">Scan to get your Bija Card.</h2>
         <div class="appqr"><img src="icons/app-qr.png" alt="QR code that opens the Bija app" width="140" height="140"><div><a class="btn" href="app.html?view=app#card">Open the app</a><p class="small">On iPhone and Android, add it to your home screen.</p></div></div></div>
-      <div class="ph2"><img src="photos/shop-1.jpg" alt="Lapis legit and a latte at Bija" loading="lazy"></div>
     </section>
   </div>
 </main>

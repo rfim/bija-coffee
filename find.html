@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Five quick questions and we'll match you with a Bija coffee from Sumatra, Java or Bali, ground for how you brew.">
+<title>Find your kopi · Bija</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="site-shop.css">
+<script src="site-shop.js" defer></script>
+<script src="site-discover.js" defer></script>
+
+<style>
+.alt { margin-top: 18px; padding-top: 18px; border-top: 1px solid #d6d5d1; font-size: 14px; }
+</style>
+</head>
+<body class="shop-page">
+<a class="skip" href="#main">Skip to content</a>
+<div id="shop-top"></div>
+<main id="main"><div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="./?view=site">Home</a> / Find your kopi</nav>
+  <section class="dhero" aria-labelledby="h">
+    <div><span class="eyebrow">Five taps · about a minute</span><h1 id="h">Find your kopi.</h1></div>
+    <div><p>Tell us how you brew and what you like, and we'll match you with a Bija coffee from Sumatra, Java or Bali, ground for your kit.</p>
+      <div class="fan" aria-hidden="true" data-fan="lintong,house,java"></div></div>
+  </section>
+  <section class="quiz" id="quiz" aria-live="polite" aria-label="Find your kopi quiz"></section>
+  <p class="small" style="margin:14px 0 0">Your answers stay in this browser. Nothing is sent anywhere.</p>
+</div></main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const D = window.BijaDiscover, S = window.BijaShop, esc = D.esc, Q = D.QUIZ, box = document.getElementById('quiz');
+  let step = 0, ans = {};
+  const PL = { once: 'One-off bag', '2w': 'Every 2 weeks', '3w': 'Every 3 weeks', '4w': 'Every 4 weeks' };
+  const prog = () => `<div class="qprog" aria-hidden="true">${Q.map((_, i) => `<i class="${i <= step ? 'on' : ''}"></i>`).join('')}</div>`;
+  function ask(focus) {
+    const q = Q[step];
+    box.innerHTML = `${prog()}<div class="qstep"><fieldset><legend id="ql">${esc(q.q)}</legend><p class="vh">Question ${step + 1} of ${Q.length}</p>
+      <div class="qopts">${q.a.map(([v, l]) => `<button type="button" class="qopt" data-v="${v}" aria-pressed="${ans[q.k] === v}">${esc(l)}</button>`).join('')}</div></fieldset>
+      <div class="qnav">${step ? '<button type="button" class="lnk" data-back>← Back</button>' : '<span></span>'}<span class="small">Question ${step + 1} of ${Q.length}</span></div></div>`;
+    if (focus) box.querySelector('legend').setAttribute('tabindex', '-1'), box.querySelector('legend').focus({ preventScroll: true });
+  }
+  function result(r, focus) {
+    const p = S.byId(r.pick), soon = p.soon, alt = S.byId(r.alt), main = soon ? alt : p;
+    const price = S.money(S.unit(main, r.plan)), share = `${location.origin}${location.pathname}#r=${r.pick}.${encodeURIComponent(r.grind)}.${r.plan}`;
+    box.innerHTML = `${prog()}<div class="qstep qres">
+      <div class="pimg" style="--pbg:${S.bgFor(p)}">${S.bagArt(p)}</div>
+      <div><span class="eyebrow">Your kopi</span><h2 id="qr" tabindex="-1">${esc(p.name)}</h2>
+        <p class="why">We think you'll like it because it's ${esc(D.WHY[p.id])}.</p>
+        ${soon ? `<p class="why" style="font-size:16px"><b>${esc(p.name)} is coming soon.</b> Until it lands, try <b>${esc(alt.name)}</b>: ${esc(D.WHY[alt.id])}.</p>` : ''}
+        <ul class="spec"><li>${esc(main.name)}</li><li>Ground for ${esc(r.grind)}</li><li>${esc(PL[r.plan])}</li><li>${price}${r.plan !== 'once' ? ' a bag · free delivery' : ''}</li></ul>
+        <div class="acts"><button class="btn" data-add="${main.id}" data-grind="${esc(r.grind)}" data-plan="${r.plan}">${r.plan === 'once' ? 'Add to basket' : 'Subscribe'} · ${price}</button>
+          <a class="btn ghost" href="product.html?id=${main.id}">See the coffee</a>
+          ${soon ? `<button class="btn ghost" data-notify="${p.id}">Notify me about ${esc(p.name)}</button>` : ''}</div>
+        <div class="qnav"><button type="button" class="lnk" data-share data-url="${esc(share)}">Share my kopi</button><button type="button" class="lnk" data-restart>Start again</button></div>
+        ${!soon ? `<p class="alt">Also worth a try: <a href="product.html?id=${alt.id}">${esc(alt.name)}</a>, ${esc(D.WHY[alt.id])}.</p>` : ''}
+      </div></div>`;
+    if (focus) document.getElementById('qr').focus({ preventScroll: true });
+  }
+  box.addEventListener('click', async (e) => {
+    const o = e.target.closest('.qopt');
+    if (o) { ans[Q[step].k] = o.dataset.v; o.setAttribute('aria-pressed', 'true');
+      setTimeout(() => { if (step < Q.length - 1) { step++; ask(true); } else { step = Q.length - 1; result(D.recommend(ans), true); try { history.replaceState(null, '', '#r=' + [D.recommend(ans).pick, encodeURIComponent(D.recommend(ans).grind), D.recommend(ans).plan].join('.')); } catch {} } }, D.reduce() ? 0 : 160); return; }
+    if (e.target.closest('[data-back]')) { step = Math.max(0, step - 1); ask(true); return; }
+    if (e.target.closest('[data-restart]')) { step = 0; ans = {}; try { history.replaceState(null, '', location.pathname); } catch {} ask(true); return; }
+    const sh = e.target.closest('[data-share]');
+    if (sh) { const url = sh.dataset.url, text = 'My kopi from Bija, St James\'s Market';
+      try { if (navigator.share) { await navigator.share({ title: 'Find your kopi · Bija', text, url }); return; } } catch { return; }
+      try { await navigator.clipboard.writeText(url); S.toast('Link copied. Send it to a friend.'); } catch { S.toast(url); } }
+  });
+  // a shared result opens straight on the answer: #r=<bean>.<grind>.<plan>
+  function fromHash() {
+    const m = location.hash.match(/^#r=([a-z]+)\.([^.]+)\.(once|2w|3w|4w)$/);
+    const grind = m && decodeURIComponent(m[2]);
+    if (m && S.byId(m[1]) && S.GRINDS.includes(grind) && D.WHY[m[1]]) { step = Q.length - 1; const p = S.byId(m[1]); const alt = Object.keys(D.WHY).find((id) => id !== p.id && !S.byId(id).soon); result({ pick: p.id, alt, grind, plan: m[3] }); return true; }
+    return false;
+  }
+  if (!fromHash()) ask(false);
+  addEventListener('hashchange', fromHash);
+});
+</script>
+<div id="shop-foot"></div>
+</body>
+</html>

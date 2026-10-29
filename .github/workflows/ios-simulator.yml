@@ -1,0 +1,54 @@
+# Proves the Bija iOS app (Capacitor) compiles. Simulator build only: installing on iPhones needs
+# TestFlight, which needs Bija's Apple Developer account and a signing certificate.
+name: iOS simulator build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'native/**'
+      - '.github/workflows/ios-simulator.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-simulator
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        working-directory: native
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: native/package-lock.json
+
+      - name: Install Capacitor
+        run: npm ci
+
+      - name: Copy the site into the app and sync iOS (runs pod install)
+        run: |
+          node scripts/build-www.mjs --no-sync
+          npx cap sync ios
+
+      - name: Build for the iOS simulator
+        working-directory: native/ios/App
+        run: |
+          xcodebuild \
+            -workspace App.xcworkspace \
+            -scheme App \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            build

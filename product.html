@@ -13,6 +13,8 @@
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
+<script src="site-discover.js" defer></script>
+
 <style>
 .pd { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); padding-top: 14px; }
 @media (max-width: 900px) { .pd { grid-template-columns: minmax(0, 1fr); } }
@@ -63,7 +65,6 @@
       <div class="pgrid" id="more"></div>
     </section>
   </div>
-  <div class="kband" aria-hidden="true"><span data-mk></span></div>
 </main>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -79,11 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('crumb').textContent = p.name;
   const st = { plan: 'once', freq: '2w', grind: S.GRINDS[0], qty: 1 };
   const subPrice = S.unit(p, '2w');
-  const photos = [['ig/latte-pour', 'Pouring a latte'], ['ig/black-coffee', 'A black coffee at the bar'], ['ig/iced-pour', 'Beans falling into an iced coffee']];
-  const origin = p.region ? `<details class="faq" open><summary>Origin</summary><div><dl><dt>Region</dt><dd>${esc(p.region)}</dd><dt>Altitude</dt><dd>${esc(p.altitude)}</dd><dt>Process</dt><dd>${esc(p.process)}</dd><dt>Tasting notes</dt><dd>${esc(p.notes.join(', '))}</dd><dt>Best for</dt><dd>${esc(p.use)}</dd><dt>Roasted with</dt><dd>Kindred Forest</dd><dt>Weight</dt><dd>${esc(p.size)}</dd></dl><p class="small" style="margin-top:12px">Details are typical of the region. Lot and roast date are printed on the bag.</p></div></details>` : '';
+  const photos = [['ig/latte-pour', 'Pouring a latte', 291, 293], ['ig/black-coffee', 'A black coffee at the bar', 150, 182], ['ig/iced-pour', 'Beans falling into an iced coffee', 222, 325]];
+  const origin = p.region ? `<details class="faq" open><summary>Origin</summary><div><dl><dt>Region</dt><dd>${esc(p.region)}</dd><dt>Altitude</dt><dd>${esc(p.altitude)}</dd><dt>Process</dt><dd>${esc(p.process)}</dd><dt>Tasting notes</dt><dd>${esc(p.notes.join(', '))}</dd><dt>Best for</dt><dd>${esc(p.use)}</dd><dt>Sourced with</dt><dd>Kindred Forest</dd><dt>Roasted by</dt><dd>Bija's baristas</dd><!-- which beans come through Kindred Forest: to confirm with Bija --><dt>Weight</dt><dd>${esc(p.size)}</dd></dl><p class="small" style="margin-top:12px">Details are typical of the region. Lot and roast date are printed on the bag.${['origin', 'blend'].includes(p.type) && !p.soon ? ` <a href="trace.html?b=${p.id}">Where it comes from</a>` : ''}</p></div></details>` : '';
   root.innerHTML = `<div class="pd">
     <div class="gal"><div class="pimg" style="--pbg:${S.bgFor(p)}">${S.bagArt(p)}${p.soon ? '<span class="flag dark">Coming soon</span>' : ''}</div>
-      <div class="thumbs">${photos.map(([f, a]) => `<img src="photos/${f}.jpg" alt="${a}" loading="lazy">`).join('')}</div></div>
+      <div class="thumbs">${photos.map(([f, a, w, h]) => `<img src="photos/${f}.jpg" width="${w}" height="${h}" alt="${a}" loading="lazy" decoding="async">`).join('')}</div></div>
     <div class="buy"><span class="eyebrow">${esc(S.kind(p))}</span><h1>${esc(p.name)}</h1>
       <div class="notes">${p.notes.map((n) => `<span>${esc(n)}</span>`).join('')}</div>
       <p class="blurb">${esc(p.blurb)}</p>
@@ -92,19 +93,19 @@ document.addEventListener('DOMContentLoaded', () => {
       ${p.soon ? `<div class="form"><p>${esc(p.name)} is on its way. Sign up to our emails and we'll tell you the day it lands.</p><button class="btn" data-notify="${p.id}">Notify me</button></div>` : `
       <form class="form" id="buy" novalidate>
         ${S.canSub(p) ? `<fieldset class="field"><legend>How would you like it?</legend><div class="plans">
-          <label class="plan"><input type="radio" name="plan" value="once" checked><span><b>One-off purchase</b><span class="small">Delivery £3.95, free over £30</span></span><span class="pp">${money(p.price)}</span></label>
-          <label class="plan"><input type="radio" name="plan" value="sub"><span><b>Subscribe &amp; save 10%</b><span class="small">Free delivery · skip, pause or cancel any time</span></span><span class="pp"><s>${money(p.price)}</s>${money(subPrice)}</span></label>
+          <label class="plan"><input type="radio" name="plan" value="once" checked><span><b>One-off purchase</b><span class="small">Delivery £3.95, free on orders of £30 or more</span></span><span class="pp">${money(p.price)}</span></label>
+          <label class="plan"><input type="radio" name="plan" value="sub"><span><b>Subscribe &amp; save 10%</b><span class="small">Free delivery · change, skip, pause or cancel up to 3 days before dispatch</span></span><span class="pp"><s>${money(p.price)}</s>${money(subPrice)}</span></label>
           <div class="freq field" id="freqw" hidden><label for="freq">Deliver every</label><select class="inp" id="freq"><option value="2w">2 weeks</option><option value="3w">3 weeks</option><option value="4w">4 weeks</option></select></div>
         </div></fieldset>` : `<p class="small" style="margin:0">One payment of ${money(p.price)} covers all three deliveries. Delivery included.</p>`}
         <fieldset class="field"><legend>Grind <span class="hint">· how you brew</span></legend><div class="chips" id="grinds">${S.GRINDS.map((g, i) => `<label class="chip"><input type="radio" name="grind" value="${g}" ${i ? '' : 'checked'}>${g}</label>`).join('')}</div></fieldset>
         <div class="addrow"><div class="step" role="group" aria-label="Quantity"><button type="button" data-q="-1" aria-label="One fewer">−</button><output id="qty" aria-live="polite">1</output><button type="button" data-q="1" aria-label="One more">+</button></div><button class="btn" type="submit" id="addbtn">Add to basket</button></div>
-        <ul class="perks"><li id="earn"></li><li>Free click &amp; collect at 2a St James's Market</li><li>Prices include VAT</li></ul>
+        <div id="eta"></div><ul class="perks"><li id="earn"></li><li>Free click &amp; collect at 2a St James's Market</li><li>Prices include VAT</li></ul>
       </form>`}
       <div class="acc faq">
         ${origin}
         ${p.soon ? '' : `<details><summary>Brew guide · <span id="bgname">${S.GRINDS[0]}</span></summary><div id="brew">${esc(S.BREW[S.GRINDS[0]])}</div></details>`}
-        <details><summary>Delivery &amp; returns</summary><div>Royal Mail Tracked 48 for £3.95, free on orders over £30 and on every subscription. Usually dispatched within two working days. Unopened bags can be returned within 14 days of delivery. <a href="delivery.html">Delivery &amp; returns</a></div></details>
-        ${S.canSub(p) && !p.soon ? `<details><summary>About subscriptions</summary><div>Pick 2, 3 or 4 weeks between deliveries. Change your coffee or grind, skip a delivery, pause or cancel any time before your next dispatch. No minimum term. <a href="subscribe.html">How the Beans Club works</a></div></details>` : ''}
+        <details><summary>Delivery &amp; returns</summary><div>Royal Mail Tracked 48 for £3.95, free on orders of £30 or more and on every subscription. Usually dispatched within two working days. Unopened bags can be returned within 14 days of delivery. <a href="delivery.html">Delivery &amp; returns</a></div></details>
+        ${S.canSub(p) && !p.soon ? `<details><summary>About subscriptions</summary><div>Pick 2, 3 or 4 weeks between deliveries. Change, skip, pause or cancel any time up to 3 days before your next dispatch. No minimum term. <a href="subscribe.html">How the Beans Club works</a></div></details>` : ''}
       </div>
     </div></div>`;
   document.getElementById('more').innerHTML = S.P.filter((x) => x.id !== p.id && !x.soon).slice(0, 4).map((x) => S.card(x)).join('');
@@ -118,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('addbtn').textContent = plan !== 'once' ? `Subscribe · ${money(sum)} ${S.PLANS[plan].toLowerCase()}` : `Add to basket · ${money(sum)}`;
     const fw = document.getElementById('freqw'); if (fw) fw.hidden = st.plan !== 'sub';
   }
+  { const e = document.getElementById('eta'); if (e && window.BijaDiscover) e.innerHTML = window.BijaDiscover.deliveryHTML(); }
   if (form) {
     form.addEventListener('change', (e) => {
       if (e.target.name === 'plan') st.plan = e.target.value;
@@ -128,6 +130,9 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('click', (e) => { const q = e.target.closest('[data-q]'); if (!q) return; st.qty = Math.max(1, Math.min(20, st.qty + +q.dataset.q)); paint(); });
     form.addEventListener('submit', (e) => { e.preventDefault(); S.add(p.id, { grind: st.grind, plan: st.plan === 'sub' ? st.freq : 'once', qty: st.qty }); S.openCart(); });
   }
+  // a plan in the link (product.html?id=…&plan=2w|3w|4w) preselects Subscribe & save at that frequency
+  { const want = new URLSearchParams(location.search).get('plan');
+    if (form && S.canSub(p) && ['2w', '3w', '4w'].includes(want)) { st.plan = 'sub'; st.freq = want; const r = form.querySelector('input[name=plan][value=sub]'); if (r) r.checked = true; const f = document.getElementById('freq'); if (f) f.value = want; } }
   paint();
 });
 </script>

@@ -16,3 +16,6 @@ h2 { font: 900 26px/1 var(--disp); text-transform: uppercase; margin: 40px 0 10p
 p, li { color: #333; } .muted { color: var(--muted); font-size: 14px; }
 table { width: 100%; border-collapse: collapse; font-size: 14px; } th, td { text-align: left; padding: 10px 6px; border-bottom: 1px solid var(--line); vertical-align: top; } th { color: var(--muted); font-weight: 600; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
 .note { background: var(--tile); border-radius: 12px; padding: 14px 16px; font-size: 14px; color: #333; }
+
+.cols { columns: 2; column-gap: 32px; }
+@media (max-width: 560px) { .cols { columns: 1; } }

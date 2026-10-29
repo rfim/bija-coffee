@@ -6,7 +6,7 @@ You're on the list.
 
 Thanks for signing up, {{first_name}}. About twice a month we'll send you new beans, events at St James's Market and members' offers.
 
-Kopi from the archipelago: specialty beans from Sumatra and Java, roasted with Kindred Forest. Best New Coffee Shop, London Coffee Festival Awards 2025.
+Kopi from the archipelago: specialty beans from Sumatra and Java. Sourced with our partner Kindred Forest and roasted by Bija's baristas. Best New Coffee Shop, London Coffee Festival Awards 2025.
 
 Shop coffee: https://rfim.github.io/bija-coffee/shop.html
 

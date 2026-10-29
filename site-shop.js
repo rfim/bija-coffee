@@ -125,12 +125,12 @@
     x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
     mark: `<svg viewBox="-2 -2 104 104" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="5">${MARK}</g></svg>`,
   };
-  const NAV = [['shop.html', 'Shop coffee'], ['subscribe.html', 'Subscriptions'], ['shop.html?c=gifts', 'Gifts'], ['rewards.html', 'Rewards'], ['./#visit', 'Our place'], ['app.html?view=app', 'App']];
+  const NAV = [['shop.html', 'Shop'], ['subscribe.html', 'Subscribe'], ['gifts.html', 'Gifts'], ['menu.html', 'Menu'], ['find.html', 'Find your kopi'], ['visit.html', 'Visit']];
   function announce() {
     return `<div class="announce" role="region" aria-label="Offers">
-      <span class="msg">Free UK delivery on orders over £30 · <a href="delivery.html">Delivery &amp; returns</a></span>
-      <span class="msg" aria-hidden="true">Subscribe and save 10% on every bag · <a href="subscribe.html">Join the Beans Club</a></span>
-      <span class="msg" aria-hidden="true">10 points for every £1 in the café, the app and online · <a href="rewards.html">Rewards</a></span></div>`;
+      <span class="msg">Free UK delivery on orders of £30 or more · <a href="delivery.html">Delivery &amp; returns</a></span>
+      <span class="msg" aria-hidden="true" inert>Subscribe and save 10% on every bag · <a href="subscribe.html">Join the Beans Club</a></span>
+      <span class="msg" aria-hidden="true" inert>10 points for every £1 in the café, the app and online · <a href="rewards.html">Rewards</a></span></div>`;
   }
   const cartBtn = () => `<button class="iconbtn cartbtn" data-cart aria-label="Basket">${ICON.bag}<span class="count" data-cart-count></span></button>`;
   function header() {
@@ -139,21 +139,22 @@
       <span class="menuslot"><button class="iconbtn menubtn" aria-expanded="false" aria-controls="mainnav" aria-label="Menu">${ICON.menu}</button></span>
       <a class="brand" href="./" aria-label="Bija home">${ICON.mark}Bija</a>
       <nav class="mainnav" id="mainnav" aria-label="Main">${NAV.map(([h, l]) => `<a href="${h}" ${here === h || (h === 'shop.html' && here === 'shop.html') || (here.startsWith('product.html') && h === 'shop.html') ? 'aria-current="page"' : ''}>${l}</a>`).join('')}</nav>
-      <div class="hact"><a class="btn sm ghost hidesm" href="app.html?view=app">Order ahead</a>${cartBtn()}</div>
+      <div class="hact"><a class="hlink hidesm" href="help.html">Help</a><a class="btn sm ghost hidesm" href="app.html?view=app">Order ahead</a>${cartBtn()}</div>
     </div></header>`;
   }
   function footer() {
     return `<footer class="sfoot"><div class="wrap">
       <div class="cols">
-        <div class="news" id="newsletter"><h4>Get the good stuff first</h4><p>New beans, events at St James's Market and members' offers. About twice a month.</p>
+        <div class="news" id="newsletter"><p class="fh">Get the good stuff first</p><p>New beans, events at St James's Market and members' offers. About twice a month.</p>
           <form data-news novalidate><label class="vh" for="news-email">Email address</label>
             <div class="row"><input class="inp" id="news-email" type="email" name="email" autocomplete="email" placeholder="Email address" required><button class="btn" type="submit">Sign up</button></div>
             <label class="check"><input type="checkbox" name="consent" required><span>Yes, email me news and offers from Bija. I can unsubscribe at any time. See our <a href="privacy.html">privacy notice</a>.</span></label>
             <p class="err" data-news-err role="alert"></p><p class="ok" data-news-ok role="status"></p></form></div>
-        <nav aria-label="Shop"><h4>Shop</h4><a href="shop.html">All coffee</a><a href="subscribe.html">Subscriptions</a><a href="product.html?id=set">Discovery set</a><a href="product.html?id=gift">Gift subscription</a><a href="app.html?view=app#gifts">Gift cards</a></nav>
-        <nav aria-label="Bija"><h4>Bija</h4><a href="./#visit">Our place</a><a href="./#menu">Café menu</a><a href="./#whats-on">What's on</a><a href="rewards.html">Rewards</a><a href="app.html?view=app">The app</a></nav>
-        <nav aria-label="Help"><h4>Help</h4><a href="delivery.html">Delivery &amp; returns</a><a href="delivery.html#terms">Terms of sale</a><a href="mailto:info@bijalondon.co.uk">info@bijalondon.co.uk</a><a href="tel:+442046033086">+44 20 4603 3086</a><a href="./#menu">Allergens</a></nav>
-        <nav aria-label="Legal"><h4>Legal</h4><a href="privacy.html">Privacy notice</a><a href="privacy.html#cookies">Cookies</a><a href="accessibility.html">Accessibility</a><a href="https://www.instagram.com/bija.london/" rel="noopener" target="_blank">Instagram @bija.london</a></nav>
+        <nav aria-label="Shop"><p class="fh">Shop</p><a href="shop.html">All coffee</a><a href="subscribe.html">Subscriptions</a><a href="gifts.html">Gifts</a><a href="product.html?id=set">Discovery set</a><a href="product.html?id=gift">Gift subscription</a><a href="app.html?view=app#gifts">Gift cards</a><a href="offices.html">For offices</a></nav>
+        <nav aria-label="Bija"><p class="fh">Bija</p><a href="visit.html">Visit us</a><a href="menu.html">Café menu</a><a href="events.html">What's on</a><a href="find.html">Find your kopi</a><a href="origins.html">Origins</a><a href="brew.html">Brew guides</a><a href="trace.html?b=house">Bean passport</a><a href="sustainability.html">Sustainability</a><a href="rewards.html">Rewards</a><a href="install.html">Get the app</a><a href="press.html">Press</a></nav>
+        <!-- email address is a mock-up: to confirm with Bija -->
+        <nav aria-label="Help"><p class="fh">Help</p><a href="help.html">Help centre</a><a href="contact.html">Contact us</a><a href="delivery.html">Delivery &amp; returns</a><a href="delivery.html#terms">Terms of sale</a><a href="allergens.html">Allergens</a><a href="mailto:info@bijalondon.co.uk">info@bijalondon.co.uk</a><a href="tel:+442046033086">+44 20 4603 3086</a></nav>
+        <nav aria-label="Legal"><p class="fh">Legal</p><a href="privacy.html">Privacy notice</a><a href="privacy.html#cookies">Cookies</a><a href="accessibility.html">Accessibility</a><a href="https://www.instagram.com/bija.london/" rel="noopener" target="_blank">Instagram @bija.london</a></nav>
       </div>
       <div class="bigmark" aria-hidden="true">${ICON.mark}Bija</div>
       <div class="legalline"><span>© Bija Coffee Limited, registered in England and Wales, company number 15383542. 2a St James's Market, London SW1Y 4AH. Prices include VAT.</span><span>Concept rebuild by Firman Insan M, not an official Bija page.</span></div>
@@ -229,6 +230,8 @@
       const plan = el.dataset.plan || 'once';
       el.innerHTML = el.dataset.products.split(',').map((id) => byId(id.trim())).filter(Boolean).map((p) => card(p, { plan })).join('');
     });
+    // a fan of three bag illustrations, used as designed art in heroes
+    document.querySelectorAll('[data-fan]').forEach((el) => { el.innerHTML = el.dataset.fan.split(',').map((id) => byId(id.trim())).filter(Boolean).map((p) => `<div class="pimg" style="--pbg:${bgFor(p)}">${bagArt(p)}</div>`).join(''); });
     document.querySelectorAll('[data-mk]').forEach((el, i) => { el.innerHTML = markCycle(); el.firstChild.style.animationDelay = `${-i * 3}s`; });
     // reveal on scroll for shop pages (the home page has its own)
     if (!document.body.classList.contains('home') && 'IntersectionObserver' in window && !reduce()) {
@@ -239,7 +242,7 @@
     }
     // rotate the announcement messages
     const msgs = [...document.querySelectorAll('.announce .msg')];
-    if (msgs.length > 1 && !reduce()) { let i = 0; setInterval(() => { if (document.hidden) return; msgs[i].setAttribute('aria-hidden', 'true'); i = (i + 1) % msgs.length; msgs[i].removeAttribute('aria-hidden'); }, 5000); }
+    if (msgs.length > 1 && !reduce()) { let i = 0; setInterval(() => { if (document.hidden || msgs[i].contains(document.activeElement)) return; msgs[i].setAttribute('aria-hidden', 'true'); msgs[i].inert = true; i = (i + 1) % msgs.length; msgs[i].removeAttribute('aria-hidden'); msgs[i].inert = false; }, 5000); }
     else msgs.slice(1).forEach((m) => m.remove());
     paint();
   }
@@ -284,10 +287,20 @@
     ok.textContent = ''; f.email.removeAttribute('aria-invalid');
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)) { err.textContent = 'Enter an email address like name@example.com.'; f.email.setAttribute('aria-invalid', 'true'); f.email.focus(); return; }
     if (!f.consent.checked) { err.textContent = 'Tick the box to say you want our emails.'; f.consent.focus(); return; }
-    err.textContent = ''; f.reset(); ok.textContent = 'Thank you. This is a demo, so no email was stored or sent.';
+    err.textContent = ''; f.reset();
+    backend().then((B) => (B ? B.subscribeNewsletter(em, 'web-footer') : null)).then((r) => { ok.textContent = r && r.ok !== false ? "Thank you. You're on the list." : 'Thank you. This is a demo, so no email was stored or sent.'; }).catch(() => { ok.textContent = 'Thank you. This is a demo, so no email was stored or sent.'; });
   });
   addEventListener('storage', (e) => { if (e.key === 'bija.shop.cart') paint(); });
 
-  window.BijaShop = { P, GRINDS, PLANS, BREW, SUB_OFF, POST, FREE_AT, PTS, byId, unit, canSub, cart, saveCart, add, lines, totals, count, card, bagArt, bgFor, kind, money, esc, store, toast, markCycle, openCart, closeCart, paint };
+  let be = null;
+  function backend() {
+    if (be) return be;
+    const live = location.protocol === 'https:' && !/^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname);
+    if (!live && new URLSearchParams(location.search).get('backend') !== 'supabase') return (be = Promise.resolve(null));
+    be = new Promise((res) => { const sc = document.createElement('script'); sc.src = 'bija-supabase.js'; sc.async = true; sc.onload = () => res(window.BijaSupabase || null); sc.onerror = () => res(null); document.head.appendChild(sc); })
+      .then((B) => (B ? B.connect().then(() => B) : null)).catch(() => null);
+    return be;
+  }
+  window.BijaShop = { P, GRINDS, PLANS, BREW, SUB_OFF, POST, FREE_AT, PTS, byId, unit, canSub, cart, saveCart, add, lines, totals, count, card, bagArt, bgFor, kind, money, esc, store, toast, markCycle, openCart, closeCart, paint, backend };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount); else mount();
 })();

@@ -13,7 +13,7 @@ function pages() {
 
 // Fresh, deterministic state for every page: no remembered view, no service worker
 async function openPage(browser, page, viewport = { width: 1280, height: 900 }) {
-  const context = await browser.newContext({ viewport, serviceWorkers: 'block', reducedMotion: 'reduce' });
+  const context = await browser.newContext({ viewport, serviceWorkers: 'block', reducedMotion: 'reduce', bypassCSP: true }); // the app's CSP blocks injected scripts, including axe; audits bypass it (tests/security.js keeps CSP on)
   const tab = await context.newPage();
   const errors = [];
   tab.on('pageerror', (e) => errors.push(String(e && e.message || e)));

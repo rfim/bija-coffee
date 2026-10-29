@@ -13,6 +13,8 @@
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
+<script src="site-discover.js" defer></script>
+
 <style>
 .co { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); padding-top: 10px; align-items: start; }
 @media (max-width: 900px) { .co { grid-template-columns: minmax(0, 1fr); } .co .summary { order: -1; } }
@@ -62,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ${ls.map((l) => `<div class="sline"><span class="thumb" style="--pbg:${S.bgFor(l.p)}" aria-hidden="true">${S.bagArt(l.p)}</span><span><b>${esc(l.name)} × ${l.qty}</b><span class="small">${esc(l.grind)} · ${l.plan === 'once' ? (l.p.type === 'gift' ? 'Prepaid, 3 months' : 'One-off') : S.PLANS[l.plan] + ', save 10%'}</span></span><span>${money(l.total)}</span></div>`).join('')}
     <div class="sumrow"><span>Subtotal</span><span>${money(t.subtotal)}</span></div>
     <div class="sumrow"><span>Delivery</span><span>${t.fee ? money(t.fee) : 'Free'}</span></div>
+    ${window.BijaDiscover ? (() => { const D = window.BijaDiscover, e = D.delivery(); return `<div class="sumrow small"><span>Royal Mail arrival</span><span>${D.ukDay(e.from)} to ${D.ukDay(e.to)}</span></div>`; })() : ''}
     <div class="sumrow big"><span>Total</span><span>${money(t.total)}</span></div>
     <p class="small" style="margin:0">Includes VAT. Earn about ${t.pts.toLocaleString('en-GB')} points on your Bija Card.</p></div>`;
   function draw() {
@@ -78,8 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <fieldset class="panel"><legend class="vh">Delivery method</legend><h2 aria-hidden="true">Delivery</h2>
           <div class="methods">
-            <label class="method"><input type="radio" name="method" value="post" checked><span><b>Royal Mail Tracked 48</b><span class="small">Usually 2 to 3 working days. Free over £30 and on subscriptions.</span></span><span id="postfee"></span></label>
+            <label class="method"><input type="radio" name="method" value="post" checked><span><b>Royal Mail Tracked 48</b><span class="small">Usually 2 to 3 working days. Free on orders of £30 or more and on subscriptions.</span></span><span id="postfee"></span></label>
             <label class="method"><input type="radio" name="method" value="collect"><span><b>Click &amp; collect</b><span class="small">2a St James's Market, SW1Y 4AH. We'll email you when it's ready.</span></span><span>Free</span></label>
+            <p class="small" style="margin:8px 0 0">Questions about delivery? <a href="help.html">Help centre</a></p>
           </div>
           <div id="addr" class="panel" style="border:0;padding:0;margin:0">
             <div class="field"><label for="f-a1">Address line 1</label><input class="inp" id="f-a1" name="a1" autocomplete="address-line1" aria-describedby="e-a1"><p class="err" id="e-a1"></p></div>
@@ -130,6 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
       subtotal: t.subtotal, total: t.total, status: 'placed', marketing: !!form.elements.mkt.checked };
     const orders = S.store.get('bija.shop.orders', []);
     const ok = S.store.set('bija.shop.orders', [...(Array.isArray(orders) ? orders : []), order]);
+    // live site only: also save the order to the backend (same id); the local copy above keeps the demo working offline
+    S.backend().then((B) => B && B.placeShopOrder(order)).catch(() => {});
     if (!ok) { btn.disabled = false; btn.textContent = `Place order · ${money(t.total)}`; box.innerHTML = '<div class="errsum panel" role="alert" tabindex="-1"><h2>We couldn\'t save your order</h2><p>Your browser is blocking storage. Try again outside private browsing.</p></div>'; box.firstChild.focus(); return; }
     placed = true; S.saveCart([]);
     scrollTo(0, 0);

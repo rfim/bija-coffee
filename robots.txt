@@ -1,0 +1,7 @@
+# Concept rebuild for Bija Coffee: kept out of search engines so it is never mistaken for Bija's official site.
+# On launch at Bija's own domain, replace with:
+#   User-agent: *
+#   Allow: /
+#   Sitemap: https://www.bijalondon.co.uk/sitemap.xml
+User-agent: *
+Disallow: /
