@@ -11,7 +11,7 @@ These details are checked against `app.html` on this branch:
 
 - **Order ahead:** choose a collection slot (ASAP, 10, 20 or 30 min) and skip the queue.
 - **Bija Card points:** 10 points per £1. Rewards: **350 = any cake · 400 = any drink · 1,200 = a 200 g bag of beans**.
-- **Welcome bonus: +100 points** on joining (`BONUS.welcome = 100`).
+- **Welcome bonus: +100 points** on the member's **first order** (`BONUS.welcome = 100`; the rewards page on `main` says "your first order brings 100 welcome points").
 - **Challenges:** *Regular* (3 visits in a week, +150), *Explorer* (5 different drinks, +150), *Birthday* (+200). Together these are capped at **200 points per member per calendar month**.
 - **Origins Passport:** stamp all five origins for +600 (Lintong, Mandheling, Gayo, Kintamani, Old Brown Java). **[Confirm]** Gayo and Kintamani are in the app's passport but are not among the four beans on the shelf. Do we serve them as filter or guest coffees?
 - **Secret St James's** walking trail: +400 when complete.
@@ -30,13 +30,13 @@ These details are checked against `app.html` on this branch:
 3. "Coffee with a homeland."
 
 **Launch headline:** *Your Bija, in your pocket.*
-**Support line:** *Order ahead, collect points on every cup, and earn a free drink at 400. Join today and we'll start you with 100 points.*
+**Support line:** *Order ahead, collect points on every cup, and earn a free drink at 400. Your first order brings 100 welcome points.*
 
 **Message hierarchy (in this order on every piece):**
 
 1. Skip the queue: order ahead from your desk.
 2. Every £1 = 10 points, and a free drink at 400.
-3. +100 points when you join.
+3. +100 welcome points on your first order.
 4. *(Then the story:)* the Origins Passport, the Secret St James's trail and gift cards.
 
 **Tone check:** say "kopi susu with arenga palm sugar", not "sweet latte". Name the origin (Sumatra Lintong, not "Indonesian coffee"). Be warm, never hype. No exclamation-mark pile-ups.
@@ -45,7 +45,7 @@ These details are checked against `app.html` on this branch:
 
 ### Welcome: +100 points (live)
 
-On materials: **"Join the Bija Card and get 100 points. New members only, one per person. Points have no cash value. Terms: [terms URL]."**
+On materials: **"100 welcome points on your first order. New members only, one per person. Points have no cash value. Terms: [terms URL]."**
 100 points is a quarter of the way to a free drink. Say that plainly; don't dress it up as a "free gift".
 
 ### Referral: proposed spec for the product lead [Decision needed]
@@ -75,7 +75,7 @@ All prices in copy include VAT. QR codes point to the live app URL **[Confirm: t
 > **Front:**
 > **Your Bija, in your pocket.**
 > Order ahead. Collect points. A free drink at 400.
-> *[QR] Scan to join and get 100 points*
+> *[QR] Scan to join. Your first order brings 100 points.*
 >
 > **Back:**
 > **How the Bija Card works**
@@ -91,7 +91,7 @@ Design: the Bija Card stays black and white (as in the app). A thin batik-style 
 ### Cup sleeve (1,000 to start, hot cups)
 
 > Side A: **Indonesia, by the cup.**
-> Side B: *Skip the queue next time. Scan for the Bija app and get +100 points.* [QR] · @bija.london
+> Side B: *Skip the queue next time. Scan for the Bija app. 100 welcome points on your first order.* [QR] · @bija.london
 
 A **[R]** version adds: *"Invite a friend: you both get points."*
 Cost [Assumption]: about £0.18–£0.30 per sleeve for a short custom run. Get two quotes, and ask for recycled board.
@@ -104,14 +104,14 @@ Cost [Assumption]: about £0.18–£0.30 per sleeve for a short custom run. Get 
 > Got a gift card? Add the code in the app, or show it at the till.
 
 **Barista script (8 seconds):**
-"Do you have the Bija Card? You'd get 100 points just for joining, and this coffee counts. It's the QR right there."
+"Do you have the Bija Card? Your first order gets you 100 welcome points, and this coffee counts. It's the QR right there."
 If they say no thanks, smile and move on. Never ask twice.
 
 ### Window and A-board (launch week)
 
 > **New: the Bija app.**
 > Order ahead from your desk, collect at 2a St James's Market.
-> Join this week: +100 points. *New members only; terms in the app.*
+> 100 welcome points on your first order. *New members only; terms in the app.*
 
 ## 5. Photo and filming consent
 
@@ -121,14 +121,14 @@ Anyone identifiable in a photo or video needs consent before we post, and staff 
 > We're filming for Instagram today. If you'd rather not be in it, just tell us and we'll keep you out of shot.
 
 **Consent card (customers who will be clearly visible):**
-> I agree that Bija Coffee may use photos and video of me taken on [date] on Bija's social media, website and app for up to 2 years. I can ask for them to be removed at any time by emailing hello@bija.example *(mock-up; replace before printing)* or DMing @bija.london.
+> I agree that Bija Coffee may use photos and video of me taken on [date] on Bija's social media, website and app for up to 2 years. I can ask for them to be removed at any time by emailing info@bijalondon.co.uk *(mock-up; confirm before printing)* or DMing @bija.london.
 > Name · Signature · Instagram handle (optional, for tagging) · Date
 
 Keep cards for 2 years **[Confirm against the privacy notice in `privacy.html`]**. Never film children without a parent's or guardian's consent; it's simpler not to.
 
 ## 6. Twelve ready-to-post captions with shot lists
 
-All shots are from the real room: the batik-style textile mural, flower pendant lamps, rattan stools, the window bar, the terrace, the "Read 'em & Return" book shelf, the bean shelf, the arenga sugar condiment bar, and the award in the window. Where a photo already exists in `photos/`, it's named.
+All shots are from the real room: the batik-style textile mural, flower pendant lamps, rattan stools, the window bar, the terrace, the "Read 'em & Return" book shelf, the bean shelf, the arenga sugar condiment bar, and the award in the window. Where a photo already exists in `photos/` (after the clean-photo update on `main`), it's named; "new shot needed" means we have to shoot it.
 
 Hashtags stay short and local. Alt text is included for accessibility. **No caption here is an ad.** If one is boosted with paid spend, Meta labels it "Sponsored", which is enough. If a creator posts it, they add **#ad**.
 
@@ -137,14 +137,14 @@ Hashtags stay short and local. Alt text is included for accessibility. **No capt
 **1. Launch day (IG Reel + TT) · Mon 16 Nov**
 *Shot list:* (1) Hand pulls a shot under the flower pendant lamps. (2) Phone on the window bar showing the app's order screen. (3) Barista calls a name and slides the cup across. (4) The Bija Card screen showing points. (5) End card: "Indonesia, by the cup." 15–20 s, with ambient bar sound (no licensed music on the business account unless it's cleared).
 *Caption:*
-> The Bija app is here. Order ahead from your desk, collect at the window, and earn 10 points for every £1. A free drink at 400, and we'll start you with 100.
+> The Bija app is here. Order ahead from your desk, collect at the window, and earn 10 points for every £1. A free drink at 400, and 100 welcome points on your first order.
 > Link in bio. New members only; terms in the app.
 > #bijalondon #stjamesmarket #kopisusu
 
 *Alt text:* Espresso pouring under flower-shaped pendant lamps, then a phone showing the Bija app on a wooden window bar.
 
 **2. How points work (IG carousel, 5 slides) · Tue 17 Nov**
-*Shot list:* (1) Overhead of lapis legit and a latte (`photos/shop-1.jpg`): "350 = any cake". (2) Kopi susu on the window bar (`speciality-1.jpg`): "400 = any drink". (3) The Sumatra Mandheling bags (`shop-5.jpg`): "1,200 = a 200 g bag". (4) Origins Passport screen. (5) "+100 when you join."
+*Shot list:* (1) Overhead of lapis legit and a latte (`photos/shop-1.jpg`): "350 = any cake". (2) Kopi susu on the window bar (`photos/feature-2.jpg`): "400 = any drink". (3) The Sumatra Mandheling bags (new shot needed): "1,200 = a 200 g bag". (4) Origins Passport screen. (5) "+100 when you join."
 *Caption:*
 > How the Bija Card works, in one swipe: 10 points per £1. 350 for any cake (yes, lapis legit), 400 for any drink, 1,200 for a 200 g bag of our beans. Fill your Origins Passport for 600 more.
 > Join in the app (link in bio). New members only; terms in the app.
@@ -152,7 +152,7 @@ Hashtags stay short and local. Alt text is included for accessibility. **No capt
 *Alt text:* Five slides showing a slice of layered lapis legit cake, a coffee on the window bar, bags of Sumatra Mandheling beans and two app screens.
 
 **3. Kopi susu, explained (Reel) · Thu 19 Nov**
-*Shot list:* (1) Close-up of the arenga sugar at the condiment bar (`feature-3.jpg`, `speciality-3.jpg`). (2) Sugar spooned into the cup. (3) Espresso. (4) Milk poured, slow. (5) The finished cup held up against the batik mural.
+*Shot list:* (1) Close-up of the arenga sugar at the condiment bar (`photos/feature-3.jpg`). (2) Sugar spooned into the cup. (3) Espresso. (4) Milk poured, slow. (5) The finished cup held up against the batik mural.
 *Caption:*
 > Kopi susu means "coffee with milk", and in Indonesia it's an everyday ritual. Ours is sweetened with arenga palm sugar, which is darker and more caramel than cane sugar. Order it ahead and it's waiting when you arrive.
 > #kopisusu #indonesiancoffee #bijalondon
@@ -177,7 +177,7 @@ Hashtags stay short and local. Alt text is included for accessibility. **No capt
 *Alt text:* One phone sending a Bija gift card and another receiving it, then a wrapped bag of coffee on a wooden shelf.
 
 **6. Black Friday (IG post) · Fri 27 Nov**
-*Shot list:* A single still of the shop window at golden hour, with the award poster visible (`space-2.jpg` or a fresh one).
+*Shot list:* A single still of the shop window at golden hour, with the award poster visible (new shot needed).
 *Caption:*
 > Our Black Friday: nothing off, something better. A gift card from £5, a 200 g bag of Sumatra Lintong (£12), and a seat at the window bar.
 > We'd rather give you a good cup than a discount.
@@ -185,7 +185,7 @@ Hashtags stay short and local. Alt text is included for accessibility. **No capt
 *Alt text:* Bija's shop window in St James's Market, with an award poster in the glass.
 
 **7. The room (Reel, slow) · Tue 1 Dec**
-*Shot list:* Slow pans of (1) the flower pendant lamps (`shop-2.jpg`), (2) the batik-style mural above the bean shelves (`feature-1.jpg`), (3) the rattan stools at the window bar (`space-3.jpg`), (4) the "Read 'em & Return" shelf (`speciality-2.jpg`), (5) the terrace. Natural light, no people unless they've given consent.
+*Shot list:* Slow pans of (1) the flower pendant lamps (`photos/shop-2.jpg`), (2) the batik-style mural above the bean shelves (`photos/feature-1.jpg`), (3) the rattan stools at the window bar (`photos/shop-3.jpg`), (4) the "Read 'em & Return" shelf (new shot needed), (5) the terrace. Natural light, no people unless they've given consent.
 *Caption:*
 > A batik-style mural, flower lamps and rattan stools: a little corner of Indonesia in St James's. Take a book from the "Read 'em & Return" shelf, bring it back when you're done.
 
@@ -200,7 +200,7 @@ Hashtags stay short and local. Alt text is included for accessibility. **No capt
 *Alt text:* A phone showing a trail card, a walk through St James's under Christmas lights, and a coffee to finish.
 
 **9. Meet the beans (IG carousel, 4 slides) · Mon 14 Dec**
-*Shot list:* One slide per bag on the shelf (`space-1.jpg`, `shop-5.jpg`): House Blend, Sumatra Mandheling, Sumatra Lintong, Old Brown Java, each with the bag, a cup and 3 tasting notes. **[Confirm notes with the head barista; draft from the app: Mandheling "dark chocolate, earthy, syrupy"; Lintong "herbal, cocoa, heavy body"; Old Brown Java "woody, spice, very low acidity"]**
+*Shot list:* One slide per bag on the shelf (new shots needed): House Blend, Sumatra Mandheling, Sumatra Lintong, Old Brown Java, each with the bag, a cup and 3 tasting notes. **[Confirm notes with the head barista; draft from the app: Mandheling "dark chocolate, earthy, syrupy"; Lintong "herbal, cocoa, heavy body"; Old Brown Java "woody, spice, very low acidity"]**
 *Caption:*
 > Four bags, four ways to give Indonesia this Christmas. All 200 g, all £12. Tell us who you're buying for and we'll help you choose.
 > 1,200 Bija Card points also gets you a bag free.
