@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#000000">
+<meta name="description" content="Indonesian specialty coffee from Bija, 200 g bags ground to order. Buy once or subscribe and save 10% with free UK delivery.">
+<title>Coffee · Bija</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="site-shop.css">
+<script src="site-shop.js" defer></script>
+<style>
+.pd { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); padding-top: 14px; }
+@media (max-width: 900px) { .pd { grid-template-columns: minmax(0, 1fr); } }
+.gal { display: grid; gap: 12px; align-content: start; position: sticky; top: 80px; }
+@media (max-width: 900px) { .gal { position: static; } }
+.gal .pimg { aspect-ratio: 1 / 1.05; }
+.gal .pimg svg.bag { inset: 8% 22% 4%; width: 56%; }
+.thumbs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+.buy h1 { margin: 6px 0 6px; font-size: clamp(32px, 4vw, 52px); font-weight: 300; letter-spacing: -.02em; line-height: 1.02; }
+.buy .notes { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0 14px; }
+.buy .notes span { border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font-size: 13px; }
+.buy .blurb { color: #d6d6d6; margin: 0 0 18px; max-width: 54ch; }
+.price { font-size: 26px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.price small { font-size: 14px; color: var(--muted); font-weight: 400; }
+.form { display: grid; gap: 20px; margin-top: 18px; }
+.plans { display: grid; gap: 10px; }
+.plan { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 12px; align-items: center; border: 1px solid var(--line); padding: 14px 16px; cursor: pointer; min-height: 56px; }
+.plan input { width: 20px; height: 20px; margin: 0; accent-color: #fff; }
+.plan:has(input:checked) { border-color: #fff; background: #111; }
+.plan:has(input:focus-visible) { outline: 2px solid #fff; outline-offset: 2px; }
+.plan b { font-weight: 600; } .plan .small { display: block; }
+.plan .pp { font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; }
+.plan .pp s { color: var(--muted); font-weight: 400; margin-right: 6px; }
+.freq { margin: 6px 0 0 36px; }
+.addrow { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.addrow .btn { flex: 1; min-height: 52px; font-size: 16px; }
+.perks { display: grid; gap: 6px; font-size: 14px; color: #d6d6d6; margin: 6px 0 0; padding: 0; list-style: none; }
+.acc { margin-top: 26px; border-top: 1px solid var(--line); }
+.acc dl { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 8px 16px; margin: 0; }
+.acc dt { color: var(--muted); } .acc dd { margin: 0; }
+@media (max-width: 520px) { .acc dl { grid-template-columns: minmax(0, 1fr); gap: 2px; } .acc dd { margin-bottom: 8px; } }
+.contains { display: grid; gap: 8px; margin: 0 0 16px; padding: 0; list-style: none; }
+.contains a { display: flex; justify-content: space-between; gap: 10px; border: 1px solid var(--line); padding: 12px 14px; text-decoration: none; min-height: 44px; }
+.contains a:hover { border-color: #fff; }
+.nf { padding: 80px 0; text-align: center; }
+</style>
+</head>
+<body class="shop-page">
+<a class="skip" href="#main">Skip to content</a>
+<div id="shop-top"></div>
+<main id="main">
+  <div class="wrap">
+    <p class="crumbs"><a href="./">Home</a> / <a href="shop.html">Shop coffee</a> / <span id="crumb">Coffee</span></p>
+    <div id="pd"></div>
+    <section class="sec" aria-labelledby="more-h">
+      <div class="sec-h"><div><span class="eyebrow">Keep exploring</span><h2 id="more-h">You might also like</h2></div><a class="more" href="shop.html">Shop all</a></div>
+      <div class="pgrid" id="more"></div>
+    </section>
+  </div>
+  <div class="kband" aria-hidden="true"><span data-mk></span></div>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const S = window.BijaShop, esc = S.esc, money = S.money;
+  const id = new URLSearchParams(location.search).get('id');
+  const p = S.byId(id), root = document.getElementById('pd');
+  if (!p) {
+    root.innerHTML = `<div class="nf"><h1 style="font-weight:300">We couldn't find that coffee</h1><p>It may have sold out or moved.</p><a class="btn" href="shop.html">Shop all coffee</a></div>`;
+    document.getElementById('more').innerHTML = S.P.filter((x) => !x.soon).slice(0, 4).map((x) => S.card(x)).join('');
+    return;
+  }
+  document.title = `${p.name} · Bija`;
+  document.getElementById('crumb').textContent = p.name;
+  const st = { plan: 'once', freq: '2w', grind: S.GRINDS[0], qty: 1 };
+  const subPrice = S.unit(p, '2w');
+  const photos = [['ig/latte-pour', 'Pouring a latte'], ['ig/black-coffee', 'A black coffee at the bar'], ['ig/iced-pour', 'Beans falling into an iced coffee']];
+  const origin = p.region ? `<details class="faq" open><summary>Origin</summary><div><dl><dt>Region</dt><dd>${esc(p.region)}</dd><dt>Altitude</dt><dd>${esc(p.altitude)}</dd><dt>Process</dt><dd>${esc(p.process)}</dd><dt>Tasting notes</dt><dd>${esc(p.notes.join(', '))}</dd><dt>Best for</dt><dd>${esc(p.use)}</dd><dt>Roasted with</dt><dd>Kindred Forest</dd><dt>Weight</dt><dd>${esc(p.size)}</dd></dl><p class="small" style="margin-top:12px">Details are typical of the region. Lot and roast date are printed on the bag.</p></div></details>` : '';
+  root.innerHTML = `<div class="pd">
+    <div class="gal"><div class="pimg" style="--pbg:${S.bgFor(p)}">${S.bagArt(p)}${p.soon ? '<span class="flag dark">Coming soon</span>' : ''}</div>
+      <div class="thumbs">${photos.map(([f, a]) => `<img src="photos/${f}.jpg" alt="${a}" loading="lazy">`).join('')}</div></div>
+    <div class="buy"><span class="eyebrow">${esc(S.kind(p))}</span><h1>${esc(p.name)}</h1>
+      <div class="notes">${p.notes.map((n) => `<span>${esc(n)}</span>`).join('')}</div>
+      <p class="blurb">${esc(p.blurb)}</p>
+      ${p.contains ? `<ul class="contains">${p.contains.map((c) => { const x = S.byId(c); return `<li><a href="product.html?id=${x.id}"><span>${esc(x.name)}</span><span class="small">${esc(x.notes.join(' · '))}</span></a></li>`; }).join('')}</ul>` : ''}
+      <div class="price" id="price"></div>
+      ${p.soon ? `<div class="form"><p>${esc(p.name)} is on its way. Sign up to our emails and we'll tell you the day it lands.</p><button class="btn" data-notify="${p.id}">Notify me</button></div>` : `
+      <form class="form" id="buy" novalidate>
+        ${S.canSub(p) ? `<fieldset class="field"><legend>How would you like it?</legend><div class="plans">
+          <label class="plan"><input type="radio" name="plan" value="once" checked><span><b>One-off purchase</b><span class="small">Delivery £3.95, free over £30</span></span><span class="pp">${money(p.price)}</span></label>
+          <label class="plan"><input type="radio" name="plan" value="sub"><span><b>Subscribe &amp; save 10%</b><span class="small">Free delivery · skip, pause or cancel any time</span></span><span class="pp"><s>${money(p.price)}</s>${money(subPrice)}</span></label>
+          <div class="freq field" id="freqw" hidden><label for="freq">Deliver every</label><select class="inp" id="freq"><option value="2w">2 weeks</option><option value="3w">3 weeks</option><option value="4w">4 weeks</option></select></div>
+        </div></fieldset>` : `<p class="small" style="margin:0">One payment of ${money(p.price)} covers all three deliveries. Delivery included.</p>`}
+        <fieldset class="field"><legend>Grind <span class="hint">· how you brew</span></legend><div class="chips" id="grinds">${S.GRINDS.map((g, i) => `<label class="chip"><input type="radio" name="grind" value="${g}" ${i ? '' : 'checked'}>${g}</label>`).join('')}</div></fieldset>
+        <div class="addrow"><div class="step" role="group" aria-label="Quantity"><button type="button" data-q="-1" aria-label="One fewer">−</button><output id="qty" aria-live="polite">1</output><button type="button" data-q="1" aria-label="One more">+</button></div><button class="btn" type="submit" id="addbtn">Add to basket</button></div>
+        <ul class="perks"><li id="earn"></li><li>Free click &amp; collect at 2a St James's Market</li><li>Prices include VAT</li></ul>
+      </form>`}
+      <div class="acc faq">
+        ${origin}
+        ${p.soon ? '' : `<details><summary>Brew guide · <span id="bgname">${S.GRINDS[0]}</span></summary><div id="brew">${esc(S.BREW[S.GRINDS[0]])}</div></details>`}
+        <details><summary>Delivery &amp; returns</summary><div>Royal Mail Tracked 48 for £3.95, free on orders over £30 and on every subscription. Usually dispatched within two working days. Unopened bags can be returned within 14 days of delivery. <a href="delivery.html">Delivery &amp; returns</a></div></details>
+        ${S.canSub(p) && !p.soon ? `<details><summary>About subscriptions</summary><div>Pick 2, 3 or 4 weeks between deliveries. Change your coffee or grind, skip a delivery, pause or cancel any time before your next dispatch. No minimum term. <a href="subscribe.html">How the Beans Club works</a></div></details>` : ''}
+      </div>
+    </div></div>`;
+  document.getElementById('more').innerHTML = S.P.filter((x) => x.id !== p.id && !x.soon).slice(0, 4).map((x) => S.card(x)).join('');
+  const form = document.getElementById('buy');
+  function paint() {
+    const plan = st.plan === 'sub' ? st.freq : 'once', u = S.unit(p, plan), sum = u * st.qty;
+    document.getElementById('price').innerHTML = p.soon ? `${money(p.price)} <small>${esc(p.size)}</small>` : `${money(sum)} <small>${st.qty > 1 ? st.qty + ' × ' + money(u) + ' · ' : ''}${esc(p.size)}${plan !== 'once' ? ' · ' + S.PLANS[plan].toLowerCase() : ''}</small>`;
+    if (!form) return;
+    document.getElementById('qty').textContent = st.qty;
+    document.getElementById('earn').textContent = `Earn ${Math.round(sum * S.PTS).toLocaleString('en-GB')} points on your Bija Card${plan !== 'once' ? ' with every delivery' : ''}`;
+    document.getElementById('addbtn').textContent = plan !== 'once' ? `Subscribe · ${money(sum)} ${S.PLANS[plan].toLowerCase()}` : `Add to basket · ${money(sum)}`;
+    const fw = document.getElementById('freqw'); if (fw) fw.hidden = st.plan !== 'sub';
+  }
+  if (form) {
+    form.addEventListener('change', (e) => {
+      if (e.target.name === 'plan') st.plan = e.target.value;
+      if (e.target.id === 'freq') st.freq = e.target.value;
+      if (e.target.name === 'grind') { st.grind = e.target.value; document.getElementById('bgname').textContent = st.grind; document.getElementById('brew').textContent = S.BREW[st.grind]; }
+      paint();
+    });
+    form.addEventListener('click', (e) => { const q = e.target.closest('[data-q]'); if (!q) return; st.qty = Math.max(1, Math.min(20, st.qty + +q.dataset.q)); paint(); });
+    form.addEventListener('submit', (e) => { e.preventDefault(); S.add(p.id, { grind: st.grind, plan: st.plan === 'sub' ? st.freq : 'once', qty: st.qty }); S.openCart(); });
+  }
+  paint();
+});
+</script>
+<div id="shop-foot"></div>
+</body>
+</html>

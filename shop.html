@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#000000">
+<meta name="description" content="Shop Indonesian specialty coffee from Bija: Sumatra Mandheling, Sumatra Lintong, Old Brown Java and the Bija House Blend. 200 g bags, ground to order, or subscribe and save 10%.">
+<title>Shop coffee · Bija</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="site-shop.css">
+<script src="site-shop.js" defer></script>
+<style>
+.shophead { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px; align-items: end; padding: 26px 0 22px; }
+.shophead h1 { margin: 6px 0 8px; font-size: clamp(36px, 5vw, 64px); font-weight: 300; letter-spacing: -.02em; line-height: 1; }
+.shophead p { margin: 0; color: #d6d6d6; max-width: 58ch; }
+.shophead .mkwrap { width: 88px; height: 88px; color: #fff; }
+@media (max-width: 640px) { .shophead { grid-template-columns: minmax(0, 1fr); } .shophead .mkwrap { display: none; } }
+.toolbar { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 22px; position: sticky; top: 64px; z-index: 5; background: rgba(0,0,0,.94); }
+.toolbar .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: 100%; padding: 2px; }
+.toolbar .chips::-webkit-scrollbar { display: none; }
+.toolbar .chip { flex: none; }
+.sortw { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.sortw select { width: auto; min-width: 190px; }
+.count { color: var(--muted); font-size: 14px; margin: 0 0 14px; }
+@media (max-width: 640px) { .toolbar { top: 64px; } .sortw { width: 100%; } .sortw select { flex: 1; } }
+</style>
+</head>
+<body class="shop-page">
+<a class="skip" href="#main">Skip to content</a>
+<div id="shop-top"></div>
+<main id="main">
+  <div class="wrap">
+    <p class="crumbs"><a href="./">Home</a> / Shop coffee</p>
+    <div class="shophead"><div><span class="eyebrow">Kopi from the archipelago</span><h1>Shop coffee</h1><p>Specialty beans from Sumatra and Java, roasted with Kindred Forest. 200 g bags at £12, ground to order. Subscribe for £10.80 a bag with free delivery.</p></div><div class="mkwrap" data-mk></div></div>
+    <div class="toolbar">
+      <div class="chips" role="group" aria-label="Filter coffees">
+        <button class="chip" data-f="all" aria-pressed="true">All</button>
+        <button class="chip" data-f="origin" aria-pressed="false">Single origin</button>
+        <button class="chip" data-f="blend" aria-pressed="false">Blend</button>
+        <button class="chip" data-f="sets" aria-pressed="false">Sets</button>
+        <button class="chip" data-f="gifts" aria-pressed="false">Gifts</button>
+        <button class="chip" data-f="soon" aria-pressed="false">Coming soon</button>
+      </div>
+      <div class="sortw"><label for="sort">Sort by</label><select class="inp" id="sort"><option value="featured">Featured</option><option value="low">Price, low to high</option><option value="high">Price, high to low</option><option value="az">Name, A to Z</option></select></div>
+    </div>
+    <p class="count" id="count" role="status" aria-live="polite"></p>
+    <div class="pgrid" id="grid"></div>
+  </div>
+
+  <div class="kband" aria-hidden="true"><span data-mk></span></div>
+
+  <section class="batik" aria-labelledby="disc-h">
+    <img src="photos/feature-1.jpg" alt="" loading="lazy">
+    <div class="wrap"><span class="eyebrow" style="color:#e4e4e4">Not sure where to start?</span><h2 id="disc-h">Taste three islands side by side.</h2><p>The Discovery set brings Sumatra Mandheling, Sumatra Lintong and Old Brown Java together: three 200 g bags for £33.</p><a class="btn" href="product.html?id=set">See the Discovery set</a></div>
+  </section>
+
+  <div class="wrap">
+    <section class="sec" aria-labelledby="why-h">
+      <div class="sec-h"><div><span class="eyebrow">Every bag</span><h2 id="why-h">Made the Bija way</h2></div></div>
+      <div class="earn3">
+        <div><h3>Ground to order</h3><p>Whole bean or ground for espresso, moka pot, filter, cafetière, V60 or AeroPress. Each product page has a brew guide for your grind.</p></div>
+        <div><h3>Delivered or collected</h3><p>Royal Mail Tracked 48 for £3.95, free over £30 and on every subscription. Or collect free from 2a St James's Market.</p></div>
+        <div><h3>Points on every bag</h3><p>10 points for every £1 on your Bija Card, the same as in the café and the app. <a href="rewards.html">How rewards work</a>.</p></div>
+      </div>
+    </section>
+  </div>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const S = window.BijaShop, grid = document.getElementById('grid'), chips = [...document.querySelectorAll('[data-f]')], sort = document.getElementById('sort');
+  const params = new URLSearchParams(location.search);
+  let f = ['all', 'origin', 'blend', 'sets', 'gifts', 'soon'].includes(params.get('c')) ? params.get('c') : 'all';
+  const match = (p) => f === 'all' ? true : f === 'origin' ? p.type === 'origin' : f === 'blend' ? p.type === 'blend' : f === 'sets' ? p.type === 'set' : f === 'gifts' ? p.type === 'gift' : !!p.soon;
+  function draw() {
+    let list = S.P.filter(match);
+    const s = sort.value;
+    if (s === 'low') list.sort((a, b) => a.price - b.price); else if (s === 'high') list.sort((a, b) => b.price - a.price); else if (s === 'az') list.sort((a, b) => a.name.localeCompare(b.name, 'en-GB'));
+    list.sort((a, b) => (a.soon ? 1 : 0) - (b.soon ? 1 : 0)); // coming soon always last
+    grid.innerHTML = list.map((p) => S.card(p)).join('');
+    document.getElementById('count').textContent = `${list.length} ${list.length === 1 ? 'product' : 'products'}`;
+    chips.forEach((c) => c.setAttribute('aria-pressed', c.dataset.f === f));
+  }
+  chips.forEach((c) => c.addEventListener('click', () => { f = c.dataset.f; const u = new URL(location); f === 'all' ? u.searchParams.delete('c') : u.searchParams.set('c', f); history.replaceState(null, '', u); draw(); }));
+  sort.addEventListener('change', draw);
+  draw();
+});
+</script>
+<div id="shop-foot"></div>
+</body>
+</html>

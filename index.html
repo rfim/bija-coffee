@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -9,7 +9,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CafeOrCoffeeShop","name":"Bija Coffee","address":{"@type":"PostalAddress","streetAddress":"2a St James's Market","addressLocality":"London","postalCode":"SW1Y 4AH","addressCountry":"GB"},"telephone":"+44 20 4603 3086","servesCuisine":"Indonesian","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"08:00","closes":"17:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"11:00","closes":"18:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Sunday","opens":"12:00","closes":"18:00"}]}</script>
-<title>Bija Coffee</title>
+<title>Bija Coffee · Indonesian specialty coffee, London</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
 <script>
 /* One link, two modes: phones and tablets (touch-only or ≤1024px wide) open the app; computers get the website.
@@ -27,6 +27,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="site-shop.css">
+<script src="site-shop.js" defer></script>
 <style>
 /* Rebuild of bijacoffee.co.uk's layout: black page, white sans type, dense info header, photo grids,
    outline four-circle mark, About Us overlay. Photos load from photos/<name>.jpg; until a file exists the slot shows a labelled placeholder. */
@@ -253,9 +255,22 @@ dialog::backdrop { background: transparent; }
   .rv, .ph img, .title::after, .shop h2, dialog .ov, dialog .ov > *, .mark-btn svg, .icons .mk .l-out circle { transition: none !important; }
   .rv { opacity: 1; transform: none; } .title::after { transform: none; } .shop h2 { opacity: 1; } .icons .mk .l-out circle { stroke-dashoffset: 0; }
 }
+/* shop-first home: full-bleed bands inside the padded page */
+.bleed { margin-left: -20px; margin-right: -20px; }
+.hero2 .wrap, .batik .wrap { padding-left: 20px; padding-right: 20px; max-width: none; }
+.snav [data-cart-slot], .snav .cartbtn { margin-left: 4px; }
+.snav .cartbtn { color: #fff; }
+.home .sec { padding-top: 64px; }
+.home .split.band .txt { color: #000; }
+.appband { align-items: center; gap: 28px; }
+.appband .ph2 { min-height: 380px; }
+.appqr { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+.appqr img { background: #fff; padding: 8px; image-rendering: pixelated; }
+.gifts2 .txt h2 { margin: 0; }
+@media (max-width: 860px) { .gifts2 .txt { border-right: 0 !important; border-bottom: 1px solid var(--line); } .appband .txt { padding-right: 0; } }
 </style>
 </head>
-<body>
+<body class="shop-page home">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <pattern id="dots" width="2.4" height="2.4" patternUnits="userSpaceOnUse"><circle cx="1.2" cy="1.2" r=".75" fill="#fff"/></pattern>
@@ -267,6 +282,7 @@ dialog::backdrop { background: transparent; }
 </svg>
 
 <a class="skip" href="#main">Skip to content</a>
+<div id="shop-announce"></div>
 <div class="page">
   <header class="top">
     <div><a class="logo" href="./">Bija</a><br><a class="app-link" href="app.html?view=app">Order in the app</a><p class="award">Best New Coffee Shop of the Year<br>London Coffee Festival 2025</p></div>
@@ -282,13 +298,32 @@ dialog::backdrop { background: transparent; }
     <button class="mark-btn" data-toggle-about aria-label="About Us"><svg class="m"><use href="#mark"/></svg><svg class="x" viewBox="0 0 36 36" aria-hidden="true"><path d="M9 9l18 18M27 9L9 27" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg></button>
 
   </header>
-  <nav class="snav" aria-label="Sections"><a href="#menu">Menu</a><a href="#beans">Beans</a><a href="#whats-on">What's On</a><a href="#card">Bija Card &amp; Gifts</a><a href="#visit">Visit</a><span class="sp"></span><a href="app.html?view=app" class="app-link" style="margin:0">Order ahead</a></nav>
-  <section class="hero1">
-    <h1>Indonesian specialty coffee in St James's Market</h1>
-    <p>Award-winning kopi, Indonesian cakes and beans from Sumatra and Java, two minutes from Piccadilly Circus.</p>
-    <div class="ctas"><a class="cta" href="app.html?view=app">Order ahead</a><a class="cta ghost" href="#beans">Shop beans</a><span class="openst" id="openNow3"></span></div>
+  <nav class="snav" aria-label="Main"><a href="#beans">Shop coffee</a><a href="subscribe.html">Subscriptions</a><a href="#gifts">Gifts</a><a href="rewards.html">Rewards</a><a href="#menu">Café menu</a><a href="#whats-on">What's On</a><a href="#visit">Visit</a><span class="sp"></span><a href="app.html?view=app" class="app-link" style="margin:0">Order ahead</a><span data-cart-slot></span></nav>
+  <section class="hero2 bleed" aria-labelledby="hero-h">
+    <img src="photos/shop-3.jpg" alt="" fetchpriority="high">
+    <div class="wrap">
+      <span class="eyebrow" style="color:#e4e4e4">Selamat datang · St James's Market, London</span>
+      <h1 id="hero-h">Indonesian kopi, from the islands to your cup.</h1>
+      <p>Award-winning specialty coffee from Sumatra and Java. Delivered to your door, on subscription, or poured at our bar two minutes from Piccadilly Circus.</p>
+      <div class="ctas"><a class="btn" href="shop.html">Shop coffee</a><a class="btn ghost" href="subscribe.html">Subscribe &amp; save 10%</a><span class="openst" id="openNow3"></span></div>
+    </div>
   </section>
   <main id="main">
+
+  <section class="sec" id="beans" aria-labelledby="beans-h">
+    <div class="sec-h"><div><span class="eyebrow">Shop coffee</span><h2 id="beans-h">Beans from the archipelago</h2><p>Roasted with Kindred Forest in 200 g bags, ground the way you brew. £12 a bag, or £10.80 on subscription.</p></div>
+      <div class="railnav"><button class="iconbtn" data-rail="-1" aria-label="Previous coffees">‹</button><button class="iconbtn" data-rail="1" aria-label="More coffees">›</button><a class="more" href="shop.html">Shop all</a></div></div>
+    <div class="prail" id="rail" data-products="house,mandheling,lintong,java,set,gift,gayo,kintamani" tabindex="0" aria-label="Coffees"></div>
+  </section>
+
+  <div class="kband bleed" aria-hidden="true"><span data-mk></span></div>
+
+  <section class="band bleed split" aria-labelledby="club-h">
+    <div class="ph2"><img src="photos/ig/latte-pour.jpg" alt="Pouring a latte at the Bija bar" loading="lazy"></div>
+    <div class="txt"><span class="eyebrow">The Beans Club</span><h2 id="club-h">Subscribe and save 10% on every bag.</h2>
+      <ul class="ticks"><li>£10.80 a bag instead of £12</li><li>Free UK delivery on every subscription</li><li>Every 2, 3 or 4 weeks, ground how you like</li><li>Skip, pause or cancel any time. No minimum term.</li><li>10 points for every £1 on your Bija Card</li></ul>
+      <div class="ctas" style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="subscribe.html">Start a subscription</a><a class="btn ghost" href="subscribe.html#how">How it works</a></div></div>
+  </section>
 
   <section>
     <div class="grid3">
@@ -304,13 +339,40 @@ dialog::backdrop { background: transparent; }
     <div class="icons" aria-hidden="true" data-marks="3"></div>
   </section>
 
-  <section class="shop" aria-label="Shop at Bija">
+  <section class="sec" aria-labelledby="earn-h">
+    <div class="sec-h"><div><span class="eyebrow">Bija Card rewards</span><h2 id="earn-h">Earn everywhere you drink Bija.</h2><p>10 points for every £1 at the bar, in the app and in this shop. A free cake at 350 points, any drink at 400, a bag of beans at 1,200.</p></div><a class="more" href="rewards.html">How rewards work</a></div>
+    <div class="earn3">
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 9h13v5a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6V9Z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3c0 2 2 2 2 4M12 3c0 2 2 2 2 4"/></svg><h3>In the café</h3><p>Show your Bija Card at the till. The barista scans it and your points land straight away.</p></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><h3>In the app</h3><p>Order ahead, skip the queue and earn on every order once you collect it.</p></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><h3>In this shop</h3><p>Beans and subscriptions earn too. Points land when we dispatch your order or you collect it.</p></div>
+    </div>
+  </section>
+
+  <section class="batik bleed" id="gifts" aria-labelledby="gifts-h">
+    <img src="photos/feature-1.jpg" alt="" loading="lazy">
+    <div class="wrap"><span class="eyebrow" style="color:#e4e4e4">Gifts</span><h2 id="gifts-h">Give someone a taste of Indonesia.</h2><p>A digital gift card for coffee and cake at the bar, or three months of beans delivered to their door.</p></div>
+  </section>
+  <div class="split gifts2" style="border:1px solid var(--line);border-top:0">
+    <div class="txt" style="border-right:1px solid var(--line)"><span class="eyebrow">From £5</span><h2 style="font-size:clamp(24px,2.4vw,34px)">Bija gift card</h2><p>Choose an amount from £5 to £200, pick one of ten black-and-white designs and add a message. It loads straight into their app balance.</p><div><a class="btn" href="app.html?view=app#gifts">Send a gift card</a></div></div>
+    <div class="txt"><span class="eyebrow">£36 · delivery included</span><h2 style="font-size:clamp(24px,2.4vw,34px)">Gift subscription</h2><p>Three 200 g bags over three months, one a month, prepaid. We choose a different Indonesian coffee each time.</p><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-add="gift">Add to basket</button><a class="btn ghost" href="product.html?id=gift">Details</a></div></div>
+  </div>
+
+  <section class="sec split appband" aria-labelledby="app-h">
+    <div class="txt" style="padding-left:0"><span class="eyebrow">The Bija app</span><h2 id="app-h">Order ahead. Collect points. Skip the queue.</h2>
+      <p>Your Bija Card, the Secret St James's walking trail, your Origins Passport and gift cards, all on your phone. Add it to your home screen in a tap.</p>
+      <div class="appqr"><img src="icons/app-qr.png" alt="QR code that opens the Bija app" width="120" height="120"><div><a class="btn" href="app.html?view=app">Open the app</a><p class="small" style="margin-top:8px">Scan with your phone's camera.</p></div></div></div>
+    <div class="ph2"><img src="photos/shop-1.jpg" alt="Lapis legit and a latte" loading="lazy"></div>
+  </section>
+
+  <div class="kband bleed" aria-hidden="true"><span data-mk></span></div>
+
+  <section class="shop" aria-label="Our place">
     <figure class="ph" data-src="photos/shop-1.jpg" data-label="Lapis legit and a latte"></figure>
     <figure class="ph" data-src="photos/shop-2.jpg" data-label="Flower pendant lamps"></figure>
     <figure class="ph wide" data-src="photos/shop-3.jpg" data-label="Flower lamps, the window bar and rattan stools"></figure>
     <figure class="ph" data-src="photos/ig/latte-art.jpg" data-label="Rosetta latte art"></figure>
     <figure class="ph" data-src="photos/ig/cold-brew.jpg" data-label="Cold brew over ice"></figure>
-    <h2>Shop at Bija</h2>
+    <h2>Our place</h2>
   </section>
 
   <h2 class="title" id="coffee">Indonesian Speciality Coffee</h2>
@@ -344,9 +406,6 @@ dialog::backdrop { background: transparent; }
   <div class="menu3" id="menuList"></div>
   <p class="note2">All prices include VAT. Oat, soya and coconut milk at no extra cost.<br><b>Allergies or intolerances?</b> Please tell us before you order. Our team can show you full allergen information for every drink and cake, including the 14 major allergens. Some products may contain traces of nuts, milk, gluten and soya.</p>
 
-  <h2 class="title" id="beans">Bija Coffee Beans</h2>
-  <div class="bshop" id="beanShop"></div>
-  <p class="note2">Roasted with Kindred Forest. Reserve a bag in the app and collect it at the bar.</p>
 
   <h2 class="title" id="visit">Visit</h2>
   <div class="visit2">
@@ -371,25 +430,12 @@ dialog::backdrop { background: transparent; }
     <p><b>Kindred Forest</b> sources and roasts Indonesian specialty coffee with us, with a focus on traceability, growers' livelihoods and protecting Indonesia's coffee forests. <a href="https://www.kindredforest.co.uk/shop" rel="noopener">kindredforest.co.uk</a></p>
   </div>
 
-  <h2 class="title" id="card">Bija Card &amp; Gift Cards</h2>
-  <div class="loyal">
-    <div><h3>Bija Card</h3><p>Earn 10 points for every £1, in the app and at the till. Spend them on a free cake, any drink or a bag of beans. Grow from Seed to Sprout to Kopi Tree for bonus points, with extra rewards for finding all ten Secret St James's spots and filling your Origins Passport.</p><a class="cta" href="app.html?view=app#card">Open my Bija Card</a></div>
-    <div><h3>Gift Cards</h3><p>Send someone a digital Bija gift card from £5 to £200, in one of ten black-and-white designs with your own message. It loads straight into their app balance for coffee, cakes or beans.</p><a class="cta" href="app.html?view=app#gifts">Send a gift card</a></div>
-  </div>
 
   <h2 class="title">Join the Bija Community</h2>
   <p class="community">Bija is a community of coffee lovers as much as a coffee shop. Follow <b>@bija.london</b> for new beans, events and collaborations, or <a href="app.html?view=app">get the app</a> to order ahead and collect beans on your Bija Card.</p>
 
   </main>
-  <footer>
-    <div class="foot2">
-      <div><h4>Bija</h4><p style="margin:0">Indonesian specialty coffee, cakes and beans in St James's Market, Piccadilly.</p></div>
-      <div><h4>Visit</h4><a href="#visit">Hours &amp; directions</a><a href="#menu">Menu</a><a href="#beans">Beans</a></div>
-      <div><h4>App</h4><a href="app.html?view=app">Order ahead</a><a href="app.html?view=app#card">Bija Card</a><a href="app.html?view=app#gifts">Gift cards</a></div>
-      <div><h4>Say hello</h4><a href="mailto:info@bijalondon.co.uk">info@bijalondon.co.uk</a><a href="https://www.instagram.com/bija.london/" rel="noopener" target="_blank">Instagram @bija.london</a><a href="tel:+442046033086">+44 20 4603 3086</a></div>
-    </div>
-    <p style="margin:0 0 6px"><a href="privacy.html" style="color:inherit">Privacy &amp; cookies</a> · <a href="accessibility.html" style="color:inherit">Accessibility</a> · <a href="#menu" style="color:inherit">Allergens</a></p>
-    © Bija Coffee Limited, registered in England and Wales, company number 15383542. · Concept rebuild by Firman Insan M, not an official Bija page.</footer>
+  <div id="shop-foot"></div>
 </div>
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo"><div class="bg"></div><img alt=""><button class="lb-x" aria-label="Close">×</button><button class="lb-p" aria-label="Previous">‹</button><button class="lb-n" aria-label="Next">›</button><div class="lb-c"></div></div>
@@ -418,7 +464,7 @@ dialog::backdrop { background: transparent; }
     { id: 'lintong', name: 'Sumatra Lintong', region: 'Lintong Nihuta, south-west of Lake Toba, North Sumatra', altitude: '1,200–1,500 m', process: 'Wet-hulled (giling basah)', notes: 'Herbal, cocoa, low acidity, heavy body', use: 'Espresso, cafetière', status: 'available' },
     { id: 'mandheling', name: 'Sumatra Mandheling', region: 'North Sumatra, named after the Mandailing people', altitude: '1,100–1,500 m', process: 'Wet-hulled (giling basah)', notes: 'Dark chocolate, earthy, syrupy', use: 'Espresso, milk drinks', status: 'available' },
     { id: 'house', name: 'Bija House Blend', region: 'Indonesian blend', altitude: 'Various', process: 'Mixed', notes: 'Balanced, chocolate, caramel', use: 'Our espresso at the bar', status: 'available' },
-    { id: 'oldbrown', name: 'Old Brown Java', region: 'Java, aged after harvest', altitude: '1,000–1,600 m', process: 'Aged for years before roasting', notes: 'Woody, spice, very low acidity', use: 'Espresso, iced coffee', status: 'available' },
+    { id: 'java', name: 'Old Brown Java', region: 'Java, aged after harvest', altitude: '1,000–1,600 m', process: 'Aged for years before roasting', notes: 'Woody, spice, very low acidity', use: 'Espresso, iced coffee', status: 'available' },
     { id: 'gayo', name: 'Aceh Gayo', region: 'Gayo highlands around Lake Laut Tawar, Aceh', altitude: '1,200–1,600 m', process: 'Wet-hulled or washed', notes: 'Spice, cedar, dark sugar', use: 'Filter, espresso', status: 'soon' },
     { id: 'kintamani', name: 'Bali Kintamani', region: 'Kintamani highlands near Mount Batur, Bali', altitude: '1,200–1,600 m', process: 'Washed or natural', notes: 'Citrus, brown sugar, bright', use: 'Filter', status: 'soon' },
   ];
@@ -430,11 +476,7 @@ dialog::backdrop { background: transparent; }
     ['Not coffee', [['Teh Tarik', 4.0, 'Pulled black tea, condensed milk'], ['Iced Turmeric Blend', 4.5, 'Turmeric blend, served iced'], ['Mangga Passion Smoothie', 5.5, 'Mango and passion fruit', 'New'], ['Fresh juice', 4.0, "Ask what's in the fridge"], ['Hot chocolate', 4.0, 'Indonesian cocoa']]],
     ['Cakes', [['Lapis Legit', 3.0, 'Thousand-layer spice cake'], ['Bolu Pandan', 3.0, 'Fluffy pandan chiffon'], ['Klepon (3)', 3.0, 'Pandan rice balls, molten palm sugar']]],
   ];
-  const PRICE = { lintong: 12, mandheling: 12, house: 12, oldbrown: 12, gayo: 12, kintamani: 12 }; // shelf sign: fresh beans 200 g £12
   document.getElementById('menuList').innerHTML = MENU.map(([cat, items]) => `<div><h3>${esc(cat)}</h3>${items.map(([n, pr, d, tg]) => `<div class="mi"><b>${esc(n)}${tg ? `<span class="tg">${esc(tg)}</span>` : ''}</b><span class="pr">£${pr.toFixed(2)}</span><small>${esc(d)}</small></div>`).join('')}</div>`).join('');
-  document.getElementById('beanShop').innerHTML = BEANS.map((b) => `<article class="bean ${b.status === 'soon' ? 'soon' : ''}"><div class="row2"><h3>${esc(b.name)}</h3><span>${b.status === 'soon' ? '<span class="tag">Coming soon</span>' : '£' + PRICE[b.id].toFixed(2)}</span></div>
-    <div class="meta2">${esc(b.region)} · ${esc(b.process)}</div><div class="nt">${b.notes.split(',').map((n) => `<span>${esc(n.trim())}</span>`).join('')}</div>
-    <div class="row2"><button class="lnk" data-bean="${b.id}">Details</button>${b.status === 'soon' ? '' : `<a class="app-link" style="margin:0" href="app.html?view=app#beans">Reserve 200 g</a>`}</div></article>`).join('');
 
   // live open / closed, London time
   const HOURS = [['Monday', 8, 17.5], ['Tuesday', 8, 17.5], ['Wednesday', 8, 17.5], ['Thursday', 8, 17.5], ['Friday', 8, 17.5], ['Saturday', 11, 18], ['Sunday', 12, 18]];
@@ -477,7 +519,10 @@ dialog::backdrop { background: transparent; }
   document.querySelector('[data-big]').outerHTML = markSVG('big cycle');
 
   // reveal on scroll, staggered across each row
-  const reveal = ['.ig', '.ph', '.cap > div', '.title', '.offer > div', '.events article', '.partners p', '.community', '.perk', '.shop', '.icons .mk', '.menu3 > div', '.bean', '.visit2 > div', '.loyal > div'];
+  // hero photo settles in, rail arrows scroll the product carousel
+  const hero = document.querySelector('.hero2'); requestAnimationFrame(() => hero && hero.classList.add('in'));
+  document.addEventListener('click', (e) => { const r = e.target.closest('[data-rail]'); if (!r) return; const rail = document.getElementById('rail'); rail.scrollBy({ left: +r.dataset.rail * rail.clientWidth * .8, behavior: reduce ? 'auto' : 'smooth' }); });
+  const reveal = ['.earn3 > div', '.split .txt', '.batik .wrap', '.ig', '.ph', '.cap > div', '.title', '.offer > div', '.events article', '.partners p', '.community', '.perk', '.shop', '.icons .mk', '.menu3 > div', '.bean', '.visit2 > div', '.loyal > div'];
   const items = document.querySelectorAll(reveal.join(','));
   items.forEach((el) => { if (!el.matches('.title, .shop, .icons .mk')) el.classList.add('rv'); const sib = [...el.parentElement.children].filter((c) => c.matches(reveal.join(','))); el.style.setProperty('--d', `${Math.min(sib.indexOf(el), 4) * 0.12}s`); });
   if ('IntersectionObserver' in window && !reduce) {
@@ -485,7 +530,7 @@ dialog::backdrop { background: transparent; }
     items.forEach((el) => io.observe(el));
     // gentle parallax on loaded photos
     let ticking = false;
-    const para = () => { ticking = false; const h = innerHeight; document.querySelectorAll('.ph.loaded').forEach((f) => { const r = f.getBoundingClientRect(); if (r.bottom < 0 || r.top > h) return; f.style.setProperty('--py', `${((r.top + r.height / 2 - h / 2) / h) * -18}px`); }); };
+    const para = () => { ticking = false; const h = innerHeight; if (hero) hero.style.setProperty('--hy', `${Math.min(scrollY, h) * .18}px`); document.querySelectorAll('.ph.loaded').forEach((f) => { const r = f.getBoundingClientRect(); if (r.bottom < 0 || r.top > h) return; f.style.setProperty('--py', `${((r.top + r.height / 2 - h / 2) / h) * -18}px`); }); };
     addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(para); } }, { passive: true });
   } else items.forEach((el) => el.classList.add('in'));
 
@@ -530,7 +575,7 @@ dialog::backdrop { background: transparent; }
       document.getElementById('beanTitle').textContent = b.name;
       document.getElementById('beanBody').innerHTML = `<span class="tag">${b.status === 'soon' ? 'Coming soon' : 'In store now'}</span>
         <dl><dt>Region</dt><dd>${esc(b.region)}</dd><dt>Altitude</dt><dd>${esc(b.altitude)}</dd><dt>Process</dt><dd>${esc(b.process)}</dd><dt>Tasting notes</dt><dd>${esc(b.notes)}</dd><dt>Best for</dt><dd>${esc(b.use)}</dd><dt>Roasted with</dt><dd>Kindred Forest</dd></dl>
-        ${b.status === 'soon' ? '' : `<a class="cta" href="app.html?view=app#beans">Reserve a bag in the app</a>`}
+        ${b.status === 'soon' ? '' : `<a class="cta" href="product.html?id=${b.id}">Shop this coffee · £12</a> <a class="app-link" style="margin-left:8px" href="app.html?view=app#beans">Reserve in the app</a>`}
         <p class="note">Details are typical of the region. Bija to confirm lot, roast date and price.</p>`;
       open('bean');
     }
