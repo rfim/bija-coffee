@@ -10,7 +10,9 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="stylesheet" href="fonts/fonts.css">
+<script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
+if (location.protocol !== 'file:') ['archivo-latin-900', 'archivo-latin-800', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+<link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
 <script src="site-discover.js" defer></script>
@@ -21,8 +23,9 @@
 .ofacts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: clamp(40px, 5vw, 72px); }
 @media (max-width: 760px) { .ofacts { grid-template-columns: minmax(0, 1fr); } }
 .ofacts > div { border-top: 2px solid var(--ink); padding-top: 14px; }
-.ofacts h3 { font: 900 24px/1 var(--disp); text-transform: uppercase; margin: 0 0 8px; }
+.ofacts h2 { font: 900 24px/1 var(--disp); text-transform: uppercase; margin: 0 0 8px; }
 .ofacts p { margin: 0; color: #3d3d3d; font-size: 15px; }
+.mapcredit { margin: 8px 0 0; font-size: 12px; color: #6b6b6b; }
 </style>
 </head>
 <body class="shop-page">
@@ -35,16 +38,16 @@
     <p>Indonesia has more than 17,000 islands. Our coffees come from the volcanic highlands of three of them: Sumatra, Java and Bali. Tap a pin to meet each one.</p>
   </section>
   <div class="ogrid">
-    <div class="omapwrap" id="map"></div>
+    <div class="omapcol"><div class="omapwrap" id="map"></div><p class="mapcredit">Map data: Natural Earth (public domain)</p></div>
     <div>
       <div class="otabs" role="tablist" aria-label="Origins" id="tabs"></div>
       <div id="panel" role="tabpanel" tabindex="0"></div>
     </div>
   </div>
   <div class="ofacts">
-    <div><h3>Wet-hulled</h3><p>Most Sumatran coffee is <i>giling basah</i>: hulled while still damp. It's why Sumatra tastes heavy, earthy and low in acidity.</p></div>
-    <div><h3>Aged Java</h3><p>Old Brown Java is rested for years before roasting, so it turns mellow, woody and gently spiced.</p></div>
-    <div><h3>Volcanic soil</h3><p>The highlands around Lake Toba, Gayo and Mount Batur sit at 1,000 to 1,600 metres on rich volcanic soil.</p></div>
+    <div><h2>Wet-hulled</h2><p>Most Sumatran coffee is <i>giling basah</i>: hulled while still damp. It's why Sumatra tastes heavy, earthy and low in acidity.</p></div>
+    <div><h2>Aged Java</h2><p>Old Brown Java is rested for years before roasting, so it turns mellow, woody and gently spiced.</p></div>
+    <div><h2>Volcanic soil</h2><p>The highlands around Lake Toba, Gayo and Mount Batur sit at 1,000 to 1,600 metres on rich volcanic soil.</p></div>
   </div>
 </div></main>
 <script>
@@ -58,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const o = D.ORIGINS.find((x) => x.id === sel), p = S.byId(o.product);
     panel.setAttribute('aria-labelledby', 't-' + o.id);
     panel.innerHTML = `<article class="ocard"><a class="pimg" href="product.html?id=${p.id}" style="--pbg:${S.bgFor(p)}" tabindex="-1" aria-hidden="true">${S.bagArt(p)}</a>
-      <div><span class="eyebrow">${esc(o.island)}${p.soon ? ' · Coming soon' : ''}</span><h3>${esc(p.name)}</h3>
+      <div><span class="eyebrow">${esc(o.island)}${p.soon ? ' · Coming soon' : ''}</span><h2>${esc(p.name)}</h2>
         <p style="margin:0">${esc(p.blurb)}</p>
         <dl><dt>Region</dt><dd>${esc(p.region)}</dd><dt>Altitude</dt><dd>${esc(p.altitude)}</dd><dt>Process</dt><dd>${esc(p.process)}</dd><dt>Tastes of</dt><dd>${p.notes.map(esc).join(', ')}</dd><dt>Best for</dt><dd>${esc(p.use)}</dd></dl>
         ${p.soon ? `<button class="btn ghost" data-notify="${p.id}">Notify me</button>` : `<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-add="${p.id}">Add to basket · ${S.money(p.price)}</button><a class="btn ghost" href="product.html?id=${p.id}">Details</a></div>`}

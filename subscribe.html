@@ -10,7 +10,9 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="stylesheet" href="fonts/fonts.css">
+<script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
+if (location.protocol !== 'file:') ['archivo-latin-900', 'archivo-latin-800', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+<link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
 
@@ -64,7 +66,7 @@
   </div>
 
   <section class="batik" aria-labelledby="gift-h">
-    <img src="photos/feature-1.jpg" width="740" height="640" alt="" loading="lazy" decoding="async">
+    <picture><source type="image/webp" srcset="photos/feature-1-600.webp 600w, photos/feature-1.webp 740w" sizes="(max-width: 860px) 100vw, 50vw"><img src="photos/feature-1.jpg" srcset="photos/feature-1-600.jpg 600w, photos/feature-1.jpg 740w" sizes="(max-width: 860px) 100vw, 50vw" width="740" height="640" alt="" loading="lazy" decoding="async"></picture>
     <div class="wrap"><span class="eyebrow" style="color:#e4e4e4">For someone else</span><h2 id="gift-h">Gift three months of kopi.</h2><p>Three bags over three months, one a month, prepaid at £36 with delivery included. No renewal, nothing to cancel.</p><a class="btn" href="product.html?id=gift">Gift a subscription</a></div>
   </section>
 

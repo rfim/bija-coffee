@@ -1,0 +1,6 @@
+/* Website font faces: font-display optional + preloads in each page, so a late font never reflows the page (CLS). The app keeps fonts.css. SIL OFL 1.1, self-hosted */
+@font-face { font-family: 'Archivo'; font-weight: 700; font-style: normal; font-display: optional; src: url('archivo-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Archivo'; font-weight: 800; font-style: normal; font-display: optional; src: url('archivo-latin-800-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Archivo'; font-weight: 900; font-style: normal; font-display: optional; src: url('archivo-latin-900-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-weight: 400; font-style: normal; font-display: optional; src: url('inter-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-weight: 600; font-style: normal; font-display: optional; src: url('inter-latin-600-normal.woff2') format('woff2'); }

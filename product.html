@@ -10,7 +10,9 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="stylesheet" href="fonts/fonts.css">
+<script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
+if (location.protocol !== 'file:') ['archivo-latin-900', 'archivo-latin-800', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+<link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
 <script src="site-discover.js" defer></script>
@@ -51,6 +53,8 @@
 .contains a { display: flex; justify-content: space-between; gap: 10px; border: 1.5px solid #c9c9c6; border-radius: 12px; padding: 12px 14px; text-decoration: none; min-height: 44px; }
 .contains a:hover { border-color: var(--ink); }
 .nf { padding: 80px 0; text-align: center; }
+/* the product is drawn by script: hold a screen of space so the section below starts off screen */
+#pd:empty { min-height: 100vh; min-height: 100svh; }
 </style>
 </head>
 <body class="shop-page">
@@ -77,6 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
   document.title = `${p.name} · Bija`;
+  /* schema.org Product + Offer (GBP, VAT included); coming-soon coffees are PreOrder. No ratings or reviews. */
+  { const ld = { '@context': 'https://schema.org', '@type': 'Product', name: p.name, description: p.blurb || p.notes.join(', '), brand: { '@type': 'Brand', name: 'Bija' },
+      offers: { '@type': 'Offer', priceCurrency: 'GBP', price: p.price.toFixed(2), availability: 'https://schema.org/' + (p.soon ? 'PreOrder' : 'InStock'), url: location.href.split('#')[0] } };
+    const sc = document.createElement('script'); sc.type = 'application/ld+json'; sc.textContent = JSON.stringify(ld); document.head.appendChild(sc); }
   document.getElementById('crumb').textContent = p.name;
   const st = { plan: 'once', freq: '2w', grind: S.GRINDS[0], qty: 1 };
   const subPrice = S.unit(p, '2w');

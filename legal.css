@@ -4,17 +4,14 @@
 * { box-sizing: border-box; }
 html { background: var(--bg); color-scheme: light; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 Inter, "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
-body::before { content: "Free UK delivery on orders over £30"; display: block; background: var(--ink); color: #fff; text-align: center; font: 600 12px/38px Inter, Helvetica, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
-main { max-width: 760px; margin: 0 auto; padding: 0 20px 72px; }
+.legal-main { max-width: 760px; margin: 0 auto; padding: 40px 20px 72px; overflow-wrap: anywhere; }
+.legal-main table { display: block; overflow-x: auto; }
 a { color: inherit; }
 :focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-.top { display: flex; justify-content: space-between; align-items: center; min-height: 72px; border-bottom: 1px solid var(--line); margin: 0 -20px 36px; padding: 0 20px; }
-.top a.logo { font: 900 32px/1 var(--disp); text-transform: uppercase; text-decoration: none; letter-spacing: -.02em; }
-.top a:not(.logo) { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; background: var(--ink); color: #fff; font: 600 12px/1 Inter, sans-serif; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; }
-h1 { font: 900 clamp(40px, 7vw, 72px)/.92 var(--disp); text-transform: uppercase; letter-spacing: -.01em; margin: 0 0 12px; }
-h2 { font: 900 26px/1 var(--disp); text-transform: uppercase; margin: 40px 0 10px; }
-p, li { color: #333; } .muted { color: var(--muted); font-size: 14px; }
-table { width: 100%; border-collapse: collapse; font-size: 14px; } th, td { text-align: left; padding: 10px 6px; border-bottom: 1px solid var(--line); vertical-align: top; } th { color: var(--muted); font-weight: 600; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.legal-main h1 { font: 900 clamp(40px, 7vw, 72px)/.92 var(--disp); text-transform: uppercase; letter-spacing: -.01em; margin: 0 0 12px; }
+.legal-main h2 { font: 900 26px/1 var(--disp); text-transform: uppercase; margin: 40px 0 10px; }
+.legal-main p, .legal-main li { color: #333; } .muted { color: var(--muted); font-size: 14px; }
+.legal-main table { width: 100%; border-collapse: collapse; font-size: 14px; } th, td { text-align: left; padding: 10px 6px; border-bottom: 1px solid var(--line); vertical-align: top; } th { color: var(--muted); font-weight: 600; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
 .note { background: var(--tile); border-radius: 12px; padding: 14px 16px; font-size: 14px; color: #333; }
 
 .cols { columns: 2; column-gap: 32px; }

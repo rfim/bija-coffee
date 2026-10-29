@@ -13,7 +13,7 @@ if (!existsSync(join(src, 'app.html'))) throw new Error(`app.html not found in $
 const out = join(here, 'www');
 
 // Not shipped inside the app: build tooling, docs, tests, marketing source files and this folder itself.
-const SKIP = new Set(['native', 'docs', 'tests', 'marketing', 'node_modules', '.git', '.github', 'README.md', 'CNAME', '.nojekyll', '.well-known', 'labels.html', 'labels.js']);
+const SKIP = new Set(['native', 'docs', 'tests', 'marketing', 'node_modules', '.git', '.github', 'README.md', 'CNAME', '.nojekyll', '.well-known', 'labels.html', 'labels.js', 'supabase', 'emails', 'press', 'illustrations/preview.html', 'wallet/preview.html']);
 
 rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });

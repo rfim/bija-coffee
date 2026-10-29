@@ -7,7 +7,9 @@
 <meta name="theme-color" content="#ffffff">
 <title>QR label maker · Bija</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='6'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
-<link rel="stylesheet" href="fonts/fonts.css">
+<script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
+if (location.protocol !== 'file:') ['archivo-latin-900', 'archivo-latin-800', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+<link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
 <script src="qr.js" defer></script>
@@ -53,6 +55,7 @@
   main, .wrap, .lb, .pv, .pv .frame, .pv .fit { display: block !important; padding: 0 !important; margin: 0 !important; background: none !important; border-radius: 0 !important; width: auto !important; height: auto !important; position: static !important; overflow: visible !important; }
   .sheet { position: relative !important; transform: none !important; box-shadow: none !important; }
   .guides .lab { outline: none; }
+  main#main { min-height: 0 !important; }
 }
 </style>
 </head>
@@ -95,5 +98,6 @@
     </div>
   </div>
 </main>
+<div id="shop-foot"></div>
 </body>
 </html>

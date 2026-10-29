@@ -10,7 +10,9 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="stylesheet" href="fonts/fonts.css">
+<script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
+if (location.protocol !== 'file:') ['archivo-latin-900', 'archivo-latin-800', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+<link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
 <script src="site-discover.js" defer></script>
@@ -96,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="panel"><h2>Before you order</h2>
           <label class="check"><input type="checkbox" name="mkt"><span>Email me news, new beans and offers from Bija. Optional, and I can unsubscribe at any time.</span></label>
           <p class="small" style="margin:0">By placing your order you agree to our <a href="delivery.html#terms">terms of sale</a> and <a href="delivery.html">delivery and returns policy</a>. See how we use your details in our <a href="privacy.html">privacy notice</a>.</p>
+          <p class="small" style="margin:0 0 12px">You can cancel within 14 days of delivery for unopened bags. See <a href="delivery.html">Delivery &amp; returns</a>.</p>
           <p class="demo" id="demo-note"><b>Demo checkout: no payment is taken.</b> Your order is saved in this browser only so you can see how it works.</p>
           <button class="btn block" type="submit" id="place" aria-describedby="demo-note">Place order · ${money(t.total)}</button>
         </div>

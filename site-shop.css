@@ -1,7 +1,6 @@
 /* Bija shop layer, Grind-style retail UI in black and white: light pages, loud uppercase Archivo headings,
    black pills, grey product tiles, black announcement bar and footer. Shared by index.html and the shop pages.
    Bija's character stays: the cycling four-circle mark, Kawung and batik bands, batik bag art, café photos. */
-@import url('fonts/fonts.css');
 :root {
   --bg: #ffffff; --ink: #0b0b0b; --muted: #6b6b6b; --line: #e4e4e2; --tile: #f2f2f0; --tile2: #e6e5e1;
   --inv: #0b0b0b; --inv-ink: #ffffff; --soft: #f2f2f0; --soft2: #e9e9e6;
@@ -286,16 +285,18 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 
 /* origins map */
 .omap { width: 100%; height: auto; display: block; color: var(--ink); overflow: hidden; }
-.omap .land { fill: #fff; stroke: #0b0b0b; stroke-width: 1; stroke-linejoin: round; }
+.omap .land { fill: #e7e6e2; stroke: #0b0b0b; stroke-width: 1.5px; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.omap .land.ctx { fill: #fff; stroke: #b9b8b3; stroke-width: 1px; }
 .omap .land.grow { fill: #0b0b0b; }
 .omap .lake { fill: #fff; }
 .omap .eq { stroke: #0b0b0b; stroke-opacity: .25; stroke-dasharray: 2 4; }
-.omap text { font: 600 7px var(--sans); letter-spacing: .14em; fill: #6b6b6b; }
-.omap .eqt { font-size: 6px; }
+.omap text { font: 600 9px var(--sans); letter-spacing: .14em; fill: #5f5f5c; }
+.omap .eqt { font-size: 9px; }
+@media (max-width: 760px) { .omap text { font-size: 11px; letter-spacing: .08em; } .omap .eqt { font-size: 10px; } .omap .land { stroke-width: 1px; } }
 .omap .pin { cursor: pointer; }
 .omap .pin .dot { fill: #fff; stroke: #0b0b0b; stroke-width: 2.4; transition: r .25s var(--ease); }
 .omap .pin .halo { fill: #fff; fill-opacity: 0; stroke: #fff; stroke-width: 1.5; stroke-opacity: 0; }
-.omap .pin.on .dot { fill: #0b0b0b; stroke: #fff; r: 6.5; }
+.omap .pin.on .dot { fill: #0b0b0b; stroke: #fff; r: 8; }
 .omap .pin.on .halo { stroke-opacity: .9; }
 @media (prefers-reduced-motion: no-preference) {
   .omap .pin .halo { animation: ping 2.4s ease-out infinite; animation-delay: calc(var(--i) * .35s); transform-box: fill-box; transform-origin: center; }
@@ -307,7 +308,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .ocard { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 22px; align-items: center; background: #fff; border-radius: 18px; padding: 18px; margin-top: 16px; border: 1px solid var(--line); }
 .ocard .pimg { aspect-ratio: 1; border-radius: 12px; display: grid; place-items: center; background: var(--pbg, var(--tile)); }
 .ocard .pimg svg { width: 76%; height: auto; }
-.ocard h3 { font: 900 clamp(24px, 2.6vw, 36px)/.95 var(--disp); text-transform: uppercase; margin: 6px 0 10px; }
+.ocard h2, .ocard h3 { font: 900 clamp(24px, 2.6vw, 36px)/.95 var(--disp); text-transform: uppercase; margin: 6px 0 10px; }
 .ocard dl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 14px; margin: 12px 0 14px; font-size: 14px; }
 .ocard dt { color: var(--muted); } .ocard dd { margin: 0; }
 @media (max-width: 600px) { .ocard { grid-template-columns: minmax(0, 1fr); } .ocard .pimg { max-width: 180px; } }
@@ -425,11 +426,6 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .subhero { min-height: 0; align-items: center; }
 .hgrid2 { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: clamp(24px, 4vw, 64px); align-items: center; padding-top: clamp(48px, 6vw, 88px) !important; padding-bottom: clamp(48px, 6vw, 88px) !important; }
 @media (max-width: 860px) { .hgrid2 { grid-template-columns: minmax(0, 1fr); } }
-/* reserve space for the injected announcement bar and header so nothing jumps when they mount (CLS) */
-#shop-top { display: block; min-height: 110px; }
-#shop-announce { display: block; min-height: 38px; }
-@media (max-width: 1180px) { #shop-top { min-height: 102px; } }
-@media (max-width: 560px) { #shop-top { min-height: 117px; } #shop-announce { min-height: 53px; } }
 
 /* line illustrations from illustrations/*.svg (black line art, shown as images on light backgrounds) */
 .ill { display: block; width: 96px; height: 96px; object-fit: contain; }
@@ -438,3 +434,47 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 
 .hlink { font: 600 12.5px/1 var(--sans); letter-spacing: .07em; text-transform: uppercase; text-decoration: none; padding: 16px 8px; }
 .hlink:hover { text-decoration: underline; text-underline-offset: 6px; }
+
+/* ---------- perf & tidy v2: no layout shift while the shared chrome mounts ---------- */
+/* the announcement bar has a fixed height (one line from 768px, at most two lines on phones) */
+.announce { height: 38px; min-height: 0; padding-block: 0; }
+.announce .msg { max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 767px) {
+  .announce { height: 48px; padding-inline: 16px; letter-spacing: .04em; }
+  .announce .msg { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+}
+.shead .in { height: 72px; }
+@media (max-width: 1180px) { .shead .in { height: 64px; } }
+/* placeholders keep the exact height of what site-shop.js puts there */
+#shop-top { display: block; height: 111px; }
+#shop-announce { display: block; height: 38px; }
+@media (max-width: 1180px) { #shop-top { height: 103px; } }
+@media (max-width: 767px) { #shop-top { height: 113px; } #shop-announce { height: 48px; } }
+/* the footer starts below the fold, so content that renders late never pushes it on screen */
+main#main { min-height: 100vh; min-height: 100svh; }
+/* late-rendered product grids: reserve their measured height until site-shop.js fills them */
+#grid:empty { min-height: calc(1678px + (100vw - 320px) * 1.5); }
+#more:empty { min-height: calc(833px + (100vw - 320px) * .5); }
+.prail:empty { min-height: calc(548px + (100vw - 390px) * .724); }
+@media (min-width: 390px) { #grid:empty { min-height: calc(1798px + (100vw - 390px) * 1.862); } #more:empty { min-height: calc(883px + (100vw - 390px) * .981); } }
+@media (min-width: 768px) { #grid:empty { min-height: calc(1572px + (100vw - 768px) * .863); } #more:empty { min-height: calc(1028px + (100vw - 768px) * .625); } .prail:empty { min-height: calc(530px + (100vw - 768px) * .234); } }
+@media (min-width: 1180px) { #grid:empty { min-height: min(1223px, calc(1098px + (100vw - 1180px) * .481)); } #more:empty { min-height: min(602px, calc(539px + (100vw - 1180px) * .242)); } .prail:empty { min-height: min(628px, calc(545px + (100vw - 1180px) * .243)); } }
+/* the bag-art fan is drawn by script: hold its height (three 34%-wide tiles at 0.78 aspect, capped at 220px) */
+.fan:empty { aspect-ratio: 2.1; max-height: 306px; }
+
+/* ---------- tidy v2: product tiles line up across a row ---------- */
+.pbody { display: flex; flex-direction: column; gap: 6px; }
+.ptag { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pimg .flag { font-size: 12px; }
+.pcard h3 { min-height: 2.1em; display: flex; align-items: flex-end; text-wrap: balance; }
+.pnotes { min-height: 2.6em; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.prow { margin-top: auto; padding-top: 8px; }
+.psub { min-height: calc(2 * 1.35em); line-height: 1.35; }
+@media (max-width: 760px) { .pgrid .pcard .btn { font-size: 12px; letter-spacing: .04em; } }
+/* headings and card titles break into balanced lines (no lone last word) */
+h1, h2, h3, .evcard h3, .ev h3 { text-wrap: balance; }
+/* announcement link: a comfortable tap area without changing the bar height */
+.announce a { display: inline-block; padding-block: 4px; }
+/* reflow at 320px: long buttons wrap instead of running off the screen; very long words break */
+@media (max-width: 360px) { .btn { white-space: normal; text-align: center; line-height: 1.2; padding-block: 10px; } }
+h1, h2 { overflow-wrap: break-word; }

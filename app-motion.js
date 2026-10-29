@@ -2,6 +2,8 @@
    Everything is transform/opacity, everything stops under reduced motion (or window.__BIJA_TEST_NO_MOTION). */
 (() => {
   const W = window, D = document, H = D.documentElement;
+  // the motion stylesheet is preloaded, not render-blocking: attach it here (the launch splash rules are inline in app.html)
+  if (!D.querySelector('link[rel=stylesheet][href$="app-motion.css"]')) { const l = D.createElement('link'); l.rel = 'stylesheet'; l.href = 'app-motion.css'; D.head.appendChild(l); }
   const calm = () => !!W.__BIJA_TEST_NO_MOTION || matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $ = (s, r = D) => r.querySelector(s), $$ = (s, r = D) => [...r.querySelectorAll(s)];
   const ss = { get: (k) => { try { return sessionStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { sessionStorage.setItem(k, v); } catch {} } };
@@ -121,14 +123,32 @@
   }
 
   // ---- tabs: View Transitions where supported ----
-  let vt = false;
+  // the transition overlay never eats taps: it ignores pointer events (CSS), and any new press finishes it at once
+  // a navigation still waiting inside the transition runs straight away, so a newer tap can never be overridden by an older one
+  let vt = false, vtNow = null, vtPend = null;
+  const flush = () => { if (vtPend) { const f = vtPend; vtPend = null; f(); } if (vtNow) { try { vtNow.skipTransition(); } catch {} } };
+  // mid-transition the browser hit-tests the press to <html>; the click then lands on <html> too, so replay it on what's under the finger now
+  let refire = null;
+  addEventListener('pointerdown', (e) => { refire = null; if (!vtNow && !vtPend) return; flush(); if (e.target === H || e.target === D.body) refire = { x: e.clientX, y: e.clientY }; }, true);
+  addEventListener('click', (e) => {
+    if (!refire || !e.isTrusted) return; const r = refire; refire = null;
+    if (e.target !== H && e.target !== D.body) return;
+    const el = D.elementFromPoint(r.x, r.y); if (!el || el === H || el === D.body) return;
+    e.stopPropagation(); e.preventDefault();
+    const ev = new MouseEvent('click', { bubbles: true, cancelable: true, clientX: r.x, clientY: r.y }); ev.moVT = true; el.dispatchEvent(ev);
+  }, true);
+  D.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') flush(); }, true);
   D.addEventListener('click', (e) => {
     const b = e.target.closest && e.target.closest('[data-act=tab]');
-    if (!b || e.moVT || vt || !D.startViewTransition || calm()) return;
+    if (!b || e.moVT || !D.startViewTransition || calm()) return;
+    if (vt) { flush(); return; }
     e.stopPropagation(); e.preventDefault(); vt = true;
     H.dataset.moDir = b.dataset.v === 'home' || b.classList.contains('back') ? 'back' : 'fwd'; H.classList.add('mo-vt');
-    const t = D.startViewTransition(() => { const ev = new MouseEvent('click', { bubbles: true, cancelable: true }); ev.moVT = true; b.dispatchEvent(ev); });
-    const off = () => { vt = false; H.classList.remove('mo-vt'); delete H.dataset.moDir; };
+    const nav = () => { const ev = new MouseEvent('click', { bubbles: true, cancelable: true }); ev.moVT = true; b.dispatchEvent(ev); };
+    vtPend = nav;
+    const t = D.startViewTransition(() => { if (vtPend === nav) { vtPend = null; nav(); } });
+    vtNow = t;
+    const off = () => { vt = false; vtNow = null; if (vtPend) flush(); H.classList.remove('mo-vt'); delete H.dataset.moDir; };
     t.finished.then(off, off); setTimeout(off, 1200);
   }, true);
 

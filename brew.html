@@ -10,13 +10,24 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="stylesheet" href="fonts/fonts.css">
+<script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
+if (location.protocol !== 'file:') ['archivo-latin-900', 'archivo-latin-800', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+<link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
 <script src="site-discover.js" defer></script>
 
 <style>
 .tip { margin: 16px 0 0; font-size: 14px; color: #3d3d3d; }
+/* method tabs: underline tabs that wrap, so no tab is cut off and "Start" stays the one black button */
+.btabs { flex-wrap: wrap; overflow: visible; gap: 0 20px; border-bottom: 1px solid var(--line); padding-bottom: 0; }
+.btabs .chip { border: 0; border-radius: 0; background: none; color: var(--muted); padding: 0 2px; min-height: 48px; border-bottom: 3px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+.btabs .chip:hover { color: var(--ink); }
+.btabs .chip[aria-selected="true"] { background: none; color: var(--ink); border-bottom-color: var(--ink); }
+.tctl small, .steps small { font-size: 13px; }
+/* tabs are drawn by script: reserve one row (two on narrow phones) */
+.btabs:empty { min-height: 48px; }
+@media (max-width: 479px) { .btabs:empty { min-height: 95px; } }
 </style>
 </head>
 <body class="shop-page">
@@ -71,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $('dose').value = m.dose; calc('dose');
     $('facts').innerHTML = `<li>Grind: ${esc(m.grind)}</li><li>Water: ${esc(m.temp)}</li><li>About ${fmt(total())}</li>`;
     $('tip').textContent = S.BREW[m.grind] || '';
-    $('buy').innerHTML = `<a class="btn sm" href="shop.html">Beans ground for ${esc(m.name)}</a><a class="btn sm ghost" href="find.html">Find your kopi</a>`;
+    $('buy').innerHTML = `<a class="btn sm ghost" href="shop.html">Beans ground for ${esc(m.name)}</a><a class="more" href="find.html">Find your kopi</a>`;
     paint();
   }
   function calc(from) {

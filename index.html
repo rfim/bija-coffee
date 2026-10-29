@@ -24,8 +24,10 @@
   } catch (e) {}
 })();
 </script>
-<link rel="stylesheet" href="fonts/fonts.css">
-<link rel="preload" as="image" href="photos/feature-2.jpg" fetchpriority="high">
+<script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
+if (location.protocol !== 'file:') ['archivo-latin-900', 'archivo-latin-800', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+<link rel="stylesheet" href="fonts/fonts-site.css">
+<link rel="preload" as="image" href="photos/feature-2-600.webp" imagesrcset="photos/feature-2-600.webp 600w, photos/feature-2-900.webp 900w, photos/feature-2.webp 1150w" imagesizes="(max-width: 860px) calc(100vw - 32px), 520px" type="image/webp" fetchpriority="high">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
 <script src="site-discover.js" defer></script>
@@ -302,8 +304,8 @@ dialog.show .ov > *:nth-child(2) { transition-delay: .12s; } dialog.show .ov > *
         <div class="ctas"><a class="btn" href="shop.html">Shop coffee</a><a class="btn ghost" href="find.html">Find your kopi</a></div>
       </div>
       <div class="hstack" id="hstack">
-        <img class="on" src="photos/feature-2.jpg" width="1150" height="1150" alt="Coffee at the window bar in St James's Market" fetchpriority="high" decoding="async">
-        <img src="photos/shop-3.jpg" width="1150" height="1160" alt="" decoding="async" loading="lazy">
+        <picture><source type="image/webp" srcset="photos/feature-2-600.webp 600w, photos/feature-2-900.webp 900w, photos/feature-2.webp 1150w" sizes="(max-width: 860px) calc(100vw - 32px), 520px"><img class="on" src="photos/feature-2.jpg" srcset="photos/feature-2-600.jpg 600w, photos/feature-2-900.jpg 900w, photos/feature-2.jpg 1150w" sizes="(max-width: 860px) calc(100vw - 32px), 520px" width="1150" height="1150" alt="Coffee at the window bar in St James's Market" fetchpriority="high" decoding="async"></picture>
+        <picture><source type="image/webp" srcset="photos/shop-3-600.webp 600w, photos/shop-3-900.webp 900w, photos/shop-3.webp 1150w" sizes="(max-width: 860px) 100vw, 50vw"><img src="photos/shop-3.jpg" srcset="photos/shop-3-600.jpg 600w, photos/shop-3-900.jpg 900w, photos/shop-3.jpg 1150w" sizes="(max-width: 860px) 100vw, 50vw" width="1150" height="1160" alt="" decoding="async" loading="lazy"></picture>
         <img src="photos/ig/latte-pour.jpg" width="291" height="293" alt="" decoding="async" loading="lazy">
         <span class="hmark" aria-hidden="true"><svg viewBox="-2 -2 104 104"><g fill="none" stroke="currentColor" stroke-width="3"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg></span>
       </div>
@@ -370,7 +372,7 @@ dialog.show .ov > *:nth-child(2) { transition-delay: .12s; } dialog.show .ov > *
   </section>
 
   <section class="batik bleed" id="gifts" aria-labelledby="gifts-h">
-    <img src="photos/feature-1.jpg" width="740" height="640" alt="" loading="lazy" decoding="async">
+    <picture><source type="image/webp" srcset="photos/feature-1-600.webp 600w, photos/feature-1.webp 740w" sizes="(max-width: 860px) 100vw, 50vw"><img src="photos/feature-1.jpg" srcset="photos/feature-1-600.jpg 600w, photos/feature-1.jpg 740w" sizes="(max-width: 860px) 100vw, 50vw" width="740" height="640" alt="" loading="lazy" decoding="async"></picture>
     <div class="wrap"><span class="eyebrow">Gifts</span><h2 id="gifts-h">Give someone a taste of Indonesia.</h2><p>A digital gift card for coffee and cake at the bar, or three months of beans delivered to their door.</p></div>
   </section>
   <div class="split gifts2">

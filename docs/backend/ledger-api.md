@@ -10,7 +10,7 @@ Project `bija` (ref `nvsampchuozqbtavuugx`, London). Design follows `docs/fullst
 |---|---|
 | Tables, RLS, grants, realtime (migration `bija_ledgers_tables`) | **Applied** |
 | Helpers, menu sync trigger, server bonuses (migration `bija_ledgers_helpers`) | **Applied**; `menu_items` seeded with 22 items from `config/current` |
-| Public RPCs (`scratchpad/backend2/03_bija_ledgers_rpcs.sql`, migration name `bija_ledgers_rpcs`) | **Not applied yet.** Supabase paused the migration for a user confirmation and nobody answered. The saved version only creates new functions and replaces nothing. |
+| Public RPCs (migration `bija_ledgers_rpcs`) | **Applied** 29 Oct 2026 (16 functions, signed-in users only) |
 | Test script (`scratchpad/backend2/04_tests.sql`) | **44 of 44 pass** (29 Oct 2026). The RPCs were created inside a rolled-back transaction, tested and rolled back, so nothing was applied. Re-run after applying. |
 | Client wrappers (`site/bija-supabase.js`: `BijaSupabase.rpc.*`, `balances`, `myOrders`, `ledger`) | Done and unit-tested. Not wired into `app.html` yet. |
 
@@ -114,3 +114,23 @@ Menu prices are still edited in the barista Menu tab (`config/current`); the tri
 - **Owner MFA:** set up an email login with MFA for the owner, then add that uid to `owners`. Until then `adjust()` is unusable by design.
 - **Migration:** existing demo or live balances can be replayed into the ledgers as `correction` rows (`ref = 'migration:<id>'`) for the owner to review before go-live.
 - **Gift code confirm step:** automatic redemption, or keep a barista confirm?
+
+## Staff read views (migration `bija_staff_views`, applied 29 Oct 2026)
+
+Source: `docs/backend/staff-views.sql`. All three need a live staff session, run as definer with an empty search_path,
+only read, and are refused to customers and signed-out users (tested in a rolled-back transaction).
+
+| RPC | Returns | Used by |
+|---|---|---|
+| `staff_members(p_limit default 500)` | per member: `member_code, joined_at, lifetime_points, points, stamps, gift_balance, visits, last_visit, birth_month` | Members tab (live) |
+| `staff_insights(p_days default 28)` | `{orders, revenue, avg_order, by_hour (London), best_sellers [{id,name,qty,sales}], members_active, repeat_members, repeat_rate, instore {count, amount}}` | Insights tab (live) |
+| `staff_sales_daily(p_from, p_to)` | per London day: `app_orders, app_sales, gift_paid, discounts, instore_count, instore_amount` (max 400 days) | Finance: the close wizard's "app orders collected" check |
+
+Client: `BijaSupabase.rpc.staffMembers(limit)`, `staffInsights(days)`, `staffSalesDaily(from, to)`.
+
+**Finance in live mode.** App orders are paid at the bar, and in-store spend recorded on a Bija Card is part of the till's
+card and cash totals, so neither is added to sales again: the till's end-of-day report stays the source of truth for
+takings. Live mode uses `staff_sales_daily` only for the close wizard's cross-check ("N app orders collected (£X), already in
+the card and cash totals"). Online beans orders are still added to the close as before.
+
+**Moving existing balances:** see `docs/backend/migrate-demo-to-ledgers.md`.

@@ -81,6 +81,7 @@
 /* View Transitions between tabs: content slides with depth, header and nav stay put */
 body:not(.barista-view) .top { view-transition-name: mo-top; }
 .bnav { view-transition-name: mo-nav; }
+::view-transition, ::view-transition-group(*), ::view-transition-image-pair(*), ::view-transition-old(*), ::view-transition-new(*) { pointer-events: none; }
 ::view-transition-old(root) { animation: mo-vt-out .26s var(--mo-out) both; }
 ::view-transition-new(root) { animation: mo-vt-in .34s var(--mo-out) both; }
 html[data-mo-dir=back]::view-transition-old(root) { animation-name: mo-vt-out-b; }

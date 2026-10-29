@@ -10,7 +10,9 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="stylesheet" href="fonts/fonts.css">
+<script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
+if (location.protocol !== 'file:') ['archivo-latin-900', 'archivo-latin-800', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+<link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
 
@@ -28,6 +30,8 @@
 .sortw select { width: auto; min-width: 190px; }
 .count { color: var(--muted); font-size: 14px; margin: 0 0 14px; }
 @media (max-width: 1100px) { .toolbar { top: 64px; } } @media (max-width: 640px) { .sortw { width: 100%; } .sortw select { flex: 1; } }
+/* phones: the filter chips wrap instead of scrolling, so no chip is cut off at the edge */
+@media (max-width: 767px) { .toolbar { position: static; } .toolbar .chips { flex-wrap: wrap; overflow: visible; } }
 </style>
 </head>
 <body class="shop-page">
@@ -49,12 +53,13 @@
       <div class="sortw"><label for="sort">Sort by</label><select class="inp" id="sort"><option value="featured">Featured</option><option value="low">Price, low to high</option><option value="high">Price, high to low</option><option value="az">Name, A to Z</option></select></div>
     </div>
     <p class="count" id="count" role="status" aria-live="polite"></p>
+    <h2 class="vh">Coffees</h2>
     <div class="pgrid" id="grid"></div>
   </div>
 
 
   <section class="batik" aria-labelledby="disc-h">
-    <img src="photos/feature-1.jpg" width="740" height="640" alt="" loading="lazy" decoding="async">
+    <picture><source type="image/webp" srcset="photos/feature-1-600.webp 600w, photos/feature-1.webp 740w" sizes="(max-width: 860px) 100vw, 50vw"><img src="photos/feature-1.jpg" srcset="photos/feature-1-600.jpg 600w, photos/feature-1.jpg 740w" sizes="(max-width: 860px) 100vw, 50vw" width="740" height="640" alt="" loading="lazy" decoding="async"></picture>
     <div class="wrap"><span class="eyebrow" style="color:#e4e4e4">Not sure where to start?</span><h2 id="disc-h">Taste three islands side by side.</h2><p>The Discovery set brings Sumatra Mandheling, Sumatra Lintong and Old Brown Java together: three 200 g bags for £33.</p><a class="btn" href="product.html?id=set">See the Discovery set</a></div>
   </section>
 

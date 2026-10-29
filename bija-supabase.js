@@ -212,6 +212,10 @@
       p_member_code: str(memberCode, 12), p_amount: +amount, p_drinks: Math.round(+drinks || 0), p_till_ref: tillRef ? str(tillRef, 64) : null, p_double: !!double }),
     activateGift: (giftId, amountTaken) => call('activate_gift', { p_gift: giftId, p_amount_taken: +amountTaken }),
     staffGiftCards: () => call('staff_gift_cards'),
+    // staff read views: members, insights and daily sales, all computed from the ledgers on the server
+    staffMembers: (limit) => call('staff_members', { p_limit: Math.round(+limit || 500) }),
+    staffInsights: (days) => call('staff_insights', { p_days: Math.round(+days || 28) }),
+    staffSalesDaily: (from, to) => call('staff_sales_daily', { p_from: String(from).slice(0, 10), p_to: String(to).slice(0, 10) }),
     // owner only (owners table + MFA)
     adjust: ({ uid, ledger, delta, reason } = {}) => call('adjust', { p_uid: uid, p_ledger: ledger, p_delta: +delta, p_reason: str(reason, 200) }),
   };
@@ -236,7 +240,7 @@
       ensure().then((c) => {
         let ch = c.channel('bija-ledgers');
         for (const table of ['orders', 'points_ledger', 'stamps_ledger', 'gift_ledger']) ch = ch.on('postgres_changes', { event: '*', schema: 'public', table }, fire);
-        ch.subscribe();
+        ch.subscribe(() => {});
       }).catch(() => {});
       setInterval(() => { if (document.visibilityState === 'visible') fire(); }, POLL);
       addEventListener('online', fire);
