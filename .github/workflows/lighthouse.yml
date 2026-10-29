@@ -1,0 +1,60 @@
+name: Lighthouse (advisory)
+
+# Advisory only: budgets are reported, never block a merge.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LHCI_VERSION: 0.15.1
+  PORT: 8099
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  lighthouse:
+    name: Lighthouse ${{ matrix.preset }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        preset: [mobile, desktop]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Serve the repo root on port ${{ env.PORT }}
+        run: |
+          nohup python3 -m http.server "$PORT" --bind 127.0.0.1 > /dev/null 2>&1 &
+          for _ in $(seq 1 30); do
+            curl -fsS -o /dev/null "http://localhost:$PORT/" && exit 0
+            sleep 1
+          done
+          echo "::error::http.server did not start"; exit 1
+
+      - name: Run Lighthouse CI (${{ matrix.preset }})
+        run: npx --yes "@lhci/cli@${LHCI_VERSION}" autorun --config=.github/lighthouse/lighthouserc.${{ matrix.preset }}.json
+
+      - name: Upload Lighthouse reports
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-${{ matrix.preset }}-${{ github.run_id }}
+          path: .lighthouseci/
+          retention-days: 14
+          if-no-files-found: ignore
