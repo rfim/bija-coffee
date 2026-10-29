@@ -1,82 +1,76 @@
-# Owner decisions: everything waiting on Bija
+# Owner decisions: everything waiting on Bija (all teams)
 
-*Sprint 3 · Business analysis · 29 Oct 2026 · merged from the BizDev, Marketing, Mobile and Full stack docs on their team branches*
+*Compiled by Business Development · 29 Oct 2026 · from each team's branch as of tonight*
 
-**⛔ = blocks launch** (app public launch Mon 16 Nov, or the Beans Club and shop going live). Each row has a **recommended default**. If Bija says nothing by the date shown, the team goes ahead with the default. **Bold dates are hard deadlines.**
+🔴 **Blocks launch** (the app, web shop and Beans Club going public) · 🟠 needed by a date in the 90-day plan · ⚪ can wait
 
-## A. Launch blockers: decide this week
+Each line gives our **recommended default**. If the owner says nothing, teams go ahead with that default. Any default that touches licensing, VAT, food law or consumer terms still needs a **solicitor or accountant to confirm**.
 
-| # | Decision | Recommended default | Needed by | Source |
+| # | Decision | From | Recommended default | |
 |---|---|---|---|---|
-| A1 ⛔ | Fix the app's critical security issues (S1–S6: barista-view XSS, customer-written gift balance, points, rewards, gift amounts and prices) before the public launch? | **Yes.** No public launch until S1–S6 are fixed and retested. Soft launch to staff only until then | **9 Nov** | fullstack/security-review |
-| A2 ⛔ | Which till does Bija use, and is it under contract? Stripe or Square? | **Square** if switching is free (one system for app, till, gift cards, automatic points); otherwise **Stripe** for the app and keep the till | 6 Nov | mobile/payments-plan, fullstack/pos-integration |
-| A3 ⛔ | The live app domain (not the GitHub Pages demo) | Pick it now: QR codes, sleeves, analytics and the privacy notice all print it | **2 Nov** (before printing) | marketing/launch-campaign, fullstack/analytics |
-| A4 ⛔ | Real cost of a 200 g bag and a 1 kg bag, and which beans come through Kindred Forest | Send the figures. All bean, club and wholesale prices assume £5.40 a bag, which is probably too high | 5 Nov | bizdev/bean-subscription, marketing/pr-pack |
-| A5 ⛔ | Book an **accountant** (VAT on beans, postage, catering, gift cards and top-up balance; e-money exclusion) and a **solicitor** (subscription terms under the DMCC Act 2024 and Consumer Contracts Regs; gift card expiry) | Book both this week. Name the accountant's software (Xero, QuickBooks) | 10 Nov | bizdev/priorities, mobile/payments-plan, fullstack/pos-integration |
-| A6 ⛔ | Opening hours, including Christmas and New Year | Confirm the app's hours (Mon–Fri 8–5.30, Sat 11–6, Sun 12–6) and the holiday hours | 2 Nov | marketing/pr-pack, 90-day-calendar |
-| A7 ⛔ | Food label for bags sold online and to offices | Check the wording with Westminster Food Safety or a food-law adviser | Before posting beans | bizdev/bean-subscription, wholesale |
-| A8 ⛔ | Approve the privacy notice wording (analytics, delivery addresses, photo consent retention) | Approve, with retention set by the accountant | Before 16 Nov | fullstack/analytics, marketing/launch-campaign |
+| **A. Prices and loyalty** |||||
+| A1 | Approve the menu, bean, delivery and gift prices shown in the app and docs | BizDev, Web | Approve as built: beans £12, delivery £3.95, free over £30 | 🔴 |
+| A2 | Beans Club: 10% off **and** free delivery? | BizDev | 10% off. **Free delivery for 2+ bags or collection; £2.50 for a 1-bag delivery** (a free 1-bag post makes £1.43) | 🔴 |
+| A3 | Stamp card: 10th handcrafted drink free (up to £5.50) | Lead, BizDev | **Keep**. Paid drinks only | 🔴 |
+| A4 | Points: 10 per £1, cake 350, bag 1,200; remove "Any drink 400" | Lead, BizDev | **Keep. Remove the 400-point drink.** Points expire after 12 months with no activity (solicitor to confirm) | 🔴 |
+| A5 | Referral: +300 each (app) or 100 + 150 after the friend's first order (marketing) | Marketing, BizDev | **300 each, credited after the friend's first paid order of £3+**, max 5 a month, outside the 200-point challenge cap, "Ad:" label on the share text | 🔴 |
+| A6 | Offers: own cup 25p off · students 10% · early-bird double points | Lead, BizDev | Own cup: **keep**. Students: **off-peak only** (weekdays after 2pm, weekends). Early bird: **drop, or move to the quietest 2 hours** once the till data is in | 🟠 |
+| A7 | Gift subscription price | Lead, BizDev | **£36 collected, £42 posted** | 🟠 by 23 Nov |
+| A8 | Office and stockist price list (`wholesale.md`, `office-catering.md`) | BizDev | Approve as drafted. Publish after the roaster's prices are confirmed | 🟠 by 9 Nov |
+| A9 | Hero winter drink: name (*Kopi Rempah*), recipe, price, cost per cup | Marketing | Approve *Kopi Rempah*. Price it like kopi susu aren (£4.50) plus 30p *(assumption)* | 🟠 by 5 Nov |
+| **B. Beans and suppliers** |||||
+| B1 | Real Kindred Forest cost per 200 g and 1 kg bag; is resale through shops, offices and online allowed? | BizDev | Ask this week. Until then models use £5.40 per bag and £22 per kg | 🔴 for wholesale; 🟠 otherwise |
+| B2 | Exact wording of the relationship: does Kindred Forest **roast** or **source**? Which beans? | Marketing | "Roasted with Kindred Forest" (as on the site) until they confirm | 🔴 for press and packaging |
+| B3 | Gayo and Kintamani: on sale, guest filter only, or remove from the Origins Passport? | Marketing | Mark them "coming soon" (as in the app). Passport needs only the 3 on the shelf plus 1 filter | 🟠 |
+| B4 | Tasting notes for each bag | Marketing | Use the app's notes. Head barista signs off | ⚪ |
+| B5 | Bean subscriptions: collect only, or delivery too? | Mobile, BizDev | **Both**, once 5 test posts fit the letterbox size | 🟠 by 30 Nov |
+| **C. Payments, till and tech** |||||
+| C1 | Which till or card machine is used today, and is it under contract? | Mobile, Fullstack | Tell us this week. It decides C2 | 🔴 |
+| C2 | Card payments: **Stripe or Square**? | Mobile, Fullstack | **Square** if the till can switch (automatic points from in-store sales); otherwise Stripe for the app | 🔴 |
+| C3 | Send one month of real till figures (transactions a day, card vs cash, Amex/business card share) | Fullstack, Marketing | Export from the till this week | 🟠 |
+| C4 | OK to run a small server function (about £0–£5 a month) for automatic points and push alerts? Which host? | Fullstack, Mobile | **Yes, on the same backend as the app data** (Supabase or Firebase, whichever hosts the app) | 🟠 |
+| C5 | Keep "Pay at the bar" | Mobile | **Yes** | ⚪ |
+| C6 | Launch a top-up wallet to cut card fees? | Mobile | **Not at launch**. Needs the accountant's view on e-money and VAT | ⚪ |
+| C7 | Push alerts: order-ready only at launch, marketing pushes later with separate consent | Mobile | **Yes** | ⚪ |
+| C8 | Who owns `sw.js` (push and click handlers)? | Mobile | **Mobile team** | ⚪ |
+| C9 | Analytics: Plausible (paid) or Umami Cloud (free) | Fullstack | **Plausible** (cookie-free, UK GDPR-friendly) | 🟠 |
+| C10 | Fix the security findings before real money goes through the app: critical S1–S3, high S4–S6 | Fullstack (for Mobile) | **Must ship before launch.** The product lead does this, no owner input needed | 🔴 |
+| **D. Website, domain and listings** |||||
+| D1 | Final web address (one answer for web, analytics and QR codes) | Web, Fullstack, Marketing | **bijacoffee.co.uk** | 🔴 |
+| D2 | Stop sending phones straight to the app, so Google can index the homepage | Web | **Yes**: phones see the website with an "Order ahead" button | 🔴 for SEO |
+| D3 | Switch on search indexing (remove `noindex`) | Web | Yes, on launch day, after D1 | 🔴 |
+| D4 | Confirm the map pin, price range and menu prices in the site's structured data | Web | Pin on the shop door. Price range £ | 🟠 |
+| D5 | Google Business Profile details: accessibility, toilet, Wi-Fi, cash or cashless, dogs, children, "women-led", "Cake shop" category | Web | Owner answers yes or no on each. Don't show anything not confirmed | 🟠 |
+| D6 | Subscription terms on the website (collection from the 1st, grinding to order) | Web, BizDev | Pause, skip or cancel any time with 3 days' notice. Solicitor checks the distance-selling and subscription rules | 🔴 for Beans Club |
+| **E. Legal, privacy and advisers** |||||
+| E1 | Name the accountant and their software (Xero, QuickBooks, other) | Fullstack, BizDev | Tell us this week | 🔴 |
+| E2 | Book the accountant: VAT on beans, postage, catering, gift cards and gift subscriptions; how unused points and stamps are accounted for | BizDev, Mobile | Book this week | 🔴 |
+| E3 | Book a solicitor: subscription, gift card and loyalty terms (expiry, changes), late-payment wording | BizDev | Book this week | 🔴 |
+| E4 | Approve the privacy notice, including analytics wording and retention periods (filming consent cards kept 2 years?) | Fullstack, Marketing, Web | Approve the drafts. Consent cards kept 2 years | 🔴 |
+| E5 | Food labels on posted and wholesale bags | BizDev | Check with Westminster Food Safety or a food-law adviser | 🔴 for posting and wholesale |
+| **F. Marketing and PR** |||||
+| F1 | Christmas and New Year opening hours | Marketing | Tell us by 6 Nov | 🟠 |
+| F2 | Stay open late for the Regent Street lights switch-on (5 Nov)? | Marketing | Only if 2 staff volunteer | 🟠 by 2 Nov |
+| F3 | Founder bio, portrait and quotes: Devi approves or rewrites every quote | Marketing | No press release goes out without approval | 🟠 |
+| F4 | Open a TikTok account? | Marketing | Yes, reposting Instagram Reels | ⚪ |
+| F5 | Corporate gift cards in bulk: can the app issue them, and how do we invoice? | Marketing, BizDev | Printed codes and one invoice for Christmas. App bulk issue later | 🟠 by 9 Nov |
+| F6 | Community code worth +100 points for partner groups | Marketing | **Not at launch** (needs an app feature). Use a printed offer card instead | ⚪ |
+| F7 | Ask St James's Market whether the advent calendar runs in 2026 | Marketing | Founder asks this week | 🟠 |
+| **G. Operations and new revenue** |||||
+| G1 | Who covers office outreach (about 4 h a week in Nov) and the 07:30–08:30 delivery slot | BizDev | A named staff member, paid as an extra shift | 🟠 by 9 Nov |
+| G2 | Evening pilot: OK to check the lease (The Crown Estate) and planning, and to ask staff about Thursday evenings from 14 Jan | BizDev | **Yes.** Alcohol-free first | ⚪ (decide by 4 Jan) |
+| G3 | Owner or a manager takes a personal licence course in Q1 (keeps coffee cocktails possible) | BizDev | Yes, if Stage A of the pilot passes | ⚪ |
 
-## B. Loyalty and offers (costs in [loyalty-economics.md](loyalty-economics.md))
+**Count:** 45 decisions. **19 block launch** (🔴), 17 have a date (🟠), 9 can wait (⚪).
 
-| # | Decision | Recommended default | Blocks? |
-|---|---|---|---|
-| B1 | Points: 10 per £1; cake 350, drink 400, bag 1,200 | **Keep.** Costs about 4% of member sales; add a 12-month inactivity expiry | ⛔ launch copy |
-| B2 | Stamp card (10th drink free, up to £5.50) | **Drop** as a second reward. Keep the stamp grid only as progress to the 400-point drink | ⛔ launch copy |
-| B3 | Tiers: Seed, Sprout 1,500, Kopi Tree 5,000 | **Keep** as built | – |
-| B4 | Referral: app pays 300 each; marketing proposed 100 + 150 | **300 each**, paid after the friend's first paid order of £3+, max 5 a month, outside the challenge cap. The share message starts "Ad:" | ⛔ referral materials |
-| B5 | Own cup 25p off | **Keep** | – |
-| B6 | Student 10% off | **Drop at launch**; revisit as an after-2pm offer | – |
-| B7 | Early-bird double points before 9am | **Move to Mon–Fri 2–4pm** | – |
-| B8 | Community code worth +100 points for Indonesian groups | **Yes, later**: after A1, as a one-off code per group | – |
+**Where they came from:**
+- BizDev: [`priorities.md` §4](priorities.md) and the docs added tonight
+- Marketing: `docs/marketing/*` on `team/marketing`
+- Web: `docs/web/seo-launch.md`, `google-business-profile.md` and `README.md` on `team/web`
+- Mobile: `docs/mobile/payments-plan.md` and `push-plan.md` on `team/mobile`
+- Fullstack: `docs/fullstack/analytics.md`, `pos-integration.md` and `security-review.md` on `team/fullstack`
+- Lead: tonight's proposals
 
-## C. Beans, subscription, delivery and gifts
+Where two teams asked the same thing (domain, till, accountant, delivery for subscriptions), we merged them into one line.
 
-| # | Decision | Recommended default | Blocks? |
-|---|---|---|---|
-| C1 | Beans Club terms: site has 10% off and free delivery; BizDev proposed no discount and £14.50 posted | **£10.80 kept; free to collect; free posting from 2 bags; £2.50 for a single posted bag.** Revisit when A4 lands | ⛔ club launch (16 Nov) |
-| C2 | Club delivery: collect only, or post too? | **Collect from 16 Nov; post once 5 test packs pass the 2.5 cm large-letter test** (about 30 Nov) | ⛔ posted club |
-| C3 | Gift subscription £36 delivered | **£42 posted, £36 collected.** Last Christmas order **20 Dec** | ⛔ gift page (23 Nov) |
-| C4 | Discovery set £33; delivery £3.95, free over £30 | **Keep both** | – |
-| C5 | Corporate gift box £24 and hamper £45; bulk cards +5% at 25+ | **Approve.** Order by **11 Dec**, posted by **9 Dec** | ⛔ Christmas gifting (this week) |
-| C6 | Bulk gift cards in the app and invoicing | **Printed codes and one invoice for now**; in-app bulk issue after A1 | – |
-| C7 | Top-up wallet to cut card fees on small tickets | **Not at launch.** Decide after the accountant's view on e-money and VAT | – |
-| C8 | Keep "Pay at the bar" alongside paying in the app | **Yes** | – |
-
-## D. Offices and wholesale
-
-| # | Decision | Recommended default | Blocks? |
-|---|---|---|---|
-| D1 | Office bean price list: £34 / £31 / £29 / from £28 a kg, 2 kg minimum, card then 14-day invoice ([wholesale.md](wholesale.md)) | **Approve** once A4 confirms the cost | ⛔ offices page |
-| D2 | Office catering prices (filter box £30, meeting set £58, £60 minimum for walk delivery) | **Approve**; flyers in Nov, pilot in Jan | – |
-| D3 | Who does deliveries and outreach (about 4 h a week in Nov; 07:30–08:30 slot) | Name one person; add a 1.5 h shift on busy mornings | ⛔ catering and office beans |
-| D4 | Deli stockists: £7.80 wholesale, 12-bag minimum, 30 days; Amazon and NOTHS | **Test 2–3 delis from Jan; no marketplaces** | – |
-
-## E. Marketing and press
-
-| # | Decision | Recommended default | Blocks? |
-|---|---|---|---|
-| E1 | Brand line | **"Indonesia, by the cup."** | ⛔ printing (2 Nov) |
-| E2 | Winter drink name, recipe, price; stay open late for the 5 Nov lights switch-on | **Kopi Rempah**, launch **5 Nov**; stay open only if two staff volunteer | ⛔ **5 Nov** |
-| E3 | Origins Passport lists Gayo and Kintamani, which are not on the shelf yet | Serve them as guest filter coffees, or take them out of the passport until they land | ⛔ app copy |
-| E4 | Press: Devi approves her bio, quotes and photo; real press email; where roasting happens | Nothing goes out until Devi approves; no "in-house" wording until confirmed | ⛔ press release |
-| E5 | Open a TikTok account | **Yes**, reusing Instagram Reels | – |
-| E6 | Marketing spend (about £945–£1,215 to Jan) | **Approve**, against real quotes | – |
-
-## F. App and systems
-
-| # | Decision | Recommended default | Blocks? |
-|---|---|---|---|
-| F1 | Analytics: Plausible (paid) or Umami Cloud (free) | **Plausible**: no cookies and no consent banner | – |
-| F2 | Run a small server function (about £0–£5 a month) for payments, automatic points and push | **Yes**, on Supabase, which serves payments, points and push from one place | ⛔ pay-in-app and subscriptions |
-| F3 | Push alerts: order status only at launch? Who owns `sw.js`? | **Order status only**; marketing push later with separate consent. Mobile team owns `sw.js` | – |
-| F4 | A month of real till figures (transactions a day, card/cash, card types) | Pull the last 4 weeks now. Every KPI and the Square vs SumUp choice depends on it | ⛔ KPI baselines |
-
-## G. Evening pilot and licensing
-
-| # | Decision | Recommended default | Blocks? |
-|---|---|---|---|
-| G1 | Check the lease (Crown Estate) and planning for Thursday evenings; ask staff about shifts from 14 Jan | **Yes, check in early Jan.** Alcohol-free *Malam Bija*, 6 Thursdays | – |
-| G2 | Owner or manager takes a personal licence course in Q1 2027 | **Yes**: keeps coffee cocktails (TENs) open as an option | – |
-
-**Unresolved conflicts between teams:** B4 (referral amounts), C1 (club discount and delivery), C3 (gift subscription price) and E3 (passport origins). Each default above picks a side, with reasons in the linked doc.
+**The 5 to answer first:** D1 domain · C1/C2 till and payments · E1–E3 accountant and solicitor · B1 roaster costs · A1–A5 prices and loyalty.

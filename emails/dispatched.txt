@@ -1,0 +1,19 @@
+BIJA
+
+Order {{order_number}} · dispatched {{dispatch_date}}
+
+Your coffee is on its way.
+
+Order {{order_number}} left us today by Royal Mail Tracked 48. Royal Mail aims to deliver in 2 to 3 working days.
+
+Tracking number: {{tracking_number}}
+Delivering to: {{delivery_address}}
+
+Track your parcel: {{tracking_url}}
+
+Your Bija Card points for this order have been added. For the freshest cup, keep the bag sealed, away from light and heat, and enjoy within a month of opening.
+
+--
+Questions? Reply to this email, write to info@bijalondon.co.uk or call +44 20 4603 3086.
+Bija Coffee Limited, registered in England and Wales, company number 15383542.
+2a St James's Market, London SW1Y 4AH. Prices include VAT.

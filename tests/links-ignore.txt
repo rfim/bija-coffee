@@ -1,0 +1,3 @@
+# Internal links the checker should not report. One path per line; keep a reason next to each.
+# Founder photo still to come from Bija (README "To confirm"); the site shows a labelled placeholder until it exists.
+photos/founder.jpg

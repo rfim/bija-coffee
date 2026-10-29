@@ -1,0 +1,19 @@
+BIJA
+
+Welcome
+
+You're on the list.
+
+Thanks for signing up, {{first_name}}. About twice a month we'll send you new beans, events at St James's Market and members' offers.
+
+Kopi from the archipelago: specialty beans from Sumatra and Java, roasted with Kindred Forest. Best New Coffee Shop, London Coffee Festival Awards 2025.
+
+Shop coffee: https://rfim.github.io/bija-coffee/shop.html
+
+Subscribe and save 10% on every bag with the Beans Club (https://rfim.github.io/bija-coffee/subscribe.html), and earn 10 points for every £1 on your Bija Card.
+
+--
+Questions? Reply to this email, write to info@bijalondon.co.uk or call +44 20 4603 3086.
+Bija Coffee Limited, registered in England and Wales, company number 15383542.
+2a St James's Market, London SW1Y 4AH. Prices include VAT.
+You are receiving this because you signed up for Bija emails. Unsubscribe: {{unsubscribe_url}}

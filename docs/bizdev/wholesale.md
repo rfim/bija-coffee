@@ -1,91 +1,129 @@
-# Bija for offices: beans price list (proposal)
+# Office and wholesale price list (proposal for the offices page)
 
-*Sprint 3 · Business analysis · draft for Bija to approve before it goes on the offices page · 29 Oct 2026*
+*Sprint 2 (overnight) · Business Development · draft for the owner to approve · 29 Oct 2026*
 
-**In one line:** a simple **monthly standing order of 1 kg bags** for office bean-to-cup and filter machines, in **four volume tiers from £34 to £28 a kg**. Delivered **on foot, free**, within a 10-minute walk. **Card for the first 3 orders, then a monthly invoice on 14 days.** **Minimum 2 kg a month.**
+This is the price list for the **offices page** being built, plus terms for shops that want to stock Bija beans. It builds on [wholesale-and-retail.md](wholesale-and-retail.md) (channel choice), [office-catering.md](office-catering.md) (meeting coffee and breakfast boxes) and [loyalty-economics.md](loyalty-economics.md) (Beans Club and gift subscriptions).
 
-> Prices are **proposals** *(assumption)*. They build on BizDev's £34/kg office price ([wholesale-and-retail.md §1](wholesale-and-retail.md) on `team/bizdev`). Cost per kg is **£22** *(assumption from the same doc: "ask Kindred Forest")*. Because Bija's own baristas roast green coffee sourced with Kindred Forest, the real cost may well be lower. **Replace it with a costing before publishing.** Beans are normally **zero-rated for VAT** as food ([HMRC VAT Notice 701/14](https://www.gov.uk/guidance/food-products-and-vat-notice-70114)); **confirm with the accountant**, including the rate on the delivery charge.
+> Every price here is a **proposal** *(assumption)* for the owner to approve. Bean cost is assumed at **£5.40 per 200 g** (45% of £12, from the brief) and **£22 per 1 kg** *(assumption: ask Kindred Forest for its real 1 kg and volume prices before publishing)*. Postage is Royal Mail **online** prices from 5 Oct 2026 ([price guide](https://www.royalmail.com/sites/royalmail.com/files/2026-10/online-price-guide-october-2026-v1.pdf)).
+>
+> **VAT:** we assume roasted coffee beans are zero-rated food, so bean prices are the same with or without VAT. Coffee and food served at an office (catering) is standard-rated. **Confirm both with an accountant.** **Payment terms and late-payment wording: confirm with a solicitor.**
 
 ---
 
-## 1. Price list for the offices page
+## 1. Beans for offices: monthly plan
 
-### Beans for your machine (1 kg bags, whole bean or ground)
+For offices that brew their own coffee: cafetière, filter machine or bean-to-cup machine. Delivered or collected every month, ground or whole bean.
 
-| Tier | Monthly volume | Price per kg | Good for |
+### 200 g bags (cafetière and filter)
+| Bags per month | Price per bag | Saving vs shop (£12) | Bija contribution per bag* |
 |---|---|---|---|
-| **Starter** | 2–4 kg | **£34** | A team of 10–25 |
-| **Office** | 5–9 kg | **£31** | 25–50 people |
-| **Floor** | 10–19 kg | **£29** | 50–100 people, or several machines |
-| **Building** | 20 kg + | **from £28**, quoted | Whole buildings, co-working |
+| 4–9 | **£11.00** | 8% | £5.38 |
+| 10–24 | **£10.50** | 12.5% | £4.89 |
+| 25+ | **£10.00** | 17% | £4.40 |
 
-- **Beans:** Bija House Blend (recommended for bean-to-cup machines: round, chocolatey, good with milk) or any single origin on the shelf (Sumatra Mandheling, Sumatra Lintong, Old Brown Java) at **+£2 a kg**.
-- **Grind:** whole bean, or ground for filter, cafetière or espresso at no charge.
-- **For the office kitchen:** a **pantry pack of 6 × 200 g retail bags for £54** (£9 a bag, against £12 in the shop). Counts towards the monthly volume (6 × 200 g = 1.2 kg).
-- **Prices are per kg, ex VAT.** Beans are usually zero-rated, so for most offices the price is the price.
-- **Rough guide:** an office of 20 drinks about **2–3 kg a month** *(assumption, BizDev)*.
+### 1 kg bags (bean-to-cup machines)
+| kg per month | Price per kg | Bija contribution per kg* |
+|---|---|---|
+| 1–2 kg | **£40** | £17.20 |
+| 3–5 kg | **£37** | £14.26 |
+| 6 kg+ | **£34** | £11.32 |
 
-### Delivery
+\*After beans and a 2% card or bank fee, before delivery and staff time *(assumption)*. A 20-person office uses about **2–3 kg a month** *(assumption)*.
 
-| Where | Charge |
-|---|---|
-| **Within a 10-minute walk** (about 800 m from 2a St James's Market: St James's, Pall Mall, Piccadilly to Burlington Arcade, Haymarket, Leicester Square, south Soho) | **Free**, hand-delivered on foot, 07:30–08:30 or 14:00–16:00 |
-| Rest of the UK, up to 2 kg | **£5** a parcel (Royal Mail Tracked 48) |
-| Rest of the UK, over 2 kg | **Free from 6 kg a month**; otherwise courier at cost, quoted |
-| Collection from the shop | Free, any opening time |
+**House Blend** is the default for machines. Single origins (Sumatra Mandheling, Sumatra Lintong, Old Brown Java) cost the same. Confirm with the roaster which roast suits automatic machines.
 
-Delivery slots and the radius match BizDev's office catering plan ([office-catering.md §3–4](office-catering.md) on `team/bizdev`), so one person can deliver beans and catering on the same run. No deliveries 08:00–10:00 or 12:00–14:00, when the queue matters most.
+---
 
-### Terms
+## 2. Beans for shops (stockists)
+
+For delis, grocers and gift shops that resell Bija's 200 g bags.
 
 | | Proposal |
 |---|---|
-| **Minimum** | **2 kg a month** on a standing order. One-off orders of 1 kg are welcome at the Starter price, by card, collected or posted |
-| **Standing order** | Pick a monthly volume and a delivery day (one or two deliveries a month). Change it, pause it for holidays, or cancel with **14 days' notice**. No minimum term |
-| **Payment** | **Card for the first 3 orders.** Then a **monthly invoice, payable in 14 days**, by bank transfer or Direct Debit. This matches the catering terms |
-| **Late payment** | Deliveries pause after 30 days overdue. Statutory interest and compensation may apply under the Late Payment of Commercial Debts (Interest) Act 1998 ([GOV.UK](https://www.gov.uk/late-commercial-payments-interest-debt-recovery)) |
-| **Price review** | Prices are held for **3 months** from signing. After that, up to **one change a quarter, with 30 days' notice**, if green coffee prices move. Arabica prices have been volatile, so this protects Bija's margin |
-| **Freshness** | Roasted to order. Delivered within **10 days of roasting** *(assumption: confirm with the roasting schedule)*, with a roast date on every bag |
-| **First order** | A free **tasting visit**: a barista brings two coffees to try and checks the grinder setting on your machine (within the walking radius, 30 minutes) |
-| **Machine** | We supply beans, not machines or servicing. We can recommend a local service engineer *(no names until Bija has one)* |
+| Recommended shelf price | **£12** (the same as in Bija's own shop) |
+| Wholesale price | **£7.80 a bag** (35% off the shelf price). **£7.50** from 48 bags a month |
+| Retailer's margin | 35% (£4.20 a bag) at £7.80 |
+| Bija's contribution | £2.24 a bag at £7.80, £1.95 at £7.50, before delivery and staff time *(assumption)* |
+| Pack | Cases of 6, mixed beans allowed |
+| Minimum | **12 bags on the first order**, then 6 |
+| Freshness | Bija swaps unsold bags for fresh ones **8 weeks after roasting** *(assumption: agree the best-before with the roaster)*. No sale-or-return otherwise |
+| Point of sale | Free shelf card ("Best New Coffee Shop, London Coffee Festival Awards 2025") and tasting notes |
+| Label | Full prepacked food label on every bag. **Confirm with a food-law adviser** |
+
+**Cafés, restaurants and hotels serving Bija coffee:** *quote on request*. Don't publish a price until Kindred Forest's volume price is known. At an assumed £22 cost per kg, a typical trade price would leave little margin.
 
 ---
 
-## 2. Why these numbers (for Bija, not the web page)
+## 3. Delivery
 
-Per kg, with £22 cost and a hand-delivery taking 25 minutes of staff time at £17.50 an hour (**£7.30 a run**) *(assumptions from BizDev and the finance model)*:
+| Where | How | Charge |
+|---|---|---|
+| **Within a 10-minute walk** (about 800 m from St James's Market: St James's, Pall Mall, Jermyn Street, Piccadilly Circus, Haymarket, Leicester Square, Trafalgar Square; see [office-catering.md §4](office-catering.md)) | Walked over in the 07:30–08:30 or 14:00–16:00 slot | **Free from £40** an order; £5 below that *(assumption)* |
+| Rest of the UK, up to 1 kg | Royal Mail **Tracked 48** Large Letter (letterbox-size packs; postage £2.90 online) or Small Parcel up to 2 kg (£3.75 online) | **£3.95** a delivery (same as the web shop). **Free from £60** for office and stockist accounts |
+| Over 2 kg | Royal Mail medium parcel or a courier | Quoted when ordering *(not priced: no sourced rate yet)* |
+| Collection | From the bar during opening hours | Free |
 
-| Tier | Price/kg | Typical order | Delivery cost per kg | **Contribution per kg** | % | Monthly contribution per account |
-|---|---|---|---|---|---|---|
-| Starter | £34 | 3 kg, 2 runs a month (1.5 kg a run) | £4.87 | **£7.13** | 21% | £21 |
-| Office | £31 | 7 kg, 2 runs (3.5 kg a run) | £2.09 | **£6.91** | 22% | £48 |
-| Floor | £29 | 15 kg, 2 runs | £0.97 | **£6.03** | 21% | £90 |
-| Building | £28 | 25 kg, 2 runs | £0.58 | **£5.42** | 19% | £136 |
-| Pantry pack | £54 for 6 × 200 g | 1 pack with a delivery run | – | **£21.60** (£54 − 6 × £5.40) | 40% | |
-
-- **Contribution per kg stays at about £6–£7 across tiers.** Bigger accounts pay less per kg but cost less to deliver, so the discounts are funded by the delivery saving.
-- **Why a 2 kg minimum:** at 1 kg a run, a walk delivery costs £7.30 and Bija would make £4.70 a kg. Under the minimum, collection or posting is offered instead.
-- **Card fees:** card payment on early orders costs about 1.5–1.75%. Invoices paid by bank transfer cost nothing. Direct Debit through a provider such as GoCardless costs a small fee per payment *(not checked: confirm the price)*.
-- **Against retail:** £34 a kg is 43% below the shop's £60 a kg (£12 per 200 g). Offices compare against supermarket and wholesale coffee, not the café bag, so the page should lead on **freshness, roasted here, hand-delivered**, not on price.
-- **Five Starter or Office accounts** make roughly £100–£250 a month in contribution. That is close to BizDev's "about £140 a month once 5 offices sign up", with little extra work once a catering run exists.
-- **Points:** wholesale orders **don't earn Bija Card points**. Points are for people, not company accounts. The person ordering can still use their own card in the café.
+Delivery days: one fixed day a month for office plans (customer chooses). Stockist orders go out within 3 working days *(assumption)*.
 
 ---
 
-## 3. Before this goes live
+## 4. Payment terms
 
-| # | Check | Owner | Blocks the page? |
-|---|---|---|---|
-| 1 | Real cost per kg (green coffee, roast loss, 1 kg valve bag, label) and how much the roaster can produce each week | Bija owner | **Yes** |
-| 2 | 1 kg bag with one-way valve, full prepacked label (name, weight, best before, business name and address). **Confirm the label with a food-law adviser or Westminster Food Safety** ([FSA labelling guidance](https://www.food.gov.uk/business-guidance/packaging-and-labelling)) | Bija owner | **Yes** |
-| 3 | VAT on beans and on the delivery charge. **Confirm with the accountant** | Bija owner + accountant | Before the first invoice |
-| 4 | Product liability insurance covers wholesale. **Confirm with the insurer** | Bija owner | Yes |
-| 5 | Invoice template and a simple account tracker (volume, invoices, overdue). The app's owner Finance tab could log wholesale sales; ask the product lead | Product lead | Before the first invoice |
-| 6 | Who delivers, and the 07:30–08:30 slot (shared with the catering pilot) | Bija owner | Before the first delivery |
+| | Offices | Stockists |
+|---|---|---|
+| First order | Card, paid when ordering | Card, paid when ordering |
+| From the 4th order | **Invoice, 14 days**, if the first 3 orders were paid on time | **Invoice, 30 days**, same condition |
+| Billing | Monthly plan billed on the 1st *(assumption)* | Per order |
+| Change or pause | Change the quantity or pause (for example over Christmas) with **7 days' notice** | – |
+| Cancel | Monthly rolling; **1 month's notice** | Any time |
+| Late payment | Account switches back to card payment. Statutory interest may apply under the Late Payment of Commercial Debts (Interest) Act 1998 (**wording to confirm with a solicitor**) | Same |
+
+---
+
+## 5. Minimum orders (summary)
+
+| Product | Minimum |
+|---|---|
+| Office beans, 200 g | 4 bags a month |
+| Office beans, 1 kg | 1 kg a month |
+| Stockist beans | 12 bags first order, then 6 |
+| Meeting coffee and breakfast boxes ([office-catering.md](office-catering.md)) | £60 for walk delivery; no minimum for collection |
+| Corporate gift cards | 10 cards; +5% bonus value from 25 cards ([office-catering.md §5](office-catering.md)) |
+| Gift subscriptions (3 months) | 1. **£36 collected, £42 posted** (see [loyalty-economics.md §5](loyalty-economics.md)) |
+
+---
+
+## 6. Copy for the offices page (draft)
+
+> **Bija for offices**
+> Indonesian specialty coffee for your team, from London's Best New Coffee Shop 2025 (London Coffee Festival Awards).
+>
+> **Beans every month.** 200 g bags from £10 or 1 kg bags from £34, whole bean or ground for your machine. Walked over free within 10 minutes of St James's Market for orders of £40 or more, or sent Royal Mail Tracked 48 anywhere in the UK.
+>
+> **Coffee for meetings.** A filter coffee box for 10 from £30, and Indonesian cake platters.
+>
+> **Gifts.** Bija gift cards for 10 or more people, and 3-month bean gift subscriptions from £36.
+>
+> First order by card. Monthly invoices once you're set up. Pause any time with 7 days' notice.
+>
+> *[Enquiry form or email: owner to confirm the address]*
+
+Every figure in this copy must match the tables above once the owner approves them.
+
+---
+
+## 7. What has to be true before the page goes live
+
+1. The owner approves the prices in sections 1–5.
+2. Kindred Forest confirms the 1 kg and volume prices, and that resale is allowed (see [wholesale-and-retail.md §3](wholesale-and-retail.md)).
+3. An accountant confirms VAT on beans, postage and catering. A solicitor confirms the payment terms and the late-payment wording.
+4. Someone owns the enquiry inbox and replies within 1 working day.
+5. A simple invoice and order tracker exists. Ask the product lead whether the app's finance tab can log account orders.
+
+---
 
 ### Sources
-- BizDev: `docs/bizdev/wholesale-and-retail.md`, `docs/bizdev/office-catering.md` (`team/bizdev`)
-- HMRC VAT Notice 701/14 (food): <https://www.gov.uk/guidance/food-products-and-vat-notice-70114>
-- Late commercial payments: <https://www.gov.uk/late-commercial-payments-interest-debt-recovery>
-- FSA packaging and labelling: <https://www.food.gov.uk/business-guidance/packaging-and-labelling>
-- Royal Mail online prices, Oct 2026: <https://www.royalmail.com/sites/royalmail.com/files/2026-10/online-price-guide-october-2026-v1.pdf>
+- Royal Mail online prices from 5 Oct 2026: <https://www.royalmail.com/sites/royalmail.com/files/2026-10/online-price-guide-october-2026-v1.pdf>
+- Bija shop and delivery prices: `app.html` constants in this repo (`POST = 3.95`, `FREE_POST = 30`, 200 g at £12)
+- HMRC VAT Notice 701/14 (food): <https://www.gov.uk/guidance/food-products-and-vat-notice-70114>; Notice 709/1 (catering): <https://www.gov.uk/guidance/catering-takeaway-food-and-vat-notice-7091> (confirm with an accountant)
+- Late Payment of Commercial Debts (Interest) Act 1998: <https://www.legislation.gov.uk/ukpga/1998/20> (confirm with a solicitor)

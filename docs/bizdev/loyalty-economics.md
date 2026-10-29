@@ -1,160 +1,139 @@
-# Loyalty and offers: what each scheme costs Bija
+# Loyalty economics: what each proposed scheme costs Bija
 
-*Sprint 3 · Business analysis · draft for Bija to approve · 29 Oct 2026*
+*Sprint 2 (overnight) · Business Development · draft for the owner to decide · 29 Oct 2026*
 
-**In one line:** keep **points, tiers, referral, own cup and delivery** as proposed. **Drop stamps** (they duplicate the free drink at 400 points) and the **student discount**. **Move early-bird double points** to the quiet afternoon. **Change the Beans Club**: free posting on a single £10.80 bag loses money against the counter bags it replaces. **Price the posted gift subscription at £42**, not £36.
+**Summary.** All six member schemes running together cost about **£727 a month per 1,000 members at cost price**. That is **£8,700 a year**, or **5.8% of members' net sales**. To pay for that, members need to visit about **9.4% more often** (6.6 visits a month instead of 6).
 
-> **How to read this.** Every number comes from [`loyalty-model.xlsx`](loyalty-model.xlsx). Change a yellow cell on the *Assumptions* tab and the rest updates. The workbook is rebuilt by [`build_loyalty_model.py`](build_loyalty_model.py). Costs are **at cost price** (ingredients, cups, packaging, postage, card fees), not the retail value the customer sees. Anything marked *(assumption)* is our estimate with no Bija data behind it. **Replace the assumptions with eight weeks of till and app data** before treating any figure as final. VAT points need the accountant.
+The stamp card, points, referral and own-cup discount are good value. **Early-bird double points** pays people who already come at the busiest time, so drop or move it. Make **student** pricing off-peak only.
+
+**Beans Club** as proposed (10% off and free delivery) makes only **£1.43 on a single posted bag**. Keep the 10% but charge **£2.50 delivery on 1-bag deliveries**. The **£36 gift subscription** should be **£36 collected or £42 posted**.
+
+> **How to read this.** Every number marked *(assumption)* is our estimate with no Bija data behind it. The model is [`loyalty-model.xlsx`](loyalty-model.xlsx), with *Inputs*, *Schemes* and *Beans Club* tabs. Yellow cells are assumptions, and the formulas recalculate when you change them. Costs are at **cost price** (what Bija pays for the coffee, cake or bag), not menu price. We use cautious assumptions throughout: low breakage, high redemption. Real costs should come in at or below these figures.
+>
+> Points, stamps and gift subscriptions not yet used are a liability in the accounts. Discount and loyalty terms need to be fair under consumer law and the CAP Code rules on promotions. **Confirm the accounting treatment with an accountant and the terms with a solicitor.**
 
 ---
 
-## 1. The yardstick
+## 1. The schemes as proposed
 
-Every scheme is costed **per 1,000 Bija Card members per year**, against what a member visit is worth.
+| Scheme | Rule | In the app today? |
+|---|---|---|
+| Stamp card | 1 stamp per handcrafted drink; the 10th drink is free (up to £5.50) | Not yet (proposed) |
+| Points | 10 points per £1. Redeem for cake (350 points) or a 200 g bag (1,200 points) | Yes. The app also still has **"Any drink" for 400 points** (`app.html` `REWARDS`), which the proposal removes |
+| Referral | +300 points each for the new member and the friend who invited them, confirmed by staff | Yes (`REFER = 300`) |
+| Own cup | 25p off any hot drink | Proposed offer card |
+| Students | 10% off with a valid student card, not with other offers | Proposed offer card |
+| Early bird | Double points before 9am, Monday to Friday | Proposed offer card; barista ticks a box |
+| Beans Club | 10% off every bag (£10.80), free delivery, every 2, 3 or 4 weeks | Yes (`SUB_OFF = 0.10`) |
+| Delivery | Royal Mail Tracked 48, £3.95, free over £30 | Yes (`POST = 3.95`, `FREE_POST = 30`) |
+| Gift subscription | £36 for 3 months | Proposed (corporate) |
+
+---
+
+## 2. Assumptions (per 1,000 members)
 
 | Input | Value | Source |
 |---|---|---|
-| Visits per member | **2 a month (24 a year)** | *(assumption, cautious)*. 1,000 members then make about a third of a 200-a-day café's transactions, close to marketing's 30% target ([90-day calendar](../marketing/90-day-calendar.md) on `team/marketing`) |
-| Average transaction | **£6.23** incl. VAT, **£5.35** net | UK café benchmark used in the brief and the finance model (`docs/finance/bija-unit-economics.xlsx` on `team/fullstack`) |
-| Gross margin | **68%** | Finance model base *(assumption)* |
-| Card fee | 1.75% | Square in person ([pos-integration.md](../fullstack/pos-integration.md) on `team/fullstack`) |
-| **Contribution per member visit** | **£3.53** | net × margin − card fee |
-| Member net sales | **£128,338** per 1,000 members a year | |
-
-**Break-even uplift** = scheme cost ÷ £3.53 = extra visits needed. It is shown as a share of the 24,000 baseline visits, or of the visits the scheme targets.
-
-**What a point costs.** Rewards are cake 350, drink 400 and beans 1,200 points. A reward drink costs about £1.30 to make *(assumption: members pick dearer drinks when they're free)*, a cake £1.00 and a bag £5.40. With a 30/60/10 redemption mix *(assumption)*, **one redeemed point costs 0.33p and is worth 1.08p at menu prices.** So 10 points per £1 hands back about 10.8% in retail value, but only about **3.3p per £1 at cost** before breakage.
-
----
-
-## 2. Scheme by scheme (per 1,000 members a year)
-
-| Scheme | Cost at cost price | Breakage | Margin impact (% of member net sales) | Break-even extra visits | Break-even uplift | Call |
-|---|---|---|---|---|---|---|
-| **Points**, 10 per £1 | **£4,874** | 25% | 3.8% | 1,382 (1.4 per member) | **5.8%** | **Keep** |
-| **Stamps**, 10th drink free | £2,253 *(on top of points)* | 35% | 1.8% | 639 | 2.7% | **Drop** |
-| **Tiers**: Sprout, Kopi Tree | £1,672 | – | 1.3% | 474 | 2.2% of tier members' visits | **Keep** |
-| **Referral**, +300 each | £176 (£1.76 a referral) | 25% | 0.1% | 0.5 visits per new friend | – | **Keep, tighten** |
-| **Own cup**, 25p off | £42 | – | <0.1% | 12 | 0.1% | **Keep** |
-| **Students**, 10% off | £385 | – | 0.3% | 109 | **17.9% more student visits** | **Drop at launch** |
-| **Early bird**, double points before 9am | £913 | 25% | 0.7% | 259 | 4.3% of pre-9am visits | **Move to 2–4pm** |
-| **Beans Club** as proposed | £6,768 perk cost (£4.70 a bag) | – | 5.3% | 1,919 | 8.0% | **Adjust** |
-| Beans Club, recommended version | £2,448 (£1.70 a bag) | – | 1.9% | 694 | 2.9% | Recommended |
-| **Delivery**, £3.95, free over £30 | £310 net | – | 0.2% | 88 | 0.4% | **Keep** |
-| **Gifting**: postage inside a £36 gift subscription | £525 | – | 0.4% | 149 | 0.6% | **Adjust: £42 posted** |
-| **All, as proposed** | **£17,919** | | **14.0%** | 5,080 | **21.2%** | |
-| **All, as recommended** | **£10,435** | | **8.1%** | 2,959 | **12.3%** | |
-
-The café-side core of the recommended package (points, tiers, referral, own cup, afternoon double points) costs **£7,677 (6.0% of member net sales)** and pays back with **about 2 extra visits per member a year (9%)**. The Beans Club and delivery lines are paid for by bean sales, not café visits (see §2.8).
-
-### 2.1 Points: keep
-
-- **Cost:** a member earns about 1,495 points a year from spend, plus about 500 in bonuses *(assumption: welcome 100, birthday 200, some challenges, Passport and trail)*. With **25% breakage** that costs **£4.87 per member, £4,874 per 1,000**: 3.8% of member net sales.
-- **Breakage:** retail programmes are usually quoted at **20–30%** breakage ([Leat](https://www.leat.com/resources/insights/loyalty-program-breakage); [Loyalty360](https://loyalty360.org/content-gallery/daily-news/rewards-breakage-boon-or-bane-the-role-of-technology-in-optimizing-breakage)). Both are vendor and trade sources, not audited data. We use 25%. **Lower breakage costs more:** at 0% the cost is £6,499 (5.1%); at 40% it is £3,899 (3.0%) (*Sensitivity* tab).
-- **Break-even:** **1.4 extra visits per member a year, a 5.8% uplift.** One UK SME guide suggests a 10–20% lift in repeat visits among participants as a pilot target ([bizzr.uk](https://bizzr.uk/blog/micro-loyalty-programmes-for-uk-smes/)). That is a target, not a measured result, but 5.8% leaves headroom.
-- **Watch:** the 1,200-point bag is the dearest reward per point (0.45p against about 0.29p for cake and drinks). It is fine at a 10% share. If beans pass 25% of redemptions, raise it to 1,500.
-- **Do:** let points expire after **12 months with no activity** (state it in the terms) so the liability doesn't build up forever, and show "points outstanding" in Finance as the app already does.
-
-### 2.2 Stamps: drop as a second currency
-
-- **Cost if run alongside points:** 24 drinks a year at "buy 9, the 10th free" with 35% breakage *(assumption: one vendor example has 22% of cards completed in 8 weeks, [BonusQR](https://bonusqr.com/article/loyalty-programs-that-actually-drive-repeat-visits); digital cards that never expire complete more often)* = 1.7 free drinks per member, **£2,253 per 1,000**. With no breakage: £3,467.
-- **The problem is overlap.** At £4.20 a drink, 400 points already gives a free drink after about 10 drinks. Run both and a regular gets **two free drinks per ten**. Members would see **19% of their spend handed back at menu prices**. The "up to £5.50" cap also steers every free drink to the dearest item.
-- **Break-even** on its own looks easy (2.7%), but the visits it would win are the same visits points already win.
-- **Recommendation:** **drop the stamp card as a separate reward.** Keep the stamp grid that's already in `app.html` only as a picture of progress towards the 400-point drink (10 beans = 1 free drink). That keeps the familiar look at no extra cost.
-
-### 2.3 Tiers: keep
-
-- **Sprout** (1,500 lifetime points, about £150 of spend): a free extra shot or syrup. With 30% of members at Sprout or above, visiting 6 times a month, taking the perk on a quarter of drinks at about £0.18 *(assumptions)*: **£972**.
-- **Kopi Tree** (5,000 points): four events a year at about £150, plus new-origin tastings: **£700**.
-- **Total £1,672 (1.3%).** It breaks even if the 300 tiered regulars make **2.2% more visits**, about one visit each every 3 months. Perks, not multipliers, keep it cheap.
-- **Do:** run Kopi Tree events before opening or after close, so they don't take seats from paying customers.
-
-### 2.4 Referral (+300 each, staff-confirmed): keep, tighten
-
-- **Cost:** 600 points per referral after breakage, plus a minute of staff time: **£1.76 a referral**. At 1 in 10 members referring each year, **£176 per 1,000**.
-- **Break-even:** the new friend must make **half a visit**. Nearly any real new customer pays it back.
-- **Risk is fraud, not cost.** Staff confirmation helps. Also pay out **only after the friend's first paid order of £3 or more** and **cap at 5 a month per member**, as marketing proposed ([launch-campaign.md §3](../marketing/launch-campaign.md) on `team/marketing`).
-- **Conflict to settle:** the app pays **300 to each side**. Marketing's spec pays the friend 100 and the member 150. **Recommended: keep 300 each** (it costs only about 85p more per referral than marketing's version, and welcome 100 + 300 = a free drink on the friend's second visit), with marketing's guard rails. Referral points sit outside the 200-point challenge cap.
-
-### 2.5 Own cup, 25p off: keep
-
-- 25p off incl. VAT is 20.8p net, less about 11p saved on a cup and lid *(assumption)* = **about 10p per use**. At 3% of takeaway drinks *(Costa reported about 1% take-up of 25p off in 2017, [HuffPost UK](https://www.huffingtonpost.co.uk/entry/have-we-taken-to-using-reusable-coffee-cups_uk_5b278825e4b0f9178a9eefb7); a Starbucks London trial moved own-cup use from 2.2% to 5.9%, [Yahoo Finance UK](https://uk.finance.yahoo.com/news/starbucks-introduces-apos-latte-levy-103249981.html))*: **£42 per 1,000 members**, and it applies to non-members too. Pret's move to 50p in 2018 increased use about tenfold ([British Baker](https://bakeryinfo.co.uk/foodservice/paul-uk-on-par-with-pret-for-reusable-cup-discount/624819.article)). 25p is the cautious choice.
-
-### 2.6 Students, 10% off: drop at launch
-
-- The discount is 10% of net sales on every student visit: **£385 per 1,000 members** if 3% of visits are students *(assumption)*.
-- **Break-even needs 17.9% more student visits**, because each discounted visit makes £2.99 instead of £3.53. St James's has offices and visitors, not campuses. BizDev already ranked this "not now" ([priorities.md](priorities.md) on `team/bizdev`).
-- **If you want it later:** make it weekdays after 2pm only, where seats are empty, and not combined with other offers.
-
-### 2.7 Early-bird double points before 9am: move to 2–4pm
-
-- The shop opens at 8am on weekdays, so "before 9am" is the commuter hour, already the busiest. If 25% of member visits fall there *(assumption)*, the extra points cost **£913 per 1,000** and need **4.3% more pre-9am visits**. The people in that queue come anyway, and the queue limits how many more can be served.
-- **Same cost, better odds:** run **"Afternoon double points, Mon–Fri 2–4pm"** instead. The till and app logic (`is-double` checkbox in the barista view) stays the same; only the hours change.
-
-### 2.8 Beans Club (10% off, free delivery): adjust
-
-Per bag, at £5.40 bean cost (the brief's 45% of £12) *(Unit economics tab)*:
-
-| | Customer pays | Contribution | % |
-|---|---|---|---|
-| Shop counter | £12.00 | **£6.10** | 51% |
-| One-off online + £3.95 delivery | £15.95 | £6.32 | 40% |
-| **Club as proposed: 1 bag posted free** | £10.80 | **£1.20** | **11%** |
-| Club, 2 bags in one Small Parcel | £21.60 | £2.52 a bag | 23% |
-| Club recommended: 1 bag posted, £2.50 delivery | £13.30 | £3.64 | 27% |
-| Club recommended: collected in store | £10.80 | £4.70 | 44% |
-
-*(Contribution after beans, mailer £0.60, Royal Mail Tracked 48 Large Letter £2.90 online, Stripe card fee and 0.7% Billing, and points. Staff packing time left out. Royal Mail prices from [the October 2026 online price guide](https://www.royalmail.com/sites/royalmail.com/files/2026-10/online-price-guide-october-2026-v1.pdf), via [bean-subscription.md](bean-subscription.md) on `team/bizdev`.)*
-
-- **Cost per 1,000 members:** 80 subscribers *(assumption, 8%)* taking 1.5 bags a month = 1,440 bags. As proposed the perks (discount plus free post) cost **£4.70 a bag, £6,768 a year**.
-- **Cannibalisation:** if each subscriber would have bought half a bag a month at the counter anyway *(assumption)*, the club as proposed makes **£1,201 less** than doing nothing. A posted subscriber has to take **2.5 bags a month** to match half a counter bag.
-- **Recommended version:** keep **£10.80 (10% off)** as the headline. Make delivery **free on deliveries of 2 or more bags** (Small Parcel), **free if collected in store**, and **£2.50 on a single posted bag**. At a 50/50 collect/post mix this makes **£4.17 a bag** and **£3,080 a year more** than the counter bags it replaces. Collection also brings subscribers in, where they buy a drink.
-- **Bean cost is the swing factor.** Bija roasts its own green coffee, so £5.40 is probably too high. At £3.00 a bag, even the proposed club makes £3.60 posted (*Sensitivity* tab). **Get the real cost first.** Below about £4 a bag, the proposed club stops losing money against the counter bags it replaces, though the recommended version still makes more.
-- **Packaging risk:** a single bag only costs £2.90 to post if it fits Royal Mail's 2.5 cm large-letter limit. Otherwise it's a £3.75 Small Parcel in a £0.80 box, and the proposed club makes about £0.15 a bag. Run BizDev's 5-pack test post first.
-- **Conflict to settle:** BizDev's subscription plan proposed **no discount** (£12 collected, £14.50 posted) with a free filter on collection day. The site was built with 10% off and free delivery. The recommended version above is the middle ground.
-
-### 2.9 Delivery (£3.95, free over £30): keep
-
-- A 1-bag order at £3.95 covers the mailer and Tracked 48 Large Letter with **£0.45 to spare**.
-- A free-delivery order (£30+) absorbs about **£4.55** (box plus Small Parcel £3.75). It pays for itself if the threshold adds **0.7 of a bag** to the basket. Going from 2 bags (£24) to 3 (£36) does that.
-- Net cost **£310 per 1,000 members** at 200 one-off orders, 40% of them over £30 *(assumptions)*.
-- **Small gap:** a 2-bag order (£24 + £3.95) goes as a Small Parcel and loses £0.60 on delivery. Not worth a rule change.
-
-### 2.10 Gifting: gift subscription to £42 posted; Discovery set stays £33
-
-| | Price | Contribution | % |
-|---|---|---|---|
-| **Gift subscription as proposed**: 3 bags posted monthly | £36 | **£8.26** | 23% |
-| Gift subscription recommended | **£42** | **£14.17** | 34% |
-| Discovery set, posted free (over £30) | £33 | £10.75 | 33% |
-| Discovery set, collected | £33 | £15.42 | 47% |
-
-- £36 was BizDev's **collect** price ([bean-subscription.md §1](bean-subscription.md)). With three posts included, Bija absorbs £10.50 of packaging and postage, **£525 per 1,000 members** at 50 gifts a year.
-- **Recommendation:** **£42 posted** (still under BizDev's £43.50) and **£36 to collect in store**. If 20% of recipients become subscribers (BizDev's assumption) and stay 8 months, that adds about **£500** more per 1,000 members a year.
-- **Discovery set at £33** (save £3 against three bags) **makes money even posted free. Keep it.**
+| Members active in a month | 40% (400 people) | *(assumption)* |
+| Visits per active member per month | 6 → **2,400 visits** | *(assumption)* |
+| Spend per visit incl. VAT | £6.23 | *(assumption)*: the UK café benchmark in the Sprint 2 brief, also used in the fullstack team's `docs/finance` model. Replace with Bija's till average |
+| Gross margin on café sales | 68% → **£3.53 contribution per visit** | *(assumption)*: same as the fullstack model and the app's Finance default |
+| Handcrafted drinks per visit | 0.85 → 2,040 paid drinks a month | *(assumption)* |
+| Free drink at cost price (avg) | £1.10 (menu value about £4.40) | *(assumption)* |
+| Cake at cost price | £0.90 (30% of £3.00) | *(assumption)* |
+| 200 g bag at cost price | £5.40 (45% of £12) | *(assumption, from the brief)* |
+| Points redeemed: cake vs beans | 70% / 30% → **£0.00315 cost per point** | *(assumption)* |
+| Bonus points (welcome, challenges) | 30 per active member per month | *(assumption)*. The app caps challenges at 200 a month |
+| **Points breakage** (earned, never used) | **25%** | *(assumption)* at the cautious end of the **20–30%** usually quoted for retail programmes ([Brandmovers](https://blog.brandmovers.com/what-is-point-breakage-and-why-should-you-care), [Leat](https://www.leat.com/resources/blog/loyalty-program-breakage)). These are vendor sources, not peer-reviewed |
+| **Stamp breakage** (cards never finished) | **30%** | *(assumption)*. Paper cards are often abandoned: in a classic car-wash study only 19–34% of customers finished a card in 9 months (Nunes & Drèze 2006, summarised by [Coglode](https://coglode.com/nuggets/endowed-progress-effect)). App stamps can't be lost, so we assume far fewer are left unfinished. That is cautious |
+| Referral points breakage | 40% | *(assumption)* |
+| Confirmed referrals | 15 a month | *(assumption)* |
+| Own-cup uptake | 8% of hot drinks; saves a £0.12 cup and lid | *(assumption)* |
+| Student share of visits | 3% | *(assumption)*: St James's is mostly offices and visitors |
+| Member spend before 9am on weekdays | 30% | *(assumption)*. **Check with the till**: an office district is likely busiest before 9 |
 
 ---
 
-## 3. What to measure from day one
+## 3. Cost of each scheme per 1,000 members (at cost price)
 
-| Metric | Why | Where |
-|---|---|---|
-| Visits per member per month, before and after joining | The 24-a-year baseline drives every break-even | App collected orders + Bija Card scans at the till |
-| Points issued, redeemed, outstanding; redemption mix | Breakage and cost per point | App Finance "points outstanding" |
-| Share of transactions on a Bija Card | Tells us if 1,000 members is a third of trade | Till |
-| Club: collect vs post, bags per delivery, churn, skips | Club contribution swings from £1.20 to £4.70 a bag on these | Payment provider + app |
-| Real cost of a 200 g bag and of a reward drink | The two biggest unknowns | Supplier invoices, recipe costing |
+"Break-even uplift" is how many more visits members must make to cover the cost. Each extra visit brings £3.53 contribution, less the reward cost that visit also earns.
 
-**Review at 8 weeks (mid-January 2027):** put the real numbers into the yellow cells. **Stop rule:** if points cost passes **6% of member net sales**, or members don't visit at least 5% more often than before joining, cut the bonuses (welcome, challenges) first and keep the 10-per-£1 core.
+| Scheme | Monthly cost | Annual cost | % of member net sales | Break-even extra visits a month | **Break-even uplift in visit frequency** |
+|---|---|---|---|---|---|
+| Stamp card | £175 | £2,094 | 1.4% | 54 | **+2.3%** |
+| Points (cake 350, bag 1,200) | £382 | £4,579 | 3.1% | 118 | **+4.9%** |
+| Referral (+300 each) | £17 | £204 | 0.1% | 5 | **+0.2%** |
+| Own cup 25p off | £11 | £130 | 0.1% | 3 | **+0.1%** |
+| Students 10% off | £37 | £449 | 0.3% | 12 | **+0.5%** of all member visits. Students themselves must visit **+17%** more |
+| Early bird double points | £106 | £1,272 | 0.9% | 33 | **+1.4%** (about +4.6% on pre-9am visits) |
+| **All six together** | **£727** | **£8,728** | **5.8%** | **225** | **+9.4%** |
+
+**What members see.** At menu prices the stamp card gives back about £700 a month and points about £1,090 a month, per 1,000 members. That is roughly **3× the cost to Bija**, which is why rewards paid in coffee and cake work well for a café.
+
+**Stacking on drinks.** Someone who only buys drinks earns a stamp (about 49p of menu value per drink) **and** points (about 36p on a £4 drink). That is roughly 20% back at menu value, which is generous. It is affordable at cost price, but it is the main reason the total is close to 6%.
+
+**Evidence that the stamp card can earn its keep.** Café customers buy **more often as they get close to a free drink** (the "goal-gradient" effect, Kivetz, Urminsky & Zheng 2006, *Journal of Marketing Research* 43(1)). Customers given a head start on their card finish it more often (Nunes & Drèze 2006, *Journal of Consumer Research* 32(4); [summary](https://coglode.com/nuggets/endowed-progress-effect)). These are academic findings, not UK café data, so treat them as direction, not a forecast.
+
+---
+
+## 4. Beans Club, delivery and gift subscriptions (per delivery)
+
+Contribution after beans (£5.40 a bag), mailer *(assumption)*, Royal Mail online postage from 5 Oct 2026 (Tracked 48 Large Letter **£2.90**, Small Parcel **£3.75**; [Royal Mail online price guide](https://www.royalmail.com/sites/royalmail.com/files/2026-10/online-price-guide-october-2026-v1.pdf)), card fees (2%, *assumption*) and the cost of the points earned.
+
+| Option | Price paid | Contribution | Per bag | Margin |
+|---|---|---|---|---|
+| **Beans Club, 1 bag, posted free (as proposed)** | £10.80 | **£1.43** | £1.43 | 13% |
+| Beans Club, 2 bags in one parcel, posted free | £21.60 | £5.31 | £2.65 | 25% |
+| Beans Club, collected in store | £10.80 | £4.93 | £4.93 | 46% |
+| **Beans Club, 1 bag, posted, £2.50 delivery (recommended)** | £13.30 | **£3.88** | £3.88 | 29% |
+| One-off 1 bag + £3.95 delivery | £15.95 | £6.45 | £6.45 | 40% |
+| One-off 3 bags (£36), free delivery over £30 | £36.00 | £13.58 | £4.53 | 38% |
+| **Gift subscription, 3 × 1 bag, £36, posted free (as proposed)** | £36.00 | **£7.73** | £2.58 | 21% |
+| Gift subscription, 3 × 1 bag, £36, collected | £36.00 | £18.23 | £6.08 | 51% |
+| **Gift subscription, 3 × 1 bag, £42 posted (recommended)** | £42.00 | **£13.61** | £4.54 | 32% |
+
+A single posted Beans Club bag every 2 weeks makes about £3.10 a month. With the £2.50 delivery charge it makes about £8.40 a month. A **200 g bag posted for free at 10% off barely pays**. The 2-bag parcel and collection both work.
+
+This replaces the "£14.50 posted, no discount" idea in [bean-subscription.md](bean-subscription.md) if the owner prefers the Beans Club model.
+
+**VAT.** We assume beans are zero-rated food (HMRC VAT Notice 701/14) and that postage charged with them follows the beans. **Confirm with an accountant.**
+
+---
+
+## 5. Recommendation per scheme
+
+| Scheme | Verdict | Why (numbers per 1,000 members) | Change |
+|---|---|---|---|
+| **Stamp card** | **Keep** | £175 a month. Pays for itself with **+2.3%** more visits, and it's the simplest offer to explain at the till | Count paid handcrafted drinks only (not free ones). The £5.50 cap covers the whole menu, so the reward is "any drink". Optional: start new members with 1 stamp (the head-start effect above) for about £15 a month extra *(assumption)* |
+| **Points** | **Keep, adjust** | £382 a month; needs **+4.9%** visits. The cake reward (£35 spend) returns 2.6% of spend at cost; the bag (£120 spend) 4.5%. Both are fine | **Remove "Any drink" for 400 points** from the app, as proposed, so drinks aren't rewarded twice. Add **expiry after 12 months with no activity**, stated in the terms (**confirm with a solicitor**). Keep the 200-point monthly cap on challenges |
+| **Referral** | **Keep, adjust** | About £1.13 per confirmed referral at cost. Pays back on the new member's **first** visit (£3.53) | Credit the 300 points only **after the friend's first paid order of £3 or more is collected**, with a limit of 5 a month (marketing's proposed rules). Keep staff confirmation. Prefill the share message with "Ad:" (marketing's ASA note) |
+| **Own cup 25p off** | **Keep** | About 9p net per use (25p less VAT, minus the 12p cup saved). £11 a month. Good for the brand | None |
+| **Students 10% off** | **Adjust** | £37 a month, but students must visit **17% more** to cover it at a 68% margin, and there are few students in St James's | **Off-peak only**: weekdays after 2pm and weekends. Not with other offers. Review after 3 months with till data |
+| **Early bird double points** | **Drop or move** | £106 a month (£1,272 a year) going mostly to people who already come before 9 at the busiest time. Needs pre-9 visits to rise **4.6%** when there may be no queue capacity | Move double points to a **quiet slot** (for example weekdays 2–4pm or Saturday mornings) once the till shows the slow hours. Dropping it brings the total from 5.8% to **5.0%** of member net sales |
+| **Beans Club** | **Adjust** | One posted bag free at 10% off: **£1.43**. With £2.50 delivery: **£3.88**. Collected: **£4.93** | Keep 10% off and pause, skip or cancel. **Free delivery on 2+ bags per delivery or for collection; £2.50 for a 1-bag delivery.** Points stay on the bag price |
+| **Delivery £3.95, free over £30** | **Keep** | One bag + £3.95: £6.45. 3 bags with free delivery: £13.58 | None. £30 is 3 bags, or the £33 Discovery set |
+| **Gift subscription £36 / 3 months** | **Adjust** | Posted free at £36: **£7.73** (21%) | **£36 collected, £42 posted** (£13.61). Same for corporate orders. VAT on prepaid gift subscriptions: **confirm with an accountant** |
+
+**Suggested loyalty budget:** keep member schemes at or below **5% of member net sales** at cost. Check it monthly from the app's points and stamps data and the till. If it goes over, move or drop early-bird first and review bonus points second.
+
+---
+
+## 6. What to measure in the first 90 days
+
+1. Visits per active member per month (from the till, with Bija Card scans), compared with the 4 weeks before launch. **This is the uplift we need: +9.4% with all six schemes, +7.9% without early bird.**
+2. Stamps issued, free drinks redeemed, cards left unfinished after 60 days (the real stamp breakage).
+3. Points issued, redeemed, and the cake/bag mix (the real cost per point).
+4. Share of transactions before 9am, and the slowest two hours (where early bird should move).
+5. Beans Club: share of 1-bag vs 2-bag deliveries, collected vs posted, and churn.
 
 ---
 
 ### Sources
-- Loyalty breakage benchmarks (vendor and trade sources): <https://www.leat.com/resources/insights/loyalty-program-breakage>, <https://loyalty360.org/content-gallery/daily-news/rewards-breakage-boon-or-bane-the-role-of-technology-in-optimizing-breakage>
-- Stamp card completion example (vendor blog): <https://bonusqr.com/article/loyalty-programs-that-actually-drive-repeat-visits>
-- UK SME loyalty pilot targets: <https://bizzr.uk/blog/micro-loyalty-programmes-for-uk-smes/>
-- Reusable cup discounts and take-up: <https://www.huffingtonpost.co.uk/entry/have-we-taken-to-using-reusable-coffee-cups_uk_5b278825e4b0f9178a9eefb7>, <https://uk.finance.yahoo.com/news/starbucks-introduces-apos-latte-levy-103249981.html>, <https://bakeryinfo.co.uk/foodservice/paul-uk-on-par-with-pret-for-reusable-cup-discount/624819.article>
-- Coffee subscription churn (blog compilation, mostly US): <https://eightx.co/blog/coffee-subscription-churn-rate-benchmark>
-- Royal Mail online prices, Oct 2026: <https://www.royalmail.com/sites/royalmail.com/files/2026-10/online-price-guide-october-2026-v1.pdf>
-- Card fees: `docs/mobile/payments-plan.md` (`team/mobile`) and `docs/fullstack/pos-integration.md` (`team/fullstack`)
-- Café base figures: `docs/finance/bija-unit-economics.xlsx` (`team/fullstack`)
+- Bija app constants (points, rewards, referral, Beans Club, delivery): `app.html` in this repo (merged from `main`, 29 Oct 2026)
+- Royal Mail online prices from 5 Oct 2026: <https://www.royalmail.com/sites/royalmail.com/files/2026-10/online-price-guide-october-2026-v1.pdf>
+- Loyalty breakage ranges (vendor sources): <https://blog.brandmovers.com/what-is-point-breakage-and-why-should-you-care>, <https://www.leat.com/resources/blog/loyalty-program-breakage>
+- Endowed progress (Nunes & Drèze 2006, *Journal of Consumer Research* 32(4), 504–512), summary: <https://coglode.com/nuggets/endowed-progress-effect>
+- Goal-gradient in a café reward programme: Kivetz, R., Urminsky, O. & Zheng, Y. (2006), *Journal of Marketing Research* 43(1), 39–58
+- Spend per visit (£6.23) and 68% margin: fullstack team's unit-economics workbook (`docs/finance/build_unit_economics.py` on `team/fullstack`), both assumptions
+- Referral rules and ASA note: marketing team's `docs/marketing/launch-campaign.md` on `team/marketing`
+- HMRC VAT Notice 701/14 (food): <https://www.gov.uk/guidance/food-products-and-vat-notice-70114> (confirm with an accountant)

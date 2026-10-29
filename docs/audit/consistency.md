@@ -169,7 +169,8 @@ Legend: ✅ consistent · ❌ inconsistent · ⚠️ consistent but differs from
 - `owner-decisions.md` B2: its default ("Roasted with Kindred Forest", as on the site) conflicts with marketing's record and with the Redber case study. Change the default to "no roasting claim until confirmed".
 
 ### `dev/economics` (this branch)
-- My earlier `docs/bizdev/loyalty-economics.md`, `loyalty-model.xlsx`, `owner-decisions.md`, `wholesale.md` and `build_loyalty_model.py` are superseded by BizDev's versions on `team/bizdev` and share their paths. **Don't merge those five files.** Keep `docs/audit/consistency.md` only.
+- Main has merged into this branch, so its `docs/bizdev/*` match `main` exactly. The analyst's earlier model is on `main` as `docs/bizdev/second-opinion/`. The only file this branch adds is `docs/audit/consistency.md`.
+- The second opinion recommends dropping stamps. The lead has kept them in the build at the user's request, so whether to run points and stamps together is an owner decision. That matches BizDev's A3 default.
 
 ---
 
