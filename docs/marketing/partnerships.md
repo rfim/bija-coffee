@@ -144,14 +144,14 @@ Faith-group events should respect dietary and religious practice: alcohol-free, 
 
 **Why:** Kindred Forest sources green coffee and cacao with a rainforest-regeneration mission. Its Indonesian coffees include Kerinci (Sumatra), with the ALKO farmer cooperative near Kerinci National Park, and coffees grown with conservation partners in Java ([Green Coffee Collective](https://greencoffeecollective.com/pages/partner/kindred-forest), [Speciality & Fine Food Fair](https://www.specialityandfinefoodfairs.co.uk/news/new-sustainable-brand-kindred-forest-debut-rare-wild-chocolate-rainforest-products-speciality-fine-food-fair-2025)). Co-content gives Bija proof behind "proud of Indonesian origin", and gives Kindred Forest a London café showcase. It's the Black Sheep × Skate GB mechanic: a partner whose story *is* the product.
 
-**First, confirm the relationship [Decision]:** does Kindred Forest roast Bija's beans, or source the green coffee that someone else roasts? The copy must say exactly that. Also confirm which of Bija's four beans come through Kindred Forest.
+**The relationship (confirmed by Bija, 29 Oct 2026):** Kindred Forest sources the green coffee, and Bija's own baristas roast it. Copy must say exactly that, never "roasted by Kindred Forest". Still to confirm: which of Bija's four beans come through Kindred Forest.
 
 **Content ideas (one a month):**
 
 | Piece | Format | Who leads |
 |---|---|---|
 | "From Kerinci to St James's": where the coffee grows and who grows it | IG collab carousel + Reel using Kindred Forest's origin footage (with their permission and credit) | Kindred Forest supplies the footage; Bija edits |
-| Cupping at Bija: Kindred Forest and Bija's head barista taste the range, open to Bija Card members | In-store event, early 2027; Reels from it | Both |
+| Cupping at Bija: Kindred Forest and the Bija baristas who roast the coffee taste the range, open to Bija Card members | In-store event, early 2027; Reels from it | Both |
 | A single-origin guest bean, for a limited time, sourced with Kindred Forest | Shelf, app and Origins Passport stamp | Bija |
 | Earth Day 2027 (22 Apr): coffee-grounds giveaway plus a rainforest story | Repeat of Bija's past event, with Kindred Forest co-hosting | Both |
 

@@ -121,7 +121,7 @@ Anyone identifiable in a photo or video needs consent before we post, and staff 
 > We're filming for Instagram today. If you'd rather not be in it, just tell us and we'll keep you out of shot.
 
 **Consent card (customers who will be clearly visible):**
-> I agree that Bija Coffee may use photos and video of me taken on [date] on Bija's social media, website and app for up to 2 years. I can ask for them to be removed at any time by emailing [email] or DMing @bija.london.
+> I agree that Bija Coffee may use photos and video of me taken on [date] on Bija's social media, website and app for up to 2 years. I can ask for them to be removed at any time by emailing hello@bija.example *(mock-up; replace before printing)* or DMing @bija.london.
 > Name · Signature · Instagram handle (optional, for tagging) · Date
 
 Keep cards for 2 years **[Confirm against the privacy notice in `privacy.html`]**. Never film children without a parent's or guardian's consent; it's simpler not to.

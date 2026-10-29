@@ -17,12 +17,15 @@ The pack has three press angles, a short press release, a fact sheet with source
 | Redber is the equipment partner and has published a case study on Bija | [Redber case study](https://www.redber.co.uk/pages/bija-case-study). Its cup-count figures disagree within the same page, so **don't quote them**. |
 | Kindred Forest is a **green coffee and cacao sourcing company** working on rainforest regeneration. It sources Indonesian coffees such as Kerinci (Sumatra), with the ALKO farmer cooperative near Kerinci National Park. | [Green Coffee Collective: Kindred Forest](https://greencoffeecollective.com/pages/partner/kindred-forest), [Speciality & Fine Food Fair](https://www.specialityandfinefoodfairs.co.uk/news/new-sustainable-brand-kindred-forest-debut-rare-wild-chocolate-rainforest-products-speciality-fine-food-fair-2025) |
 | Beans on the shelf: House Blend, Sumatra Mandheling, Sumatra Lintong and Old Brown Java, 200 g for £12 | Bija's own shelf and menu (internal) |
+| **Bija roasts its own beans; its baristas do the roasting.** Kindred Forest supplies green (unroasted) coffee. | Bija (confirmed 29 Oct 2026). Which of the four beans come through Kindred Forest is still **[Confirm]**. |
 | Menu: kopi susu with arenga palm sugar, kopi tubruk, cold brew, Arenga Affogato (weekends), iced turmeric, Mangga Passion smoothie, lapis legit | Bija's own menu (internal) |
 | Past community events: DUNIA Afterhours (Indonesian-powered businesses), Indonesian Independence Day with Edge Group Conservation, Celebrasia, an Earth Day coffee-grounds giveaway, and 10% off for London Marathon runners | Bija (internal); dates **[Confirm]** |
 
+**Mock press email:** `press@bija.example` is used throughout as a placeholder until Bija gives the real address.
+
 **[Confirm before any release goes out]**
 
-1. **Who roasts the beans?** The brief says "roasted with Kindred Forest", but public sources describe Kindred Forest as a green-coffee *sourcing* company that doesn't roast. The press copy below says "sourced with Kindred Forest" until Bija confirms the roaster.
+1. ~~Who roasts the beans?~~ **Answered:** Bija's baristas roast the beans. Kindred Forest is the green-coffee sourcing partner, not the roaster. Still to confirm: which beans come through Kindred Forest, and where the roasting happens (in the shop or elsewhere) before any copy says "in-house".
 2. The opening date.
 3. Devi's background in one line ("a media professional" is all we have).
 4. That every quote is Devi's own words. **The quotes below are drafts for her to rewrite or approve. Never send an unapproved quote.**
@@ -54,9 +57,9 @@ The pack has three press angles, a short press release, a fact sheet with source
 
 ### Angle 3: Indonesian origin. "Indonesia, by the cup"
 
-**Hook:** most Londoners know Sumatra only as a word on a coffee bag. Bija serves Indonesian coffee the way it's drunk at home: kopi tubruk (grounds settled in the glass), kopi susu sweetened with arenga palm sugar, and lapis legit, the many-layered spice cake. The beans are sourced with Kindred Forest, whose work supports rainforest-protecting farmer cooperatives. **[Confirm wording with Kindred Forest]**
+**Hook:** most Londoners know Sumatra only as a word on a coffee bag. Bija serves Indonesian coffee the way it's drunk at home: kopi tubruk (grounds settled in the glass), kopi susu sweetened with arenga palm sugar, and lapis legit, the many-layered spice cake. Bija's own baristas roast the beans, from green coffee sourced with Kindred Forest, whose work supports rainforest-protecting farmer cooperatives. **[Confirm wording with Kindred Forest]**
 
-**Why it works:** it's specific, sensory and photogenic, and it gives food writers a reason to visit that isn't "another flat white".
+**Why it works:** it's specific, sensory and photogenic. Baristas who roast the coffee they pour make a strong story for coffee press, and it gives food writers a reason to visit that isn't "another flat white".
 
 **Best for:** Vittles, The Infatuation, European Coffee Trip, Standart, Sprudge, Coffee in Hand, Time Out "best coffee in London" round-ups.
 
@@ -78,7 +81,7 @@ The pack has three press angles, a short press release, a fact sheet with source
 >
 > **Devi Trianna, founder of Bija, said:** *"[DRAFT, for Devi to rewrite or approve:] Bija has always been about drinking Indonesian coffee the way we drink it at home: kopi susu with palm sugar, kopi tubruk, a slice of lapis legit. The app is how we say thank you to the people who come back every morning, and Kopi Rempah is a little bit of the spice islands for a London winter."*
 >
-> Bija's beans (House Blend, Sumatra Mandheling, Sumatra Lintong and Old Brown Java) are sold in 200 g bags for £12 and are sourced with Kindred Forest. **[Confirm roaster wording]**
+> Bija's beans (House Blend, Sumatra Mandheling, Sumatra Lintong and Old Brown Java) are roasted by Bija's own baristas from green coffee sourced with Kindred Forest, and sold in 200 g bags for £12. **[Confirm which beans come through Kindred Forest]**
 >
 > **Ends**
 >
@@ -86,7 +89,7 @@ The pack has three press angles, a short press release, a fact sheet with source
 > - Bija, 2a St James's Market, London SW1Y 4AH. Opening hours: **[Confirm: app currently shows Mon–Fri 8am–5.30pm, Sat 11am–6pm, Sun 12pm–6pm]**. Instagram: @bija.london
 > - Best New Coffee Shop, London Coffee Festival Awards 2025: [londoncoffeefestival.com](https://www.londoncoffeefestival.com/london-coffee-festival-awards/winners-lcf-awards)
 > - Founder Devi Trianna spoke in "Ones to watch in 2026" at London Coffee Festival 2026.
-> - Images: [link to a press folder, to be set up] · Interviews and tastings: [press contact name, email, phone]
+> - Images: [link to a press folder, to be set up] · Interviews and tastings: press@bija.example *(MOCK-UP: the `.example` domain is reserved, so nothing can be sent to a stranger by mistake. Replace with Bija's real press address before sending.)*
 
 **Boilerplate (about 60 words):**
 > Bija is an independent Indonesian specialty coffee shop at St James's Market, London, founded by Devi Trianna. It serves Indonesian coffee and food the way they're enjoyed at home, from kopi susu with arenga palm sugar to kopi tubruk and lapis legit, and sells Indonesian beans to brew at home. Bija was named Best New Coffee Shop at the London Coffee Festival Awards 2025.
