@@ -12,16 +12,18 @@
 //      and the Insights page still renders.
 //
 // Usage:  node tests/security.js [--only S1,S3] [--md docs/audit/security-status.md] [--strict]
-// Exit code: 1 if a finding NOT listed in tests/security-known-open.txt fails (a regression), or with
-// --strict / SECURITY_STRICT=1 if anything fails. Known-open findings are reported but don't fail CI.
+// Needs the site served on BASE_URL (default http://localhost:8099), as for the other suites (tests/README.md).
+// Exit code: 1 if a finding NOT in KNOWN_OPEN below fails (a regression), or with --strict / SECURITY_STRICT=1
+// if anything fails. Known-open findings are reported but don't turn CI red while their fixes are on the way.
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
-const { spawn, execSync } = require('child_process');
+const { execSync } = require('child_process');
+const { ROOT, BASE, OUT } = require('./tools/common');
 
-const ROOT = path.resolve(__dirname, '..');
-const BASE = (process.env.BASE_URL || 'http://localhost:8099').replace(/\/$/, '');
-const OUT = path.join(ROOT, 'test-results');
+// Findings still expected to fail until their fix lands on main. Remove an ID as soon as it passes
+// (the run prints a reminder); from then on a failure of that finding fails CI.
+const KNOWN_OPEN = new Set(['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10', 'S11', 'S12']);
 const DB_KEY = 'bija.app.demo';
 const ME = 'you';
 const NAME = 'Mallory';
@@ -46,16 +48,7 @@ const ping = (url) => new Promise((resolve) => {
   req.setTimeout(2000, () => { req.destroy(); resolve(false); });
 });
 async function ensureServer() {
-  if (await ping(`${BASE}/app.html`)) return () => {};
-  if (process.env.BASE_URL) throw new Error(`BASE_URL ${BASE} is not answering`);
-  const port = new URL(BASE).port || '80';
-  const proc = spawn('python3', ['-m', 'http.server', port, '--bind', '127.0.0.1'], { cwd: ROOT, stdio: 'ignore' });
-  for (let i = 0; i < 50; i++) {
-    if (await ping(`${BASE}/app.html`)) return () => proc.kill();
-    await new Promise((r) => setTimeout(r, 200));
-  }
-  proc.kill();
-  throw new Error(`Could not start python3 -m http.server on port ${port}`);
+  if (!(await ping(`${BASE}/app.html`))) throw new Error(`${BASE}/app.html is not answering. Serve the repo root first: python3 -m http.server 8099`);
 }
 
 // ---------- demo store ----------
@@ -498,53 +491,55 @@ async function confirmClaims(page) {
 }
 
 // ---------- runner ----------
-function knownOpen() {
-  const f = path.join(__dirname, 'security-known-open.txt');
-  if (!fs.existsSync(f)) return new Set();
-  return new Set(fs.readFileSync(f, 'utf8').split(/\r?\n/).map((l) => l.replace(/#.*/, '').trim().toUpperCase()).filter(Boolean));
-}
 const fmtVals = (v) => v ? ['points', 'lifetime', 'gift', 'cardPoints', 'stamps', 'wallet'].filter((k) => v[k] !== null && v[k] !== undefined).map((k) => `${k} ${v[k]}`).join(', ') : '';
 
 (async () => {
-  const stop = await ensureServer();
+  await ensureServer();
   const browser = await chromium.launch();
-  const open = knownOpen();
-  const results = [];
-  try {
-    for (const t of TESTS) {
-      if (ONLY.length && !ONLY.includes(t.id)) continue;
-      const context = await browser.newContext({ viewport: { width: 1280, height: 900 }, serviceWorkers: 'block', reducedMotion: 'reduce' });
-      if (t.init) await context.addInitScript(t.init);
-      const page = await context.newPage();
-      page.setDefaultTimeout(15000);
-      const errors = [];
-      page.on('pageerror', (e) => errors.push(String(e && e.message || e).split('\n')[0]));
-      page.on('dialog', (d) => d.accept().catch(() => {}));
-      let res;
-      try {
-        const r = await t.run(page, errors);
-        const status = r.inconclusive ? 'inconclusive' : r.fails.length ? 'fail' : 'pass';
-        res = { id: t.id, title: t.title, status, fails: r.fails, inconclusive: r.inconclusive, before: r.b, after: r.a, notes: r.notes || [] };
-      } catch (e) {
-        res = { id: t.id, title: t.title, status: 'error', fails: [String(e.message || e).split('\n')[0]], notes: [] };
-      }
-      res.pageErrors = [...new Set(errors)].slice(0, 5);
-      if (res.status !== 'pass') {
-        fs.mkdirSync(path.join(OUT, 'screenshots'), { recursive: true });
-        await page.screenshot({ path: path.join(OUT, 'screenshots', `security-${t.id}.png`), fullPage: false }).catch(() => {});
-      }
-      res.knownOpen = open.has(t.id);
-      results.push(res);
-      const mark = { pass: 'PASS', fail: 'FAIL', error: 'ERROR', inconclusive: 'INCONCLUSIVE' }[res.status];
-      console.log(`${mark.padEnd(12)} ${t.id.padEnd(4)} ${t.title}${res.status !== 'pass' && res.knownOpen ? '  (known open)' : ''}`);
-      for (const f of res.fails) console.log(`             - ${f}`);
-      if (res.inconclusive) console.log(`             - ${res.inconclusive}`);
-      if (res.status !== 'pass' && res.pageErrors.length) console.log(`             page errors: ${res.pageErrors.join(' | ')}`);
-      await context.close();
+  const open = KNOWN_OPEN;
+  const todo = TESTS.filter((t) => !ONLY.length || ONLY.includes(t.id));
+  const results = new Array(todo.length);
+  // Each finding gets its own browser context (its own localStorage), so they can run side by side.
+  async function runOne(t) {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 900 }, serviceWorkers: 'block', reducedMotion: 'reduce' });
+    if (t.init) await context.addInitScript(t.init);
+    const page = await context.newPage();
+    page.setDefaultTimeout(15000);
+    const errors = [];
+    page.on('pageerror', (e) => errors.push(String(e && e.message || e).split('\n')[0]));
+    page.on('dialog', (d) => d.accept().catch(() => {}));
+    let res;
+    try {
+      const r = await t.run(page, errors);
+      const status = r.inconclusive ? 'inconclusive' : r.fails.length ? 'fail' : 'pass';
+      res = { id: t.id, title: t.title, status, fails: r.fails, inconclusive: r.inconclusive, before: r.b, after: r.a, notes: r.notes || [] };
+    } catch (e) {
+      res = { id: t.id, title: t.title, status: 'error', fails: [String(e.message || e).split('\n')[0]], notes: [] };
     }
+    res.pageErrors = [...new Set(errors)].slice(0, 5);
+    res.knownOpen = open.has(t.id);
+    if (res.status !== 'pass') {
+      fs.mkdirSync(path.join(OUT, 'screenshots'), { recursive: true });
+      await page.screenshot({ path: path.join(OUT, 'screenshots', `security-${t.id}.png`), fullPage: false }).catch(() => {});
+    }
+    await context.close();
+    return res;
+  }
+  try {
+    let next = 0;
+    const jobs = Math.max(1, +process.env.SECURITY_JOBS || 4);
+    await Promise.all(Array.from({ length: Math.min(jobs, todo.length) }, async () => {
+      while (next < todo.length) { const i = next++; results[i] = await runOne(todo[i]); }
+    }));
   } finally {
     await browser.close();
-    stop();
+  }
+  for (const res of results) {
+    const mark = { pass: 'PASS', fail: 'FAIL', error: 'ERROR', inconclusive: 'INCONCLUSIVE' }[res.status];
+    console.log(`${mark.padEnd(12)} ${res.id.padEnd(4)} ${res.title}${res.status !== 'pass' && res.knownOpen ? '  (known open)' : ''}`);
+    for (const f of res.fails) console.log(`             - ${f}`);
+    if (res.inconclusive) console.log(`             - ${res.inconclusive}`);
+    if (res.status !== 'pass' && res.pageErrors.length) console.log(`             page errors: ${res.pageErrors.join(' | ')}`);
   }
 
   let commit = '';
@@ -557,7 +552,7 @@ const fmtVals = (v) => v ? ['points', 'lifetime', 'gift', 'cardPoints', 'stamps'
   const regressions = results.filter((r) => r.status !== 'pass' && !r.knownOpen);
   const nowFixed = results.filter((r) => r.status === 'pass' && r.knownOpen);
   console.log(`\n${passed}/${results.length} findings pass.`);
-  if (nowFixed.length) console.log(`Now passing but listed in tests/security-known-open.txt (remove them): ${nowFixed.map((r) => r.id).join(', ')}`);
+  if (nowFixed.length) console.log(`Now passing but still in KNOWN_OPEN in tests/security.js (remove them): ${nowFixed.map((r) => r.id).join(', ')}`);
   if (regressions.length) console.log(`Failing and not known open: ${regressions.map((r) => r.id).join(', ')}`);
   process.exit((STRICT ? results.some((r) => r.status !== 'pass') : regressions.length) ? 1 : 0);
 })().catch((e) => { console.error(e); process.exit(1); });
@@ -584,7 +579,7 @@ ${rows.join('\n')}
 ### Measurements
 ${detail.join('\n')}
 
-How to run: \`node tests/security.js --md docs/audit/security-status.md\` (see tests/README.md). Findings listed in \`tests/security-known-open.txt\` are reported but don't fail CI; remove each one from that file as soon as it passes.
+How to run: \`node tests/security.js --md docs/audit/security-status.md\` (see tests/README.md). Findings in \`KNOWN_OPEN\` at the top of \`tests/security.js\` are reported but don't fail CI; remove each one as soon as it passes.
 
 ${histMark}
 

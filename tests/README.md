@@ -43,18 +43,6 @@ lhci autorun --config=tests/lighthouse/lighthouserc.desktop.json
 
 Reports are written to `.lighthouseci/` (ignored by git); in CI they are uploaded as `lighthouse-<preset>-<run id>`. Each page is run 3 times and the median run is checked. Scores on a laptop differ from CI; compare like with like.
 
-## Security suite (`tests/security.js`)
-
-An attacker test for each finding S1–S12 in `docs/fullstack/security-review.md`, run against `app.html` in demo mode. Each test builds an honest history (orders collected through the real Queue buttons), records the customer's points, lifetime points, gift balance and passport stamps, then acts as the customer: it writes malicious values straight into `customers/you` in the demo store (`localStorage['bija.app.demo']`). It then reloads and enters the staff view (Barista switch, `?view=bar`, or holding Order for 3 s, each followed by PIN `111111` if asked; set `STAFF_PIN` to change it). A finding passes when nothing that matters changed, no injected script ran (`window.__pwned` stays undefined) and Insights still renders.
-
-```bash
-node tests/security.js                                   # all findings
-node tests/security.js --only S1,S6                      # some of them
-node tests/security.js --md docs/audit/security-status.md   # also rewrite the status page
-```
-
-`tests/security-known-open.txt` lists findings that are known to fail until their fix lands. They are reported but don't fail CI; anything else that fails does (a regression). Remove an ID from that file as soon as it passes; the suite prints a reminder. `--strict` (or `SECURITY_STRICT=1`) fails on any open finding. Results go to `test-results/security-report.json`, with a screenshot per failing finding.
-
 ## Writing a Node test suite
 
 - One file per area, named `tests/<area>.js` (for example `tests/loyalty.js`). Files in `tests/tools/` are the shared checks above and are not run as suites.
