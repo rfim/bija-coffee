@@ -181,3 +181,59 @@ Legend: ✅ consistent · ❌ inconsistent · ⚠️ consistent but differs from
 |---|---|---|---|
 | 1 | 29 Oct 20:25 | `8e455db` | 7 rules inconsistent (free-delivery wording, award, passport, referral, subscription notice, office price, roaster); 4 unsourced or unconfirmed (roaster, email, domain, postcode) |
 | 2 | 29 Oct 20:54 | `8328a29` | **No fixes landed yet.** All 7 inconsistencies and every "do now" item are still open, at the same line numbers. New: `delivery.html:8` also says "over £30" (added to the free-delivery row and the change list). New page `events.html`: address, email and award match the canonical values; one unsourced claim, the London Marathon 10% offer (added to §3). Owner decisions unchanged |
+| 3 | 29 Oct 23:35 | `e5e29b5` | 11 run-1 items fixed; A3/A4 built. 8 still open (launch kit's 400-point drink and wording, app and email cancel wording, referral details, rewards small print, unenforced expiry, demo URL in labels and wallet). 4 new: stamp liability ÷10 instead of ÷9; three roaster-wording slips. See the Run 3 section |
+
+---
+
+## Run 3: 29 Oct 2026, 23:35 UTC (main at `e5e29b5`)
+
+This run follows Sprints 1–3. It covers every page on `main`, now including `help.html`, `contact.html`, `visit.html`, `menu.html`, `origins.html`, `sustainability.html`, `allergens.html`, `install.html`, `trace.html` and `labels.html`, plus the JS modules, `emails/*` and `marketing/launch/*`. Line numbers below are at `e5e29b5`. **Sections 1–4 above describe run 1 and are kept as the record.**
+
+**Summary:** **11 of the run-1 problems are fixed**, and the A3/A4 loyalty defaults are now built. **8 items are still open**: 5 are leftovers in launch copy, emails or small app strings, and 3 are owner decisions. **4 new findings:** one calculation bug and three roaster-wording slips.
+
+### 3a. Fixed since run 1 (checked)
+
+| # | Item | Where it now reads correctly |
+|---|---|---|
+| 1 | Free delivery "£30 or more" | `delivery.html:8`, `:47`; `product.html:104`, `:115`; `index.html:316`; `checkout.html:86`; `gifts.html:74`; `help.html:90`. Code `app.html:2186` (`>=`) |
+| 2 | Award wording | `app.html:1080`: "Best New Coffee Shop, London Coffee Festival Awards 2025". All pages agree |
+| 3 | Origins Passport can be completed | `app.html:934–935`: only origins on sale count; coming-soon ones show as locked |
+| 4 | Referral on the rewards page, £3 minimum | `rewards.html:91`; `app.html:1042` (`REFER_MIN = 3`) |
+| 5 | Subscription notice: 3 days | `delivery.html:68`; `subscribe.html:35`, `:46`, `:77`; `product.html:105`, `:116`; `index.html:317`, `:331`; `help.html:86`; `app.html:2250`, `:2258` |
+| 6 | Subscribe FAQ no longer says the app is "coming next" | `subscribe.html:77` points to the app's Beans Club |
+| 7 | Office price no longer below BizDev's tier | `offices.html:64`: "Office bags from £11" |
+| 8 | Roaster wording is the same across the site | "Sourced with our partner Kindred Forest and roasted by Bija's baristas": `shop.html:43`; `delivery.html:52`; `product.html:92`; `index.html:323`, `:424`, `:579`; `app.html:2214`; `sustainability.html:76–88`; `press.html:80`; `trace.js:114`; `emails/newsletter-welcome.*`. This is the user's statement and is consistent. The Redber evidence still makes it an owner decision (3c) |
+| 9 | 🟡 A4: "Any drink 400" removed; 🟡 A3: stamp card built | `app.html:923–927` (cake 350, beans 1,200), `:932` (`STAMP_FREE_AT = 9`, `STAMP_CAP = 5.5`); `rewards.html:8`, `:64`, `:84`; `help.html:97`; `index.html:366`; `install.html:175` |
+| 10 | The `REWARDS[1]` trap | Gone: rewards are looked up by id (`app.html:933` `rewardPts`) |
+| 11 | London Marathon offer | `events.html:100`: now a "Past offer · a one-off for that weekend" |
+
+Phone (`+44 20 4603 3086`, 36 uses), postcode (`SW1Y 4AH`, 33), company number (`15383542`, 13), email (`info@bijalondon.co.uk`, 58) and hours (`app.html:1078`; `index.html:11`; `contact.html:19`, `:68`; `delivery.html:55`; `help.html:82`; `menu.html:202`) are **identical everywhere**.
+
+### 3b. Still open (no owner decision needed)
+
+| # | Item | Where | Fix |
+|---|---|---|---|
+| 1 | **Launch kit still promises "400 points = any drink"**, which no longer exists | `marketing/launch/in-store.md:18`; `instagram-grid.md:79`; `newsletter-blocks.md:9`; `newsletter.txt:24`; `stories.md:41` (quiz sticker) | Replace with the stamp card ("every 10th handcrafted drink free, up to £5.50") and cake 350 / beans 1,200. **Printing blocker: these are the table talker and till-card texts** |
+| 2 | Launch kit and README still say "over £30" and "cancel any time" | `marketing/launch/instagram-grid.md:33`, `:63`; `stories.md:14`, `:33`; `newsletter-blocks.md:10`; `newsletter.txt:29`; `in-store.md:53`; `README.md:12` | "£30 or more"; "up to 3 days before your next dispatch" |
+| 3 | App strings still say "cancel any time" | `app.html:1049` (Beans Club offer card); `app.html:2197` (shop sheet) | "Skip, pause or cancel up to 3 days before dispatch" |
+| 4 | Reminder email cut-off contradicts the 3-day rule | `emails/beans-club-reminder.html:34`, `:41`; `.txt:12` ("any time before dispatch"). The email goes out 3 days before dispatch, which is already the deadline | "Skip, pause or change it by the end of today ({{cutoff_date}})", or send the reminder 4–5 days before |
+| 5 | Referral details differ | `help.html:99` and the app share text `app.html:3198` leave out the £3 minimum. The share text still has no **"Ad:"** label (BizDev A5; ASA guidance on referral codes) | Add "£3 or more" in both; start the share text with "Ad: " |
+| 6 | Rewards page small print | `rewards.html:84` leaves out the £5.50 cap that `help.html:97` and the app state; `rewards.html:107` still says "a birthday treat" (it's +200 points) | Add "up to £5.50"; "+200 birthday points" |
+| 7 | **Points expiry promised in one place, not enforced** | `app.html:2359` tells members "Points expire after 12 months without a visit", but `app.html:1043` says it's "not yet enforced", and neither `rewards.html` nor the terms (`delivery.html` Points paragraph) mention it | Either remove the line from the app until the solicitor approves (A4/E3), or add the rule to `rewards.html` and the terms *and* enforce it. Don't show a rule the terms don't contain |
+| 8 | **Demo URL hard-coded in printed and installed assets** | `labels.js:5` (**QR on printed bag labels**: `rfim.github.io/bija-coffee/trace.html`); `wallet.js:17`; `supabase/functions/wallet-pass/pass.js`; `contact.html:19` (structured data `url`); `emails/*` (7 files); `native/android/app/src/main/AndroidManifest.xml`; `docs/app-store/twa-manifest.json`; `app.html:1661` | One `SITE_URL` constant, set when D1 is decided. **Don't print labels until then**: a printed QR can't be changed |
+
+### 3c. New findings in run 3
+
+| # | Finding | Where | Recommendation |
+|---|---|---|---|
+| N1 | **Stamp liability is understated by 10%.** The Finance tab values outstanding stamps at `stamps / 10 × average drink cost`, but a free drink uses **9** stamps (`STAMP_FREE_AT = 9`) | `app.html:2734` (`stamps / 10`); text in `app-staff.js:540` ("÷ 10") | Use `stamps / STAMP_FREE_AT` and update the hint. Matters for the accountant (E2: unused stamps are a liability) |
+| N2 | "Packed by our roasting partner" implies a third-party roaster, against "roasted by Bija's baristas" elsewhere | `allergens.html:32` | Say "packed by Bija" or follow the owner's answer on the roaster |
+| N3 | "Our baristas roast the coffee **in-house**" claims an on-site roastery. Marketing said no "in-house" wording until it's confirmed where the roasting happens (`team/marketing` `pr-pack.md:28`) | `index.html:356` | "Our baristas roast every batch" (or the owner's confirmed wording) |
+| N4 | "Roasted **for** Bija in London" in the share text implies someone else roasts | `trace.js:172` | "roasted by Bija's baristas in London" (once confirmed) |
+
+### 3d. Owner decisions still open (unchanged)
+
+- **Roaster.** The site now says "roasted by Bija's baristas" (the user's statement). Redber's public case study says Redber roasts and white-labels Bija's bags. **The owner should confirm in writing who roasts which beans, today, before press or packaging goes out.**
+- **Postcode.** SW1Y 4AH everywhere; the FSA register says SW1Y 4SB.
+- **Contact email** `info@bijalondon.co.uk` (marked a mock-up) and **domain** (D1).
+- **Not adopted yet, so the site still shows the original proposal (consistent across files):** A2 Beans Club free delivery on every bag (`app.html:1033`, `:1049`; `site-shop.js:27`; `subscribe.html:35`); A7 gift subscription £36 delivered (`delivery.html:49`; `gifts.html:73`; `help.html:103`; `offices.html:65`); A6 students 10% and early-bird before 9am (`app.html:1045–1048`; `app-staff.js:139`).
