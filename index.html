@@ -168,6 +168,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .qrbox { background: #fff; color: #000; padding: 26px; text-align: center; max-width: 360px; }
 .qrbox img { width: 240px; height: 240px; display: block; margin: 0 auto 12px; image-rendering: pixelated; }
 .qrbox a { color: #000; }
+.igrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+@media (max-width: 700px) { .igrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.ig { display: block; aspect-ratio: 1; overflow: hidden; background: var(--ph); }
+.ig img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.2,.7,.2,1), filter .4s; }
+.ig:hover img, .ig:focus-visible img { transform: scale(1.06); }
+@media (prefers-reduced-motion: reduce) { .ig img { transition: none; } }
 .partners { text-align: center; max-width: 1080px; margin: 34px auto 0; }
 .partners h3 { margin: 0 0 6px; font-size: 14px; font-weight: 600; letter-spacing: .06em; }
 .partners p { margin: 0 0 22px; color: #e4e4e4; }
@@ -286,9 +292,9 @@ dialog::backdrop { background: transparent; }
 
   <section>
     <div class="grid3">
-      <figure class="ph" data-src="photos/feature-1.jpg" data-label="Batik textile mural above the bean shelves"></figure>
-      <figure class="ph" data-src="photos/feature-2.jpg" data-label="Bija Coffee St James's window poster"></figure>
-      <figure class="ph" data-src="photos/feature-3.jpg" data-label="Arenga sugar at the condiment bar"></figure>
+      <figure class="ph" data-src="photos/feature-1.jpg" data-label="Batik textile mural on the café wall"></figure>
+      <figure class="ph" data-src="photos/feature-2.jpg" data-label="Coffee at the window bar"></figure>
+      <figure class="ph" data-src="photos/feature-3.jpg" data-label="A spoon of arenga palm sugar"></figure>
     </div>
     <div class="grid3 cap">
       <div><h3>Authentic Indonesian Flavours</h3><p>Our beans come from Indonesia's best-known coffee regions. From a heavy, earthy Sumatra to a gentler Java, each cup shows what the islands can do.</p></div>
@@ -298,29 +304,23 @@ dialog::backdrop { background: transparent; }
     <div class="icons" aria-hidden="true" data-marks="3"></div>
   </section>
 
-  <section>
-    <div class="grid3">
-      <figure class="ph" data-src="photos/space-1.jpg" data-label="Choosing a bag from the bean shelf"></figure>
-      <figure class="ph" data-src="photos/space-2.jpg" data-label="Best New Coffee Shop 2025 award in the window"></figure>
-      <figure class="ph" data-src="photos/space-3.jpg" data-label="Window bar seats and flower lamps"></figure>
-    </div>
-  </section>
-
   <section class="shop" aria-label="Shop at Bija">
     <figure class="ph" data-src="photos/shop-1.jpg" data-label="Lapis legit and a latte"></figure>
     <figure class="ph" data-src="photos/shop-2.jpg" data-label="Flower pendant lamps"></figure>
-    <figure class="ph wide" data-src="photos/shop-3.jpg" data-label="Bija shop window, St James's Market"></figure>
-    <figure class="ph" data-src="photos/shop-4.jpg" data-label="A Bija cup to go"></figure>
-    <figure class="ph" data-src="photos/shop-5.jpg" data-label="Sumatra Mandheling bags"></figure>
+    <figure class="ph wide" data-src="photos/shop-3.jpg" data-label="Flower lamps, the window bar and rattan stools"></figure>
+    <figure class="ph" data-src="photos/ig/latte-art.jpg" data-label="Rosetta latte art"></figure>
+    <figure class="ph" data-src="photos/ig/cold-brew.jpg" data-label="Cold brew over ice"></figure>
     <h2>Shop at Bija</h2>
   </section>
 
-  <h2 class="title">Indonesian Speciality Coffee</h2>
-  <div class="grid3" style="margin-top:14px">
-    <figure class="ph" data-src="photos/speciality-1.jpg" data-label="Coffee at the window bar"></figure>
-    <figure class="ph" data-src="photos/speciality-2.jpg" data-label="Read 'em and return book shelf"></figure>
-    <figure class="ph" data-src="photos/speciality-3.jpg" data-label="Spooning arenga sugar"></figure>
+  <h2 class="title" id="coffee">Indonesian Speciality Coffee</h2>
+  <div class="igrid">
+    <a href="https://www.instagram.com/bija.london/" target="_blank" rel="noopener" class="ig"><img src="photos/ig/latte-pour.jpg" alt="Pouring a latte" loading="lazy" decoding="async"></a>
+    <a href="https://www.instagram.com/bija.london/" target="_blank" rel="noopener" class="ig"><img src="photos/ig/cappuccino.jpg" alt="Dusting a cappuccino with cocoa" loading="lazy" decoding="async"></a>
+    <a href="https://www.instagram.com/bija.london/" target="_blank" rel="noopener" class="ig"><img src="photos/ig/black-coffee.jpg" alt="A black coffee at the bar" loading="lazy" decoding="async"></a>
+    <a href="https://www.instagram.com/bija.london/" target="_blank" rel="noopener" class="ig"><img src="photos/ig/iced-pour.jpg" alt="Beans falling into an iced coffee" loading="lazy" decoding="async"></a>
   </div>
+  <p class="note2">More from the bar on Instagram: <a href="https://www.instagram.com/bija.london/" target="_blank" rel="noopener">@bija.london</a></p>
 
   <h2 class="title" id="whats-on">What's On</h2>
   <div class="events">
@@ -477,7 +477,7 @@ dialog::backdrop { background: transparent; }
   document.querySelector('[data-big]').outerHTML = markSVG('big cycle');
 
   // reveal on scroll, staggered across each row
-  const reveal = ['.ph', '.cap > div', '.title', '.offer > div', '.events article', '.partners p', '.community', '.perk', '.shop', '.icons .mk', '.menu3 > div', '.bean', '.visit2 > div', '.loyal > div'];
+  const reveal = ['.ig', '.ph', '.cap > div', '.title', '.offer > div', '.events article', '.partners p', '.community', '.perk', '.shop', '.icons .mk', '.menu3 > div', '.bean', '.visit2 > div', '.loyal > div'];
   const items = document.querySelectorAll(reveal.join(','));
   items.forEach((el) => { if (!el.matches('.title, .shop, .icons .mk')) el.classList.add('rv'); const sib = [...el.parentElement.children].filter((c) => c.matches(reveal.join(','))); el.style.setProperty('--d', `${Math.min(sib.indexOf(el), 4) * 0.12}s`); });
   if ('IntersectionObserver' in window && !reduce) {

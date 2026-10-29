@@ -79,6 +79,7 @@ button { cursor: pointer; }
 .prod.off { opacity: .55; }
 .ic { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: var(--paper); border: 1px solid var(--line); color: var(--ink); }
 .ic svg { width: 28px; height: 28px; }
+.ic { overflow: hidden; } .ic img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .prod h4 { margin: 0; font-size: 15px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .prod p { margin: 2px 0 0; color: var(--muted); font-size: 13px; line-height: 1.35; }
 .price { font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; }
@@ -169,6 +170,17 @@ body.barista-view:has(#basket:not([hidden])) #toast { bottom: calc(76px + env(sa
 .themes button[aria-pressed="true"] .bcard { outline: 3px solid var(--accent); outline-offset: 2px; }
 .themes .bcard { box-shadow: none; padding: 10px; border-radius: 12px; }
 .opts button:disabled { opacity: .35; cursor: default; }
+.bcard::before { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2; background: radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--c-ink) 14%, transparent), transparent 60%), linear-gradient(115deg, transparent 38%, color-mix(in srgb, var(--c-ink) 16%, transparent) 50%, transparent 62%) no-repeat; background-size: 100% 100%, 250% 100%; background-position: 0 0, 160% 0; }
+.bcard::after { content: ""; position: absolute; inset: 7px; border: 1px solid color-mix(in srgb, var(--c-ink) 22%, transparent); border-radius: 14px; pointer-events: none; }
+.bcard > :not(.bm) { position: relative; z-index: 1; }
+.bcard .bm { position: absolute; right: -14cqi; bottom: -16cqi; width: 70cqi; height: 70cqi; color: var(--c-ink); opacity: .2; z-index: 0; }
+.bcard .tier { display: inline-block; border: 1px solid currentColor; border-radius: 999px; padding: .25em .8em; margin-bottom: .6em; color: var(--c-ink); font-weight: 600; }
+.themes .bcard::after { inset: 4px; border-radius: 9px; }
+@media (prefers-reduced-motion: no-preference) {
+  .face .bcard::before { animation: sheen 7s ease-in-out 1s infinite; }
+  @keyframes sheen { 0%, 70% { background-position: 0 0, 160% 0; } 100% { background-position: 0 0, -60% 0; } }
+  .face .bcard .bm { animation: spin 60s linear infinite; } @keyframes spin { to { transform: rotate(360deg); } }
+}
 .bcard .pts { margin-top: auto; display: flex; align-items: baseline; gap: 8px; }
 .bcard .pts b { font: 300 clamp(30px, 17cqi, 64px)/1 var(--sans); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
 .bcard .pts span { font-size: clamp(11px, 3.8cqi, 14px); color: var(--c-sub); }
@@ -2701,6 +2713,9 @@ var qrcode = function() {
   const OPT = { milk: ['Whole', 'Oat', 'Soya', 'Coconut'], sweet: ['Less sweet', 'Normal', 'Extra aren'], temp: ['Hot', 'Iced'] };
   const OPT_LABEL = { milk: 'Milk', sweet: 'Sweetness', temp: 'Hot or iced' };
   const HAS = { milk: new Set(['fw', 'lat', 'ks', 'choc', 'tea']), sweet: new Set(['ks', 'tea', 'turmeric', 'cold', 'affogato']), temp: new Set(['fw', 'lat', 'ks', 'choc', 'tea']) };
+  // Bija's own photos (from @bija.london) for menu items; others keep their icon
+  const PHOTO = { esp: 'black-coffee', fw: 'latte-art', lat: 'latte-pour', cold: 'cold-brew' };
+  const thumb = (m) => PHOTO[m.id] ? `<img src="photos/ig/${PHOTO[m.id]}.jpg" alt="" loading="lazy" decoding="async" onerror="this.replaceWith(document.createRange().createContextualFragment(this.dataset.fb))" data-fb="${esc(icon(m.ic))}">` : icon(m.ic);
   const optsFor = (m) => { if (!m || m.cat === 'Cakes' || m.cat === 'Beans') return null; const o = {}; for (const k of Object.keys(OPT)) if (HAS[k].has(m.id)) o[k] = OPT[k]; return Object.keys(o).length ? o : null; };
   const keyOf = (id, opts) => opts && Object.keys(opts).length ? [id, opts.milk || '', opts.sweet || '', opts.temp || ''].join('~') : id;
   const optText = (l) => l.opts ? Object.values(l.opts).filter(Boolean).join(' · ') : '';
@@ -2790,8 +2805,8 @@ var qrcode = function() {
     leaf: (c, o = .2) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'><g fill='${c}' fill-opacity='${o}'><path d='M10 40 Q24 14 50 12 Q44 38 10 40Z'/><path d='M40 66 Q50 48 70 46 Q64 64 40 66Z'/></g></svg>`)}")`,
   };
   const THEMES = [
-    { id: 'noir', name: 'Kawung Noir', rec: true, why: 'White Kawung beans on solid black. Batik heritage that reads as coffee, in the sharpest contrast.', bg: '#0b0b0b', ink: '#ffffff', stamp: '#ffffff', sink: '#0b0b0b', p: pat.kawung('#ffffff', .16) },
-    { id: 'paper', name: 'Kawung Paper', why: 'The same motif inverted: black beans on white, like a printed loyalty card.', bg: '#ffffff', ink: '#0b0b0b', stamp: '#0b0b0b', sink: '#ffffff', empty: 'rgba(0,0,0,.3)', sub: 'rgba(0,0,0,.6)', p: pat.kawung('#0b0b0b', .09) },
+    { id: 'noir', name: 'Kawung Noir', rec: true, why: 'White Kawung beans on solid black. Batik heritage that reads as coffee, in the sharpest contrast.', bg: '#0b0b0b', ink: '#ffffff', stamp: '#ffffff', sink: '#0b0b0b', p: pat.kawung('#ffffff', .085) },
+    { id: 'paper', name: 'Kawung Paper', why: 'The same motif inverted: black beans on white, like a printed loyalty card.', bg: '#ffffff', ink: '#0b0b0b', stamp: '#0b0b0b', sink: '#ffffff', empty: 'rgba(0,0,0,.3)', sub: 'rgba(0,0,0,.6)', p: pat.kawung('#0b0b0b', .06) },
     { id: 'parang', name: 'Parang Ink', why: 'Diagonal Parang batik waves in grey on black. Moves when you tilt the phone.', bg: '#111111', ink: '#f4f4f4', stamp: '#f4f4f4', sink: '#111111', p: pat.parang('#ffffff', .14), size: '40px 40px' },
     { id: 'parangw', name: 'Parang Paper', why: 'Black Parang waves on off-white. Quiet and editorial.', bg: '#f1f1ef', ink: '#0b0b0b', stamp: '#0b0b0b', sink: '#f1f1ef', empty: 'rgba(0,0,0,.3)', sub: 'rgba(0,0,0,.6)', p: pat.parang('#0b0b0b', .1), size: '40px 40px' },
     { id: 'contour', name: 'Highland Contour', why: 'Map contour lines of the Gayo highlands on charcoal.', bg: '#1c1c1c', ink: '#f4f4f4', stamp: '#f4f4f4', sink: '#1c1c1c', p: pat.contour('#ffffff', .22) },
@@ -2803,12 +2818,14 @@ var qrcode = function() {
   ];
   const themeById = (id) => THEMES.find((t) => t.id === id) || THEMES[0];
   function cardStyle(t) {
-    return `--c-bg:${t.bg};--c-ink:${t.ink};--c-stamp:${t.stamp};--c-stamp-ink:${t.sink};--c-empty:${t.empty || 'rgba(255,255,255,.4)'};--c-sub:${t.sub || 'color-mix(in srgb, ' + t.ink + ' 72%, transparent)'};background-image:${t.p};${t.size ? `background-size:${t.size};` : ''}${t.font ? `--c-font:'${t.font}',sans-serif;` : ''}`;
+    return `--c-bg:${t.bg};--c-ink:${t.ink};--c-stamp:${t.stamp};--c-stamp-ink:${t.sink};--c-empty:${t.empty || 'rgba(255,255,255,.4)'};--c-sub:${t.sub || 'color-mix(in srgb, ' + t.ink + ' 72%, transparent)'};background-image:${t.p};${t.size ? `background-size:${t.size};` : ''}${t.font ? `--c-font:'${t.font}',sans-serif;` : ''}`.replace(/"/g, '&quot;');
   }
   const bean = `<svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="11" ry="15" transform="rotate(25 20 20)" fill="currentColor"/><path d="M20 6c-6 6 6 10 0 14s-6 8 0 14" transform="rotate(25 20 20)" stroke="var(--c-stamp)" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`;
+  const cardMark = '<g fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/><circle cx="50" cy="50" r="9"/></g>';
   function cardHTML(t, { name = '', no = '', pts = 0, tier = 'Seed', pct = 0, next = '', bump = false } = {}) {
     return `<div class="bcard ${bump ? 'bump' : ''}" style="${cardStyle(t)}">
-      <div class="t"><div><div class="name">Bija Card</div><div class="who">${esc(name)}</div></div><div class="no">${esc(tier.toUpperCase())}<br>${esc(no)}</div></div>
+      <svg class="bm" viewBox="-2 -2 104 104" aria-hidden="true">${cardMark}</svg>
+      <div class="t"><div><div class="name">Bija Card</div><div class="who">${esc(name)}</div></div><div class="no"><span class="tier">${esc(tier.toUpperCase())}</span>${esc(no)}</div></div>
       <div class="pts"><b>${Number(pts).toLocaleString('en-GB')}</b><span>points</span></div>
       <div class="prg"><i style="width:${Math.max(0, Math.min(100, pct))}%"></i></div>
       <div class="f"><span>${esc(next)}</span><span>Bija Coffee</span></div>
@@ -2898,7 +2915,7 @@ var qrcode = function() {
     $('#wrap').classList.toggle('wide', S.view === 'bar'); document.body.classList.toggle('barista-view', S.view === 'bar');
     renderSwitch(); renderTabs();
     const sl = document.querySelector('.site-link'); if (sl) sl.hidden = !S.demo; // the claude.ai page has no website beside it
-    $('#demo').innerHTML = S.demo ? `<div class="demo">Demo: Concept mockup by Firman Insan M. Not affiliated with or endorsed by Bija Coffee. Orders, points and gift cards stay in this browser; switch to Barista to play both sides. <a href="index.html" style="color:inherit">Website</a></div>` : '';
+    $('#demo').innerHTML = '';
     const pageKey = S.view + ':' + (S.view === 'bar' ? S.btab : S.tab);
     $('#main').innerHTML = S.view === 'bar' ? barista() : customer();
     if (pageKey !== S.lastPage) { S.lastPage = pageKey; const mn = $('#main'); mn.classList.remove('enter'); void mn.offsetWidth; mn.classList.add('enter'); }
@@ -3065,7 +3082,7 @@ var qrcode = function() {
       </section>
       ${whatsOn()}
       ${cfg().award ? `<p class="hint" style="margin-top:16px">★ ${esc(cfg().award)}</p>` : ''}
-      <footer class="foot">${S.demo ? '<a href="privacy.html">Privacy</a><a href="accessibility.html">Accessibility</a>' : ''}<span>Allergies? Ask our team before you order.</span></footer>`;
+      <footer class="foot">${S.demo ? '<a href="privacy.html">Privacy</a><a href="accessibility.html">Accessibility</a>' : ''}<span>Allergies? Ask our team before you order.</span>${S.demo ? '<span>Concept by Firman Insan M, not affiliated with Bija Coffee.</span>' : ''}</footer>`;
   }
   function orderPage() {
     if (S.lastOrder) return confirmation();
@@ -3082,7 +3099,7 @@ var qrcode = function() {
       <div class="menu">${menu().filter((m) => m.cat === S.cat).map((m) => {
         const q = itemQty(m.id), off = !m.available || !open, rr = rt[m.id];
         return `<article class="prod ${m.available ? '' : 'off'}">
-          <div class="ic">${icon(m.ic)}</div>
+          <div class="ic">${thumb(m)}</div>
           <div style="min-width:0"><h4>${esc(m.name)} ${m.badge ? `<span class="badge">${esc(m.badge)}</span>` : ''}</h4><p>${esc(m.filter && f ? `Today: ${f.name}. ` : '')}${esc(m.desc || '')}</p>
             <span class="price">${money(m.price)}</span>${!m.available ? ' · <b>Sold out</b>' : ''}${rr && rr.length ? ` · <span class="stars">★ ${(rr.reduce((a, b) => a + b, 0) / rr.length).toFixed(1)}</span>` : ''}</div>
           <div class="step" role="group" aria-label="Quantity of ${esc(m.name)}"><button data-act="dec" data-id="${esc(m.id)}" ${q ? '' : 'disabled'} aria-label="Remove one">−</button><output>${q}</output><button data-act="sheet" data-id="${esc(m.id)}" ${off ? 'disabled' : ''} aria-label="Add ${esc(m.name)}">+</button></div>
