@@ -13,7 +13,7 @@ All paths are now on `main` (as of run 2), so file names have no branch prefix. 
 | # | Problem | Why it matters |
 |---|---|---|
 | 1 | **Who roasts the beans: four different stories.** The site says "roasted with Kindred Forest". `index.html:294` says "an established UK partner". The press page says "roasted by our baristas". A public case study by the UK roaster Redber says Redber roasts and fills Bija's own-brand bags | A false origin claim breaks the CAP Code and consumer law. **No roasting claim should go live until the owner confirms in writing** (§3) |
-| 2 | **Free delivery: "over £30" in 9 places, "£30 or more" in 1, and the code charges nothing at exactly £30** | A £30 basket gets free delivery but the page says it shouldn't. Say "£30 or more" everywhere |
+| 2 | **Free delivery: "over £30" in 10 places, "£30 or more" in 1, and the code charges nothing at exactly £30** | A £30 basket gets free delivery but the page says it shouldn't. Say "£30 or more" everywhere |
 | 3 | **The award is worded wrong in the app** (`app.html:2947`: "Best New Coffee Shop *of the Year* · London Coffee Festival 2025") | Use the organiser's exact name |
 | 4 | **The Origins Passport can't be finished.** It needs 5 origins, but Gayo and Kintamani are "coming soon" | The +600 bonus is promised on `rewards.html` and in launch copy, but nobody can earn it |
 | 5 | **The subscription FAQ says app management is "coming next"** (`subscribe.html:75`), but the app already has Skip, Pause and Cancel (`app.html:3536–3538`) | It contradicts the product |
