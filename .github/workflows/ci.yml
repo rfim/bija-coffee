@@ -1,0 +1,90 @@
+# Quality checks for the Bija site and app: Node test suites, WCAG 2.2 AA audit (axe-core) and internal links.
+# How to run the same checks locally: tests/README.md
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PLAYWRIGHT_VERSION: 1.63.0
+  AXE_CORE_VERSION: 4.10.2
+  BASE_URL: http://localhost:8099
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Playwright and axe-core (pinned)
+        run: |
+          npm install --no-save --no-audit --no-fund --prefix tests \
+            "playwright@${PLAYWRIGHT_VERSION}" "axe-core@${AXE_CORE_VERSION}"
+          tests/node_modules/.bin/playwright install --with-deps chromium
+
+      - name: Serve the repo root on port 8099
+        run: |
+          python3 -m http.server 8099 > /tmp/http.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf "$BASE_URL/index.html" > /dev/null && break; sleep 1; done
+          curl -sf "$BASE_URL/index.html" > /dev/null
+
+      - name: Node test suites (tests/*.js)
+        id: unit
+        continue-on-error: true
+        run: |
+          shopt -s nullglob
+          files=(tests/*.js)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No test files in tests/*.js yet; skipping."
+            exit 0
+          fi
+          status=0
+          for f in "${files[@]}"; do
+            echo "::group::$f"
+            node "$f" || { echo "::error file=$f::Test suite failed"; status=1; }
+            echo "::endgroup::"
+          done
+          exit $status
+
+      - name: Accessibility audit (axe-core, WCAG 2.2 AA)
+        id: a11y
+        continue-on-error: true
+        run: node tests/tools/a11y.js
+
+      - name: Internal link check
+        id: links
+        continue-on-error: true
+        run: node tests/tools/links.js
+
+      - name: Upload failure screenshots and reports
+        if: steps.unit.outcome == 'failure' || steps.a11y.outcome == 'failure' || steps.links.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ github.run_id }}
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Fail if any check failed
+        if: steps.unit.outcome == 'failure' || steps.a11y.outcome == 'failure' || steps.links.outcome == 'failure'
+        run: |
+          echo "Node tests: ${{ steps.unit.outcome }}"
+          echo "Accessibility: ${{ steps.a11y.outcome }}"
+          echo "Links: ${{ steps.links.outcome }}"
+          exit 1

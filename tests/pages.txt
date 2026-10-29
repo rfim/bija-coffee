@@ -1,0 +1,12 @@
+# Pages checked by the accessibility audit and the link checker (one per line, relative to the repo root).
+# Lines starting with # are ignored. Query strings are allowed.
+index.html?view=site
+app.html?view=app
+shop.html
+product.html?id=lintong
+subscribe.html
+rewards.html
+checkout.html
+delivery.html
+privacy.html
+accessibility.html
