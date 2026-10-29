@@ -23,7 +23,7 @@ const { ROOT, BASE, OUT } = require('./tools/common');
 
 // Findings still expected to fail until their fix lands on main. Remove an ID as soon as it passes
 // (the run prints a reminder); from then on a failure of that finding fails CI.
-const KNOWN_OPEN = new Set(['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10', 'S11', 'S12']);
+const KNOWN_OPEN = new Set([]); // all 12 fixed in Sprint 1 (main 8d7cd7d)
 const DB_KEY = 'bija.app.demo';
 const ME = 'you';
 const NAME = 'Mallory';
@@ -77,6 +77,8 @@ const readDb = (page) => editDb(page, () => undefined);
 // ---------- driving the app ----------
 const settle = (page, ms = 450) => page.waitForTimeout(ms);
 async function openApp(page, hash = '') {
+  // a hash-only change wouldn't reload the page, and the app reads the hash only when it boots
+  if (hash && page.url().startsWith(`${BASE}/app.html`)) await page.goto('about:blank');
   await page.goto(`${BASE}/app.html?view=app${hash}`, { waitUntil: 'load' });
   await page.waitForFunction(() => (document.getElementById('main')?.innerText || '').trim().length > 0, null, { timeout: 15000 }).catch(() => {});
   await settle(page, 700);
@@ -178,22 +180,25 @@ async function measure(page) {
   return { points: num(pick(/^points$/)), lifetime: num(pick(/all time|lifetime/)), gift: num(pick(/gift/)), code: pick(/^code$/) };
 }
 // The customer's own view: Bija Card points, Origins Passport stamps and gift balance.
-async function measureCustomer(page) {
-  await openApp(page, '#card');
+async function toCustomer(page, hash) {
+  await openApp(page, hash);
   if (await isStaff(page)) {
     const c = page.locator('#switch button:visible').filter({ hasText: /customer/i });
     if (await c.count()) { await c.first().click(); await settle(page); }
   }
-  const t = page.locator('[data-act="tab"][data-v="card"]:visible');
+  const t = page.locator(`[data-act="tab"][data-v="${hash.slice(1)}"]:visible`);
   if (await t.count()) { await t.first().click(); await settle(page); }
+}
+async function measureCustomer(page) {
+  await toCustomer(page, '#card');
   const card = await page.evaluate(() => {
     const b = document.querySelector('#main .bcard .pts b');
     return { cardPoints: b ? +(b.dataset.to ?? b.innerText.replace(/\D/g, '')) : null, stamps: document.querySelector('#main .passport') ? document.querySelectorAll('#main .passport .visa.got').length : null };
   });
-  const g = page.locator('[data-act="tab"][data-v="gifts"]:visible');
-  let wallet = null;
-  if (await g.count()) { await g.first().click(); await settle(page); wallet = num(await page.evaluate(() => { const h = [...document.querySelectorAll('#main .hint')].find((e) => /gift card balance/i.test(e.innerText)); return h?.parentElement?.innerText || ''; }).then((s) => s.replace(/gift card balance/i, ''))); }
-  return { ...card, wallet };
+  // the Gifts page shows "Your gift card balance" over the amount
+  await toCustomer(page, '#gifts');
+  const w = await page.evaluate(() => { const h = [...document.querySelectorAll('#main *')].find((e) => e.children.length === 0 && /your gift card balance/i.test(e.textContent)); return h?.parentElement?.innerText.replace(/your gift card balance/i, '') || ''; });
+  return { ...card, wallet: w ? num(w) : null };
 }
 async function insightsRenders(page, errors) {
   const before = errors.length;
@@ -451,14 +456,15 @@ const TESTS = [
     const res = await page.goto(`${BASE}/app.html?view=app`, { waitUntil: 'load' });
     await settle(page, 700);
     const header = res?.headers()['content-security-policy'] || '';
-    const meta = await page.evaluate(() => document.querySelector('meta[http-equiv="Content-Security-Policy" i]')?.content || '');
+    // every policy the page ends up with, including any the app adds at runtime
+    const meta = await page.evaluate(() => [...document.querySelectorAll('meta[http-equiv="Content-Security-Policy" i]')].map((m) => m.content).join(' + '));
     await page.evaluate(() => document.body.insertAdjacentHTML('beforeend', '<img src="x" alt="" onerror="window.__pwned=\'S12\'">'));
     await settle(page, 700);
     const p = await pwned(page);
     const fails = [];
     if (!header && !meta) fails.push('no Content-Security-Policy header or meta tag');
     if (p !== undefined) fails.push('an injected inline onerror handler ran');
-    return { fails, notes: [meta ? `meta CSP: ${meta.slice(0, 200)}` : header ? `header CSP: ${header.slice(0, 200)}` : 'no CSP'] };
+    return { fails, notes: [meta ? `meta CSP: ${meta.slice(0, 300)}` : header ? `header CSP: ${header.slice(0, 200)}` : 'no CSP'] };
   } },
 ];
 
