@@ -4,24 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#ffffff">
 <meta name="description" content="Earn 10 points for every £1 at Bija's café, in the app and in the online shop. Free cake at 350 points, any drink at 400, a bag of beans at 1,200.">
 <title>Rewards · Bija Card</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
 <style>
 .rhero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: center; padding: 36px 0 10px; }
 @media (max-width: 860px) { .rhero { grid-template-columns: minmax(0, 1fr); } }
-.rhero h1 { margin: 8px 0 14px; font-size: clamp(40px, 5.6vw, 76px); font-weight: 300; letter-spacing: -.03em; line-height: .98; }
-.rhero p { color: #d6d6d6; font-size: 18px; max-width: 46ch; margin: 0 0 22px; }
+.rhero h1 { margin: 8px 0 18px; font-size: clamp(44px, 6.2vw, 96px); line-height: .9; }
+.rhero p { color: #3d3d3d; font-size: 18px; max-width: 46ch; margin: 0 0 22px; }
 /* the Bija Card, as it looks in the app: Kawung Noir */
-.bcard { position: relative; aspect-ratio: 1.586; border-radius: 22px; padding: 7%; color: #fff; background-color: #0b0b0b; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='%23ffffff' fill-opacity='.085'%3E%3Cellipse cx='28' cy='13' rx='7' ry='12'/%3E%3Cellipse cx='28' cy='43' rx='7' ry='12'/%3E%3Cellipse cx='13' cy='28' rx='12' ry='7'/%3E%3Cellipse cx='43' cy='28' rx='12' ry='7'/%3E%3Cellipse cx='0' cy='13' rx='7' ry='12'/%3E%3Cellipse cx='56' cy='13' rx='7' ry='12'/%3E%3Cellipse cx='0' cy='43' rx='7' ry='12'/%3E%3Cellipse cx='56' cy='43' rx='7' ry='12'/%3E%3Cellipse cx='13' cy='0' rx='12' ry='7'/%3E%3Cellipse cx='43' cy='0' rx='12' ry='7'/%3E%3Cellipse cx='13' cy='56' rx='12' ry='7'/%3E%3Cellipse cx='43' cy='56' rx='12' ry='7'/%3E%3C/g%3E%3C/svg%3E"); background-size: 56px 56px; border: 1px solid rgba(255,255,255,.18); box-shadow: 0 30px 60px rgba(0,0,0,.6); overflow: hidden; display: flex; flex-direction: column; container-type: inline-size; transform: rotate(-4deg); }
+.bcard { position: relative; aspect-ratio: 1.586; max-width: 560px; justify-self: center; width: 100%; border-radius: 22px; padding: 7%; color: #fff; background-color: #0b0b0b; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='%23ffffff' fill-opacity='.085'%3E%3Cellipse cx='28' cy='13' rx='7' ry='12'/%3E%3Cellipse cx='28' cy='43' rx='7' ry='12'/%3E%3Cellipse cx='13' cy='28' rx='12' ry='7'/%3E%3Cellipse cx='43' cy='28' rx='12' ry='7'/%3E%3Cellipse cx='0' cy='13' rx='7' ry='12'/%3E%3Cellipse cx='56' cy='13' rx='7' ry='12'/%3E%3Cellipse cx='0' cy='43' rx='7' ry='12'/%3E%3Cellipse cx='56' cy='43' rx='7' ry='12'/%3E%3Cellipse cx='13' cy='0' rx='12' ry='7'/%3E%3Cellipse cx='43' cy='0' rx='12' ry='7'/%3E%3Cellipse cx='13' cy='56' rx='12' ry='7'/%3E%3Cellipse cx='43' cy='56' rx='12' ry='7'/%3E%3C/g%3E%3C/svg%3E"); background-size: 56px 56px; border: 1px solid rgba(255,255,255,.18); box-shadow: 0 40px 80px rgba(0,0,0,.28); overflow: hidden; display: flex; flex-direction: column; container-type: inline-size; transform: rotate(-4deg); }
 .bcard::after { content: ""; position: absolute; inset: 7px; border: 1px solid rgba(255,255,255,.22); border-radius: 16px; pointer-events: none; }
 .bcard .bm { position: absolute; right: -14cqi; bottom: -16cqi; width: 70cqi; height: 70cqi; opacity: .2; color: #fff; }
 .bcard .t { display: flex; justify-content: space-between; position: relative; }
@@ -32,16 +30,16 @@
 @media (prefers-reduced-motion: no-preference) { .bcard { animation: float 6s ease-in-out infinite; } @keyframes float { 50% { transform: rotate(-2deg) translateY(-8px); } } .bcard .bm { animation: spin 60s linear infinite; } @keyframes spin { to { transform: rotate(360deg); } } }
 .rewards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 @media (max-width: 760px) { .rewards { grid-template-columns: minmax(0, 1fr); } }
-.rewards div { border: 1px solid var(--line); padding: 22px; }
-.rewards b { display: block; font-size: 42px; font-weight: 300; font-variant-numeric: tabular-nums; line-height: 1; }
+.rewards div { background: var(--tile); border-radius: 16px; padding: 26px; }
+.rewards b { display: block; font: 900 56px/1 var(--disp); font-variant-numeric: tabular-nums; line-height: 1; }
 .rewards span { color: var(--muted); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; }
-.rewards h3 { margin: 12px 0 0; font-size: 18px; font-weight: 500; }
-.tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 1px solid #000; }
+.rewards h3 { margin: 12px 0 0; font: 800 20px/1.1 var(--disp); text-transform: uppercase; }
+.tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border: 2px solid currentColor; border-radius: 16px; overflow: hidden; }
 @media (max-width: 760px) { .tiers { grid-template-columns: minmax(0, 1fr); } }
-.tiers div { padding: 24px; border-right: 1px solid #000; }
+.tiers div { padding: 24px; border-right: 1px solid rgba(255,255,255,.3); }
 .tiers div:last-child { border-right: 0; }
-@media (max-width: 760px) { .tiers div { border-right: 0; border-bottom: 1px solid #000; } .tiers div:last-child { border-bottom: 0; } }
-.tiers h3 { margin: 6px 0 8px; font-size: 24px; font-weight: 400; }
+@media (max-width: 760px) { .tiers div { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.3); } .tiers div:last-child { border-bottom: 0; } }
+.tiers h3 { margin: 6px 0 8px; font: 900 34px/1 var(--disp); text-transform: uppercase; }
 .bonus { width: 100%; border-collapse: collapse; font-size: 15px; }
 .bonus td { padding: 12px 0; border-bottom: 1px solid var(--line); } .bonus td:last-child { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; padding-left: 12px; }
 .appqr { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
@@ -86,7 +84,7 @@
   <div class="kband" aria-hidden="true"><span data-mk></span></div>
 
   <section class="band" aria-labelledby="tiers-h"><div class="wrap" style="padding-top:56px;padding-bottom:56px">
-    <div class="sec-h"><div><span class="eyebrow">Grow with us</span><h2 id="tiers-h">Seed, Sprout, Kopi Tree</h2><p style="color:#333">Levels add perks, not multipliers: everyone earns 10 points per £1. <i>Bija</i> means seed.</p></div></div>
+    <div class="sec-h"><div><span class="eyebrow">Grow with us</span><h2 id="tiers-h">Seed, Sprout, Kopi Tree</h2><p>Levels add perks, not multipliers: everyone earns 10 points per £1. <i>Bija</i> means seed.</p></div></div>
     <div class="tiers">
       <div><span class="eyebrow">From 0 points</span><h3>Seed</h3><p>10 points for every £1, a welcome bonus and a birthday treat.</p></div>
       <div><span class="eyebrow">From 1,500 lifetime points</span><h3>Sprout</h3><p>A free extra shot or syrup on any drink.</p></div>
@@ -109,7 +107,7 @@
     </section>
 
     <section class="sec split" aria-labelledby="app-h" style="align-items:center;gap:28px">
-      <div><span class="eyebrow">Your card lives in the app</span><h2 id="app-h" style="font-size:clamp(28px,3vw,42px);font-weight:300;margin:8px 0 12px">Scan to get your Bija Card.</h2>
+      <div><span class="eyebrow">Your card lives in the app</span><h2 id="app-h" style="font-size:clamp(36px,4.6vw,72px);margin:8px 0 12px">Scan to get your Bija Card.</h2>
         <div class="appqr"><img src="icons/app-qr.png" alt="QR code that opens the Bija app" width="140" height="140"><div><a class="btn" href="app.html?view=app#card">Open the app</a><p class="small">On iPhone and Android, add it to your home screen.</p></div></div></div>
       <div class="ph2"><img src="photos/shop-1.jpg" alt="Lapis legit and a latte at Bija" loading="lazy"></div>
     </section>

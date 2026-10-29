@@ -5,20 +5,22 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@500&display=swap">
 <style>
-/* Bija brand: black page, white Helvetica-style type, four-circle mark (matches bijacoffee.co.uk).
+/* Bija brand (Grind-style since Oct 2026): white pages, loud uppercase Archivo headings, black pills.
+   Earlier note: black page, white Helvetica-style type, four-circle mark (matches bijacoffee.co.uk).
    Layout: one phone-first column (max 760px) that fills the real screen, built the way Stirring Up Joy is:
    sticky pill tabs, a fixed basket bar, checkout on the same page. Barista view widens to 1080px.
    The Bija Card and Secret St James's cards stay black and white; the rest is warm espresso and paper. */
 :root {
-  --paper: #000000; --card: #121212; --ink: #f2f2f2; --muted: #a3a3a3; --line: rgba(255, 255, 255, .16); --accent: #ffffff; --accent-ink: #000000; --gold: #d9b46a; --leaf: #8fbf7f; --warn: #f0a35a; color-scheme: dark;
+  --paper: #ffffff; --card: #f2f2f0; --ink: #0b0b0b; --muted: #6b6b6b; --line: #e4e4e2; --accent: #0b0b0b; --accent-ink: #ffffff; --gold: #8a6514; --leaf: #2e7d32; --warn: #b4541a; color-scheme: light;
   --serif: "Helvetica Neue", Helvetica, Inter, Arial, sans-serif; --sans: "Helvetica Neue", Helvetica, Inter, Arial, sans-serif; --mono: "DM Mono", ui-monospace, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --paper: #000000; --card: #121212; --ink: #f2f2f2; --muted: #a3a3a3; --line: rgba(255, 255, 255, .16); --accent: #ffffff; --accent-ink: #000000; --gold: #d9b46a; --leaf: #8fbf7f; --warn: #f0a35a; color-scheme: dark; }
+  :root:not([data-theme="light"]) { --paper: #ffffff; --card: #f2f2f0; --ink: #0b0b0b; --muted: #6b6b6b; --line: #e4e4e2; --accent: #0b0b0b; --accent-ink: #ffffff; --gold: #8a6514; --leaf: #2e7d32; --warn: #b4541a; color-scheme: light; }
 }
-:root[data-theme="dark"] { --paper: #000000; --card: #121212; --ink: #f2f2f2; --muted: #a3a3a3; --line: rgba(255, 255, 255, .16); --accent: #ffffff; --accent-ink: #000000; --gold: #d9b46a; --leaf: #8fbf7f; --warn: #f0a35a; color-scheme: dark; }
+:root[data-theme="dark"] { --paper: #ffffff; --card: #f2f2f0; --ink: #0b0b0b; --muted: #6b6b6b; --line: #e4e4e2; --accent: #0b0b0b; --accent-ink: #ffffff; --gold: #8a6514; --leaf: #2e7d32; --warn: #b4541a; color-scheme: light; }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.5 var(--sans); }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
@@ -389,14 +391,151 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
 .fbars .bar { grid-template-columns: minmax(0, 8em) minmax(0, 1fr) 6em; }
 .fset { border: 0; background: transparent; padding: 0; width: 100%; text-align: left; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* ===== Grind-style UI: light, image-led, loud type (shared spec with the website) ===== */
+:root { --display: 'Archivo', 'Arial Black', 'Helvetica Neue', Helvetica, sans-serif; --sans: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; --serif: var(--display); --tile: #f2f2f0; }
+body { background: #ffffff; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.top { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 8px; padding: 6px 0 12px; margin-bottom: 12px; border-bottom: 1px solid var(--line); }
+.top .lft { justify-self: start; } .top .rgt { justify-self: end; display: flex; align-items: center; gap: 8px; }
+.top .logo { display: flex; align-items: center; gap: 8px; }
+.mark { width: 38px; height: 38px; background: #0b0b0b; } .mark svg { width: 34px; height: 34px; }
+.brand { flex: none; } .brand h1 { font: 900 28px/1 var(--display); text-transform: uppercase; letter-spacing: -.02em; }
+.brand p { display: none; }
+@media (max-width: 440px) { .top:has(#switch:not([hidden])) { grid-template-columns: 0 minmax(0, 1fr) auto; } .top:has(#switch:not([hidden])) .logo { justify-self: start; } }
+.site-link { display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; border: 1.5px solid var(--ink); color: var(--ink); text-transform: uppercase; letter-spacing: .06em; font-size: 11px; }
+@media (max-width: 440px) { .site-link { display: none; } }
+.switch button { text-transform: uppercase; font-size: 11px; letter-spacing: .06em; padding: 0 12px; }
+.eyebrow, .hero .kick { font: 600 12px/1.2 var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+.greet { font: 900 clamp(40px, 12.5vw, 68px)/.9 var(--display); text-transform: uppercase; letter-spacing: -.02em; margin: 6px 0 16px; text-wrap: balance; }
+.sec { margin-top: 28px; }
+.sec-h { align-items: flex-end; margin-bottom: 12px; }
+.sec-h h2, .sec-h h3 { font: 800 26px/.95 var(--display); text-transform: uppercase; letter-spacing: -.01em; }
+.sec-h small { font: 600 11px/1.3 var(--sans); letter-spacing: .1em; text-transform: uppercase; text-align: right; }
+.sec-h .back { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; text-transform: uppercase; font-size: 12px; letter-spacing: .08em; }
+.hero { border: 0; border-radius: 20px; padding: 24px 20px; color: #fff; }
+.hero h2 { font: 900 clamp(34px, 9.5vw, 54px)/.92 var(--display); text-transform: uppercase; letter-spacing: -.02em; margin: 8px 0 8px; }
+.hero p { opacity: .85; }
+.hero .chip { min-height: 40px; padding: 0 16px; text-transform: uppercase; font-size: 12px; letter-spacing: .06em; background: #fff; color: #0b0b0b; border: 0; }
+.hero .chip.open, .hero .chip.closed { background: rgba(255,255,255,.12); color: #fff; }
+/* buttons: black pills, uppercase */
+.btn { min-height: 48px; padding: 0 24px; font: 600 13px/1 var(--sans); text-transform: uppercase; letter-spacing: .06em; background: var(--ink); color: #fff; }
+.btn.dark { background: var(--ink); color: #fff; }
+.btn.sm { min-height: 44px; padding: 0 16px; font-size: 12px; }
+.btn.ghost { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); }
+.btn.ok { background: var(--leaf); color: #fff; }
+.btn.xl { width: 100%; min-height: 58px; font-size: 15px; letter-spacing: .08em; }
+.cats button, .tabs button { border: 1.5px solid var(--ink); background: #fff; color: var(--ink); text-transform: uppercase; font-size: 12px; letter-spacing: .06em; min-height: 44px; padding: 0 16px; font-weight: 600; }
+.cats button[aria-pressed="true"], .tabs button[aria-selected="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.tabs .dot { background: #fff; color: var(--ink); } .tabs button:not([aria-selected="true"]) .dot { background: var(--ink); color: #fff; }
+/* surfaces: soft grey tiles, no hairlines */
+.panel, .order, .filter, .again, .usual, .tile, .tile2, .offer, .promo, .skel, .nextd, .ladder > div, .visa.got { background: var(--tile); border-color: transparent; }
+.panel { border-radius: 20px; padding: 16px; } .order { border-radius: 16px; }
+.ladder > div.on { border-color: var(--ink); background: #fff; }
+.tile b, .tiles.fin b { font: 800 clamp(22px, 6vw, 30px)/1.05 var(--display); }
+.tile small { color: var(--muted); }
+.filter b { font: 800 18px/1 var(--display); text-transform: uppercase; }
+.notes span { background: #fff; border-color: var(--line); }
+.hours { border: 1.5px solid var(--ink); border-radius: 999px; }
+.promo { border-radius: 999px; min-height: 52px; padding: 0 20px; text-transform: uppercase; font-size: 12px; letter-spacing: .06em; }
+.check { background: #fff; }
+input[type=text], input[type=tel], input[type=email], input[type=number], input[type=date], select, textarea { min-height: 52px; padding: 12px 14px; border: 1.5px solid var(--ink); border-radius: 12px; background: #fff; font-size: 16px; }
+textarea { min-height: 80px; }
+label.f { font-size: 13px; }
+legend { font: 600 12px/1.3 var(--sans); letter-spacing: .1em; text-transform: uppercase; }
+.opts button { border: 1.5px solid var(--ink); background: #fff; border-radius: 999px; padding: 0 16px; font-weight: 600; }
+.opts button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.sum .tot { border-top: 2px solid var(--ink); }
+.empty { border: 0; background: var(--tile); }
+.empty b { font: 800 18px/1.1 var(--display); text-transform: uppercase; }
+.pill { border-width: 1.5px; }
+.big-code { font-family: var(--display); font-weight: 900; }
+.hist div { border-color: var(--line); }
+.visa b { font: 800 15px/1 var(--display); text-transform: uppercase; }
+.disc { background-color: var(--tile); }
+.scan, .flip .back { border: 1.5px solid var(--ink); }
+.sc { box-shadow: 0 10px 24px rgba(0, 0, 0, .12); }
+.hc .bcard { box-shadow: 0 18px 40px rgba(0, 0, 0, .28); }
+/* menu: two-up photo tiles */
+.menu { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (min-width: 620px) { .menu { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.prod { display: flex; flex-direction: column; align-items: stretch; gap: 0; padding: 0; border: 0; background: var(--tile); border-radius: 16px; overflow: hidden; }
+.pimg { position: relative; aspect-ratio: 1; display: grid; place-items: center; background-color: #0b0b0b; background-size: 44px 44px; color: #fff; overflow: hidden; }
+.pimg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pimg > svg { width: 34%; height: 34%; }
+.flag { position: absolute; left: 10px; top: 10px; z-index: 1; background: #0b0b0b; color: #fff; border-radius: 999px; padding: 5px 9px; font: 600 10px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; }
+.flag.lt { background: #fff; color: #0b0b0b; }
+.pb { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0; }
+.prod h4 { font: 800 15px/1.05 var(--display); text-transform: uppercase; letter-spacing: -.005em; }
+.prod p { font-size: 12.5px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.prod .price { font: 600 14px var(--sans); }
+.prod .step { margin-top: auto; width: 100%; justify-content: space-between; background: #fff; }
+.prod .step button:last-child { background: var(--ink); color: #fff; }
+.prod .step button:last-child:disabled { background: transparent; color: var(--ink); }
+.prod.off .pimg { filter: grayscale(1) opacity(.6); }
+/* home: hero promos, product tiles, photo tiles */
+.promos { display: grid; grid-auto-flow: column; grid-auto-columns: 86%; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 0 14px; }
+.promos::-webkit-scrollbar, .ptiles::-webkit-scrollbar, .offers::-webkit-scrollbar { display: none; }
+.slide { scroll-snap-align: start; position: relative; display: block; width: 100%; aspect-ratio: 1 / 1.08; padding: 0; border: 0; border-radius: 20px; overflow: hidden; background: #0b0b0b; color: #fff; text-align: left; cursor: pointer; }
+.slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.05) 30%, rgba(0,0,0,.78)); }
+.slide .sl { position: absolute; left: 18px; right: 18px; bottom: 18px; z-index: 1; display: grid; gap: 8px; justify-items: start; }
+.slide .sl b { font: 900 clamp(30px, 9vw, 44px)/.92 var(--display); text-transform: uppercase; letter-spacing: -.02em; }
+.slide .pl { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; background: #fff; color: #0b0b0b; font: 600 12px/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; }
+.dots { display: flex; justify-content: center; gap: 6px; margin: -4px 0 14px; } .dots i { width: 6px; height: 6px; border-radius: 3px; background: var(--line); } .dots i:first-child { width: 18px; background: var(--ink); }
+.ptiles { display: grid; grid-auto-flow: column; grid-auto-columns: 46%; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.ptile { scroll-snap-align: start; display: flex; flex-direction: column; align-items: stretch; padding: 0; border: 0; background: var(--tile); border-radius: 16px; overflow: hidden; min-width: 0; }
+.ptile .pb { gap: 6px; } .ptile b { font: 800 15px/1.05 var(--display); text-transform: uppercase; } .ptile small { color: var(--muted); font-size: 12px; }
+.ptile .btn { width: 100%; margin-top: auto; }
+.again { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 16px; border-radius: 20px; background: #0b0b0b; color: #fff; }
+.again .hint { color: rgba(255,255,255,.75); } .again b { font: 800 17px/1.15 var(--display); text-transform: uppercase; }
+.again .btn { background: #fff; color: #0b0b0b; width: 100%; }
+.offers { grid-auto-columns: minmax(220px, 72%); }
+.offer { border: 0; border-radius: 16px; padding: 16px; background-image: none; }
+.offer .big { font: 900 34px/.9 var(--display); text-transform: uppercase; letter-spacing: -.02em; }
+.tiles2 { gap: 12px; }
+.tile2 { min-height: 150px; border: 0; border-radius: 16px; align-content: end; padding: 14px; color: var(--ink); }
+.tile2 b { font: 800 17px/1 var(--display); text-transform: uppercase; }
+.tile2.ph { position: relative; overflow: hidden; color: #fff; background: #0b0b0b var(--img) center / cover no-repeat; }
+.tile2.ph::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 25%, rgba(0,0,0,.78)); }
+.tile2.ph > * { position: relative; } .tile2.ph span { color: rgba(255,255,255,.88); }
+/* beans: bag art */
+.bagart { border-radius: 16px; display: grid; place-items: center; aspect-ratio: 16 / 10; background: #e9e9e6; overflow: hidden; }
+.bagart.dk { background: #161616; }
+.bagart svg { height: 86%; width: auto; filter: drop-shadow(0 14px 18px rgba(0,0,0,.25)); }
+.bagart .bw { width: 34%; aspect-ratio: .74; filter: drop-shadow(0 14px 16px rgba(0,0,0,.28)); }
+.bag { position: relative; width: 100%; height: 100%; background-size: 22px 22px; clip-path: polygon(10% 7%, 90% 7%, 95% 100%, 5% 100%); display: grid; place-items: center; }
+.bag::before { content: ""; position: absolute; left: 10%; right: 10%; top: 7%; height: 7%; background: rgba(127,127,127,.35); }
+.bag .lb { width: 46%; aspect-ratio: 1; display: grid; place-items: center; border-radius: 4px; margin-top: 8%; box-shadow: 0 0 0 1.5px currentColor; }
+.bag .lb svg { width: 72%; height: 72%; }
+.beanh { font: 800 20px/1 var(--display); text-transform: uppercase; margin: 0; }
+/* bottom nav: white, black centre button */
+.bnav { background: rgba(255,255,255,.96); border-top: 1px solid var(--line); }
+.bnav .side::after { background: var(--ink); }
+.bnav .dot { background: var(--ink); color: #fff; }
+.bnav button.side { text-transform: uppercase; font-size: 10px; letter-spacing: .06em; }
+.fab { background: #0b0b0b; color: #fff; box-shadow: 0 0 0 6px #fff, 0 10px 28px rgba(0, 0, 0, .28); }
+.fab::before, .fab::after { border-color: #0b0b0b; }
+.fab .cnt { background: #fff; color: #0b0b0b; border-color: #0b0b0b; }
+.fab-l { text-transform: uppercase; font-size: 10px; letter-spacing: .06em; } .fab-l.on { color: var(--ink); }
+@keyframes fab-glow { 50% { box-shadow: 0 0 0 6px #fff, 0 0 0 10px rgba(46,125,50,.85), 0 0 30px rgba(46,125,50,.5); } }
+.flydot { background: #0b0b0b; box-shadow: 0 0 12px rgba(0, 0, 0, .35); }
+.sheet .pan { background: #fff; border: 0; box-shadow: 0 -12px 40px rgba(0, 0, 0, .18); }
+.sheet .pan h3 { font: 900 30px/.95 var(--display) !important; text-transform: uppercase; letter-spacing: -.02em; }
+.basket { background: #0b0b0b; color: #fff; }
+.basket .btn { background: #fff; color: #0b0b0b; }
+th { color: var(--muted); }
+.mini { color: #fff; }
 </style>
 
 <div class="wrap" id="wrap">
   <header class="top">
-    <div class="mark" aria-hidden="true"><svg viewBox="-1.5 -1.5 103 103"><defs><clipPath id="bija-clip-a"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></clipPath></defs><g fill="none" stroke="#fff" stroke-width="3"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/><g clip-path="url(#bija-clip-a)"><circle cx="25" cy="0" r="25"/><circle cx="75" cy="0" r="25"/><circle cx="100" cy="25" r="25"/><circle cx="100" cy="75" r="25"/><circle cx="75" cy="100" r="25"/><circle cx="25" cy="100" r="25"/><circle cx="0" cy="75" r="25"/><circle cx="0" cy="25" r="25"/></g></g></svg></div>
-    <div class="brand"><h1>Bija</h1><p>St James's · London</p></div>
-    <a class="site-link" href="index.html?view=site">Website</a>
-    <div class="switch" id="switch" hidden></div>
+    <div class="lft"><a class="site-link" href="index.html?view=site">Website</a></div>
+    <div class="logo">
+      <div class="mark" aria-hidden="true"><svg viewBox="-1.5 -1.5 103 103"><defs><clipPath id="bija-clip-a"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></clipPath></defs><g fill="none" stroke="#fff" stroke-width="3"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/><g clip-path="url(#bija-clip-a)"><circle cx="25" cy="0" r="25"/><circle cx="75" cy="0" r="25"/><circle cx="100" cy="25" r="25"/><circle cx="100" cy="75" r="25"/><circle cx="75" cy="100" r="25"/><circle cx="25" cy="100" r="25"/><circle cx="0" cy="75" r="25"/><circle cx="0" cy="25" r="25"/></g></g></svg></div>
+      <div class="brand"><h1>Bija</h1><p>St James's · London</p></div>
+    </div>
+    <div class="rgt"><div class="switch" id="switch" hidden></div></div>
   </header>
   <div id="demo"></div>
   <nav class="tabs" id="tabs" role="tablist"></nav>
@@ -2749,6 +2888,13 @@ var qrcode = function() {
   const HAS = { milk: new Set(['fw', 'lat', 'ks', 'choc', 'tea']), sweet: new Set(['ks', 'tea', 'turmeric', 'cold', 'affogato']), temp: new Set(['fw', 'lat', 'ks', 'choc', 'tea']) };
   // Bija's own photos (from @bija.london) for menu items; others keep their icon
   const attrq = (v) => String(v).replace(/"/g, '&quot;');
+  // Grind-style product art: each bean gets a black-and-white batik bag with the Bija mark (no words on it)
+  const BAG_ART = { house: ['#ffffff', '#0b0b0b', 'kawung'], mandheling: ['#0b0b0b', '#ffffff', 'parang'], lintong: ['#2a2a2a', '#ffffff', 'contour'], java: ['#f1f1ef', '#0b0b0b', 'dots'], gayo: ['#0b0b0b', '#ffffff', 'toraja'], kintamani: ['#ffffff', '#0b0b0b', 'grid'], discovery: ['#0b0b0b', '#ffffff', 'kawung'] };
+  const MARK_SVG = '<svg viewBox="-2 -2 104 104" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="6"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg>';
+  function bagArt(id) {
+    const [bg, ink, k] = BAG_ART[id] || BAG_ART.house, light = bg !== '#0b0b0b' && bg !== '#2a2a2a';
+    return `<div class="bagart ${light ? 'dk' : ''}" aria-hidden="true"><div class="bw"><div class="bag" style="background-color:${bg};background-image:${attrq(pat[k](ink, .3))}"><span class="lb" style="background:${bg};color:${ink}">${MARK_SVG}</span></div></div></div>`;
+  }
   const PHOTO = { esp: 'black-coffee', fw: 'latte-art', lat: 'latte-pour', cold: 'cold-brew' };
   const thumb = (m) => PHOTO[m.id] ? `<img src="photos/ig/${PHOTO[m.id]}.jpg" alt="" loading="lazy" decoding="async" onerror="this.replaceWith(document.createRange().createContextualFragment(this.dataset.fb))" data-fb="${esc(icon(m.ic))}">` : icon(m.ic);
   const optsFor = (m) => { if (!m || m.cat === 'Cakes' || m.cat === 'Beans') return null; const o = {}; for (const k of Object.keys(OPT)) if (HAS[k].has(m.id)) o[k] = OPT[k]; return Object.keys(o).length ? o : null; };
@@ -3196,27 +3342,37 @@ var qrcode = function() {
     if (fav) usual = ['ks', 'fw', 'cold'].map((id) => menu().find((m) => m.id === id && m.available)).filter(Boolean).map((m) => ({ key: m.id, l: { id: m.id, name: m.name }, m }));
     const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) && !navigator.standalone;
     const showInstall = S.demo && /^https?:$/.test(location.protocol) && !matchMedia('(display-mode: standalone)').matches && store.get('bija.install') !== 'no' && (S.installEvt || ios);
+    const xmas = [9, 10, 11].includes(new Date().getMonth());
+    const slides = [
+      { img: 'photos/ig/latte-pour.jpg', ey: 'Order ahead', t: 'Skip the queue', pl: 'Order now', act: 'data-act="tab" data-v="order"' },
+      { img: 'photos/feature-1.jpg', ey: 'Beans Club', t: 'Save 10% on every bag', pl: 'Subscribe', act: 'data-act="tab" data-v="club"' },
+      { img: 'photos/ig/latte-art.jpg', ey: xmas ? 'Christmas' : 'Gifts', t: `${xmas ? 'Christmas gift' : 'Gift'} cards from £5`, pl: 'Send one', act: 'data-act="tab" data-v="gifts"' },
+      { img: 'photos/feature-2.jpg', ey: 'Secret St James\'s', t: 'Find the hidden streets', pl: 'Start the trail', act: 'data-act="tab" data-v="secret"' },
+    ];
+    const tileImg = (m) => `<div class="pimg"${PHOTO[m.id] ? '' : ` style="background-image:${attrq(pat.kawung('#ffffff', .09))}"`}>${thumb(m)}</div>`;
     return `<div class="greet">${hello}${name ? ', ' + esc(name) : ''}.</div>
+      <div class="promos" aria-label="Highlights">${slides.map((x) => `<button class="slide" ${x.act}><img src="${x.img}" alt="" loading="lazy" decoding="async"><span class="sl"><span class="eyebrow">${esc(x.ey)}</span><b>${esc(x.t)}</b><span class="pl">${esc(x.pl)}</span></span></button>`).join('')}</div>
+      <div class="dots" aria-hidden="true">${slides.map(() => '<i></i>').join('')}</div>
       ${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
       <button class="hc" data-act="tab" data-v="card" aria-label="Open your Bija Card">
         ${cardHTML(themeById(S.theme), { name: name || 'Tap to scan at the till', no: memberCode(S.uid), pts: st.balance, tier: st.tier.name, pct: nextR ? (st.balance / nextR.pts) * 100 : 100, next: nextR ? `${nextR.pts - st.balance} points to ${nextR.name.toLowerCase()}` : 'Every reward unlocked' })}
         <span class="hint">${st.os.length ? `Free cake every ~£${Math.round(REWARDS[0].pts / PTS)} · free drink every £${Math.round(REWARDS[1].pts / PTS)}` : `+${BONUS.welcome} welcome points on your first order`}</span>
       </button>
-      ${st.col[0] ? (() => { const o = st.col[0], ok = (o.lines || []).some((l) => menu().some((m) => m.id === l.id && m.available)); return `<div class="again"><div><span class="hint">Your last order</span><b>${(o.lines || []).map((l) => `${l.qty}× ${esc(l.name)}${optText(l) ? ` (${esc(optText(l))})` : ''}`).join(', ')}</b></div><button class="btn sm" data-act="reorder" data-id="${esc(o.id)}" ${isOpen() && ok ? '' : 'disabled'}>Order again</button></div>`; })() : ''}
-      <button class="promo" data-act="tab" data-v="gifts"><span>${[9, 10, 11].includes(new Date().getMonth()) ? 'Christmas gift cards' : 'Gift cards'} from £5</span><span aria-hidden="true">→</span></button>
+      <button class="btn xl" data-act="fab" style="margin:6px 0 14px">Order now</button>
+      ${st.col[0] ? (() => { const o = st.col[0], ok = (o.lines || []).some((l) => menu().some((m) => m.id === l.id && m.available)); return `<div class="again"><div><span class="hint eyebrow">Order again</span><br><b>${(o.lines || []).map((l) => `${l.qty}× ${esc(l.name)}${optText(l) ? ` (${esc(optText(l))})` : ''}`).join(', ')}</b></div><button class="btn sm" data-act="reorder" data-id="${esc(o.id)}" ${isOpen() && ok ? '' : 'disabled'}>Order again</button></div>`; })() : ''}
       ${(() => { const o = openState(); return `<div class="hours"><span class="chip ${o.open ? 'open' : 'closed'}">${o.text}</span><a href="${MAPS}" target="_blank" rel="noopener">Directions</a></div>`; })()}
       ${showInstall ? `<div class="install" style="margin-top:12px"><span><b>Put Bija on your home screen</b><br><span class="hint">${S.installEvt ? 'One tap, opens full screen like an app.' : 'Tap Share, then “Add to Home Screen”.'}</span></span><span class="row">${S.installEvt ? '<button class="btn sm" data-act="install">Install</button>' : ''}<button class="btn sm ghost" data-act="noinstall">Not now</button></span></div>` : ''}
       <section class="sec"><div class="sec-h"><h2>Offers</h2><small>Show your Bija Card at the till</small></div>
         <div class="offers">${OFFERS.map((o) => `<article class="offer"><span class="big">${esc(o.big)}</span><b>${esc(o.title)}</b><span class="hint">${esc(o.terms)}</span>${o.act ? `<button class="btn sm" data-act="tab" data-v="${o.act}">Shop beans</button>` : '<button class="btn sm ghost" data-act="showcard">Show my card</button>'}</article>`).join('')}</div>
       </section>
       <section class="sec"><div class="sec-h"><h2>${fav ? 'House favourites' : 'Your usual'}</h2><button class="back" data-act="tab" data-v="order" style="padding:0">Full menu ›</button></div>
-        <div class="list">${usual.map((u) => `<div class="usual"><div><b>${esc(u.m.name)}</b><small>${esc(optText(u.l) || u.m.desc || '')} · ${money(u.m.price)}</small></div>${fav && optsFor(u.m) ? `<button class="btn sm dark" data-act="sheet" data-id="${esc(u.m.id)}" ${isOpen() ? '' : 'disabled'}>Add</button>` : `<button class="btn sm dark" data-act="kadd" data-key="${esc(u.key)}" ${isOpen() ? '' : 'disabled'}>Add</button>`}</div>`).join('')}</div>
+        <div class="ptiles">${usual.map((u) => `<article class="ptile usual">${tileImg(u.m)}<div class="pb"><b>${esc(u.m.name)}</b><small>${esc(optText(u.l) || u.m.desc || '')}</small><small><b style="font:600 14px var(--sans);text-transform:none">${money(u.m.price)}</b></small>${fav && optsFor(u.m) ? `<button class="btn sm" data-act="sheet" data-id="${esc(u.m.id)}" ${isOpen() ? '' : 'disabled'} aria-label="Add ${esc(u.m.name)}">Add</button>` : `<button class="btn sm" data-act="kadd" data-key="${esc(u.key)}" ${isOpen() ? '' : 'disabled'} aria-label="Add ${esc(u.m.name)}">Add</button>`}</div></article>`).join('')}</div>
       </section>
       ${f && filt ? `<div class="filter"><div><span class="hint">On filter today</span><b>${esc(f.name)}, ${esc(f.where)}</b><div class="notes">${f.notes.map((n) => `<span>${esc(n)}</span>`).join('')}</div></div><button class="btn sm dark" data-act="qty" data-id="${esc(filt.id)}" data-d="1" ${isOpen() ? '' : 'disabled'}>Add · ${money(filt.price)}</button></div>` : ''}
       <section class="sec tiles2">
-        <button class="tile2" data-act="tab" data-v="beans"><b>Beans shop</b><span>${(() => { const nx = st.subs.filter((x) => x.next).map((x) => x.next).sort()[0]; return nx ? 'Beans Club · next ' + esc(ukDay(nx)) : 'Delivered or collect · subscribe & save 10%'; })()}</span></button>
-        <button class="tile2" data-act="tab" data-v="secret"><b>Secret St James's</b><span>${st.found}/${SPOTS.length} found${st.dealt.some((x) => !st.visited[x.id]) ? ' · new card waiting' : ''}</span></button>
-        <button class="tile2" data-act="tab" data-v="gifts"><b>Gift cards</b><span>${st.wallet ? money(st.wallet) + ' balance' : 'Send one from £5'}</span></button>
+        <button class="tile2 ph" style="--img:url('photos/ig/iced-pour.jpg')" data-act="tab" data-v="beans"><b>Beans shop</b><span>${(() => { const nx = st.subs.filter((x) => x.next).map((x) => x.next).sort()[0]; return nx ? 'Beans Club · next ' + esc(ukDay(nx)) : 'Delivered or collect · subscribe & save 10%'; })()}</span></button>
+        <button class="tile2 ph" style="--img:url('photos/shop-3.jpg')" data-act="tab" data-v="secret"><b>Secret St James's</b><span>${st.found}/${SPOTS.length} found${st.dealt.some((x) => !st.visited[x.id]) ? ' · new card waiting' : ''}</span></button>
+        <button class="tile2 ph" style="--img:url('photos/ig/cappuccino.jpg')" data-act="tab" data-v="gifts"><b>Gift cards</b><span>${st.wallet ? money(st.wallet) + ' balance' : 'Send one from £5'}</span></button>
         <button class="tile2" data-act="tab" data-v="orders"><b>My orders</b><span>${st.os.length + st.shop.length ? (st.os.length + st.shop.length) + ' so far · café, app and shop' : 'Your order history'}</span></button>
       </section>
       ${whatsOn()}
@@ -3238,10 +3394,10 @@ var qrcode = function() {
       <div class="menu">${menu().filter((m) => m.cat === S.cat).map((m) => {
         const q = itemQty(m.id), off = !m.available || !open, rr = rt[m.id];
         return `<article class="prod ${m.available ? '' : 'off'}">
-          <div class="ic">${thumb(m)}</div>
-          <div style="min-width:0"><h4>${esc(m.name)} ${m.badge ? `<span class="badge">${esc(m.badge)}</span>` : ''}</h4><p>${esc(m.filter && f ? `Today: ${f.name}. ` : '')}${esc(m.desc || '')}</p>
-            <span class="price">${money(m.price)}</span>${!m.available ? ' · <b>Sold out</b>' : ''}${rr && rr.length ? ` · <span class="stars">★ ${(rr.reduce((a, b) => a + b, 0) / rr.length).toFixed(1)}</span>` : ''}</div>
-          <div class="step" role="group" aria-label="Quantity of ${esc(m.name)}"><button data-act="dec" data-id="${esc(m.id)}" ${q ? '' : 'disabled'} aria-label="Remove one">−</button><output>${q}</output><button data-act="sheet" data-id="${esc(m.id)}" ${off ? 'disabled' : ''} aria-label="Add ${esc(m.name)}">+</button></div>
+          <div class="pimg"${PHOTO[m.id] ? '' : ` style="background-image:${attrq(pat.kawung('#ffffff', .09))}"`}>${thumb(m)}${m.badge ? `<span class="flag lt">${esc(m.badge)}</span>` : ''}</div>
+          <div class="pb"><h4>${esc(m.name)}</h4><p>${esc(m.filter && f ? `Today: ${f.name}. ` : '')}${esc(m.desc || '')}</p>
+            <span><span class="price">${money(m.price)}</span>${!m.available ? ' · <b>Sold out</b>' : ''}${rr && rr.length ? ` · <span class="stars">★ ${(rr.reduce((a, b) => a + b, 0) / rr.length).toFixed(1)}</span>` : ''}</span>
+          <div class="step" role="group" aria-label="Quantity of ${esc(m.name)}"><button data-act="dec" data-id="${esc(m.id)}" ${q ? '' : 'disabled'} aria-label="Remove one">−</button><output>${q}</output><button data-act="sheet" data-id="${esc(m.id)}" ${off ? 'disabled' : ''} aria-label="Add ${esc(m.name)}">+</button></div></div>
         </article>`;
       }).join('')}</div>
     </section>
@@ -3334,8 +3490,9 @@ var qrcode = function() {
     ${live.length ? `<button class="promo" data-act="tab" data-v="club"><span><b>Beans Club</b> · ${live.length} subscription${live.length === 1 ? '' : 's'}${live.find((x) => x.next) ? ' · next ' + esc(ukDay(live.filter((x) => x.next).map((x) => x.next).sort()[0])) : ''}</span><span aria-hidden="true">→</span></button>` : ''}
     <div class="list sec">${beans.map((m) => {
       const i = m.info || {}, o = origin(m.origin), pr = SHOP.find((x) => x.menu === m.id);
-      return `<article class="panel stack" style="gap:8px">
-        <div class="row between"><h3 style="margin:0;font-size:18px;font-weight:600">${esc(m.name)}</h3>${m.soon ? '<span class="pill received">Coming soon</span>' : m.available ? `<span class="price">${money(m.price)}</span>` : '<span class="pill cancelled">Sold out</span>'}</div>
+      return `<article class="panel stack" style="gap:10px">
+        ${bagArt(pr ? pr.id : '')}
+        <div class="row between"><h3 class="beanh">${esc(m.name)}</h3>${m.soon ? '<span class="pill received">Coming soon</span>' : m.available ? `<span class="price">${money(m.price)}</span>` : '<span class="pill cancelled">Sold out</span>'}</div>
         <div class="notes">${String(m.desc || '').split(',').map((n) => `<span>${esc(n.trim())}</span>`).join('')}</div>
         <dl style="display:grid;grid-template-columns:96px minmax(0,1fr);gap:4px 12px;margin:4px 0;font-size:14px">
           <dt class="hint">Region</dt><dd style="margin:0">${esc(i.region || '')}</dd>
@@ -3347,7 +3504,7 @@ var qrcode = function() {
         ${pr && m.available && !m.soon ? buyBox(pr, inBag(pr.id)) : ''}
       </article>`;
     }).join('')}</div>
-    ${disc ? `<section class="sec panel stack disc" style="background-image:${attrq(pat.kawung('#ffffff', .06))}"><div class="row between"><h3 style="margin:0;font-size:18px;font-weight:600">${esc(disc.name)}</h3><span class="price">${money(disc.price)}</span></div><span class="hint">${esc(disc.desc)}. Three islands, one box: the quickest way to fill your Origins Passport.</span>${buyBox(disc, inBag('discovery'))}</section>` : ''}
+    ${disc ? `<section class="sec panel stack disc" style="background-image:${attrq(pat.kawung('#ffffff', .06))}">${bagArt('discovery')}<div class="row between"><h3 class="beanh">${esc(disc.name)}</h3><span class="price">${money(disc.price)}</span></div><span class="hint">${esc(disc.desc)}. Three islands, one box: the quickest way to fill your Origins Passport.</span>${buyBox(disc, inBag('discovery'))}</section>` : ''}
     <section class="sec" id="shopbag"><div class="sec-h"><h2>Your bag</h2><small>${t.qty} item${t.qty === 1 ? '' : 's'}</small></div>
       ${!t.lines.length ? '<div class="empty"><b>Your bag is empty</b>Choose a grind, then add a bag above.</div>' : `<div class="panel stack">
         ${t.lines.map((l, i) => `<div class="bagl"><div><b>${esc(l.name)}</b><small>${esc(l.grind)} · ${esc(planText(l))} · ${money(l.unit)}</small></div><div class="step" role="group" aria-label="${esc(l.name)}"><button data-act="bagq" data-i="${i}" data-d="-1" aria-label="Remove one">−</button><output>${l.qty}</output><button data-act="bagq" data-i="${i}" data-d="1" aria-label="Add one">+</button></div></div>`).join('')}

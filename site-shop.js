@@ -101,20 +101,20 @@
     }
     return `<svg class="bag" viewBox="0 0 200 260" aria-hidden="true" focusable="false">${bagShape(p.art)}</svg>`;
   }
-  const bgFor = (p) => (p.art.set ? '#cfcfcc' : (p.art.bag === '#0b0b0b' || p.art.bag === '#2a2a2a') ? '#cfcfcc' : '#161616');
+  // grey tiles: a touch darker behind the pale bags so they still stand out
+  const bgFor = (p) => (p.art.set ? '#ecebe8' : (p.art.bag === '#0b0b0b' || p.art.bag === '#2a2a2a') ? '#f2f2f0' : '#dfdeda');
   const kind = (p) => ({ origin: `Single origin · ${p.where}`, blend: 'Blend · Indonesia', set: 'Set · 3 × 200 g', gift: 'Gift · 3 months' }[p.type]);
 
   function card(p, o = {}) {
     const plan = o.plan || 'once', link = `product.html?id=${p.id}`;
-    const btn = p.soon ? `<button class="btn sm ghost" data-notify="${p.id}">Notify me</button>`
-      : `<button class="btn sm" data-add="${p.id}" data-plan="${plan}" aria-label="Add ${esc(p.name)} to basket${plan !== 'once' ? ', ' + PLANS[plan].toLowerCase() : ''}">${plan !== 'once' ? 'Subscribe' : 'Add'}</button>`;
+    const btn = p.soon ? `<button class="btn ghost" data-notify="${p.id}">Notify me</button>`
+      : `<button class="btn" data-add="${p.id}" data-plan="${plan}" aria-label="Add ${esc(p.name)} to basket${plan !== 'once' ? ', ' + PLANS[plan].toLowerCase() : ''}">${plan !== 'once' ? 'Subscribe' : 'Add to basket'}</button>`;
     const price = plan !== 'once' && canSub(p) ? `${money(unit(p, plan))} <small>${esc(p.size)}</small>` : `${money(p.price)} <small>${esc(p.size)}</small>`;
     return `<article class="pcard ${p.soon ? 'soon' : ''}" data-type="${p.type}">
-      <a class="pimg" href="${link}" style="--pbg:${bgFor(p)}" tabindex="-1" aria-hidden="true">${bagArt(p)}${p.soon ? '<span class="flag dark">Coming soon</span>' : p.type === 'set' ? '<span class="flag">Set</span>' : p.type === 'gift' ? '<span class="flag">Gift</span>' : ''}</a>
+      <a class="pimg" href="${link}" style="--pbg:${bgFor(p)}" tabindex="-1" aria-hidden="true">${bagArt(p)}${p.soon ? '<span class="flag">Coming soon</span>' : p.type === 'set' ? '<span class="flag">Set · save £3</span>' : p.type === 'gift' ? '<span class="flag">Gift</span>' : '<span class="flag light">Subscribe &amp; save</span>'}</a>
       <div class="pbody"><span class="ptag">${esc(kind(p))}</span><h3><a href="${link}">${esc(p.name)}</a></h3>
         <p class="pnotes">${p.notes.map(esc).join(' · ')}</p>
-        <div class="prow"><span class="pprice">${price}</span>${btn}</div>
-        <p class="psub">${p.soon ? 'Be first to know when it lands' : p.type === 'gift' ? 'Prepaid, delivery included' : plan !== 'once' ? `Save 10% · ${PLANS[plan].toLowerCase()} · free delivery` : `${money(unit(p, '2w'))} on subscription`}</p></div>
+        <div class="prow"><span class="pprice">${price}</span><p class="psub">${p.soon ? 'Be first to know when it lands' : p.type === 'gift' ? 'Prepaid, delivery included' : plan !== 'once' ? `Save 10% · ${PLANS[plan].toLowerCase()} · free delivery` : `${money(unit(p, '2w'))} on subscription`}</p>${btn}</div></div>
     </article>`;
   }
 
@@ -136,15 +136,16 @@
   function header() {
     const here = location.pathname.split('/').pop() + location.search;
     return `<header class="shead"><div class="wrap in">
-      <a class="brand" href="./">${ICON.mark}Bija</a>
+      <span class="menuslot"><button class="iconbtn menubtn" aria-expanded="false" aria-controls="mainnav" aria-label="Menu">${ICON.menu}</button></span>
+      <a class="brand" href="./" aria-label="Bija home">${ICON.mark}Bija</a>
       <nav class="mainnav" id="mainnav" aria-label="Main">${NAV.map(([h, l]) => `<a href="${h}" ${here === h || (h === 'shop.html' && here === 'shop.html') || (here.startsWith('product.html') && h === 'shop.html') ? 'aria-current="page"' : ''}>${l}</a>`).join('')}</nav>
-      <div class="hact"><button class="iconbtn menubtn" aria-expanded="false" aria-controls="mainnav" aria-label="Menu">${ICON.menu}</button>${cartBtn()}</div>
+      <div class="hact"><a class="btn sm ghost hidesm" href="app.html?view=app">Order ahead</a>${cartBtn()}</div>
     </div></header>`;
   }
   function footer() {
     return `<footer class="sfoot"><div class="wrap">
       <div class="cols">
-        <div class="news" id="newsletter"><h4>Bija by email</h4><p>New beans, events at St James's Market and members' offers. About twice a month.</p>
+        <div class="news" id="newsletter"><h4>Get the good stuff first</h4><p>New beans, events at St James's Market and members' offers. About twice a month.</p>
           <form data-news novalidate><label class="vh" for="news-email">Email address</label>
             <div class="row"><input class="inp" id="news-email" type="email" name="email" autocomplete="email" placeholder="Email address" required><button class="btn" type="submit">Sign up</button></div>
             <label class="check"><input type="checkbox" name="consent" required><span>Yes, email me news and offers from Bija. I can unsubscribe at any time. See our <a href="privacy.html">privacy notice</a>.</span></label>
@@ -154,6 +155,7 @@
         <nav aria-label="Help"><h4>Help</h4><a href="delivery.html">Delivery &amp; returns</a><a href="delivery.html#terms">Terms of sale</a><a href="mailto:info@bijalondon.co.uk">info@bijalondon.co.uk</a><a href="tel:+442046033086">+44 20 4603 3086</a><a href="./#menu">Allergens</a></nav>
         <nav aria-label="Legal"><h4>Legal</h4><a href="privacy.html">Privacy notice</a><a href="privacy.html#cookies">Cookies</a><a href="accessibility.html">Accessibility</a><a href="https://www.instagram.com/bija.london/" rel="noopener" target="_blank">Instagram @bija.london</a></nav>
       </div>
+      <div class="bigmark" aria-hidden="true">${ICON.mark}Bija</div>
       <div class="legalline"><span>© Bija Coffee Limited, registered in England and Wales, company number 15383542. 2a St James's Market, London SW1Y 4AH. Prices include VAT.</span><span>Concept rebuild by Firman Insan M, not an official Bija page.</span></div>
     </div></footer>`;
   }
