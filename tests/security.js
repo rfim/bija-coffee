@@ -512,7 +512,7 @@ const fmtVals = (v) => v ? ['points', 'lifetime', 'gift', 'cardPoints', 'stamps'
     try {
       const r = await t.run(page, errors);
       const status = r.inconclusive ? 'inconclusive' : r.fails.length ? 'fail' : 'pass';
-      res = { id: t.id, title: t.title, status, fails: r.fails, inconclusive: r.inconclusive, before: r.b, after: r.a, notes: r.notes || [] };
+      res = { id: t.id, title: t.title, status, fails: [...new Set(r.fails)], inconclusive: r.inconclusive, before: r.b, after: r.a, notes: r.notes || [] };
     } catch (e) {
       res = { id: t.id, title: t.title, status: 'error', fails: [String(e.message || e).split('\n')[0]], notes: [] };
     }
@@ -579,7 +579,7 @@ ${rows.join('\n')}
 ### Measurements
 ${detail.join('\n')}
 
-How to run: \`node tests/security.js --md docs/audit/security-status.md\` (see tests/README.md). Findings in \`KNOWN_OPEN\` at the top of \`tests/security.js\` are reported but don't fail CI; remove each one as soon as it passes.
+How to run: \`node tests/security.js --md docs/audit/security-status.md\` with the site served on port 8099 (usage in the header of \`tests/security.js\`). Findings in \`KNOWN_OPEN\` at the top of \`tests/security.js\` are reported but don't fail CI; remove each one as soon as it passes.
 
 ${histMark}
 
