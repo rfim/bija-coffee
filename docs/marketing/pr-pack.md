@@ -21,7 +21,7 @@ The pack has three press angles, a short press release, a fact sheet with source
 | Menu: kopi susu with arenga palm sugar, kopi tubruk, cold brew, Arenga Affogato (weekends), iced turmeric, Mangga Passion smoothie, lapis legit | Bija's own menu (internal) |
 | Past community events: DUNIA Afterhours (Indonesian-powered businesses), Indonesian Independence Day with Edge Group Conservation, Celebrasia, an Earth Day coffee-grounds giveaway, and 10% off for London Marathon runners | Bija (internal); dates **[Confirm]** |
 
-**Mock press email:** `press@bija.example` is used throughout as a placeholder until Bija gives the real address.
+**Mock press email:** `info@bijalondon.co.uk` is a mock-up address, matching the one the website footer already uses. Replace it everywhere once Bija gives the real press address.
 
 **[Confirm before any release goes out]**
 
@@ -43,7 +43,7 @@ The pack has three press angles, a short press release, a fact sheet with source
 
 **Best for:** Time Out London, Hot Dinners, Londonist, Mayfair Times, Square Meal.
 
-**Assets:** the award in the window (`photos/space-2.jpg`), the room, Kopi Rempah being made.
+**Assets:** the award in the window (new shot needed), the room, Kopi Rempah being made.
 
 ### Angle 2: The founder. "From media to the coffee bar"
 
@@ -75,7 +75,7 @@ The pack has three press angles, a short press release, a fact sheet with source
 >
 > *London.* Bija, the Indonesian specialty coffee shop at 2a St James's Market and winner of Best New Coffee Shop at the London Coffee Festival Awards 2025, launches the Bija app this month, alongside a winter drink built on Indonesia's spice history.
 >
-> The free Bija app lets customers order ahead and collect at the window bar, and earn Bija Card points: 10 for every £1, with a free drink at 400 points. New members start with 100 points. The app also includes an Origins Passport that rewards customers for tasting five Indonesian origins, a walking trail called Secret St James's, and gift cards from £5.
+> The free Bija app lets customers order ahead and collect at the window bar, and earn Bija Card points: 10 for every £1, with a free drink at 400 points. New members get 100 welcome points on their first order. The app also includes an Origins Passport that rewards customers for tasting five Indonesian origins, a walking trail called Secret St James's, and gift cards from £5.
 >
 > This winter's drink, **Kopi Rempah**, is a kopi susu sweetened with arenga palm sugar and warmed with nutmeg and clove, the spices the Maluku islands were known for long before coffee reached Europe. It's on the menu from 5 November, the night the Spirit of Christmas lights go on over St James's.
 >
@@ -89,7 +89,7 @@ The pack has three press angles, a short press release, a fact sheet with source
 > - Bija, 2a St James's Market, London SW1Y 4AH. Opening hours: **[Confirm: app currently shows Mon–Fri 8am–5.30pm, Sat 11am–6pm, Sun 12pm–6pm]**. Instagram: @bija.london
 > - Best New Coffee Shop, London Coffee Festival Awards 2025: [londoncoffeefestival.com](https://www.londoncoffeefestival.com/london-coffee-festival-awards/winners-lcf-awards)
 > - Founder Devi Trianna spoke in "Ones to watch in 2026" at London Coffee Festival 2026.
-> - Images: [link to a press folder, to be set up] · Interviews and tastings: press@bija.example *(MOCK-UP: the `.example` domain is reserved, so nothing can be sent to a stranger by mistake. Replace with Bija's real press address before sending.)*
+> - Images: [link to a press folder, to be set up] · Interviews and tastings: info@bijalondon.co.uk *(mock-up; confirm before sending)*
 
 **Boilerplate (about 60 words):**
 > Bija is an independent Indonesian specialty coffee shop at St James's Market, London, founded by Devi Trianna. It serves Indonesian coffee and food the way they're enjoyed at home, from kopi susu with arenga palm sugar to kopi tubruk and lapis legit, and sells Indonesian beans to brew at home. Bija was named Best New Coffee Shop at the London Coffee Festival Awards 2025.
