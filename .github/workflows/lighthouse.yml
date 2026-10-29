@@ -1,0 +1,51 @@
+# Lighthouse CI on main: performance and accessibility budgets for the key pages, phone and desktop.
+# Advisory for now: budget misses show as warnings and never block a merge.
+# Budgets: LCP < 2.5 s, CLS < 0.1, TBT < 200 ms, accessibility score 100. Config: tests/lighthouse/
+name: Lighthouse
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LHCI_VERSION: 0.14.0
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        preset: [mobile, desktop]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Lighthouse CI (pinned)
+        run: npm install -g --no-audit --no-fund "@lhci/cli@${LHCI_VERSION}"
+
+      - name: Run Lighthouse (${{ matrix.preset }})
+        continue-on-error: true
+        run: lhci autorun --config=tests/lighthouse/lighthouserc.${{ matrix.preset }}.json
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-${{ matrix.preset }}-${{ github.run_id }}
+          path: .lighthouseci/
+          if-no-files-found: ignore
+          retention-days: 30
