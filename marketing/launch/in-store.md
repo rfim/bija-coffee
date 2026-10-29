@@ -1,40 +1,61 @@
-# In-store copy
+# In-store copy: till card, table talker, QR poster
 
-Black and white, Archivo for headlines, Inter for body text, Kawung pattern only as a border, never behind words. Minimum body size 12 pt for the till card and table talker, 24 pt on the poster. Every QR has its destination written underneath for people who can't scan it.
+The visual system matches the social graphics: black and white, a Kawung band, Archivo headlines and the Bija mark. All QR codes go to the app with UTM tags, a different `utm_content` per item, so we can see which one works:
+`?utm_source=instore&utm_medium=qr&utm_campaign=launch&utm_content=till|table|poster`
+The existing `icons/app-qr.png` goes to the demo app. **Generate new codes once the live app URL is confirmed [To confirm].**
 
-<!-- Unconfirmed: print sizes, QR destination URLs and whether points are earned in the café. -->
+Prices include VAT. Promotion terms are on every piece (CAP Code rule 8.17).
 
-## Till card (A6, landscape, faces the customer)
+---
 
-**Headline:** YOUR 10TH DRINK IS FREE
-**Body:** Get a stamp with every drink on your Bija Card. Collect points as you go.
-**Prompt:** Ask us to add your first stamp today.
-**QR label:** Scan to get the Bija app
-**Under the QR:** Or search "Bija" in your app store.
-<!-- Unconfirmed: app store listing name. -->
+## Till card (A6, upright, in an acrylic stand at the till)
 
-Script for the team (back of the card, faces staff):
-> "Have you got the Bija Card yet? It's in our app. Every 10th drink is free, and I can add your first stamp now."
+> **[Kawung band]**
+> **COLLECT YOUR POINTS.**
+> Show the QR on your Bija Card and this cup counts.
+> **No card yet?** Scan, join in 30 seconds, and get 100 welcome points on your first order.
+> [QR · utm_content=till]
+> 10 points per £1 · 400 points = any drink
+> *Points have no cash value. Terms in the app.*
 
-## Table talker (A5 tent card, two sides)
+**Barista line (8 seconds, once only):** "Have you got the Bija Card? Show the QR and this one counts. If not, it's that code there, and your first order gets you 100 points."
 
-**Side 1**
-**Headline:** WHERE DOES YOUR COFFEE COME FROM?
-**Body:** Scan the QR on your cup or bag to open your Bean passport. Sumatra Mandheling, Sumatra Lintong, Old Brown Java and the House Blend each have a story.
-**Footer:** Coming soon: Aceh Gayo and Bali Kintamani.
+## Table talker (A6 tent, double-sided)
 
-**Side 2**
-**Headline:** 10% OFF EVERY BAG
-**Body:** Join the Beans Club. Fresh beans delivered every 2, 3 or 4 weeks, from the Bija web shop.
-**QR label:** Scan to join the Beans Club
-**Under the QR:** [web shop address]
+**Side 1: the app**
+> **[Kawung band]**
+> **ORDER AHEAD.**
+> Next time, skip the queue: order from your desk and collect at the window bar.
+> [QR · utm_content=table]
+> 10 points per £1 · 100 welcome points on your first order
+> *Points have no cash value. Terms in the app.*
 
-## QR poster (A2, portrait, by the door)
+**Side 2: the extras**
+> **WHILE YOU'RE HERE**
+> **Origins Passport:** a stamp for each Indonesian origin you taste. Fill it for +600.
+> **Secret St James's:** ten stories hiding around the market. Find them all for +400.
+> **The Beans Club:** our beans every 2, 3 or 4 weeks, 10% off with free UK delivery.
+> All in the Bija app.
 
-**Headline:** SECRET ST JAMES'S
-**Subhead:** A walking trail in the Bija app.
-**Body:** Grab a coffee, scan the code and follow the trail around the neighbourhood.
-**QR label:** Scan to start the trail
-**Under the QR:** [app or trail address]
-**Footer:** Bija · 2a St James's Market · @bija.london
-<!-- Unconfirmed: trail length, number of stops and walking time. -->
+## QR poster (A3 for the window, A4 for the bean shelf)
+
+**A3 window poster**
+> **[Kawung band, top third]**
+> **BIJA, IN YOUR POCKET.**
+> Order ahead · Collect points · Get our beans delivered
+> [Large QR · utm_content=poster]
+> Scan to get the Bija app
+> *100 welcome points on your first order. Points have no cash value. Terms in the app.*
+> [Bija mark] BIJA · 2a St James's Market
+
+**A4 bean-shelf poster**
+> **10% OFF EVERY BAG.**
+> Join the Beans Club: Sumatra Mandheling, Sumatra Lintong, Old Brown Java or the House Blend, delivered every 2, 3 or 4 weeks. £10.80 a bag instead of £12, with free UK delivery. Skip, pause or cancel any time.
+> [QR to the subscriptions page · utm_content=shelf]
+> Or take a bag home today: £12.
+
+## Print notes
+
+- Black ink only on uncoated white stock, so the Kawung stays crisp and the print is cheap.
+- QR codes at least 25 mm wide on the A6 pieces and at least 60 mm on the A3. Test-scan each at arm's length before the full run.
+- Proof against the real wording on the app's rewards page, and re-check the numbers (100 / 350 / 400 / 1,200 / 600 / 400) on the day you print.

@@ -1,162 +1,120 @@
-# Instagram launch grid: 12 posts
+# Instagram: the 12-post launch grid
 
-Account: @bija.london. Format: 1080 × 1350 (4:5) for every post.
-Graphics are in `graphics/` (SVG source) and `graphics/png/` (upload these). Photos are the clean café photos in `photos/` and `photos/ig/`, posted **as they are, with no text on them**.
-
-<!-- Unconfirmed: launch date. Days below are relative to launch day (D0). -->
-<!-- photos/ig/iced-pour.jpg is not used: it already carries a graphic overlay. -->
-<!-- The photos in photos/ig/ are 150–320 px wide and will look soft at 1080 px. Swap in full-size originals if Bija has them. -->
+**Launch of:** the new website, the Bija app, the Bija Card (points, and the QR you show at the bar), the Beans Club, Origins Passport stamps and Secret St James's.
+**Account:** @bija.london · **Format:** 4:5 portrait (1080 × 1350), which is how the profile grid now shows posts.
+**Run:** 12 posts over the 4 weeks in `plan.md`, three a week.
 
 ## How the grid reads
 
-Instagram shows newest first, so post 12 lands top left. Graphics and photos alternate, giving a black, white and photo checkerboard once all 12 are live:
+Graphics and real café photos alternate in a checkerboard, so the profile looks calm rather than shouty. Graphics are black and white Kawung with Archivo headlines (`assets/feed-*.svg`). **Photos never get text on top of them.**
 
-| | Left | Middle | Right |
-|---|---|---|---|
-| Row 1 (newest) | 12 Photo: latte pour | 11 Graphic: award (white) | 10 Photo: the café |
-| Row 2 | 9 Graphic: Secret St James's (black) | 8 Photo: cold brew | 7 Graphic: Bean passport (white) |
-| Row 3 | 6 Photo: cappuccino | 5 Graphic: Bija Card (black) | 4 Photo: sugar jar |
-| Row 4 (first) | 3 Graphic: Beans Club (white) | 2 Photo: window counter | 1 Graphic: launch (black) |
+Instagram shows the newest post top left. Post in the order below (1 first, 12 last) and the finished grid looks like this:
 
-## Hashtag sets
+| | | |
+|---|---|---|
+| 12 · photo: lapis legit | 11 · graphic: Secret St James's | 10 · photo: arenga sugar |
+| 9 · graphic: Origins Passport | 8 · photo: window coffee | 7 · graphic: 10 points per £1 |
+| 6 · photo: batik mural | 5 · graphic: Beans Club | 4 · photo: flower lamps |
+| 3 · graphic: Order ahead | 2 · photo: the window bar | 1 · graphic: Bija is online |
 
-Use one set per post, in the first comment or at the end of the caption. Keep it to 5–8.
+## Rules for every post
 
-- **A, launch:** #Bija #BijaLondon #StJamesMarket #StJamesLondon #IndonesianCoffee #LondonCoffee #SpecialtyCoffee
-- **B, beans:** #Bija #IndonesianCoffee #SumatraCoffee #JavaCoffee #SpecialtyCoffeeUK #CoffeeSubscription #LondonCoffee
-- **C, café:** #Bija #KopiSusu #KopiTubruk #LondonCafe #StJamesMarket #CoffeeShopLondon #SW1
-- **D, trail:** #Bija #SecretStJames #StJamesLondon #LondonWalks #HiddenLondon #LondonCoffee
+- **UK English.** Prices include VAT. No "best in London", "first" or "only".
+- **Promotions** state their main conditions in the caption: 100 welcome points on your **first order**, points have no cash value, and terms are in the app.
+- **People:** no identifiable customer without written consent (see `docs/marketing/launch-campaign.md` §5).
+- **Creators:** if anyone is paid, gifted or given a code to repost, they put **#ad** at the start of their caption.
+- **Before posting:** replace `[link in bio]` with the live link once the website and app are on Bija's own domain **[To confirm]**.
+- **Core hashtags (pick 3 to 5, never more):** #bijalondon #stjamesmarket #indonesiancoffee #kopisusu #specialitycoffee #londoncoffee
 
 ---
 
-## 1 · D0 · Graphic: launch
-File: `graphics/png/feed-01-launch.png`
+### 1 · Graphic: "Bija is online." (`assets/feed-01-website.svg`) · Launch day
 
-**Caption**
-Bija, now in your pocket.
+> Bija is online. Our new website has our Indonesian beans, the Beans Club and your Bija Card in one place, with free UK delivery on orders over £30.
+> Still best in person, though: 2a St James's Market. Link in bio.
+> #bijalondon #indonesiancoffee #stjamesmarket
 
-Today we open the Bija web shop and app. Order beans online, join the Beans Club, collect stamps on your Bija Card and scan your bag to see where your coffee comes from.
+**Alt text:** Black graphic with a Kawung batik pattern band and the words "Bija is online."
 
-Same Indonesian coffee, same corner of St James's Market. Link in bio.
+### 2 · Photo: the window bar (`photos/shop-3.jpg`)
 
-**Alt text:** Black graphic with a Kawung batik pattern band and the Bija mark of four interlocking circles. Headline: Bija, now in your pocket. Web shop, Beans Club, Bija Card and the app.
+> Flower lamps, rattan stools and the best seat in St James's Market: the window bar. Come and sit with a kopi susu while you try the new app.
+> #stjamesmarket #londoncoffee #bijalondon
 
-**Hashtags:** set A
+**Alt text:** Flower-shaped pendant lamps hanging over a window bar with rattan stools.
 
-## 2 · D0 · Photo: window counter
-File: `photos/feature-2.jpg`
+### 3 · Graphic: "Order ahead." (`assets/feed-03-app.svg`)
 
-**Caption**
-Where it all started: the window counter at 2a St James's Market. Thank you for every cup so far. Now there's more of Bija to take home.
+> Order from your desk, collect at the window bar. The Bija app is live: choose a slot, pay at the bar or with a gift card, and earn 10 points per £1. You get 100 welcome points on your first order.
+> Points have no cash value; terms in the app. Link in bio.
+> #bijalondon #stjamesmarket
 
-**Alt text:** Two guests sitting at a long counter along the café window at Bija, with rattan chairs and the street outside.
+**Alt text:** White graphic with a Kawung batik pattern band and the words "Order ahead."
 
-**Hashtags:** set C
+### 4 · Photo: flower pendant lamps (`photos/shop-2.jpg`)
 
-## 3 · D1 · Graphic: Beans Club
-File: `graphics/png/feed-02-beans-club.png`
+> Every Bija day starts under these. What's yours: kopi susu, kopi tubruk or a cold brew?
+> #bijalondon #indonesiancoffee
 
-**Caption**
-10% off every bag. Join the Beans Club and we'll send fresh beans every 2, 3 or 4 weeks, your choice.
+**Alt text:** Flower-shaped pendant lamps glowing against the café ceiling.
 
-Pick from Sumatra Mandheling, Sumatra Lintong, Old Brown Java or the House Blend, roasted with our partner Kindred Forest. Link in bio.
+### 5 · Graphic: "10% off every bag." (`assets/feed-05-beans-club.svg`)
 
-**Alt text:** White graphic with a Kawung batik pattern band and a card reading 10% off every bag. Headline: 10% off every bag. Fresh beans delivered every 2, 3 or 4 weeks, from the Bija web shop.
+> Introducing the Beans Club. Our Indonesian beans arrive every 2, 3 or 4 weeks, at £10.80 a 200 g bag instead of £12, with free UK delivery. Change the coffee or grind, skip, pause or cancel any time before your next dispatch. There's no minimum term.
+> Every bag earns Bija Card points too. Link in bio.
+> #indonesiancoffee #specialitycoffee #bijalondon
 
-**Hashtags:** set B
+**Alt text:** Black graphic with a Kawung batik pattern band and the words "10% off every bag."
 
-## 4 · D3 · Photo: sugar jar
-File: `photos/feature-3.jpg`
+### 6 · Photo: the batik mural (`photos/feature-1.jpg`)
 
-**Caption**
-The sweet bit. Our kopi susu is made with arenga palm sugar. Ask for one next time you're in.
-<!-- Unconfirmed: that this photo shows arenga palm sugar. If not, change to "Sugar, the Indonesian way." -->
+> The batik-style textile mural above our bean shelves. Batik is Indonesia's great textile craft, and the Kawung pattern on our new cups and cards comes from it: four ovals like a palm fruit cut open.
+> #batik #indonesia #bijalondon
 
-**Alt text:** A hand spooning ground brown sugar out of a glass jar.
+**Alt text:** A batik-style textile mural in brown and cream on the café wall.
+*[Confirm the Kawung description with Devi before posting.]*
 
-**Hashtags:** set C
+### 7 · Graphic: "10 points per £1." (`assets/feed-07-points.svg`)
 
-## 5 · D5 · Graphic: Bija Card
-File: `graphics/png/feed-03-bija-card.png`
+> One card, three places to earn: at the bar (show the QR on your Bija Card when you pay), in the app and in our online shop. 350 points for any cake, 400 for any drink, 1,200 for a 200 g bag of beans.
+> Seed, Sprout, Kopi Tree: the more you visit, the more perks you get. Bija means seed, after all.
+> #bijalondon #stjamesmarket
 
-**Caption**
-Nine stamps, then your 10th drink is on us. The Bija Card keeps your stamp card and your points in one place, in the app.
+**Alt text:** White graphic with a Kawung batik pattern band and the words "10 points per £1."
 
-Show it at the till next time you order.
+### 8 · Photo: coffee at the window bar (`photos/feature-2.jpg`)
 
-**Alt text:** Black graphic with a Kawung batik pattern band and a stamp card of ten circles, nine stamped with the Bija mark and the tenth marked free. Headline: Your 10th drink is free.
+> Your 10 points per £1 start here. Show your Bija Card QR at the bar and the barista scans it, so your points land straight away.
+> #londoncoffee #bijalondon
 
-**Hashtags:** set A
+**Alt text:** A cup of coffee on the window bar at Bija.
 
-## 6 · D7 · Photo: cappuccino
-File: `photos/ig/cappuccino.jpg`
+### 9 · Graphic: "Collect the islands." (`assets/feed-09-passport.svg`)
 
-**Caption**
-Weekend plans: one cappuccino, one slice of lapis legit, one window seat. See you at St James's Market.
+> The Origins Passport is in the app. Taste our Indonesian origins (Sumatra Mandheling, Sumatra Lintong, Old Brown Java, and Aceh Gayo and Bali Kintamani when they land) and collect a stamp for each. Fill it for 600 bonus points.
+> #indonesiancoffee #specialitycoffee #bijalondon
 
-**Alt text:** A barista dusts cocoa over a cappuccino on the counter.
+**Alt text:** Black graphic with a Kawung batik pattern band and the words "Collect the islands."
+*[Gayo and Kintamani are "coming soon" in the shop. Don't promise a date.]*
 
-**Hashtags:** set C
+### 10 · Photo: arenga palm sugar (`photos/feature-3.jpg`)
 
-## 7 · D9 · Graphic: Bean passport
-File: `graphics/png/feed-04-bean-passport.png`
+> The secret to our kopi susu: arenga palm sugar, which is darker and more caramel than cane sugar. Ask at the bar and we'll show you.
+> #kopisusu #indonesiancoffee #bijalondon
 
-**Caption**
-Every bag and cup now has a QR code. Scan it to open your Bean passport and see where your coffee comes from, from Sumatra to Java.
+**Alt text:** A spoon lifting dark arenga palm sugar from a jar.
 
-Aceh Gayo and Bali Kintamani are coming soon.
+### 11 · Graphic: "Ten secrets." (`assets/feed-11-secret.svg`)
 
-**Alt text:** White graphic with a Kawung batik pattern band and three passport-style stamps reading Sumatra Mandheling, Old Brown Java and Sumatra Lintong. Headline: Scan it. Meet your coffee.
+> Secret St James's: a walking trail of stories hiding in plain sight around the market, in the Bija app. Find all ten for 400 points, then come back for a coffee.
+> #stjameslondon #londonwalks #bijalondon
 
-**Hashtags:** set B
+**Alt text:** White graphic with a Kawung batik pattern band and the words "Ten secrets."
 
-## 8 · D11 · Photo: cold brew
-File: `photos/ig/cold-brew.jpg`
+### 12 · Photo: lapis legit and a latte (`photos/shop-1.jpg`)
 
-**Caption**
-Cold brew, still on. Pair it with an Arenga Affogato if you're feeling brave.
+> 350 points = any cake. We'd go for the lapis legit: dozens of thin, spiced layers, baked one at a time. Thank you for a brilliant launch month.
+> #lapislegit #bijalondon
 
-**Alt text:** A glass of cold brew over ice on a pale wooden counter.
-
-**Hashtags:** set C
-
-## 9 · D14 · Graphic: Secret St James's
-File: `graphics/png/feed-05-secret-st-jamess.png`
-
-**Caption**
-Secret St James's is a walking trail in the Bija app. Grab a coffee, open the app and follow the stops around the neighbourhood.
-<!-- Unconfirmed: number of stops, length and walking time. Add once confirmed, e.g. "5 stops, about 30 minutes". The graphic shows 5 numbered stops as an illustration only. -->
-
-**Alt text:** Black graphic with a Kawung batik pattern band and a dotted route linking five numbered stops. Headline: Secret St James's. A walking trail through St James's, in the Bija app.
-
-**Hashtags:** set D
-
-## 10 · D17 · Photo: the café
-File: `photos/shop-3.jpg`
-
-**Caption**
-Come in from the cold. 2a St James's Market, London SW1Y 4AH.
-
-**Alt text:** Inside Bija: pendant lights hang over guests sitting at the window counter.
-
-**Hashtags:** set C
-
-## 11 · D21 · Graphic: award
-File: `graphics/png/feed-06-award.png`
-
-**Caption**
-Still a little starry-eyed: Bija was named Best New Coffee Shop at the London Coffee Festival Awards 2025. Thank you to everyone who has visited, shared and come back. Come and taste why.
-
-**Alt text:** White graphic with a Kawung batik pattern band and a card with the Bija mark, London Coffee Festival Awards 2025. Headline: Best New Coffee Shop.
-
-**Hashtags:** set A
-
-## 12 · D24 · Photo: latte pour
-File: `photos/ig/latte-pour.jpg`
-
-**Caption**
-Four weeks of new things at Bija: the web shop, the Beans Club, the Bija Card, the Bean passport and Secret St James's. Which one's your favourite? Tell us below.
-
-**Alt text:** A barista pours steamed milk from a steel jug into a latte, forming latte art.
-
-**Hashtags:** set A
+**Alt text:** A slice of layered lapis legit cake beside a latte.
+*[Confirm the "dozens of layers, baked one at a time" wording with the kitchen.]*

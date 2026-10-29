@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#ffffff">
-<meta name="description" content="Press information for Bija, the Indonesian specialty coffee shop at 2a St James's Market, London: facts, what's new, logos, photos and press contact.">
+<meta name="description" content="Press information for Bija, the Indonesian specialty coffee shop at St James's Market, London: facts, founder, logos, photos and press contact.">
 <title>Press · Bija</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="manifest" href="manifest.webmanifest">
@@ -14,133 +14,120 @@
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
 <style>
-.presshead { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px; align-items: end; padding: 26px 0 30px; border-bottom: 2px solid var(--ink); }
-.presshead h1 { margin: 6px 0 12px; font-size: clamp(56px, 9vw, 132px); line-height: 1; }
-.presshead p { margin: 0; color: #3d3d3d; max-width: 60ch; font-size: 18px; }
-.presshead .mkwrap { width: 96px; height: 96px; color: var(--ink); }
-@media (max-width: 640px) { .presshead { grid-template-columns: minmax(0, 1fr); } .presshead .mkwrap { display: none; } }
-.facts { display: grid; grid-template-columns: minmax(0, 1fr); margin: 0; border-top: 1px solid var(--line); }
-.facts > div { display: grid; grid-template-columns: minmax(140px, 1fr) minmax(0, 3fr); gap: 8px 24px; padding: 16px 0; border-bottom: 1px solid var(--line); }
-.facts dt { font: 600 12px/1.5 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
-.facts dd { margin: 0; overflow-wrap: anywhere; }
-@media (max-width: 640px) { .facts > div { grid-template-columns: minmax(0, 1fr); } }
-.boiler { background: var(--tile); border-radius: 16px; padding: clamp(22px, 3vw, 36px); margin-top: 26px; max-width: 80ch; }
-.boiler p { margin: 0; }
-.boiler .eyebrow { display: block; margin-bottom: 10px; }
-.new4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-@media (max-width: 1100px) { .new4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 640px) { .new4 { grid-template-columns: minmax(0, 1fr); } }
-.new4 > div { background: var(--tile); border-radius: 16px; padding: 28px; display: grid; gap: 10px; align-content: start; }
-.new4 h3 { margin: 0; font: 800 22px/1.05 var(--disp); text-transform: uppercase; }
-.new4 p { margin: 0; color: #3d3d3d; }
-.kit { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--ink); }
-.kit li { display: grid; grid-template-columns: 120px minmax(0, 1fr) auto; gap: 18px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--line); }
-.kit .thumb { width: 120px; height: 90px; border-radius: 10px; background: var(--tile); display: grid; place-items: center; overflow: hidden; }
-.kit .thumb.dark { background: var(--ink); }
-.kit .thumb img { width: 100%; height: 100%; object-fit: cover; }
-.kit .thumb img.logo { width: 76%; height: auto; object-fit: contain; }
-.kit .thumb img.mk { width: 56px; height: 56px; object-fit: contain; }
-.kit h3 { margin: 0 0 4px; font: 800 18px/1.15 var(--disp); text-transform: uppercase; }
-.kit p { margin: 0; color: var(--muted); font-size: 14px; }
-.kit .btn { min-width: 132px; }
-@media (max-width: 640px) {
-  .kit li { grid-template-columns: 88px minmax(0, 1fr); }
-  .kit .thumb { width: 88px; height: 72px; }
-  .kit .btn { grid-column: 1 / -1; width: 100%; }
-}
-.kitnote { color: var(--muted); font-size: 14px; margin: 16px 0 0; max-width: 72ch; }
-.contact { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 16px; }
+/* press page: draws on the shop system; only the bits it lacks */
+.phero .wrap { padding-top: clamp(64px, 9vw, 128px); padding-bottom: clamp(48px, 6vw, 88px); }
+.phero h1 { margin: 12px 0 18px; font-size: clamp(48px, 9vw, 136px); line-height: .88; max-width: 11ch; }
+.phero p { margin: 0 0 26px; font-size: clamp(16px, 1.5vw, 20px); max-width: 52ch; }
+.phero .ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.phero .btn.ghost { background: transparent; color: #fff !important; border-color: #fff; }
+.phero .btn.ghost:hover { background: #fff; color: #000 !important; }
+.phero .btn.inv { background: #fff; color: #000 !important; border-color: #fff; }
+.tbc { display: inline-block; vertical-align: middle; margin-left: 6px; padding: 3px 8px; border: 1.5px dashed currentColor; border-radius: 999px; font: 600 10.5px/1.2 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 14px; margin: 0; }
+.facts > div { background: var(--tile); border-radius: 16px; padding: 24px; }
+.facts dt { font: 600 12px/1.3 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 10px 0 0; }
+.facts dd b { display: block; font: 900 26px/1.02 var(--disp); text-transform: uppercase; margin-bottom: 8px; }
+.facts .src { font-size: 13px; color: var(--muted); }
+.kit { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 14px; }
+.kit figure { margin: 0; display: flex; flex-direction: column; background: var(--tile); border-radius: 16px; overflow: hidden; }
+.kit .art { aspect-ratio: 1; display: grid; place-items: center; background: #fff; }
+.kit .art.dark { background: #0b0b0b; }
+.kit .art img { width: 46%; height: auto; }
+.kit .ph { position: relative; aspect-ratio: 4 / 5; background: var(--tile2); overflow: hidden; }
+.kit .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.kit figcaption { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.kit figcaption b { font-weight: 600; }
+.kit figcaption small { color: var(--muted); }
+.kit figcaption a { margin-top: auto; padding-top: 10px; font: 600 12px/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 5px; }
+.copy { background: var(--tile); border-radius: 16px; padding: clamp(22px, 3vw, 36px); max-width: 80ch; }
+.copy p { margin: 0 0 14px; font-size: 18px; }
+.copy p:last-child { margin: 0; }
+.contact { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px; align-items: end; }
 @media (max-width: 760px) { .contact { grid-template-columns: minmax(0, 1fr); } }
-.contact > div { border-radius: 16px; padding: clamp(24px, 3vw, 40px); display: grid; gap: 12px; align-content: start; }
-.contact .inv { background: var(--inv); color: #fff; }
-.contact .inv h2 { margin: 0; font-size: clamp(30px, 4vw, 52px); }
-.contact .inv p { margin: 0; color: #e4e4e4; }
-.contact .inv a.mail { font: 800 clamp(20px, 2.6vw, 30px)/1.15 var(--disp); color: #fff; overflow-wrap: anywhere; text-underline-offset: 6px; }
-.contact .plain { background: var(--tile); }
-.contact .plain h3 { margin: 0; font: 800 20px/1.1 var(--disp); text-transform: uppercase; }
-.contact .plain p { margin: 0; color: #3d3d3d; }
+.contact h2 { margin: 6px 0 0; font-size: clamp(36px, 5vw, 72px); }
+.contact a.big { font: 900 clamp(22px, 2.6vw, 34px)/1.1 var(--disp); color: #fff; overflow-wrap: anywhere; }
+.contact ul { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 6px; }
+.note { font-size: 14px; color: var(--muted); max-width: 70ch; }
 </style>
 </head>
 <body class="shop-page">
 <a class="skip" href="#main">Skip to content</a>
 <div id="shop-top"></div>
 <main id="main">
+  <section class="band phero" aria-labelledby="h">
+    <div class="wrap">
+      <span class="eyebrow">Press &amp; media</span>
+      <h1 id="h">Indonesia, by the cup.</h1>
+      <p>Bija is an independent Indonesian specialty coffee shop at St James's Market, London, named Best New Coffee Shop at the London Coffee Festival Awards 2025. Everything you need to write about us is on this page.</p>
+      <div class="ctas"><a class="btn inv" href="mailto:info@bijalondon.co.uk?subject=Press%20enquiry">Email the press team</a><a class="btn ghost" href="#kit">Download the press kit</a></div>
+    </div>
+  </section>
+
+  <div class="kband" aria-hidden="true" style="margin-top:0"><span data-mk></span></div>
+
   <div class="wrap">
-    <p class="crumbs"><a href="./">Home</a> / Press</p>
-    <div class="presshead"><div><span class="eyebrow">For journalists and editors</span><h1>Press</h1><p>Bija is an Indonesian specialty coffee shop at 2a St James's Market, London, and Best New Coffee Shop at the London Coffee Festival Awards 2025. Here are the facts, what's new, and logos and photos you can use.</p></div><div class="mkwrap" data-mk></div></div>
-
     <section class="sec" aria-labelledby="facts-h">
-      <div class="sec-h"><div><span class="eyebrow">At a glance</span><h2 id="facts-h">Fact sheet</h2></div></div>
+      <div class="sec-h"><div><span class="eyebrow">Fact sheet</span><h2 id="facts-h">Bija at a glance</h2>
+        <p>Every fact links to a public source. Anything marked <span class="tbc" style="margin:0">To confirm</span> is still waiting for Bija's sign-off, so please check with us before printing it.</p></div></div>
       <dl class="facts">
-        <div><dt>Name</dt><dd>Bija</dd></div>
-        <div><dt>What</dt><dd>Indonesian specialty coffee shop</dd></div>
-        <div><dt>Address</dt><dd>2a St James's Market, London SW1Y 4AH</dd></div>
-        <div><dt>Founder</dt><dd>Devi Trianna</dd></div>
-        <!-- Unconfirmed: opening date and founder's title (e.g. "founder and director"). Add once confirmed by Bija. -->
-        <div><dt>Award</dt><dd>Best New Coffee Shop, London Coffee Festival Awards 2025</dd></div>
-        <div><dt>Coffees</dt><dd>Sumatra Mandheling, Sumatra Lintong, Old Brown Java and the House Blend</dd></div>
-        <div><dt>Coming soon</dt><dd>Aceh Gayo and Bali Kintamani</dd></div>
-        <!-- Unconfirmed: release dates for Aceh Gayo and Bali Kintamani. Keep "coming soon" until confirmed. -->
-        <div><dt>Roasting partner</dt><dd>Kindred Forest</dd></div>
-        <div><dt>On the menu</dt><dd>Kopi susu with arenga palm sugar, kopi tubruk, cold brew, the Arenga Affogato and lapis legit</dd></div>
-        <!-- Unconfirmed: opening hours and seating capacity. Not listed until confirmed. -->
-        <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/bija.london/" rel="noopener" target="_blank">@bija.london<span class="vh"> (opens in a new tab)</span></a></dd></div>
-        <div><dt>Email</dt><dd><a href="mailto:info@bijalondon.co.uk">info@bijalondon.co.uk</a></dd></div>
+        <div><dt>Award</dt><dd><b>Best New Coffee Shop</b>London Coffee Festival Awards 2025, presented on 16 May 2025.<br><span class="src">Sources: <a href="https://www.londoncoffeefestival.com/london-coffee-festival-awards/winners-lcf-awards" rel="noopener">London Coffee Festival</a>, <a href="https://lestari.kompas.com/read/2025/06/03/080735586/jual-kopi-indonesia-berkelanjutan-bija-jadi-kafe-baru-terbaik-di-london?page=all" rel="noopener">Kompas</a></span></dd></div>
+        <div><dt>Where</dt><dd><b>2a St James's Market</b>London SW1Y 4AH, between Piccadilly Circus and Haymarket.<br><span class="src">Source: <a href="https://stjameslondon.co.uk/places/bija" rel="noopener">St James's London</a></span></dd></div>
+        <div><dt>Founder</dt><dd><b>Devi Trianna</b>Spoke in the "Ones to watch in 2026" session that opened the Lab at London Coffee Festival 2026. Bio and portrait <span class="tbc">To confirm</span><br><span class="src">Source: <a href="https://www.londoncoffeefestival.com/the-lab-2026/ones-watch-2026" rel="noopener">London Coffee Festival</a></span></dd></div>
+        <div><dt>Origins</dt><dd><b>Sumatra and Java</b>Sumatra Mandheling, Sumatra Lintong, Old Brown Java and the House Blend, in 200 g bags for £12. Aceh Gayo and Bali Kintamani are coming soon.<br><span class="src">Source: <a href="shop.html">Bija shop</a></span></dd></div>
+        <div><dt>Roasting</dt><dd><b>Roasted by our baristas</b>From green coffee sourced with Kindred Forest, a sourcing company that works on rainforest regeneration. Which coffees come through Kindred Forest <span class="tbc">To confirm</span><br><span class="src">Source: Bija; <a href="https://greencoffeecollective.com/pages/partner/kindred-forest" rel="noopener">Green Coffee Collective on Kindred Forest</a></span></dd></div>
+        <div><dt>On the menu</dt><dd><b>Kopi susu &amp; lapis legit</b>Kopi susu with arenga palm sugar, kopi tubruk, cold brew, iced turmeric and the Arenga Affogato at weekends, with lapis legit, the many-layered spice cake.<br><span class="src">Source: <a href="./#menu">Bija café menu</a></span></dd></div>
       </dl>
-      <div class="boiler">
-        <span class="eyebrow">About Bija, for publication</span>
-        <p>Bija is an Indonesian specialty coffee shop at 2a St James's Market, London, founded by Devi Trianna. Named Best New Coffee Shop at the London Coffee Festival Awards 2025, Bija serves coffees from Sumatra and Java, roasted with partner Kindred Forest, alongside kopi susu with arenga palm sugar, kopi tubruk and lapis legit. Find Bija on Instagram at @bija.london.</p>
+    </section>
+
+    <section class="sec" id="kit" aria-labelledby="kit-h">
+      <div class="sec-h"><div><span class="eyebrow">Press kit</span><h2 id="kit-h">Logos</h2><p>The Bija mark: four circles, after the Kawung batik motif. Please leave it in black or white and don't stretch it or add effects.</p></div></div>
+      <div class="kit">
+        <figure><div class="art"><img src="press/bija-mark-black.svg" alt="The Bija mark in black: four overlapping circles" width="120" height="120"></div>
+          <figcaption><b>Mark, black</b><small>SVG · for light backgrounds</small><a href="press/bija-mark-black.svg" download>Download SVG</a></figcaption></figure>
+        <figure><div class="art dark"><img src="press/bija-mark-white.svg" alt="The Bija mark in white on black" width="120" height="120"></div>
+          <figcaption><b>Mark, white</b><small>SVG · for dark backgrounds</small><a href="press/bija-mark-white.svg" download>Download SVG</a></figcaption></figure>
+        <figure><div class="art dark"><img src="press/bija-mark-tile.svg" alt="The Bija mark on a black square tile" width="120" height="120"></div>
+          <figcaption><b>Mark on a tile</b><small>SVG · for avatars and icons</small><a href="press/bija-mark-tile.svg" download>Download SVG</a></figcaption></figure>
       </div>
     </section>
 
-    <section class="sec" aria-labelledby="new-h">
-      <div class="sec-h"><div><span class="eyebrow">New this season</span><h2 id="new-h">What's new</h2></div></div>
-      <!-- Unconfirmed: launch date for the web shop, app and Bija Card. Add the date here once fixed. -->
-      <div class="new4">
-        <div><h3>Web shop and Beans Club</h3><p>Bija's coffees, sold online. Beans Club members save 10% on every bag, delivered every 2, 3 or 4 weeks.</p></div>
-        <div><h3>Bija Card</h3><p>Earn points as you go, plus a stamp card: the 10th drink is free.</p></div>
-        <!-- Unconfirmed: the Bija Card points rate. Not stated until confirmed. -->
-        <div><h3>Bean passport</h3><p>Scan the QR code on your bag or cup to see where your coffee comes from.</p></div>
-        <div><h3>Secret St James's</h3><p>A walking trail around St James's, in the Bija app.</p></div>
-        <!-- Unconfirmed: trail length, number of stops and walking time. -->
+    <section class="sec" aria-labelledby="photos-h">
+      <div class="sec-h"><div><span class="eyebrow">Press kit</span><h2 id="photos-h">Photos</h2><p>Free to use for editorial coverage of Bija, credited "Bija". Usage terms and photographer credit <span class="tbc">To confirm</span>. These are web-sized files; email us for high-resolution versions.</p></div></div>
+      <div class="kit">
+        <figure><div class="ph"><img src="photos/shop-3.jpg" alt="Flower pendant lamps above the window bar and rattan stools" loading="lazy"></div>
+          <figcaption><b>The window bar</b><small>Flower lamps and rattan stools · 1150 × 1160</small><a href="photos/shop-3.jpg" download="bija-window-bar.jpg">Download JPG</a></figcaption></figure>
+        <figure><div class="ph"><img src="photos/feature-1.jpg" alt="Batik-style textile mural on the café wall" loading="lazy"></div>
+          <figcaption><b>The batik mural</b><small>740 × 640</small><a href="photos/feature-1.jpg" download="bija-batik-mural.jpg">Download JPG</a></figcaption></figure>
+        <figure><div class="ph"><img src="photos/shop-2.jpg" alt="Flower-shaped pendant lamps" loading="lazy"></div>
+          <figcaption><b>Flower pendant lamps</b><small>560 × 620</small><a href="photos/shop-2.jpg" download="bija-flower-lamps.jpg">Download JPG</a></figcaption></figure>
+        <figure><div class="ph"><img src="photos/feature-2.jpg" alt="A coffee at the window bar" loading="lazy"></div>
+          <figcaption><b>Coffee at the window bar</b><small>1150 × 1150</small><a href="photos/feature-2.jpg" download="bija-window-coffee.jpg">Download JPG</a></figcaption></figure>
+        <figure><div class="ph"><img src="photos/feature-3.jpg" alt="A spoon of dark arenga palm sugar" loading="lazy"></div>
+          <figcaption><b>Arenga palm sugar</b><small>For our kopi susu · 1000 × 1180</small><a href="photos/feature-3.jpg" download="bija-arenga-sugar.jpg">Download JPG</a></figcaption></figure>
+        <figure><div class="ph"><img src="photos/shop-1.jpg" alt="A slice of layered lapis legit beside a latte" loading="lazy"></div>
+          <figcaption><b>Lapis legit and a latte</b><small>255 × 615 · high-res on request</small><a href="photos/shop-1.jpg" download="bija-lapis-legit.jpg">Download JPG</a></figcaption></figure>
       </div>
+      <p class="note">Small social photos (latte art, cold brew, pours) are on <a href="https://www.instagram.com/bija.london/" rel="noopener">Instagram @bija.london</a>. We send them at full size on request.</p>
     </section>
 
-    <section class="sec" aria-labelledby="kit-h">
-      <div class="sec-h"><div><span class="eyebrow">Free to use for editorial coverage of Bija</span><h2 id="kit-h">Press kit</h2></div></div>
-      <!-- Unconfirmed: photographer credits and usage terms. "Credit: Bija" is a placeholder line until Bija confirms. -->
-      <ul class="kit">
-        <li><span class="thumb"><img class="logo" src="press/bija-logo-black.svg" alt="" width="160" height="40"></span><div><h3>Logo, black</h3><p>The Bija mark and wordmark. SVG, scalable, for light backgrounds.</p></div><a class="btn sm ghost" href="press/bija-logo-black.svg" download>Download<span class="vh"> black logo, SVG</span></a></li>
-        <li><span class="thumb dark"><img class="logo" src="press/bija-logo-white.svg" alt="" width="160" height="40"></span><div><h3>Logo, white</h3><p>The Bija mark and wordmark. SVG, scalable, for dark backgrounds.</p></div><a class="btn sm ghost" href="press/bija-logo-white.svg" download>Download<span class="vh"> white logo, SVG</span></a></li>
-        <li><span class="thumb"><img class="mk" src="press/bija-mark-black.svg" alt="" width="56" height="56"></span><div><h3>The Bija mark, black</h3><p>Four interlocking circles, on its own. SVG, scalable.</p></div><a class="btn sm ghost" href="press/bija-mark-black.svg" download>Download<span class="vh"> black Bija mark, SVG</span></a></li>
-        <li><span class="thumb dark"><img class="mk" src="press/bija-mark-white.svg" alt="" width="56" height="56"></span><div><h3>The Bija mark, white</h3><p>The same mark for dark backgrounds. SVG.</p></div><a class="btn sm ghost" href="press/bija-mark-white.svg" download>Download<span class="vh"> white Bija mark, SVG</span></a></li>
-        <li><span class="thumb"><img src="photos/shop-3.jpg" alt="" width="120" height="90" loading="lazy"></span><div><h3>The café</h3><p>Guests at the window counter, with Bija's pendant lights overhead. JPEG, 1150 × 1160.</p></div><a class="btn sm ghost" href="photos/shop-3.jpg" download>Download<span class="vh"> photo of the café, JPEG</span></a></li>
-        <li><span class="thumb"><img src="photos/feature-2.jpg" alt="" width="120" height="90" loading="lazy"></span><div><h3>Window counter</h3><p>Guests seated at the counter along the café window. JPEG, 1150 × 1150.</p></div><a class="btn sm ghost" href="photos/feature-2.jpg" download>Download<span class="vh"> photo of the window counter, JPEG</span></a></li>
-        <li><span class="thumb"><img src="photos/shop-2.jpg" alt="" width="120" height="90" loading="lazy"></span><div><h3>Pendant lights</h3><p>Pendant lights in the café window. JPEG, 560 × 620.</p></div><a class="btn sm ghost" href="photos/shop-2.jpg" download>Download<span class="vh"> photo of the pendant lights, JPEG</span></a></li>
-        <li><span class="thumb"><img src="photos/feature-3.jpg" alt="" width="120" height="90" loading="lazy"></span><div><h3>Sugar jar</h3><p>Ground sugar spooned from a glass jar. JPEG, 1000 × 1180.</p></div><a class="btn sm ghost" href="photos/feature-3.jpg" download>Download<span class="vh"> photo of the sugar jar, JPEG</span></a></li>
-        <!-- Unconfirmed: that feature-3.jpg shows arenga palm sugar. Confirm before captioning it as such in print. -->
-        <li><span class="thumb"><img src="photos/feature-1.jpg" alt="" width="120" height="90" loading="lazy"></span><div><h3>Batik</h3><p>Brown, black and cream batik textiles. JPEG, 740 × 640.</p></div><a class="btn sm ghost" href="photos/feature-1.jpg" download>Download<span class="vh"> photo of batik, JPEG</span></a></li>
-        <li><span class="thumb"><img src="photos/shop-1.jpg" alt="" width="120" height="90" loading="lazy"></span><div><h3>Coffee and cake</h3><p>A latte with layered cake on a dark table. Portrait crop, JPEG, 255 × 615.</p></div><a class="btn sm ghost" href="photos/shop-1.jpg" download>Download<span class="vh"> photo of coffee and cake, JPEG</span></a></li>
-        <!-- Unconfirmed: that the cake in shop-1.jpg is lapis legit. -->
-        <li><span class="thumb"><img src="photos/ig/latte-pour.jpg" alt="" width="120" height="90" loading="lazy"></span><div><h3>Latte pour</h3><p>Milk poured from a steel jug into a latte. JPEG, 291 × 293.</p></div><a class="btn sm ghost" href="photos/ig/latte-pour.jpg" download>Download<span class="vh"> photo of a latte pour, JPEG</span></a></li>
-        <li><span class="thumb"><img src="photos/ig/latte-art.jpg" alt="" width="120" height="90" loading="lazy"></span><div><h3>Latte art</h3><p>A tulip in latte art, seen from above. JPEG, 194 × 188.</p></div><a class="btn sm ghost" href="photos/ig/latte-art.jpg" download>Download<span class="vh"> photo of latte art, JPEG</span></a></li>
-        <li><span class="thumb"><img src="photos/ig/cappuccino.jpg" alt="" width="120" height="90" loading="lazy"></span><div><h3>Cappuccino</h3><p>Cocoa dusted over a cappuccino on the counter. JPEG, 291 × 318.</p></div><a class="btn sm ghost" href="photos/ig/cappuccino.jpg" download>Download<span class="vh"> photo of a cappuccino, JPEG</span></a></li>
-        <li><span class="thumb"><img src="photos/ig/cold-brew.jpg" alt="" width="120" height="90" loading="lazy"></span><div><h3>Cold brew</h3><p>Cold brew over ice on a wooden counter. JPEG, 291 × 221.</p></div><a class="btn sm ghost" href="photos/ig/cold-brew.jpg" download>Download<span class="vh"> photo of cold brew, JPEG</span></a></li>
-        <li><span class="thumb"><img src="photos/ig/black-coffee.jpg" alt="" width="120" height="90" loading="lazy"></span><div><h3>Black coffee</h3><p>A black coffee in a dark cup beside a pastry. JPEG, 150 × 182.</p></div><a class="btn sm ghost" href="photos/ig/black-coffee.jpg" download>Download<span class="vh"> photo of black coffee, JPEG</span></a></li>
-        <!-- photos/ig/iced-pour.jpg is left out on purpose: it carries a graphic overlay, so it is not a clean photo. -->
-      </ul>
-      <p class="kitnote">Please credit photos "Bija". The photos in photos/ig/ are web-sized; for print-resolution files, email the press contact below.</p>
-      <!-- Unconfirmed: that print-resolution originals exist and can be supplied. -->
-    </section>
-
-    <section class="sec" aria-labelledby="contact-h">
-      <div class="contact">
-        <div class="inv"><span class="eyebrow" style="color:#e4e4e4">Press contact</span><h2 id="contact-h">Talk to Bija</h2><p>For interviews with Devi Trianna, samples, photography or a visit to the café, email:</p><a class="mail" href="mailto:info@bijalondon.co.uk?subject=Press%20enquiry">info@bijalondon.co.uk</a></div>
-        <!-- Unconfirmed: a named press contact, direct phone line and response time. Using the general inbox until confirmed. -->
-        <div class="plain"><h3>Visit</h3><p>2a St James's Market<br>London SW1Y 4AH</p><h3>Follow</h3><p><a href="https://www.instagram.com/bija.london/" rel="noopener" target="_blank">Instagram @bija.london<span class="vh"> (opens in a new tab)</span></a></p></div>
+    <section class="sec" aria-labelledby="about-h">
+      <div class="sec-h"><div><span class="eyebrow">Boilerplate</span><h2 id="about-h">About Bija</h2><p>Use as is, or shorten.</p></div></div>
+      <div class="copy">
+        <p>Bija is an independent Indonesian specialty coffee shop at St James's Market, London, founded by Devi Trianna. It serves Indonesian coffee and food the way they're enjoyed at home, from kopi susu with arenga palm sugar to kopi tubruk and lapis legit, and sells Indonesian beans to brew at home, roasted by its own baristas.</p>
+        <p>Bija was named Best New Coffee Shop at the London Coffee Festival Awards 2025.</p>
       </div>
     </section>
   </div>
+
+  <section class="band" aria-labelledby="contact-h" style="margin-top:clamp(48px,6vw,88px)">
+    <div class="wrap contact" style="padding-top:64px;padding-bottom:64px">
+      <div><span class="eyebrow">Press contact</span><h2 id="contact-h">Talk to us.</h2>
+        <p>For interviews with Devi, tastings at the bar or images, email us. Response time <span class="tbc" style="color:#cfcfcf">To confirm</span></p></div>
+      <div><a class="big" href="mailto:info@bijalondon.co.uk?subject=Press%20enquiry">info@bijalondon.co.uk</a>
+        <ul><li><a href="tel:+442046033086">+44 20 4603 3086</a></li><li><a href="https://www.instagram.com/bija.london/" rel="noopener">Instagram @bija.london</a></li><li>2a St James's Market, London SW1Y 4AH</li></ul></div>
+    </div>
+  </section>
 </main>
 <div id="shop-foot"></div>
 </body>

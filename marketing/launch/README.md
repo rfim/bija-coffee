@@ -1,24 +1,21 @@
-# Bija London launch kit
+# Launch kit: website, app, Bija Card and Beans Club
 
 | File | What it is |
 |---|---|
-| `plan.md` | The 4-week launch plan: daily actions, owner minutes, KPIs |
-| `instagram-grid.md` | 12 feed posts: order, captions, alt text, hashtags |
-| `stories.md` | 6 Stories scripts |
-| `newsletter.md` | The launch newsletter |
-| `in-store.md` | Copy for the till card, table talker and QR poster |
-| `graphics/` | Social graphics as SVG: `feed-*` at 1080 × 1350, `story-*` at 1080 × 1920 |
-| `graphics/png/` | The same graphics as PNG, ready to upload |
-| `tools/` | Scripts that rebuild the graphics and the press logos in `/press` |
+| `plan.md` | 4-week London launch plan (16 Nov to 13 Dec 2026): daily actions, owner time and KPIs |
+| `instagram-grid.md` | 12-post grid plan: post order, UK English captions, alt text and hashtags |
+| `stories.md` | 6 Stories scripts, frame by frame |
+| `newsletter.txt` | Launch newsletter, plain-text version |
+| `newsletter-blocks.md` | Reusable copy blocks for the email tool |
+| `in-store.md` | Till card, table talker and QR poster copy, plus print notes |
+| `assets/feed-*.svg` | 6 feed graphics, 1080 × 1350 |
+| `assets/story-*.svg` | 6 Story graphics, 1080 × 1920 |
+| `assets/build.py` | Rebuilds the graphics: `python3 marketing/launch/assets/build.py` |
 
-Anything not yet confirmed by Bija is marked in an HTML comment (`<!-- Unconfirmed: … -->`).
+**Graphics:** black and white Kawung, headlines in Archivo 900 and small text in Inter 600. Both fonts are embedded (OFL licensed, see `fonts/`), so each SVG works on its own. To export PNGs for Instagram, open the SVG in a browser and screenshot it at 1080 px wide, or use any SVG-to-PNG tool. No graphic puts text on a café photo; photos are posted clean.
 
-## Rebuilding the graphics
-
-```sh
-pip install fonttools brotli
-python3 marketing/launch/tools/build_graphics.py   # writes graphics/*.svg and press/*.svg
-node marketing/launch/tools/render.js              # writes graphics/png/*.png (uses Playwright)
-```
-
-Headlines are set in Archivo and body text in Inter, both from `fonts/`. The text is turned into outlines, so the SVGs look the same wherever they're opened. Words only sit on solid black or white, never on the Kawung pattern or on café photos.
+**Facts:** these come from the site on `main` (rewards, Beans Club, shop) and the sourced fact sheet in `docs/marketing/pr-pack.md`. Items marked **[To confirm]** need Bija's sign-off. In particular:
+- the live website and app URLs (for QR codes and links)
+- the press and contact email (`info@bijalondon.co.uk` is a mock-up)
+- opening hours
+- which beans come through Kindred Forest (Bija's baristas roast; Kindred Forest sources the green coffee)
