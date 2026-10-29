@@ -1,3 +1,5 @@
+# Quality checks for the Bija site and app: Node test suites, WCAG 2.2 AA audit (axe-core) and internal links.
+# How to run the same checks locally: tests/README.md
 name: CI
 
 on:
@@ -17,17 +19,10 @@ concurrency:
 env:
   PLAYWRIGHT_VERSION: 1.63.0
   AXE_CORE_VERSION: 4.10.2
-  PORT: 8099
-  BASE_URL: http://localhost:8099/
-  TEST_OUTPUT_DIR: ${{ github.workspace }}/test-results
-
-# Explicit bash turns on pipefail, so `node ... | tee` still fails the step.
-defaults:
-  run:
-    shell: bash
+  BASE_URL: http://localhost:8099
 
 jobs:
-  test:
+  checks:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -37,59 +32,59 @@ jobs:
         with:
           node-version: 22
 
-      # The site has no package.json; tool dependencies go outside the repo and are found via NODE_PATH.
-      - name: Install Playwright ${{ env.PLAYWRIGHT_VERSION }}, Chromium and axe-core ${{ env.AXE_CORE_VERSION }}
+      - name: Install Playwright and axe-core (pinned)
         run: |
-          DEPS="$RUNNER_TEMP/deps"
-          npm install --prefix "$DEPS" --no-save --no-package-lock --no-audit --no-fund \
+          npm install --no-save --no-audit --no-fund --prefix tests \
             "playwright@${PLAYWRIGHT_VERSION}" "axe-core@${AXE_CORE_VERSION}"
-          "$DEPS/node_modules/.bin/playwright" install --with-deps chromium
-          echo "NODE_PATH=$DEPS/node_modules" >> "$GITHUB_ENV"
-          echo "$DEPS/node_modules/.bin" >> "$GITHUB_PATH"
+          tests/node_modules/.bin/playwright install --with-deps chromium
 
-      - name: Serve the repo root on port ${{ env.PORT }}
+      - name: Serve the repo root on port 8099
         run: |
-          mkdir -p "$TEST_OUTPUT_DIR/logs"
-          nohup python3 -m http.server "$PORT" --bind 127.0.0.1 > "$TEST_OUTPUT_DIR/logs/http-server.log" 2>&1 &
-          for _ in $(seq 1 30); do
-            curl -fsS -o /dev/null "$BASE_URL" && exit 0
-            sleep 1
-          done
-          echo "::error::http.server did not start"; exit 1
+          python3 -m http.server 8099 > /tmp/http.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf "$BASE_URL/index.html" > /dev/null && break; sleep 1; done
+          curl -sf "$BASE_URL/index.html" > /dev/null
 
-      # Every tests/*.js except the two audits below, which get their own steps.
-      # Runs them all, then fails if any failed. An empty or missing tests/ folder passes.
-      - name: Node tests (tests/*.js)
+      - name: Node test suites (tests/*.js)
+        id: unit
+        continue-on-error: true
         run: |
           shopt -s nullglob
-          failed=()
-          ran=0
-          for f in tests/*.js; do
-            case "$(basename "$f")" in a11y.js|links.js) continue ;; esac
-            ran=$((ran + 1))
+          files=(tests/*.js)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No test files in tests/*.js yet; skipping."
+            exit 0
+          fi
+          status=0
+          for f in "${files[@]}"; do
             echo "::group::$f"
-            if ! node "$f" 2>&1 | tee "$TEST_OUTPUT_DIR/logs/$(basename "$f" .js).log"; then failed+=("$f"); fi
+            node "$f" || { echo "::error file=$f::Test suite failed"; status=1; }
             echo "::endgroup::"
           done
-          echo "Ran $ran test file(s)."
-          if [ ${#failed[@]} -gt 0 ]; then
-            for f in "${failed[@]}"; do echo "::error file=$f::$f failed"; done
-            exit 1
-          fi
+          exit $status
 
       - name: Accessibility audit (axe-core, WCAG 2.2 AA)
-        if: ${{ !cancelled() }}
-        run: node tests/a11y.js 2>&1 | tee "$TEST_OUTPUT_DIR/logs/a11y.log"
+        id: a11y
+        continue-on-error: true
+        run: node tests/tools/a11y.js
 
-      - name: Internal links and assets
-        if: ${{ !cancelled() }}
-        run: node tests/links.js 2>&1 | tee "$TEST_OUTPUT_DIR/logs/links.log"
+      - name: Internal link check
+        id: links
+        continue-on-error: true
+        run: node tests/tools/links.js
 
-      - name: Upload screenshots and logs
-        if: ${{ failure() }}
+      - name: Upload failure screenshots and reports
+        if: steps.unit.outcome == 'failure' || steps.a11y.outcome == 'failure' || steps.links.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-${{ github.run_id }}-${{ github.run_attempt }}
+          name: test-results-${{ github.run_id }}
           path: test-results/
-          retention-days: 14
           if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Fail if any check failed
+        if: steps.unit.outcome == 'failure' || steps.a11y.outcome == 'failure' || steps.links.outcome == 'failure'
+        run: |
+          echo "Node tests: ${{ steps.unit.outcome }}"
+          echo "Accessibility: ${{ steps.a11y.outcome }}"
+          echo "Links: ${{ steps.links.outcome }}"
+          exit 1

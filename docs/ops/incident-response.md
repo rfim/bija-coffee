@@ -2,7 +2,7 @@
 
 What to do when something goes wrong with the Bija website, web shop or app: orders not arriving, payments failing, the site down, wrong prices or points, or personal data exposed.
 
-See [launch-runbook.md](launch-runbook.md) for contacts, backups and the "orders stop arriving" checks.
+See [runbook.md](runbook.md) for contacts, backups and the "orders stop arriving" checks.
 
 ## 1. Decide how serious it is
 
@@ -16,7 +16,7 @@ If you're not sure, treat it as the more serious one. It's easy to downgrade lat
 
 ## 2. First 15 minutes
 
-1. **Say it's happening.** Message the owner and site support (see the contacts table in the runbook): what's wrong, when it started, how you noticed.
+1. **Say it's happening.** Message the owner and site support (see section 1 of the runbook): what's wrong, when it started, how you noticed.
 2. **Pick one lead.** The lead makes the decisions and keeps the notes. Everyone else reports to them.
 3. **Start notes** with times: what you saw, what you did, what changed. Use a shared note or a paper sheet. These are needed for the review and, for a data breach, for the ICO.
 4. **Stop the harm**, even before you know the cause:
@@ -32,7 +32,7 @@ If you're not sure, treat it as the more serious one. It's easy to downgrade lat
 - Look at what changed: the latest commits and Actions runs on `main`, recent Supabase migrations, and changes to provider settings.
 - Read the logs: Supabase (**Logs**: API, Database, Auth, Edge Functions), and the payment provider's event and webhook logs.
 - Fix in the smallest safe way. Prefer a rollback to a hurried fix. Any code fix goes through a pull request with CI green, even during an incident; if that's impossible, the lead approves it and a review happens afterwards.
-- Restore from backup only if data is lost or corrupted, and only with the owner's agreement (see "Restoring production" in the runbook).
+- Restore from backup only if data is lost or corrupted, and only with the owner's agreement (see section 2 of the runbook).
 
 ## 4. Personal data breaches (UK GDPR)
 
@@ -69,4 +69,4 @@ Write a short, blame-free note, kept with the ops records (not in this repo if i
 - Why it happened, and why we didn't catch it sooner.
 - What we'll change, with an owner and a date for each action. Typical actions: a new test in `tests/`, an item on the release checklist, a monitoring check, a change to this document.
 
-Add a line to the log at the end of the runbook.
+Record it as the runbook describes.
