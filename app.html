@@ -5,20 +5,22 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@500&display=swap">
 <style>
-/* Bija brand: black page, white Helvetica-style type, four-circle mark (matches bijacoffee.co.uk).
+/* Bija brand (Grind-style since Oct 2026): white pages, loud uppercase Archivo headings, black pills.
+   Earlier note: black page, white Helvetica-style type, four-circle mark (matches bijacoffee.co.uk).
    Layout: one phone-first column (max 760px) that fills the real screen, built the way Stirring Up Joy is:
    sticky pill tabs, a fixed basket bar, checkout on the same page. Barista view widens to 1080px.
    The Bija Card and Secret St James's cards stay black and white; the rest is warm espresso and paper. */
 :root {
-  --paper: #000000; --card: #121212; --ink: #f2f2f2; --muted: #a3a3a3; --line: rgba(255, 255, 255, .16); --accent: #ffffff; --accent-ink: #000000; --gold: #d9b46a; --leaf: #8fbf7f; --warn: #f0a35a; color-scheme: dark;
+  --paper: #ffffff; --card: #f2f2f0; --ink: #0b0b0b; --muted: #6b6b6b; --line: #e4e4e2; --accent: #0b0b0b; --accent-ink: #ffffff; --gold: #8a6514; --leaf: #2e7d32; --warn: #b4541a; color-scheme: light;
   --serif: "Helvetica Neue", Helvetica, Inter, Arial, sans-serif; --sans: "Helvetica Neue", Helvetica, Inter, Arial, sans-serif; --mono: "DM Mono", ui-monospace, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --paper: #000000; --card: #121212; --ink: #f2f2f2; --muted: #a3a3a3; --line: rgba(255, 255, 255, .16); --accent: #ffffff; --accent-ink: #000000; --gold: #d9b46a; --leaf: #8fbf7f; --warn: #f0a35a; color-scheme: dark; }
+  :root:not([data-theme="light"]) { --paper: #ffffff; --card: #f2f2f0; --ink: #0b0b0b; --muted: #6b6b6b; --line: #e4e4e2; --accent: #0b0b0b; --accent-ink: #ffffff; --gold: #8a6514; --leaf: #2e7d32; --warn: #b4541a; color-scheme: light; }
 }
-:root[data-theme="dark"] { --paper: #000000; --card: #121212; --ink: #f2f2f2; --muted: #a3a3a3; --line: rgba(255, 255, 255, .16); --accent: #ffffff; --accent-ink: #000000; --gold: #d9b46a; --leaf: #8fbf7f; --warn: #f0a35a; color-scheme: dark; }
+:root[data-theme="dark"] { --paper: #ffffff; --card: #f2f2f0; --ink: #0b0b0b; --muted: #6b6b6b; --line: #e4e4e2; --accent: #0b0b0b; --accent-ink: #ffffff; --gold: #8a6514; --leaf: #2e7d32; --warn: #b4541a; color-scheme: light; }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.5 var(--sans); }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
@@ -79,6 +81,7 @@ button { cursor: pointer; }
 .prod.off { opacity: .55; }
 .ic { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: var(--paper); border: 1px solid var(--line); color: var(--ink); }
 .ic svg { width: 28px; height: 28px; }
+.ic { overflow: hidden; } .ic img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .prod h4 { margin: 0; font-size: 15px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .prod p { margin: 2px 0 0; color: var(--muted); font-size: 13px; line-height: 1.35; }
 .price { font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; }
@@ -95,7 +98,7 @@ button { cursor: pointer; }
 @media (max-width: 520px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
 label.f { display: grid; gap: 4px; font-size: 13px; font-weight: 600; }
 label.f .h { font-weight: 400; color: var(--muted); font-size: 12px; }
-input[type=text], input[type=tel], input[type=number], input[type=date], select, textarea { width: 100%; min-width: 0; padding: 10px 12px; border-radius: 10px; border: 1.5px solid rgba(255, 255, 255, .4); background: var(--paper); }
+input[type=text], input[type=tel], input[type=email], input[type=number], input[type=date], select, textarea { width: 100%; min-width: 0; padding: 10px 12px; border-radius: 10px; border: 1.5px solid rgba(255, 255, 255, .4); background: var(--paper); }
 textarea { resize: vertical; min-height: 60px; }
 fieldset { border: 0; padding: 0; margin: 0; }
 legend { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
@@ -169,6 +172,35 @@ body.barista-view:has(#basket:not([hidden])) #toast { bottom: calc(76px + env(sa
 .themes button[aria-pressed="true"] .bcard { outline: 3px solid var(--accent); outline-offset: 2px; }
 .themes .bcard { box-shadow: none; padding: 10px; border-radius: 12px; }
 .opts button:disabled { opacity: .35; cursor: default; }
+.bcard::before { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2; background: radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--c-ink) 14%, transparent), transparent 60%), linear-gradient(115deg, transparent 38%, color-mix(in srgb, var(--c-ink) 16%, transparent) 50%, transparent 62%) no-repeat; background-size: 100% 100%, 250% 100%; background-position: 0 0, 160% 0; }
+.bcard::after { content: ""; position: absolute; inset: 7px; border: 1px solid color-mix(in srgb, var(--c-ink) 22%, transparent); border-radius: 14px; pointer-events: none; }
+.bcard > :not(.bm) { position: relative; z-index: 1; }
+.bcard .bm { position: absolute; right: -14cqi; bottom: -16cqi; width: 70cqi; height: 70cqi; color: var(--c-ink); opacity: .2; z-index: 0; }
+.bcard .tier { display: inline-block; border: 1px solid currentColor; border-radius: 999px; padding: .25em .8em; margin-bottom: .6em; color: var(--c-ink); font-weight: 600; }
+.themes .bcard::after { inset: 4px; border-radius: 9px; }
+@media (prefers-reduced-motion: no-preference) {
+  .face .bcard::before { animation: sheen 7s ease-in-out 1s infinite; }
+  @keyframes sheen { 0%, 70% { background-position: 0 0, 160% 0; } 100% { background-position: 0 0, -60% 0; } }
+  .face .bcard .bm { animation: spin 60s linear infinite; } @keyframes spin { to { transform: rotate(360deg); } }
+}
+.bcard { transform: perspective(900px) rotateX(var(--ty, 0deg)) rotateY(var(--tx, 0deg)); transition: transform .5s cubic-bezier(.2,.7,.2,1); will-change: transform; }
+.bcard.tilting { transition: transform .08s linear; }
+.bcard .gl { position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: var(--go, 0); transition: opacity .4s; background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.28), rgba(255,255,255,.06) 30%, transparent 55%); mix-blend-mode: soft-light; }
+.bcard .prg { position: relative; overflow: visible; }
+.bcard .prg em { position: absolute; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: var(--c-stamp); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-stamp) 25%, transparent), 0 0 12px color-mix(in srgb, var(--c-stamp) 60%, transparent); }
+/* tier finishes: Seed plain frame, Sprout brushed steel, Kopi Tree moving foil edge */
+.bcard.tier-sprout { background-image: repeating-linear-gradient(90deg, color-mix(in srgb, var(--c-ink) 4%, transparent) 0 1px, transparent 1px 3px), var(--p-img, none); }
+.bcard.tier-sprout::after { border-width: 1.5px; border-color: color-mix(in srgb, var(--c-ink) 40%, transparent); box-shadow: inset 0 0 0 3px var(--c-bg), inset 0 0 0 4px color-mix(in srgb, var(--c-ink) 18%, transparent); }
+.bcard.tier-tree { border: 0; }
+.bcard.tier-tree::after { inset: 0; border: 2px solid transparent; border-radius: inherit; background: conic-gradient(from var(--fa, 0deg), #fff, #6b6b6b, #e8e8e8, #2a2a2a, #fff) border-box; -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) padding-box exclude, linear-gradient(#000 0 0); }
+@property --fa { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+.hc { display: grid; gap: 8px; width: 100%; padding: 0; border: 0; background: none; color: inherit; text-align: left; margin-bottom: 12px; font: inherit; }
+.hc .bcard { box-shadow: 0 18px 40px rgba(0,0,0,.5); }
+@media (prefers-reduced-motion: no-preference) {
+  .bcard.tier-tree::after { animation: foil 6s linear infinite; } @keyframes foil { to { --fa: 360deg; } }
+  .hc:active .bcard { transform: scale(.98); }
+}
+@media (prefers-reduced-motion: reduce) { .bcard { transform: none !important; } .bcard .gl { display: none; } }
 .bcard .pts { margin-top: auto; display: flex; align-items: baseline; gap: 8px; }
 .bcard .pts b { font: 300 clamp(30px, 17cqi, 64px)/1 var(--sans); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
 .bcard .pts span { font-size: clamp(11px, 3.8cqi, 14px); color: var(--c-sub); }
@@ -251,6 +283,22 @@ button.back { min-height: 44px; }
 .greet { font-size: 28px; font-weight: 300; margin: 6px 0 14px; }
 .mini { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; align-items: center; border-radius: 18px; padding: 16px; background: #0b0b0b; border: 1px solid var(--line); background-size: 56px 56px; }
 .mini .n { font-size: 34px; font-weight: 300; line-height: 1; }
+.offers { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(220px, 72%); gap: 10px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x mandatory; padding-bottom: 4px; }
+.offer { scroll-snap-align: start; display: grid; gap: 6px; align-content: start; border: 1px solid var(--line); border-radius: 16px; padding: 14px; background: var(--card); background-image: radial-gradient(120% 80% at 100% 0%, rgba(255,255,255,.08), transparent 60%); }
+.offer .big { font: 300 28px/1 var(--sans); letter-spacing: -.01em; }
+.offer .btn { justify-self: start; margin-top: 4px; }
+.again { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 12px 14px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); margin-bottom: 8px; }
+.again b { display: block; font-weight: 600; font-size: 14px; overflow-wrap: anywhere; }
+.buy { display: grid; gap: 10px; border-top: 1px solid var(--line); padding-top: 12px; margin-top: 4px; }
+.bagl { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.bagl small { display: block; color: var(--muted); font-size: 12px; }
+.sum .tot { font-size: 18px; margin-top: 4px; }
+.disc { background-color: #0b0b0b; background-size: 56px 56px; }
+.done-shop { border-color: var(--leaf); margin-top: 12px; }
+.nextd { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); }
+.nextd b { font-size: 20px; font-weight: 400; }
+.chk { display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 14px; }
+.chk input { width: 22px; height: 22px; accent-color: var(--ink); }
 .tiles2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .tile2 { border: 1px solid var(--line); background: var(--card); border-radius: 16px; padding: 14px; text-align: left; display: grid; gap: 4px; }
 .tile2 b { font-size: 16px; } .tile2 span { font-size: 13px; color: var(--muted); }
@@ -343,14 +391,151 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
 .fbars .bar { grid-template-columns: minmax(0, 8em) minmax(0, 1fr) 6em; }
 .fset { border: 0; background: transparent; padding: 0; width: 100%; text-align: left; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* ===== Grind-style UI: light, image-led, loud type (shared spec with the website) ===== */
+:root { --display: 'Archivo', 'Arial Black', 'Helvetica Neue', Helvetica, sans-serif; --sans: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; --serif: var(--display); --tile: #f2f2f0; }
+body { background: #ffffff; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.top { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 8px; padding: 6px 0 12px; margin-bottom: 12px; border-bottom: 1px solid var(--line); }
+.top .lft { justify-self: start; } .top .rgt { justify-self: end; display: flex; align-items: center; gap: 8px; }
+.top .logo { display: flex; align-items: center; gap: 8px; }
+.mark { width: 38px; height: 38px; background: #0b0b0b; } .mark svg { width: 34px; height: 34px; }
+.brand { flex: none; } .brand h1 { font: 900 28px/1 var(--display); text-transform: uppercase; letter-spacing: -.02em; }
+.brand p { display: none; }
+@media (max-width: 440px) { .top:has(#switch:not([hidden])) { grid-template-columns: 0 minmax(0, 1fr) auto; } .top:has(#switch:not([hidden])) .logo { justify-self: start; } }
+.site-link { display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; border: 1.5px solid var(--ink); color: var(--ink); text-transform: uppercase; letter-spacing: .06em; font-size: 11px; }
+@media (max-width: 440px) { .site-link { display: none; } }
+.switch button { text-transform: uppercase; font-size: 11px; letter-spacing: .06em; padding: 0 12px; }
+.eyebrow, .hero .kick { font: 600 12px/1.2 var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+.greet { font: 900 clamp(40px, 12.5vw, 68px)/.9 var(--display); text-transform: uppercase; letter-spacing: -.02em; margin: 6px 0 16px; text-wrap: balance; }
+.sec { margin-top: 28px; }
+.sec-h { align-items: flex-end; margin-bottom: 12px; }
+.sec-h h2, .sec-h h3 { font: 800 26px/.95 var(--display); text-transform: uppercase; letter-spacing: -.01em; }
+.sec-h small { font: 600 11px/1.3 var(--sans); letter-spacing: .1em; text-transform: uppercase; text-align: right; }
+.sec-h .back { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; text-transform: uppercase; font-size: 12px; letter-spacing: .08em; }
+.hero { border: 0; border-radius: 20px; padding: 24px 20px; color: #fff; }
+.hero h2 { font: 900 clamp(34px, 9.5vw, 54px)/.92 var(--display); text-transform: uppercase; letter-spacing: -.02em; margin: 8px 0 8px; }
+.hero p { opacity: .85; }
+.hero .chip { min-height: 40px; padding: 0 16px; text-transform: uppercase; font-size: 12px; letter-spacing: .06em; background: #fff; color: #0b0b0b; border: 0; }
+.hero .chip.open, .hero .chip.closed { background: rgba(255,255,255,.12); color: #fff; }
+/* buttons: black pills, uppercase */
+.btn { min-height: 48px; padding: 0 24px; font: 600 13px/1 var(--sans); text-transform: uppercase; letter-spacing: .06em; background: var(--ink); color: #fff; }
+.btn.dark { background: var(--ink); color: #fff; }
+.btn.sm { min-height: 44px; padding: 0 16px; font-size: 12px; }
+.btn.ghost { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); }
+.btn.ok { background: var(--leaf); color: #fff; }
+.btn.xl { width: 100%; min-height: 58px; font-size: 15px; letter-spacing: .08em; }
+.cats button, .tabs button { border: 1.5px solid var(--ink); background: #fff; color: var(--ink); text-transform: uppercase; font-size: 12px; letter-spacing: .06em; min-height: 44px; padding: 0 16px; font-weight: 600; }
+.cats button[aria-pressed="true"], .tabs button[aria-selected="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.tabs .dot { background: #fff; color: var(--ink); } .tabs button:not([aria-selected="true"]) .dot { background: var(--ink); color: #fff; }
+/* surfaces: soft grey tiles, no hairlines */
+.panel, .order, .filter, .again, .usual, .tile, .tile2, .offer, .promo, .skel, .nextd, .ladder > div, .visa.got { background: var(--tile); border-color: transparent; }
+.panel { border-radius: 20px; padding: 16px; } .order { border-radius: 16px; }
+.ladder > div.on { border-color: var(--ink); background: #fff; }
+.tile b, .tiles.fin b { font: 800 clamp(22px, 6vw, 30px)/1.05 var(--display); }
+.tile small { color: var(--muted); }
+.filter b { font: 800 18px/1 var(--display); text-transform: uppercase; }
+.notes span { background: #fff; border-color: var(--line); }
+.hours { border: 1.5px solid var(--ink); border-radius: 999px; }
+.promo { border-radius: 999px; min-height: 52px; padding: 0 20px; text-transform: uppercase; font-size: 12px; letter-spacing: .06em; }
+.check { background: #fff; }
+input[type=text], input[type=tel], input[type=email], input[type=number], input[type=date], select, textarea { min-height: 52px; padding: 12px 14px; border: 1.5px solid var(--ink); border-radius: 12px; background: #fff; font-size: 16px; }
+textarea { min-height: 80px; }
+label.f { font-size: 13px; }
+legend { font: 600 12px/1.3 var(--sans); letter-spacing: .1em; text-transform: uppercase; }
+.opts button { border: 1.5px solid var(--ink); background: #fff; border-radius: 999px; padding: 0 16px; font-weight: 600; }
+.opts button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.sum .tot { border-top: 2px solid var(--ink); }
+.empty { border: 0; background: var(--tile); }
+.empty b { font: 800 18px/1.1 var(--display); text-transform: uppercase; }
+.pill { border-width: 1.5px; }
+.big-code { font-family: var(--display); font-weight: 900; }
+.hist div { border-color: var(--line); }
+.visa b { font: 800 15px/1 var(--display); text-transform: uppercase; }
+.disc { background-color: var(--tile); }
+.scan, .flip .back { border: 1.5px solid var(--ink); }
+.sc { box-shadow: 0 10px 24px rgba(0, 0, 0, .12); }
+.hc .bcard { box-shadow: 0 18px 40px rgba(0, 0, 0, .28); }
+/* menu: two-up photo tiles */
+.menu { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (min-width: 620px) { .menu { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.prod { display: flex; flex-direction: column; align-items: stretch; gap: 0; padding: 0; border: 0; background: var(--tile); border-radius: 16px; overflow: hidden; }
+.pimg { position: relative; aspect-ratio: 1; display: grid; place-items: center; background-color: #0b0b0b; background-size: 44px 44px; color: #fff; overflow: hidden; }
+.pimg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pimg > svg { width: 34%; height: 34%; }
+.flag { position: absolute; left: 10px; top: 10px; z-index: 1; background: #0b0b0b; color: #fff; border-radius: 999px; padding: 5px 9px; font: 600 10px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; }
+.flag.lt { background: #fff; color: #0b0b0b; }
+.pb { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0; }
+.prod h4 { font: 800 15px/1.05 var(--display); text-transform: uppercase; letter-spacing: -.005em; }
+.prod p { font-size: 12.5px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.prod .price { font: 600 14px var(--sans); }
+.prod .step { margin-top: auto; width: 100%; justify-content: space-between; background: #fff; }
+.prod .step button:last-child { background: var(--ink); color: #fff; }
+.prod .step button:last-child:disabled { background: transparent; color: var(--ink); }
+.prod.off .pimg { filter: grayscale(1) opacity(.6); }
+/* home: hero promos, product tiles, photo tiles */
+.promos { display: grid; grid-auto-flow: column; grid-auto-columns: 86%; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 0 14px; }
+.promos::-webkit-scrollbar, .ptiles::-webkit-scrollbar, .offers::-webkit-scrollbar { display: none; }
+.slide { scroll-snap-align: start; position: relative; display: block; width: 100%; aspect-ratio: 1 / 1.08; padding: 0; border: 0; border-radius: 20px; overflow: hidden; background: #0b0b0b; color: #fff; text-align: left; cursor: pointer; }
+.slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.05) 30%, rgba(0,0,0,.78)); }
+.slide .sl { position: absolute; left: 18px; right: 18px; bottom: 18px; z-index: 1; display: grid; gap: 8px; justify-items: start; }
+.slide .sl b { font: 900 clamp(30px, 9vw, 44px)/.92 var(--display); text-transform: uppercase; letter-spacing: -.02em; }
+.slide .pl { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; background: #fff; color: #0b0b0b; font: 600 12px/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; }
+.dots { display: flex; justify-content: center; gap: 6px; margin: -4px 0 14px; } .dots i { width: 6px; height: 6px; border-radius: 3px; background: var(--line); } .dots i:first-child { width: 18px; background: var(--ink); }
+.ptiles { display: grid; grid-auto-flow: column; grid-auto-columns: 46%; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.ptile { scroll-snap-align: start; display: flex; flex-direction: column; align-items: stretch; padding: 0; border: 0; background: var(--tile); border-radius: 16px; overflow: hidden; min-width: 0; }
+.ptile .pb { gap: 6px; } .ptile b { font: 800 15px/1.05 var(--display); text-transform: uppercase; } .ptile small { color: var(--muted); font-size: 12px; }
+.ptile .btn { width: 100%; margin-top: auto; }
+.again { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 16px; border-radius: 20px; background: #0b0b0b; color: #fff; }
+.again .hint { color: rgba(255,255,255,.75); } .again b { font: 800 17px/1.15 var(--display); text-transform: uppercase; }
+.again .btn { background: #fff; color: #0b0b0b; width: 100%; }
+.offers { grid-auto-columns: minmax(220px, 72%); }
+.offer { border: 0; border-radius: 16px; padding: 16px; background-image: none; }
+.offer .big { font: 900 34px/.9 var(--display); text-transform: uppercase; letter-spacing: -.02em; }
+.tiles2 { gap: 12px; }
+.tile2 { min-height: 150px; border: 0; border-radius: 16px; align-content: end; padding: 14px; color: var(--ink); }
+.tile2 b { font: 800 17px/1 var(--display); text-transform: uppercase; }
+.tile2.ph { position: relative; overflow: hidden; color: #fff; background: #0b0b0b var(--img) center / cover no-repeat; }
+.tile2.ph::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 25%, rgba(0,0,0,.78)); }
+.tile2.ph > * { position: relative; } .tile2.ph span { color: rgba(255,255,255,.88); }
+/* beans: bag art */
+.bagart { border-radius: 16px; display: grid; place-items: center; aspect-ratio: 16 / 10; background: #e9e9e6; overflow: hidden; }
+.bagart.dk { background: #161616; }
+.bagart svg { height: 86%; width: auto; filter: drop-shadow(0 14px 18px rgba(0,0,0,.25)); }
+.bagart .bw { width: 34%; aspect-ratio: .74; filter: drop-shadow(0 14px 16px rgba(0,0,0,.28)); }
+.bag { position: relative; width: 100%; height: 100%; background-size: 22px 22px; clip-path: polygon(10% 7%, 90% 7%, 95% 100%, 5% 100%); display: grid; place-items: center; }
+.bag::before { content: ""; position: absolute; left: 10%; right: 10%; top: 7%; height: 7%; background: rgba(127,127,127,.35); }
+.bag .lb { width: 46%; aspect-ratio: 1; display: grid; place-items: center; border-radius: 4px; margin-top: 8%; box-shadow: 0 0 0 1.5px currentColor; }
+.bag .lb svg { width: 72%; height: 72%; }
+.beanh { font: 800 20px/1 var(--display); text-transform: uppercase; margin: 0; }
+/* bottom nav: white, black centre button */
+.bnav { background: rgba(255,255,255,.96); border-top: 1px solid var(--line); }
+.bnav .side::after { background: var(--ink); }
+.bnav .dot { background: var(--ink); color: #fff; }
+.bnav button.side { text-transform: uppercase; font-size: 10px; letter-spacing: .06em; }
+.fab { background: #0b0b0b; color: #fff; box-shadow: 0 0 0 6px #fff, 0 10px 28px rgba(0, 0, 0, .28); }
+.fab::before, .fab::after { border-color: #0b0b0b; }
+.fab .cnt { background: #fff; color: #0b0b0b; border-color: #0b0b0b; }
+.fab-l { text-transform: uppercase; font-size: 10px; letter-spacing: .06em; } .fab-l.on { color: var(--ink); }
+@keyframes fab-glow { 50% { box-shadow: 0 0 0 6px #fff, 0 0 0 10px rgba(46,125,50,.85), 0 0 30px rgba(46,125,50,.5); } }
+.flydot { background: #0b0b0b; box-shadow: 0 0 12px rgba(0, 0, 0, .35); }
+.sheet .pan { background: #fff; border: 0; box-shadow: 0 -12px 40px rgba(0, 0, 0, .18); }
+.sheet .pan h3 { font: 900 30px/.95 var(--display) !important; text-transform: uppercase; letter-spacing: -.02em; }
+.basket { background: #0b0b0b; color: #fff; }
+.basket .btn { background: #fff; color: #0b0b0b; }
+th { color: var(--muted); }
+.mini { color: #fff; }
 </style>
 
 <div class="wrap" id="wrap">
   <header class="top">
-    <div class="mark" aria-hidden="true"><svg viewBox="-1.5 -1.5 103 103"><defs><clipPath id="bija-clip-a"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></clipPath></defs><g fill="none" stroke="#fff" stroke-width="3"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/><g clip-path="url(#bija-clip-a)"><circle cx="25" cy="0" r="25"/><circle cx="75" cy="0" r="25"/><circle cx="100" cy="25" r="25"/><circle cx="100" cy="75" r="25"/><circle cx="75" cy="100" r="25"/><circle cx="25" cy="100" r="25"/><circle cx="0" cy="75" r="25"/><circle cx="0" cy="25" r="25"/></g></g></svg></div>
-    <div class="brand"><h1>Bija</h1><p>St James's · London</p></div>
-    <a class="site-link" href="index.html?view=site">Website</a>
-    <div class="switch" id="switch" hidden></div>
+    <div class="lft"><a class="site-link" href="index.html?view=site">Website</a></div>
+    <div class="logo">
+      <div class="mark" aria-hidden="true"><svg viewBox="-1.5 -1.5 103 103"><defs><clipPath id="bija-clip-a"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></clipPath></defs><g fill="none" stroke="#fff" stroke-width="3"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/><g clip-path="url(#bija-clip-a)"><circle cx="25" cy="0" r="25"/><circle cx="75" cy="0" r="25"/><circle cx="100" cy="25" r="25"/><circle cx="100" cy="75" r="25"/><circle cx="75" cy="100" r="25"/><circle cx="25" cy="100" r="25"/><circle cx="0" cy="75" r="25"/><circle cx="0" cy="25" r="25"/></g></g></svg></div>
+      <div class="brand"><h1>Bija</h1><p>St James's · London</p></div>
+    </div>
+    <div class="rgt"><div class="switch" id="switch" hidden></div></div>
   </header>
   <div id="demo"></div>
   <nav class="tabs" id="tabs" role="tablist"></nav>
@@ -2701,11 +2886,50 @@ var qrcode = function() {
   const OPT = { milk: ['Whole', 'Oat', 'Soya', 'Coconut'], sweet: ['Less sweet', 'Normal', 'Extra aren'], temp: ['Hot', 'Iced'] };
   const OPT_LABEL = { milk: 'Milk', sweet: 'Sweetness', temp: 'Hot or iced' };
   const HAS = { milk: new Set(['fw', 'lat', 'ks', 'choc', 'tea']), sweet: new Set(['ks', 'tea', 'turmeric', 'cold', 'affogato']), temp: new Set(['fw', 'lat', 'ks', 'choc', 'tea']) };
+  // Bija's own photos (from @bija.london) for menu items; others keep their icon
+  const attrq = (v) => String(v).replace(/"/g, '&quot;');
+  // Grind-style product art: each bean gets a black-and-white batik bag with the Bija mark (no words on it)
+  const BAG_ART = { house: ['#ffffff', '#0b0b0b', 'kawung'], mandheling: ['#0b0b0b', '#ffffff', 'parang'], lintong: ['#2a2a2a', '#ffffff', 'contour'], java: ['#f1f1ef', '#0b0b0b', 'dots'], gayo: ['#0b0b0b', '#ffffff', 'toraja'], kintamani: ['#ffffff', '#0b0b0b', 'grid'], discovery: ['#0b0b0b', '#ffffff', 'kawung'] };
+  const MARK_SVG = '<svg viewBox="-2 -2 104 104" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="6"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg>';
+  function bagArt(id) {
+    const [bg, ink, k] = BAG_ART[id] || BAG_ART.house, light = bg !== '#0b0b0b' && bg !== '#2a2a2a';
+    return `<div class="bagart ${light ? 'dk' : ''}" aria-hidden="true"><div class="bw"><div class="bag" style="background-color:${bg};background-image:${attrq(pat[k](ink, .3))}"><span class="lb" style="background:${bg};color:${ink}">${MARK_SVG}</span></div></div></div>`;
+  }
+  const PHOTO = { esp: 'black-coffee', fw: 'latte-art', lat: 'latte-pour', cold: 'cold-brew' };
+  const thumb = (m) => PHOTO[m.id] ? `<img src="photos/ig/${PHOTO[m.id]}.jpg" alt="" loading="lazy" decoding="async" onerror="this.replaceWith(document.createRange().createContextualFragment(this.dataset.fb))" data-fb="${esc(icon(m.ic))}">` : icon(m.ic);
   const optsFor = (m) => { if (!m || m.cat === 'Cakes' || m.cat === 'Beans') return null; const o = {}; for (const k of Object.keys(OPT)) if (HAS[k].has(m.id)) o[k] = OPT[k]; return Object.keys(o).length ? o : null; };
   const keyOf = (id, opts) => opts && Object.keys(opts).length ? [id, opts.milk || '', opts.sweet || '', opts.temp || ''].join('~') : id;
   const optText = (l) => l.opts ? Object.values(l.opts).filter(Boolean).join(' · ') : '';
   const weekKey = (iso) => { const d = new Date(iso); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d.toISOString().slice(0, 10); };
   const GIFT_AMOUNTS = [10, 25, 50];
+  // ----- beans shop and Beans Club: same catalogue, keys and rules as shop.html on the website -----
+  const SHOP = [
+    { id: 'house', menu: 'b-house', name: 'Bija House Blend', price: 12 },
+    { id: 'mandheling', menu: 'b-mandheling', name: 'Sumatra Mandheling', price: 12, origin: 'mandheling' },
+    { id: 'lintong', menu: 'b-lintong', name: 'Sumatra Lintong', price: 12, origin: 'lintong' },
+    { id: 'java', menu: 'b-oldbrown', name: 'Old Brown Java', price: 12, origin: 'java' },
+    { id: 'gayo', menu: 'b-gayo', name: 'Aceh Gayo', price: 12, origin: 'gayo', soon: true },
+    { id: 'kintamani', menu: 'b-kintamani', name: 'Bali Kintamani', price: 12, origin: 'kintamani', soon: true },
+    { id: 'discovery', name: 'Discovery set', price: 33, set: ['mandheling', 'lintong', 'java'], desc: 'Sumatra Mandheling, Sumatra Lintong and Old Brown Java, 3 × 200 g' },
+  ];
+  const GRINDS = ['Whole bean', 'Espresso', 'Moka pot', 'Filter', 'Cafetière', 'V60', 'AeroPress'];
+  const PLANS = { once: 'One-off', '2w': 'Every 2 weeks', '3w': 'Every 3 weeks', '4w': 'Every 4 weeks' };
+  const SUB_OFF = 0.10, POST = 3.95, FREE_POST = 30;
+  const product = (id) => SHOP.find((x) => x.id === id);
+  const r2 = (n) => Math.round((+n || 0) * 100) / 100;
+  const unitOf = (pr, plan) => plan && plan !== 'once' ? r2(pr.price * (1 - SUB_OFF)) : pr.price;
+  const planDays = (plan) => ({ '2w': 14, '3w': 21, '4w': 28 })[plan] || 0;
+  const originsOf = (pid) => { const pr = product(pid); return !pr ? [] : pr.set ? pr.set.map((x) => product(x).origin) : pr.origin ? [pr.origin] : []; };
+  const ukDay = (iso) => { try { return new Date(iso + 'T12:00:00Z').toLocaleDateString('en-GB', { timeZone: 'Europe/London', weekday: 'short', day: 'numeric', month: 'long' }); } catch { return iso; } };
+  const UK_POSTCODE = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/i;
+  const REFER = 300; // points for the new member and for the friend who invited them, both confirmed by the bar
+  // PROPOSED offers: for the owner to confirm before launch. Staff apply them at the till; the app never discounts on its own.
+  const OFFERS = [
+    { id: 'cup', big: '25p off', title: 'Bring your own cup', terms: 'Any hot drink in a clean reusable cup. Every day, at the till.' },
+    { id: 'early', big: 'Double points', title: 'Early bird', terms: 'Mon–Fri before 9am. Show your Bija Card when you pay and the barista adds the double points.' },
+    { id: 'student', big: '10% off', title: 'Students', terms: 'Show a valid student card (TOTUM or university ID) at the till. Not with other offers.' },
+    { id: 'club', big: '10% off beans', title: 'Beans Club', terms: 'Subscribe to any bag: £10.80 for 200 g, free UK delivery, skip, pause or cancel any time.', act: 'beans' },
+  ];
   const memberCode = (uid) => uid ? 'BIJA-' + String(uid).replace(/[^a-z0-9]/gi, '').slice(-5).toUpperCase() : 'BIJA-·····';
   const STATUS = { received: 'Received', brewing: 'Brewing', ready: 'Ready', collected: 'Collected', cancelled: 'Cancelled' };
   const FLOW = { received: 'brewing', brewing: 'ready', ready: 'collected' };
@@ -2769,6 +2993,7 @@ var qrcode = function() {
     cart: {}, form: { name: '', milk: 'Whole', sweet: 'Normal', slot: 'ASAP', note: '', reward: '', gift: false },
     gift: { amount: 25, custom: '', to: '', from: '', message: '', design: 'noir' }, redeemCode: '', instore: { code: '', amount: '' }, showScan: false, bump: false,
     busy: false, lastOrder: null, spot: null, dealt: null, fresh: -1, rate: {}, draft: null, theme: 'noir',
+    pick: {}, sf: { method: 'collect', name: '', email: '', address: '', postcode: '' }, shopDone: null, subDel: null, refCode: '', bagMem: [],
   };
   const $ = (s) => document.querySelector(s);
   const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -2790,8 +3015,8 @@ var qrcode = function() {
     leaf: (c, o = .2) => `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'><g fill='${c}' fill-opacity='${o}'><path d='M10 40 Q24 14 50 12 Q44 38 10 40Z'/><path d='M40 66 Q50 48 70 46 Q64 64 40 66Z'/></g></svg>`)}")`,
   };
   const THEMES = [
-    { id: 'noir', name: 'Kawung Noir', rec: true, why: 'White Kawung beans on solid black. Batik heritage that reads as coffee, in the sharpest contrast.', bg: '#0b0b0b', ink: '#ffffff', stamp: '#ffffff', sink: '#0b0b0b', p: pat.kawung('#ffffff', .16) },
-    { id: 'paper', name: 'Kawung Paper', why: 'The same motif inverted: black beans on white, like a printed loyalty card.', bg: '#ffffff', ink: '#0b0b0b', stamp: '#0b0b0b', sink: '#ffffff', empty: 'rgba(0,0,0,.3)', sub: 'rgba(0,0,0,.6)', p: pat.kawung('#0b0b0b', .09) },
+    { id: 'noir', name: 'Kawung Noir', rec: true, why: 'White Kawung beans on solid black. Batik heritage that reads as coffee, in the sharpest contrast.', bg: '#0b0b0b', ink: '#ffffff', stamp: '#ffffff', sink: '#0b0b0b', p: pat.kawung('#ffffff', .085) },
+    { id: 'paper', name: 'Kawung Paper', why: 'The same motif inverted: black beans on white, like a printed loyalty card.', bg: '#ffffff', ink: '#0b0b0b', stamp: '#0b0b0b', sink: '#ffffff', empty: 'rgba(0,0,0,.3)', sub: 'rgba(0,0,0,.6)', p: pat.kawung('#0b0b0b', .06) },
     { id: 'parang', name: 'Parang Ink', why: 'Diagonal Parang batik waves in grey on black. Moves when you tilt the phone.', bg: '#111111', ink: '#f4f4f4', stamp: '#f4f4f4', sink: '#111111', p: pat.parang('#ffffff', .14), size: '40px 40px' },
     { id: 'parangw', name: 'Parang Paper', why: 'Black Parang waves on off-white. Quiet and editorial.', bg: '#f1f1ef', ink: '#0b0b0b', stamp: '#0b0b0b', sink: '#f1f1ef', empty: 'rgba(0,0,0,.3)', sub: 'rgba(0,0,0,.6)', p: pat.parang('#0b0b0b', .1), size: '40px 40px' },
     { id: 'contour', name: 'Highland Contour', why: 'Map contour lines of the Gayo highlands on charcoal.', bg: '#1c1c1c', ink: '#f4f4f4', stamp: '#f4f4f4', sink: '#1c1c1c', p: pat.contour('#ffffff', .22) },
@@ -2803,14 +3028,18 @@ var qrcode = function() {
   ];
   const themeById = (id) => THEMES.find((t) => t.id === id) || THEMES[0];
   function cardStyle(t) {
-    return `--c-bg:${t.bg};--c-ink:${t.ink};--c-stamp:${t.stamp};--c-stamp-ink:${t.sink};--c-empty:${t.empty || 'rgba(255,255,255,.4)'};--c-sub:${t.sub || 'color-mix(in srgb, ' + t.ink + ' 72%, transparent)'};background-image:${t.p};${t.size ? `background-size:${t.size};` : ''}${t.font ? `--c-font:'${t.font}',sans-serif;` : ''}`;
+    return `--c-bg:${t.bg};--c-ink:${t.ink};--c-stamp:${t.stamp};--c-stamp-ink:${t.sink};--c-empty:${t.empty || 'rgba(255,255,255,.4)'};--c-sub:${t.sub || 'color-mix(in srgb, ' + t.ink + ' 72%, transparent)'};background-image:${t.p};${t.size ? `background-size:${t.size};` : ''}${t.font ? `--c-font:'${t.font}',sans-serif;` : ''}`.replace(/"/g, '&quot;');
   }
   const bean = `<svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="11" ry="15" transform="rotate(25 20 20)" fill="currentColor"/><path d="M20 6c-6 6 6 10 0 14s-6 8 0 14" transform="rotate(25 20 20)" stroke="var(--c-stamp)" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`;
+  const cardMark = '<g fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/><circle cx="50" cy="50" r="9"/></g>';
   function cardHTML(t, { name = '', no = '', pts = 0, tier = 'Seed', pct = 0, next = '', bump = false } = {}) {
-    return `<div class="bcard ${bump ? 'bump' : ''}" style="${cardStyle(t)}">
-      <div class="t"><div><div class="name">Bija Card</div><div class="who">${esc(name)}</div></div><div class="no">${esc(tier.toUpperCase())}<br>${esc(no)}</div></div>
-      <div class="pts"><b>${Number(pts).toLocaleString('en-GB')}</b><span>points</span></div>
-      <div class="prg"><i style="width:${Math.max(0, Math.min(100, pct))}%"></i></div>
+    const tid = (TIERS.find((x) => x.name === tier) || TIERS[0]).id;
+    return `<div class="bcard tier-${tid} ${bump ? 'bump' : ''}" style="${cardStyle(t)}">
+      <i class="gl" aria-hidden="true"></i>
+      <svg class="bm" viewBox="-2 -2 104 104" aria-hidden="true">${cardMark}</svg>
+      <div class="t"><div><div class="name">Bija Card</div><div class="who">${esc(name)}</div></div><div class="no"><span class="tier">${esc(tier.toUpperCase())}</span>${esc(no)}</div></div>
+      <div class="pts"><b data-to="${Number(pts) || 0}">${Number(pts).toLocaleString('en-GB')}</b><span>points</span></div>
+      <div class="prg"><i style="width:${Math.max(0, Math.min(100, pct))}%"></i><em style="left:${Math.max(0, Math.min(100, pct))}%"></em></div>
       <div class="f"><span>${esc(next)}</span><span>Bija Coffee</span></div>
     </div>`;
   }
@@ -2836,14 +3065,39 @@ var qrcode = function() {
       .sort((x, y) => String(y.createdAt).localeCompare(String(x.createdAt)));
   }
   const tierAt = (p) => TIERS.filter((t) => p >= t.min).pop();
+  // beans shop orders (app or web) are written by the customer; dispatched or collected is written by the bar
+  function shopOf(c, b) {
+    return Object.entries((c && c.shop) || {}).map(([id, o]) => ({ id, ...o, status: o.cancelled ? 'cancelled' : (b?.shop?.[id]?.status || 'placed'), doneAt: b?.shop?.[id]?.at }))
+      .sort((x, y) => String(y.createdAt).localeCompare(String(x.createdAt)));
+  }
+  // next Beans Club delivery: the first date on the schedule after the last one the bar sent that isn't skipped
+  function nextDelivery(sub, done = []) {
+    const n = planDays(sub.plan);
+    if (sub.cancelled || sub.paused || !n || !/^\d{4}-\d{2}-\d{2}$/.test(sub.start || '')) return null;
+    const last = done.slice().sort().pop() || '', skips = sub.skips || {};
+    let d = sub.start;
+    for (let i = 0; i < 520; i++, d = addDays(d, n)) if (d > last && !skips[d]) return d;
+    return null;
+  }
+  function subsOf(c, b) {
+    return Object.entries((c && c.subs) || {}).map(([id, x]) => {
+      const done = Object.keys(b?.subs || {}).filter((k) => k.startsWith(id + '@')).map((k) => k.slice(id.length + 1));
+      return { id, ...x, done, next: nextDelivery(x, done) };
+    }).sort((a, z) => String(a.createdAt).localeCompare(String(z.createdAt)));
+  }
   function stats(c, b) {
     const os = ordersOf(c, b), col = os.filter((o) => o.status === 'collected'), live = os.filter((o) => o.status !== 'cancelled');
     const asc = col.slice().sort((x, y) => String(x.createdAt).localeCompare(String(y.createdAt)));
     // points are earned only on orders the bar marked collected and on in-store spend the bar added
-    const earns = [...asc.map((o) => ({ at: o.createdAt, amount: +o.total || 0, label: `Order ${o.code}` })), ...Object.values(b?.instore || {}).map((x) => ({ at: x.at, amount: +x.amount || 0, label: 'In store' }))]
+    // …and, the same way, on beans orders the bar dispatched or handed over and on Beans Club deliveries the bar sent
+    const shop = shopOf(c, b), shopDone = shop.filter((o) => o.status === 'dispatched' || o.status === 'collected').sort((x, y) => String(x.doneAt || x.createdAt).localeCompare(String(y.doneAt || y.createdAt)));
+    const earns = [...asc.map((o) => ({ at: o.createdAt, amount: +o.total || 0, label: `Order ${o.code}`, sub: 'App' })),
+      ...Object.values(b?.instore || {}).map((x) => ({ at: x.at, amount: +x.amount || 0, label: x.double ? 'In store · early bird' : 'In store', sub: 'Café', x: x.double ? 2 : 1 })),
+      ...shopDone.map((o) => ({ at: o.doneAt || o.createdAt, amount: +o.subtotal || 0, label: `Beans order ${o.code}`, sub: o.source === 'web' ? 'Web shop' : 'App shop' })),
+      ...Object.entries(b?.subs || {}).map(([k, x]) => ({ at: x.at, amount: +x.amount || 0, label: 'Beans Club delivery', sub: x.name || 'Subscription' }))]
       .sort((x, y) => String(x.at).localeCompare(String(y.at)));
     let lifetime = 0; const hist = [];
-    for (const e of earns) { const pts = Math.round(e.amount * PTS * (1 + tierAt(lifetime).boost)); lifetime += pts; hist.push({ at: e.at, label: e.label, sub: money(e.amount), pts }); }
+    for (const e of earns) { const pts = Math.round(e.amount * PTS * (e.x || 1) * (1 + tierAt(lifetime).boost)); lifetime += pts; hist.push({ at: e.at, label: e.label, sub: money(e.amount) + ' · ' + e.sub, pts }); }
     const dealt = SPOTS.slice(0, Math.min(SPOTS.length, 1 + col.length));
     const visited = c?.secret?.visited || {};
     const found = dealt.filter((x) => visited[x.id]).length;
@@ -2852,7 +3106,8 @@ var qrcode = function() {
     // challenge bonuses share a monthly cap; a bonus past the cap is trimmed, or left out of the history when nothing is left
     const capUsed = new Map();
     const challenge = (at, label, pts) => { const mk = monthOf(at), used = capUsed.get(mk) || 0, give = Math.max(0, Math.min(pts, CHALLENGE_CAP - used)); if (!give) return; capUsed.set(mk, used + give); bonus(at, label, give, give < pts ? `Bonus · capped at ${CHALLENGE_CAP} a month` : 'Bonus'); };
-    if (asc.length) bonus(asc[0].createdAt, 'Welcome to Bija', BONUS.welcome);
+    const firstAt = [asc[0]?.createdAt, shopDone[0]?.doneAt || shopDone[0]?.createdAt].filter(Boolean).sort()[0];
+    if (firstAt) bonus(firstAt, 'Welcome to Bija', BONUS.welcome);
     for (const o of asc) {
       const had = origins.size; for (const l of o.lines || []) if (l.origin) origins.add(l.origin);
       if (had < ORIGINS.length && origins.size === ORIGINS.length) bonus(o.createdAt, 'Origins Passport complete', BONUS.passport);
@@ -2863,6 +3118,14 @@ var qrcode = function() {
       const d = new Date(o.createdAt);
       if (bm && d.getMonth() + 1 === bm && !bdYears.has(d.getFullYear())) { bdYears.add(d.getFullYear()); challenge(o.createdAt, 'Happy birthday', BONUS.birthday); }
     }
+    for (const o of shopDone) {
+      const had = origins.size; for (const l of o.lines || []) for (const og of originsOf(l.id)) origins.add(og);
+      if (had < ORIGINS.length && origins.size === ORIGINS.length) bonus(o.doneAt || o.createdAt, 'Origins Passport complete', BONUS.passport);
+    }
+    // referrals: only what the bar confirmed counts, for the new member and for whoever invited them
+    if (b?.referral?.at && !b.referral.rejected) bonus(b.referral.at, 'Friend\'s invite: welcome gift', REFER, 'Referral');
+    const refs = Object.values(b?.refCredits || {});
+    for (const x of refs) bonus(x.at, `You invited ${x.name || 'a friend'}`, REFER, 'Referral');
     if (found === SPOTS.length) bonus(Object.values(visited).sort().pop(), 'Secret St James\'s complete', BONUS.secret);
     for (const o of live) if (o.reward) hist.push({ at: o.createdAt, label: `Reward: ${o.reward.name}`, sub: `Order ${o.code}`, pts: -o.reward.pts });
     hist.sort((x, y) => String(y.at).localeCompare(String(x.at)));
@@ -2871,7 +3134,8 @@ var qrcode = function() {
     const giftUsed = live.reduce((a, o) => a + (+o.giftPay || 0), 0);
     return { os, col, lifetime, spent, balance: Math.max(0, lifetime - spent), tier: tierAt(lifetime), nextTier: TIERS.find((t) => t.min > lifetime), hist,
       thisWeek: weeks.get(weekKey(new Date().toISOString())) || 0, kinds: kinds.size, birthMonth: bm, capLeft: Math.max(0, CHALLENGE_CAP - (capUsed.get(monthOf(new Date().toISOString())) || 0)),
-      dealt, visited, found, origins, credits, wallet: Math.max(0, Math.round((credits - giftUsed) * 100) / 100), instore: Object.keys(b?.instore || {}).length };
+      dealt, visited, found, origins, credits, wallet: Math.max(0, Math.round((credits - giftUsed) * 100) / 100), instore: Object.keys(b?.instore || {}).length,
+      shop, shopDone, subs: subsOf(c, b), refs };
   }
   const mine = () => stats(S.me, S.bar);
   const cartLines = () => Object.entries(S.cart).filter(([, q]) => q > 0).map(([key, qty]) => {
@@ -2898,13 +3162,46 @@ var qrcode = function() {
     $('#wrap').classList.toggle('wide', S.view === 'bar'); document.body.classList.toggle('barista-view', S.view === 'bar');
     renderSwitch(); renderTabs();
     const sl = document.querySelector('.site-link'); if (sl) sl.hidden = !S.demo; // the claude.ai page has no website beside it
-    $('#demo').innerHTML = S.demo ? `<div class="demo">Demo: Concept mockup by Firman Insan M. Not affiliated with or endorsed by Bija Coffee. Orders, points and gift cards stay in this browser; switch to Barista to play both sides. <a href="index.html" style="color:inherit">Website</a></div>` : '';
+    $('#demo').innerHTML = '';
     const pageKey = S.view + ':' + (S.view === 'bar' ? S.btab : S.tab);
     $('#main').innerHTML = S.view === 'bar' ? barista() : customer();
     if (pageKey !== S.lastPage) { S.lastPage = pageKey; const mn = $('#main'); mn.classList.remove('enter'); void mn.offsetWidth; mn.classList.add('enter'); }
-    watchCheckout(); renderBasket(); renderSheet();
+    watchCheckout(); renderBasket(); renderSheet(); cardFx();
     if (aid) { const el = document.getElementById(aid); if (el) { el.focus({ preventScroll: true }); try { if (s0 != null) el.setSelectionRange(s0, s1); } catch {} } }
   }
+  // card motion: points count up when they change, the card leans towards a finger or the mouse
+  let shownPts = null;
+  function cardFx() {
+    const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const b = document.querySelector('#main .face .bcard .pts b, #main .hc .bcard .pts b');
+    if (b) {
+      const to = +b.dataset.to, from = shownPts == null ? Math.max(0, to - Math.min(to, 400)) : shownPts;
+      shownPts = to;
+      if (!calm && from !== to) {
+        const t0 = performance.now(), D = 900;
+        const step = (t) => { const k = Math.min(1, (t - t0) / D), e = 1 - Math.pow(1 - k, 3); if (!b.isConnected) return; b.textContent = Math.round(from + (to - from) * e).toLocaleString('en-GB'); if (k < 1) requestAnimationFrame(step); };
+        b.textContent = from.toLocaleString('en-GB'); requestAnimationFrame(step);
+      }
+    }
+    if (calm) return;
+    document.querySelectorAll('#main .face .bcard, #main .hc .bcard').forEach((c) => {
+      if (c.dataset.fx) return; c.dataset.fx = 1;
+      const move = (e) => { const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        if (x < 0 || x > 1 || y < 0 || y > 1) return;
+        c.classList.add('tilting'); c.style.setProperty('--tx', ((x - .5) * 14).toFixed(2) + 'deg'); c.style.setProperty('--ty', ((.5 - y) * 10).toFixed(2) + 'deg');
+        c.style.setProperty('--mx', (x * 100).toFixed(1) + '%'); c.style.setProperty('--my', (y * 100).toFixed(1) + '%'); c.style.setProperty('--go', 1); };
+      const out = () => { c.classList.remove('tilting'); ['--tx', '--ty'].forEach((v) => c.style.setProperty(v, '0deg')); c.style.setProperty('--go', 0); };
+      c.addEventListener('pointermove', move); c.addEventListener('pointerleave', out); c.addEventListener('pointerup', out); c.addEventListener('pointercancel', out);
+    });
+  }
+  // phones: lean the card with the device when the browser shares orientation without asking (Android)
+  addEventListener('deviceorientation', (e) => {
+    if (e.gamma == null || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const c = document.querySelector('#main .face .bcard, #main .hc .bcard'); if (!c || c.classList.contains('tilting')) return;
+    const gx = Math.max(-20, Math.min(20, e.gamma)), gy = Math.max(-20, Math.min(20, (e.beta || 45) - 45));
+    c.style.setProperty('--tx', (gx * .35).toFixed(2) + 'deg'); c.style.setProperty('--ty', (-gy * .25).toFixed(2) + 'deg');
+    c.style.setProperty('--mx', (50 + gx * 2).toFixed(1) + '%'); c.style.setProperty('--my', (50 + gy * 2).toFixed(1) + '%'); c.style.setProperty('--go', .8);
+  });
   function renderSwitch() {
     const sw = $('#switch'); sw.hidden = !S.admin;
     if (S.admin) sw.innerHTML = `<button data-act="view" data-v="customer" aria-pressed="${S.view === 'customer'}">Customer</button><button data-act="view" data-v="bar" aria-pressed="${S.view === 'bar'}">Barista</button>`;
@@ -2914,12 +3211,14 @@ var qrcode = function() {
     if (S.view === 'bar') {
       const open = S.customers.reduce((a, c) => a + ordersOf(c, S.bars[c.id]).filter((o) => o.status !== 'collected' && o.status !== 'cancelled').length, 0);
       const waiting = giftData().claims.length + giftData().gifts.filter((g) => !g.paid).length;
-      tabs = [['queue', 'Queue', open], ['members', 'Members'], ['gifts', 'Gift cards', waiting], ['insights', 'Insights'], ['finance', 'Finance'], ['menu', 'Menu']]; key = 'btab';
+      const toSend = S.customers.reduce((a, c) => a + shopOf(c, S.bars[c.id]).filter((o) => o.status === 'placed').length, 0) + subsDue().length;
+      const refWait = refsToConfirm().length;
+      tabs = [['queue', 'Queue', open], ['shop', 'Web & delivery', toSend], ['members', 'Members', refWait], ['gifts', 'Gift cards', waiting], ['insights', 'Insights'], ['finance', 'Finance'], ['menu', 'Menu']]; key = 'btab';
     } else {
       const st = mine(), live = st.os.filter((o) => o.status !== 'collected' && o.status !== 'cancelled').length;
       const canRedeem = REWARDS.filter((r) => st.balance >= r.pts).length;
       const qty = cartLines().reduce((a, l) => a + l.qty, 0), ready = st.os.some((o) => o.status === 'ready');
-      const cur = ['home', 'beans', 'secret', 'gifts', 'orders'].includes(S.tab) ? 'home' : S.tab;
+      const cur = ['home', 'beans', 'secret', 'gifts', 'orders', 'club'].includes(S.tab) ? 'home' : S.tab;
       const side = (id, l, path, n) => `<button class="side" data-act="tab" data-v="${id}" ${cur === id ? 'aria-current="page"' : ''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">${path}</svg>${l}${n ? `<span class="dot">${n}</span>` : ''}</button>`;
       const nav = $('#bnav');
       if (!nav.querySelector('.fab')) nav.innerHTML = `<div class="in"><span id="nav-l"></span><div><button class="fab" data-act="fab" aria-label="Order"><svg viewBox="-6 -6 112 112" aria-hidden="true"><defs><clipPath id="fab-clip"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></clipPath></defs><g class="mk2" fill="none" stroke="currentColor" stroke-width="4"><circle class="m" cx="50" cy="25" r="25"/><circle class="m" cx="75" cy="50" r="25"/><circle class="m" cx="50" cy="75" r="25"/><circle class="m" cx="25" cy="50" r="25"/><g clip-path="url(#fab-clip)" stroke-width="2.4"><circle cx="25" cy="0" r="25"/><circle cx="75" cy="0" r="25"/><circle cx="100" cy="25" r="25"/><circle cx="100" cy="75" r="25"/><circle cx="75" cy="100" r="25"/><circle cx="25" cy="100" r="25"/><circle cx="0" cy="75" r="25"/><circle cx="0" cy="25" r="25"/></g></g></svg><span class="cnt" hidden></span></button><span class="fab-l">Order</span></div><span id="nav-r"></span></div>`;
@@ -3010,6 +3309,7 @@ var qrcode = function() {
     if (S.tab === 'gifts') return back + giftsPage();
     if (S.tab === 'secret') return back + secretPage();
     if (S.tab === 'orders') return back + ordersPage();
+    if (S.tab === 'club') return back + clubPage();
     return orderPage();
   }
   function dishRatings() {
@@ -3042,30 +3342,42 @@ var qrcode = function() {
     if (fav) usual = ['ks', 'fw', 'cold'].map((id) => menu().find((m) => m.id === id && m.available)).filter(Boolean).map((m) => ({ key: m.id, l: { id: m.id, name: m.name }, m }));
     const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) && !navigator.standalone;
     const showInstall = S.demo && /^https?:$/.test(location.protocol) && !matchMedia('(display-mode: standalone)').matches && store.get('bija.install') !== 'no' && (S.installEvt || ios);
+    const xmas = [9, 10, 11].includes(new Date().getMonth());
+    const slides = [
+      { img: 'photos/ig/latte-pour.jpg', ey: 'Order ahead', t: 'Skip the queue', pl: 'Order now', act: 'data-act="tab" data-v="order"' },
+      { img: 'photos/feature-1.jpg', ey: 'Beans Club', t: 'Save 10% on every bag', pl: 'Subscribe', act: 'data-act="tab" data-v="club"' },
+      { img: 'photos/ig/latte-art.jpg', ey: xmas ? 'Christmas' : 'Gifts', t: `${xmas ? 'Christmas gift' : 'Gift'} cards from £5`, pl: 'Send one', act: 'data-act="tab" data-v="gifts"' },
+      { img: 'photos/feature-2.jpg', ey: 'Secret St James\'s', t: 'Find the hidden streets', pl: 'Start the trail', act: 'data-act="tab" data-v="secret"' },
+    ];
+    const tileImg = (m) => `<div class="pimg"${PHOTO[m.id] ? '' : ` style="background-image:${attrq(pat.kawung('#ffffff', .09))}"`}>${thumb(m)}</div>`;
     return `<div class="greet">${hello}${name ? ', ' + esc(name) : ''}.</div>
+      <div class="promos" aria-label="Highlights">${slides.map((x) => `<button class="slide" ${x.act}><img src="${x.img}" alt="" loading="lazy" decoding="async"><span class="sl"><span class="eyebrow">${esc(x.ey)}</span><b>${esc(x.t)}</b><span class="pl">${esc(x.pl)}</span></span></button>`).join('')}</div>
+      <div class="dots" aria-hidden="true">${slides.map(() => '<i></i>').join('')}</div>
       ${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
-      <button class="mini" data-act="tab" data-v="card" style="width:100%;text-align:left;color:#fff;background-image:${pat.kawung('#ffffff', .08)}">
-        <div><span class="hint">Bija Card · ${esc(st.tier.name)}</span><div class="n">${st.balance.toLocaleString('en-GB')} <span style="font-size:14px;color:var(--muted)">points</span></div></div>
-        <span class="btn sm" style="background:#fff;color:#000">Scan</span>
-        <div class="prog" style="grid-column:1/-1;background:rgba(255,255,255,.18)"><i style="width:${nextR ? (st.balance / nextR.pts) * 100 : 100}%;background:#fff"></i></div>
-        <span class="hint" style="grid-column:1/-1">${nextR ? `${nextR.pts - st.balance} points to ${nextR.name.toLowerCase()}` : 'Every reward unlocked. Choose one at checkout.'}<br><span style="color:#fff">${st.os.length ? `Free cake every ~£${Math.round(REWARDS[0].pts / PTS)} · free drink every £${Math.round(REWARDS[1].pts / PTS)}` : `+${BONUS.welcome} welcome points on your first order`}</span></span>
+      <button class="hc" data-act="tab" data-v="card" aria-label="Open your Bija Card">
+        ${cardHTML(themeById(S.theme), { name: name || 'Tap to scan at the till', no: memberCode(S.uid), pts: st.balance, tier: st.tier.name, pct: nextR ? (st.balance / nextR.pts) * 100 : 100, next: nextR ? `${nextR.pts - st.balance} points to ${nextR.name.toLowerCase()}` : 'Every reward unlocked' })}
+        <span class="hint">${st.os.length ? `Free cake every ~£${Math.round(REWARDS[0].pts / PTS)} · free drink every £${Math.round(REWARDS[1].pts / PTS)}` : `+${BONUS.welcome} welcome points on your first order`}</span>
       </button>
-      <button class="promo" data-act="tab" data-v="gifts"><span>${[9, 10, 11].includes(new Date().getMonth()) ? 'Christmas gift cards' : 'Gift cards'} from £5</span><span aria-hidden="true">→</span></button>
+      <button class="btn xl" data-act="fab" style="margin:6px 0 14px">Order now</button>
+      ${st.col[0] ? (() => { const o = st.col[0], ok = (o.lines || []).some((l) => menu().some((m) => m.id === l.id && m.available)); return `<div class="again"><div><span class="hint eyebrow">Order again</span><br><b>${(o.lines || []).map((l) => `${l.qty}× ${esc(l.name)}${optText(l) ? ` (${esc(optText(l))})` : ''}`).join(', ')}</b></div><button class="btn sm" data-act="reorder" data-id="${esc(o.id)}" ${isOpen() && ok ? '' : 'disabled'}>Order again</button></div>`; })() : ''}
       ${(() => { const o = openState(); return `<div class="hours"><span class="chip ${o.open ? 'open' : 'closed'}">${o.text}</span><a href="${MAPS}" target="_blank" rel="noopener">Directions</a></div>`; })()}
       ${showInstall ? `<div class="install" style="margin-top:12px"><span><b>Put Bija on your home screen</b><br><span class="hint">${S.installEvt ? 'One tap, opens full screen like an app.' : 'Tap Share, then “Add to Home Screen”.'}</span></span><span class="row">${S.installEvt ? '<button class="btn sm" data-act="install">Install</button>' : ''}<button class="btn sm ghost" data-act="noinstall">Not now</button></span></div>` : ''}
+      <section class="sec"><div class="sec-h"><h2>Offers</h2><small>Show your Bija Card at the till</small></div>
+        <div class="offers">${OFFERS.map((o) => `<article class="offer"><span class="big">${esc(o.big)}</span><b>${esc(o.title)}</b><span class="hint">${esc(o.terms)}</span>${o.act ? `<button class="btn sm" data-act="tab" data-v="${o.act}">Shop beans</button>` : '<button class="btn sm ghost" data-act="showcard">Show my card</button>'}</article>`).join('')}</div>
+      </section>
       <section class="sec"><div class="sec-h"><h2>${fav ? 'House favourites' : 'Your usual'}</h2><button class="back" data-act="tab" data-v="order" style="padding:0">Full menu ›</button></div>
-        <div class="list">${usual.map((u) => `<div class="usual"><div><b>${esc(u.m.name)}</b><small>${esc(optText(u.l) || u.m.desc || '')} · ${money(u.m.price)}</small></div>${fav && optsFor(u.m) ? `<button class="btn sm dark" data-act="sheet" data-id="${esc(u.m.id)}" ${isOpen() ? '' : 'disabled'}>Add</button>` : `<button class="btn sm dark" data-act="kadd" data-key="${esc(u.key)}" ${isOpen() ? '' : 'disabled'}>Add</button>`}</div>`).join('')}</div>
+        <div class="ptiles">${usual.map((u) => `<article class="ptile usual">${tileImg(u.m)}<div class="pb"><b>${esc(u.m.name)}</b><small>${esc(optText(u.l) || u.m.desc || '')}</small><small><b style="font:600 14px var(--sans);text-transform:none">${money(u.m.price)}</b></small>${fav && optsFor(u.m) ? `<button class="btn sm" data-act="sheet" data-id="${esc(u.m.id)}" ${isOpen() ? '' : 'disabled'} aria-label="Add ${esc(u.m.name)}">Add</button>` : `<button class="btn sm" data-act="kadd" data-key="${esc(u.key)}" ${isOpen() ? '' : 'disabled'} aria-label="Add ${esc(u.m.name)}">Add</button>`}</div></article>`).join('')}</div>
       </section>
       ${f && filt ? `<div class="filter"><div><span class="hint">On filter today</span><b>${esc(f.name)}, ${esc(f.where)}</b><div class="notes">${f.notes.map((n) => `<span>${esc(n)}</span>`).join('')}</div></div><button class="btn sm dark" data-act="qty" data-id="${esc(filt.id)}" data-d="1" ${isOpen() ? '' : 'disabled'}>Add · ${money(filt.price)}</button></div>` : ''}
       <section class="sec tiles2">
-        <button class="tile2" data-act="tab" data-v="beans"><b>Beans</b><span>${menu().filter((m) => m.cat === 'Beans' && m.available).length} to take home · ${st.origins.size}/${ORIGINS.length} passport</span></button>
-        <button class="tile2" data-act="tab" data-v="secret"><b>Secret St James's</b><span>${st.found}/${SPOTS.length} found${st.dealt.some((x) => !st.visited[x.id]) ? ' · new card waiting' : ''}</span></button>
-        <button class="tile2" data-act="tab" data-v="gifts"><b>Gift cards</b><span>${st.wallet ? money(st.wallet) + ' balance' : 'Send one from £5'}</span></button>
-        <button class="tile2" data-act="tab" data-v="orders"><b>My orders</b><span>${st.os.length ? st.os.length + ' so far · reorder in one tap' : 'Your order history'}</span></button>
+        <button class="tile2 ph" style="--img:url('photos/ig/iced-pour.jpg')" data-act="tab" data-v="beans"><b>Beans shop</b><span>${(() => { const nx = st.subs.filter((x) => x.next).map((x) => x.next).sort()[0]; return nx ? 'Beans Club · next ' + esc(ukDay(nx)) : 'Delivered or collect · subscribe & save 10%'; })()}</span></button>
+        <button class="tile2 ph" style="--img:url('photos/shop-3.jpg')" data-act="tab" data-v="secret"><b>Secret St James's</b><span>${st.found}/${SPOTS.length} found${st.dealt.some((x) => !st.visited[x.id]) ? ' · new card waiting' : ''}</span></button>
+        <button class="tile2 ph" style="--img:url('photos/ig/cappuccino.jpg')" data-act="tab" data-v="gifts"><b>Gift cards</b><span>${st.wallet ? money(st.wallet) + ' balance' : 'Send one from £5'}</span></button>
+        <button class="tile2" data-act="tab" data-v="orders"><b>My orders</b><span>${st.os.length + st.shop.length ? (st.os.length + st.shop.length) + ' so far · café, app and shop' : 'Your order history'}</span></button>
       </section>
       ${whatsOn()}
       ${cfg().award ? `<p class="hint" style="margin-top:16px">★ ${esc(cfg().award)}</p>` : ''}
-      <footer class="foot">${S.demo ? '<a href="privacy.html">Privacy</a><a href="accessibility.html">Accessibility</a>' : ''}<span>Allergies? Ask our team before you order.</span></footer>`;
+      <footer class="foot">${S.demo ? '<a href="privacy.html">Privacy</a><a href="accessibility.html">Accessibility</a>' : ''}<span>Allergies? Ask our team before you order.</span>${S.demo ? '<span>Concept by Firman Insan M, not affiliated with Bija Coffee.</span>' : ''}</footer>`;
   }
   function orderPage() {
     if (S.lastOrder) return confirmation();
@@ -3082,10 +3394,10 @@ var qrcode = function() {
       <div class="menu">${menu().filter((m) => m.cat === S.cat).map((m) => {
         const q = itemQty(m.id), off = !m.available || !open, rr = rt[m.id];
         return `<article class="prod ${m.available ? '' : 'off'}">
-          <div class="ic">${icon(m.ic)}</div>
-          <div style="min-width:0"><h4>${esc(m.name)} ${m.badge ? `<span class="badge">${esc(m.badge)}</span>` : ''}</h4><p>${esc(m.filter && f ? `Today: ${f.name}. ` : '')}${esc(m.desc || '')}</p>
-            <span class="price">${money(m.price)}</span>${!m.available ? ' · <b>Sold out</b>' : ''}${rr && rr.length ? ` · <span class="stars">★ ${(rr.reduce((a, b) => a + b, 0) / rr.length).toFixed(1)}</span>` : ''}</div>
-          <div class="step" role="group" aria-label="Quantity of ${esc(m.name)}"><button data-act="dec" data-id="${esc(m.id)}" ${q ? '' : 'disabled'} aria-label="Remove one">−</button><output>${q}</output><button data-act="sheet" data-id="${esc(m.id)}" ${off ? 'disabled' : ''} aria-label="Add ${esc(m.name)}">+</button></div>
+          <div class="pimg"${PHOTO[m.id] ? '' : ` style="background-image:${attrq(pat.kawung('#ffffff', .09))}"`}>${thumb(m)}${m.badge ? `<span class="flag lt">${esc(m.badge)}</span>` : ''}</div>
+          <div class="pb"><h4>${esc(m.name)}</h4><p>${esc(m.filter && f ? `Today: ${f.name}. ` : '')}${esc(m.desc || '')}</p>
+            <span><span class="price">${money(m.price)}</span>${!m.available ? ' · <b>Sold out</b>' : ''}${rr && rr.length ? ` · <span class="stars">★ ${(rr.reduce((a, b) => a + b, 0) / rr.length).toFixed(1)}</span>` : ''}</span>
+          <div class="step" role="group" aria-label="Quantity of ${esc(m.name)}"><button data-act="dec" data-id="${esc(m.id)}" ${q ? '' : 'disabled'} aria-label="Remove one">−</button><output>${q}</output><button data-act="sheet" data-id="${esc(m.id)}" ${off ? 'disabled' : ''} aria-label="Add ${esc(m.name)}">+</button></div></div>
         </article>`;
       }).join('')}</div>
     </section>
@@ -3122,7 +3434,7 @@ var qrcode = function() {
     const o = ordersOf(S.me, S.bar).find((x) => x.id === S.lastOrder) || null;
     if (!o) return notReady();
     const step = { received: 1, brewing: 2, ready: 3, collected: 3, cancelled: 0 }[o.status];
-    return `<section class="hero" style="background-image:${pat.kawung('#ffffff', .12)};text-align:center">
+    return `<section class="hero" style="background-image:${attrq(pat.kawung('#ffffff', .12))};text-align:center">
       <div class="kick">${o.status === 'ready' ? 'Ready at the bar' : 'Order sent'}</div>
       <div class="big-code">${esc(o.code)}</div>
       <p>Show this code at the bar · ${esc(o.slot)} · ${o.giftPay ? 'pay ' + money(o.due ?? 0) + ' at the bar' : money(o.total)}</p>
@@ -3135,14 +3447,52 @@ var qrcode = function() {
       <div class="row"><button class="btn sm ghost" data-act="again">Back to menu</button><button class="btn sm ghost" data-act="tab" data-v="orders">My orders</button></div>
     </section>`;
   }
+  // shared with the website's shop.html through this browser's storage
+  const bag = {
+    get() { let v; try { v = JSON.parse(localStorage.getItem('bija.shop.cart')); } catch { v = S.bagMem; } return (Array.isArray(v) ? v : []).filter((l) => l && product(l.id) && !product(l.id).soon && GRINDS.includes(l.grind) && PLANS[l.plan] && +l.qty > 0).map((l) => ({ id: l.id, grind: l.grind, qty: Math.min(20, Math.round(+l.qty)), plan: l.plan })); },
+    set(v) { S.bagMem = v; try { localStorage.setItem('bija.shop.cart', JSON.stringify(v)); } catch {} },
+  };
+  function shopTotals(cart, method) {
+    const lines = cart.map((l) => { const pr = product(l.id); return { id: l.id, name: pr.name, grind: l.grind, qty: l.qty, plan: l.plan, unit: unitOf(pr, l.plan) }; });
+    const subtotal = r2(lines.reduce((a, l) => a + l.unit * l.qty, 0)), sub = lines.some((l) => l.plan !== 'once');
+    const free = subtotal >= FREE_POST || sub, fee = method === 'post' && lines.length && !free ? POST : 0;
+    return { lines, subtotal, fee, total: r2(subtotal + fee), free, sub, qty: lines.reduce((a, l) => a + l.qty, 0) };
+  }
+  const pickOf = (id) => (S.pick[id] ||= { grind: 'Whole bean', plan: 'once', freq: '4w' });
+  const planText = (l) => l.plan === 'once' ? 'one-off' : PLANS[l.plan].toLowerCase();
+  const shipText = (d) => d?.method === 'post' ? `Royal Mail Tracked 48${d.postcode ? ' to ' + d.postcode : ''}` : 'Click & collect at 2a St James\'s Market';
+  function buyBox(pr, q) {
+    const k = pickOf(pr.id), sub = k.plan === 'sub', unit = unitOf(pr, sub ? k.freq : 'once');
+    return `<div class="buy">
+      <label class="f">Grind<select id="pk-${esc(pr.id)}" data-pick="${esc(pr.id)}:grind">${GRINDS.map((g) => `<option ${g === k.grind ? 'selected' : ''}>${esc(g)}</option>`).join('')}</select></label>
+      <div class="opts" role="group" aria-label="One-off or subscribe"><button data-act="pplan" data-id="${esc(pr.id)}" data-v="once" aria-pressed="${!sub}">One-off · ${money(pr.price)}</button><button data-act="pplan" data-id="${esc(pr.id)}" data-v="sub" aria-pressed="${sub}">Subscribe · ${money(unitOf(pr, '4w'))}</button></div>
+      ${sub ? `<label class="f">Deliver<select id="pf-${esc(pr.id)}" data-pick="${esc(pr.id)}:freq">${Object.entries(PLANS).filter(([v]) => v !== 'once').map(([v, l]) => `<option value="${v}" ${v === k.freq ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select></label><span class="hint">10% off every bag and free delivery. Skip, pause or cancel any time in Beans Club.</span>` : ''}
+      <div class="row between"><span class="hint">${q ? `${q} in your bag` : sub ? `${money(unit)} a bag` : 'Delivered or collect'}</span><button class="btn sm dark" data-act="shopadd" data-id="${esc(pr.id)}" ${S.busy ? 'disabled' : ''}>Add to bag · ${money(unit)}</button></div>
+    </div>`;
+  }
+  function shopDoneHTML() {
+    const o = S.me?.shop?.[S.shopDone]; if (!o) return '';
+    return `<section class="panel stack done-shop" aria-live="polite"><div class="row between"><b>Order ${esc(o.code)} placed</b><span class="pill received">Placed</span></div>
+      <div class="lines">${(o.lines || []).map((l) => `<b>${l.qty}×</b> ${esc(l.name)} <small>(${esc(l.grind)}, ${esc(planText(l))})</small>`).join(' · ')}</div>
+      <span class="hint">${esc(shipText(o.delivery))} · ${money(o.total)}. ${o.delivery?.method === 'post' ? 'We\'ll mark it dispatched when it leaves the shop.' : 'We\'ll have it at the bar. Show this code.'} Points land when it's ${o.delivery?.method === 'post' ? 'dispatched' : 'collected'}.</span>
+      <div class="row">${(o.lines || []).some((l) => l.plan !== 'once') ? '<button class="btn sm" data-act="tab" data-v="club">Manage Beans Club</button>' : ''}<button class="btn sm ghost" data-act="shopok">Done</button></div></section>`;
+  }
   function beansPage() {
-    const beans = menu().filter((m) => m.cat === 'Beans'), open = isOpen(), st = mine();
+    const beans = menu().filter((m) => m.cat === 'Beans'), st = mine();
     if (!beans.length) return `<div class="empty"><b>No beans listed yet</b>${S.admin ? 'Add them in Barista → Menu.' : 'Ask at the bar what is on the shelf.'}</div>`;
-    return `<section class="hero" style="background-image:${pat.kawung('#ffffff', .1)}"><div class="kick">Bija Coffee Beans</div><h2>Take the islands home.</h2><p>Fresh coffee beans, 200 g bags for £12. Roasted with Kindred Forest. Reserve a bag here and pick it up at the bar. Each single origin stamps your Origins Passport.</p></section>
+    const cart = bag.get(), t = shopTotals(cart, S.sf.method), f = S.sf, live = st.subs.filter((x) => !x.cancelled);
+    const inBag = (id) => cart.filter((l) => l.id === id).reduce((a, l) => a + l.qty, 0);
+    const disc = product('discovery');
+    return `<section class="hero" style="background-image:${attrq(pat.kawung('#ffffff', .1))}"><div class="kick">Bija Coffee Beans</div><h2>Take the islands home.</h2><p>200 g bags roasted with Kindred Forest, ground how you brew. Royal Mail Tracked 48 (free over £${FREE_POST}) or collect at the bar. Subscribe and save 10%.</p>
+      ${S.demo && /^https?:$/.test(location.protocol) ? '<div class="meta"><a class="chip" href="shop.html">Open the full web shop →</a></div>' : ''}</section>
+    ${S.shopDone ? shopDoneHTML() : ''}
+    ${t.qty ? `<button class="promo" data-act="gobag"><span><b>Your bag</b> · ${t.qty} item${t.qty === 1 ? '' : 's'} · ${money(t.subtotal)}</span><span>Checkout →</span></button>` : ''}
+    ${live.length ? `<button class="promo" data-act="tab" data-v="club"><span><b>Beans Club</b> · ${live.length} subscription${live.length === 1 ? '' : 's'}${live.find((x) => x.next) ? ' · next ' + esc(ukDay(live.filter((x) => x.next).map((x) => x.next).sort()[0])) : ''}</span><span aria-hidden="true">→</span></button>` : ''}
     <div class="list sec">${beans.map((m) => {
-      const q = S.cart[m.id] || 0, i = m.info || {}, o = origin(m.origin);
-      return `<article class="panel stack" style="gap:8px">
-        <div class="row between"><h3 style="margin:0;font-size:18px;font-weight:600">${esc(m.name)}</h3>${m.soon ? '<span class="pill received">Coming soon</span>' : m.available ? `<span class="price">${money(m.price)}</span>` : '<span class="pill cancelled">Sold out</span>'}</div>
+      const i = m.info || {}, o = origin(m.origin), pr = SHOP.find((x) => x.menu === m.id);
+      return `<article class="panel stack" style="gap:10px">
+        ${bagArt(pr ? pr.id : '')}
+        <div class="row between"><h3 class="beanh">${esc(m.name)}</h3>${m.soon ? '<span class="pill received">Coming soon</span>' : m.available ? `<span class="price">${money(m.price)}</span>` : '<span class="pill cancelled">Sold out</span>'}</div>
         <div class="notes">${String(m.desc || '').split(',').map((n) => `<span>${esc(n.trim())}</span>`).join('')}</div>
         <dl style="display:grid;grid-template-columns:96px minmax(0,1fr);gap:4px 12px;margin:4px 0;font-size:14px">
           <dt class="hint">Region</dt><dd style="margin:0">${esc(i.region || '')}</dd>
@@ -3151,10 +3501,59 @@ var qrcode = function() {
           <dt class="hint">Best for</dt><dd style="margin:0">${esc(i.use || '')}</dd>
         </dl>
         ${o ? `<div class="hint">${st.origins.has(o.id) ? 'Stamped in your passport' : 'Stamps ' + esc(o.name) + ' in your Origins Passport'}</div>` : ''}
-        ${m.available && !m.soon ? `<div class="row between"><span class="hint">Pay and collect at the bar</span><div class="step" role="group" aria-label="Bags of ${esc(m.name)}"><button data-act="qty" data-id="${esc(m.id)}" data-d="-1" ${q ? '' : 'disabled'} aria-label="Remove one">−</button><output>${q}</output><button data-act="qty" data-id="${esc(m.id)}" data-d="1" ${open ? '' : 'disabled'} aria-label="Add one">+</button></div></div>` : ''}
+        ${pr && m.available && !m.soon ? buyBox(pr, inBag(pr.id)) : ''}
       </article>`;
     }).join('')}</div>
-    <p class="hint" style="margin-top:12px">200 g bags, £12 each. Details are typical of each region; lot and roast date to be confirmed by Bija.</p>`;
+    ${disc ? `<section class="sec panel stack disc" style="background-image:${attrq(pat.kawung('#ffffff', .06))}">${bagArt('discovery')}<div class="row between"><h3 class="beanh">${esc(disc.name)}</h3><span class="price">${money(disc.price)}</span></div><span class="hint">${esc(disc.desc)}. Three islands, one box: the quickest way to fill your Origins Passport.</span>${buyBox(disc, inBag('discovery'))}</section>` : ''}
+    <section class="sec" id="shopbag"><div class="sec-h"><h2>Your bag</h2><small>${t.qty} item${t.qty === 1 ? '' : 's'}</small></div>
+      ${!t.lines.length ? '<div class="empty"><b>Your bag is empty</b>Choose a grind, then add a bag above.</div>' : `<div class="panel stack">
+        ${t.lines.map((l, i) => `<div class="bagl"><div><b>${esc(l.name)}</b><small>${esc(l.grind)} · ${esc(planText(l))} · ${money(l.unit)}</small></div><div class="step" role="group" aria-label="${esc(l.name)}"><button data-act="bagq" data-i="${i}" data-d="-1" aria-label="Remove one">−</button><output>${l.qty}</output><button data-act="bagq" data-i="${i}" data-d="1" aria-label="Add one">+</button></div></div>`).join('')}
+        <fieldset><legend>Delivery</legend><div class="opts"><button data-act="smethod" data-v="collect" aria-pressed="${f.method === 'collect'}">Click & collect · free</button><button data-act="smethod" data-v="post" aria-pressed="${f.method === 'post'}">Royal Mail Tracked 48 · ${t.free ? 'free' : money(POST)}</button></div></fieldset>
+        <div class="grid2"><label class="f">Name<input type="text" id="sf-name" data-sf="name" value="${esc(f.name || S.form.name)}" maxlength="60" autocomplete="name"></label>
+        <label class="f">Email <span class="h">For updates</span><input type="email" id="sf-email" data-sf="email" value="${esc(f.email)}" maxlength="80" autocomplete="email"></label></div>
+        ${f.method === 'post' ? `<label class="f">Address<input type="text" id="sf-address" data-sf="address" value="${esc(f.address)}" maxlength="120" autocomplete="street-address"></label>
+        <label class="f">Postcode<input type="text" id="sf-postcode" data-sf="postcode" value="${esc(f.postcode)}" maxlength="8" autocomplete="postal-code" style="text-transform:uppercase"></label>` : ''}
+        <div class="sum"><div class="row between"><span>Subtotal</span><span>${money(t.subtotal)}</span></div>
+          <div class="row between"><span>Delivery</span><span>${f.method === 'post' ? (t.fee ? money(t.fee) : 'Free') : 'Collect · free'}</span></div>
+          ${f.method === 'post' && !t.free ? `<div class="hint">Add ${money(FREE_POST - t.subtotal)} more, or subscribe, for free delivery.</div>` : ''}
+          <div class="row between tot"><b>Total</b><b>${money(t.total)}</b></div>
+          <div class="hint">You'll earn about ${Math.round(t.subtotal * PTS)} points when it's ${f.method === 'post' ? 'dispatched' : 'collected'}.</div></div>
+        <p class="hint" style="margin:0">Demo: no payment is taken. Prices include VAT. Subscriptions renew until you pause or cancel, and you can cancel any time before the next delivery.</p>
+        <button class="btn block" data-act="shopplace" ${S.busy || !S.uid ? 'disabled' : ''}>${S.busy ? 'Placing…' : `Place order · ${money(t.total)}`}</button>
+      </div>`}
+    </section>`;
+  }
+  function clubPage() {
+    if (!S.meLoaded) return notReady();
+    const subs = mine().subs, live = subs.filter((x) => !x.cancelled), ended = subs.filter((x) => x.cancelled);
+    return `<section class="hero" style="background-image:${attrq(pat.kawung('#ffffff', .1))}"><div class="kick">Beans Club</div><h2>Fresh beans, on your schedule.</h2><p>10% off every 200 g bag and free delivery. Change the grind or how often, skip a delivery, pause or cancel whenever you like.</p></section>
+      ${!live.length ? `<div class="empty sec"><b>No subscriptions yet</b>Choose “Subscribe” on any bag in the beans shop.<br><br><button class="btn sm" data-act="tab" data-v="beans">Shop beans</button></div>` : `<div class="list sec">${live.map((x) => `<article class="panel stack club">
+        <div class="row between"><b>${x.qty}× ${esc(x.name)}</b><span class="pill ${x.paused ? 'received' : 'ready'}">${x.paused ? 'Paused' : 'Active'}</span></div>
+        <div class="nextd"><span class="hint">Next delivery</span><b>${x.next ? esc(ukDay(x.next)) : 'Paused'}</b><span class="hint">${esc(shipText(x.delivery))} · ${money(x.unit * x.qty)} · ${x.done.length} sent so far</span></div>
+        <div class="grid2"><label class="f">Grind<select id="sg-${esc(x.id)}" data-sub="${esc(x.id)}:grind" ${S.busy ? 'disabled' : ''}>${GRINDS.map((g) => `<option ${g === x.grind ? 'selected' : ''}>${esc(g)}</option>`).join('')}</select></label>
+        <label class="f">How often<select id="sp-${esc(x.id)}" data-sub="${esc(x.id)}:plan" ${S.busy ? 'disabled' : ''}>${Object.entries(PLANS).filter(([v]) => v !== 'once').map(([v, l]) => `<option value="${v}" ${v === x.plan ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select></label></div>
+        <div class="row">
+          <button class="btn sm ghost" data-act="subskip" data-id="${esc(x.id)}" ${S.busy || !x.next ? 'disabled' : ''}>Skip next</button>
+          <button class="btn sm ghost" data-act="subpause" data-id="${esc(x.id)}" ${S.busy ? 'disabled' : ''}>${x.paused ? 'Resume' : 'Pause'}</button>
+          <button class="btn sm ${S.subDel === x.id ? '' : 'ghost'}" data-act="subcancel" data-id="${esc(x.id)}" ${S.busy ? 'disabled' : ''}>${S.subDel === x.id ? 'Tap again to cancel' : 'Cancel'}</button>
+        </div>
+        ${Object.keys(x.skips || {}).filter((d) => d >= ldate()).length ? `<span class="hint">Skipping ${Object.keys(x.skips).filter((d) => d >= ldate()).sort().map(ukDay).map(esc).join(', ')}</span>` : ''}
+      </article>`).join('')}</div>`}
+      ${ended.length ? `<section class="sec"><div class="sec-h"><h2>Ended</h2></div><div class="list">${ended.map((x) => `<div class="usual"><div><b>${x.qty}× ${esc(x.name)}</b><small>${esc(x.grind)} · cancelled ${esc(fmt(x.cancelled))}</small></div></div>`).join('')}</div></section>` : ''}
+      <p class="hint sec">Each delivery earns ${PTS} points per £1 once we send it.</p>`;
+  }
+  function referHTML(st, no) {
+    const by = S.me?.referredBy, conf = S.bar?.referral, started = st.col.length || st.shopDone.length; // codes can be added until a first order is handed over
+    const link = S.demo && /^https?:$/.test(location.protocol) ? `${location.origin}${location.pathname}?view=app&ref=${encodeURIComponent(no)}` : '';
+    return `<section class="sec"><div class="sec-h"><h2>Invite friends</h2><small>+${REFER} each</small></div>
+      <div class="panel stack refer">
+        <div class="row between"><div><span class="hint">Your invite code</span><div class="code" style="font-size:20px">${esc(no)}</div></div><button class="btn sm dark" data-act="share" ${S.uid ? '' : 'disabled'}>Share invite</button></div>
+        <span class="hint">Your friend adds your code before their first order. When they collect it, you both get +${REFER} points, confirmed by the bar.</span>
+        ${st.refs.length ? `<div><b>${st.refs.length} friend${st.refs.length === 1 ? '' : 's'} joined</b> <span class="hint">· +${st.refs.length * REFER} points</span></div>` : ''}
+        ${by ? `<div class="hint">Invited with ${esc(by)}${conf?.rejected ? ' · <span style="color:var(--warn)">not valid</span>' : conf ? ` · +${REFER} added` : ' · your bonus lands with your first collected order'}</div>`
+          : !started ? `<div class="row" style="flex-wrap:nowrap"><label class="f" style="flex:1"><span class="sr">Friend's invite code</span><input type="text" id="ref-in" data-ref value="${esc(S.refCode)}" placeholder="Got a friend's code? BIJA-XXXXX" autocomplete="off" style="text-transform:uppercase;font-family:var(--mono)"></label><button class="btn sm" data-act="refadd" ${S.busy || !S.uid ? 'disabled' : ''}>Add</button></div>` : ''}
+        ${link ? `<span class="hint" style="word-break:break-all">${esc(link)}</span>` : ''}
+      </div></section>`;
   }
   function cardPage() {
     if (!S.meLoaded) return notReady();
@@ -3168,6 +3567,7 @@ var qrcode = function() {
         <div class="face back">${qr}<div><div class="code">${esc(no)}</div><p>Show this when you pay at the bar. The barista scans it or types the code and your points land straight away.</p></div></div>
       </div></div>
       <div class="row" style="margin-top:12px"><button class="btn dark" data-act="scan">${S.showScan ? 'Show my points' : 'Scan at the till'}</button><span class="hint">Tap the card to flip it</span></div>
+      ${referHTML(st, no)}
       <section class="sec"><div class="sec-h"><h2>Challenges</h2><small>Bonus points</small></div>
         <p class="hint" style="margin-top:0">Challenge bonuses add up to ${CHALLENGE_CAP} points a month · ${st.capLeft} left this month.</p>
         <div class="chal">
@@ -3187,7 +3587,9 @@ var qrcode = function() {
       </section>
       <section class="sec"><div class="sec-h"><h2>Ways to earn</h2></div>
         <div class="panel stack" style="gap:6px">
-          <div>${PTS} points for every £1, in the app and at the till. Points land when the barista hands over your order.</div>
+          <div>${PTS} points for every £1: at the till, in the app, in the beans shop and on the website. Points land when the barista hands over your order or we send your beans.</div>
+          <div>${PTS} points per £1 on every Beans Club delivery${st.subs.some((x) => !x.cancelled) ? ' · <button class="back" data-act="tab" data-v="club" style="padding:0">Manage Beans Club ›</button>' : ''}.</div>
+          <div>+${REFER} for you and +${REFER} for each friend you invite, when they collect their first order.</div>
           <div>+${BONUS.welcome} welcome points with your first order. Plus the challenges above, up to ${CHALLENGE_CAP} points a month.</div>
           <div>+${BONUS.secret} when you find all ${SPOTS.length} Secret St James's spots${st.found === SPOTS.length ? ' ✓' : ` (${st.found}/${SPOTS.length})`}.</div>
           <div>+${BONUS.passport} when your Origins Passport is full${st.origins.size === ORIGINS.length ? ' ✓' : ` (${st.origins.size}/${ORIGINS.length})`}.</div>
@@ -3220,7 +3622,7 @@ var qrcode = function() {
     const st = mine(), g = S.gift, amount = g.amount === 'other' ? +g.custom || 0 : g.amount;
     const bought = Object.entries(S.me?.gifts || {}).map(([gid, x]) => ({ gid, ...x, paid: S.bar?.giftsPaid?.[gid], used: S.bar?.giftsRedeemed?.[gid] })).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
     const claims = Object.entries(S.me?.claims || {}).filter(([code, c]) => !S.bar?.credits?.[code]);
-    return `<section class="hero" style="background-image:${pat.kawung('#ffffff', .1)}"><div class="kick">Bija Gift Cards</div><h2>Give someone a cup of the islands.</h2><p>Send a digital gift card. It loads straight into their Bija app, and they spend it on coffee, cakes or 200 g bags of beans.</p></section>
+    return `<section class="hero" style="background-image:${attrq(pat.kawung('#ffffff', .1))}"><div class="kick">Bija Gift Cards</div><h2>Give someone a cup of the islands.</h2><p>Send a digital gift card. It loads straight into their Bija app, and they spend it on coffee, cakes or 200 g bags of beans.</p></section>
       <section class="sec panel stack">
         <div class="row between"><div><span class="hint">Your gift card balance</span><div style="font-size:30px;font-weight:300">${money(st.wallet)}</div></div>${st.wallet > 0 ? '<span class="hint">Tick “Pay with gift card balance” at checkout</span>' : ''}</div>
         <div class="row" style="flex-wrap:nowrap"><label class="f" style="flex:1"><span class="sr">Gift card code</span><input type="text" id="g-redeem" data-redeem value="${esc(S.redeemCode)}" placeholder="BIJA-XXXX-XXXX" autocomplete="off" style="text-transform:uppercase;font-family:var(--mono)"></label><button class="btn sm dark" data-act="claim" ${S.busy || !S.uid ? 'disabled' : ''}>Add card</button></div>
@@ -3277,7 +3679,7 @@ var qrcode = function() {
   const spotNo = (x) => String(SPOTS.indexOf(x) + 1).padStart(2, '0');
   function spotCard(x, { mini = false, face = true, pressed = false, deal = false, act = '', visited = false } = {}) {
     const tag = act ? 'button' : 'div';
-    if (!face) return `<div class="sc back ${mini ? 'mini' : ''}" style="background-image:${pat.kawung('#ffffff', .14)}"><div><b>No. ${spotNo(x)}</b><br><small>${mini ? 'Next coffee' : 'Comes with your next coffee'}</small></div></div>`;
+    if (!face) return `<div class="sc back ${mini ? 'mini' : ''}" style="background-image:${attrq(pat.kawung('#ffffff', .14))}"><div><b>No. ${spotNo(x)}</b><br><small>${mini ? 'Next coffee' : 'Comes with your next coffee'}</small></div></div>`;
     const attrs = act ? ` data-act="${act}" data-id="${x.id}" aria-pressed="${pressed}" aria-label="${esc(x.name)}"` : '';
     return `<${tag} class="sc ${mini ? 'mini' : ''} ${visited ? 'visited' : ''} ${deal ? 'deal' : ''}"${attrs}>
       <div class="no"><span>No. ${spotNo(x)}</span><span>${mini ? '' : 'SECRET ST JAMES\'S'}</span></div>
@@ -3319,7 +3721,13 @@ var qrcode = function() {
   }
   function ordersPage() {
     if (!S.meLoaded) return notReady();
-    const os = mine().os;
+    const st = mine(), os = st.os;
+    const shopList = st.shop.length ? `<section class="sec"><div class="sec-h"><h2>Beans orders</h2><small>App and web shop</small></div><div class="list">${st.shop.map((o) => `<article class="order">
+        <div class="h"><span class="code">${esc(o.code)}</span><span class="pill ${{ placed: 'received', dispatched: 'ready', collected: 'collected', cancelled: 'cancelled' }[o.status]}">${{ placed: 'Placed', dispatched: 'Dispatched', collected: 'Collected', cancelled: 'Cancelled' }[o.status]}</span></div>
+        <div class="lines">${(o.lines || []).map((l) => `<b>${l.qty}×</b> ${esc(l.name)} <small>(${esc(l.grind)}, ${esc(planText(l))})</small>`).join(' · ')}</div>
+        <div class="hint">${fmt(o.createdAt)} · ${esc(shipText(o.delivery))} · ${money(o.total)} · ${o.source === 'web' ? 'Web shop' : 'App'}</div>
+      </article>`).join('')}</div></section>` : '';
+    if (!os.length && shopList) return shopList;
     if (!os.length) return `<div class="empty"><b>No orders yet</b>Order ahead and watch it go from received to ready here.<br><br><button class="btn sm" data-act="tab" data-v="order">Order now</button></div>`;
     const ratings = S.me?.ratings || {};
     const step = { received: 1, brewing: 2, ready: 3 };
@@ -3341,13 +3749,14 @@ var qrcode = function() {
           <div><button class="btn sm" data-act="rate" data-id="${esc(o.id)}" ${!d.stars || S.busy ? 'disabled' : ''}>Send rating</button></div>
         </div>` : ''}
       </article>`;
-    }).join('')}</div>`;
+    }).join('')}</div>${shopList}`;
   }
 
   // ===== barista =====
   function barista() {
     if (!S.custLoaded || !S.configLoaded) return notReady();
     if (S.btab === 'members') return members();
+    if (S.btab === 'shop') return shopBar();
     if (S.btab === 'gifts') return giftsBar();
     if (S.btab === 'insights') return insights();
     if (S.btab === 'menu') return menuEditor();
@@ -3388,14 +3797,63 @@ var qrcode = function() {
       </article>`;
     }).join('')}</div>`;
   }
+  function subsDue() {
+    const soon = addDays(ldate(), 3), out = [];
+    for (const c of S.customers) for (const x of subsOf(c, S.bars[c.id])) if (x.next && x.next <= soon) out.push({ ...x, cid: c.id, cname: c.name || 'Guest' });
+    return out.sort((a, z) => a.next.localeCompare(z.next));
+  }
+  function shopBar() {
+    const orders = [];
+    for (const c of S.customers) for (const o of shopOf(c, S.bars[c.id])) orders.push({ ...o, cid: c.id, cname: o.name || c.name || 'Guest' });
+    const open = orders.filter((o) => o.status === 'placed').reverse(), sent = orders.filter((o) => o.status === 'dispatched' || o.status === 'collected');
+    const due = subsDue(), today = ldate();
+    const subsRev = Object.values(S.bars).reduce((a, bd) => a + Object.values(bd?.subs || {}).reduce((x, y) => x + (+y.amount || 0), 0), 0);
+    const active = S.customers.reduce((a, c) => a + Object.values(c.subs || {}).filter((x) => !x.cancelled && !x.paused).length, 0);
+    const lines = (ls) => (ls || []).map((l) => `<b>${l.qty}×</b> ${esc(l.name)} — <b style="color:var(--ink)">${esc(l.grind)}</b>${l.plan !== 'once' ? ` <small>(${esc(PLANS[l.plan] || '')})</small>` : ''}`).join(' · ');
+    const addr = (d) => d?.method === 'post' ? `Royal Mail Tracked 48 · ${esc(d.address || '')}${d.postcode ? ', ' + esc(d.postcode) : ''}` : 'Click & collect at the bar';
+    return `<div class="tiles">
+      <div class="tile"><small>To send or hand over</small><b>${open.length}</b><span>${open.filter((o) => o.delivery?.method === 'post').length} by post</span></div>
+      <div class="tile"><small>Beans Club due</small><b>${due.length}</b><span>in the next 3 days</span></div>
+      <div class="tile"><small>Beans sales</small><b>${money(sent.reduce((a, o) => a + (+o.total || 0), 0) + subsRev)}</b><span>sent orders and deliveries</span></div>
+      <div class="tile"><small>Subscribers</small><b>${active}</b><span>active subscriptions</span></div>
+    </div>
+    <section class="sec"><div class="sec-h"><h2>Orders to send</h2><small>App and web shop</small></div>
+      ${!open.length ? '<div class="empty"><b>Nothing to send</b>Beans orders from the app and the website appear here.</div>' : `<div class="list">${open.map((o) => `<article class="order">
+        <div class="h"><span><span class="code" style="font-size:18px">${esc(o.code)}</span> · <b>${esc(o.cname)}</b></span><span class="pill received">${o.source === 'web' ? 'Web' : 'App'}</span></div>
+        <div class="lines">${lines(o.lines)}</div>
+        <div class="hint">${addr(o.delivery)}${o.email ? ' · ' + esc(o.email) : ''} · <b style="color:var(--ink)">${money(o.total)}</b> · ${fmt(o.createdAt)}</div>
+        <div class="row"><button class="btn sm ok" data-act="shipst" data-c="${esc(o.cid)}" data-o="${esc(o.id)}" data-s="${o.delivery?.method === 'post' ? 'dispatched' : 'collected'}" ${S.busy ? 'disabled' : ''}>${o.delivery?.method === 'post' ? 'Dispatched · add points' : 'Collected · add points'}</button></div>
+      </article>`).join('')}</div>`}
+    </section>
+    <section class="sec"><div class="sec-h"><h2>Beans Club deliveries</h2><small>Due in the next 3 days</small></div>
+      ${!due.length ? '<div class="empty"><b>No deliveries due</b>Subscriptions show up here three days before each delivery.</div>' : `<div class="list">${due.map((x) => `<article class="order">
+        <div class="h"><span><b>${esc(x.cname)}</b> · ${x.qty}× ${esc(x.name)}</span><span class="pill ${x.next < today ? 'cancelled' : 'brewing'}">${x.next < today ? 'Late' : 'Due'} ${esc(ukDay(x.next))}</span></div>
+        <div class="lines"><b style="color:var(--ink)">${esc(x.grind)}</b> · ${esc(PLANS[x.plan] || '')} · ${money(x.unit * x.qty)}</div>
+        <div class="hint">${addr(x.delivery)}</div>
+        <div class="row"><button class="btn sm ok" data-act="subship" data-c="${esc(x.cid)}" data-s="${esc(x.id)}" data-d="${esc(x.next)}" ${S.busy ? 'disabled' : ''}>${x.delivery?.method === 'post' ? 'Dispatched' : 'Collected'} · add points</button></div>
+      </article>`).join('')}</div>`}
+    </section>
+    ${sent.length ? `<section class="sec"><div class="sec-h"><h2>Sent</h2></div><div class="panel tablewrap"><table><thead><tr><th>Code</th><th>Name</th><th>Items</th><th class="num">Total</th><th>Status</th></tr></thead><tbody>${sent.slice(0, 12).map((o) => `<tr><td class="code">${esc(o.code)}</td><td>${esc(o.cname)}</td><td>${(o.lines || []).reduce((a, l) => a + l.qty, 0)}</td><td class="num">${money(o.total)}</td><td>${o.status === 'dispatched' ? 'Dispatched' : 'Collected'} ${esc(fmt(o.doneAt))}</td></tr>`).join('')}</tbody></table></div></section>` : ''}`;
+  }
+  // a new member's code is confirmed by staff once they have collected an order, so nobody can award themselves points
+  function refsToConfirm() {
+    return S.customers.filter((c) => c.referredBy && !S.bars[c.id]?.referral).map((c) => {
+      const st = stats(c, S.bars[c.id]), by = S.customers.find((x) => x.id !== c.id && memberCode(x.id) === c.referredBy);
+      return { c, by, ready: st.col.length + st.shopDone.length > 0 };
+    }).filter((r) => r.ready);
+  }
   function members() {
-    const rows = S.customers.map((c) => ({ c, st: stats(c, S.bars[c.id]) })).filter((r) => r.st.os.length || r.st.instore || r.st.credits).sort((a, b) => b.st.lifetime - a.st.lifetime);
+    const rows = S.customers.map((c) => ({ c, st: stats(c, S.bars[c.id]) })).filter((r) => r.st.os.length || r.st.instore || r.st.credits || r.st.shop.length).sort((a, b) => b.st.lifetime - a.st.lifetime);
     return `<div class="panel stack">
       <div><b>Add in-store spend</b><div class="hint">Customer shows their Bija Card code or QR when paying at the till.</div></div>
       <div class="grid2"><label class="f">Member code<input type="text" id="is-code" data-is="code" value="${esc(S.instore.code)}" placeholder="BIJA-XXXXX" style="text-transform:uppercase;font-family:var(--mono)"></label>
       <label class="f">Amount paid (£)<input type="number" min="0" step="0.1" id="is-amt" data-is="amount" value="${esc(S.instore.amount)}"></label></div>
+      <label class="chk"><input type="checkbox" id="is-double" data-is="double" ${S.instore.double ? 'checked' : ''}> Early bird: double points (Mon–Fri before 9am)</label>
       <div><button class="btn sm" data-act="instore" ${S.busy ? 'disabled' : ''}>Add points</button></div>
     </div>
+    ${refsToConfirm().length ? `<section class="sec"><div class="sec-h"><h2>Invites to confirm</h2><small>+${REFER} each side</small></div><div class="list">${refsToConfirm().map(({ c, by }) => `<article class="order"><div class="h"><b>${esc(c.name || 'Guest')}</b><span class="code">${esc(c.referredBy)}</span></div>
+      <div class="lines">${by ? `Invited by <b>${esc(by.name || 'a member')}</b>. First order collected.` : '<span style="color:var(--warn)">No member has this code</span>'}</div>
+      <div class="row">${by ? `<button class="btn sm ok" data-act="refok" data-c="${esc(c.id)}" ${S.busy ? 'disabled' : ''}>Confirm · +${REFER} each</button>` : ''}<button class="btn sm ghost" data-act="refno" data-c="${esc(c.id)}" ${S.busy ? 'disabled' : ''}>Reject</button></div></article>`).join('')}</div></section>` : ''}
     <section class="sec">${!rows.length ? '<div class="empty"><b>No Bija Card members yet</b>Everyone who orders in the app gets a card automatically.</div>' : `<div class="panel tablewrap"><table>
       <thead><tr><th>Name</th><th>Code</th><th>Level</th><th class="num">Points</th><th class="num">All time</th><th class="num">Gift £</th><th class="num">Secrets</th><th>Last order</th></tr></thead>
       <tbody>${rows.map(({ c, st }) => `<tr><td><b>${esc(c.name || 'Guest')}</b></td><td class="code">${esc(memberCode(c.id))}</td><td>${esc(st.tier.name)}</td><td class="num">${st.balance}</td><td class="num">${st.lifetime}</td><td class="num">${money(st.wallet)}</td><td class="num">${st.found}/${SPOTS.length}</td><td>${fmt(st.os[0]?.createdAt)}</td></tr>`).join('')}</tbody>
@@ -3605,6 +4063,58 @@ var qrcode = function() {
     }, 'Order sent to the bar');
   }
 
+  // ----- beans shop writes: the order and any subscriptions are the customer's own; dispatch is the bar's -----
+  function subsFrom(sid, lines, createdAt, delivery) {
+    const out = {}, day = ldate(new Date(createdAt)) || String(createdAt).slice(0, 10);
+    lines.forEach((l, i) => {
+      if (!planDays(l.plan)) return;
+      out[`${sid}-${i}`] = { pid: l.id, name: l.name, grind: l.grind, qty: l.qty, plan: l.plan, unit: l.unit, start: addDays(day, planDays(l.plan)),
+        delivery: { method: delivery.method, ...(delivery.method === 'post' ? { address: delivery.address || '', postcode: delivery.postcode || '' } : {}) }, createdAt, from: sid };
+    });
+    return out;
+  }
+  async function placeShop() {
+    const f = S.sf, t = shopTotals(bag.get(), f.method), name = (f.name || S.form.name).trim();
+    if (!t.lines.length) return toast('Your bag is empty.');
+    if (!name) { toast('Add your name.'); return document.getElementById('sf-name')?.focus(); }
+    if (f.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.trim())) { toast('Check your email address.'); return document.getElementById('sf-email')?.focus(); }
+    if (f.method === 'post') {
+      if (!f.address.trim()) { toast('Add the delivery address.'); return document.getElementById('sf-address')?.focus(); }
+      if (!UK_POSTCODE.test(f.postcode.trim())) { toast('Enter a UK postcode, like SW1Y 4AH.'); return document.getElementById('sf-postcode')?.focus(); }
+    }
+    const sid = 'a' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), createdAt = new Date().toISOString();
+    const delivery = { method: f.method, fee: t.fee, ...(f.method === 'post' ? { address: f.address.trim(), postcode: f.postcode.trim().toUpperCase() } : {}) };
+    const order = { code: 'S' + newCode().slice(1), createdAt, name, email: f.email.trim(), lines: t.lines, delivery, subtotal: t.subtotal, total: t.total, source: 'app' };
+    if (!S.form.name) S.form.name = name;
+    await run(async () => {
+      await saveMine({ name: S.me?.name || name, updatedAt: createdAt, shop: { [sid]: order }, subs: subsFrom(sid, t.lines, createdAt, delivery) });
+      bag.set([]); S.shopDone = sid; window.scrollTo({ top: 0 });
+    }, t.sub ? 'Order placed. Welcome to Beans Club.' : 'Order placed');
+  }
+  // demo only: orders placed in the website's shop.html (same browser) join this member's history and the barista view
+  let importing = false;
+  function importWeb() {
+    if (!S.demo || importing || !S.uid || !S.meLoaded) return;
+    let web = []; try { web = JSON.parse(localStorage.getItem('bija.shop.orders')) || []; } catch {}
+    const have = S.me?.shop || {}, shop = {}, subs = {};
+    for (const o of Array.isArray(web) ? web : []) {
+      if (!o || typeof o.id !== 'string' || have[o.id] || !Array.isArray(o.lines)) continue;
+      // prices come from our catalogue, not from what the browser stored
+      const lines = o.lines.filter((l) => l && product(l.id) && PLANS[l.plan] && +l.qty > 0).map((l) => ({ id: l.id, name: product(l.id).name, grind: GRINDS.includes(l.grind) ? l.grind : 'Whole bean', qty: Math.min(20, Math.round(+l.qty)), plan: l.plan, unit: unitOf(product(l.id), l.plan) }));
+      if (!lines.length) continue;
+      const method = o.delivery?.method === 'post' ? 'post' : 'collect', subtotal = r2(lines.reduce((a, l) => a + l.unit * l.qty, 0));
+      const fee = method === 'post' && subtotal < FREE_POST && !lines.some((l) => l.plan !== 'once') ? POST : 0;
+      const delivery = { method, fee, ...(method === 'post' ? { address: String(o.delivery?.address || '').slice(0, 120), postcode: String(o.delivery?.postcode || '').slice(0, 8).toUpperCase() } : {}) };
+      const createdAt = isNaN(Date.parse(o.createdAt)) ? new Date().toISOString() : new Date(o.createdAt).toISOString();
+      shop[o.id] = { code: String(o.code || 'W' + newCode().slice(1)).slice(0, 12), createdAt, name: String(o.name || '').slice(0, 60), email: String(o.email || '').slice(0, 80), lines, delivery, subtotal, total: r2(subtotal + fee), source: 'web' };
+      Object.assign(subs, subsFrom(o.id, lines, createdAt, delivery));
+    }
+    if (!Object.keys(shop).length) return;
+    importing = true;
+    const first = Object.values(shop)[0];
+    if (!S.form.name && first.name) S.form.name = first.name;
+    saveMine({ shop, subs }).catch(() => {}).finally(() => { importing = false; });
+  }
   // ----- finance writes (owner only; the db rule must allow admins on finance/*) -----
   const finRef = (id) => S.db.doc('finance/' + id);
   function finClose() {
@@ -3706,6 +4216,58 @@ var qrcode = function() {
     else if (a === 'kqty') { const k = b.dataset.key; S.cart[k] = Math.max(0, Math.min(20, (S.cart[k] || 0) + +b.dataset.d)); if (!S.cart[k]) delete S.cart[k]; render(); }
     else if (a === 'kadd') { const k = b.dataset.key, r = b.getBoundingClientRect(); S.cart[k] = Math.min(20, (S.cart[k] || 0) + 1); toast('Added to your order'); render(); flyToBasket({ getBoundingClientRect: () => r }); }
     else if (a === 'histall') { S.histAll = true; render(); }
+    else if (a === 'pplan') { pickOf(b.dataset.id).plan = b.dataset.v === 'sub' ? 'sub' : 'once'; render(); }
+    else if (a === 'shopadd') {
+      const pr = product(b.dataset.id); if (!pr || pr.soon) return;
+      const k = pickOf(pr.id), plan = k.plan === 'sub' ? k.freq : 'once', cart = bag.get(), hit = cart.find((l) => l.id === pr.id && l.grind === k.grind && l.plan === plan);
+      if (hit) hit.qty = Math.min(20, hit.qty + 1); else cart.push({ id: pr.id, grind: k.grind, qty: 1, plan });
+      bag.set(cart); S.shopDone = null; toast(`${pr.name} added to your bag`); render();
+    }
+    else if (a === 'bagq') { const cart = bag.get(), l = cart[+b.dataset.i]; if (!l) return; l.qty = Math.max(0, Math.min(20, l.qty + +b.dataset.d)); bag.set(cart.filter((x) => x.qty > 0)); render(); }
+    else if (a === 'smethod') { S.sf.method = b.dataset.v === 'post' ? 'post' : 'collect'; render(); }
+    else if (a === 'shopplace') placeShop();
+    else if (a === 'gobag') document.getElementById('shopbag')?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth' });
+    else if (a === 'shopok') { S.shopDone = null; render(); }
+    else if (a === 'subskip') {
+      const x = mine().subs.find((y) => y.id === b.dataset.id); if (!x?.next) return;
+      run(() => saveMine({ subs: { [x.id]: { skips: { [x.next]: true } } } }), `Skipped ${ukDay(x.next)}`);
+    }
+    else if (a === 'subpause') {
+      const x = mine().subs.find((y) => y.id === b.dataset.id); if (!x) return;
+      run(() => saveMine({ subs: { [x.id]: x.paused ? { paused: false, start: addDays(ldate(), 2) } : { paused: true } } }), x.paused ? 'Resumed. Next delivery in 2 days.' : 'Paused. Nothing will be sent until you resume.');
+    }
+    else if (a === 'subcancel') {
+      const id = b.dataset.id;
+      if (S.subDel !== id) { S.subDel = id; render(); return; }
+      S.subDel = null; run(() => saveMine({ subs: { [id]: { cancelled: new Date().toISOString() } } }), 'Subscription cancelled');
+    }
+    else if (a === 'showcard') { S.tab = 'card'; S.showScan = true; render(); window.scrollTo({ top: 0 }); }
+    else if (a === 'share') {
+      const no = memberCode(S.uid), url = S.demo && /^https?:$/.test(location.protocol) ? `${location.origin}${location.pathname}?view=app&ref=${encodeURIComponent(no)}` : '';
+      const text = `Join me at Bija Coffee, 2a St James's Market. Add my code ${no} in the Bija app before your first order and we both get ${REFER} points.`;
+      if (navigator.share) navigator.share({ title: 'Bija Coffee', text, ...(url ? { url } : {}) }).catch(() => {});
+      else try { navigator.clipboard.writeText(url ? text + ' ' + url : text).then(() => toast('Invite copied. Paste it into a message.'), () => toast(no)); } catch { toast(no); }
+    }
+    else if (a === 'refadd') {
+      const code = S.refCode.trim().toUpperCase().replace(/\s+/g, '');
+      if (!/^BIJA-[A-Z0-9]{2,5}$/.test(code)) { toast('Invite codes look like BIJA-XXXXX.'); return document.getElementById('ref-in')?.focus(); }
+      if (code === memberCode(S.uid)) return toast('That’s your own code. Share it with a friend.');
+      if (S.me?.referredBy) return toast('You already added an invite code.');
+      run(async () => { await saveMine({ referredBy: code }); S.refCode = ''; }, `Code added. +${REFER} points with your first collected order.`);
+    }
+    else if (a === 'refok') {
+      const c = S.customers.find((x) => x.id === b.dataset.c), by = c && S.customers.find((x) => x.id !== c.id && memberCode(x.id) === c.referredBy);
+      if (!c || !by) return toast('No member has this code.');
+      const at = new Date().toISOString();
+      run(async () => { await saveBar(c.id, { referral: { by: c.referredBy, ref: by.id, at } }); await saveBar(by.id, { refCredits: { [c.id]: { at, name: c.name || 'a friend' } } }); }, `+${REFER} points each for ${c.name || 'member'} and ${by.name || 'their friend'}`);
+    }
+    else if (a === 'refno') run(() => saveBar(b.dataset.c, { referral: { rejected: true, at: new Date().toISOString() } }), 'Invite code rejected');
+    else if (a === 'shipst') { const st = b.dataset.s === 'dispatched' ? 'dispatched' : 'collected'; run(() => saveBar(b.dataset.c, { shop: { [b.dataset.o]: { status: st, at: new Date().toISOString() } } }), st === 'dispatched' ? 'Dispatched. Points added.' : 'Collected. Points added.'); }
+    else if (a === 'subship') {
+      const c = S.customers.find((x) => x.id === b.dataset.c), x = c && subsOf(c, S.bars[c.id]).find((y) => y.id === b.dataset.s);
+      if (!x || x.next !== b.dataset.d) return toast('This delivery has changed. Check it again.');
+      run(() => saveBar(c.id, { subs: { [`${x.id}@${x.next}`]: { at: new Date().toISOString(), amount: r2(x.unit * x.qty), name: x.name } } }), 'Delivery sent. Points added.');
+    }
     else if (a === 'bday') { const n = +S.bdayPick; if (!(n >= 1 && n <= 12)) return toast('Pick a month first.'); run(() => saveMine({ birthMonth: n }), 'Saved. See you in ' + MONTHS[n - 1] + '!'); }
     else if (a === 'install') { const ev = S.installEvt; S.installEvt = null; if (ev) { ev.prompt(); ev.userChoice.finally(render); } }
     else if (a === 'noinstall') { store.set('bija.install', 'no'); render(); }
@@ -3746,7 +4308,8 @@ var qrcode = function() {
       if (!c) return toast('No member with that code.');
       if (!(amount > 0 && amount <= 500)) return toast('Enter the amount paid, up to £500.');
       const id = 's' + Date.now().toString(36);
-      run(async () => { await saveBar(c.id, { instore: { [id]: { amount, at: new Date().toISOString() } } }); S.instore = { code: '', amount: '' }; }, `Added ${Math.round(amount * PTS)} points for ${c.name || 'member'}`);
+      const dbl = !!S.instore.double;
+      run(async () => { await saveBar(c.id, { instore: { [id]: { amount, at: new Date().toISOString(), ...(dbl ? { double: true } : {}) } } }); S.instore = { code: '', amount: '' }; }, `Added ${Math.round(amount * PTS * (dbl ? 2 : 1))} points for ${c.name || 'member'}`);
     }
     else if (a === 'toggle-open') run(() => S.db.doc('config/current').update({ open: !isOpen() }), isOpen() ? 'App ordering paused' : 'App ordering resumed');
     else if (a === 'reset-draft') { S.draft = null; render(); }
@@ -3784,6 +4347,14 @@ var qrcode = function() {
     else if (el.dataset.g) { S.gift[el.dataset.g] = val; if (el.dataset.g === 'custom') render(); }
     else if (el.hasAttribute('data-redeem')) S.redeemCode = val;
     else if (el.dataset.is) S.instore[el.dataset.is] = val;
+    else if (el.dataset.pick) { const [id, k] = el.dataset.pick.split(':'); if (k === 'grind' && GRINDS.includes(val)) pickOf(id).grind = val; if (k === 'freq' && planDays(val)) pickOf(id).freq = val; }
+    else if (el.dataset.sf) S.sf[el.dataset.sf] = val;
+    else if (el.hasAttribute('data-ref')) S.refCode = val;
+    else if (el.dataset.sub) {
+      const [id, k] = el.dataset.sub.split(':'), x = mine().subs.find((y) => y.id === id); if (!x) return;
+      if (k === 'grind' && GRINDS.includes(val) && val !== x.grind) run(() => saveMine({ subs: { [id]: { grind: val } } }), `Grind changed to ${val}`);
+      if (k === 'plan' && planDays(val) && val !== x.plan) run(() => saveMine({ subs: { [id]: { plan: val, start: x.next || addDays(ldate(), 2) } } }), `Now ${PLANS[val].toLowerCase()}`);
+    }
     else if (el.dataset.d && S.draft) S.draft[el.dataset.d] = val;
     else if (el.dataset.m && S.draft) S.draft.menu[+el.dataset.m][el.dataset.k] = val;
     else if (el.dataset.fin) {
@@ -3827,10 +4398,11 @@ var qrcode = function() {
 
   // ---------- boot ----------
   try { const v = new URLSearchParams(location.search).get('view'); if (v === 'app' || v === 'site') localStorage.setItem('bija.view', v); } catch {}
-  if (['#home', '#order', '#beans', '#card', '#gifts', '#secret', '#orders'].includes(location.hash)) S.tab = location.hash.slice(1);
+  if (['#home', '#order', '#beans', '#card', '#gifts', '#secret', '#orders', '#club'].includes(location.hash)) S.tab = location.hash.slice(1);
   try { S.lastOpts = JSON.parse(localStorage.getItem('bija.opts')) || {}; } catch {}
   addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); S.installEvt = e; render(); });
   S.form.name = store.get('bija.name') || '';
+  try { const r = new URLSearchParams(location.search).get('ref'); if (r && /^BIJA-[A-Z0-9]{2,5}$/i.test(r)) { S.refCode = r.toUpperCase(); if (!location.hash) S.tab = 'card'; } } catch {}
   S.theme = store.get('bija.theme') || 'noir';
   render();
   function listen(db) {
@@ -3839,6 +4411,7 @@ var qrcode = function() {
       db.doc('customers/' + S.uid).onSnapshot((s) => {
         S.me = s.exists ? s.data() : null; S.meLoaded = true;
         if (S.me && !S.form.name) S.form.name = S.me.name || '';
+        importWeb();
         render();
       }, () => { S.meLoaded = true; render(); });
       db.doc('bar/' + S.uid).onSnapshot((s) => {
@@ -3858,6 +4431,7 @@ var qrcode = function() {
     if (S.admin) {
       db.collection('customers').onSnapshot((q) => { S.customers = q.docs.map((d) => ({ id: d.id, ...d.data() })); S.custLoaded = true; render(); }, () => { S.custLoaded = true; render(); });
       db.collection('bar').onSnapshot((q) => { S.bars = Object.fromEntries(q.docs.map((d) => [d.id, d.data()])); render(); }, () => render());
+      if (S.demo) addEventListener('storage', (e) => { if (e.key === 'bija.shop.orders') importWeb(); if (e.key === 'bija.shop.cart') render(); });
       db.collection('finance').onSnapshot((q) => {
         const docs = q.docs.map((d) => ({ id: d.id, ...d.data() }));
         S.fin.settings = docs.find((d) => d.id === 'settings') || null;
