@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Coffee gifts from Bija: digital gift cards from £5, a three-month gift subscription for £36 with delivery included, and the £33 Discovery set. Find a gift by budget.">
+<title>Gifts · Bija</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="site-shop.css">
+<script src="site-shop.js" defer></script>
+<style>
+/* gifts: 8px spacing grid, three type sizes per section */
+.g3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+@media (max-width: 900px) { .g3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } }
+@media (max-width: 560px) { .g3 { grid-template-columns: minmax(0, 1fr); } }
+/* gift card tile: a black card with the Kawung pattern and the Bija mark, in place of a bag */
+.gcard-art { position: absolute; inset: 22% 12%; border-radius: 16px; background-color: #0b0b0b; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='%23ffffff' fill-opacity='.14'%3E%3Cellipse cx='28' cy='13' rx='7' ry='12'/%3E%3Cellipse cx='28' cy='43' rx='7' ry='12'/%3E%3Cellipse cx='13' cy='28' rx='12' ry='7'/%3E%3Cellipse cx='43' cy='28' rx='12' ry='7'/%3E%3Cellipse cx='0' cy='13' rx='7' ry='12'/%3E%3Cellipse cx='56' cy='13' rx='7' ry='12'/%3E%3Cellipse cx='0' cy='43' rx='7' ry='12'/%3E%3Cellipse cx='56' cy='43' rx='7' ry='12'/%3E%3Cellipse cx='13' cy='0' rx='12' ry='7'/%3E%3Cellipse cx='43' cy='0' rx='12' ry='7'/%3E%3Cellipse cx='13' cy='56' rx='12' ry='7'/%3E%3Cellipse cx='43' cy='56' rx='12' ry='7'/%3E%3C/g%3E%3C/svg%3E"); background-size: 40px 40px; box-shadow: 0 16px 24px rgba(0,0,0,.22); display: grid; place-items: center; transition: transform .6s var(--ease); }
+.gcard-art svg { width: 30%; height: auto; color: #fff; }
+.pcard:hover .gcard-art { transform: translateY(-6px) rotate(-2deg); }
+@media (prefers-reduced-motion: reduce) { .gcard-art { transition: none; } }
+.finder { display: grid; gap: 24px; }
+.finder .count { margin: 0; color: var(--muted); font-size: 14px; }
+.how { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .how { grid-template-columns: minmax(0, 1fr); } }
+.how > div { background: var(--tile); border-radius: 16px; padding: 32px; display: grid; gap: 8px; align-content: start; }
+.how h3 { margin: 0; font: 800 24px/1.1 var(--disp); text-transform: uppercase; }
+.how p { margin: 0; color: #3d3d3d; }
+</style>
+</head>
+<body class="shop-page">
+<a class="skip" href="#main">Skip to content</a>
+<div id="shop-top"></div>
+<main id="main">
+  <section class="hero2" aria-labelledby="h">
+    <img src="photos/feature-1.jpg" alt="">
+    <div class="wrap"><span class="eyebrow">Gifts</span><h1 id="h">Give them good kopi.</h1>
+      <p>Gift cards from £5, three months of coffee for £36 with delivery included, or three islands in one box for £33.</p>
+      <div class="ctas"><a class="btn" href="#finder">Find a gift by budget</a></div></div>
+  </section>
+
+  <div class="kband" aria-hidden="true" style="margin-top:0"><span data-mk></span></div>
+
+  <div class="wrap">
+    <section class="sec" aria-labelledby="pick-h">
+      <div class="sec-h"><div><span class="eyebrow">Our gifts</span><h2 id="pick-h">Three ways to give</h2></div></div>
+      <div class="g3" id="gifts3"></div>
+    </section>
+
+    <section class="sec" id="finder" aria-labelledby="find-h">
+      <div class="sec-h"><div><span class="eyebrow">Gift finder</span><h2 id="find-h">Gift by budget</h2><p>Choose a budget to see what fits. All prices include VAT.</p></div></div>
+      <div class="finder">
+        <div class="chips" role="radiogroup" aria-labelledby="find-h">
+          <button class="chip" role="radio" data-b="lo" aria-checked="true">Under £15</button>
+          <button class="chip" role="radio" data-b="mid" aria-checked="false">£15 to £35</button>
+          <button class="chip" role="radio" data-b="hi" aria-checked="false">£35 and over</button>
+        </div>
+        <p class="count" id="fcount" role="status" aria-live="polite"></p>
+        <div class="g3" id="fgrid"></div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="how-h">
+      <div class="sec-h"><div><span class="eyebrow">Good to know</span><h2 id="how-h">How each gift works</h2></div></div>
+      <div class="how">
+        <div><h3>Gift cards</h3><p>Choose £5 to £200 in the Bija app and add a message. Pay at the bar to activate it, then share the code. They spend it in the café or the app on coffee, cakes or 200 g bags of beans.</p></div>
+        <div><h3>Gift subscription</h3><p>Three 200 g bags over three months, one a month, prepaid at £36 with delivery included. We choose a different Indonesian coffee each month. No renewal, nothing to cancel.</p></div>
+        <div><h3>Discovery set</h3><p>Sumatra Mandheling, Sumatra Lintong and Old Brown Java, three 200 g bags for £33. Delivered by Royal Mail Tracked 48, free over £30, or collect free from 2a St James's Market.</p></div>
+      </div>
+    </section>
+  </div>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const S = window.BijaShop;
+  const MARK = '<svg viewBox="-2 -2 104 104" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="5"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg>';
+  // gift cards live in the app, so this tile links there instead of adding to the basket
+  const giftCard = (range = '£5 to £200') => `<article class="pcard" data-type="giftcard">
+    <a class="pimg" href="app.html?view=app#gifts" style="--pbg:#dfdeda" tabindex="-1" aria-hidden="true"><span class="gcard-art">${MARK}</span><span class="flag">In the app</span></a>
+    <div class="pbody"><span class="ptag">Gift card · digital</span><h3><a href="app.html?view=app#gifts">Bija gift card</a></h3>
+      <p class="pnotes">Café · App · Beans</p>
+      <div class="prow"><span class="pprice">${S.esc(range)}</span><p class="psub">Bought in the Bija app</p><a class="btn" href="app.html?view=app#gifts">Send a gift card</a></div></div>
+  </article>`;
+  const card = (id) => S.card(S.byId(id));
+  document.getElementById('gifts3').innerHTML = giftCard() + card('gift') + card('set');
+
+  const BUDGETS = {
+    lo: () => [giftCard('£5 to £15'), card('house'), card('mandheling')],
+    mid: () => [card('set'), giftCard('£15 to £35')],
+    hi: () => [card('gift'), giftCard('£35 to £200')],
+  };
+  const chips = [...document.querySelectorAll('[data-b]')], grid = document.getElementById('fgrid'), count = document.getElementById('fcount');
+  let b = 'lo';
+  const draw = () => {
+    const items = BUDGETS[b]();
+    grid.innerHTML = items.join('');
+    count.textContent = `${items.length} gift ideas ${{ lo: 'under £15', mid: 'from £15 to £35', hi: 'from £35' }[b]}`;
+    chips.forEach((c) => { c.setAttribute('aria-checked', c.dataset.b === b); c.tabIndex = c.dataset.b === b ? 0 : -1; });
+  };
+  chips.forEach((c, i) => {
+    c.addEventListener('click', () => { b = c.dataset.b; draw(); });
+    c.addEventListener('keydown', (e) => { const d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key]; if (!d) return; e.preventDefault(); const n = chips[(i + d + chips.length) % chips.length]; n.focus(); n.click(); });
+  });
+  draw();
+});
+</script>
+<div id="shop-foot"></div>
+</body>
+</html>
