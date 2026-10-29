@@ -1,14 +1,22 @@
-# Bija Coffee: website + app concept
+# Bija Coffee: website + app
 
-Concept rebuild of bijacoffee.co.uk with an order-ahead app. **Not an official Bija page.**
+Concept rebuild of bijacoffee.co.uk with an order-ahead app for Bija, St James's Market, London. **Not an official Bija page.**
 
-- `index.html`: the website (desktop). Phones and tablets are sent to the app automatically.
-- `app.html`: the mobile app: order ahead, bean shop with origin info, Bija Card, Origins Passport, Secret St James's, Barista view (demo: data stays in each browser).
-- Override: add `?view=site` or `?view=app` to the link; the choice is remembered on that device.
+Live (GitHub Pages): https://rfim.github.io/bija-coffee/
 
-## Photos
-Put Bija's photos in `photos/` with these names; each slot shows a labelled placeholder until its file exists:
-`feature-1..3.jpg`, `space-1..3.jpg`, `shop-1..5.jpg`, `speciality-1..3.jpg`, `founder.jpg`
+## What's here
+| File | What it is |
+|---|---|
+| `index.html` | Website. Phones and tablets are sent to the app; `?view=site` / `?view=app` overrides (remembered per device). |
+| `app.html` | Installable web app (PWA): order ahead with per-drink options, beans, Bija Card points, rewards and challenges, gift cards, Secret St James's, and a Barista view (queue, members, gift cards, finance, insights, menu). On GitHub Pages it runs in demo mode: data stays in each browser. |
+| `privacy.html`, `accessibility.html` | UK GDPR privacy notice and WCAG 2.2 AA accessibility statement (drafts for Bija to approve). |
+| `photos/` | Bija's photos, cropped and compressed for the web. Slots without a file show a labelled placeholder (`founder.jpg` is still needed). |
+| `manifest.webmanifest`, `sw.js`, `icons/` | Home-screen install, offline cache and app icons. |
+
+## Standards we follow
+- Accessibility: WCAG 2.2 AA (keyboard, focus, contrast, 44px tap targets, reduced motion, alt text).
+- UK law and good practice: prices include VAT; allergen information signposted (14 major allergens); company name and number in the footer (Companies Act); privacy notice under UK GDPR; no tracking cookies.
+- Security: all user text escaped; points, gift balances and finance can only be changed by staff (enforced by data access rules on the hosted version).
 
 ## To confirm with Bija
-Wording, bean details (region, altitude, process, notes), prices, and the Secret St James's facts.
+Wording, prices, bean details, loyalty numbers, Secret St James's facts, retention periods in the privacy notice, and the founder photo.
