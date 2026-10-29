@@ -1,15 +1,101 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!-- Concept until Bija approves: keep noindex. To launch, see docs/web/seo-launch.md -->
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#000000">
-<meta name="description" content="Bija: Indonesian specialty coffee, cakes and beans at 2a St James's Market, Piccadilly. Order ahead, collect points, send gift cards.">
+<title>Bija Coffee · Indonesian specialty coffee, St James's Market, Piccadilly</title>
+<meta name="description" content="Award-winning Indonesian specialty coffee, cakes and beans at 2a St James's Market, two minutes from Piccadilly Circus. Order ahead, pick up a 200 g bag for £12 or join the monthly bean subscription.">
+<link rel="canonical" href="https://rfim.github.io/bija-coffee/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bija Coffee">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://rfim.github.io/bija-coffee/">
+<meta property="og:title" content="Bija Coffee · Indonesian specialty coffee in St James's Market">
+<meta property="og:description" content="Best New Coffee Shop, London Coffee Festival Awards 2025. Kopi, Indonesian cakes and beans from Sumatra and Java, two minutes from Piccadilly Circus.">
+<meta property="og:image" content="https://rfim.github.io/bija-coffee/photos/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Bija's shop window in St James's Market, London">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bija Coffee · Indonesian specialty coffee in St James's Market">
+<meta name="twitter:description" content="Award-winning kopi, Indonesian cakes and beans, two minutes from Piccadilly Circus.">
+<meta name="twitter:image" content="https://rfim.github.io/bija-coffee/photos/og-image.jpg">
+<meta name="twitter:image:alt" content="Bija's shop window in St James's Market, London">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"CafeOrCoffeeShop","name":"Bija Coffee","address":{"@type":"PostalAddress","streetAddress":"2a St James's Market","addressLocality":"London","postalCode":"SW1Y 4AH","addressCountry":"GB"},"telephone":"+44 20 4603 3086","servesCuisine":"Indonesian","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"08:00","closes":"17:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"11:00","closes":"18:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Sunday","opens":"12:00","closes":"18:00"}]}</script>
-<title>Bija Coffee</title>
+<link rel="preload" as="image" type="image/webp" href="photos/feature-1-800.webp" imagesrcset="photos/feature-1-800.webp 800w, photos/feature-1-1600.webp 850w" imagesizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)" fetchpriority="high">
+<!-- Local business data for search and maps. Geo point, price range and menu prices to confirm with Bija. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CafeOrCoffeeShop",
+  "@id": "https://rfim.github.io/bija-coffee/#cafe",
+  "name": "Bija Coffee",
+  "alternateName": "Bija London",
+  "description": "Independent Indonesian specialty coffee shop in St James's Market, Piccadilly, serving coffee from across the Indonesian archipelago, Indonesian cakes and whole beans.",
+  "url": "https://rfim.github.io/bija-coffee/",
+  "image": ["https://rfim.github.io/bija-coffee/photos/og-image.jpg", "https://rfim.github.io/bija-coffee/photos/space-3.jpg", "https://rfim.github.io/bija-coffee/photos/speciality-1.jpg"],
+  "logo": "https://rfim.github.io/bija-coffee/icons/icon-512.png",
+  "telephone": "+44 20 4603 3086",
+  "email": "info@bijalondon.co.uk",
+  "address": { "@type": "PostalAddress", "streetAddress": "2a St James's Market", "addressLocality": "London", "addressRegion": "Greater London", "postalCode": "SW1Y 4AH", "addressCountry": "GB" },
+  "geo": { "@type": "GeoCoordinates", "latitude": 51.50868, "longitude": -0.13317 },
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=Bija+Coffee+2a+St+James%27s+Market+London+SW1Y+4AH",
+  "areaServed": "London",
+  "servesCuisine": ["Coffee", "Indonesian"],
+  "priceRange": "£",
+  "currenciesAccepted": "GBP",
+  "acceptsReservations": false,
+  "award": "Best New Coffee Shop, London Coffee Festival Awards 2025",
+  "sameAs": ["https://www.instagram.com/bija.london/"],
+  "parentOrganization": { "@type": "Organization", "name": "Bija Coffee Limited", "legalName": "Bija Coffee Limited", "identifier": "Companies House 15383542" },
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "08:00", "closes": "17:30" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "11:00", "closes": "18:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "12:00", "closes": "18:00" }
+  ],
+  "potentialAction": { "@type": "OrderAction", "target": "https://rfim.github.io/bija-coffee/app.html?view=app", "deliveryMethod": "http://purl.org/goodrelations/v1#DeliveryModePickUp" },
+  "hasMenu": {
+    "@type": "Menu",
+    "name": "Bija menu",
+    "url": "https://rfim.github.io/bija-coffee/#menu",
+    "inLanguage": "en-GB",
+    "hasMenuSection": [
+      { "@type": "MenuSection", "name": "Coffee", "hasMenuItem": [
+        { "@type": "MenuItem", "name": "Espresso", "description": "Bija House Blend", "offers": { "@type": "Offer", "price": "3.00", "priceCurrency": "GBP" } },
+        { "@type": "MenuItem", "name": "Flat White", "description": "Double shot, silky milk", "offers": { "@type": "Offer", "price": "3.90", "priceCurrency": "GBP" } },
+        { "@type": "MenuItem", "name": "Latte", "description": "Double shot, more milk", "offers": { "@type": "Offer", "price": "4.00", "priceCurrency": "GBP" } },
+        { "@type": "MenuItem", "name": "Kopi Susu Aren", "description": "Espresso, milk and arenga palm sugar, hot or iced", "offers": { "@type": "Offer", "price": "4.50", "priceCurrency": "GBP" } },
+        { "@type": "MenuItem", "name": "Single-origin filter", "description": "Today's island, brewed by hand", "offers": { "@type": "Offer", "price": "4.50", "priceCurrency": "GBP" } },
+        { "@type": "MenuItem", "name": "Cold Brew", "description": "Steeped overnight, over ice", "offers": { "@type": "Offer", "price": "4.50", "priceCurrency": "GBP" } },
+        { "@type": "MenuItem", "name": "Arenga Affogato", "description": "Ice cream, espresso, palm sugar", "offers": { "@type": "Offer", "price": "5.50", "priceCurrency": "GBP" } },
+        { "@type": "MenuItem", "name": "Kopi Tubruk", "description": "Javanese style, grounds in the cup", "offers": { "@type": "Offer", "price": "3.50", "priceCurrency": "GBP" } }
+      ] },
+      { "@type": "MenuSection", "name": "Not coffee", "hasMenuItem": [
+        { "@type": "MenuItem", "name": "Teh Tarik", "description": "Pulled black tea, condensed milk", "offers": { "@type": "Offer", "price": "4.00", "priceCurrency": "GBP" } },
+        { "@type": "MenuItem", "name": "Iced Turmeric Blend", "description": "Turmeric blend, served iced", "offers": { "@type": "Offer", "price": "4.50", "priceCurrency": "GBP" } },
+        { "@type": "MenuItem", "name": "Mangga Passion Smoothie", "description": "Mango and passion fruit", "offers": { "@type": "Offer", "price": "5.50", "priceCurrency": "GBP" } },
+        { "@type": "MenuItem", "name": "Fresh juice", "offers": { "@type": "Offer", "price": "4.00", "priceCurrency": "GBP" } },
+        { "@type": "MenuItem", "name": "Hot chocolate", "description": "Indonesian cocoa", "offers": { "@type": "Offer", "price": "4.00", "priceCurrency": "GBP" } }
+      ] },
+      { "@type": "MenuSection", "name": "Cakes", "hasMenuItem": [
+        { "@type": "MenuItem", "name": "Lapis Legit", "description": "Thousand-layer spice cake", "offers": { "@type": "Offer", "price": "3.00", "priceCurrency": "GBP" } },
+        { "@type": "MenuItem", "name": "Bolu Pandan", "description": "Fluffy pandan chiffon", "offers": { "@type": "Offer", "price": "3.00", "priceCurrency": "GBP" } },
+        { "@type": "MenuItem", "name": "Klepon (3)", "description": "Pandan rice balls, molten palm sugar", "offers": { "@type": "Offer", "price": "3.00", "priceCurrency": "GBP" } }
+      ] },
+      { "@type": "MenuSection", "name": "Coffee beans", "description": "Whole beans roasted with Kindred Forest, 200 g bags", "hasMenuItem": [
+        { "@type": "MenuItem", "name": "Sumatra Lintong, 200 g", "offers": { "@type": "Offer", "price": "12.00", "priceCurrency": "GBP" } },
+        { "@type": "MenuItem", "name": "Sumatra Mandheling, 200 g", "offers": { "@type": "Offer", "price": "12.00", "priceCurrency": "GBP" } },
+        { "@type": "MenuItem", "name": "Bija House Blend, 200 g", "offers": { "@type": "Offer", "price": "12.00", "priceCurrency": "GBP" } },
+        { "@type": "MenuItem", "name": "Old Brown Java, 200 g", "offers": { "@type": "Offer", "price": "12.00", "priceCurrency": "GBP" } }
+      ] }
+    ]
+  }
+}
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
 <script>
 /* One link, two modes: phones and tablets (touch-only or ≤1024px wide) open the app; computers get the website.
@@ -24,9 +110,7 @@
   } catch (e) {}
 })();
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
+<!-- No web fonts: the Helvetica-style system stack loads instantly, avoids a font-swap shift and sends no visitor data to Google. -->
 <style>
 /* Rebuild of bijacoffee.co.uk's layout: black page, white sans type, dense info header, photo grids,
    outline four-circle mark, About Us overlay. Photos load from photos/<name>.jpg; until a file exists the slot shows a labelled placeholder. */
@@ -40,16 +124,19 @@ body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.38 var(
 a { color: inherit; }
 button { font: inherit; color: inherit; cursor: pointer; }
 :focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.qrbox :focus-visible { outline-color: #000; }
+html { scroll-padding-top: 64px; }
+.sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 .page { padding: 0 20px 24px; }
 
 /* header */
 .top { display: grid; grid-template-columns: 120px minmax(0, 3.2fr) minmax(0, .9fr) minmax(0, 1.4fr) minmax(0, 1.5fr) 40px; gap: 20px; padding: 18px 0 22px; font-size: 12.5px; line-height: 1.32; }
-.top h4 { margin: 0 0 4px; font-size: 12.5px; font-weight: 600; }
-.top p { margin: 0 0 12px; color: #d6d6d6; }
+.top .h { margin: 0 0 4px; font-size: 12.5px; font-weight: 600; color: var(--ink); }
+.top p:not(.h) { margin: 0 0 12px; color: #d6d6d6; }
 .logo { font-size: 40px; font-weight: 500; letter-spacing: -.02em; line-height: 1; text-decoration: none; }
 .mark-btn { width: 36px; height: 36px; border: 0; background: transparent; padding: 0; justify-self: end; }
 .mark-btn svg { width: 36px; height: 36px; }
-.app-link { display: inline-block; margin-top: 6px; font-size: 12px; font-weight: 600; text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; }
+.app-link { display: inline-block; min-height: 24px; margin-top: 6px; font-size: 12px; font-weight: 600; text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; }
 .award { margin: 10px 0 0; font-size: 11px; color: var(--muted); line-height: 1.3; }
 .app-link:hover { background: #fff; color: #000; }
 @media (max-width: 1100px) { .top { grid-template-columns: 90px minmax(0, 1fr) minmax(0, 1fr) 36px; } .top .intro { grid-column: 2 / 4; } .top .visit { grid-column: 2; } .top .hours { grid-column: 3; } .top .contact { grid-column: 2 / 4; } .mark-btn { grid-row: 1; grid-column: 4; } .top { position: static; } }
@@ -58,10 +145,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* photo slots */
 .ph { position: relative; margin: 0; background: var(--ph); overflow: hidden; }
 .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.ph .lbl { position: absolute; left: 12px; bottom: 10px; right: 12px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: #6f6f6f; }
+.ph .lbl { position: absolute; left: 12px; bottom: 10px; right: 12px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: #a0a0a0; }
 .ph .pm { position: absolute; left: 50%; top: 50%; width: 22%; max-width: 70px; transform: translate(-50%, -60%); opacity: .18; }
 .ph.loaded .lbl, .ph.loaded .pm { display: none; }
 .ph.loaded { cursor: zoom-in; }
+.ph.loaded:focus-visible { outline-offset: -4px; }
 .lb { position: fixed; inset: 0; z-index: 50; display: none; }
 .lb.open { display: block; }
 .lb .bg { position: absolute; inset: 0; background: #000; opacity: 0; transition: opacity .22s cubic-bezier(.4,0,.22,1); }
@@ -96,7 +184,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .offer h3 { margin: 0 0 14px; font-size: 15px; font-weight: 600; }
 .offer p { margin: 0; color: #e4e4e4; }
 .beans { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
-.beans button { border: 0; background: transparent; padding: 1px 0; text-align: left; display: flex; gap: 8px; align-items: baseline; }
+.beans button { border: 0; background: transparent; padding: 2px 0; min-height: 24px; text-align: left; display: flex; gap: 8px; align-items: baseline; }
 .beans button::before { content: "•"; }
 .beans button:hover span:first-child { text-decoration: underline; }
 .beans small { color: var(--muted); }
@@ -115,7 +203,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* section nav under the info header */
 .snav { position: sticky; top: 0; z-index: 6; background: var(--bg); display: flex; gap: 18px; flex-wrap: wrap; align-items: center; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 10px 0; font-size: 13px; }
 [id] { scroll-margin-top: 64px; }
-.snav a { text-decoration: none; color: #d6d6d6; } .snav a:hover, .snav a.cur { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 640px) { [id] { scroll-margin-top: 100px; } html { scroll-padding-top: 100px; } }
+.snav a { text-decoration: none; color: #d6d6d6; padding: 3px 0; } .snav a:hover, .snav a.cur { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
 .snav .sp { flex: 1; }
 .openst { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
 .openst::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #8fbf7f; }
@@ -140,22 +229,42 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .bean .meta2 { font-size: 13px; color: var(--muted); }
 .bean .nt { display: flex; flex-wrap: wrap; gap: 6px; } .bean .nt span { font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; }
 .bean .row2 { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 4px; }
-.bean button.lnk { border: 0; background: transparent; padding: 0; text-decoration: underline; text-underline-offset: 3px; font-size: 13px; color: #d6d6d6; }
+.bean button.lnk { border: 0; background: transparent; padding: 4px 0; min-height: 24px; text-decoration: underline; text-underline-offset: 3px; font-size: 13px; color: #d6d6d6; }
 .bean.soon { opacity: .7; }
+/* bean subscription */
+.sub { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 40px; margin-top: 28px; align-items: start; }
+@media (max-width: 860px) { .sub { grid-template-columns: minmax(0, 1fr); gap: 28px; } }
+.sub-lead { margin: 0 0 10px; font-size: clamp(22px, 2vw, 28px); font-weight: 300; line-height: 1.2; max-width: 26ch; }
+.sub-price { margin: 0 0 22px; color: #d6d6d6; } .sub-price b { font-size: 22px; font-weight: 500; color: #fff; }
+.steps { list-style: none; counter-reset: st; margin: 0 0 18px; padding: 0; display: grid; gap: 14px; }
+.steps li { counter-increment: st; display: grid; grid-template-columns: 32px minmax(0, 1fr); color: #e4e4e4; max-width: 60ch; }
+.steps li::before { content: counter(st); width: 24px; height: 24px; border: 1px solid var(--line); border-radius: 50%; display: grid; place-items: center; font-size: 12px; }
+.steps li b { font-weight: 600; color: #fff; }
+.sub-small { margin: 0 0 14px; color: var(--muted); font-size: 14px; max-width: 60ch; }
+.sub-form { border: 1px solid var(--line); padding: 22px; }
+.sub-form h3 { margin: 0 0 6px; font-size: 18px; font-weight: 500; }
+.sub-form fieldset { border: 0; padding: 0; margin: 0 0 18px; min-width: 0; }
+.sub-form legend { padding: 0; margin-bottom: 4px; font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.opt { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; min-height: 44px; border-bottom: 1px dashed rgba(255,255,255,.12); cursor: pointer; }
+.opt small { color: var(--muted); font-size: 13px; }
+.opt input { width: 18px; height: 18px; margin: 0; accent-color: #fff; }
+.grinds { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; }
+.sub-form .ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.sub-form .note { color: var(--muted); }
 /* visit */
 .visit2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 24px; }
 @media (max-width: 860px) { .visit2 { grid-template-columns: minmax(0, 1fr); } }
 .hrs { width: 100%; border-collapse: collapse; font-size: 14px; }
-.hrs td { padding: 8px 0; border-bottom: 1px solid var(--line); }
+.hrs td, .hrs th { padding: 8px 0; border-bottom: 1px solid var(--line); text-align: left; font-weight: 400; }
 .hrs td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
-.hrs tr.today td { font-weight: 600; color: #fff; }
+.hrs tr.today td, .hrs tr.today th { font-weight: 600; color: #fff; }
 .mapbox { border: 1px solid var(--line); aspect-ratio: 16 / 10; position: relative; overflow: hidden; background: #0d0d0d; }
 .mapbox svg { width: 100%; height: 100%; display: block; }
 /* footer */
 .foot2 { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 24px; text-align: left; font-size: 13px; color: #bbb; padding-bottom: 18px; }
 @media (max-width: 760px) { .foot2 { grid-template-columns: 1fr 1fr; } }
-.foot2 h4 { margin: 0 0 8px; color: #fff; font-size: 13px; }
-.foot2 a { display: block; text-decoration: none; color: #bbb; margin-bottom: 4px; } .foot2 a:hover { color: #fff; }
+.foot2 h2 { margin: 0 0 8px; color: #fff; font-size: 13px; font-weight: 600; }
+.foot2 a { display: block; text-decoration: none; color: #bbb; padding: 3px 0; min-height: 24px; } .foot2 a:hover { color: #fff; }
 /* placeholders: soft light and grain until Bija's photos arrive */
 .ph:not(.loaded) { background: radial-gradient(120% 90% at 30% 20%, #262626 0%, #121212 55%, #0b0b0b 100%); }
 .ph:not(.loaded)::after { content: ""; position: absolute; inset: 0; opacity: .35; mix-blend-mode: overlay; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
@@ -244,7 +353,7 @@ dialog.show .ov > *:nth-child(2) { transition-delay: .12s; } dialog.show .ov > *
 dialog::backdrop { background: transparent; }
 @media (prefers-reduced-motion: reduce) {
   .mk.cycle, .mk.cycle * { animation: none !important; }
-  .rv, .ph img, .title::after, .shop h2, dialog .ov, dialog .ov > *, .mark-btn svg, .icons .mk .l-out circle { transition: none !important; }
+  .rv, .ph img, .title::after, .shop h2, dialog .ov, dialog .ov > *, .mark-btn svg, .icons .mk .l-out circle, .lb img, .lb .bg, .lb button { transition: none !important; }
   .rv { opacity: 1; transform: none; } .title::after { transform: none; } .shop h2 { opacity: 1; } .icons .mk .l-out circle { stroke-dashoffset: 0; }
 }
 </style>
@@ -265,30 +374,31 @@ dialog::backdrop { background: transparent; }
   <header class="top">
     <div><a class="logo" href="./">Bija</a><br><a class="app-link" href="app.html?view=app">Order in the app</a><p class="award">Best New Coffee Shop of the Year<br>London Coffee Festival 2025</p></div>
     <div class="intro">
-      <h4>Your Gateway to Authentic Indonesian Specialty Coffee</h4>
+      <p class="h">Your Gateway to Authentic Indonesian Specialty Coffee</p>
       <p>Right in St James's Market, Piccadilly, Bija brings coffee from across the Indonesian archipelago to London: a place to taste the islands, one cup at a time.</p>
-      <h4>Our Coffee: A Journey from Bean to Cup</h4>
+      <p class="h">Our Coffee: A Journey from Bean to Cup</p>
       <p>We work with a trusted UK roasting partner and choose beans from Indonesian growing regions with their own character, so every cup can tell you where it came from.</p>
     </div>
-    <div class="visit"><h4>Visit us</h4><p>Bija London<br>2a St James's<br>Market Piccadilly,<br>London<br>SW1Y 4AH</p></div>
-    <div class="hours"><h4>Opening Hours</h4><p><span class="openst" id="openNow">Opening hours</span></p><p>Monday – Friday: 8am – 5.30pm<br>Saturday: 11am – 6pm<br>Sunday: 12pm – 6pm</p></div>
-    <div class="contact"><h4>Contact</h4><p>Questions, collaborations or just hello:</p><p>Email: info@bijalondon.co.uk<br>Instagram: @bija.london<br>Phone: +44 20 4603 3086</p></div>
-    <button class="mark-btn" data-toggle-about aria-label="About Us"><svg class="m"><use href="#mark"/></svg><svg class="x" viewBox="0 0 36 36" aria-hidden="true"><path d="M9 9l18 18M27 9L9 27" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+    <div class="visit"><p class="h">Visit us</p><p>Bija London<br>2a St James's<br>Market Piccadilly,<br>London<br>SW1Y 4AH</p></div>
+    <div class="hours"><p class="h">Opening Hours</p><p><span class="openst" id="openNow">Opening hours</span></p><p>Monday – Friday: 8am – 5.30pm<br>Saturday: 11am – 6pm<br>Sunday: 12pm – 6pm</p></div>
+    <div class="contact"><p class="h">Contact</p><p>Questions, collaborations or just hello:</p><p>Email: <a href="mailto:info@bijalondon.co.uk">info@bijalondon.co.uk</a><br>Instagram: <a href="https://www.instagram.com/bija.london/" rel="noopener" target="_blank">@bija.london<span class="sr"> (opens in a new tab)</span></a><br>Phone: <a href="tel:+442046033086">+44 20 4603 3086</a></p></div>
+    <button class="mark-btn" data-toggle-about aria-label="About Bija" aria-haspopup="dialog" aria-controls="about" aria-expanded="false"><svg class="m" aria-hidden="true"><use href="#mark"/></svg><svg class="x" viewBox="0 0 36 36" aria-hidden="true"><path d="M9 9l18 18M27 9L9 27" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg></button>
 
   </header>
-  <nav class="snav" aria-label="Sections"><a href="#menu">Menu</a><a href="#beans">Beans</a><a href="#whats-on">What's On</a><a href="#card">Bija Card &amp; Gifts</a><a href="#visit">Visit</a><span class="sp"></span><a href="app.html?view=app" class="app-link" style="margin:0">Order ahead</a></nav>
+  <nav class="snav" aria-label="Sections"><a href="#menu">Menu</a><a href="#beans">Beans</a><a href="#subscribe">Subscription</a><a href="#whats-on">What's On</a><a href="#card">Bija Card &amp; Gifts</a><a href="#visit">Visit</a><span class="sp"></span><a href="app.html?view=app" class="app-link" style="margin:0">Order ahead</a></nav>
+  <main id="main">
   <section class="hero1">
     <h1>Indonesian specialty coffee in St James's Market</h1>
     <p>Award-winning kopi, Indonesian cakes and beans from Sumatra and Java, two minutes from Piccadilly Circus.</p>
     <div class="ctas"><a class="cta" href="app.html?view=app">Order ahead</a><a class="cta ghost" href="#beans">Shop beans</a><span class="openst" id="openNow3"></span></div>
   </section>
-  <main id="main">
 
   <section>
+    <h2 class="sr">Why Bija</h2>
     <div class="grid3">
-      <figure class="ph" data-src="photos/feature-1.jpg" data-label="Batik textile mural above the bean shelves"></figure>
-      <figure class="ph" data-src="photos/feature-2.jpg" data-label="Bija Coffee St James's window poster"></figure>
-      <figure class="ph" data-src="photos/feature-3.jpg" data-label="Arenga sugar at the condiment bar"></figure>
+      <figure class="ph" data-label="Batik textile mural above the bean shelves"><picture><source type="image/webp" srcset="photos/feature-1-800.webp 800w, photos/feature-1-1600.webp 850w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)"><img src="photos/feature-1.jpg" srcset="photos/feature-1-800.jpg 800w, photos/feature-1.jpg 850w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)" width="850" height="1150" alt="Batik textile mural above the bean shelves" fetchpriority="high" decoding="async"></picture></figure>
+      <figure class="ph" data-label="Bija Coffee St James's window poster"><picture><source type="image/webp" srcset="photos/feature-2-800.webp 800w, photos/feature-2-1600.webp 915w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)"><img src="photos/feature-2.jpg" srcset="photos/feature-2-800.jpg 800w, photos/feature-2.jpg 915w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)" width="915" height="780" alt="Bija Coffee St James's window poster" decoding="async"></picture></figure>
+      <figure class="ph" data-label="Arenga sugar at the condiment bar"><picture><source type="image/webp" srcset="photos/feature-3-800.webp 800w, photos/feature-3-1600.webp 1200w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)"><img src="photos/feature-3.jpg" srcset="photos/feature-3-800.jpg 800w, photos/feature-3.jpg 1200w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)" width="1200" height="1600" alt="Arenga sugar at the condiment bar" decoding="async"></picture></figure>
     </div>
     <div class="grid3 cap">
       <div><h3>Authentic Indonesian Flavours</h3><p>Our beans come from Indonesia's best-known coffee regions. From a heavy, earthy Sumatra to a gentler Java, each cup shows what the islands can do.</p></div>
@@ -300,35 +410,35 @@ dialog::backdrop { background: transparent; }
 
   <section>
     <div class="grid3">
-      <figure class="ph" data-src="photos/space-1.jpg" data-label="Choosing a bag from the bean shelf"></figure>
-      <figure class="ph" data-src="photos/space-2.jpg" data-label="Best New Coffee Shop 2025 award in the window"></figure>
-      <figure class="ph" data-src="photos/space-3.jpg" data-label="Window bar seats and flower lamps"></figure>
+      <figure class="ph" data-label="Choosing a bag from the bean shelf"><picture><source type="image/webp" srcset="photos/space-1-800.webp 800w, photos/space-1-1600.webp 1200w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)"><img src="photos/space-1.jpg" srcset="photos/space-1-800.jpg 800w, photos/space-1.jpg 1200w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)" width="1200" height="1600" alt="Choosing a bag from the bean shelf" loading="lazy" decoding="async"></picture></figure>
+      <figure class="ph" data-label="Best New Coffee Shop 2025 award in the window"><picture><source type="image/webp" srcset="photos/space-2-800.webp 800w, photos/space-2-1600.webp 1066w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)"><img src="photos/space-2.jpg" srcset="photos/space-2-800.jpg 800w, photos/space-2.jpg 1066w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)" width="1066" height="1600" alt="Best New Coffee Shop 2025 award in the window" loading="lazy" decoding="async"></picture></figure>
+      <figure class="ph" data-label="Window bar seats and flower lamps"><picture><source type="image/webp" srcset="photos/space-3-800.webp 800w, photos/space-3-1600.webp 1200w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)"><img src="photos/space-3.jpg" srcset="photos/space-3-800.jpg 800w, photos/space-3.jpg 1200w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)" width="1200" height="1600" alt="Window bar seats and flower lamps" loading="lazy" decoding="async"></picture></figure>
     </div>
   </section>
 
   <section class="shop" aria-label="Shop at Bija">
-    <figure class="ph" data-src="photos/shop-1.jpg" data-label="Lapis legit and a latte"></figure>
-    <figure class="ph" data-src="photos/shop-2.jpg" data-label="Flower pendant lamps"></figure>
-    <figure class="ph wide" data-src="photos/shop-3.jpg" data-label="Bija shop window, St James's Market"></figure>
-    <figure class="ph" data-src="photos/shop-4.jpg" data-label="A Bija cup to go"></figure>
-    <figure class="ph" data-src="photos/shop-5.jpg" data-label="Sumatra Mandheling bags"></figure>
+    <figure class="ph" data-label="Lapis legit and a latte"><picture><source type="image/webp" srcset="photos/shop-1-800.webp 255w" sizes="(max-width: 760px) calc((100vw - 52px) / 2), calc((100vw - 88px) / 6)"><img src="photos/shop-1.jpg" sizes="(max-width: 760px) calc((100vw - 52px) / 2), calc((100vw - 88px) / 6)" width="255" height="720" alt="Lapis legit and a latte" loading="lazy" decoding="async"></picture></figure>
+    <figure class="ph" data-label="Flower pendant lamps"><picture><source type="image/webp" srcset="photos/shop-2-800.webp 800w, photos/shop-2-1600.webp 820w" sizes="(max-width: 760px) calc(100vw - 52px), calc((100vw - 88px) / 3)"><img src="photos/shop-2.jpg" srcset="photos/shop-2-800.jpg 800w, photos/shop-2.jpg 820w" sizes="(max-width: 760px) calc(100vw - 52px), calc((100vw - 88px) / 3)" width="820" height="560" alt="Flower pendant lamps" loading="lazy" decoding="async"></picture></figure>
+    <figure class="ph wide" data-label="Bija shop window, St James's Market"><picture><source type="image/webp" srcset="photos/shop-3-800.webp 800w, photos/shop-3-1600.webp 1500w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 88px) / 3)"><img src="photos/shop-3.jpg" srcset="photos/shop-3-800.jpg 800w, photos/shop-3.jpg 1500w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 88px) / 3)" width="1500" height="900" alt="Bija shop window, St James's Market" loading="lazy" decoding="async"></picture></figure>
+    <figure class="ph" data-label="A Bija cup to go"><picture><source type="image/webp" srcset="photos/shop-4-800.webp 245w" sizes="(max-width: 760px) calc((100vw - 52px) / 2), calc((100vw - 88px) / 6)"><img src="photos/shop-4.jpg" sizes="(max-width: 760px) calc((100vw - 52px) / 2), calc((100vw - 88px) / 6)" width="245" height="715" alt="A Bija cup to go" loading="lazy" decoding="async"></picture></figure>
+    <figure class="ph" data-label="Sumatra Mandheling bags"><picture><source type="image/webp" srcset="photos/shop-5-800.webp 580w" sizes="(max-width: 760px) calc((100vw - 52px) / 2), calc((100vw - 88px) / 6)"><img src="photos/shop-5.jpg" sizes="(max-width: 760px) calc((100vw - 52px) / 2), calc((100vw - 88px) / 6)" width="580" height="710" alt="Sumatra Mandheling bags" loading="lazy" decoding="async"></picture></figure>
     <h2>Shop at Bija</h2>
   </section>
 
   <h2 class="title">Indonesian Speciality Coffee</h2>
   <div class="grid3" style="margin-top:14px">
-    <figure class="ph" data-src="photos/speciality-1.jpg" data-label="Coffee at the window bar"></figure>
-    <figure class="ph" data-src="photos/speciality-2.jpg" data-label="Read 'em and return book shelf"></figure>
-    <figure class="ph" data-src="photos/speciality-3.jpg" data-label="Spooning arenga sugar"></figure>
+    <figure class="ph" data-label="Coffee at the window bar"><picture><source type="image/webp" srcset="photos/speciality-1-800.webp 800w, photos/speciality-1-1600.webp 1150w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)"><img src="photos/speciality-1.jpg" srcset="photos/speciality-1-800.jpg 800w, photos/speciality-1.jpg 1150w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)" width="1150" height="1150" alt="Coffee at the window bar" loading="lazy" decoding="async"></picture></figure>
+    <figure class="ph" data-label="Read 'em and return book shelf"><picture><source type="image/webp" srcset="photos/speciality-2-800.webp 610w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)"><img src="photos/speciality-2.jpg" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)" width="610" height="370" alt="Read 'em and return book shelf" loading="lazy" decoding="async"></picture></figure>
+    <figure class="ph" data-label="Spooning arenga sugar"><picture><source type="image/webp" srcset="photos/speciality-3-800.webp 800w, photos/speciality-3-1600.webp 1050w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)"><img src="photos/speciality-3.jpg" srcset="photos/speciality-3-800.jpg 800w, photos/speciality-3.jpg 1050w" sizes="(max-width: 760px) calc(100vw - 40px), calc((100vw - 64px) / 3)" width="1050" height="1600" alt="Spooning arenga sugar" loading="lazy" decoding="async"></picture></figure>
   </div>
 
   <h2 class="title" id="whats-on">What's On</h2>
   <div class="events">
-      <article><time>2026-09-11</time><h3>Bija at Celebrasia</h3><p>Find our coffee at one of London's biggest celebrations of Asian culture.</p></article>
-      <article><time>2026-08-17</time><h3>Indonesian Independence Day</h3><p>Wear batik for a free slice of cake, try the Arenga Affogato, with Edge Group Conservation raising support for the Javan rhino.</p></article>
-      <article><time>2026-05-14</time><h3>London Coffee Festival</h3><p>Founder Devi Trianna on the Ones to Watch stage at the Truman Brewery.</p></article>
-      <article><time>2026-04-30</time><h3>Thursday Afterhours with DUNIA</h3><p>An evening of Indonesian-powered businesses: drinks, pastries and Indonesian music selectors.</p></article>
-      <article><time>2026-04-22</time><h3>Earth Day</h3><p>Free bags of used coffee grounds for your plants and garden.</p></article>
+      <article><time datetime="2026-09-11">2026-09-11</time><h3>Bija at Celebrasia</h3><p>Find our coffee at one of London's biggest celebrations of Asian culture.</p></article>
+      <article><time datetime="2026-08-17">2026-08-17</time><h3>Indonesian Independence Day</h3><p>Wear batik for a free slice of cake, try the Arenga Affogato, with Edge Group Conservation raising support for the Javan rhino.</p></article>
+      <article><time datetime="2026-05-14">2026-05-14</time><h3>London Coffee Festival</h3><p>Founder Devi Trianna on the Ones to Watch stage at the Truman Brewery.</p></article>
+      <article><time datetime="2026-04-30">2026-04-30</time><h3>Thursday Afterhours with DUNIA</h3><p>An evening of Indonesian-powered businesses: drinks, pastries and Indonesian music selectors.</p></article>
+      <article><time datetime="2026-04-22">2026-04-22</time><h3>Earth Day</h3><p>Free bags of used coffee grounds for your plants and garden.</p></article>
   </div>
   <p class="perk">♻ Free used coffee grounds for your plants and garden. Just ask at the bar.</p>
 
@@ -346,7 +456,42 @@ dialog::backdrop { background: transparent; }
 
   <h2 class="title" id="beans">Bija Coffee Beans</h2>
   <div class="bshop" id="beanShop"></div>
-  <p class="note2">Roasted with Kindred Forest. Reserve a bag in the app and collect it at the bar.</p>
+  <p class="note2">Roasted with Kindred Forest. Reserve a bag in the app and collect it at the bar, or <a href="#subscribe">get one every month</a>.</p>
+
+  <h2 class="title" id="subscribe">Bean Subscription</h2>
+  <div class="sub">
+    <div class="sub-copy">
+      <p class="sub-lead">A fresh 200 g bag of Indonesian coffee every month, set aside for you at the bar.</p>
+      <p class="sub-price"><b>£12</b> a month <span aria-hidden="true">·</span> 200 g <span aria-hidden="true">·</span> collect in store</p>
+      <ol class="steps">
+        <li><span><b>Pick your origin.</b> Stay with a favourite, or let us take you round the islands with a different coffee each month.</span></li>
+        <li><span><b>Collect it in St James's Market.</b> Your bag is ready from the 1st of the month with your name on it. Pick it up any time in opening hours, and have a coffee while you're here.</span></li>
+        <li><span><b>Pause, skip or stop any time.</b> No minimum term and no fees. Going away? Skip a month in a tap.</span></li>
+      </ol>
+      <p class="sub-small">Every bag earns Bija Card points, just like buying it at the till. Whole beans or ground to order for your brewer.</p>
+    </div>
+    <section class="sub-form" aria-labelledby="subFormTitle">
+      <h3 id="subFormTitle">Register your interest</h3>
+      <p class="sub-small">The subscription opens soon. There's nothing to pay now: tell us what you'd like and we'll let you know first.</p>
+      <fieldset><legend>Origin</legend>
+        <label class="opt"><input type="radio" name="subOrigin" value="Round the islands (a different origin each month)" checked> Round the islands <small>a different origin each month</small></label>
+        <label class="opt"><input type="radio" name="subOrigin" value="Sumatra Lintong"> Sumatra Lintong <small>herbal, cocoa</small></label>
+        <label class="opt"><input type="radio" name="subOrigin" value="Sumatra Mandheling"> Sumatra Mandheling <small>dark chocolate, earthy</small></label>
+        <label class="opt"><input type="radio" name="subOrigin" value="Bija House Blend"> Bija House Blend <small>chocolate, caramel</small></label>
+        <label class="opt"><input type="radio" name="subOrigin" value="Old Brown Java"> Old Brown Java <small>woody, spice</small></label>
+      </fieldset>
+      <fieldset><legend>Grind</legend>
+        <div class="grinds">
+          <label class="opt"><input type="radio" name="subGrind" value="Whole beans" checked> Whole beans</label>
+          <label class="opt"><input type="radio" name="subGrind" value="Espresso"> Espresso</label>
+          <label class="opt"><input type="radio" name="subGrind" value="Filter"> Filter</label>
+          <label class="opt"><input type="radio" name="subGrind" value="Cafetière"> Cafetière</label>
+        </div>
+      </fieldset>
+      <div class="ctas"><a class="cta" id="subApp" href="app.html?view=app&amp;interest=subscription#beans">Register in the app</a><a class="cta ghost" id="subMail" href="mailto:info@bijalondon.co.uk?subject=Bean%20subscription%3A%20register%20interest">Register by email</a></div>
+      <p class="note">Email opens your own email app with your choices filled in. We only use your address to tell you about the subscription; see our <a href="privacy.html">privacy notice</a>.</p>
+    </section>
+  </div>
 
   <h2 class="title" id="visit">Visit</h2>
   <div class="visit2">
@@ -354,10 +499,10 @@ dialog::backdrop { background: transparent; }
       <p style="margin:0 0 6px;font-size:18px">2a St James's Market, London SW1Y 4AH</p>
       <p style="margin:0 0 16px;color:var(--muted)">About two minutes' walk from Piccadilly Circus station. <span class="openst" id="openNow2"></span></p>
       <table class="hrs" id="hoursTable"></table>
-      <p style="margin-top:16px"><a class="cta" href="https://www.google.com/maps/search/?api=1&amp;query=Bija+Coffee+2a+St+James%27s+Market+London+SW1Y+4AH" rel="noopener" target="_blank">Get directions</a> <a class="app-link" style="margin-left:8px" href="tel:+442046033086">Call +44 20 4603 3086</a></p>
+      <p style="margin-top:16px"><a class="cta" href="https://www.google.com/maps/search/?api=1&amp;query=Bija+Coffee+2a+St+James%27s+Market+London+SW1Y+4AH" rel="noopener" target="_blank">Get directions<span class="sr"> (opens Google Maps in a new tab)</span></a> <a class="app-link" style="margin-left:8px" href="tel:+442046033086">Call +44 20 4603 3086</a></p>
     </div>
-    <div class="mapbox" aria-label="Sketch map: Bija is in St James's Market, between Haymarket and Regent Street St James's, south of Piccadilly Circus">
-      <svg viewBox="0 0 340 212" preserveAspectRatio="xMidYMid slice"><g stroke="#fff" stroke-opacity=".14" stroke-width="10" fill="none" stroke-linecap="round"><path d="M0 30 L340 18"/><path d="M30 72 L310 62"/><path d="M50 172 L330 160"/><path d="M308 8 L316 170"/><path d="M236 14 L244 170"/><path d="M0 204 L340 196"/></g>
+    <div class="mapbox" role="img" aria-label="Sketch map: Bija is in St James's Market, between Haymarket and Regent Street St James's, south of Piccadilly Circus">
+      <svg viewBox="0 0 340 212" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g stroke="#fff" stroke-opacity=".14" stroke-width="10" fill="none" stroke-linecap="round"><path d="M0 30 L340 18"/><path d="M30 72 L310 62"/><path d="M50 172 L330 160"/><path d="M308 8 L316 170"/><path d="M236 14 L244 170"/><path d="M0 204 L340 196"/></g>
       <circle cx="248" cy="22" r="7" fill="none" stroke="#fff" stroke-width="2"/><text x="236" y="14" font-size="11" fill="#b5b5b5" font-family="Helvetica, Arial">PICCADILLY CIRCUS</text>
       <g font-family="Helvetica, Arial" font-size="11" fill="#9a9a9a" letter-spacing=".06em"><text x="70" y="22">PICCADILLY</text><text x="40" y="66">JERMYN ST</text><text x="120" y="178">PALL MALL</text><text x="322" y="120" transform="rotate(86 322 120)">HAYMARKET</text></g>
       <g transform="translate(276 110)"><circle r="18" fill="#fff"/><g transform="translate(-11 -11) scale(.22)" fill="none" stroke="#000" stroke-width="7"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></g>
@@ -383,10 +528,10 @@ dialog::backdrop { background: transparent; }
   </main>
   <footer>
     <div class="foot2">
-      <div><h4>Bija</h4><p style="margin:0">Indonesian specialty coffee, cakes and beans in St James's Market, Piccadilly.</p></div>
-      <div><h4>Visit</h4><a href="#visit">Hours &amp; directions</a><a href="#menu">Menu</a><a href="#beans">Beans</a></div>
-      <div><h4>App</h4><a href="app.html?view=app">Order ahead</a><a href="app.html?view=app#card">Bija Card</a><a href="app.html?view=app#gifts">Gift cards</a></div>
-      <div><h4>Say hello</h4><a href="mailto:info@bijalondon.co.uk">info@bijalondon.co.uk</a><a href="https://www.instagram.com/bija.london/" rel="noopener" target="_blank">Instagram @bija.london</a><a href="tel:+442046033086">+44 20 4603 3086</a></div>
+      <div><h2>Bija</h2><p style="margin:0">Indonesian specialty coffee, cakes and beans in St James's Market, Piccadilly.</p></div>
+      <div><h2>Visit</h2><a href="#visit">Hours &amp; directions</a><a href="#menu">Menu</a><a href="#beans">Beans</a><a href="#subscribe">Bean subscription</a></div>
+      <div><h2>App</h2><a href="app.html?view=app">Order ahead</a><a href="app.html?view=app#card">Bija Card</a><a href="app.html?view=app#gifts">Gift cards</a></div>
+      <div><h2>Say hello</h2><a href="mailto:info@bijalondon.co.uk">info@bijalondon.co.uk</a><a href="https://www.instagram.com/bija.london/" rel="noopener" target="_blank">Instagram @bija.london<span class="sr"> (opens in a new tab)</span></a><a href="tel:+442046033086">+44 20 4603 3086</a></div>
     </div>
     <p style="margin:0 0 6px"><a href="privacy.html" style="color:inherit">Privacy &amp; cookies</a> · <a href="accessibility.html" style="color:inherit">Accessibility</a> · <a href="#menu" style="color:inherit">Allergens</a></p>
     © Bija Coffee Limited, registered in England and Wales, company number 15383542. · Concept rebuild by Firman Insan M, not an official Bija page.</footer>
@@ -394,22 +539,23 @@ dialog::backdrop { background: transparent; }
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo"><div class="bg"></div><img alt=""><button class="lb-x" aria-label="Close">×</button><button class="lb-p" aria-label="Previous">‹</button><button class="lb-n" aria-label="Next">›</button><div class="lb-c"></div></div>
 
-<dialog id="about" aria-label="About Us">
+<dialog id="about" aria-labelledby="aboutTitle">
   <div class="ov">
-    <div class="ov-h"><h2>About Us</h2><button class="close" data-close aria-label="Close">×</button></div>
+    <div class="ov-h"><h2 id="aboutTitle">About Us</h2><button class="close" data-close aria-label="Close">×</button></div>
     <div class="big-slot" data-big></div>
     <div class="two">
       <div><h3>Our Philosophy</h3><p>Authenticity, quality and community. We want to give London a true Indonesian coffee experience and a place where culture and conversation meet.</p></div>
       <div><h3>Our Name</h3><p><i>Bija</i> means “seed” in Indonesian. It stands for where every bean begins, and for the care and traceability we bring from the very start.</p></div>
-      <div class="founder"><h3>Founder: Devi Trianna</h3><figure class="ph" data-src="photos/founder.jpg" data-label="Founder portrait"></figure></div>
+      <div class="founder"><h3>Founder: Devi Trianna</h3><!-- founder.jpg not supplied yet: when it is, rename data-pending to data-src -->
+        <figure class="ph" data-pending="photos/founder.jpg" data-label="Founder portrait"></figure></div>
       <div><h3>&nbsp;</h3><p><b>Media professional and coffee lover.</b> Devi brings a deep connection to Indonesia's coffee culture and years of media work across several cities to Bija, bridging Indonesian coffee tradition and London's coffee scene.</p></div>
     </div>
   </div>
 </dialog>
 
-<dialog id="qr" class="qrd" aria-label="Order on your phone"><div class="ov"><div class="qrbox"><img src="icons/app-qr.png" alt="QR code that opens the Bija app"><b>Scan to order on your phone</b><p style="font-size:14px;margin:8px 0 14px">Order ahead, collect points and pay at the bar. On iPhone and Android, add it to your home screen.</p><a id="qrCont" href="app.html?view=app">Or continue on this computer</a><br><button class="close" data-close style="color:#000;font-size:14px;margin-top:10px;border:0;background:none;text-decoration:underline">Close</button></div></div></dialog>
+<dialog id="qr" class="qrd" aria-labelledby="qrTitle"><div class="ov"><div class="qrbox"><img src="icons/app-qr.png" alt="QR code that opens the Bija app"><h2 id="qrTitle" style="font-size:16px;margin:0">Scan to open the app on your phone</h2><p style="font-size:14px;margin:8px 0 14px">Order ahead, collect points and pay at the bar. On iPhone and Android, add it to your home screen.</p><a id="qrCont" href="app.html?view=app">Or continue on this computer</a><br><button class="close" data-close style="color:#000;font-size:14px;margin-top:10px;border:0;background:none;text-decoration:underline">Close</button></div></div></dialog>
 
-<dialog id="bean" aria-label="Bean details"><div class="ov"><div class="ov-h"><h2 id="beanTitle">Bean</h2><button class="close" data-close aria-label="Close">×</button></div><div class="bean-d" id="beanBody"></div></div></dialog>
+<dialog id="bean" aria-labelledby="beanTitle"><div class="ov"><div class="ov-h"><h2 id="beanTitle">Bean</h2><button class="close" data-close aria-label="Close">×</button></div><div class="bean-d" id="beanBody"></div></div></dialog>
 
 <script>
 (() => {
@@ -445,7 +591,7 @@ dialog::backdrop { background: transparent; }
     const open = now.h >= o && now.h < c, next = HOURS[(i + 1) % 7];
     const txt = open ? `Open now · until ${hm(c)}` : now.h < o ? `Closed · opens ${hm(o)} today` : `Closed · opens ${hm(next[1])} ${next[0]}`;
     for (const id of ['openNow', 'openNow2', 'openNow3']) { const el = document.getElementById(id); el.textContent = txt; el.classList.toggle('shut', !open); }
-    document.getElementById('hoursTable').innerHTML = HOURS.map(([d, a, z]) => `<tr class="${d === now.day ? 'today' : ''}"><td>${d}${d === now.day ? ' (today)' : ''}</td><td>${hm(a)} – ${hm(z)}</td></tr>`).join('');
+    document.getElementById('hoursTable').innerHTML = '<caption class="sr">Opening hours</caption>' + HOURS.map(([d, a, z]) => `<tr class="${d === now.day ? 'today' : ''}"><th scope="row">${d}${d === now.day ? ' (today)' : ''}</th><td>${hm(a)} – ${hm(z)}</td></tr>`).join('');
   }
   paintHours(); setInterval(paintHours, 60000);
 
@@ -453,13 +599,27 @@ dialog::backdrop { background: transparent; }
   const navLinks = [...document.querySelectorAll('.snav a[href^="#"]')];
   if ('IntersectionObserver' in window) { const so = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) navLinks.forEach((a) => a.classList.toggle('cur', a.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-40% 0px -55% 0px' }); navLinks.forEach((a) => { const t = document.querySelector(a.getAttribute('href')); if (t) so.observe(t); }); }
 
-  // photo slots: load photos/<name>.jpg when present (only once near the screen), keep the labelled placeholder otherwise
+  // photo slots: responsive <picture> in the markup (800px / up to 1600px, WebP with JPEG fallback, native lazy loading).
+  // A slot with only data-src (a photo Bija hasn't sent yet) keeps its labelled placeholder until the file exists.
+  const loaded = (f) => { f.classList.add('loaded'); f.tabIndex = 0; f.setAttribute('role', 'button'); f.setAttribute('aria-label', `View photo larger: ${f.dataset.label}`); };
   document.querySelectorAll('.ph').forEach((f) => {
-    f.insertAdjacentHTML('afterbegin', `<svg class="pm" aria-hidden="true" style="color:#fff"><use href="#mark"/></svg><span class="lbl">${esc(f.dataset.label)}</span>`);
+    f.insertAdjacentHTML('afterbegin', `<svg class="pm" aria-hidden="true" style="color:#fff"><use href="#mark"/></svg><span class="lbl" aria-hidden="true">${esc(f.dataset.label)}</span>`);
+    const img = f.querySelector('picture img');
+    if (img) { if (img.complete && img.naturalWidth) loaded(f); else { img.addEventListener('load', () => loaded(f), { once: true }); img.addEventListener('error', () => img.parentElement.remove(), { once: true }); } }
   });
-  const loadPhoto = (f) => { const img = new Image(); img.alt = f.dataset.label || ''; img.decoding = 'async'; img.onload = () => { f.appendChild(img); f.classList.add('loaded'); }; img.src = f.dataset.src; };
-  if ('IntersectionObserver' in window) { const po = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { loadPhoto(e.target); po.unobserve(e.target); } }), { rootMargin: '600px 0px' }); document.querySelectorAll('.ph').forEach((f) => po.observe(f)); }
-  else document.querySelectorAll('.ph').forEach(loadPhoto);
+  const loadPhoto = (f) => { const img = new Image(); img.alt = f.dataset.label || ''; img.decoding = 'async'; img.onload = () => { f.appendChild(img); loaded(f); }; img.src = f.dataset.src; };
+  const pending = document.querySelectorAll('.ph[data-src]');
+  if ('IntersectionObserver' in window) { const po = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { loadPhoto(e.target); po.unobserve(e.target); } }), { rootMargin: '600px 0px' }); pending.forEach((f) => po.observe(f)); }
+  else pending.forEach(loadPhoto);
+  // bean subscription: register interest in the app or by email, carrying the chosen origin and grind (no payment, nothing stored here)
+  const subApp = document.getElementById('subApp'), subMail = document.getElementById('subMail');
+  const paintSub = () => {
+    const o = document.querySelector('[name=subOrigin]:checked').value, g = document.querySelector('[name=subGrind]:checked').value;
+    subApp.href = `app.html?view=app&interest=subscription&origin=${encodeURIComponent(o)}&grind=${encodeURIComponent(g)}#beans`;
+    const body = `Hello Bija,\n\nPlease let me know when the monthly bean subscription opens.\n\nOrigin: ${o}\nGrind: ${g}\nMy name: \n\nThank you`;
+    subMail.href = `mailto:info@bijalondon.co.uk?subject=${encodeURIComponent('Bean subscription: register interest')}&body=${encodeURIComponent(body)}`;
+  };
+  document.querySelectorAll('[name=subOrigin],[name=subGrind]').forEach((r) => r.addEventListener('change', paintSub)); paintSub();
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(() => {});
 
   { const ts = [...document.querySelectorAll('.events time')].map((t) => t.textContent); const today = new Date().toISOString().slice(0, 10);
@@ -491,10 +651,18 @@ dialog::backdrop { background: transparent; }
 
   // About opens and closes with the corner mark, animated both ways
   const about = document.getElementById('about');
-  const showD = (d) => { if (d.showModal) d.showModal(); else d.setAttribute('open', ''); requestAnimationFrame(() => requestAnimationFrame(() => d.classList.add('show'))); if (d === about) document.body.classList.add('about-open'); };
-  const hideD = (d) => { d.classList.remove('show'); if (d === about) document.body.classList.remove('about-open'); setTimeout(() => { if (!d.classList.contains('show')) d.close(); }, reduce ? 0 : 650); };
+  const showD = (d) => { if (d.showModal) d.showModal(); else d.setAttribute('open', ''); requestAnimationFrame(() => requestAnimationFrame(() => d.classList.add('show'))); if (d === about) { document.body.classList.add('about-open'); document.querySelector('.mark-btn').setAttribute('aria-expanded', 'true'); } };
+  const hideD = (d) => { d.classList.remove('show'); if (d === about) { document.body.classList.remove('about-open'); document.querySelector('.mark-btn').setAttribute('aria-expanded', 'false'); } setTimeout(() => { if (!d.classList.contains('show')) d.close(); }, reduce ? 0 : 650); };
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { const d = document.querySelector('dialog[open]'); if (d) { e.preventDefault(); hideD(d); } } });
   const open = (id) => showD(document.getElementById(id));
+  // keep Tab inside an open dialog (wraps first <-> last) instead of leaking to the browser bar
+  document.addEventListener('keydown', (e) => {
+    const d = document.querySelector('dialog[open]'); if (e.key !== 'Tab' || !d) return;
+    const fs = [...d.querySelectorAll('a[href], button, input, [tabindex="0"]')].filter((x) => x.offsetParent || getComputedStyle(x).position === 'fixed'); if (!fs.length) return;
+    const first = fs[0], last = fs[fs.length - 1];
+    if (e.shiftKey && (document.activeElement === first || !d.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && (document.activeElement === last || !d.contains(document.activeElement))) { e.preventDefault(); first.focus(); }
+  });
 
   // photo viewer (own implementation of the zoom-from-thumbnail viewer the live site uses)
   const lb = document.getElementById('lb'), lbImg = lb.querySelector('img'), lbCap = lb.querySelector('.lb-c');
@@ -502,17 +670,22 @@ dialog::backdrop { background: transparent; }
   const rectOf = (el) => { const r = el.getBoundingClientRect(); return { left: r.left, top: r.top, width: r.width, height: r.height }; };
   const fit = (img) => { const pad = 40, vw = innerWidth - pad * 2, vh = innerHeight - pad * 2, ar = (img.naturalWidth || 4) / (img.naturalHeight || 3); let w = vw, h = vw / ar; if (h > vh) { h = vh; w = vh * ar; } return { left: (innerWidth - w) / 2, top: (innerHeight - h) / 2, width: w, height: h }; };
   const place = (r) => Object.assign(lbImg.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
-  const lbShow = (i, animate) => { lbIdx = (i + lbList.length) % lbList.length; const f = lbList[lbIdx], src = f.querySelector('img'); lbImg.src = src.src; lbImg.alt = src.alt; lbCap.textContent = `${lbIdx + 1} / ${lbList.length}`; if (!animate) place(fit(src)); };
+  const lbShow = (i, animate) => { lbIdx = (i + lbList.length) % lbList.length; const f = lbList[lbIdx], src = f.querySelector('img'); lbImg.src = src.getAttribute('src'); lbImg.alt = src.alt; lbCap.textContent = `${lbIdx + 1} / ${lbList.length}`; if (!animate) place(fit(src)); };
   const lbOpen = (fig) => {
     lbList = [...document.querySelectorAll('.ph.loaded')]; lbFrom = fig;
     lbShow(lbList.indexOf(fig), true);
     lb.classList.add('open'); place(rectOf(fig));
     requestAnimationFrame(() => requestAnimationFrame(() => { lb.classList.add('show'); place(fit(fig.querySelector('img'))); }));
     lb.querySelector('.lb-x').focus({ preventScroll: true });
+    document.querySelector('.page').inert = true;
   };
-  const lbClose = () => { lb.classList.remove('show'); const back = lbList[lbIdx] || lbFrom; if (back) place(rectOf(back)); setTimeout(() => lb.classList.remove('open'), reduce ? 0 : 340); };
+  const lbClose = () => { lb.classList.remove('show'); const back = lbList[lbIdx] || lbFrom; if (back) place(rectOf(back)); document.querySelector('.page').inert = false; (back || lbFrom)?.focus({ preventScroll: true }); setTimeout(() => lb.classList.remove('open'), reduce ? 0 : 340); };
   lb.addEventListener('click', (e) => { e.stopPropagation(); if (e.target.closest('.lb-p')) lbShow(lbIdx - 1); else if (e.target.closest('.lb-n')) lbShow(lbIdx + 1); else lbClose(); });
-  document.addEventListener('keydown', (e) => { if (!lb.classList.contains('open')) return; if (e.key === 'Escape') lbClose(); if (e.key === 'ArrowLeft') lbShow(lbIdx - 1); if (e.key === 'ArrowRight') lbShow(lbIdx + 1); });
+  document.addEventListener('keydown', (e) => {
+    const f = e.target.closest?.('.ph.loaded'); if (f && !lb.classList.contains('open') && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); lbOpen(f); return; }
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Tab') { const bs = [...lb.querySelectorAll('button')], i = bs.indexOf(document.activeElement); e.preventDefault(); bs[(i + (e.shiftKey ? -1 : 1) + bs.length) % bs.length].focus(); }
+    if (e.key === 'Escape') lbClose(); if (e.key === 'ArrowLeft') lbShow(lbIdx - 1); if (e.key === 'ArrowRight') lbShow(lbIdx + 1); });
   let tx = null; lb.addEventListener('touchstart', (e) => { tx = e.touches[0].clientX; }, { passive: true });
   lb.addEventListener('touchend', (e) => { if (tx == null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) lbShow(lbIdx + (dx < 0 ? 1 : -1)); tx = null; });
   addEventListener('resize', () => { if (lb.classList.contains('show')) place(fit(lbImg)); });

@@ -1,0 +1,9 @@
+# Bija Coffee website.
+# While this is a concept, every page carries <meta name="robots" content="noindex, nofollow">.
+# We deliberately do NOT "Disallow: /" here: a blocked crawler can't read the noindex tag,
+# and a blocked URL can still show up in results from links elsewhere.
+# To launch, follow docs/web/seo-launch.md (remove the noindex tags; this file can stay as it is).
+User-agent: *
+Allow: /
+
+Sitemap: https://rfim.github.io/bija-coffee/sitemap.xml
