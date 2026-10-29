@@ -42,7 +42,7 @@ button { cursor: pointer; }
 .demo { font-size: 12px; color: var(--muted); background: var(--card); border: 1px dashed var(--line); border-radius: 10px; padding: 6px 10px; margin-bottom: 8px; }
 
 .tabs { max-width: 100%; contain: inline-size; display: flex; gap: 6px; overflow-x: auto; padding-block: 4px 12px; scrollbar-width: none; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--paper); z-index: 5; }
-.tabs button { flex: none; border: 1.5px solid var(--line); background: var(--card); border-radius: 999px; padding: 7px 14px; font-weight: 600; font-size: 14px; }
+.tabs button { flex: none; border: 1.5px solid var(--line); background: var(--card); border-radius: 999px; padding: 7px 14px; font-weight: 600; font-size: 14px; min-height: 44px; }
 .tabs button[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 .tabs .dot { display: inline-block; min-width: 18px; padding: 0 5px; margin-left: 6px; border-radius: 9px; background: var(--accent); color: var(--accent-ink); font-size: 11px; line-height: 18px; text-align: center; }
 
@@ -61,7 +61,7 @@ button { cursor: pointer; }
 .sec-h h2, .sec-h h3 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: 22px; }
 .sec-h small { color: var(--muted); }
 .cats { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin-bottom: 10px; }
-.cats button { flex: none; border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600; min-height: 44px; }
+.cats button { flex: none; border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600; min-height: 44px; min-width: 44px; }
 /* Order tab: category pills stay just under the top while the menu scrolls */
 .cats.sticky { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 4; background: var(--paper); margin: 0 0 10px; padding-block: 8px; }
 .filter.compact { padding: 10px 12px; margin-top: 4px; gap: 10px; border-radius: 14px; }
@@ -95,14 +95,14 @@ button { cursor: pointer; }
 @media (max-width: 520px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
 label.f { display: grid; gap: 4px; font-size: 13px; font-weight: 600; }
 label.f .h { font-weight: 400; color: var(--muted); font-size: 12px; }
-input[type=text], input[type=tel], input[type=number], input[type=date], select, textarea { width: 100%; min-width: 0; padding: 10px 12px; border-radius: 10px; border: 1.5px solid rgba(255, 255, 255, .4); background: var(--paper); }
+input[type=text], input[type=tel], input[type=number], input[type=date], select, textarea { width: 100%; min-width: 0; min-height: 44px; padding: 10px 12px; border-radius: 10px; border: 1.5px solid rgba(255, 255, 255, .4); background: var(--paper); }
 textarea { resize: vertical; min-height: 60px; }
 fieldset { border: 0; padding: 0; margin: 0; }
 legend { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
 .opts { display: flex; flex-wrap: wrap; gap: 6px; }
 .opts button { border: 1.5px solid var(--line); background: var(--paper); border-radius: 10px; padding: 7px 11px; font-size: 13px; font-weight: 500; min-height: 44px; }
 .opts button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--paper); }
-.check { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; padding: 10px 12px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--paper); }
+.check { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; font-size: 14px; padding: 10px 12px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--paper); }
 .check:has(input:checked) { border-color: var(--leaf); }
 .sum { display: grid; gap: 4px; font-variant-numeric: tabular-nums; }
 .sum div { display: flex; justify-content: space-between; gap: 12px; }
@@ -111,7 +111,7 @@ legend { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
 .hint { font-size: 13px; color: var(--muted); }
 .hint.warn { color: var(--warn); }
 
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 999px; padding: 11px 20px; font-weight: 700; background: var(--accent); color: var(--accent-ink); }
+.btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 999px; padding: 11px 20px; font-weight: 700; background: var(--accent); color: var(--accent-ink); }
 .btn.dark { background: var(--ink); color: var(--paper); }
 .btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
 .btn.ok { background: var(--leaf); color: var(--card); }
@@ -130,6 +130,16 @@ legend { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
 .order { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: grid; gap: 6px; }
 .order .h { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: center; }
 .code { font-family: var(--mono); letter-spacing: .04em; }
+.invite-code { font-size: 22px; overflow-wrap: anywhere; }
+/* order-ready banner: in the page flow so it never covers the header, and sticky so it stays on screen. Black on leaf green (about 10:1) */
+#ready { position: sticky; z-index: 30; top: calc(8px + env(safe-area-inset-top, 0px)); }
+#ready .in { margin-bottom: 12px; display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 16px; border-radius: 18px; background: var(--leaf); color: #000; box-shadow: 0 10px 30px rgba(0, 0, 0, .5); }
+#ready .in > div { flex: 1; min-width: 0; }
+#ready b { display: block; font-size: 17px; }
+#ready .code { font-size: 26px; font-weight: 700; line-height: 1.1; }
+#ready span { font-size: 13px; }
+#ready .btn { background: #000; color: #fff; flex: none; }
+@media (prefers-reduced-motion: no-preference) { #ready .in { animation: ready-in .5s cubic-bezier(.2,.8,.2,1.2), ready-pulse 1.6s ease-in-out .5s 3; } @keyframes ready-in { from { transform: translateY(-120%); } } @keyframes ready-pulse { 50% { box-shadow: 0 0 0 8px rgba(143, 191, 127, .45), 0 10px 30px rgba(0, 0, 0, .5); } } }
 .pill { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 2px 9px; border-radius: 999px; border: 1.5px solid currentColor; }
 .pill.received { color: var(--gold); } .pill.brewing { color: var(--accent); } .pill.ready { color: var(--leaf); } .pill.collected { color: var(--muted); } .pill.cancelled { color: var(--muted); text-decoration: line-through; }
 .track { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
@@ -240,7 +250,8 @@ body.barista-view:has(#basket:not([hidden])) #toast { bottom: calc(76px + env(sa
 .bnav .dot { position: absolute; top: 2px; left: 56%; min-width: 16px; height: 16px; border-radius: 8px; background: #fff; color: #000; font-size: 10px; line-height: 16px; padding: 0 4px; }
 body.barista-view .bnav { display: none; } .bnav .in > span { display: grid; } body.barista-view .basket { bottom: 0; } body:not(.barista-view) .tabs { display: none; }
 .back { border: 0; background: transparent; color: var(--muted); font-weight: 600; padding: 4px 0 10px; }
-button.back { min-height: 44px; }
+button.back { min-height: 44px; min-width: 44px; }
+.demo a { display: inline-block; padding: 14px 4px; margin: -14px 0; }
 /* item options sheet */
 .sheet { position: fixed; inset: 0; z-index: 30; }
 .sheet .bg { position: absolute; inset: 0; background: rgba(0,0,0,.6); opacity: 0; transition: opacity .25s; }
@@ -256,7 +267,7 @@ button.back { min-height: 44px; }
 .tile2 b { font-size: 16px; } .tile2 span { font-size: 13px; color: var(--muted); }
 .usual { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); }
 .usual small { display: block; color: var(--muted); font-size: 12px; }
-.promo { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 44px; margin-top: 8px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--ink); text-align: left; font-weight: 600; font-size: 14px; }
+.promo { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 48px; margin-top: 8px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--ink); text-align: left; font-weight: 600; font-size: 14px; }
 .hours { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; margin-top: 8px; padding: 0 0 0 14px; border: 1px solid var(--line); border-radius: 14px; font-size: 14px; }
 .hours .chip { border: 0; padding: 0; background: transparent; font-weight: 600; }
 .hours a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; color: var(--ink); font-weight: 600; }
@@ -341,7 +352,7 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
 .tiles.fin b { display: block; font-size: clamp(20px, 5.4vw, 28px); overflow-wrap: anywhere; }
 .tiles.fin b.neg { color: var(--warn); } .tiles.fin b.pos { color: var(--leaf); }
 .fbars .bar { grid-template-columns: minmax(0, 8em) minmax(0, 1fr) 6em; }
-.fset { border: 0; background: transparent; padding: 0; width: 100%; text-align: left; }
+.fset { border: 0; background: transparent; padding: 0; width: 100%; min-height: 44px; text-align: left; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 </style>
 
@@ -353,6 +364,7 @@ td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numer
     <div class="switch" id="switch" hidden></div>
   </header>
   <div id="demo"></div>
+  <div id="ready" role="alert"></div>
   <nav class="tabs" id="tabs" role="tablist"></nav>
   <main id="main"></main>
 </div>
@@ -2676,7 +2688,7 @@ var qrcode = function() {
     { id: 'drink', name: 'Any drink', short: 'a free drink', pts: 400, match: (l) => isDrink(l) },
     { id: 'beans', name: 'A 200 g bag of beans', short: 'a free bag of beans', pts: 1200, match: (l) => l.cat === 'Beans' },
   ];
-  const BONUS = { welcome: 100, secret: 400, passport: 600, week: 150, explorer: 150, birthday: 200 };
+  const BONUS = { welcome: 100, secret: 400, passport: 600, week: 150, explorer: 150, birthday: 200, invited: 100, referrer: 200 };
   const CHALLENGE_CAP = 200; // Regular, Explorer and Birthday bonuses together, per member per calendar month (UK time)
   const monthOf = (iso) => { try { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London', year: 'numeric', month: '2-digit' }).format(new Date(iso)).slice(0, 7); } catch { return String(iso).slice(0, 7); } };
   // shop hours in UK time: [day 0 = Sunday … 6 = Saturday] → [open, close] in minutes after midnight
@@ -2707,6 +2719,10 @@ var qrcode = function() {
   const weekKey = (iso) => { const d = new Date(iso); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d.toISOString().slice(0, 10); };
   const GIFT_AMOUNTS = [10, 25, 50];
   const memberCode = (uid) => uid ? 'BIJA-' + String(uid).replace(/[^a-z0-9]/gi, '').slice(-5).toUpperCase() : 'BIJA-·····';
+  // invite code: derived from the member id like the card code, so the bar can resolve it without a lookup table
+  const refCode = (uid) => uid ? 'KOPI-' + String(uid).replace(/[^a-z0-9]/gi, '').slice(-5).toUpperCase() : '';
+  const REF_RE = /^KOPI-[A-Z0-9]{2,5}$/;
+  const cleanRef = (v) => String(v || '').trim().toUpperCase().replace(/\s+/g, '');
   const STATUS = { received: 'Received', brewing: 'Brewing', ready: 'Ready', collected: 'Collected', cancelled: 'Cancelled' };
   const FLOW = { received: 'brewing', brewing: 'ready', ready: 'collected' };
   const ORIGINS = [
@@ -2853,6 +2869,11 @@ var qrcode = function() {
     const capUsed = new Map();
     const challenge = (at, label, pts) => { const mk = monthOf(at), used = capUsed.get(mk) || 0, give = Math.max(0, Math.min(pts, CHALLENGE_CAP - used)); if (!give) return; capUsed.set(mk, used + give); bonus(at, label, give, give < pts ? `Bonus · capped at ${CHALLENGE_CAP} a month` : 'Bonus'); };
     if (asc.length) bonus(asc[0].createdAt, 'Welcome to Bija', BONUS.welcome);
+    // referrals: the bar writes these when it marks a new member's first order collected (see referralFor)
+    const ref = b?.referral, refOrder = ref && asc.find((o) => o.id === ref.order);
+    if (refOrder) bonus(refOrder.createdAt, 'Invited by a friend', BONUS.invited, 'Referral bonus');
+    const invites = Object.values(b?.referrals || {}).filter((r) => r && r.at);
+    for (const r of invites) bonus(r.at, `${r.name || 'A friend'} joined with your code`, BONUS.referrer, 'Referral bonus');
     for (const o of asc) {
       const had = origins.size; for (const l of o.lines || []) if (l.origin) origins.add(l.origin);
       if (had < ORIGINS.length && origins.size === ORIGINS.length) bonus(o.createdAt, 'Origins Passport complete', BONUS.passport);
@@ -2871,9 +2892,12 @@ var qrcode = function() {
     const giftUsed = live.reduce((a, o) => a + (+o.giftPay || 0), 0);
     return { os, col, lifetime, spent, balance: Math.max(0, lifetime - spent), tier: tierAt(lifetime), nextTier: TIERS.find((t) => t.min > lifetime), hist,
       thisWeek: weeks.get(weekKey(new Date().toISOString())) || 0, kinds: kinds.size, birthMonth: bm, capLeft: Math.max(0, CHALLENGE_CAP - (capUsed.get(monthOf(new Date().toISOString())) || 0)),
-      dealt, visited, found, origins, credits, wallet: Math.max(0, Math.round((credits - giftUsed) * 100) / 100), instore: Object.keys(b?.instore || {}).length };
+      dealt, visited, found, origins, credits, invites: invites.length, invited: !!refOrder, wallet: Math.max(0, Math.round((credits - giftUsed) * 100) / 100), instore: Object.keys(b?.instore || {}).length };
   }
   const mine = () => stats(S.me, S.bar);
+  // the invite code this member joined with, or one waiting from an invite link (saved with their first order)
+  const pendingRef = () => { const c = cleanRef(store.get('bija.ref')); return REF_RE.test(c) && c !== refCode(S.uid) ? c : ''; };
+  const joinedWith = () => S.me?.referredBy || pendingRef();
   const cartLines = () => Object.entries(S.cart).filter(([, q]) => q > 0).map(([key, qty]) => {
     const [id, milk, sweet, temp] = key.split('~'), m = menu().find((x) => x.id === id);
     if (!m) return null;
@@ -2888,7 +2912,7 @@ var qrcode = function() {
     const subtotal = lines.reduce((a, l) => a + l.qty * l.price, 0), total = Math.round((subtotal - discount) * 100) / 100;
     const giftPay = S.form.gift && st.wallet > 0 ? Math.min(st.wallet, total) : 0;
     return { qty: lines.reduce((a, l) => a + l.qty, 0), subtotal, discount, reward: discount ? rw : null, total, giftPay, due: Math.round((total - giftPay) * 100) / 100, earn: Math.round(total * PTS * (1 + st.tier.boost)),
-      welcome: st.os.some((o) => o.status !== 'cancelled') ? 0 : BONUS.welcome };
+      welcome: st.os.some((o) => o.status !== 'cancelled') ? 0 : BONUS.welcome, friend: !st.col.length && !st.invited && joinedWith() ? BONUS.invited : 0 };
   }
 
   // ---------- render (keeps focus and caret, like Stirring Up Joy) ----------
@@ -2902,7 +2926,7 @@ var qrcode = function() {
     const pageKey = S.view + ':' + (S.view === 'bar' ? S.btab : S.tab);
     $('#main').innerHTML = S.view === 'bar' ? barista() : customer();
     if (pageKey !== S.lastPage) { S.lastPage = pageKey; const mn = $('#main'); mn.classList.remove('enter'); void mn.offsetWidth; mn.classList.add('enter'); }
-    watchCheckout(); renderBasket(); renderSheet();
+    watchCheckout(); renderBasket(); renderSheet(); renderAlert();
     if (aid) { const el = document.getElementById(aid); if (el) { el.focus({ preventScroll: true }); try { if (s0 != null) el.setSelectionRange(s0, s1); } catch {} } }
   }
   function renderSwitch() {
@@ -3098,8 +3122,8 @@ var qrcode = function() {
           ${t.discount ? `<div class="deal"><span>${esc(t.reward.name)} · −${t.reward.pts} pts</span><span>−${money(t.discount)}</span></div>` : ''}
           <div class="tot"><span>Total</span><span>${money(t.total)}</span></div>
           ${t.giftPay ? `<div class="deal"><span>Gift card balance</span><span>−${money(t.giftPay)}</span></div><div><span>Left to pay at the bar</span><span>${money(t.due)}</span></div>` : ''}
-          ${(() => { const proj = st.balance + t.earn + t.welcome - (t.reward ? t.reward.pts : 0), goal = REWARDS.find((r) => r.pts > proj);
-            return `<div class="hint" style="margin-top:4px;display:block">You'll earn about ${t.earn} points${t.welcome ? ` <b style="color:var(--leaf)">+${t.welcome} welcome bonus</b>` : ''}${goal ? ` → ${proj.toLocaleString('en-GB')} of ${goal.pts.toLocaleString('en-GB')} for ${goal.short}` : ' → every reward unlocked'}</div>`; })()}
+          ${(() => { const proj = st.balance + t.earn + t.welcome + t.friend - (t.reward ? t.reward.pts : 0), goal = REWARDS.find((r) => r.pts > proj);
+            return `<div class="hint" style="margin-top:4px;display:block">You'll earn about ${t.earn} points${t.welcome ? ` <b style="color:var(--leaf)">+${t.welcome} welcome bonus</b>` : ''}${t.friend ? ` <b style="color:var(--leaf)">+${t.friend} friend bonus</b>` : ''}${goal ? ` → ${proj.toLocaleString('en-GB')} of ${goal.pts.toLocaleString('en-GB')} for ${goal.short}` : ' → every reward unlocked'}</div>`; })()}
         </div>
         <fieldset><legend>Pick up at the bar</legend><div class="opts">${(cfg().slots || ['ASAP']).map((m) => `<button data-act="opt" data-k="slot" data-v="${esc(m)}" aria-pressed="${S.form.slot === m}">${esc(m)}</button>`).join('')}</div></fieldset>
         <div class="grid2">
@@ -3131,7 +3155,8 @@ var qrcode = function() {
       <div class="row between"><b>${STATUS[o.status]}</b><span class="pill ${o.status}">${STATUS[o.status]}</span></div>
       <div class="track">${[1, 2, 3].map((i) => `<span class="${i <= step ? 'on' : ''}"></span>`).join('')}</div>
       <div class="lines">${o.lines.map((l) => `<b>${l.qty}×</b> ${esc(l.name)}${optText(l) ? ` <small>(${esc(optText(l))})</small>` : ''}`).join(' · ')}</div>
-      <p class="hint" style="margin:0">This updates live. Your points and a new Secret St James's card arrive when we hand it over.</p>
+      <p class="hint" style="margin:0">This updates live. When it's ready, this app shows a banner, buzzes and chimes. Your points and a new Secret St James's card arrive when we hand it over.</p>
+      ${canNotify() && o.status !== 'collected' ? `<div class="row between"><span class="hint">Want an alert if you switch to another app? It works while Bija stays open in the background.</span><button class="btn sm ghost" data-act="notify">Alert me on this device</button></div>` : ''}
       <div class="row"><button class="btn sm ghost" data-act="again">Back to menu</button><button class="btn sm ghost" data-act="tab" data-v="orders">My orders</button></div>
     </section>`;
   }
@@ -3168,6 +3193,7 @@ var qrcode = function() {
         <div class="face back">${qr}<div><div class="code">${esc(no)}</div><p>Show this when you pay at the bar. The barista scans it or types the code and your points land straight away.</p></div></div>
       </div></div>
       <div class="row" style="margin-top:12px"><button class="btn dark" data-act="scan">${S.showScan ? 'Show my points' : 'Scan at the till'}</button><span class="hint">Tap the card to flip it</span></div>
+      ${inviteSection(st)}
       <section class="sec"><div class="sec-h"><h2>Challenges</h2><small>Bonus points</small></div>
         <p class="hint" style="margin-top:0">Challenge bonuses add up to ${CHALLENGE_CAP} points a month · ${st.capLeft} left this month.</p>
         <div class="chal">
@@ -3189,6 +3215,7 @@ var qrcode = function() {
         <div class="panel stack" style="gap:6px">
           <div>${PTS} points for every £1, in the app and at the till. Points land when the barista hands over your order.</div>
           <div>+${BONUS.welcome} welcome points with your first order. Plus the challenges above, up to ${CHALLENGE_CAP} points a month.</div>
+          <div>+${BONUS.referrer} for each friend who joins with your invite code, once the bar hands over their first order. They get +${BONUS.invited}.</div>
           <div>+${BONUS.secret} when you find all ${SPOTS.length} Secret St James's spots${st.found === SPOTS.length ? ' ✓' : ` (${st.found}/${SPOTS.length})`}.</div>
           <div>+${BONUS.passport} when your Origins Passport is full${st.origins.size === ORIGINS.length ? ' ✓' : ` (${st.origins.size}/${ORIGINS.length})`}.</div>
         </div>
@@ -3203,6 +3230,23 @@ var qrcode = function() {
       <section class="sec"><div class="sec-h"><h2>Card style</h2><small>Saved on this device</small></div>
         <div class="themes">${THEMES.map((x) => `<button data-act="theme" data-v="${x.id}" aria-pressed="${S.theme === x.id}">${cardHTML(x, { pts: 1240, tier: 'Sprout', pct: 60 })}${esc(x.name)}</button>`).join('')}</div>
       </section>`;
+  }
+
+  function inviteSection(st) {
+    const code = refCode(S.uid), used = S.me?.referredBy, pend = !used && pendingRef();
+    let join = '';
+    if (used) join = `<p class="hint" style="margin:0">You joined with code <b class="code">${esc(used)}</b>. ${st.invited ? `Your +${BONUS.invited} friend bonus is on your card.` : st.col.length ? 'That code wasn’t matched to a member, so no friend bonus this time.' : `+${BONUS.invited} bonus points land when you collect your first order.`}</p>`;
+    else if (!st.col.length) join = `<div class="row" style="flex-wrap:nowrap;align-items:flex-end"><label class="f" style="flex:1">Got a friend’s code? <span class="h">Before your first order</span><input type="text" id="ref-in" data-ref value="${esc(S.refInput ?? pend)}" placeholder="KOPI-XXXXX" autocomplete="off" maxlength="12" style="text-transform:uppercase;font-family:var(--mono)"></label><button class="btn sm dark" data-act="refsave" ${S.busy || !S.uid ? 'disabled' : ''}>Use code</button></div>`;
+    return `<section class="sec"><div class="sec-h"><h2>Invite friends</h2><small>+${BONUS.referrer} for you · +${BONUS.invited} for them</small></div>
+      <div class="panel stack">
+        <div class="row between"><div><span class="hint">Your invite code</span><div class="code invite-code">${esc(code)}</div></div><button class="btn sm" data-act="invite" ${code ? '' : 'disabled'}>Copy invite</button></div>
+        <p class="hint" style="margin:0">A friend adds your code in their Bija app before their first order. When the bar hands that order over, they get +${BONUS.invited} points and you get +${BONUS.referrer}.${st.invites ? ` <b style="color:var(--leaf)">${st.invites} friend${st.invites === 1 ? '' : 's'} joined · +${(st.invites * BONUS.referrer).toLocaleString('en-GB')} points</b>` : ''}</p>
+        ${join}
+      </div></section>`;
+  }
+  function inviteText() {
+    const code = refCode(S.uid), link = /^https?:$/.test(location.protocol) ? ` ${location.origin}${location.pathname}?ref=${encodeURIComponent(code)}` : '';
+    return `Try Bija, award-winning Indonesian coffee at 2a St James's Market, Piccadilly. Add my code ${code} in the Bija app before your first order and you'll get +${BONUS.invited} bonus points when you collect it.${link}`;
   }
 
   // ----- gift cards -----
@@ -3381,6 +3425,7 @@ var qrcode = function() {
         ${o.note ? `<p class="quote">${esc(o.note)}</p>` : ''}
         ${o.reward ? `<div class="hint warn"><b>Points reward:</b> ${esc(o.reward.name)} (−${o.reward.pts} pts) · ${money(o.discount)} off</div>` : ''}
         ${o.giftPay ? `<div class="hint"><b>Gift card:</b> ${money(o.giftPay)} paid in the app · take ${money(o.due ?? 0)}</div>` : ''}
+        ${(() => { if (o.status === 'collected') return ''; const r = referralFor(o.cid, o.id); return r ? `<div class="hint"><b>Invited by ${esc(r.by.name || 'a member')}:</b> collecting adds +${BONUS.invited} for ${esc(o.cname)} and +${BONUS.referrer} for ${esc(r.by.name || 'them')}</div>` : ''; })()}
         <div class="row">
           ${FLOW[o.status] ? `<button class="btn sm ${o.status === 'ready' ? 'ok' : ''}" data-act="status" data-c="${esc(o.cid)}" data-o="${esc(o.id)}" data-s="${FLOW[o.status]}" ${S.busy ? 'disabled' : ''}>${nextLabel[o.status]}</button>` : ''}
           ${o.status === 'collected' ? `<button class="btn sm ghost" data-act="status" data-c="${esc(o.cid)}" data-o="${esc(o.id)}" data-s="ready" ${S.busy ? 'disabled' : ''}>Undo</button>` : ''}
@@ -3389,7 +3434,7 @@ var qrcode = function() {
     }).join('')}</div>`;
   }
   function members() {
-    const rows = S.customers.map((c) => ({ c, st: stats(c, S.bars[c.id]) })).filter((r) => r.st.os.length || r.st.instore || r.st.credits).sort((a, b) => b.st.lifetime - a.st.lifetime);
+    const rows = S.customers.map((c) => ({ c, st: stats(c, S.bars[c.id]) })).filter((r) => r.st.os.length || r.st.instore || r.st.credits || r.st.invites).sort((a, b) => b.st.lifetime - a.st.lifetime);
     return `<div class="panel stack">
       <div><b>Add in-store spend</b><div class="hint">Customer shows their Bija Card code or QR when paying at the till.</div></div>
       <div class="grid2"><label class="f">Member code<input type="text" id="is-code" data-is="code" value="${esc(S.instore.code)}" placeholder="BIJA-XXXXX" style="text-transform:uppercase;font-family:var(--mono)"></label>
@@ -3397,8 +3442,8 @@ var qrcode = function() {
       <div><button class="btn sm" data-act="instore" ${S.busy ? 'disabled' : ''}>Add points</button></div>
     </div>
     <section class="sec">${!rows.length ? '<div class="empty"><b>No Bija Card members yet</b>Everyone who orders in the app gets a card automatically.</div>' : `<div class="panel tablewrap"><table>
-      <thead><tr><th>Name</th><th>Code</th><th>Level</th><th class="num">Points</th><th class="num">All time</th><th class="num">Gift £</th><th class="num">Secrets</th><th>Last order</th></tr></thead>
-      <tbody>${rows.map(({ c, st }) => `<tr><td><b>${esc(c.name || 'Guest')}</b></td><td class="code">${esc(memberCode(c.id))}</td><td>${esc(st.tier.name)}</td><td class="num">${st.balance}</td><td class="num">${st.lifetime}</td><td class="num">${money(st.wallet)}</td><td class="num">${st.found}/${SPOTS.length}</td><td>${fmt(st.os[0]?.createdAt)}</td></tr>`).join('')}</tbody>
+      <thead><tr><th>Name</th><th>Code</th><th>Level</th><th class="num">Points</th><th class="num">All time</th><th class="num">Gift £</th><th class="num">Secrets</th><th class="num">Invites</th><th>Last order</th></tr></thead>
+      <tbody>${rows.map(({ c, st }) => `<tr><td><b>${esc(c.name || 'Guest')}</b></td><td class="code">${esc(memberCode(c.id))}</td><td>${esc(st.tier.name)}</td><td class="num">${st.balance}</td><td class="num">${st.lifetime}</td><td class="num">${money(st.wallet)}</td><td class="num">${st.found}/${SPOTS.length}</td><td class="num">${st.invites}</td><td>${fmt(st.os[0]?.createdAt)}</td></tr>`).join('')}</tbody>
     </table></div>`}</section>`;
   }
   function bars(entries, fmtv) {
@@ -3576,6 +3621,67 @@ var qrcode = function() {
     </div>`;
   }
 
+  // ---------- order ready: banner, vibration, tab title, a chime (only after the user has interacted) ----------
+  // Works while the app is open, including in a background tab. Alerts with the app closed need Web Push and a server: docs/mobile/push-plan.md
+  const BASE_TITLE = document.title;
+  let audio = null, titleT = null;
+  const seenReady = () => { try { return new Set(JSON.parse(sessionStorage.getItem('bija.ready') || '[]')); } catch { return new Set(); } };
+  function markSeen(id) { const s = seenReady(); s.add(id); try { sessionStorage.setItem('bija.ready', JSON.stringify([...s])); } catch {} }
+  // browsers only let a page make sound after a tap or key press; this unlocks it on the first one
+  function unlockAudio() {
+    S.touched = true;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    try { if (!audio && AC) audio = new AC(); if (audio && audio.state === 'suspended') audio.resume(); } catch {}
+  }
+  addEventListener('pointerdown', unlockAudio, { passive: true }); addEventListener('keydown', unlockAudio);
+  function chime() {
+    if (!S.touched || !audio) return;
+    try {
+      const t0 = audio.currentTime;
+      [[784, 0], [1047, .18], [1319, .36]].forEach(([f, d]) => {
+        const o = audio.createOscillator(), g = audio.createGain();
+        o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(0, t0 + d); g.gain.linearRampToValueAtTime(.25, t0 + d + .02); g.gain.exponentialRampToValueAtTime(.001, t0 + d + .6);
+        o.connect(g).connect(audio.destination); o.start(t0 + d); o.stop(t0 + d + .65);
+      });
+    } catch {}
+  }
+  function setTitle() {
+    clearInterval(titleT); titleT = null;
+    if (!S.alert) { document.title = BASE_TITLE; return; }
+    const on = `Ready: ${S.alert.code} · Bija`;
+    document.title = on;
+    // flash the tab title while the app is in the background
+    if (document.hidden) { let f = false; titleT = setInterval(() => { f = !f; document.title = f ? `● ${on}` : on; }, 1000); }
+  }
+  addEventListener('visibilitychange', setTitle);
+  function renderAlert() {
+    const el = $('#ready'), a = S.alert;
+    const html = a && S.view === 'customer' ? `<div class="in"><div><b>Your order is ready</b><div class="code">${esc(a.code)}</div><span>Show this code at the bar.</span></div><button class="btn sm" data-act="ready-ok">Got it</button></div>` : '';
+    if (el.innerHTML !== html) el.innerHTML = html;
+  }
+  function readyAlert(o, loud) {
+    S.alert = { id: o.id, code: o.code };
+    renderAlert(); setTitle();
+    if (!loud) return;
+    if (navigator.vibrate) try { navigator.vibrate([250, 120, 250, 120, 500]); } catch {}
+    chime();
+    // a system notification too, if they opted in and the app is in the background (no server needed while it is open)
+    if (document.hidden && 'Notification' in window && Notification.permission === 'granted') {
+      const body = `Order ${o.code} is ready at the bar. Show your code to collect.`;
+      (navigator.serviceWorker ? navigator.serviceWorker.getRegistration() : Promise.resolve(null))
+        .then((reg) => reg ? reg.showNotification('Your Bija order is ready', { body, tag: 'ready-' + o.id, icon: 'icons/icon-192.png' }) : new Notification('Your Bija order is ready', { body, tag: 'ready-' + o.id }))
+        .catch(() => {});
+    }
+  }
+  function clearAlert() { if (S.alert) markSeen(S.alert.id); S.alert = null; renderAlert(); setTitle(); }
+  function checkReady(before, after, first) {
+    const was = new Map(before.os.map((o) => [o.id, o.status])), seen = seenReady();
+    if (S.alert && after.os.find((o) => o.id === S.alert.id)?.status !== 'ready') clearAlert();
+    const fresh = after.os.find((o) => o.status === 'ready' && (first ? !seen.has(o.id) : was.get(o.id) !== 'ready'));
+    if (fresh) readyAlert(fresh, !first && S.view === 'customer'); // no buzz for the barista who just tapped Ready
+  }
+  const canNotify = () => 'Notification' in window && Notification.permission === 'default' && window.isSecureContext;
+
   // ---------- actions ----------
   async function run(fn, okMsg) {
     if (S.busy) return;
@@ -3589,6 +3695,23 @@ var qrcode = function() {
   function newCode() { const a = 'ACDEFGHJKMNPQRTUVWXY34679'; let s = ''; for (let i = 0; i < 3; i++) s += a[Math.floor(Math.random() * a.length)]; return 'B' + s; }
   const myRef = () => S.db.doc('customers/' + S.uid);
   async function saveMine(patch) { if (S.me) await myRef().update(patch); else await myRef().set({ name: S.form.name.trim(), joinedAt: new Date().toISOString(), orders: {}, ratings: {}, secret: { visited: {} }, gifts: {}, claims: {}, ...patch }); }
+  // A new member's first collected order pays both referral bonuses. Only the bar runs this, and it writes to bar/* docs,
+  // which customers can't change, so nobody can award themselves points by typing a code.
+  function referralFor(cid, oid) {
+    const c = S.customers.find((x) => x.id === cid), b = S.bars[cid], code = cleanRef(c?.referredBy);
+    if (!REF_RE.test(code) || b?.referral) return null;
+    if (ordersOf(c, b).some((o) => o.status === 'collected' && o.id !== oid)) return null; // only their first collected order
+    const by = S.customers.find((x) => x.id !== cid && refCode(x.id) === code);
+    return by ? { by } : null;
+  }
+  async function setStatus(cid, oid, s) {
+    const at = new Date().toISOString(), b = S.bars[cid], r = s === 'collected' ? referralFor(cid, oid) : null;
+    const first = String(S.customers.find((x) => x.id === cid)?.name || '').trim().split(' ')[0];
+    await saveBar(cid, { orders: { [oid]: { status: s, at } }, ...(r ? { referral: { by: r.by.id, order: oid, at } } : {}) });
+    if (r) await saveBar(r.by.id, { referrals: { [cid]: { order: oid, name: first, at } } });
+    // undoing that collection takes both bonuses back
+    if (s !== 'collected' && b?.referral?.order === oid) { await saveBar(cid, { referral: null }); await saveBar(b.referral.by, { referrals: { [cid]: null } }); }
+  }
   async function saveBar(cid, patch) { const ref = S.db.doc('bar/' + cid); if (S.bars[cid]) await ref.update(patch); else await ref.set({ orders: {}, ...patch }); }
 
   async function placeOrder() {
@@ -3599,7 +3722,9 @@ var qrcode = function() {
     const order = { code: newCode(), lines, subtotal: t.subtotal, discount: t.discount, total: t.total, giftPay: t.giftPay, due: t.due, slot: f.slot, note: f.note.trim(),
       ...(t.reward ? { reward: { id: t.reward.id, name: t.reward.name, pts: t.reward.pts } } : {}), name: f.name.trim(), createdAt: new Date().toISOString() };
     await run(async () => {
-      await saveMine({ name: f.name.trim(), updatedAt: new Date().toISOString(), orders: { [oid]: order } });
+      const ref = !S.me?.referredBy && !st.col.length && pendingRef();
+      await saveMine({ name: f.name.trim(), updatedAt: new Date().toISOString(), orders: { [oid]: order }, ...(ref ? { referredBy: ref, referredAt: order.createdAt } : {}) });
+      if (ref) store.set('bija.ref', '');
       S.lastOrder = oid; S.cart = {}; S.form.note = ''; S.form.reward = ''; S.form.gift = false;
       window.scrollTo({ top: 0 });
     }, 'Order sent to the bar');
@@ -3685,7 +3810,7 @@ var qrcode = function() {
     }
     // barista
     else if (a === 'qf') { S.qFilter = b.dataset.v; render(); }
-    else if (a === 'status') { const s = b.dataset.s; run(() => saveBar(b.dataset.c, { orders: { [b.dataset.o]: { status: s, at: new Date().toISOString() } } }), s === 'collected' ? 'Collected. Points and a secret card added.' : s === 'ready' ? 'Marked ready' : 'Updated'); }
+    else if (a === 'status') { const s = b.dataset.s; run(() => setStatus(b.dataset.c, b.dataset.o, s), s === 'collected' ? 'Collected. Points and a secret card added.' : s === 'ready' ? 'Marked ready' : 'Updated'); }
     else if (a === 'scan') { S.showScan = !S.showScan; render(); }
     else if (a === 'sheet') openSheet(b.dataset.id, b);
     else if (a === 'fab') {
@@ -3705,6 +3830,20 @@ var qrcode = function() {
     else if (a === 'dec') { const id = b.dataset.id, k = Object.keys(S.cart).filter((x) => (x === id || x.startsWith(id + '~')) && S.cart[x] > 0).pop(); if (k) { S.cart[k]--; if (!S.cart[k]) delete S.cart[k]; } render(); }
     else if (a === 'kqty') { const k = b.dataset.key; S.cart[k] = Math.max(0, Math.min(20, (S.cart[k] || 0) + +b.dataset.d)); if (!S.cart[k]) delete S.cart[k]; render(); }
     else if (a === 'kadd') { const k = b.dataset.key, r = b.getBoundingClientRect(); S.cart[k] = Math.min(20, (S.cart[k] || 0) + 1); toast('Added to your order'); render(); flyToBasket({ getBoundingClientRect: () => r }); }
+    else if (a === 'ready-ok') clearAlert();
+    else if (a === 'notify') { try { Notification.requestPermission().then(() => render(), () => render()); } catch { render(); } }
+    else if (a === 'invite') {
+      const txt = inviteText();
+      const done = () => toast('Invite copied. Paste it into a message.'), fail = () => toast('Your code: ' + refCode(S.uid));
+      try { navigator.clipboard.writeText(txt).then(done, fail); } catch { fail(); }
+    }
+    else if (a === 'refsave') {
+      const code = cleanRef(S.refInput ?? pendingRef());
+      if (!REF_RE.test(code)) { toast('Invite codes look like KOPI-XXXXX.'); return document.getElementById('ref-in')?.focus(); }
+      if (code === refCode(S.uid)) return toast('That’s your own code. Share it with a friend instead.');
+      if (mine().col.length) return toast('Invite codes are for new members, before their first order.');
+      run(async () => { await saveMine({ referredBy: code, referredAt: new Date().toISOString() }); S.refInput = undefined; store.set('bija.ref', ''); }, `Code saved. +${BONUS.invited} points with your first order.`);
+    }
     else if (a === 'histall') { S.histAll = true; render(); }
     else if (a === 'bday') { const n = +S.bdayPick; if (!(n >= 1 && n <= 12)) return toast('Pick a month first.'); run(() => saveMine({ birthMonth: n }), 'Saved. See you in ' + MONTHS[n - 1] + '!'); }
     else if (a === 'install') { const ev = S.installEvt; S.installEvt = null; if (ev) { ev.prompt(); ev.userChoice.finally(render); } }
@@ -3783,6 +3922,7 @@ var qrcode = function() {
     else if (el.id === 'bm') S.bdayPick = val;
     else if (el.dataset.g) { S.gift[el.dataset.g] = val; if (el.dataset.g === 'custom') render(); }
     else if (el.hasAttribute('data-redeem')) S.redeemCode = val;
+    else if (el.hasAttribute('data-ref')) S.refInput = val;
     else if (el.dataset.is) S.instore[el.dataset.is] = val;
     else if (el.dataset.d && S.draft) S.draft[el.dataset.d] = val;
     else if (el.dataset.m && S.draft) S.draft.menu[+el.dataset.m][el.dataset.k] = val;
@@ -3807,6 +3947,8 @@ var qrcode = function() {
     const merge = (t, p) => { for (const [k, v] of Object.entries(p)) { if (v && typeof v === 'object' && !Array.isArray(v) && t[k] && typeof t[k] === 'object' && !Array.isArray(t[k])) merge(t[k], v); else t[k] = clone(v); } };
     const snap = (p) => ({ id: p.split('/').pop(), exists: p in data, data: () => clone(data[p]) });
     if (!data['config/current']) data['config/current'] = clone(STARTER);
+    // another tab of the demo (say, Barista in one tab and Customer in another) changed the data
+    addEventListener('storage', (e) => { if (e.key !== KEY) return; try { data = JSON.parse(e.newValue) || {}; } catch { return; } subs.forEach((f) => f()); });
     return {
       doc: (p) => ({
         get: async () => snap(p),
@@ -3826,6 +3968,7 @@ var qrcode = function() {
   }
 
   // ---------- boot ----------
+  try { const r = cleanRef(new URLSearchParams(location.search).get('ref')); if (REF_RE.test(r)) store.set('bija.ref', r); } catch {}
   try { const v = new URLSearchParams(location.search).get('view'); if (v === 'app' || v === 'site') localStorage.setItem('bija.view', v); } catch {}
   if (['#home', '#order', '#beans', '#card', '#gifts', '#secret', '#orders'].includes(location.hash)) S.tab = location.hash.slice(1);
   try { S.lastOpts = JSON.parse(localStorage.getItem('bija.opts')) || {}; } catch {}
@@ -3837,7 +3980,9 @@ var qrcode = function() {
     db.doc('config/current').onSnapshot((s) => { S.config = s.exists ? s.data() : null; S.configLoaded = true; if (S.config && !(S.config.slots || []).includes(S.form.slot)) S.form.slot = (S.config.slots || ['ASAP'])[0]; render(); }, () => { S.configLoaded = true; render(); });
     if (S.uid) {
       db.doc('customers/' + S.uid).onSnapshot((s) => {
+        const before = stats(S.me, S.bar), first = !S.meLoaded;
         S.me = s.exists ? s.data() : null; S.meLoaded = true;
+        if (S.barLoaded) checkReady(before, mine(), first);
         if (S.me && !S.form.name) S.form.name = S.me.name || '';
         render();
       }, () => { S.meLoaded = true; render(); });
@@ -3845,6 +3990,7 @@ var qrcode = function() {
         const before = stats(S.me, S.bar);
         S.bar = s.exists ? s.data() : null;
         const after = stats(S.me, S.bar);
+        if (S.meLoaded) checkReady(before, after, !S.barLoaded);
         if (S.barLoaded && S.meLoaded) {
           const dealt = after.dealt.length > before.dealt.length ? after.dealt[after.dealt.length - 1] : null;
           if (dealt) { S.dealt = dealt.id; S.spot = dealt.id; }
@@ -3875,7 +4021,9 @@ var qrcode = function() {
         document.head.insertAdjacentHTML('beforeend', '<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="Bija">');
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
       }
-      S.demo = true; S.db = demoDb(); S.uid = 'you'; S.admin = true; listen(S.db); return; }
+      // ?as=sam plays a second member in another tab, to try invites and order alerts end to end
+      let as = ''; try { as = (new URLSearchParams(location.search).get('as') || '').toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 20); } catch {}
+      S.demo = true; S.db = demoDb(); S.uid = as || 'you'; S.admin = true; listen(S.db); return; }
     const [db, user] = await Promise.all([c.use('db'), c.use('user')]);
     if (!db) { S.noDb = true; render(); return; }
     S.db = db; S.user = user;
