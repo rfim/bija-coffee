@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Check out your Bija coffee order. Royal Mail Tracked 48 or free click and collect at St James's Market.">
+<title>Checkout · Bija</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="site-shop.css">
+<script src="site-shop.js" defer></script>
+<style>
+.co { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); padding-top: 10px; align-items: start; }
+@media (max-width: 900px) { .co { grid-template-columns: minmax(0, 1fr); } .co .summary { order: -1; } }
+.co h1 { margin: 6px 0 18px; font-size: clamp(32px, 4vw, 48px);  }
+.co h2 { margin: 0 0 14px; font-size: 24px; }
+.panel { background: var(--tile); border-radius: 16px; padding: 24px; margin-bottom: 18px; display: grid; gap: 14px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 560px) { .two { grid-template-columns: minmax(0, 1fr); } }
+.methods { display: grid; gap: 10px; }
+.method { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 12px; align-items: center; border: 1.5px solid #c9c9c6; border-radius: 12px; background: #fff; padding: 14px 16px; cursor: pointer; min-height: 60px; }
+.method input { width: 20px; height: 20px; margin: 0; accent-color: var(--ink); }
+.method:has(input:checked) { border-color: var(--ink); border-width: 2px; background: var(--tile); }
+.method:has(input:focus-visible) { outline: 3px solid var(--ink); outline-offset: 2px; }
+.method .small { display: block; }
+.summary { background: var(--tile); border-radius: 16px; padding: 24px; position: sticky; top: 80px; display: grid; gap: 10px; }
+@media (max-width: 900px) { .summary { position: static; } }
+.sline { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.sline .thumb { aspect-ratio: 1; border-radius: 10px; background: var(--pbg, var(--tile)); position: relative; overflow: hidden; }
+.sline .thumb svg.bag { position: absolute; inset: 6% 12%; width: 76%; height: 88%; }
+.sline b { font-weight: 500; display: block; }
+.demo { border: 2px dashed var(--ink); border-radius: 12px; padding: 12px 14px; font-size: 14px; color: #333; }
+.errsum { border: 2px solid var(--bad); padding: 14px 16px; }
+.errsum h2 { color: var(--bad); }
+.errsum ul { margin: 0; padding-left: 18px; } .errsum a { color: var(--ink); }
+.done { max-width: 720px; margin: 0 auto; padding: 40px 0 0; text-align: center; }
+.done .mkwrap { width: 96px; height: 96px; margin: 0 auto 16px; color: var(--ink); }
+.done h1 { margin: 0 0 10px; font-size: clamp(44px, 6vw, 88px);  }
+.done .code { display: inline-block; font: 600 28px/1 ui-monospace, Menlo, monospace; letter-spacing: .14em; border: 2px solid var(--ink); border-radius: 12px; padding: 12px 18px; margin: 10px 0 18px; }
+.done .summary { text-align: left; position: static; margin: 20px 0; }
+</style>
+</head>
+<body class="shop-page">
+<a class="skip" href="#main">Skip to content</a>
+<div id="shop-top"></div>
+<main id="main">
+  <div class="wrap" id="root">
+    <p class="crumbs"><a href="./">Home</a> / <a href="shop.html">Shop coffee</a> / Checkout</p>
+  </div>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const S = window.BijaShop, esc = S.esc, money = S.money, root = document.getElementById('root');
+  const POSTCODE = /^(GIR ?0AA|[A-PR-UWYZ]([0-9]{1,2}|[A-HK-Y][0-9]{1,2}|[0-9][A-HJKPSTUW]|[A-HK-Y][0-9][ABEHMNPRVWXY]) ?[0-9][ABD-HJLNP-UW-Z]{2})$/i;
+  const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  let method = 'post', placed = false;
+  const summary = (ls, t) => `<div class="summary" aria-labelledby="sum-h"><h2 id="sum-h">Order summary</h2>
+    ${ls.map((l) => `<div class="sline"><span class="thumb" style="--pbg:${S.bgFor(l.p)}" aria-hidden="true">${S.bagArt(l.p)}</span><span><b>${esc(l.name)} × ${l.qty}</b><span class="small">${esc(l.grind)} · ${l.plan === 'once' ? (l.p.type === 'gift' ? 'Prepaid, 3 months' : 'One-off') : S.PLANS[l.plan] + ', save 10%'}</span></span><span>${money(l.total)}</span></div>`).join('')}
+    <div class="sumrow"><span>Subtotal</span><span>${money(t.subtotal)}</span></div>
+    <div class="sumrow"><span>Delivery</span><span>${t.fee ? money(t.fee) : 'Free'}</span></div>
+    <div class="sumrow big"><span>Total</span><span>${money(t.total)}</span></div>
+    <p class="small" style="margin:0">Includes VAT. Earn about ${t.pts.toLocaleString('en-GB')} points on your Bija Card.</p></div>`;
+  function draw() {
+    const ls = S.lines();
+    if (!ls.length) { root.insertAdjacentHTML('beforeend', `<div class="empty"><h1>Your basket is empty</h1><p>Add a bag of beans or start a subscription.</p><a class="btn" href="shop.html">Shop coffee</a></div>`); return; }
+    const t = S.totals(method, ls);
+    root.insertAdjacentHTML('beforeend', `<div class="co"><div>
+      <h1>Checkout</h1>
+      <div id="errs"></div>
+      <form id="co" novalidate>
+        <div class="panel"><h2>Your details</h2>
+          <div class="field"><label for="f-name">Full name</label><input class="inp" id="f-name" name="name" autocomplete="name" required aria-describedby="e-name"><p class="err" id="e-name"></p></div>
+          <div class="field"><label for="f-email">Email <span class="hint">· for your receipt and delivery updates</span></label><input class="inp" id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="e-email"><p class="err" id="e-email"></p></div>
+        </div>
+        <fieldset class="panel"><legend class="vh">Delivery method</legend><h2 aria-hidden="true">Delivery</h2>
+          <div class="methods">
+            <label class="method"><input type="radio" name="method" value="post" checked><span><b>Royal Mail Tracked 48</b><span class="small">Usually 2 to 3 working days. Free over £30 and on subscriptions.</span></span><span id="postfee"></span></label>
+            <label class="method"><input type="radio" name="method" value="collect"><span><b>Click &amp; collect</b><span class="small">2a St James's Market, SW1Y 4AH. We'll email you when it's ready.</span></span><span>Free</span></label>
+          </div>
+          <div id="addr" class="panel" style="border:0;padding:0;margin:0">
+            <div class="field"><label for="f-a1">Address line 1</label><input class="inp" id="f-a1" name="a1" autocomplete="address-line1" aria-describedby="e-a1"><p class="err" id="e-a1"></p></div>
+            <div class="field"><label for="f-a2">Address line 2 <span class="hint">(optional)</span></label><input class="inp" id="f-a2" name="a2" autocomplete="address-line2"></div>
+            <div class="two"><div class="field"><label for="f-town">Town or city</label><input class="inp" id="f-town" name="town" autocomplete="address-level2" aria-describedby="e-town"><p class="err" id="e-town"></p></div>
+              <div class="field"><label for="f-pc">Postcode</label><input class="inp" id="f-pc" name="postcode" autocomplete="postal-code" autocapitalize="characters" aria-describedby="e-pc"><p class="err" id="e-pc"></p></div></div>
+            <p class="small" style="margin:0">UK addresses only.</p>
+          </div>
+        </fieldset>
+        <div class="panel"><h2>Before you order</h2>
+          <label class="check"><input type="checkbox" name="mkt"><span>Email me news, new beans and offers from Bija. Optional, and I can unsubscribe at any time.</span></label>
+          <p class="small" style="margin:0">By placing your order you agree to our <a href="delivery.html#terms">terms of sale</a> and <a href="delivery.html">delivery and returns policy</a>. See how we use your details in our <a href="privacy.html">privacy notice</a>.</p>
+          <p class="demo" id="demo-note"><b>Demo checkout: no payment is taken.</b> Your order is saved in this browser only so you can see how it works.</p>
+          <button class="btn block" type="submit" id="place" aria-describedby="demo-note">Place order · ${money(t.total)}</button>
+        </div>
+      </form></div>
+      <div id="sum">${summary(ls, t)}</div></div>`);
+    const form = document.getElementById('co');
+    const refresh = () => { const l2 = S.lines(), t2 = S.totals(method, l2); document.getElementById('sum').innerHTML = summary(l2, t2); document.getElementById('place').textContent = `Place order · ${money(t2.total)}`; document.getElementById('postfee').textContent = S.totals('post', l2).fee ? money(S.POST) : 'Free'; document.getElementById('addr').hidden = method !== 'post'; };
+    form.addEventListener('change', (e) => { if (e.target.name === 'method') { method = e.target.value; refresh(); } });
+    document.addEventListener('bija:cart', () => { if (placed) return; if (!S.lines().length) location.reload(); else refresh(); });
+    form.addEventListener('submit', (e) => { e.preventDefault(); place(form); });
+    refresh();
+  }
+  function place(form) {
+    const v = (n) => (form.elements[n]?.value || '').trim(), errs = [];
+    const set = (id, msg) => { const i = document.getElementById('f-' + id), m = document.getElementById('e-' + id); if (m) m.textContent = msg || ''; if (i) i.setAttribute('aria-invalid', msg ? 'true' : 'false'); if (msg) errs.push([id, msg]); };
+    set('name', v('name').length < 2 ? 'Enter your full name.' : '');
+    set('email', !EMAIL.test(v('email')) ? 'Enter an email address like name@example.com.' : '');
+    if (method === 'post') {
+      set('a1', !v('a1') ? 'Enter the first line of your address.' : '');
+      set('town', !v('town') ? 'Enter your town or city.' : '');
+      set('pc', !v('postcode') ? 'Enter your postcode.' : !POSTCODE.test(v('postcode').replace(/\s+/g, ' ')) ? 'Enter a real UK postcode, like SW1Y 4AH.' : '');
+    } else ['a1', 'town', 'pc'].forEach((i) => set(i, ''));
+    const box = document.getElementById('errs');
+    if (errs.length) {
+      box.innerHTML = `<div class="errsum panel" role="alert" tabindex="-1"><h2>There ${errs.length === 1 ? 'is a problem' : 'are ' + errs.length + ' problems'}</h2><ul>${errs.map(([id, m]) => `<li><a href="#f-${id}">${esc(m)}</a></li>`).join('')}</ul></div>`;
+      box.firstChild.focus(); return;
+    }
+    box.innerHTML = '';
+    const btn = document.getElementById('place'); btn.disabled = true; btn.textContent = 'Placing your order…';
+    const ls = S.lines(), t = S.totals(method, ls);
+    const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let code = 'W'; for (let i = 0; i < 4; i++) code += A[Math.floor(Math.random() * A.length)];
+    const pc = v('postcode').toUpperCase().replace(/\s+/g, '').replace(/^(.+)(\d[A-Z]{2})$/, '$1 $2');
+    const order = { id: 'w_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), code, createdAt: new Date().toISOString(), name: v('name'), email: v('email'),
+      lines: ls.map((l) => ({ id: l.id, name: l.name, grind: l.grind, qty: l.qty, plan: l.plan, unit: l.unit })),
+      delivery: method === 'post' ? { method: 'post', fee: t.fee, address: [v('a1'), v('a2'), v('town')].filter(Boolean).join(', '), postcode: pc } : { method: 'collect', fee: 0 },
+      subtotal: t.subtotal, total: t.total, status: 'placed', marketing: !!form.elements.mkt.checked };
+    const orders = S.store.get('bija.shop.orders', []);
+    const ok = S.store.set('bija.shop.orders', [...(Array.isArray(orders) ? orders : []), order]);
+    if (!ok) { btn.disabled = false; btn.textContent = `Place order · ${money(t.total)}`; box.innerHTML = '<div class="errsum panel" role="alert" tabindex="-1"><h2>We couldn\'t save your order</h2><p>Your browser is blocking storage. Try again outside private browsing.</p></div>'; box.firstChild.focus(); return; }
+    placed = true; S.saveCart([]);
+    scrollTo(0, 0);
+    root.innerHTML = `<div class="done" role="status"><div class="mkwrap" data-done-mk></div><span class="eyebrow">Terima kasih, ${esc(order.name.split(' ')[0])}</span><h1>Your order is in.</h1>
+      <div class="code" aria-label="Order code ${code.split('').join(' ')}">${code}</div>
+      <p>${method === 'post' ? `We'll send it by Royal Mail Tracked 48 to ${esc(order.delivery.address)}, ${esc(pc)}, and email ${esc(order.email)} when it's on its way.` : `We'll email ${esc(order.email)} when it's ready to collect from 2a St James's Market. Show this code at the bar.`}</p>
+      <p>About <b>${t.pts.toLocaleString('en-GB')} points</b> will land on your Bija Card when we ${method === 'post' ? 'dispatch your order' : 'hand it over at the bar'}.</p>
+      ${summary(order.lines.map((l) => ({ ...l, p: S.byId(l.id), total: Math.round(l.unit * l.qty * 100) / 100 })), t)}
+      <p class="demo">Demo checkout: no payment was taken and nothing was sent.</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px"><a class="btn" href="app.html?view=app#card">Open my Bija Card</a><a class="btn ghost" href="shop.html">Continue shopping</a></div></div>`;
+    root.querySelector('[data-done-mk]').innerHTML = S.markCycle();
+    root.querySelector('h1').setAttribute('tabindex', '-1'); root.querySelector('h1').focus();
+  }
+  draw();
+});
+</script>
+<div id="shop-foot"></div>
+</body>
+</html>
