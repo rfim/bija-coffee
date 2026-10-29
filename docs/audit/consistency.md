@@ -1,10 +1,10 @@
 # Consistency audit: prices, rules and facts
 
-*Business analysis · run 1: 29 Oct 2026, 20:25 UTC · main at `8e455db`, plus branches `dev/offices-gifts-emails` (offices, gifts, emails), `dev/press-launch` (press page, launch copy), `team/bizdev` (`e9d55bf`+, decisions) and `team/marketing`*
+*Business analysis · run 1: 29 Oct 2026, 20:25 UTC (main at `8e455db` plus team branches) · **run 2: 20:54 UTC, main at `8328a29`**, which now includes the offices, gifts, emails, press and launch-kit branches and a new `events.html`*
 
 **What this checks.** Every price and rule a customer can read should say the same thing in every file. For each rule the table gives the value in each source (`file:line`), whether they agree, and the **canonical value** to use. Where BizDev has a recommended default in [`docs/bizdev/owner-decisions.md`](../bizdev/owner-decisions.md) on `team/bizdev`, the canonical value is that default, marked **🟡 owner decision** (code A1–G3 from that doc). Section 3 lists claims with no source behind them. Section 4 is the change list, file by file.
 
-Paths without a prefix are on `main`. `offices.html`, `gifts.html` and `emails/*` are on `dev/offices-gifts-emails`; `press.html` and `marketing/launch/*` are on `dev/press-launch`. `help.html` doesn't exist on any branch yet.
+All paths are now on `main` (as of run 2), so file names have no branch prefix. Line numbers were rechecked in run 2 and haven't changed. `help.html` doesn't exist yet.
 
 ---
 
@@ -65,7 +65,7 @@ Legend: ✅ consistent · ❌ inconsistent · ⚠️ consistent but differs from
 | **Managing subscriptions** | "Email us or ask at the bar… Managing subscriptions in the Bija app is coming next": `subscribe.html:75`. But the app already has Skip next, Pause and Cancel: `app.html:3536–3538` | ❌ | "Skip, pause or cancel in the Bija app, by email, or at the bar" |
 | **When subscribers are charged** | On dispatch, never in advance: `subscribe.html:76`; `delivery.html:73`; `emails/beans-club-reminder.txt:10`; `emails/order-confirmation.txt:19` | ✅ | On dispatch |
 | **Delivery fee** | £3.95 Royal Mail Tracked 48: `app.html:2917`; `site-shop.js:27`; `delivery.html:44`; `shop.html:66`; `product.html:95`, `:106`; `subscribe.html:50` | ✅ | £3.95 Royal Mail Tracked 48. 🟡 A1 |
-| **Free delivery threshold** | **"£30 or more"**: `delivery.html:44`, and the code (`site-shop.js:69` `subtotal >= FREE_AT`; `app.html:3458` `subtotal >= FREE_POST`). **"Over £30"**: `shop.html:66`; `product.html:95`, `:106`; `index.html:265`; `site-shop.js:131`; `app.html:3486`; `gifts.html:72`; `marketing/launch/instagram-grid.md:33`, `stories.md:14` | ❌ | **"Free on orders of £30 or more"** (matches the code) |
+| **Free delivery threshold** | **"£30 or more"**: `delivery.html:44`, and the code (`site-shop.js:69` `subtotal >= FREE_AT`; `app.html:3458` `subtotal >= FREE_POST`). **"Over £30"**: `delivery.html:8` (meta description, found in run 2); `shop.html:66`; `product.html:95`, `:106`; `index.html:265`; `site-shop.js:131`; `app.html:3486`; `gifts.html:72`; `marketing/launch/instagram-grid.md:33`, `stories.md:14` | ❌ | **"Free on orders of £30 or more"** (matches the code) |
 | **Dispatch and delivery time** | Dispatch usually within 2 working days: `delivery.html:49`; `product.html:106`; `emails/order-confirmation.*:7/41`. Delivery 2–3 working days after dispatch: `delivery.html:44–45`; `emails/dispatched.txt:7`. `checkout.html:81` says "Usually 2 to 3 working days", which can be read as order to door | ⚠️ minor | "We usually dispatch within 2 working days; Royal Mail aims to deliver 2–3 working days after that." Fix `checkout.html:81` |
 | **Click and collect** | Free at 2a St James's Market: `shop.html:66`; `product.html:101`; `checkout.html:82`; `delivery.html:52`; `subscribe.html:79`; `gifts.html:72`; `app.html:3463` | ✅ | Free |
 | **Gift subscription** | £36, 3 × 200 g over 3 months, delivery included, no renewal: `site-shop.js:12`; `subscribe.html:68`; `delivery.html:46`, `:66`; `index.html:315`; `gifts.html:8`, `:42`, `:71`; `offices.html:63`; `marketing/launch/newsletter-blocks.md:13` | ✅ with each other · ⚠️ against the default | 🟡 **A7: £36 collected, £42 posted** (by 23 Nov) |
@@ -104,6 +104,7 @@ Legend: ✅ consistent · ❌ inconsistent · ⚠️ consistent but differs from
 | Opening hours | Everywhere | Marked "[Confirm hours]" in launch copy | Owner confirms (F1) |
 | "Founded by Devi Trianna"; founder bio | `press.html:117`, `:76` ("To confirm") | Founder name is sourced ([St James's / Crown Estate article](https://prod-stjames.thecrownestate.co.uk/news/international-womens-day-devi-trianna-bija)); bio is still to confirm | Keep "To confirm" until Devi approves (F3) |
 | Postcode SW1Y 4AH | Everywhere | FSA hygiene register says SW1Y 4SB | Owner checks |
+| "London Marathon runners 10% off" (run 2) | `events.html:98` | Listed as an offer, with no date and no terms. `events.html:18` notes the date is unconfirmed. It isn't among the app's offers (`app.html:2927–2931`), so staff may not know to honour it | Owner confirms whether it was a one-off (add the year) or a standing offer (add it to `OFFERS` with terms) |
 
 ---
 
@@ -142,7 +143,7 @@ Legend: ✅ consistent · ❌ inconsistent · ⚠️ consistent but differs from
 - **On approval (A6)**: list own cup, students and early bird with terms.
 
 ### `shop.html`, `product.html`, `delivery.html`, `subscribe.html`, `checkout.html` (main)
-- **Do now** `shop.html:66`; `product.html:95`, `:106`: "free over £30" → "free on orders of £30 or more".
+- **Do now** `delivery.html:8`; `shop.html:66`; `product.html:95`, `:106`: "free over £30" → "free on orders of £30 or more".
 - **Do now** `shop.html:38`; `product.html:83`; `delivery.html:49`: remove "roasted with (our partner) Kindred Forest".
 - **Do now** `subscribe.html:75`: "Managing subscriptions in the Bija app is coming next" → "Or do it yourself in the Bija app (Beans Club tab)".
 - **Do now** `checkout.html:81`: "Usually 2 to 3 working days" → "Dispatched within 2 working days, then usually 2 to 3 working days with Royal Mail".
@@ -179,3 +180,4 @@ Legend: ✅ consistent · ❌ inconsistent · ⚠️ consistent but differs from
 | Run | Time (UTC) | main | Result |
 |---|---|---|---|
 | 1 | 29 Oct 20:25 | `8e455db` | 7 rules inconsistent (free-delivery wording, award, passport, referral, subscription notice, office price, roaster); 4 unsourced or unconfirmed (roaster, email, domain, postcode) |
+| 2 | 29 Oct 20:54 | `8328a29` | **No fixes landed yet.** All 7 inconsistencies and every "do now" item are still open, at the same line numbers. New: `delivery.html:8` also says "over £30" (added to the free-delivery row and the change list). New page `events.html`: address, email and award match the canonical values; one unsourced claim, the London Marathon 10% offer (added to §3). Owner decisions unchanged |
