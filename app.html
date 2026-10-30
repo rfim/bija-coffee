@@ -2141,7 +2141,6 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     const xmas = [9, 10, 11].includes(new Date().getMonth());
     const slides = [
       { img: 'photos/ig/latte-pour.jpg', ey: 'Order ahead', t: 'Skip the queue', pl: 'Order now', act: 'data-act="tab" data-v="order"' },
-      { img: 'photos/shop-3.jpg', ey: 'New · Kenduri', t: 'An Indonesian feast at Bija', pl: 'Register interest', act: 'data-act="kenduri"' },
       { img: 'photos/feature-1.jpg', ey: 'Introducing', t: 'The Beans Club: 10% off every bag', pl: 'Subscribe', act: 'data-act="tab" data-v="club"' },
       { img: 'photos/ig/latte-art.jpg', ey: xmas ? 'Limited edition' : 'Gifts', t: `${xmas ? 'Christmas gift' : 'Gift'} cards from £5`, pl: 'Send one', act: 'data-act="tab" data-v="gifts"' },
       { img: 'photos/feature-2.jpg', ey: 'Secret St James\'s', t: 'Find the hidden streets', pl: 'Start the trail', act: 'data-act="tab" data-v="secret"' },
@@ -3349,7 +3348,6 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     else if (a === 'dok') { S.dietDraft.ok = b.checked; S.dietDraft.err = false; render(); }
     else if (a === 'dpref') { const d = S.dietDraft; d[b.dataset.k] = d[b.dataset.k] === b.dataset.v && b.dataset.k === 'milk' ? '' : b.dataset.v; d.fresh = b.dataset.k === 'sweet' ? b.dataset.v.toLowerCase() : ''; render(); }
     else if (a === 'dedit') { S.dietEdit = b.dataset.v; S.dietDraft = null; render(); }
-    else if (a === 'kenduri') { window.open('kenduri.html', '_blank', 'noopener'); }
     else if (a === 'dclose') { if (!diet()) store.set('bija.diet.later', String(Date.now())); S.dietEdit = null; S.dietDraft = null; render(); }
     else if (a === 'dgo') { document.getElementById('diet-order')?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth', block: 'start' }); }
     else if (a === 'ddel') { try { localStorage.removeItem('bija.diet'); } catch {} S.dietDraft = null; S.dietEdit = null; if (S.mf === 'safe') S.mf = ''; toast('Allergy info deleted from this phone'); render(); }

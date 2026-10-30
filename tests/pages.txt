@@ -10,4 +10,3 @@ checkout.html
 delivery.html
 privacy.html
 accessibility.html
-kenduri.html
