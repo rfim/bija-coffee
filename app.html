@@ -780,6 +780,12 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
 #scanner .sc-frame { position: absolute; inset: 18%; border: 3px solid #fff; border-radius: 20px; box-shadow: 0 0 0 999px rgba(0,0,0,.35); }
 #scanner .sc-msg { font-size: 15px; line-height: 1.4; text-align: center; margin: 0; align-self: center; }
 #scanner .sc-file { background: #fff; color: #0b0b0b; }
+#scanner.light { background: #fff; color: var(--ink); grid-template-rows: auto 1fr auto auto; }
+#scanner.light .sc-x { background: var(--tile); color: var(--ink); }
+#scanner.light .sc-art { display: grid; place-items: center; color: var(--ink); }
+#scanner.light .sc-art svg { width: min(72vw, 280px); height: auto; }
+#scanner.light .sc-msg { font-size: 17px; max-width: 32ch; justify-self: center; }
+#scanner.light .sc-file { background: var(--ink); color: #fff; }
 /* short screens: smaller hero and card so real content shows above the nav */
 @media (max-height: 600px) {
   .greet { font-size: clamp(30px, 9vw, 40px); margin-bottom: 12px; }
@@ -1701,8 +1707,9 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     }
     const el = document.createElement('div'); el.id = 'scanner'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', 'Scan coffee');
     const can = 'BarcodeDetector' in window && navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
+    if (!can) el.classList.add('light');
     el.innerHTML = `<div class="sc-top"><b>Scan coffee</b><button class="sc-x" data-act="scan-close" aria-label="Close scanner">×</button></div>
-      ${can ? '<div class="sc-view"><video playsinline muted autoplay aria-hidden="true"></video><div class="sc-frame" aria-hidden="true"></div></div>' : ''}
+      ${can ? '<div class="sc-view"><video playsinline muted autoplay aria-hidden="true"></video><div class="sc-frame" aria-hidden="true"></div></div>' : '<div class="sc-art" aria-hidden="true"><svg viewBox="0 0 240 200" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M40 70h70l6 110H34z"/><path d="M48 70l6-16h42l6 16"/><rect x="55" y="104" width="40" height="40" rx="3"/><path d="M63 112h8v8h-8zM79 112h8v8h-8zM63 128h8v8h-8zM81 130h6v6h-6z" fill="currentColor" stroke="none"/><rect x="132" y="22" width="76" height="140" rx="14"/><path d="M160 34h20"/><path d="M146 66h14M146 66v14M194 66h-14M194 66v14M146 118h14M146 118v-14M194 118h-14M194 118v-14"/><path d="M120 120c-6 0-10 4-14 8" stroke-dasharray="2 6"/></svg></div>'}
       <p class="sc-msg" role="status">${can ? 'Point your camera at the code on your Bija bag or cup.' : 'Use your phone’s Camera app to scan the code on your bag or cup. It opens the bean’s story here.'}</p>
       ${!can && 'BarcodeDetector' in window ? '<input type="file" accept="image/*" capture="environment" id="scan-file" class="sr" tabindex="-1"><button class="btn sc-file" data-act="scan-file">Take a photo of the code</button>' : ''}`;
     document.body.appendChild(el); el.querySelector('.sc-x').focus();
@@ -2248,6 +2255,8 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
   function beansPage() {
     const beans = menu().filter((m) => m.cat === 'Beans'), st = mine();
     if (!beans.length) return `<div class="empty"><b>No beans listed yet</b>${S.admin ? 'Add them in Barista → Menu.' : 'Ask at the bar what is on the shelf.'}</div>`;
+    // a bag with a subscription posts free, so default to delivery until the customer picks a method themselves
+    if (!S.sf.methodSet) S.sf.method = bag.get().some((l) => l.plan && l.plan !== 'once') ? 'post' : 'collect';
     const cart = bag.get(), t = shopTotals(cart, S.sf.method), f = S.sf, live = st.subs.filter((x) => !x.cancelled);
     const inBag = (id) => cart.filter((l) => l.id === id).reduce((a, l) => a + l.qty, 0);
     const disc = product('discovery');
@@ -3190,7 +3199,12 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
       // actually taken and the reward actually given. Points, stamps and gift balance are computed only from this record.
       const patch = s === 'collected' ? collectSnap(cid, oid, at) : { orders: { [oid]: { status: s, at } } };
       if (!patch) return toast('This order has changed. Check it again.');
-      run(() => saveBar(cid, patch), s === 'collected' ? 'Collected. Points and a secret card added.' : s === 'ready' ? 'Marked ready' : 'Updated');
+      let done = s === 'ready' ? 'Marked ready' : 'Updated';
+      if (s === 'collected') {
+        const sn = (patch.orders && patch.orders[oid]) || {}, take = Math.max(0, (+sn.total || 0) - (+sn.giftPaid || 0)), st = num(sn.drinks, 0, 100);
+        done = `Collected · take ${money(take)}${+sn.giftPaid > 0 ? ` (${money(+sn.giftPaid)} from gift card)` : ''} · +${num(sn.pts, 0, 1e6)} points${st > 0 ? `, ${st} stamp${st > 1 ? 's' : ''}` : ''}`;
+      }
+      run(() => saveBar(cid, patch), done);
     }
     else if (a === 'scan') { S.showScan = !S.showScan; render(); }
     else if (a === 'sheet') openSheet(b.dataset.id, b);
@@ -3228,7 +3242,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
       bag.set(cart); S.shopDone = null; toast(`${pr.name} added to your bag`); render();
     }
     else if (a === 'bagq') { const cart = bag.get(), l = cart[+b.dataset.i]; if (!l) return; l.qty = Math.max(0, Math.min(20, l.qty + +b.dataset.d)); bag.set(cart.filter((x) => x.qty > 0)); render(); }
-    else if (a === 'smethod') { S.sf.method = b.dataset.v === 'post' ? 'post' : 'collect'; render(); }
+    else if (a === 'smethod') { S.sf.method = b.dataset.v === 'post' ? 'post' : 'collect'; S.sf.methodSet = true; render(); }
     else if (a === 'shopplace') placeShop();
     else if (a === 'gobag') document.getElementById('shopbag')?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth' });
     else if (a === 'shopok') { S.shopDone = null; render(); }
@@ -3250,7 +3264,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
       const no = memberCode(S.uid), url = S.demo && /^https?:$/.test(location.protocol) ? `${location.origin}${location.pathname}?view=app&ref=${encodeURIComponent(no)}` : '';
       const text = `Join me at Bija Coffee, 2a St James's Market. Add my code ${no} in the Bija app before your first order. Invite links give us both ${REFER} points when your first paid order of £3 or more is collected.`;
       if (navigator.share) navigator.share({ title: 'Bija Coffee', text, ...(url ? { url } : {}) }).catch(() => {});
-      else try { navigator.clipboard.writeText(url ? text + ' ' + url : text).then(() => toast('Invite copied. Paste it into a message.'), () => toast(no)); } catch { toast(no); }
+      else try { navigator.clipboard.writeText(url ? text + ' ' + url : text).then(() => toast(`${url ? 'Invite link' : 'Invite'} copied: ${no}. Paste it into a message.`), () => toast(`Your invite code: ${no}`)); } catch { toast(`Your invite code: ${no}`); }
     }
     else if (a === 'refadd') {
       const code = S.refCode.trim().toUpperCase().replace(/\s+/g, '');
@@ -3363,7 +3377,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     else if (a === 'fsave') finSave();
     else if (a === 'fcsv') finCsv();
     else if (a === 'facsv') finAcsv();
-    else if (a === 'fsub') { S.fin.sub = b.dataset.v; S.fin.del = null; S.fin.bdel = null; if (b.dataset.v === 'settings') S.fin.set = null; if (b.dataset.v === 'staff') S.fin.staff = null; render(); window.scrollTo({ top: 0 }); }
+    else if (a === 'fsub') { S.fin.sub = b.dataset.v; S.fin.del = null; S.fin.bdel = null; if (b.dataset.v === 'settings') S.fin.set = null; if (b.dataset.v === 'staff') S.fin.staff = null; render(); if (b.dataset.focus) { const fid = b.dataset.focus; requestAnimationFrame(() => { const el = document.getElementById(fid); if (el) { el.scrollIntoView({ block: 'center' }); el.focus({ preventScroll: true }); } }); } window.scrollTo({ top: 0 }); }
     else if (a === 'fstart') { S.fin.sub = 'close'; loadClose(isDate(b.dataset.v) ? b.dataset.v : ldate()); render(); window.scrollTo({ top: 0 }); }
     else if (a === 'fwz') finWizard(+b.dataset.v);
     else if (a === 'fcat' && FIN_CATS.includes(b.dataset.v)) { S.fin.exp.cat = b.dataset.v; S.fin.exp.vatRate = CAT_META[b.dataset.v][0]; render(); }
@@ -3488,7 +3502,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
           if (dealt) { S.dealt = dealt.id; S.spot = dealt.id; }
           const gained = after.lifetime - before.lifetime, topped = after.credits - before.credits;
           if (gained > 0) { S.bump = true; setTimeout(() => { S.bump = false; }, 800); }
-          if (gained > 0 || topped > 0) toast([gained > 0 ? `+${gained} points` : '', dealt ? 'a new secret card' : '', topped > 0 ? `${money(topped)} gift card added` : ''].filter(Boolean).join(' · '));
+          if ((gained > 0 || topped > 0) && S.view !== 'bar') toast([gained > 0 ? `+${gained} points` : '', dealt ? 'a new secret card' : '', topped > 0 ? `${money(topped)} gift card added` : ''].filter(Boolean).join(' · '));
         }
         S.barLoaded = true; render();
       }, () => { S.barLoaded = true; render(); });

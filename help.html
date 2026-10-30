@@ -53,7 +53,7 @@ if (location.protocol !== 'file:') ['archivo-latin-900', 'archivo-latin-800', 'i
 .hcta p { margin: 0; color: #d6d6d6; }
 .hcta .mk { width: 48px; height: 48px; color: #fff; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-mark { background: #0b0b0b; color: #fff; padding: 0 2px; border-radius: 2px; }
+mark { display: inline; background: #0b0b0b; color: #fff; padding: 0 2px; border-radius: 2px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 @media (prefers-reduced-motion: reduce) { .faq summary::after, .htile { transition: none; } }
 </style>
 </head>
@@ -158,7 +158,7 @@ mark { background: #0b0b0b; color: #fff; padding: 0 2px; border-radius: 2px; }
       const hit = !words.length || words.every((w) => it.text.includes(w));
       it.d.hidden = !hit; if (hit) n++;
       it.d.open = words.length > 0 && hit;
-      it.sum.innerHTML = words.length && hit ? hl(it.q0, words) : esc(it.q0);
+      it.sum.innerHTML = '<span class="q">' + (words.length && hit ? hl(it.q0, words) : esc(it.q0)) + '</span>';
     }
     document.querySelectorAll('.hsec').forEach((s) => { s.hidden = !s.querySelector('.faq:not([hidden])'); });
     tiles.hidden = words.length > 0;
