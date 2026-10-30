@@ -244,17 +244,13 @@ body.barista-view:has(#basket:not([hidden])) #toast { bottom: calc(76px + env(sa
 .fab { position: relative; width: 70px; height: 70px; margin: -30px 18px 0; border-radius: 50%; border: 0; background: #fff; color: #000; display: grid; place-items: center; box-shadow: 0 0 0 6px #000, 0 10px 30px rgba(255,255,255,.12); transition: transform .3s cubic-bezier(.3,1.6,.5,1); padding: 0; cursor: pointer; }
 .fab:active { transform: scale(.92); }
 .fab svg { width: 44px; height: 44px; overflow: visible; }
-.fab .mk2 { transform-origin: 50px 50px; animation: fab-turn 14s linear infinite; }
-.fab .mk2 circle.m { transform-box: view-box; animation: fab-breathe 3.2s ease-in-out infinite; }
-.fab .mk2 circle.m:nth-child(1) { --dx: 0px; --dy: -3px; } .fab .mk2 circle.m:nth-child(2) { --dx: 3px; --dy: 0px; } .fab .mk2 circle.m:nth-child(3) { --dx: 0px; --dy: 3px; } .fab .mk2 circle.m:nth-child(4) { --dx: -3px; --dy: 0px; }
-@keyframes fab-turn { to { transform: rotate(360deg); } }
-@keyframes fab-breathe { 50% { transform: translate(var(--dx), var(--dy)); } }
-.fab.burst .mk2 circle.m { animation: fab-bloom .7s cubic-bezier(.2,.8,.2,1); }
-.fab.burst .mk2 circle.m:nth-child(1) { --dx: 0px; --dy: -16px; } .fab.burst .mk2 circle.m:nth-child(2) { --dx: 16px; --dy: 0px; } .fab.burst .mk2 circle.m:nth-child(3) { --dx: 0px; --dy: 16px; } .fab.burst .mk2 circle.m:nth-child(4) { --dx: -16px; --dy: 0px; }
-@keyframes fab-bloom { 40% { transform: translate(var(--dx), var(--dy)) scale(.7); } }
-.fab::before, .fab::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #fff; opacity: 0; pointer-events: none; }
-.fab.burst::before { animation: fab-ring .7s ease-out; } .fab.burst::after { animation: fab-ring .7s ease-out .12s; }
-@keyframes fab-ring { from { opacity: .9; transform: scale(1); } to { opacity: 0; transform: scale(1.9); } }
+.fab .mk2 { transform-box: fill-box; transform-origin: center; }
+/* the mark always moves as one piece: a quarter turn lands on the same Kawung shape, so it reads as a click, never as the logo falling apart */
+.fab.burst .mk2 { animation: fab-quarter .5s cubic-bezier(.3,1.4,.5,1); }
+@keyframes fab-quarter { from { transform: rotate(0); } to { transform: rotate(90deg); } }
+.fab::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #fff; opacity: 0; pointer-events: none; }
+.fab.burst::before { animation: fab-ring .55s ease-out; }
+@keyframes fab-ring { from { opacity: .7; transform: scale(1); } to { opacity: 0; transform: scale(1.6); } }
 .fab.bump { animation: fab-bump .45s cubic-bezier(.3,1.6,.5,1); }
 @keyframes fab-bump { 40% { transform: scale(1.14); } }
 .fab.ready { animation: fab-glow 1.6s ease-in-out infinite; }
@@ -267,7 +263,7 @@ body.barista-view:has(#basket:not([hidden])) #toast { bottom: calc(76px + env(sa
 .flydot { position: fixed; z-index: 40; width: 14px; height: 14px; border-radius: 50%; background: #fff; box-shadow: 0 0 12px rgba(255,255,255,.8); pointer-events: none; }
 /* page change: content rises in */
 @media (prefers-reduced-motion: no-preference) { #main.enter { animation: page-in .38s cubic-bezier(.2,.7,.2,1); } @keyframes page-in { from { opacity: 0; transform: translateY(12px); } } }
-@media (prefers-reduced-motion: reduce) { .fab .mk2, .fab .mk2 circle.m, .fab.burst::before, .fab.burst::after, .fab.ready, .fab.bump { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .fab.burst .mk2, .fab.burst::before, .fab.ready, .fab.bump { animation: none !important; } }
 .bnav button.side { border: 0; background: transparent; display: grid; justify-items: center; gap: 2px; padding: 6px 0; font-size: 11px; font-weight: 600; color: var(--muted); position: relative; }
 .bnav button.side svg { width: 24px; height: 24px; }
 .bnav button.side[aria-current="page"] { color: var(--ink); }
@@ -516,7 +512,7 @@ legend { font: 600 12px/1.3 var(--sans); letter-spacing: .1em; text-transform: u
 .bnav .dot { background: var(--ink); color: #fff; }
 .bnav button.side { text-transform: uppercase; font-size: 10px; letter-spacing: .06em; }
 .fab { background: #0b0b0b; color: #fff; box-shadow: 0 0 0 6px #fff, 0 10px 28px rgba(0, 0, 0, .28); }
-.fab::before, .fab::after { border-color: #0b0b0b; }
+.fab::before { border-color: #0b0b0b; }
 .fab .cnt { background: #fff; color: #0b0b0b; border-color: #0b0b0b; }
 .fab-l { text-transform: uppercase; font-size: 10px; letter-spacing: .06em; } .fab-l.on { color: var(--ink); }
 @keyframes fab-glow { 50% { box-shadow: 0 0 0 6px #fff, 0 0 0 10px rgba(46,125,50,.85), 0 0 30px rgba(46,125,50,.5); } }
