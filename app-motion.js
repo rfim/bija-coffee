@@ -296,10 +296,10 @@
     if (!open) { if (drw) { $('#main')?.classList.remove('mo-under'); drw = null; } return; }
     if (drw === d) return; drw = d;
     const pan = d.querySelector('[data-drawer-panel], .pan, .panel') || d, bg = d.querySelector('[data-drawer-bg], .bg');
-    $('#main')?.classList.add('mo-back', 'mo-under');
+    // the page behind stays exactly where it is; only the panel and a light veil move
     if (calm()) { anim(d, [{ opacity: 0 }, { opacity: 1 }], { duration: 1 }); return; }
-    pan.animate([{ transform: 'translateX(100%)' }, { transform: 'none' }], { duration: 460, easing: 'cubic-bezier(.3,1.15,.5,1)' });
-    bg && bg.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300 });
+    pan.animate([{ transform: 'translateX(100%)' }, { transform: 'none' }], { duration: 380, easing: 'cubic-bezier(.22,1,.36,1)' });
+    bg && bg.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260, easing: 'ease-out' });
     $$('.st.on', d).forEach((x, i) => x.animate([{ transform: 'scale(0) rotate(-20deg)', opacity: 0 }, { transform: 'scale(1.15) rotate(-12deg)', opacity: 1, offset: .7 }, { transform: 'rotate(-12deg)' }], { duration: 380, delay: 220 + i * 40, easing: 'ease-out', fill: 'backwards' }));
     let x0 = null, dx = 0;
     pan.addEventListener('pointerdown', (e) => { x0 = e.clientX; dx = 0; pan.style.transition = 'none'; });

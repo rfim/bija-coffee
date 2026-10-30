@@ -17,12 +17,12 @@
   }
 
   var icons = {
+    // plain takeaway cup with a sleeve (no Bija mark, as the client asked)
     rewards:
       '<path d="M8.6 2.5h6.8l1.1 2.4H7.5z"/>' +
       '<rect x="5.6" y="4.9" width="12.8" height="2.6" rx="1.1"/>' +
       '<path d="M6.8 7.5l1.3 13.1c.05.5.45.9.95.9h5.9c.5 0 .9-.4.95-.9l1.3-13.1"/>' +
-      '<path d="M7.1 10.2h9.8M7.9 18.4h8.2"/>' +
-      kawung(12, 14.3, 1.55, 0.8),
+      '<path d="M7.1 10.2h9.8M7.9 18.4h8.2"/>',
 
     home:
       '<path d="M20.5 2.5v19"/>' +

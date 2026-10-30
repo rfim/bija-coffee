@@ -269,6 +269,14 @@
           : await c.auth.updateUser({ email: address }, { emailRedirectTo: back() });
         if (r.error) throw r.error;
       },
+      // email and password: signing up as a guest adds them to the guest's own card (points stay); logging in opens an existing card
+      async passwordSignUp(address, password) {
+        const { data } = await c.auth.getUser(); const guest = !!(data && data.user && data.user.is_anonymous);
+        const r = guest ? await c.auth.updateUser({ email: address, password }) : await c.auth.signUp({ email: address, password });
+        if (r.error) throw r.error;
+      },
+      async passwordSignIn(address, password) { const r = await c.auth.signInWithPassword({ email: address, password }); if (r.error) throw r.error; },
+      async resetPassword(address) { const r = await c.auth.resetPasswordForEmail(address, { redirectTo: back() }); if (r.error) throw r.error; },
       async signOut() { await c.auth.signOut(); },
     };
   }

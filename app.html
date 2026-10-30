@@ -746,7 +746,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
 .bcard .srow .st svg { width: 70%; height: 70%; }
 /* stamp drawer */
 #stampdrawer { position: fixed; inset: 0; z-index: 45; }
-#stampdrawer .sd-bg { position: absolute; inset: 0; background: rgba(0,0,0,.45); opacity: 0; transition: opacity .25s; }
+#stampdrawer .sd-bg { position: absolute; inset: 0; background: rgba(0,0,0,.18); opacity: 0; transition: opacity .25s; }
 #stampdrawer .sd-pan { position: absolute; top: 0; right: 0; bottom: 0; width: min(86vw, 420px); background: #fff; padding: calc(16px + var(--sa-top)) 16px calc(24px + var(--sa-bottom)); overflow-y: auto; transform: translateX(100%); transition: transform .28s cubic-bezier(.2,.8,.2,1); touch-action: pan-y; }
 #stampdrawer.show .sd-bg { opacity: 1; } #stampdrawer.show .sd-pan { transform: translateX(0); }
 .sd-top { display: flex; align-items: center; justify-content: space-between; } .sd-top h2 { font: 900 30px/1 var(--display); text-transform: uppercase; margin: 0; }
@@ -1011,6 +1011,23 @@ body.barista-view .hav { display: none; }
 .pd-acct { margin: 20px 0 8px; font-size: 13px; color: var(--muted); text-align: center; } .pd-out { width: 100%; }
 .pd-back { margin: 2px 0 6px; min-height: 44px; }
 @media (prefers-reduced-motion: no-preference) { .pd-view { animation: pdin .32s cubic-bezier(.22, 1, .36, 1); } @keyframes pdin { from { opacity: 0; transform: translateX(18px); } } }
+.mlist button { gap: 14px; } .mlist .mi { width: 40px; height: 40px; border-radius: 12px; background: var(--card); display: grid; place-items: center; flex: none; } .mlist .mi svg { width: 24px; height: 24px; } .mlist button > span:nth-of-type(2) { flex: 1; }
+/* the side panel sits on a light veil with a soft edge shadow; the page behind does not move */
+#stampdrawer .sd-pan { box-shadow: -12px 0 40px rgba(0,0,0,.10); }
+/* Stir-style login inside the Profile panel */
+.login { padding: 8px 2px 4px; }
+.login .lg-mark { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: #0b0b0b; color: #fff; margin: 6px 0 16px; } .login .lg-mark svg { width: 30px; height: 30px; }
+.login h3 { font: 900 30px/1 var(--display); text-transform: uppercase; margin: 0 0 8px; }
+.login > p { margin: 0 0 18px; font-size: 14px; line-height: 1.45; color: var(--muted); } .login > p b { color: var(--ink); }
+.login form { display: grid; gap: 12px; } .login form .btn { width: 100%; min-height: 52px; }
+.login .sso { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 50px; margin-top: 10px; border-radius: 999px; font: 600 15px var(--sans); cursor: pointer; }
+.login .sso svg { width: 20px; height: 20px; } .login .sso.apple { background: #000; color: #fff; border: 0; } .login .sso.google { background: #fff; color: #1f1f1f; border: 1px solid #c9c9c5; }
+.login .or { display: flex; align-items: center; gap: 12px; margin: 18px 0 4px; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; } .login .or::before, .login .or::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.login .dok-e { color: var(--warn); font-size: 13px; font-weight: 600; margin: 0; }
+.login .fine { font-size: 12px; color: var(--muted); margin: 16px 0 0; line-height: 1.45; }
+.login .sso.mail { background: #fff; color: var(--ink); border: 1.5px solid #0b0b0b; } .login .lg-other { margin: 0 0 10px; min-height: 44px; } .login .seg { display: grid; grid-template-columns: 1fr 1fr; background: #e6e5e1; border-radius: 999px; padding: 3px; margin: 4px 0 16px; } .login .seg button { min-height: 40px; border: 0; border-radius: 999px; background: transparent; font: 600 13px var(--sans); color: var(--muted); cursor: pointer; } .login .seg button[aria-selected="true"] { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.pw { position: relative; display: block; } .pw input { width: 100%; padding-right: 72px; } .pw-eye { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); min-height: 40px; min-width: 56px; border: 0; background: none; font: 600 13px var(--sans); color: var(--ink); cursor: pointer; }
+.lg-note { font-size: 13px; font-weight: 600; margin: 0; } .lg-forgot { display: block; margin: 12px auto 0; min-height: 44px; }
 </style>
 
 <div class="wrap" id="wrap">
@@ -1717,7 +1734,7 @@ body.barista-view .hav { display: none; }
       const hv = $('#hav'); if (hv) { hv.innerHTML = avatarInner(); hv.setAttribute('aria-expanded', document.getElementById('stampdrawer') ? 'true' : 'false'); }
       $('#nav-l').outerHTML = `<span id="nav-l">${side('home', 'Home', window.BijaIcons ? BijaIcons.home : '<path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/>', live)}</span>`;
       const liveO = st.os.find((o) => ['received', 'brewing', 'ready'].includes(o.status));
-      $('#nav-r').outerHTML = `<span id="nav-r">${side('card', 'Rewards', window.BijaIcons ? BijaIcons.rewards : '<path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>', canRedeem).replace('</button>', liveO ? `<span class="ldot ${liveO.status === 'ready' ? 'rdy' : ''}" aria-hidden="true"></span><span class="sr">, ${liveO.status === 'ready' ? 'order ready' : 'order in progress'}</span></button>` : '</button>')}</span>`;
+      $('#nav-r').outerHTML = `<span id="nav-r">${side('card', 'Rewards', window.BijaIcons ? BijaIcons.beans : '<path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>', canRedeem).replace('</button>', liveO ? `<span class="ldot ${liveO.status === 'ready' ? 'rdy' : ''}" aria-hidden="true"></span><span class="sr">, ${liveO.status === 'ready' ? 'order ready' : 'order in progress'}</span></button>` : '</button>')}</span>`;
       const fab = nav.querySelector('.fab'), cnt = fab.querySelector('.cnt');
       if (String(qty) !== cnt.textContent) {
         cnt.textContent = qty; cnt.hidden = !qty; if (qty) { cnt.classList.remove('pop'); void cnt.offsetWidth; cnt.classList.add('pop'); }
@@ -2071,7 +2088,7 @@ body.barista-view .hav { display: none; }
     const el = document.getElementById('stampdrawer'); if (!el) return;
     el.classList.remove('show'); document.body.classList.remove('sd-open');
     setTimeout(() => el.remove(), calm() ? 0 : 280);
-    const t = stampTrigger && stampTrigger.isConnected ? stampTrigger : document.querySelector('.stab');
+    const t = stampTrigger && stampTrigger.isConnected ? stampTrigger : document.querySelector('.face .srow[data-act=stamps], #hav');
     if (t) t.focus({ preventScroll: true }); stampTrigger = null;
   }
   addEventListener('keydown', (e) => {
@@ -2312,15 +2329,16 @@ body.barista-view .hav { display: none; }
     const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) && !navigator.standalone;
     const showInstall = S.demo && /^https?:$/.test(location.protocol) && !matchMedia('(display-mode: standalone)').matches && store.get('bija.install') !== 'no' && (S.installEvt || ios);
     const nx = st.subs.filter((x) => x.next).map((x) => x.next).sort()[0];
-    const row = (v, t, s) => `<li><button data-act="tab" data-v="${v}"><span><b>${t}</b><span class="hint">${s}</span></span><span aria-hidden="true">›</span></button></li>`;
+    const I = (n) => window.BijaIcons ? `<span class="mi">${BijaIcons.svg(n)}</span>` : '';
+    const row = (v, t, s, ic) => `<li><button data-act="tab" data-v="${v}">${ic ? I(ic) : ''}<span><b>${t}</b><span class="hint">${s}</span></span><span aria-hidden="true">›</span></button></li>`;
     return `<button class="back" data-act="tab" data-v="home">‹ Home</button><h2 class="ptitle">More</h2>
       <div class="hours"><span class="chip ${o.open ? 'open' : 'closed'}">${o.text}</span><a href="${MAPS}" target="_blank" rel="noopener">Directions</a></div>
       <ul class="mlist">
-        ${row('beans', 'Beans shop', nx ? 'Beans Club · next ' + esc(ukDay(nx)) : 'Delivered or collected · subscribe and save 10%')}
-        ${row('club', 'Beans Club', st.subs.length ? `${st.subs.length} subscription${st.subs.length > 1 ? 's' : ''}` : 'Fresh beans on your schedule')}
-        ${row('secret', 'Secret St James\'s', `${st.found} of ${SPOTS.length} found${st.dealt.some((x) => !st.visited[x.id]) ? ' · new card waiting' : ''}`)}
-        ${row('gifts', 'Gift cards', st.wallet ? money(st.wallet) + ' balance' : 'Send one from £5')}
-        ${row('orders', 'My orders', st.os.length + st.shop.length ? `${st.os.length + st.shop.length} so far` : 'Your order history')}
+        ${row('beans', 'Beans shop', nx ? 'Beans Club · next ' + esc(ukDay(nx)) : 'Delivered or collected · subscribe and save 10%', 'beans')}
+        ${row('club', 'Beans Club', st.subs.length ? `${st.subs.length} subscription${st.subs.length > 1 ? 's' : ''}` : 'Fresh beans on your schedule', 'rewards')}
+        ${row('secret', 'Secret St James\'s', `${st.found} of ${SPOTS.length} found${st.dealt.some((x) => !st.visited[x.id]) ? ' · new card waiting' : ''}`, 'visit')}
+        ${row('gifts', 'Gift cards', st.wallet ? money(st.wallet) + ' balance' : 'Send one from £5', 'menu')}
+        ${row('orders', 'My orders', st.os.length + st.shop.length ? `${st.os.length + st.shop.length} so far` : 'Your order history', 'cup')}
       </ul>
       ${showInstall ? `<div class="install"><span><b>Put Bija on your home screen</b><br><span class="hint">${S.installEvt ? 'One tap, opens full screen.' : 'Tap Share, then “Add to Home Screen”.'} <a href="install.html">How to</a></span></span><span class="row">${S.installEvt ? '<button class="btn sm" data-act="install">Install</button>' : ''}<button class="btn sm ghost" data-act="noinstall">Not now</button></span></div>` : ''}
       ${whatsOn()}
@@ -2606,7 +2624,6 @@ body.barista-view .hav { display: none; }
     const recent = [...st.os.map((o) => ({ o, shop: false })), ...st.shop.map((o) => ({ o, shop: true }))].sort((x, y) => String(y.o.createdAt).localeCompare(String(x.o.createdAt))).slice(0, 5);
     const sec = (h, small, body) => `<section class="sec psec"><div class="sec-h"><h2>${h}</h2>${small ? `<small>${small}</small>` : ''}</div>${body}</section>`;
     return `<h2 class="sr">Rewards</h2>
-      <button class="stab" data-act="stamps" aria-label="Stamp card, ${Math.min(st.stamps, STAMP_FREE_AT)} of ${STAMP_FREE_AT + 1} stamps"><span>Stamps ${Math.min(st.stamps, STAMP_FREE_AT)}/${STAMP_FREE_AT + 1}</span></button>
       ${stampAskHTML()}
       ${liveHTML(st)}
       <div class="card-stage" data-card-stage>
@@ -2658,18 +2675,30 @@ body.barista-view .hav { display: none; }
     const a = acctNow(), member = a && !a.guest;
     const prov = { google: 'Google', apple: 'Apple', email: 'email' };
     if (member) return `<section class="acct on"><div><span class="eyebrow">Signed in</span><b>${esc(a.name || a.email || 'Bija member')}</b><span class="hint">${a.email ? esc(a.email) + ' · ' : ''}with ${esc(prov[a.provider] || prov[(a.providers || []).find((x) => x !== 'anonymous')] || 'your account')}. Your card, points and allergies follow you to any phone.</span></div><button class="btn ghost sm" data-act="acc-out">Sign out</button></section>`;
-    const mode = S.accMode || 'signup';
-    return `<section class="acct">
-      <h3>${mode === 'signup' ? 'Keep your card on every phone' : 'Welcome back'}</h3>
-      <p>${mode === 'signup' ? 'Create an account and your points, stamps and allergies stay with you if you change or lose your phone. Your card and points so far come with you.' : 'Sign in to bring your Bija Card to this phone.'}</p>
-      <div class="seg" role="tablist" aria-label="Account"><button role="tab" data-act="acc-mode" data-v="signup" aria-selected="${mode === 'signup'}">Create account</button><button role="tab" data-act="acc-mode" data-v="signin" aria-selected="${mode === 'signin'}">Sign in</button></div>
+    // a Stir-style login: Apple, Google or email (with a password); a guest who signs up keeps their card and points
+    const L = S.login || (S.login = { step: 'start', mode: 'signup', email: '', err: '', show: false });
+    if (L.step === 'email') return `<section class="login">
+      <button class="back lg-other" data-act="lg-start">‹ Other options</button>
+      <h3>${L.mode === 'signup' ? 'Create your account' : 'Welcome back'}</h3>
+      <div class="seg" role="tablist" aria-label="Account"><button role="tab" data-act="lg-mode" data-v="signup" aria-selected="${L.mode === 'signup'}">Sign up</button><button role="tab" data-act="lg-mode" data-v="signin" aria-selected="${L.mode === 'signin'}">Log in</button></div>
+      <form data-login-pw novalidate>
+        <label class="f">Email<input type="email" id="lg-email" autocomplete="email" inputmode="email" placeholder="you@example.com" value="${esc(L.email)}" ${L.errAt === 'email' ? 'aria-invalid="true" aria-describedby="lg-e"' : ''}></label>
+        <label class="f">Password ${L.mode === 'signup' ? '<span class="h">At least 8 characters</span>' : ''}<span class="pw"><input type="${L.show ? 'text' : 'password'}" id="lg-pw" autocomplete="${L.mode === 'signup' ? 'new-password' : 'current-password'}" minlength="8" ${L.errAt === 'pw' ? 'aria-invalid="true" aria-describedby="lg-e"' : ''}><button type="button" class="pw-eye" data-act="lg-show" aria-pressed="${!!L.show}" aria-label="${L.show ? 'Hide password' : 'Show password'}">${L.show ? 'Hide' : 'Show'}</button></span></label>
+        ${L.err ? `<p class="dok-e" id="lg-e" role="alert">${esc(L.err)}</p>` : ''}${L.note ? `<p class="lg-note" role="status">${esc(L.note)}</p>` : ''}
+        <button class="btn" type="submit" ${L.busy ? 'disabled' : ''}>${L.busy ? 'One moment…' : L.mode === 'signup' ? 'Create account' : 'Log in'}</button>
+      </form>
+      ${L.mode === 'signin' ? '<button class="back lg-forgot" data-act="lg-forgot">Forgot password?</button>' : '<p class="fine">Your Bija Card, points so far and allergies move into your new account.</p>'}
+    </section>`;
+    const mail = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3.8 7l8.2 6 8.2-6"/></svg>';
+    return `<section class="login">
+      <span class="lg-mark" aria-hidden="true"><svg viewBox="-4 -4 108 108"><g fill="none" stroke="currentColor" stroke-width="7"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg></span>
+      <h3>Log in or sign up</h3>
+      <p>One account for your Bija Card, points, stamps and allergies, on every phone. Your card so far comes with you.</p>
       <button class="sso apple" data-act="acc-p" data-v="apple">${ICON_APPLE}<span>Continue with Apple</span></button>
       <button class="sso google" data-act="acc-p" data-v="google">${ICON_GOOGLE}<span>Continue with Google</span></button>
-      <div class="or"><span>or</span></div>
-      <form class="mail" data-acc-form novalidate><label class="f">Email<input type="email" id="acc-email" autocomplete="email" inputmode="email" placeholder="you@example.com" value="${esc(S.accEmail || '')}"></label><button class="btn" type="submit">${mode === 'signup' ? 'Email me a link' : 'Email me a sign-in link'}</button></form>
-      ${S.accSent ? `<p class="sent" role="status">Check ${esc(S.accSent)} for a link from Bija. Open it on this phone to finish.</p>` : ''}
+      <button class="sso mail" data-act="lg-email">${mail}<span>Continue with email</span></button>
       ${S.accErr ? `<p class="dok-e" role="alert">${esc(S.accErr)}</p>` : ''}
-      <p class="fine">We only use your email to sign you in. See our <a href="privacy.html">privacy notice</a>.</p>
+      <p class="fine">By continuing you agree to our <a href="delivery.html#terms">terms</a> and <a href="privacy.html">privacy notice</a>.</p>
     </section>`;
   }
   // sign-in: live mode uses Supabase (links Google, Apple or email to the guest card, or signs a returning member in); the demo simulates it on this device
@@ -2693,6 +2722,30 @@ body.barista-view .hav { display: none; }
     try { await S.sb.account.signOut(); } catch {}
     location.reload(); // starts a fresh guest card on this phone
   }
+  const lgMsg = (e) => { const m = e?.message || ''; return /invalid login|invalid credentials/i.test(m) ? 'Email or password doesn’t match. Try again, or reset your password.' : /already|registered|exists/i.test(m) ? 'There’s already an account with this email. Log in instead.' : /rate limit|too many/i.test(m) ? 'Too many tries just now. Try again in a minute.' : /password/i.test(m) ? 'Choose a longer password: at least 8 characters.' : /confirm/i.test(m) ? 'Check your email to confirm your address, then log in.' : 'That didn’t work. Check your connection and try again.'; };
+  // the demo keeps accounts on this device only, with the password stored as a salted hash, never as text
+  async function pwHash(email, pw) { const d = new TextEncoder().encode('bija:' + email.toLowerCase() + ':' + pw); const h = await crypto.subtle.digest('SHA-256', d); return Array.from(new Uint8Array(h), (x) => x.toString(16).padStart(2, '0')).join(''); }
+  async function lgSubmit() {
+    const L = S.login; if (L.busy) return;
+    const email = (document.getElementById('lg-email')?.value || '').trim(), pw = document.getElementById('lg-pw')?.value || '';
+    L.email = email; L.err = ''; L.note = ''; L.errAt = '';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { L.err = 'Enter an email address like name@example.com.'; L.errAt = 'email'; render(); return document.getElementById('lg-email')?.focus(); }
+    if (pw.length < 8) { L.err = L.mode === 'signup' ? 'Choose a password of at least 8 characters.' : 'Enter your password (at least 8 characters).'; L.errAt = 'pw'; render(); return document.getElementById('lg-pw')?.focus(); }
+    L.busy = true; render();
+    try {
+      if (S.sb && S.sb.account) { await (L.mode === 'signup' ? S.sb.account.passwordSignUp(email, pw) : S.sb.account.passwordSignIn(email, pw)); loadAcct(); }
+      else {
+        const users = JSON.parse(localStorage.getItem('bija.users') || '{}'), k = email.toLowerCase(), h = await pwHash(email, pw);
+        if (L.mode === 'signup') { if (users[k]) throw new Error('already registered'); users[k] = h; localStorage.setItem('bija.users', JSON.stringify(users)); }
+        else if (users[k] !== h) throw new Error('Invalid login credentials');
+        localStorage.setItem('bija.account', JSON.stringify({ guest: false, provider: 'email', email, name: S.me?.name || '', at: new Date().toISOString() }));
+      }
+      S.login = null; S.pdView = ''; toast(L.mode === 'signup' ? 'Account created' : 'You’re logged in'); render();
+    } catch (e) { L.busy = false; L.err = lgMsg(e); render(); }
+  }
+  document.addEventListener('submit', (e) => { if (e.target.matches('[data-login-pw]')) { e.preventDefault(); lgSubmit(); } });
+  // an error goes as soon as the field is edited
+  document.addEventListener('input', (e) => { if (!S.login?.err || !['lg-email', 'lg-pw'].includes(e.target.id)) return; S.login.err = ''; S.login.errAt = ''; document.querySelector('.login #lg-e')?.remove(); e.target.removeAttribute('aria-invalid'); e.target.removeAttribute('aria-describedby'); });
   function loadAcct() { if (S.sb && S.sb.account) S.sb.account.user().then((u) => { S.acct = u && { ...u, provider: (u.providers || []).find((x) => x !== 'anonymous') || '' }; render(); }, () => {}); }
   document.addEventListener('submit', (e) => {
     if (!e.target.matches('[data-acc-form]')) return;
@@ -2741,7 +2794,7 @@ body.barista-view .hav { display: none; }
     const n = st.os.length + st.shop.length, on = Math.min(st.stamps, STAMP_FREE_AT);
     const row = (v, icon, label, meta) => `<li><button data-act="pd" data-v="${v}"><span class="pi">${icon}</span><span class="pl"><b>${label}</b>${meta ? `<small>${meta}</small>` : ''}</span><span class="pc" aria-hidden="true">›</span></button></li>`;
     const link = (href, icon, label) => `<li><a href="${href}"><span class="pi">${icon}</span><span class="pl"><b>${label}</b></span><span class="pc" aria-hidden="true">›</span></a></li>`;
-    return `${member ? '' : `<button class="pd-join" data-act="pd" data-v="account"><span><b>Sign in or join</b><small>Keep your card, points and allergies on every phone</small></span><span class="pc" aria-hidden="true">›</span></button>`}
+    return `${member ? '' : `<button class="pd-join" data-act="pd" data-v="account"><span><b>Log in or sign up</b><small>Keep your card, points and allergies on every phone</small></span><span class="pc" aria-hidden="true">›</span></button>`}
       <button class="pd-stamps" data-act="pd" data-v="stamps" aria-label="Stamp card, ${on} of ${STAMP_FREE_AT + 1}"><span class="pd-dots" aria-hidden="true">${Array.from({ length: STAMP_FREE_AT + 1 }, (_, i) => `<i class="${i < on ? 'on' : ''}${i === STAMP_FREE_AT ? ' free' : ''}"></i>`).join('')}</span><span class="pl"><b>Stamp card</b><small>${on} of ${STAMP_FREE_AT + 1} · ${STAMP_FREE_AT - on > 0 ? `${STAMP_FREE_AT - on} more to a free drink` : 'next drink is free'}</small></span><span class="pc" aria-hidden="true">›</span></button>
       <ul class="pd-menu">
         ${row('orders', IC.orders, 'My orders', n ? `${n} so far` : 'Track and reorder')}
@@ -3581,6 +3634,15 @@ body.barista-view .hav { display: none; }
         saveDiet({ alg, milk: '', sweet: '', consent: alg.length ? new Date().toISOString() : null, at: new Date().toISOString() });
       }
       store.set('bija.diet.asked', '1'); S.algPop = null; render(); openSheet(P.id);
+    }
+    else if (a === 'lg-email') { S.login = { ...(S.login || {}), step: 'email', mode: S.login?.mode || 'signup', err: '', note: '' }; render(); requestAnimationFrame(() => document.getElementById('lg-email')?.focus()); }
+    else if (a === 'lg-start') { S.login.step = 'start'; S.login.err = ''; render(); }
+    else if (a === 'lg-mode') { S.login.mode = b.dataset.v; S.login.err = ''; S.login.note = ''; S.login.email = document.getElementById('lg-email')?.value.trim() || S.login.email; render(); }
+    else if (a === 'lg-show') { const pw = document.getElementById('lg-pw'); S.login.show = !S.login.show; if (pw) { pw.type = S.login.show ? 'text' : 'password'; b.setAttribute('aria-pressed', S.login.show); b.textContent = S.login.show ? 'Hide' : 'Show'; b.setAttribute('aria-label', S.login.show ? 'Hide password' : 'Show password'); } }
+    else if (a === 'lg-forgot') {
+      const L = S.login, email = (document.getElementById('lg-email')?.value || '').trim(); L.email = email;
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { L.err = 'Enter your email above first, then tap Forgot password.'; L.errAt = 'email'; render(); return document.getElementById('lg-email')?.focus(); }
+      (S.sb && S.sb.account ? S.sb.account.resetPassword(email) : Promise.resolve()).then(() => { L.err = ''; L.note = `If ${email} has an account, a reset link is on its way.`; render(); }, (e) => { L.err = lgMsg(e); render(); });
     }
     else if (a === 'acc-mode') { S.accMode = b.dataset.v; S.accErr = ''; S.accSent = ''; render(); }
     else if (a === 'acc-p') accSignIn(b.dataset.v);
