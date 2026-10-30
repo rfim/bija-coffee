@@ -1233,6 +1233,8 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
   const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const money = (n) => '£' + (Math.round((+n || 0) * 100) / 100).toFixed(2);
   const fmt = (iso) => { try { return new Date(iso).toLocaleString('en-GB', { timeZone: 'Europe/London', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch { return ''; } };
+  // where shared links point until Bija's own domain is live (invites, previews)
+  const PUBLIC_SITE = 'https://rfim.github.io/bija-coffee/';
   const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
   let toastT;
   // adding to the order: the item flies into the Order button and the count rolls, so the words go to screen readers only (a visible toast would cover checkout)
@@ -3429,10 +3431,11 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
     }
     else if (a === 'showcard') { S.tab = 'card'; S.showScan = true; render(); window.scrollTo({ top: 0 }); }
     else if (a === 'share') {
-      const no = memberCode(S.uid), url = S.demo && /^https?:$/.test(location.protocol) ? `${location.origin}${location.pathname}?view=app&ref=${encodeURIComponent(no)}` : '';
-      const text = `Join me at Bija Coffee, 2a St James's Market. Add my code ${no} in the Bija app before your first order. Invite links give us both ${REFER} points when your first paid order of £3 or more is collected.`;
-      if (navigator.share) navigator.share({ title: 'Bija Coffee', text, ...(url ? { url } : {}) }).catch(() => {});
-      else try { navigator.clipboard.writeText(url ? text + ' ' + url : text).then(() => toast(`${url ? 'Invite link' : 'Invite'} copied: ${no}. Paste it into a message.`), () => toast(`Your invite code: ${no}`)); } catch { toast(`Your invite code: ${no}`); }
+      // the link always points at the public site, whose invite page carries the preview card (og/invite.jpg) that WhatsApp and iMessage show
+      const no = memberCode(S.uid), url = `${PUBLIC_SITE}invite.html?ref=${encodeURIComponent(no)}`;
+      const text = `A coffee on me at Bija ☕\nJoin me at Bija, Indonesian coffee at 2a St James's Market. Use my code ${no} and we'll both get ${REFER} points after your first order.\n`;
+      if (navigator.share) navigator.share({ title: 'A coffee on me at Bija', text, url }).catch(() => {});
+      else try { navigator.clipboard.writeText(text + url).then(() => toast('Invite copied. Paste it into a message.'), () => toast(`Your invite code: ${no}`)); } catch { toast(`Your invite code: ${no}`); }
     }
     else if (a === 'refadd') {
       const code = S.refCode.trim().toUpperCase().replace(/\s+/g, '');
