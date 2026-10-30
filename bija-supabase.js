@@ -275,6 +275,8 @@
         const r = guest ? await c.auth.updateUser({ email: address, password }) : await c.auth.signUp({ email: address, password });
         if (r.error) throw r.error;
       },
+      // the installed apps sign in natively (Apple sheet, Google account picker) and hand Supabase the ID token
+      async withIdToken(provider, token, nonce) { const r = await c.auth.signInWithIdToken({ provider, token, ...(nonce ? { nonce } : {}) }); if (r.error) throw r.error; },
       async passwordSignIn(address, password) { const r = await c.auth.signInWithPassword({ email: address, password }); if (r.error) throw r.error; },
       async resetPassword(address) { const r = await c.auth.resetPasswordForEmail(address, { redirectTo: back() }); if (r.error) throw r.error; },
       async signOut() { await c.auth.signOut(); },

@@ -2723,9 +2723,16 @@ body.barista-view .hav { display: none; }
       S.login = null; S.pdView = ''; S.pdFocus = '.pd-stamps'; toast(`Logged in with ${provider === 'apple' ? 'Apple' : provider === 'google' ? 'Google' : 'email'}`); return render();
     }
     try {
+      // installed apps: the phone's own sign-in (Google blocks sign-in inside app web views); null means use the web flow
+      const nat = window.BijaNative && BijaNative.signIn ? await BijaNative.signIn(provider) : null;
+      if (nat) {
+        await S.sb.account.withIdToken(provider, nat.token, nat.nonce);
+        if (nat.name && !S.me?.name) saveMine({ name: nat.name }).catch(() => {});
+        S.login = null; S.pdView = ''; S.pdFocus = '.pd-stamps'; loadAcct(); toast(`Logged in with ${provider === 'apple' ? 'Apple' : 'Google'}`); return render();
+      }
       if (provider === 'email') { await S.sb.account.email(email, mode); S.accSent = email; }
       else await S.sb.account.withProvider(provider, mode); // the browser goes to Google or Apple and comes back here
-    } catch (e) { S.accErr = accMsg(e); }
+    } catch (e) { if (!/cancel/i.test(e?.message || '')) S.accErr = accMsg(e); }
     render();
   }
   async function accSignOut() {

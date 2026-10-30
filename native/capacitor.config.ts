@@ -26,6 +26,8 @@ const config: CapacitorConfig = {
     SystemBars: { insetsHandling: 'css', style: 'LIGHT' },
     StatusBar: { style: 'LIGHT', backgroundColor: '#ffffff', overlaysWebView: false },
     PushNotifications: { presentationOptions: ['alert', 'sound'] },
+    // native sign-in: only Google and Apple are bundled (no Facebook SDK); IDs live in native-bridge.js
+    SocialLogin: { providers: { google: true, apple: true, facebook: false, twitter: false }, logLevel: 1 },
   },
 };
 

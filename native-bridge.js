@@ -66,7 +66,36 @@
     onToken(fn) { if (typeof fn === 'function') pushListeners.push(fn); },
   };
 
-  window.BijaNative = Object.freeze({ platform, scan, haptic, share, push });
+  // Native sign-in: Apple's sheet on iPhone, Google's account picker on Android and iPhone (Google blocks sign-in inside app web views).
+  // Each returns an ID token that Supabase checks (signInWithIdToken). Bija fills these IDs once they exist: docs/backend/native-sign-in.md
+  const OAUTH = {
+    googleWebClientId: '', // Google Cloud: OAuth client of type Web application (also the one in Supabase)
+    googleIosClientId: '', // Google Cloud: OAuth client of type iOS, bundle uk.co.bijalondon.app
+  };
+  const Social = plugin('SocialLogin');
+  let socialReady = null;
+  const hex = (b) => Array.from(new Uint8Array(b), (x) => x.toString(16).padStart(2, '0')).join('');
+  const sha256 = async (t) => hex(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)));
+  async function signIn(provider) {
+    if (!Social) return null;
+    if (provider === 'apple' && platform !== 'ios') return null; // Android: Apple has no native SDK, so the web sign-in is used
+    if (provider === 'google' && !(platform === 'ios' ? OAUTH.googleIosClientId : OAUTH.googleWebClientId)) throw new Error('provider is not enabled');
+    socialReady = socialReady || Social.initialize({
+      ...(OAUTH.googleWebClientId || OAUTH.googleIosClientId ? { google: { webClientId: OAUTH.googleWebClientId || undefined, iOSClientId: OAUTH.googleIosClientId || undefined, iOSServerClientId: OAUTH.googleWebClientId || undefined } } : {}),
+      ...(platform === 'ios' ? { apple: { redirectUrl: '' } } : {}),
+    });
+    await socialReady;
+    // the provider gets the hashed nonce, Supabase the raw one, so a stolen token can't be replayed (Google's iOS SDK sets its own nonce)
+    const raw = hex(crypto.getRandomValues(new Uint8Array(16)).buffer), hashed = await sha256(raw);
+    const useNonce = !(provider === 'google' && platform === 'ios');
+    const r = await Social.login({ provider, options: provider === 'apple' ? { scopes: ['email', 'name'], nonce: hashed } : { scopes: ['email', 'profile'], ...(useNonce ? { nonce: hashed } : {}) } });
+    const res = r && r.result, token = res && res.idToken;
+    if (!token) throw new Error('No ID token from ' + provider);
+    const prof = res.profile || {};
+    return { token, nonce: useNonce ? raw : undefined, name: [prof.givenName, prof.familyName].filter(Boolean).join(' ') || prof.name || '' };
+  }
+
+  window.BijaNative = Object.freeze({ platform, scan, haptic, share, push, signIn });
 
   // Links into the app (Bean passport QR codes, app links) open the matching page inside the app.
   const SITE = /^https:\/\/rfim\.github\.io\/bija-coffee\//;
