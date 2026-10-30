@@ -1030,6 +1030,18 @@ body.barista-view .hav { display: none; }
 .lg-note { font-size: 13px; font-weight: 600; margin: 0; } .lg-forgot { display: block; margin: 12px auto 0; min-height: 44px; }
 .bcard .srow[data-act] { position: relative; } .bcard .srow[data-act]::after { content: ""; position: absolute; inset: -10px -6px; }
 .bcard .tier, .bcard .tag { margin-right: 6px; }
+/* the secret back-office panel (five taps on the logo): dark, batik, calm */
+#pinsheet.secret .pbg { background: rgba(0,0,0,.62); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+#pinsheet.secret .ppan { background: #0b0b0b url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.06' stroke-width='1.5'%3E%3Ccircle cx='28' cy='14' r='14'/%3E%3Ccircle cx='42' cy='28' r='14'/%3E%3Ccircle cx='28' cy='42' r='14'/%3E%3Ccircle cx='14' cy='28' r='14'/%3E%3C/g%3E%3C/svg%3E"); color: #fff; }
+#pinsheet.secret .px { color: #fff; background: rgba(255,255,255,.12); border: 0; } .top .logo .mark { transform-origin: 50% 50%; transform-box: fill-box; } #pinsheet.secret .pmsg { color: rgba(255,255,255,.7); }
+#pinsheet.secret .pmark { display: grid; place-items: center; width: 56px; height: 56px; margin: 8px auto 10px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); color: #fff; } #pinsheet.secret .pmark svg { width: 30px; height: 30px; }
+#pinsheet.secret .pey { display: block; font: 600 11px var(--sans); letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+#pinsheet.secret h2 { margin-top: 6px; color: #fff; }
+#pinsheet.secret .pdots i { border-color: #fff; } #pinsheet.secret .pdots i.on { background: #fff; }
+#pinsheet.secret .pkeys button { background: rgba(255,255,255,.08); color: #fff; } #pinsheet.secret .pkeys button:active { background: rgba(255,255,255,.18); }
+@media (prefers-reduced-motion: no-preference) { #pinsheet.secret .ppan { animation: secretin .5s cubic-bezier(.22, 1, .36, 1); } @keyframes secretin { from { transform: translateY(40px); opacity: 0; } } #pinsheet.secret .pmark svg { animation: spin 18s linear infinite; } }
+#whisper { position: fixed; left: 50%; top: calc(68px + var(--sa-top)); transform: translate(-50%, -6px); z-index: 60; padding: 6px 12px; border-radius: 999px; background: #0b0b0b; color: #fff; font: 600 12px var(--sans); letter-spacing: .04em; opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease; }
+#whisper.on { opacity: 1; transform: translate(-50%, 0); }
 </style>
 
 <div class="wrap" id="wrap">
@@ -2134,17 +2146,31 @@ body.barista-view .hav { display: none; }
     el.querySelector('.pdots').innerHTML = Array.from({ length: PIN_LEN }, (_, i) => `<i class="${i < S.pinIn.length ? 'on' : ''}"></i>`).join('');
     if (msg != null) el.querySelector('.pmsg').textContent = msg;
   }
-  function pinOpen() {
+  function pinOpen(secret) {
     if (document.getElementById('pinsheet')) return;
     S.pinIn = '';
-    const el = document.createElement('div'); el.id = 'pinsheet'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-labelledby', 'pin-t');
+    const el = document.createElement('div'); el.id = 'pinsheet'; if (secret) el.className = 'secret'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-labelledby', 'pin-t');
     const k = (v, l = v, lab = v) => `<button data-act="pin-key" data-v="${v}" aria-label="${lab}">${l}</button>`;
     el.innerHTML = `<div class="pbg" data-act="pin-close"></div><div class="ppan"><button class="px" data-act="pin-close" aria-label="Close">×</button>
-      <h2 id="pin-t">Staff PIN</h2><div class="pdots" aria-hidden="true"></div><p class="pmsg" role="status" aria-live="polite"></p>
+      ${secret ? '<span class="pmark" aria-hidden="true"><svg viewBox="-4 -4 108 108"><g fill="none" stroke="currentColor" stroke-width="6"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg></span><span class="pey">Staff only</span>' : ''}<h2 id="pin-t">${secret ? 'Back office' : 'Staff PIN'}</h2><div class="pdots" aria-hidden="true"></div><p class="pmsg" role="status" aria-live="polite"></p>
       <div class="pkeys">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => k(String(n))).join('')}<span></span>${k('0')}${k('del', '⌫', 'Delete')}</div></div>`;
     document.body.appendChild(el); pinRender(lockLeft() ? `Too many tries. Try again in ${Math.ceil(lockLeft() / 1000)} seconds.` : '');
     el.querySelector('.pkeys button').focus();
   }
+  // the secret panel: tap the Bija logo five times quickly (a whisper counts down after the third tap), like a hidden developer menu
+  let logoTaps = 0, logoT = null;
+  function whisper(t) {
+    let w = document.getElementById('whisper'); if (!w) { w = document.createElement('div'); w.id = 'whisper'; w.setAttribute('aria-live', 'polite'); document.body.appendChild(w); }
+    w.textContent = t; w.classList.remove('on'); void w.offsetWidth; w.classList.add('on'); clearTimeout(w._t); w._t = setTimeout(() => w.classList.remove('on'), 1100);
+  }
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest?.('.top .logo') || S.view !== 'customer') return;
+    clearTimeout(logoT); logoT = setTimeout(() => { logoTaps = 0; }, 1600);
+    logoTaps++;
+    const m = document.querySelector('.top .logo .mark'); if (m && !calm()) m.animate([{ transform: 'rotate(0)' }, { transform: `rotate(${logoTaps * 18}deg)` }], { duration: 260, easing: 'cubic-bezier(.3,1.4,.5,1)', fill: 'none' });
+    if (logoTaps >= 3 && logoTaps < 5) { whisper(logoTaps === 3 ? '2 more…' : '1 more…'); buzz(6); }
+    if (logoTaps >= 5) { logoTaps = 0; clearTimeout(logoT); buzz([8, 40, 8]); whisper(''); document.getElementById('whisper')?.classList.remove('on'); pinOpen(true); } // always the PIN, like the hold on Order
+  });
   function pinClose() { const el = document.getElementById('pinsheet'); if (el) el.remove(); S.pinIn = ''; document.querySelector('.fab')?.focus({ preventScroll: true }); }
   async function pinKey(v) {
     const el = document.getElementById('pinsheet'); if (!el || S.pinBusy) return;
