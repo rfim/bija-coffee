@@ -931,8 +931,14 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
 .diet-ask .dok { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; margin-top: 14px; font-size: 13px; line-height: 1.45; }
 .diet-ask .dok input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: #0b0b0b; }
 
-.dnudge { display: flex; align-items: center; gap: 10px; width: 100%; margin: 4px 0 14px; padding: 10px 14px; min-height: 44px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--muted); font: 500 13px var(--sans); text-align: left; cursor: pointer; }
-.dnudge svg { width: 18px; height: 18px; flex: none; color: var(--ink); } .dnudge span { flex: 1; } .dnudge b { color: var(--ink); font-weight: 600; } .dnudge i { font-style: normal; font-size: 18px; color: var(--muted); }
+.dnudge { display: flex; align-items: center; gap: 12px; width: 100%; margin: 6px 0 16px; padding: 12px 12px 12px 14px; min-height: 64px; border: 0; border-radius: 18px; background: var(--card); color: var(--ink); font: 400 13px/1.35 var(--sans); text-align: left; cursor: pointer; }
+.dnudge .dic { position: relative; flex: none; width: 36px; height: 36px; border-radius: 50%; background: #0b0b0b; color: #fff; display: grid; place-items: center; }
+.dnudge .dic svg { width: 20px; height: 20px; }
+.dnudge .dic::after { content: ""; position: absolute; top: 0; right: 0; width: 9px; height: 9px; border-radius: 50%; background: var(--warn); box-shadow: 0 0 0 2px var(--card); }
+.dnudge .dtx { flex: 1; display: grid; gap: 2px; } .dnudge b { font-size: 14px; font-weight: 700; } .dnudge small { font-size: 12.5px; color: var(--muted); }
+.dnudge .dgo { flex: none; background: #0b0b0b; color: #fff; border-radius: 999px; padding: 8px 14px; font: 700 11px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; }
+@media (prefers-reduced-motion: no-preference) { .dnudge .dic::after { animation: dping 2.4s ease-out 1s 3; } @keyframes dping { 0% { box-shadow: 0 0 0 2px var(--card), 0 0 0 2px rgba(180,84,26,.5); } 100% { box-shadow: 0 0 0 2px var(--card), 0 0 0 12px rgba(180,84,26,0); } } }
+.alg-ask { display: block; width: 100%; margin-top: 14px; padding: 10px 12px; border: 1px dashed var(--ink); border-radius: 12px; background: transparent; color: var(--ink); font: 400 13px/1.4 var(--sans); text-align: left; cursor: pointer; min-height: 44px; }
 .diet-ask .dclose { display: block; margin: 10px auto 0; }
 #backhint { position: fixed; left: 50%; bottom: calc(96px + var(--sa-bottom)); transform: translateX(-50%); z-index: 60; background: #0b0b0b; color: #fff; padding: 10px 16px; border-radius: 999px; font: 600 13px var(--sans); white-space: nowrap; }
 /* short screens (Android phones lose ~70px to the status and Back/Home bars): a slimmer bar, button and basket so the content gets the room */
@@ -1686,8 +1692,9 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
   function sheetAlg(m, opts) {
     const a = allergensOf(m, opts), mine = myAlg(), hits = a.has.filter((k) => mine.has(k)), milk = hits.length && bestMilk(m);
     const fix = milk && milk !== opts.milk && !allergensOf(m, { ...opts, milk }).has.some((k) => mine.has(k)) ? `<button class="btn sm" data-act="sopt" data-k="milk" data-v="${esc(milk)}">Switch to ${esc(milk.toLowerCase())}</button>` : '';
+    const ask = diet() ? '' : `<button class="alg-ask" data-act="dedit" data-v="order" data-from="sheet">Allergies? <b>Tell us once</b> and we’ll check every drink for you ›</button>`;
     if (hits.length) return `<div class="alg-warn" role="alert"><div><b>Contains ${esc(algList(hits))}</b><span>You told us you avoid ${hits.length > 1 ? 'these' : 'this'}.${fix ? '' : ' Ask our team for something else.'}</span></div>${fix}</div>`;
-    return `<p class="alg-line">${a.has.length ? `Contains ${esc(algList(a.has))}` : 'None of the 14 major allergens in the recipe'}${a.check ? ' · recipe still being confirmed, ask our team' : ''} · made in a small kitchen that handles all 14, so traces are possible</p>`;
+    return `${ask}<p class="alg-line">${a.has.length ? `Contains ${esc(algList(a.has))}` : 'None of the 14 major allergens in the recipe'}${a.check ? ' · recipe still being confirmed, ask our team' : ''} · made in a small kitchen that handles all 14, so traces are possible</p>`;
   }
   function renderSheet() {
     const el = $('#sheet'), sh = S.sheet, m = sh && menu().find((x) => x.id === sh.id);
@@ -1801,7 +1808,7 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
     if (S.dietEdit === where) return dietCard(where);
     if (diet()) return '';
     if ((where === 'home' || where === 'order') && Date.now() - (+store.get('bija.diet.later') || 0) < 30 * 864e5) return '';
-    return `<button class="dnudge" data-act="dedit" data-v="${where}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v5a6 6 0 0 1-12 0z M17 9.5h1.5a2.5 2.5 0 0 1 0 5H16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Any allergies? <b>Tell us once</b></span><i aria-hidden="true">›</i></button>`;
+    return `<button class="dnudge" data-act="dedit" data-v="${where}"><span class="dic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 8h12v5a6 6 0 0 1-12 0z M17 9.5h1.5a2.5 2.5 0 0 1 0 5H16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><span class="dtx"><b>Any allergies?</b><small>Tell us once. We’ll flag what to avoid and tell the barista.</small></span><span class="dgo">Tell us</span></button>`;
   }
   function dietCheckout(t) {
     if (S.dietEdit === 'checkout') return dietCard('checkout');
@@ -2177,10 +2184,10 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
         <button class="avatar" data-act="tab" data-v="card" aria-label="Profile${name ? ', ' + esc(name) : ''}">${ini}</button>
         <p class="sub">${esc(hello)} · ${(() => { const o = openState(); return esc(o.text); })()}</p>
       </section>
+      ${dietNudge('home')}
       ${onboarding(st)}
       <div class="promos" aria-label="Highlights">${slides.map((x, i) => `<button class="slide" ${x.act}>${slidePic(x.img, i)}<span class="sl"><span class="eyebrow">${esc(x.ey)}</span><b>${esc(x.t)}</b><span class="pl">${esc(x.pl)}</span></span></button>`).join('')}</div>
       <div class="dots" aria-hidden="true">${slides.map(() => '<i></i>').join('')}</div>
-      ${dietNudge('home')}
       ${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
       <button class="hc" data-act="tab" data-v="card" aria-label="Open your Bija Card">
         ${cardHTML(themeById(S.theme), { name: name || 'Tap to scan at the till', no: memberCode(S.uid), pts: st.balance, tier: st.tier.name, pct: nextR ? (st.balance / nextR.pts) * 100 : 100, next: nextR ? `${nextR.pts - st.balance} points to ${nextR.name.toLowerCase()}` : 'Every reward unlocked', stamps: st.stamps, still: true })}
@@ -3373,7 +3380,11 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
     else if (a === 'dback') { S.dietDraft.step = 0; render(); }
     else if (a === 'dok') { S.dietDraft.ok = b.checked; S.dietDraft.err = false; render(); }
     else if (a === 'dpref') { const d = S.dietDraft; d[b.dataset.k] = d[b.dataset.k] === b.dataset.v && b.dataset.k === 'milk' ? '' : b.dataset.v; d.fresh = b.dataset.k === 'sweet' ? b.dataset.v.toLowerCase() : ''; render(); }
-    else if (a === 'dedit') { S.dietEdit = b.dataset.v; S.dietDraft = null; render(); }
+    else if (a === 'dedit') {
+      S.dietEdit = b.dataset.v; S.dietDraft = null;
+      if (b.dataset.from === 'sheet') { S.sheet = null; S.tab = 'order'; render(); requestAnimationFrame(() => document.getElementById('diet-order')?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth', block: 'center' })); return; }
+      render();
+    }
     else if (a === 'dclose') { if (!diet()) store.set('bija.diet.later', String(Date.now())); S.dietEdit = null; S.dietDraft = null; render(); }
     else if (a === 'dgo') { document.getElementById('diet-order')?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth', block: 'start' }); }
     else if (a === 'ddel') { try { localStorage.removeItem('bija.diet'); } catch {} S.dietDraft = null; S.dietEdit = null; if (S.mf === 'safe') S.mf = ''; toast('Allergy info deleted from this phone'); render(); }
