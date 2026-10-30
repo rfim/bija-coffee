@@ -1044,6 +1044,8 @@ body.barista-view .hav { display: none; }
 #whisper.on { opacity: 1; transform: translate(-50%, 0); }
 #pinsheet .pemail { display: grid; gap: 6px; max-width: 300px; margin: 0 auto 16px; text-align: left; } #pinsheet .pemail span { font: 600 11px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.6); }
 #pinsheet .pemail input { min-height: 48px; border-radius: 12px; border: 1.5px solid rgba(255,255,255,.3); background: rgba(255,255,255,.06); color: #fff; padding: 0 14px; font: 500 16px var(--sans); } #pinsheet .pemail input:focus { outline: 2px solid #fff; outline-offset: 2px; }
+.pd-view.still { animation: none !important; }
+.lg-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 14px; } .lg-foot .back { min-height: 44px; } .lg-foot .back[disabled] { opacity: .55; }
 </style>
 
 <div class="wrap" id="wrap">
@@ -1882,10 +1884,16 @@ body.barista-view .hav { display: none; }
       b.querySelectorAll('input[id]').forEach((i) => { keep[i.id] = [i.value, i.type]; });
       const t = dr.querySelector('#sd-t'); if (t) t.textContent = profileName();
       const av = dr.querySelector('.pd-who .hav'); if (av) av.innerHTML = avatarInner();
-      b.innerHTML = profileBody(); b.scrollTop = y;
-      b.querySelectorAll('input[id]').forEach((i) => { const k = keep[i.id]; if (k && i.type !== 'checkbox' && i.type !== 'radio') { if (!i.value) i.value = k[0]; if (i.id === 'lg-pw') i.type = k[1]; } });
-      const want = S.pdFocus || (f && document.getElementById(f) && '#' + f); S.pdFocus = '';
-      const el = want && dr.querySelector(want); if (el) el.focus({ preventScroll: true }); else if (!dr.contains(document.activeElement)) dr.querySelector('.sd-x')?.focus({ preventScroll: true });
+      // redraw only when something changed (live data refreshes often), and slide in only when the view itself changed
+      const html = profileBody();
+      if (b._html === html) { const w = S.pdFocus; S.pdFocus = ''; if (w) dr.querySelector(w)?.focus({ preventScroll: true }); }
+      else {
+        const sameView = b._view === (S.pdView || ''); b._html = html; b._view = S.pdView || '';
+        b.innerHTML = html; b.scrollTop = y; if (sameView) b.querySelector('.pd-view')?.classList.add('still');
+        b.querySelectorAll('input[id]').forEach((i) => { const k = keep[i.id]; if (k && i.type !== 'checkbox' && i.type !== 'radio') { if (!i.value) i.value = k[0]; if (i.id === 'lg-pw') i.type = k[1]; } });
+        const want = S.pdFocus || (f && document.getElementById(f) && '#' + f); S.pdFocus = '';
+        const el = want && dr.querySelector(want); if (el) el.focus({ preventScroll: true }); else if (!dr.contains(document.activeElement)) dr.querySelector('.sd-x')?.focus({ preventScroll: true });
+      }
     } }
     const cs = document.querySelector('.onb .cards');
     if (cs && !cs.dataset.fx) {
@@ -2098,8 +2106,10 @@ body.barista-view .hav { display: none; }
     if (document.getElementById('stampdrawer')) return;
     stampTrigger = trigger || document.activeElement;
     const el = document.createElement('div'); el.id = 'stampdrawer'; el.setAttribute('data-stamp-drawer', '');
-    el.innerHTML = `<div class="sd-bg" data-act="stamps-close"></div><aside class="sd-pan" role="dialog" aria-modal="true" aria-labelledby="sd-t"><div class="sd-top"><div class="pd-who"><span class="hav big" aria-hidden="true">${avatarInner()}</span><div><h2 id="sd-t">${esc(profileName())}</h2><small>${esc(memberCode(S.uid))}</small></div></div><button class="sd-x" data-act="stamps-close" aria-label="Close profile">×</button></div><div class="sd-body">${profileBody()}</div></aside>`;
+    const firstBody = profileBody();
+    el.innerHTML = `<div class="sd-bg" data-act="stamps-close"></div><aside class="sd-pan" role="dialog" aria-modal="true" aria-labelledby="sd-t"><div class="sd-top"><div class="pd-who"><span class="hav big" aria-hidden="true">${avatarInner()}</span><div><h2 id="sd-t">${esc(profileName())}</h2><small>${esc(memberCode(S.uid))}</small></div></div><button class="sd-x" data-act="stamps-close" aria-label="Close profile">×</button></div><div class="sd-body">${firstBody}</div></aside>`;
     document.body.appendChild(el); document.body.classList.add('sd-open');
+    { const sb = el.querySelector('.sd-body'); sb._html = firstBody; sb._view = S.pdView || ''; }
     requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
     el.querySelector('.sd-x').focus();
     // swipe right to close
