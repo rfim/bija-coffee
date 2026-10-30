@@ -85,7 +85,7 @@ function queue() {
         <div class="lines">${(o.lines || []).map((l) => `<b>${num(l.qty, 0, 20)}×</b> ${esc(l.name)}${l.origin ? ` (${esc(origin(l.origin)?.name || '')})` : ''}${optText(l) ? ` — <b style="color:var(--ink)">${esc(clip(optText(l), 60))}</b>` : ''}`).join(' · ')}</div>
         <div class="hint">${o.milk ? esc(o.milk) + ' milk · ' + esc(o.sweet) + ' · ' : ''}${esc(o.slot)} · <b style="color:var(--ink)">${money(o.total)}</b> · ${fmt(o.createdAt)}</div>
         ${o.status !== 'collected' && Math.abs((+o.claimed || 0) - o.total) > 0.01 ? `<div class="hint warn"><b>Price check:</b> ${money(o.total)} on today's menu, ${Number.isFinite(o.claimed) ? money(o.claimed) : 'no total'} in the order. Charge the menu price.</div>` : ''}
-        ${o.note ? `<p class="quote">${esc(o.note)}</p>` : ''}
+        ${o.note ? `<p class="quote${/^ALLERGY:/.test(o.note) ? ' allergy' : ''}">${/^ALLERGY:/.test(o.note) ? '⚠ ' : ''}${esc(o.note)}</p>` : ''}
         ${o.reward ? `<div class="hint warn"><b>Points reward:</b> ${esc(o.reward.name)} (−${num(o.reward.pts, 0, 1e5)} pts) · ${money(o.discount)} off${o.status !== 'collected' && st.pointsRaw < 0 ? ' · <b>not enough points: charge full price</b>' : ''}</div>` : ''}
         ${o.status !== 'collected' && o.stampFree ? `<div class="hint warn"><b>Stamp card:</b> free drink${st.stampsRaw < 0 ? ' · <b>not enough stamps: charge full price</b>' : ''}</div>` : ''}
         ${o.status !== 'collected' && +o.giftPay > 0 ? (() => { const give = Math.min(+o.giftPay, o.total, Math.max(0, st.giftBase)); return `<div class="hint"><b>Gift card:</b> ${money(give)} from their balance · take ${money(Math.max(0, r2(o.total - give)))}</div>`; })() : ''}
