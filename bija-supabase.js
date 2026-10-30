@@ -6,7 +6,7 @@
  *   bar/{uid}       read by that customer, written by staff only (points come from here, so customers can't award themselves)
  *   finance/{id}    staff only
  * Staff = a signed-in user who unlocked a 30-minute session with the 6-digit staff PIN. The PIN is checked on the server
- * (public.staff_unlock), salted and hashed there, with rate limiting. Customers sign in anonymously; nothing else is asked.
+ * (public.staff_unlock, with the admin email), salted and hashed there, with rate limiting. Customers sign in anonymously; nothing else is asked.
  * Needs vendor/supabase.js (supabase-js 2.45.4, MIT) loaded first. */
 (function () {
   'use strict';
@@ -120,9 +120,9 @@
   }
 
   // ---------- staff (PIN checked on the server) ----------
-  async function staffUnlock(pin) {
+  async function staffUnlock(email, pin) {
     const c = await ensure();
-    const { data, error } = await c.rpc('staff_unlock', { pin: String(pin || '') });
+    const { data, error } = await c.rpc('staff_unlock', { email: String(email || ''), pin: String(pin || '') });
     if (error) return { ok: false, reason: 'error', message: error.message };
     if (data && data.ok) setStaff(Date.parse(data.expires_at));
     return data || { ok: false, reason: 'error' };
@@ -253,7 +253,7 @@
   // so points and stamps stay; signing in on a new phone switches to the member's existing card. Google and Apple must be
   // turned on in Supabase (Authentication, Sign In / Providers), with manual linking allowed for guests.
   // a password-reset link carries type=recovery; note it before supabase-js reads and clears the address
-  const RECOVERY_LINK = /[#&?]type=recovery\b/.test(location.hash + location.search);
+  const RECOVERY_LINK = typeof location !== 'undefined' && /[#&?]type=recovery\b/.test(location.hash + location.search);
   function accountApi(c) {
     const back = () => location.href.split('#')[0];
     return {
@@ -302,8 +302,9 @@
       onRecovery(cb) {
         let done = false; const once = () => { if (!done) { done = true; cb(); } };
         if (RECOVERY_LINK) setTimeout(once, 0); // the link was read before anyone was listening
+        if (typeof c.auth.onAuthStateChange !== 'function') return () => {};
         const { data } = c.auth.onAuthStateChange((ev) => { if (ev === 'PASSWORD_RECOVERY') once(); });
-        return () => data.subscription.unsubscribe();
+        return () => data && data.subscription && data.subscription.unsubscribe();
       },
       async setPassword(password) { const r = await c.auth.updateUser({ password }); if (r.error) throw r.error; },
       async resetPassword(address) { const r = await c.auth.resetPasswordForEmail(address, { redirectTo: back() }); if (r.error) throw r.error; },

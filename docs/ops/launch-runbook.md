@@ -53,7 +53,7 @@ Staff open the Barista view with a personal PIN. A PIN gives access to the order
 **Rules**
 
 - One PIN per person. Never share a PIN or use a "shop PIN".
-- 6 digits. No birthdays, repeats (`111111`) or runs (`123456`).
+- 8 digits (6 to 8 allowed). No birthdays, repeats (`11111111`) or runs (`12345678`). The admin email stays as set in Supabase.
 - Managers' PINs unlock finance and gift card changes; give the manager role only to people who need it.
 
 **When to change PINs**

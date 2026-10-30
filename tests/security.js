@@ -27,7 +27,8 @@ const KNOWN_OPEN = new Set([]); // all 12 fixed in Sprint 1 (main 8d7cd7d)
 const DB_KEY = 'bija.app.demo';
 const ME = 'you';
 const NAME = 'Mallory';
-const PIN = process.env.STAFF_PIN || '111111';
+const PIN = process.env.STAFF_PIN || '16091992';
+const ADMIN_EMAIL = process.env.STAFF_EMAIL || 'admin-oversee@bijacoffee.co.uk';
 
 const args = process.argv.slice(2);
 const arg = (k) => { const i = args.indexOf(k); return i >= 0 ? args[i + 1] : null; };
@@ -86,8 +87,15 @@ async function openApp(page, hash = '') {
 const isStaff = (page) => page.evaluate(() => document.body.classList.contains('barista-view')
   || [...document.querySelectorAll('[data-act="tab"][data-v="insights"], [data-act="tab"][data-v="members"]')].some((e) => e.offsetParent !== null));
 
-// Staff entry changes tonight: today a Barista switch in demo mode; next, ?view=bar or holding Order for 3 s, then a 6-digit PIN.
+// Staff entry: ?view=bar, typing opensesame (web) or holding Order for 3 s opens the back office: admin email, then an 8-digit PIN.
 async function enterPin(page) {
+  const email = page.locator('#pin-email:visible, #pinsheet input[type="email"]:visible');
+  if (await email.count()) {
+    await email.first().fill(ADMIN_EMAIL);
+    for (const d of PIN) await page.locator('#pinsheet [data-act="pin-key"]:visible').filter({ hasText: new RegExp(`^\\s*${d}\\s*$`) }).first().click();
+    await settle(page, 900);
+    return true;
+  }
   const sel = 'input[inputmode="numeric"]:visible, input[type="password"]:visible, input[autocomplete="one-time-code"]:visible, input[name*="pin" i]:visible, input[id*="pin" i]:visible';
   const inputs = page.locator(sel);
   const n = await inputs.count();

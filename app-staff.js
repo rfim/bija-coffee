@@ -611,10 +611,10 @@ function menuEditor() {
       <div class="row between"><button class="btn sm ghost" data-act="reset-draft">Discard changes</button><button class="btn" data-act="save-cfg" ${S.busy ? 'disabled' : ''}>${S.busy ? 'Saving…' : S.config ? 'Save menu' : 'Publish menu'}</button></div>
     </div>
     <section class="sec panel stack" aria-labelledby="pin-h"><h3 id="pin-h" style="margin:0">Change staff PIN</h3>
-      <p class="hint" style="margin:0">Six digits. Staff hold the Order button for 3 seconds, then enter it to open this view on a shared till device.</p>
-      <div class="grid2"><label class="f">Current PIN<input type="password" inputmode="numeric" autocomplete="off" maxlength="6" id="pc-old" data-pc="old" value="${esc(S.pc.old)}"></label>
-        <label class="f">New PIN<input type="password" inputmode="numeric" autocomplete="off" maxlength="6" id="pc-new" data-pc="new" value="${esc(S.pc.new)}"></label>
-        <label class="f">Confirm new PIN<input type="password" inputmode="numeric" autocomplete="off" maxlength="6" id="pc-again" data-pc="again" value="${esc(S.pc.again)}"></label></div>
+      <p class="hint" style="margin:0">6 to 8 digits. On the web, type opensesame; on a phone, hold the Order button for 3 seconds. Then enter the admin email and this PIN.</p>
+      <div class="grid2"><label class="f">Current PIN<input type="password" inputmode="numeric" autocomplete="off" maxlength="8" id="pc-old" data-pc="old" value="${esc(S.pc.old)}"></label>
+        <label class="f">New PIN<input type="password" inputmode="numeric" autocomplete="off" maxlength="8" id="pc-new" data-pc="new" value="${esc(S.pc.new)}"></label>
+        <label class="f">Confirm new PIN<input type="password" inputmode="numeric" autocomplete="off" maxlength="8" id="pc-again" data-pc="again" value="${esc(S.pc.again)}"></label></div>
       <div class="row"><button class="btn sm" data-act="pin-change" ${S.busy ? 'disabled' : ''}>Change PIN</button></div>
     </section>
     <section class="sec panel stack"><h3 style="margin:0">QR labels for bags and cups</h3><p class="hint" style="margin:0">Each code opens that coffee's Bean passport: origin, roast date and lot.</p><div class="row"><a class="btn sm ghost" href="labels.html" target="_blank" rel="noopener">Print QR labels</a></div></section>`;

@@ -20,6 +20,14 @@ android {
     // Release signing only when CI provides the keystore (repo secrets); otherwise release builds stay unsigned
     def ks = System.getenv("ANDROID_KEYSTORE_FILE")
     signingConfigs {
+        // test builds (the APK on the android-latest release) always use this one key, so each new build installs over the last.
+        // It is a public test key, never used for the Play Store (that is the release key from the repo secrets).
+        test {
+            storeFile file('bija-test.keystore')
+            storePassword 'android'
+            keyAlias 'bijatest'
+            keyPassword 'android'
+        }
         if (ks) {
             release {
                 storeFile file(ks)
@@ -30,6 +38,9 @@ android {
         }
     }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.test
+        }
         release {
             if (ks) signingConfig signingConfigs.release
             minifyEnabled false

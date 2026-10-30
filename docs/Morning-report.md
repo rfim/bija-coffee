@@ -9,7 +9,7 @@
 | Website (computer) | https://rfim.github.io/bija-coffee/ |
 | App (phone) | https://rfim.github.io/bija-coffee/app.html?view=app |
 | Android test app (APK, 32 MB) | https://github.com/rfim/bija-coffee/releases/download/android-latest/bija-android.apk |
-| Staff mode | Hold the round Order button for 3 seconds, then PIN **111111** |
+| Staff mode | Web: type **opensesame**; phone: hold the round Order button for 3 seconds. Then admin email **admin-oversee@bijacoffee.co.uk** and PIN **16091992** |
 | Code and docs | https://github.com/rfim/bija-coffee |
 | claude.ai version (private) | https://claude.ai/artifact/M5E1wV6h7W2bC1Aw7R3nDz |
 

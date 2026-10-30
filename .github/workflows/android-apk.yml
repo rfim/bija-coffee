@@ -111,12 +111,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release delete android-latest --yes --cleanup-tag || true
+          # replace the files in place, so the download link never disappears while a new build is published
           files="bija-android.apk"
           if [ -f bija-android-release.apk ]; then files="$files bija-android-release.apk"; fi
-          # shellcheck disable=SC2086
-          gh release create android-latest $files \
-            --target "$GITHUB_SHA" \
-            --prerelease \
-            --title "Bija for Android (test build ${GITHUB_RUN_NUMBER})" \
-            --notes "Test build of the Bija app for Android, built from ${GITHUB_SHA}. Install bija-android.apk: Android may ask you to allow installs from this source. The Play Store version needs Bija's signing key and Play account."
+          title="Bija for Android (test build ${GITHUB_RUN_NUMBER})"
+          notes="Test build of the Bija app for Android, built from ${GITHUB_SHA}. Install bija-android.apk: Android may ask you to allow installs from this source. Every test build is signed with the same test key, so it installs over the previous one. The Play Store version needs Bija's signing key and Play account."
+          if gh release view android-latest > /dev/null 2>&1; then
+            # shellcheck disable=SC2086
+            gh release upload android-latest $files --clobber
+            gh release edit android-latest --title "$title" --notes "$notes" --prerelease
+          else
+            # shellcheck disable=SC2086
+            gh release create android-latest $files --target "$GITHUB_SHA" --prerelease --title "$title" --notes "$notes"
+          fi

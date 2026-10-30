@@ -1042,6 +1042,8 @@ body.barista-view .hav { display: none; }
 @media (prefers-reduced-motion: no-preference) { #pinsheet.secret .ppan { animation: secretin .5s cubic-bezier(.22, 1, .36, 1); } @keyframes secretin { from { transform: translateY(40px); opacity: 0; } } #pinsheet.secret .pmark svg { animation: spin 18s linear infinite; } }
 #whisper { position: fixed; left: 50%; top: calc(68px + var(--sa-top)); transform: translate(-50%, -6px); z-index: 60; padding: 6px 12px; border-radius: 999px; background: #0b0b0b; color: #fff; font: 600 12px var(--sans); letter-spacing: .04em; opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease; }
 #whisper.on { opacity: 1; transform: translate(-50%, 0); }
+#pinsheet .pemail { display: grid; gap: 6px; max-width: 300px; margin: 0 auto 16px; text-align: left; } #pinsheet .pemail span { font: 600 11px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+#pinsheet .pemail input { min-height: 48px; border-radius: 12px; border: 1.5px solid rgba(255,255,255,.3); background: rgba(255,255,255,.06); color: #fff; padding: 0 14px; font: 500 16px var(--sans); } #pinsheet .pemail input:focus { outline: 2px solid #fff; outline-offset: 2px; }
 </style>
 
 <div class="wrap" id="wrap">
@@ -2127,18 +2129,22 @@ body.barista-view .hav { display: none; }
   // Honest note: the PIN is a convenience lock for a shared till device, nothing more. Real protection is the hosted
   // database's access rules: only admins can read or write bar and finance data, so a non-admin never gets the staff
   // view even with the right PIN. The PIN is kept as a salted PBKDF2-SHA-256 hash in config (staffPin), never in plain text.
-  const PIN_LEN = 6, PIN_DEFAULT = '111111', PIN_ITER = 100000, STAFF_IDLE = 30 * 60e3;
+  const PIN_LEN = 8, PIN_ITER = 100000, STAFF_IDLE = 30 * 60e3;
+  // without the shared backend, the back office is checked against salted fingerprints of the admin email and PIN (never the values)
+  const BO_SALT = 'bija-backoffice-2026', BO_PIN = 'de46a0cf6c93c33258158bc89d6beace804da98999485db1571fa5c47448bee5', BO_EMAIL = 'f85f8f30295e2b9711d43150215ad067782f83b66743f68b56606ddea21bcfe1';
+  const emailPrint = async (e, salt) => hex(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(salt + String(e || '').trim().toLowerCase())));
   S.pc = { old: '', new: '', again: '' }; S.pinIn = '';
   const hex = (buf) => [...new Uint8Array(buf)].map((x) => x.toString(16).padStart(2, '0')).join('');
   async function pinHash(pin, salt) {
     const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(pin), 'PBKDF2', false, ['deriveBits']);
     return hex(await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: new TextEncoder().encode(salt), iterations: PIN_ITER }, key, 256));
   }
-  async function pinOk(pin) {
-    if (!/^\d{6}$/.test(pin) || !window.crypto?.subtle) return false;
+  async function pinOk(pin, email) {
+    if (!/^\d{6,8}$/.test(pin) || !window.crypto?.subtle) return false;
     const sp = cfg().staffPin;
+    if ((await emailPrint(email, BO_SALT)) !== BO_EMAIL) return false;
     if (sp && sp.salt && sp.hash) return (await pinHash(pin, sp.salt)) === sp.hash;
-    return pin === PIN_DEFAULT; // no PIN set yet: the demo default until the owner changes it
+    return (await pinHash(pin, BO_SALT)) === BO_PIN;
   }
   const lockLeft = () => Math.max(0, (+store.get('bija.pinlock') || 0) - Date.now());
   function pinRender(msg) {
@@ -2149,60 +2155,57 @@ body.barista-view .hav { display: none; }
   function pinOpen(secret) {
     if (document.getElementById('pinsheet')) return;
     S.pinIn = '';
-    const el = document.createElement('div'); el.id = 'pinsheet'; if (secret) el.className = 'secret'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-labelledby', 'pin-t');
+    const el = document.createElement('div'); el.id = 'pinsheet'; el.className = 'secret'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-labelledby', 'pin-t');
     const k = (v, l = v, lab = v) => `<button data-act="pin-key" data-v="${v}" aria-label="${lab}">${l}</button>`;
     el.innerHTML = `<div class="pbg" data-act="pin-close"></div><div class="ppan"><button class="px" data-act="pin-close" aria-label="Close">×</button>
-      ${secret ? '<span class="pmark" aria-hidden="true"><svg viewBox="-4 -4 108 108"><g fill="none" stroke="currentColor" stroke-width="6"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg></span><span class="pey">Staff only</span>' : ''}<h2 id="pin-t">${secret ? 'Back office' : 'Staff PIN'}</h2><div class="pdots" aria-hidden="true"></div><p class="pmsg" role="status" aria-live="polite"></p>
+      ${'<span class="pmark" aria-hidden="true"><svg viewBox="-4 -4 108 108"><g fill="none" stroke="currentColor" stroke-width="6"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg></span><span class="pey">Staff only</span>'}<h2 id="pin-t">Back office</h2>
+      <label class="pemail"><span>Admin email</span><input type="email" id="pin-email" autocomplete="username" inputmode="email" spellcheck="false" placeholder="name@bijacoffee.co.uk" value="${esc(S.pinEmail || '')}"></label><div class="pdots" aria-hidden="true"></div><p class="pmsg" role="status" aria-live="polite"></p>
       <div class="pkeys">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => k(String(n))).join('')}<span></span>${k('0')}${k('del', '⌫', 'Delete')}</div></div>`;
     document.body.appendChild(el); pinRender(lockLeft() ? `Too many tries. Try again in ${Math.ceil(lockLeft() / 1000)} seconds.` : '');
-    el.querySelector('.pkeys button').focus();
+    (S.pinEmail ? el.querySelector('.pkeys button') : el.querySelector('#pin-email')).focus();
   }
-  // the secret panel: tap the Bija logo five times quickly (a whisper counts down after the third tap), like a hidden developer menu
-  let logoTaps = 0, logoT = null;
-  function whisper(t) {
-    let w = document.getElementById('whisper'); if (!w) { w = document.createElement('div'); w.id = 'whisper'; w.setAttribute('aria-live', 'polite'); document.body.appendChild(w); }
-    w.textContent = t; w.classList.remove('on'); void w.offsetWidth; w.classList.add('on'); clearTimeout(w._t); w._t = setTimeout(() => w.classList.remove('on'), 1100);
-  }
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest?.('.top .logo') || S.view !== 'customer') return;
-    clearTimeout(logoT); logoT = setTimeout(() => { logoTaps = 0; }, 1600);
-    logoTaps++;
-    const m = document.querySelector('.top .logo .mark'); if (m && !calm()) m.animate([{ transform: 'rotate(0)' }, { transform: `rotate(${logoTaps * 18}deg)` }], { duration: 260, easing: 'cubic-bezier(.3,1.4,.5,1)', fill: 'none' });
-    if (logoTaps >= 3 && logoTaps < 5) { whisper(logoTaps === 3 ? '2 more…' : '1 more…'); buzz(6); }
-    if (logoTaps >= 5) { logoTaps = 0; clearTimeout(logoT); buzz([8, 40, 8]); whisper(''); document.getElementById('whisper')?.classList.remove('on'); pinOpen(true); } // always the PIN, like the hold on Order
+  // the secret way in on the web: type "opensesame" anywhere outside a text field (phones keep the 3-second hold on Order)
+  let sesame = '';
+  addEventListener('keydown', (e) => {
+    if (window.BijaNative || S.view !== 'customer' || e.ctrlKey || e.metaKey || e.altKey || e.key.length !== 1) return;
+    const t = e.target; if (t && (t.isContentEditable || /^(input|textarea|select)$/i.test(t.tagName))) return;
+    sesame = (sesame + e.key.toLowerCase()).slice(-10);
+    if (sesame === 'opensesame') { sesame = ''; e.preventDefault(); pinOpen(true); } // the last 'e' must not land in the email field
   });
   function pinClose() { const el = document.getElementById('pinsheet'); if (el) el.remove(); S.pinIn = ''; document.querySelector('.fab')?.focus({ preventScroll: true }); }
   async function pinKey(v) {
     const el = document.getElementById('pinsheet'); if (!el || S.pinBusy) return;
+    const em = el.querySelector('#pin-email'); S.pinEmail = em ? em.value.trim() : '';
     if (lockLeft()) return pinRender(`Too many tries. Try again in ${Math.ceil(lockLeft() / 1000)} seconds.`);
     if (v === 'del') { S.pinIn = S.pinIn.slice(0, -1); return pinRender(''); }
     if (!/^\d$/.test(v) || S.pinIn.length >= PIN_LEN) return;
     S.pinIn += v; pinRender('');
     if (S.pinIn.length < PIN_LEN) return;
-    S.pinBusy = true; const ok = await staffEnter(S.pinIn); S.pinBusy = false;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(S.pinEmail)) { S.pinIn = ''; pinRender('Enter the admin email first.'); return em?.focus(); }
+    S.pinBusy = true; const ok = await staffEnter(S.pinIn, S.pinEmail); S.pinBusy = false;
     if (ok) return;
     S.pinIn = '';
     const fails = (+store.get('bija.pinfails') || 0) + 1;
     if (fails >= 5) { store.set('bija.pinlock', String(Date.now() + 60e3)); store.set('bija.pinfails', '0'); pinRender('Too many tries. Try again in 60 seconds.'); }
-    else { store.set('bija.pinfails', String(fails)); pinRender(S.admin ? `That PIN isn’t right. ${5 - fails} ${5 - fails === 1 ? 'try' : 'tries'} left.` : 'That PIN isn’t right.'); }
+    else { store.set('bija.pinfails', String(fails)); pinRender(`That email and PIN don’t match. ${5 - fails} ${5 - fails === 1 ? 'try' : 'tries'} left.`); }
     const pan = el.querySelector('.ppan'); pan.classList.remove('shake'); void pan.offsetWidth; pan.classList.add('shake');
   }
-  async function staffEnter(pin) {
+  async function staffEnter(pin, email) {
     if (lockLeft()) return false;
-    if (S.sb) { // shared backend: the server checks the PIN (rate-limited) and opens a 30-minute staff session
-      const r = await S.sb.staffUnlock(pin).catch(() => ({ ok: false }));
+    if (S.sb) { // shared backend: the server checks the admin email and PIN together (rate-limited) and opens a 30-minute staff session
+      const r = await S.sb.staffUnlock(email, pin).catch(() => ({ ok: false }));
       if (!r.ok) { if (r.reason === 'locked') { store.set('bija.pinlock', String(Date.now() + 60e3)); pinRender('Too many tries. Try again later.'); } return false; }
-    } else if (!(await pinOk(pin))) return false;
+    } else if (!(await pinOk(pin, email))) return false;
     if (!S.admin) { pinRender('Staff view isn’t available on this account.'); return true; }
-    store.set('bija.pinfails', '0'); S.staffOk = true; S.staffAt = Date.now(); pinClose(); S.view = 'bar'; render(); window.scrollTo({ top: 0 }); toast('Staff view');
+    store.set('bija.pinfails', '0'); S.pinEmail = email; S.staffOk = true; S.staffAt = Date.now(); pinClose(); S.view = 'bar'; render(); window.scrollTo({ top: 0 }); toast('Staff view');
     return true;
   }
-  window.__bijaPin = staffEnter; // test hook: still needs the right PIN and an admin account
+  window.__bijaPin = (pin, email) => staffEnter(pin, email); // test hook: still needs the right email, PIN and an admin account
   async function pinChange() {
     const { old, new: nw, again } = S.pc;
     if (!S.admin || S.view !== 'bar') return;
-    if (!S.sb && !(await pinOk(old))) return toast('Current PIN isn’t right.');
-    if (!/^\d{6}$/.test(nw)) return toast('The new PIN needs 6 digits.');
+    if (!S.sb && !(await pinOk(old, S.pinEmail))) return toast('Current PIN isn’t right.');
+    if (!/^\d{6,8}$/.test(nw)) return toast('The new PIN needs 6 to 8 digits.');
     if (nw !== again) return toast('The two new PINs don’t match.');
     if (S.sb) return run(async () => { const r = await S.sb.staffChangePin(old, nw); if (!r || !r.ok) throw new Error(r && r.reason === 'wrong' ? 'Current PIN isn’t right.' : 'The PIN wasn’t changed.'); S.pc = { old: '', new: '', again: '' }; }, 'Staff PIN changed');
     const salt = hex(crypto.getRandomValues(new Uint8Array(16))), hash = await pinHash(nw, salt);
@@ -2217,8 +2220,9 @@ body.barista-view .hav { display: none; }
     const ps = document.getElementById('pinsheet'); if (!ps) return;
     if (e.key === 'Escape') { e.preventDefault(); pinClose(); }
     else if (/^\d$/.test(e.key) && !e.target.closest?.('input')) { e.preventDefault(); pinKey(e.key); }
-    else if (e.key === 'Backspace') { e.preventDefault(); pinKey('del'); }
-    else if (e.key === 'Tab') { const f = [...ps.querySelectorAll('button')]; const i = f.indexOf(document.activeElement); if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); } else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); } }
+    else if (e.key === 'Backspace' && !e.target.closest?.('input')) { e.preventDefault(); pinKey('del'); }
+    else if (e.key === 'Enter' && e.target.id === 'pin-email') { e.preventDefault(); ps.querySelector('.pkeys button')?.focus(); }
+    else if (e.key === 'Tab') { const f = [...ps.querySelectorAll('input, button')]; const i = f.indexOf(document.activeElement); if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); } else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); } }
   });
   // the hold: pointer or Enter/Space on the focused Order button. Moving >10px, scrolling or letting go early cancels it.
   let holdT = null, holdXY = null, holdKey = false, holdY = 0;
@@ -2831,7 +2835,7 @@ body.barista-view .hav { display: none; }
   });
   // an error goes as soon as the field is edited
   document.addEventListener('input', (e) => { if (!S.login?.err || !['lg-email', 'lg-pw'].includes(e.target.id)) return; S.login.err = ''; S.login.errAt = ''; document.querySelector('.login #lg-e')?.remove(); e.target.removeAttribute('aria-invalid'); e.target.removeAttribute('aria-describedby'); });
-  function loadAcct() { if (S.sb && S.sb.account && !S.recoveryHooked) { S.recoveryHooked = true; S.sb.account.onRecovery(onRecovery); } if (S.sb && S.sb.account) S.sb.account.user().then((u) => { S.acct = u && { ...u, provider: (u.providers || []).find((x) => x !== 'anonymous') || '' }; render(); }, () => {}); }
+  function loadAcct() { if (S.sb && S.sb.account && !S.recoveryHooked) { S.recoveryHooked = true; try { S.sb.account.onRecovery(onRecovery); } catch { /* never let sign-in extras stop the app connecting */ } } if (S.sb && S.sb.account) S.sb.account.user().then((u) => { S.acct = u && { ...u, provider: (u.providers || []).find((x) => x !== 'anonymous') || '' }; render(); }, () => {}); }
   document.addEventListener('submit', (e) => {
     if (!e.target.matches('[data-acc-form]')) return;
     e.preventDefault(); const v = (document.getElementById('acc-email')?.value || '').trim(); S.accEmail = v;
@@ -3967,7 +3971,7 @@ body.barista-view .hav { display: none; }
     else if (el.dataset.sf) S.sf[el.dataset.sf] = val;
     else if (el.hasAttribute('data-ref')) S.refCode = val;
     else if (el.hasAttribute('data-mq')) { S.mq = String(val).slice(0, 40); render(); }
-    else if (el.dataset.pc) S.pc[el.dataset.pc] = String(val).replace(/\D/g, '').slice(0, 6);
+    else if (el.dataset.pc) S.pc[el.dataset.pc] = String(val).replace(/\D/g, '').slice(0, 8);
     else if (el.hasAttribute('data-pname')) S.pname = val;
     else if (el.dataset.sub) {
       const [id, k] = el.dataset.sub.split(':'), x = mine().subs.find((y) => y.id === id); if (!x) return;
