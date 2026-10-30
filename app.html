@@ -5,6 +5,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="fonts/fonts.css">
 <link rel="stylesheet" href="app-motion.css">
+<script src="app-icons.js"></script>
 <script src="app-motion.js" defer></script>
 <script src="native-bridge.js" defer></script>
 <script src="wallet.js" defer></script>
@@ -971,6 +972,45 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
 #algpop .dact { gap: 8px; margin-top: 16px; flex-wrap: nowrap; } #algpop .dact .btn { flex: 1; }
 #algpop .aplater { display: block; margin: 10px auto 0; min-height: 44px; }
 @media (prefers-reduced-motion: reduce) { #algpop .bg, #algpop .apan { transition: none; } }
+/* Profile lives behind the avatar, top right; Rewards takes its place in the bottom bar */
+.hav { width: 44px; height: 44px; border-radius: 50%; border: 0; background: #0b0b0b; color: #fff; display: grid; place-items: center; font: 800 16px/1 var(--display); padding: 0; cursor: pointer; }
+.hav svg { width: 22px; height: 22px; } .hav[aria-current="page"] { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0b0b0b; }
+body.barista-view .hav { display: none; }
+.acct { background: var(--card); border-radius: 22px; padding: 18px; margin: 4px 0 18px; }
+.acct h3 { font: 900 26px/1 var(--display); text-transform: uppercase; margin: 0 0 8px; }
+.acct > p { margin: 0 0 14px; font-size: 14px; line-height: 1.45; color: var(--muted); }
+.acct .seg { display: grid; grid-template-columns: 1fr 1fr; background: #e6e5e1; border-radius: 999px; padding: 3px; margin-bottom: 14px; }
+.acct .seg button { min-height: 40px; border: 0; border-radius: 999px; background: transparent; font: 600 13px var(--sans); color: var(--muted); cursor: pointer; }
+.acct .seg button[aria-selected="true"] { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.acct .sso { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 50px; margin-top: 10px; border-radius: 999px; font: 600 15px var(--sans); cursor: pointer; }
+.acct .sso svg { width: 20px; height: 20px; } .acct .sso.apple { background: #000; color: #fff; border: 0; } .acct .sso.google { background: #fff; color: #1f1f1f; border: 1px solid #c9c9c5; }
+.acct .or { display: flex; align-items: center; gap: 12px; margin: 16px 0 6px; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; } .acct .or::before, .acct .or::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.acct .mail { display: grid; gap: 10px; } .acct .mail .btn { width: 100%; }
+.acct .sent { margin: 12px 0 0; font-size: 13px; font-weight: 600; }
+.acct .dok-e { color: var(--warn); font-size: 13px; font-weight: 600; margin: 10px 0 0; }
+.acct .fine { font-size: 12px; color: var(--muted); margin: 12px 0 0; line-height: 1.45; }
+.acct.on { display: flex; align-items: center; justify-content: space-between; gap: 14px; } .acct.on .btn { white-space: nowrap; flex: none; } .acct.on b { display: block; font: 800 20px/1.1 var(--display); margin: 4px 0; } .acct.on .hint { margin: 0; }
+/* Profile side panel (behind the avatar): who you are, account, stamp card, orders, allergies, settings */
+#stampdrawer .sd-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; position: sticky; top: calc(-16px - var(--sa-top)); margin: calc(-16px - var(--sa-top)) -16px 8px; padding: calc(16px + var(--sa-top)) 16px 12px; background: #fff; z-index: 2; border-bottom: 1px solid var(--line); }
+.pd-who { display: flex; align-items: center; gap: 12px; min-width: 0; } .pd-who h2 { margin: 0; font: 900 22px/1 var(--display); text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .pd-who small { color: var(--muted); font-size: 12px; letter-spacing: .06em; }
+.hav.big { width: 48px; height: 48px; font-size: 20px; flex: none; } .hav.big svg { width: 26px; height: 26px; }
+#stampdrawer .psec { margin-top: 22px; } #stampdrawer .acct { margin-top: 8px; }
+#stampdrawer .sec-h h2 { font-size: 22px; }
+.hav[aria-expanded="true"] { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0b0b0b; }
+/* the Profile sidebar menu */
+.pd-join, .pd-stamps { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 64px; margin: 6px 0 10px; padding: 14px; border: 0; border-radius: 18px; text-align: left; cursor: pointer; font: inherit; }
+.pd-join { background: #0b0b0b; color: #fff; } .pd-join span:first-child { flex: 1; display: grid; gap: 3px; } .pd-join b { font: 800 17px/1.1 var(--display); text-transform: uppercase; } .pd-join small { opacity: .8; font-size: 12.5px; } .pd-join .pc { color: #fff; }
+.pd-stamps { background: var(--card); color: var(--ink); flex-wrap: wrap; } .pd-stamps .pl { flex: 1; }
+.pd-dots { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; width: 100%; } .pd-dots i { aspect-ratio: 1; border-radius: 50%; border: 1.5px solid #b9b8b3; } .pd-dots i.on { background: #0b0b0b; border-color: #0b0b0b; } .pd-dots i.free { border-style: dashed; border-color: #0b0b0b; }
+.pd-menu { list-style: none; margin: 8px 0 0; padding: 0; } .pd-menu li + li { border-top: 1px solid var(--line); }
+.pd-menu button, .pd-menu a { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 60px; padding: 8px 2px; border: 0; background: none; color: var(--ink); text-decoration: none; text-align: left; font: inherit; cursor: pointer; }
+.pd-menu .pi { width: 40px; height: 40px; border-radius: 12px; background: var(--card); display: grid; place-items: center; flex: none; } .pd-menu .pi svg { width: 22px; height: 22px; }
+.pl { display: grid; gap: 2px; flex: 1; min-width: 0; } .pl b { font-size: 15px; font-weight: 600; } .pl small { font-size: 12.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pc { font-size: 22px; color: var(--muted); flex: none; }
+.pd-sub { margin-top: 18px; padding-top: 6px; border-top: 6px solid var(--card); } .pd-sub .pi { background: transparent; } .pd-sub b { font-weight: 500; }
+.pd-acct { margin: 20px 0 8px; font-size: 13px; color: var(--muted); text-align: center; } .pd-out { width: 100%; }
+.pd-back { margin: 2px 0 6px; min-height: 44px; }
+@media (prefers-reduced-motion: no-preference) { .pd-view { animation: pdin .32s cubic-bezier(.22, 1, .36, 1); } @keyframes pdin { from { opacity: 0; transform: translateX(18px); } } }
 </style>
 
 <div class="wrap" id="wrap">
@@ -980,7 +1020,7 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
       <div class="mark" aria-hidden="true"><svg viewBox="-1.5 -1.5 103 103"><defs><clipPath id="bija-clip-a"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></clipPath></defs><g fill="none" stroke="#fff" stroke-width="3"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/><g clip-path="url(#bija-clip-a)"><circle cx="25" cy="0" r="25"/><circle cx="75" cy="0" r="25"/><circle cx="100" cy="25" r="25"/><circle cx="100" cy="75" r="25"/><circle cx="75" cy="100" r="25"/><circle cx="25" cy="100" r="25"/><circle cx="0" cy="75" r="25"/><circle cx="0" cy="25" r="25"/></g></g></svg></div>
       <div class="brand"><h1>Bija</h1><p>St James's · London</p></div>
     </div>
-    <div class="rgt"><div class="switch" id="switch" hidden></div></div>
+    <div class="rgt"><div class="switch" id="switch" hidden></div><button class="hav" id="hav" data-act="profile" aria-label="Profile, stamps and account" aria-haspopup="dialog"></button></div>
   </header>
   <div id="demo"></div>
   <nav class="tabs" id="tabs" role="tablist"></nav>
@@ -1674,9 +1714,10 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
       const nav = $('#bnav');
       if (!nav.querySelector('.fab')) nav.innerHTML = `<div class="in"><span id="nav-l"></span><div><button class="fab" data-act="fab" aria-label="Order"><svg viewBox="-6 -6 112 112" aria-hidden="true"><defs><clipPath id="fab-clip"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></clipPath></defs><g class="mk2" fill="none" stroke="currentColor" stroke-width="4"><circle class="m" cx="50" cy="25" r="25"/><circle class="m" cx="75" cy="50" r="25"/><circle class="m" cx="50" cy="75" r="25"/><circle class="m" cx="25" cy="50" r="25"/><g clip-path="url(#fab-clip)" stroke-width="2.4"><circle cx="25" cy="0" r="25"/><circle cx="75" cy="0" r="25"/><circle cx="100" cy="25" r="25"/><circle cx="100" cy="75" r="25"/><circle cx="75" cy="100" r="25"/><circle cx="25" cy="100" r="25"/><circle cx="0" cy="75" r="25"/><circle cx="0" cy="25" r="25"/></g></g></svg><span class="cnt" hidden></span></button><span class="fab-l">Order</span></div><span id="nav-r"></span></div>`;
       // the centre button stays in the DOM between renders so its idle animation never restarts
-      $('#nav-l').outerHTML = `<span id="nav-l">${side('home', 'Home', '<path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/>', live)}</span>`;
+      const hv = $('#hav'); if (hv) { hv.innerHTML = avatarInner(); hv.setAttribute('aria-expanded', document.getElementById('stampdrawer') ? 'true' : 'false'); }
+      $('#nav-l').outerHTML = `<span id="nav-l">${side('home', 'Home', window.BijaIcons ? BijaIcons.home : '<path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/>', live)}</span>`;
       const liveO = st.os.find((o) => ['received', 'brewing', 'ready'].includes(o.status));
-      $('#nav-r').outerHTML = `<span id="nav-r">${side('card', 'Profile', '<circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c1.2-3.6 4-5.4 7-5.4s5.8 1.8 7 5.4"/>', canRedeem).replace('</button>', liveO ? `<span class="ldot ${liveO.status === 'ready' ? 'rdy' : ''}" aria-hidden="true"></span><span class="sr">, ${liveO.status === 'ready' ? 'order ready' : 'order in progress'}</span></button>` : '</button>')}</span>`;
+      $('#nav-r').outerHTML = `<span id="nav-r">${side('card', 'Rewards', window.BijaIcons ? BijaIcons.rewards : '<path d="M12 3.5l2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>', canRedeem).replace('</button>', liveO ? `<span class="ldot ${liveO.status === 'ready' ? 'rdy' : ''}" aria-hidden="true"></span><span class="sr">, ${liveO.status === 'ready' ? 'order ready' : 'order in progress'}</span></button>` : '</button>')}</span>`;
       const fab = nav.querySelector('.fab'), cnt = fab.querySelector('.cnt');
       if (String(qty) !== cnt.textContent) {
         cnt.textContent = qty; cnt.hidden = !qty; if (qty) { cnt.classList.remove('pop'); void cnt.offsetWidth; cnt.classList.add('pop'); }
@@ -1802,7 +1843,8 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
   addEventListener('scroll', () => document.body.classList.toggle('scrolled', scrollY > 4), { passive: true });
   function layoutFx() {
     const h = document.querySelector('.top'); if (h) document.documentElement.style.setProperty('--hdr', h.offsetHeight + 'px');
-    if (S.view === 'customer' && S.meLoaded) { S.stampSeen = mine().stamps; const dr = document.getElementById('stampdrawer'); if (dr) dr.querySelector('.sd-body').innerHTML = stampsBody(); }
+    if (S.view === 'customer' && S.meLoaded && S.openProfile) { S.openProfile = false; setTimeout(() => stampsOpen(document.getElementById('hav')), 0); }
+    if (S.view === 'customer' && S.meLoaded) { S.stampSeen = mine().stamps; const dr = document.getElementById('stampdrawer'); if (dr) { const b = dr.querySelector('.sd-body'), y = b.scrollTop, f = document.activeElement?.id; b.innerHTML = profileBody(); b.scrollTop = y; if (f) document.getElementById(f)?.focus({ preventScroll: true }); } }
     const cs = document.querySelector('.onb .cards');
     if (cs && !cs.dataset.fx) {
       cs.dataset.fx = 1;
@@ -2014,7 +2056,7 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
     if (document.getElementById('stampdrawer')) return;
     stampTrigger = trigger || document.activeElement;
     const el = document.createElement('div'); el.id = 'stampdrawer'; el.setAttribute('data-stamp-drawer', '');
-    el.innerHTML = `<div class="sd-bg" data-act="stamps-close"></div><aside class="sd-pan" role="dialog" aria-modal="true" aria-labelledby="sd-t"><div class="sd-top"><h2 id="sd-t">Stamp card</h2><button class="sd-x" data-act="stamps-close" aria-label="Close stamp card">×</button></div><div class="sd-body">${stampsBody()}</div></aside>`;
+    el.innerHTML = `<div class="sd-bg" data-act="stamps-close"></div><aside class="sd-pan" role="dialog" aria-modal="true" aria-labelledby="sd-t"><div class="sd-top"><div class="pd-who"><span class="hav big" aria-hidden="true">${avatarInner()}</span><div><h2 id="sd-t">${esc((S.me?.name || acctNow()?.name || '').trim() || 'Profile')}</h2><small>${esc(memberCode(S.uid))}</small></div></div><button class="sd-x" data-act="stamps-close" aria-label="Close profile">×</button></div><div class="sd-body">${profileBody()}</div></aside>`;
     document.body.appendChild(el); document.body.classList.add('sd-open');
     requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
     el.querySelector('.sd-x').focus();
@@ -2035,7 +2077,7 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
   addEventListener('keydown', (e) => {
     const dr = document.getElementById('stampdrawer');
     if (dr) {
-      if (e.key === 'Escape') { e.preventDefault(); stampsClose(); }
+      if (e.key === 'Escape') { e.preventDefault(); if (S.pdView && !S.pdDirect) { S.pdView = ''; render(); document.querySelector('#stampdrawer .pd-stamps')?.focus(); } else stampsClose(); }
       else if (e.key === 'Tab') { const f = [...dr.querySelectorAll('button, [tabindex="0"]')]; const i = f.indexOf(document.activeElement); if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); } else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); } }
       return;
     }
@@ -2222,7 +2264,6 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
     const ini = name ? esc(name.trim().charAt(0).toUpperCase()) : `<svg viewBox="-2 -2 104 104" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="7"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg>`;
     return `<section class="hband" style="background-image:${attrq(pat.kawung('#0b0b0b', .035))}">
         <h2 class="greet q">${esc(greetQ(name))}</h2>
-        <button class="avatar" data-act="tab" data-v="card" aria-label="Profile${name ? ', ' + esc(name) : ''}">${ini}</button>
         <p class="sub">${esc(hello)} · ${(() => { const o = openState(); return esc(o.text); })()}</p>
       </section>
       ${dietNudge('home')}
@@ -2564,7 +2605,7 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
     const wkLeft = Math.max(0, 3 - st.thisWeek), favs = [...favSet()].map((id) => menu().find((m) => m.id === id)).filter(Boolean);
     const recent = [...st.os.map((o) => ({ o, shop: false })), ...st.shop.map((o) => ({ o, shop: true }))].sort((x, y) => String(y.o.createdAt).localeCompare(String(x.o.createdAt))).slice(0, 5);
     const sec = (h, small, body) => `<section class="sec psec"><div class="sec-h"><h2>${h}</h2>${small ? `<small>${small}</small>` : ''}</div>${body}</section>`;
-    return `<h2 class="sr">Profile</h2>
+    return `<h2 class="sr">Rewards</h2>
       <button class="stab" data-act="stamps" aria-label="Stamp card, ${Math.min(st.stamps, STAMP_FREE_AT)} of ${STAMP_FREE_AT + 1} stamps"><span>Stamps ${Math.min(st.stamps, STAMP_FREE_AT)}/${STAMP_FREE_AT + 1}</span></button>
       ${stampAskHTML()}
       ${liveHTML(st)}
@@ -2575,10 +2616,8 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
       </div></div>
       </div>
       <div class="row pact"><button class="btn xl" data-act="scan">${S.showScan ? 'Show my points' : 'Scan at the till'}</button></div>
-      ${sec('Your orders', recent.length ? `<button class="back" data-act="tab" data-v="orders" style="padding:0">All orders ›</button>` : '', !recent.length ? '<p class="hint">Your orders from the café, the app and the beans shop appear here.</p>' : `<ul class="olist">${recent.map(({ o, shop }) => `<li><span><b>${esc(o.code || '')}</b> <span class="pill ${o.status}">${shop ? ({ placed: 'Placed', dispatched: 'Sent', collected: 'Collected', cancelled: 'Cancelled' }[o.status] || esc(o.status)) : STATUS[o.status]}</span><small>${fmt(o.createdAt)} · ${money(o.total)}</small></span>${!shop && o.status === 'collected' ? `<button class="btn sm ghost" data-act="reorder" data-id="${esc(o.id)}" ${isOpen() ? '' : 'disabled'}>Order again</button>` : ''}</li>`).join('')}</ul>`)}
       ${sec('Rewards', `${st.balance} points to spend`, `<div class="list">${REWARDS.map((r) => { const ok = st.balance >= r.pts; return `<div class="panel rw"><div><b>${esc(r.name)}</b><div class="hint">${ok ? 'Unlocked: choose it at checkout' : `${r.pts - st.balance} more points`}</div></div><span class="pill ${ok ? 'ready' : 'collected'}">${r.pts} pts</span>${ok ? '' : `<div class="prog" style="grid-column:1/-1"><i style="width:${(st.balance / r.pts) * 100}%"></i></div>`}</div>`; }).join('')}</div>`)}
       ${sec('Points history', `${st.hist.length} entr${st.hist.length === 1 ? 'y' : 'ies'}`, !st.hist.length ? '<p class="hint">Your first collected order starts the list.</p>' : `<div class="hist">${st.hist.slice(0, S.histAll ? 200 : 5).map((h) => `<div><span>${esc(h.label)}<br><small>${fmt(h.at)} · ${esc(h.sub)}</small></span><b class="${h.pts >= 0 ? 'plus' : 'minus'}">${h.pts >= 0 ? '+' : '−'}${Math.abs(h.pts)}</b></div>`).join('')}</div>${st.hist.length > 5 && !S.histAll ? '<button class="back" data-act="histall">Show all</button>' : ''}`)}
-      ${sec('Allergies', diet() && S.dietEdit !== 'card' ? `<button class="back" data-act="dedit" data-v="card" style="padding:0">Edit ›</button>` : '', diet() && S.dietEdit !== 'card' ? `<p class="hint" style="margin-top:0">${myAlg().size ? `Avoiding ${esc(algList([...myAlg()]))}.` : 'No allergies.'}${diet().milk ? ` Usual milk: ${esc(diet().milk.toLowerCase())}.` : ''}${diet().sweet && diet().sweet !== 'Normal' ? ` ${esc(diet().sweet)}.` : ''} The barista sees your allergies with every order.</p>${myAlg().size ? '<button class="back" data-act="ddel" style="padding:0">Delete my allergy info</button>' : ''}` : dietNudge('card'))}
       ${referHTML(st, no)}
       ${sec('Origins Passport', `${passOrigins().filter((o) => st.origins.has(o.id)).length} of ${passOrigins().length}`, `<p class="hint" style="margin-top:0">Buy the single-origin filter or a 200 g bag to stamp an island. Fill it for +${BONUS.passport} points.</p>
         <div class="passport">${ORIGINS.map((o) => { const soon = !passOrigins().includes(o); return `<div class="visa ${st.origins.has(o.id) ? 'got' : ''} ${!st.origins.has(o.id) && st.scanned.has(o.id) ? 'scanned' : ''} ${soon ? 'soon' : ''}"><div><b>${esc(o.name)}</b><br><small>${esc(o.where)}</small></div>${st.origins.has(o.id) ? '<span class="seal">KOPI</span>' : soon ? '<small>Coming soon</small>' : st.scanned.has(o.id) ? '<small>Scanned · buy a bag to stamp</small>' : `<small>${esc(o.notes[0])}</small>`}</div>`; }).join('')}</div>
@@ -2587,11 +2626,6 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
         <li><button data-act="tab" data-v="club"><span><b>Beans Club</b><span class="hint">${st.subs.some((x) => !x.cancelled) ? `${st.subs.filter((x) => !x.cancelled).length} active · manage deliveries` : 'Fresh beans on your schedule, 10% off'}</span></span><span aria-hidden="true">›</span></button></li>
         <li><button data-act="favmenu"><span><b>Favourites</b><span class="hint">${favs.length ? favs.slice(0, 3).map((m) => esc(m.name)).join(', ') + (favs.length > 3 ? ` and ${favs.length - 3} more` : '') : 'Tap the heart on any drink to keep it here'}</span></span><span aria-hidden="true">›</span></button></li>
       </ul>
-      ${sec('You', '', `<div class="you">
-        <label class="f">Name for your cup<input type="text" id="p-name" data-pname value="${esc(S.pname ?? (S.me?.name || S.form.name || ''))}" maxlength="40" autocomplete="given-name"></label>
-        <button class="btn sm ghost" data-act="pname-save" ${S.busy || !S.uid ? 'disabled' : ''}>Save</button></div>
-        ${st.birthMonth ? `<p class="hint">Birthday month: ${MONTHS[st.birthMonth - 1]}. Your first order that month earns +${BONUS.birthday} points.</p>`
-          : `<div class="you"><label class="f">Birthday month <span class="h">For +${BONUS.birthday} points each year · set once</span><select id="bm"><option value="">Month…</option>${MONTHS.map((m, i) => `<option value="${i + 1}" ${String(i + 1) === S.bdayPick ? 'selected' : ''}>${m}</option>`).join('')}</select></label><button class="btn sm ghost" data-act="bday" ${S.busy || !S.uid ? 'disabled' : ''}>Save</button></div>`}`)}
       <details class="psec more-d"><summary>Levels and challenges</summary>
         <p class="hint">Challenge bonuses add up to ${CHALLENGE_CAP} points a month · ${st.capLeft} left this month.</p>
         <div class="chal">
@@ -2606,13 +2640,121 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
           <li>+${REFER} for you and each friend you invite, once their first paid order of at least £${REFER_MIN} is collected.</li><li>+${BONUS.welcome} welcome points with your first order.</li>
           <li>+${BONUS.secret} for all ${SPOTS.length} Secret St James's spots${st.found === SPOTS.length ? ' ✓' : ` (${st.found}/${SPOTS.length})`}.</li>
           <li>+${BONUS.passport} for a full Origins Passport${passFull(st.origins) ? ' ✓' : ` (${passOrigins().filter((o) => st.origins.has(o.id)).length}/${passOrigins().length})`}.</li></ul>
-      </details>
-      <details class="psec more-d"><summary>Settings</summary>
+      </details>`;
+  }
+
+  // ----- Profile (top-right avatar): account, orders, allergies, you, settings -----
+  const ICON_APPLE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.7-4.1zM13.9 5c.7-.9 1.2-2.1 1.1-3.3-1 0-2.3.7-3 1.6-.7.8-1.3 2-1.1 3.2 1.1.1 2.3-.6 3-1.5z"/></svg>';
+  const ICON_GOOGLE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h6.5a5.6 5.6 0 0 1-2.4 3.7v3h3.9c2.2-2.1 3.5-5.1 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6h-4a12 12 0 0 0 0 10.8z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.3 6.6l4 3.1c.9-2.9 3.6-4.9 6.7-4.9z"/></svg>';
+  function acctNow() {
+    if (S.sb && S.sb.account) return S.acct || null; // live: loaded from Supabase in loadAcct()
+    try { return JSON.parse(localStorage.getItem('bija.account') || 'null'); } catch { return null; }
+  }
+  function avatarInner() {
+    const a = acctNow(), name = (S.me?.name || a?.name || '').trim();
+    return name ? esc(name.charAt(0).toUpperCase()) : '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c1.2-3.6 4-5.4 7-5.4s5.8 1.8 7 5.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+  }
+  function accountHTML() {
+    const a = acctNow(), member = a && !a.guest;
+    const prov = { google: 'Google', apple: 'Apple', email: 'email' };
+    if (member) return `<section class="acct on"><div><span class="eyebrow">Signed in</span><b>${esc(a.name || a.email || 'Bija member')}</b><span class="hint">${a.email ? esc(a.email) + ' · ' : ''}with ${esc(prov[a.provider] || prov[(a.providers || []).find((x) => x !== 'anonymous')] || 'your account')}. Your card, points and allergies follow you to any phone.</span></div><button class="btn ghost sm" data-act="acc-out">Sign out</button></section>`;
+    const mode = S.accMode || 'signup';
+    return `<section class="acct">
+      <h3>${mode === 'signup' ? 'Keep your card on every phone' : 'Welcome back'}</h3>
+      <p>${mode === 'signup' ? 'Create an account and your points, stamps and allergies stay with you if you change or lose your phone. Your card and points so far come with you.' : 'Sign in to bring your Bija Card to this phone.'}</p>
+      <div class="seg" role="tablist" aria-label="Account"><button role="tab" data-act="acc-mode" data-v="signup" aria-selected="${mode === 'signup'}">Create account</button><button role="tab" data-act="acc-mode" data-v="signin" aria-selected="${mode === 'signin'}">Sign in</button></div>
+      <button class="sso apple" data-act="acc-p" data-v="apple">${ICON_APPLE}<span>Continue with Apple</span></button>
+      <button class="sso google" data-act="acc-p" data-v="google">${ICON_GOOGLE}<span>Continue with Google</span></button>
+      <div class="or"><span>or</span></div>
+      <form class="mail" data-acc-form novalidate><label class="f">Email<input type="email" id="acc-email" autocomplete="email" inputmode="email" placeholder="you@example.com" value="${esc(S.accEmail || '')}"></label><button class="btn" type="submit">${mode === 'signup' ? 'Email me a link' : 'Email me a sign-in link'}</button></form>
+      ${S.accSent ? `<p class="sent" role="status">Check ${esc(S.accSent)} for a link from Bija. Open it on this phone to finish.</p>` : ''}
+      ${S.accErr ? `<p class="dok-e" role="alert">${esc(S.accErr)}</p>` : ''}
+      <p class="fine">We only use your email to sign you in. See our <a href="privacy.html">privacy notice</a>.</p>
+    </section>`;
+  }
+  // sign-in: live mode uses Supabase (links Google, Apple or email to the guest card, or signs a returning member in); the demo simulates it on this device
+  const accMsg = (e) => /provider is not enabled|Unsupported provider/i.test(e?.message || '') ? 'This sign-in option isn’t switched on yet. Try email, or ask the team.' : /manual linking/i.test(e?.message || '') ? 'Linking accounts isn’t switched on yet. Try email, or ask the team.' : 'That didn’t work. Check your connection and try again.';
+  async function accSignIn(provider, email) {
+    S.accErr = ''; S.accSent = '';
+    const mode = S.accMode || 'signup';
+    if (!(S.sb && S.sb.account)) {
+      const name = S.me?.name || S.form.name || '';
+      try { localStorage.setItem('bija.account', JSON.stringify({ guest: false, provider, email: email || '', name, at: new Date().toISOString() })); } catch {}
+      toast(`Signed in with ${provider === 'email' ? 'email' : provider === 'apple' ? 'Apple' : 'Google'}`); return render();
+    }
+    try {
+      if (provider === 'email') { await S.sb.account.email(email, mode); S.accSent = email; }
+      else await S.sb.account.withProvider(provider, mode); // the browser goes to Google or Apple and comes back here
+    } catch (e) { S.accErr = accMsg(e); }
+    render();
+  }
+  async function accSignOut() {
+    if (!(S.sb && S.sb.account)) { try { localStorage.removeItem('bija.account'); } catch {} toast('Signed out'); return render(); }
+    try { await S.sb.account.signOut(); } catch {}
+    location.reload(); // starts a fresh guest card on this phone
+  }
+  function loadAcct() { if (S.sb && S.sb.account) S.sb.account.user().then((u) => { S.acct = u && { ...u, provider: (u.providers || []).find((x) => x !== 'anonymous') || '' }; render(); }, () => {}); }
+  document.addEventListener('submit', (e) => {
+    if (!e.target.matches('[data-acc-form]')) return;
+    e.preventDefault(); const v = (document.getElementById('acc-email')?.value || '').trim(); S.accEmail = v;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) { S.accErr = 'Enter an email address like name@example.com.'; render(); return document.getElementById('acc-email')?.focus(); }
+    accSignIn('email', v);
+  });
+  function profileBody() {
+    const st = mine(), t = themeById(S.theme), no = memberCode(S.uid);
+    const nextR = REWARDS.find((r) => r.pts > st.balance), pct = nextR ? (st.balance / nextR.pts) * 100 : 100;
+    let qr = '';
+    try { const q = qrcode(0, 'M'); q.addData(no); q.make(); qr = q.createSvgTag(6, 2); } catch { qr = ''; }
+    const wkLeft = Math.max(0, 3 - st.thisWeek), favs = [...favSet()].map((id) => menu().find((m) => m.id === id)).filter(Boolean);
+    const recent = [...st.os.map((o) => ({ o, shop: false })), ...st.shop.map((o) => ({ o, shop: true }))].sort((x, y) => String(y.o.createdAt).localeCompare(String(x.o.createdAt))).slice(0, 5);
+    const sec = (h, small, body) => `<section class="sec psec"><div class="sec-h"><h2>${h}</h2>${small ? `<small>${small}</small>` : ''}</div>${body}</section>`;
+    // a sidebar menu: who you are, then one row per area; a row slides its detail in, inside the same panel
+    const V = S.pdView || '', a = acctNow(), member = a && !a.guest, d = diet();
+    const views = {
+      account: () => accountHTML(),
+      stamps: () => `<section class="sec psec" id="pd-stamps"><div class="sec-h"><h2>Stamp card</h2><small>${Math.min(st.stamps, STAMP_FREE_AT)} of ${STAMP_FREE_AT + 1}</small></div>${stampsBody()}</section>`,
+      orders: () => `${sec('Your orders', recent.length ? `<button class="back" data-act="tab" data-v="orders" style="padding:0">All orders ›</button>` : '', !recent.length ? '<p class="hint">Your orders from the café, the app and the beans shop appear here.</p>' : `<ul class="olist">${recent.map(({ o, shop }) => `<li><span><b>${esc(o.code || '')}</b> <span class="pill ${o.status}">${shop ? ({ placed: 'Placed', dispatched: 'Sent', collected: 'Collected', cancelled: 'Cancelled' }[o.status] || esc(o.status)) : STATUS[o.status]}</span><small>${fmt(o.createdAt)} · ${money(o.total)}</small></span>${!shop && o.status === 'collected' ? `<button class="btn sm ghost" data-act="reorder" data-id="${esc(o.id)}" ${isOpen() ? '' : 'disabled'}>Order again</button>` : ''}</li>`).join('')}</ul>`)}`,
+      allergies: () => `${sec('Allergies', diet() && S.dietEdit !== 'me' ? `<button class="back" data-act="dedit" data-v="me" style="padding:0">Edit ›</button>` : '', diet() && S.dietEdit !== 'me' ? `<p class="hint" style="margin-top:0">${myAlg().size ? `Avoiding ${esc(algList([...myAlg()]))}.` : 'No allergies.'}${diet().milk ? ` Usual milk: ${esc(diet().milk.toLowerCase())}.` : ''}${diet().sweet && diet().sweet !== 'Normal' ? ` ${esc(diet().sweet)}.` : ''} The barista sees your allergies with every order.</p>${myAlg().size ? '<button class="back" data-act="ddel" style="padding:0">Delete my allergy info</button>' : ''}` : dietNudge('me'))}`,
+      you: () => `${sec('You', '', `<div class="you">
+        <label class="f">Name for your cup<input type="text" id="p-name" data-pname value="${esc(S.pname ?? (S.me?.name || S.form.name || ''))}" maxlength="40" autocomplete="given-name"></label>
+        <button class="btn sm ghost" data-act="pname-save" ${S.busy || !S.uid ? 'disabled' : ''}>Save</button></div>
+        ${st.birthMonth ? `<p class="hint">Birthday month: ${MONTHS[st.birthMonth - 1]}. Your first order that month earns +${BONUS.birthday} points.</p>`
+          : `<div class="you"><label class="f">Birthday month <span class="h">For +${BONUS.birthday} points each year · set once</span><select id="bm"><option value="">Month…</option>${MONTHS.map((m, i) => `<option value="${i + 1}" ${String(i + 1) === S.bdayPick ? 'selected' : ''}>${m}</option>`).join('')}</select></label><button class="btn sm ghost" data-act="bday" ${S.busy || !S.uid ? 'disabled' : ''}>Save</button></div>`}`)}`,
+      settings: () => `<section class="sec psec"><div class="sec-h"><h2>Settings</h2></div>
         <p class="hint">Card design, saved on this device.</p>
         <div class="themes">${THEMES.map((x) => `<button data-act="theme" data-v="${x.id}" aria-pressed="${S.theme === x.id}">${cardHTML(x, { pts: 1240, tier: 'Sprout', pct: 60 })}${esc(x.name)}</button>`).join('')}</div>
         ${pushToggle()}
         ${S.demo ? '<p class="links"><a href="privacy.html">Privacy</a><a href="accessibility.html">Accessibility</a><a href="allergens.html">Allergens</a></p>' : ''}
-      </details>`;
+      </section>`,
+    };
+    if (views[V]) return `<button class="back pd-back" data-act="pd" data-v="">‹ Profile</button><div class="pd-view">${views[V]()}</div>`;
+    const ic = (x) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${x}</svg>`;
+    const IC = {
+      orders: window.BijaIcons ? BijaIcons.svg('cup') : ic('<path d="M5 9h12v4a6 6 0 0 1-12 0z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H16"/>'),
+      allergies: ic('<path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M12 8v5M12 16v.5"/>'),
+      you: ic('<circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c1.2-3.6 4-5.4 7-5.4s5.8 1.8 7 5.4"/>'),
+      settings: ic('<circle cx="12" cy="12" r="3"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/>'),
+      help: ic('<circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6M12 17v.4"/>'),
+      privacy: ic('<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/>'),
+      visit: window.BijaIcons ? BijaIcons.svg('visit') : ic('<path d="M12 21s-6-5.6-6-10a6 6 0 0 1 12 0c0 4.4-6 10-6 10z"/><circle cx="12" cy="11" r="2"/>'),
+    };
+    const n = st.os.length + st.shop.length, on = Math.min(st.stamps, STAMP_FREE_AT);
+    const row = (v, icon, label, meta) => `<li><button data-act="pd" data-v="${v}"><span class="pi">${icon}</span><span class="pl"><b>${label}</b>${meta ? `<small>${meta}</small>` : ''}</span><span class="pc" aria-hidden="true">›</span></button></li>`;
+    const link = (href, icon, label) => `<li><a href="${href}"><span class="pi">${icon}</span><span class="pl"><b>${label}</b></span><span class="pc" aria-hidden="true">›</span></a></li>`;
+    return `${member ? '' : `<button class="pd-join" data-act="pd" data-v="account"><span><b>Sign in or join</b><small>Keep your card, points and allergies on every phone</small></span><span class="pc" aria-hidden="true">›</span></button>`}
+      <button class="pd-stamps" data-act="pd" data-v="stamps" aria-label="Stamp card, ${on} of ${STAMP_FREE_AT + 1}"><span class="pd-dots" aria-hidden="true">${Array.from({ length: STAMP_FREE_AT + 1 }, (_, i) => `<i class="${i < on ? 'on' : ''}${i === STAMP_FREE_AT ? ' free' : ''}"></i>`).join('')}</span><span class="pl"><b>Stamp card</b><small>${on} of ${STAMP_FREE_AT + 1} · ${STAMP_FREE_AT - on > 0 ? `${STAMP_FREE_AT - on} more to a free drink` : 'next drink is free'}</small></span><span class="pc" aria-hidden="true">›</span></button>
+      <ul class="pd-menu">
+        ${row('orders', IC.orders, 'My orders', n ? `${n} so far` : 'Track and reorder')}
+        ${row('allergies', IC.allergies, 'Allergies', d ? (d.alg.length ? esc(algList(d.alg)).replace(/^./, (c) => c.toUpperCase()) : 'None') : 'Not set yet')}
+        ${row('you', IC.you, 'Your details', esc((S.me?.name || '').trim()) || 'Name and birthday')}
+        ${row('settings', IC.settings, 'Settings', 'Card design and notifications')}
+      </ul>
+      <ul class="pd-menu pd-sub">
+        ${link('help.html', IC.help, 'Help centre')}
+        ${link('visit.html', IC.visit, 'Visit us')}
+        ${link('privacy.html', IC.privacy, 'Privacy')}
+      </ul>
+      ${member ? `<p class="pd-acct">Signed in${a.email ? ' as ' + esc(a.email) : ''}</p><button class="btn ghost pd-out" data-act="acc-out">Sign out</button>` : ''}`;
   }
 
   // ----- gift cards -----
@@ -3329,7 +3471,9 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
     else if (a === 'pin-close') pinClose();
     else if (a === 'pin-key') pinKey(b.dataset.v);
     else if (a === 'tab') { if (S.view === 'bar') S.btab = b.dataset.v; else { if (['home', 'more', 'beans'].includes(S.tab) && S.tab !== b.dataset.v) S.backTo = S.tab; S.tab = b.dataset.v; S.lastOrder = null; S.fresh = -1; S.dealt = null; } render(); window.scrollTo({ top: 0 }); }
-    else if (a === 'stamps') stampsOpen(b);
+    else if (a === 'pd') { S.pdView = b.dataset.v; S.pdDirect = false; render(); const bd = document.querySelector('#stampdrawer .sd-body'); if (bd) bd.scrollTop = 0; document.querySelector('#stampdrawer .pd-back, #stampdrawer .pd-join, #stampdrawer .pd-stamps')?.focus({ preventScroll: true }); }
+    else if (a === 'stamps') { S.pdView = 'stamps'; S.pdDirect = true; stampsOpen(b); requestAnimationFrame(() => document.getElementById('pd-stamps')?.scrollIntoView({ block: 'start' })); }
+    else if (a === 'profile') { if (document.getElementById('stampdrawer')) stampsClose(); else { S.pdView = ''; stampsOpen(b); } }
     else if (a === 'push-on' || a === 'push-off') {
       // the permission prompt must come straight from this tap
       if (!window.BijaPush) return;
@@ -3438,6 +3582,9 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
       }
       store.set('bija.diet.asked', '1'); S.algPop = null; render(); openSheet(P.id);
     }
+    else if (a === 'acc-mode') { S.accMode = b.dataset.v; S.accErr = ''; S.accSent = ''; render(); }
+    else if (a === 'acc-p') accSignIn(b.dataset.v);
+    else if (a === 'acc-out') accSignOut();
     else if (a === 'dclose') { if (!diet()) store.set('bija.diet.later', String(Date.now())); S.dietEdit = null; S.dietDraft = null; render(); }
     else if (a === 'dgo') { document.getElementById('diet-order')?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth', block: 'start' }); }
     else if (a === 'ddel') { saveDiet(null); S.dietDraft = null; S.dietEdit = null; if (S.mf === 'safe') S.mf = ''; toast('Allergy info deleted'); render(); }
@@ -3712,7 +3859,7 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
   try { const v = new URLSearchParams(location.search).get('view'); if (v === 'app' || v === 'site') localStorage.setItem('bija.view', v); if (v === 'bar') S.wantBar = true; } catch {}
   try { const sp = new URLSearchParams(location.search).get('stamp'); if (sp && ORIGINS.some((o) => o.id === sp)) S.stampId = sp; else if (sp) { const u = new URL(location.href); u.searchParams.delete('stamp'); history.replaceState(history.state, '', u.pathname + u.search + u.hash); } } catch {}
   if (['#home', '#order', '#beans', '#card', '#gifts', '#secret', '#orders', '#club', '#more'].includes(location.hash)) S.tab = location.hash.slice(1);
-  if (location.hash === '#profile') S.tab = 'card'; // Profile holds the Bija Card
+  if (location.hash === '#profile' || location.hash === '#me') S.openProfile = true; // Profile is the side panel behind the avatar
   try { S.lastOpts = JSON.parse(localStorage.getItem('bija.opts')) || {}; } catch {}
   addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); S.installEvt = e; render(); });
   S.form.name = store.get('bija.name') || '';
@@ -3778,7 +3925,7 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
           const load = (src) => new Promise((ok, no) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
           if (!window.BijaSupabase) { if (!window.supabase) await load('vendor/supabase.js'); await load('bija-supabase.js'); }
           const conn = await window.BijaSupabase.connect();
-          S.demo = true; S.backend = 'supabase'; S.sb = conn; S.db = conn.db; S.uid = conn.uid; S.admin = await conn.isStaff();
+          S.demo = true; S.backend = 'supabase'; S.sb = conn; S.db = conn.db; S.uid = conn.uid; S.admin = await conn.isStaff(); loadAcct();
           conn.onStaffChange((on) => {
             if (on && !S.admin) { S.admin = true; listenAdmin(S.db); S.db.refreshAll(); lvRefresh(); }
             else if (!on && S.admin) { S.admin = false; S.staffOk = false; if (S.view === 'bar') S.view = 'customer'; }

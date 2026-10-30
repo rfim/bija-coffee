@@ -248,6 +248,31 @@
     ledgerSubs.add(cb); return () => ledgerSubs.delete(cb);
   }
 
+  // ---------- member account ----------
+  // Everyone starts as a guest (anonymous) with a Bija Card. Signing up links Google, Apple or an email to that same user,
+  // so points and stamps stay; signing in on a new phone switches to the member's existing card. Google and Apple must be
+  // turned on in Supabase (Authentication, Sign In / Providers), with manual linking allowed for guests.
+  function accountApi(c) {
+    const back = () => location.href.split('#')[0];
+    return {
+      async user() {
+        const { data } = await c.auth.getUser(); const u = data && data.user; if (!u) return null;
+        const m = u.user_metadata || {};
+        return { id: u.id, guest: !!u.is_anonymous, email: u.email || '', name: m.full_name || m.name || '', providers: (u.identities || []).map((i) => i.provider) };
+      },
+      async withProvider(provider, mode) {
+        const r = mode === 'signin' ? await c.auth.signInWithOAuth({ provider, options: { redirectTo: back() } }) : await c.auth.linkIdentity({ provider, options: { redirectTo: back() } });
+        if (r.error) throw r.error;
+      },
+      async email(address, mode) {
+        const r = mode === 'signin' ? await c.auth.signInWithOtp({ email: address, options: { emailRedirectTo: back(), shouldCreateUser: false } })
+          : await c.auth.updateUser({ email: address }, { emailRedirectTo: back() });
+        if (r.error) throw r.error;
+      },
+      async signOut() { await c.auth.signOut(); },
+    };
+  }
+
   async function connect(opts) {
     const c = await ensure(opts);
     return {
@@ -256,6 +281,7 @@
       staffUnlock, staffLock, staffTouch, staffChangePin,
       onStaffChange: (f) => { staffSubs.add(f); return () => staffSubs.delete(f); },
       rpc, myOrders, ledger, onLedgers,
+      account: accountApi(c),
     };
   }
 
