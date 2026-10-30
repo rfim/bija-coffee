@@ -1,0 +1,102 @@
+/* Bija privacy choices panel (site-consent.js). Fixed in a corner on desktop, a bottom sheet on phones.
+   Self-contained so it also works on pages that don't load site-shop.css. */
+.bc {
+  --bc-ink: #0b0b0b; --bc-bg: #ffffff; --bc-muted: #555553; --bc-line: #e4e4e2; --bc-tile: #f2f2f0;
+  --bc-sans: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --bc-disp: Archivo, "Arial Black", "Helvetica Neue", Helvetica, sans-serif;
+  position: fixed; right: 24px; bottom: 24px; z-index: 40;
+  width: min(420px, calc(100vw - 48px)); max-height: calc(100vh - 48px); max-height: calc(100dvh - 48px);
+  display: flex; flex-direction: column;
+  background: var(--bc-bg); color: var(--bc-ink); border: 2px solid var(--bc-ink); border-radius: 22px; overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .18), 0 2px 8px rgba(0, 0, 0, .08);
+  font: 15px/1.5 var(--bc-sans); text-align: left; -webkit-font-smoothing: antialiased;
+}
+.bc[hidden] { display: none; }
+.bc *, .bc *::before, .bc *::after { box-sizing: border-box; }
+.bc :focus-visible { outline: 3px solid var(--bc-ink); outline-offset: 2px; }
+
+/* the batik band: a quiet Kawung lattice behind the Bija mark */
+.bc-band { position: relative; flex: none; height: 46px; background: var(--bc-ink); color: #fff; display: flex; align-items: center; padding: 0 20px; overflow: hidden; }
+.bc-kawung { position: absolute; top: 0; left: 0; width: calc(100% + 24px); height: 100%; color: #fff; opacity: .28; }
+.bc-band::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--bc-ink) 0, var(--bc-ink) 42%, rgba(11, 11, 11, .2) 100%); }
+.bc-eyebrow { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 10px; font: 600 11.5px/1 var(--bc-sans); letter-spacing: .16em; text-transform: uppercase; }
+.bc-mark { width: 20px; height: 20px; }
+.bc-x { position: absolute; top: 1px; right: 4px; z-index: 2; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 999px; background: transparent; color: #fff; cursor: pointer; }
+.bc-x[hidden] { display: none; }
+.bc-x svg { width: 22px; height: 22px; }
+.bc-x:focus-visible { outline-color: #fff; outline-offset: -4px; }
+
+.bc-scroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 18px 20px 4px; }
+.bc .bc-h { margin: 0 0 8px; font: 900 26px/.95 var(--bc-disp); text-transform: uppercase; letter-spacing: -.01em; color: var(--bc-ink); }
+.bc-h:focus { outline: none; }
+.bc-h:focus-visible { outline: 3px solid var(--bc-ink); outline-offset: 3px; }
+.bc-intro { margin: 0 0 6px; color: #2b2b2b; }
+.bc-intro a { color: var(--bc-ink); font-weight: 600; text-underline-offset: 3px; white-space: nowrap; }
+
+.bc-cats { list-style: none; margin: 12px 0 4px; padding: 0; border-top: 1px solid var(--bc-line); }
+.bc-cats[hidden] { display: none; }
+.bc-cat { padding: 10px 0 12px; border-bottom: 1px solid var(--bc-line); }
+.bc-ct { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.bc-cn { font: 700 15px/1.25 var(--bc-sans); }
+.bc-ctl { display: inline-flex; align-items: center; gap: 4px; flex: none; }
+.bc-state { min-width: 2.2em; font: 600 11.5px/1 var(--bc-sans); letter-spacing: .08em; text-transform: uppercase; color: var(--bc-muted); text-align: right; order: -1; }
+.bc-cat:first-child .bc-state { min-width: 0; }
+.bc-cd { margin: 4px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--bc-muted); }
+
+/* switch: 56 × 44 target, 46 × 28 track */
+.bc-sw { position: relative; width: 56px; height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; border-radius: 999px; -webkit-tap-highlight-color: transparent; }
+.bc-sw::before { content: ""; position: absolute; left: 5px; top: 8px; width: 46px; height: 28px; border: 2px solid var(--bc-ink); border-radius: 999px; background: #fff; transition: background .2s; }
+.bc-sw::after { content: ""; position: absolute; left: 11px; top: 14px; width: 16px; height: 16px; border-radius: 50%; background: var(--bc-ink); transition: transform .25s cubic-bezier(.2, .7, .2, 1), background .2s; }
+.bc-sw[aria-checked="true"]::before { background: var(--bc-ink); }
+.bc-sw[aria-checked="true"]::after { background: #fff; transform: translateX(18px); }
+.bc-sw[aria-disabled="true"] { cursor: default; }
+.bc-sw[aria-disabled="true"]::before { background: #6f6f6d; border-color: #6f6f6d; }
+
+.bc-when { margin: 10px 0 4px; font-size: 12.5px; color: var(--bc-muted); }
+.bc-when[hidden] { display: none; }
+
+/* three equal actions: the same size, weight and colour, so saying no is as easy as saying yes */
+.bc-acts { flex: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 12px 20px 18px; background: var(--bc-bg); }
+.bc.expanded .bc-acts { border-top: 1px solid var(--bc-line); }
+.bc-btn { min-height: 48px; padding: 6px 8px; border: 2px solid var(--bc-ink); border-radius: 999px; background: var(--bc-ink); color: #fff; font: 600 12px/1.15 var(--bc-sans); letter-spacing: .06em; text-transform: uppercase; cursor: pointer; transition: background .2s, color .2s; }
+.bc-btn[hidden] { display: none; }
+@media (hover: hover) { .bc-btn:hover { background: #fff; color: var(--bc-ink); } }
+.bc-btn:focus-visible { outline-offset: 3px; }
+
+.bc-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* while the panel shows, the page can scroll its last content out from under it,
+   and keyboard focus is kept above it (WCAG 2.4.11) */
+.bc-spacer { display: none; }
+html.bc-open { scroll-padding-bottom: var(--bc-h, 0px); }
+html.bc-open .bc-spacer { display: block; height: var(--bc-h, 0px); }
+
+/* phones: a bottom sheet across the full width */
+@media (max-width: 560px) {
+  .bc { left: 0; right: 0; bottom: 0; width: auto; max-height: 88vh; max-height: 88dvh; border-width: 2px 0 0; border-radius: 22px 22px 0 0; box-shadow: 0 -12px 40px rgba(0, 0, 0, .16); }
+  .bc-band { height: 40px; padding: 0 16px; }
+  .bc-x { top: -2px; }
+  .bc-scroll { padding: 14px 16px 2px; }
+  .bc .bc-h { font-size: 23px; }
+  .bc-intro { font-size: 14px; }
+  .bc-acts { padding: 10px 16px calc(14px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (max-width: 359px) {
+  .bc-acts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bc-acts .bc-btn:last-child, .bc-acts .bc-btn[data-bc="choose"]:not([hidden]) { grid-column: 1 / -1; }
+}
+
+/* the footer opener looks like its neighbouring links */
+.sfoot nav .bc-link { display: block; width: 100%; padding: 7px 0; border: 0; background: none; color: #cfcfcf; font: inherit; text-align: left; cursor: pointer; }
+.sfoot nav .bc-link:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.legal-main .bc-link { min-height: 48px; padding: 0 24px; border: 2px solid #0b0b0b; border-radius: 999px; background: #0b0b0b; color: #fff; font: 600 13px/1 Inter, "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; }
+.legal-main .bc-link:hover { background: #fff; color: #0b0b0b; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .bc.in { animation: bc-in .5s cubic-bezier(.2, .7, .2, 1) both; }
+  .bc.in .bc-kawung { animation: bc-drift 1.6s cubic-bezier(.2, .7, .2, 1) both; }
+  @keyframes bc-in { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+  @keyframes bc-drift { from { transform: translateX(-24px); opacity: 0; } to { transform: none; } }
+}
+@media (prefers-reduced-motion: reduce) { .bc-sw::before, .bc-sw::after, .bc-btn { transition: none; } }
+@media (forced-colors: active) { .bc-sw::after { forced-color-adjust: none; background: CanvasText; } .bc-sw[aria-checked="true"]::before { background: Highlight; } }

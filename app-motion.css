@@ -82,14 +82,17 @@
 body:not(.barista-view) .top { view-transition-name: mo-top; }
 .bnav { view-transition-name: mo-nav; }
 ::view-transition, ::view-transition-group(*), ::view-transition-image-pair(*), ::view-transition-old(*), ::view-transition-new(*) { pointer-events: none; }
-::view-transition-old(root) { animation: mo-vt-out .26s var(--mo-out) both; }
-::view-transition-new(root) { animation: mo-vt-in .34s var(--mo-out) both; }
+/* calm and continuous: the old screen eases back and fades quickly, the new one glides in on a long soft curve, so the two never smear together */
+::view-transition-group(root) { animation-duration: .52s; }
+::view-transition-old(root) { animation: mo-vt-out .16s cubic-bezier(.4, 0, 1, 1) both; }
+::view-transition-new(root) { animation: mo-vt-in .5s cubic-bezier(.16, 1, .3, 1) .1s both; }
 html[data-mo-dir=back]::view-transition-old(root) { animation-name: mo-vt-out-b; }
 html[data-mo-dir=back]::view-transition-new(root) { animation-name: mo-vt-in-b; }
-@keyframes mo-vt-out { to { opacity: 0; transform: translateX(-24px) scale(.98); } }
-@keyframes mo-vt-in { from { opacity: 0; transform: translateX(32px); } }
-@keyframes mo-vt-out-b { to { opacity: 0; transform: translateX(24px) scale(.98); } }
-@keyframes mo-vt-in-b { from { opacity: 0; transform: translateX(-32px); } }
+::view-transition-group(mo-top), ::view-transition-group(mo-nav) { animation-duration: .52s; animation-timing-function: cubic-bezier(.16, 1, .3, 1); }
+@keyframes mo-vt-out { to { opacity: 0; transform: translateX(-12px) scale(.985); } }
+@keyframes mo-vt-in { from { opacity: 0; transform: translateX(22px) scale(1.01); } }
+@keyframes mo-vt-out-b { to { opacity: 0; transform: translateX(12px) scale(.985); } }
+@keyframes mo-vt-in-b { from { opacity: 0; transform: translateX(-22px) scale(1.01); } }
 html.mo-vt #main.enter { animation: none !important; }
 
 /* loading: black and white skeleton shimmer */

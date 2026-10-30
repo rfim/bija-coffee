@@ -136,17 +136,22 @@
     const ev = new MouseEvent('click', { bubbles: true, cancelable: true, clientX: r.x, clientY: r.y }); ev.moVT = true; el.dispatchEvent(ev);
   }, true);
   D.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') flush(); }, true);
+  const RANK = { home: 0, beans: .5, more: .5, gifts: .5, secret: .5, club: .5, order: 1, orders: 1.5, card: 2 };
+  const here = () => { const c = $('.bnav [aria-current=page]'); return c ? c.dataset.v : $('.bnav .fab-l.on') ? 'order' : (location.hash || '#home').slice(1); };
   D.addEventListener('click', (e) => {
-    const b = e.target.closest && e.target.closest('[data-act=tab]');
+    const b = e.target.closest && e.target.closest('[data-act=tab],[data-act=fab],[data-act=favmenu],[data-act=goto-checkout],[data-act=showcard]');
     if (!b || e.moVT || !D.startViewTransition || calm()) return;
+    // every screen change slides the same calm way; the direction follows the bottom bar (Home, Order, Profile)
+    const act = b.dataset.act, from = here(), to = act === 'tab' ? b.dataset.v : act === 'showcard' ? 'card' : 'order';
+    if (to === from || (act === 'fab' && from === 'order')) return; // same screen: the button scrolls or bursts, nothing to transition
     if (vt) { flush(); return; }
     e.stopPropagation(); e.preventDefault(); vt = true;
-    H.dataset.moDir = b.dataset.v === 'home' || b.classList.contains('back') ? 'back' : 'fwd'; H.classList.add('mo-vt');
+    H.dataset.moDir = b.classList.contains('back') || (RANK[to] ?? 1) < (RANK[from] ?? 1) ? 'back' : 'fwd'; H.classList.add('mo-vt');
     const nav = () => { const ev = new MouseEvent('click', { bubbles: true, cancelable: true }); ev.moVT = true; b.dispatchEvent(ev); };
     vtPend = nav;
     const t = D.startViewTransition(() => { if (vtPend === nav) { vtPend = null; nav(); } });
     vtNow = t;
-    const off = () => { vt = false; vtNow = null; if (vtPend) flush(); H.classList.remove('mo-vt'); delete H.dataset.moDir; };
+    const off = () => { vt = false; vtNow = null; if (vtPend) flush(); $('#main')?.classList.remove('enter'); H.classList.remove('mo-vt'); delete H.dataset.moDir; };
     t.finished.then(off, off); setTimeout(off, 1200);
   }, true);
 
