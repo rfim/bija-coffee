@@ -131,6 +131,6 @@ as $$
 $$;
 
 -- cron.schedule with an existing job name updates that job, so re-running is safe.
--- The migration scheduled kenduri-deliver every minute; on 30 Oct 2026 the live job runs every 15 minutes, recorded here.
+-- kenduri-deliver runs every 15 minutes on purpose: each delivery wakes Maheera's Neon compute (free tier).
 select cron.schedule('kenduri-deliver', '*/15 * * * *', 'select kenduri.deliver()');
 select cron.schedule('kenduri-prune', '17 3 * * *', 'select kenduri.prune()');
