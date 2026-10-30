@@ -1,3 +1,5 @@
 # Local output from the quality tools (tests/README.md)
 /test-results/
 /.lighthouseci/
+# Screenshots written by the local install-page test
+/store/
