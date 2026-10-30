@@ -49,6 +49,8 @@ Supabase's built-in sender only delivers to people on Bija's Supabase team, abou
 
 A guest keeps their Bija Card and points whichever way they sign up: email is added to the guest's own account, and Google or Apple is linked to it (supabase-js 2.117.3, `linkIdentity` with the ID token). If that Google or Apple account already belongs to a member, the app signs in to the member's card instead.
 
+**Forgot password**: the app emails a reset link (Supabase "Reset password" template, so it needs step 2 for customers). Opening the link on the phone brings the app back with the Profile panel at **Choose a new password**; saving it logs the person in. The link must point at an address listed under Redirect URLs (step 1).
+
 After an email sign-up the app shows **Check your email** with Resend (30 s apart) and "I've activated it"; the account is active once the link in the email is opened. This needs step 1 and, for customers, step 2 above.
 
 Until the steps above are done, the buttons say plainly that the option isn't switched on yet.

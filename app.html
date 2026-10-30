@@ -2689,6 +2689,15 @@ body.barista-view .hav { display: none; }
     if (member) return `<section class="acct on"><div><span class="eyebrow">Logged in</span><b>${esc(a.name || a.email || 'Your account')}</b><span class="hint">${a.email ? esc(a.email) + ' · ' : ''}with ${esc(prov[a.provider] || prov[(a.providers || []).find((x) => x !== 'anonymous')] || 'your account')}. Your card, points and allergies follow you to any phone.</span></div><button class="btn ghost sm" data-act="acc-out">Log out</button></section>`;
     // a Stir-style login: Apple, Google or email (with a password); a guest who signs up keeps their card and points
     const L = S.login || (S.login = { step: 'start', mode: 'signup', email: '', err: '', show: false });
+    if (L.step === 'newpw') return `<section class="login">
+      <h3>Choose a new password</h3>
+      <p>For ${esc(L.email || 'your Bija account')}. At least 8 characters.</p>
+      <form data-login-newpw novalidate>
+        <label class="f">New password<span class="pw"><input type="${L.show ? 'text' : 'password'}" id="lg-pw" autocomplete="new-password" minlength="8" ${L.err ? 'aria-invalid="true" aria-describedby="lg-e"' : ''}><button type="button" class="pw-eye" data-act="lg-show" aria-pressed="${!!L.show}" aria-label="${L.show ? 'Hide password' : 'Show password'}">${L.show ? 'Hide' : 'Show'}</button></span></label>
+        ${L.err ? `<p class="dok-e" id="lg-e" role="alert">${esc(L.err)}</p>` : ''}
+        <button class="btn" type="submit" ${L.busy ? 'disabled' : ''}>${L.busy ? 'Saving…' : 'Save and log in'}</button>
+      </form>
+    </section>`;
     if (L.step === 'check') return `<section class="login">
       <span class="lg-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3.8 7l8.2 6 8.2-6"/></svg></span>
       <h3>Check your email</h3>
@@ -2780,9 +2789,23 @@ body.barista-view .hav { display: none; }
     } catch (e) { L.busy = false; L.err = lgMsg(e); render(); }
   }
   document.addEventListener('submit', (e) => { if (e.target.matches('[data-login-pw]')) { e.preventDefault(); lgSubmit(); } });
+  // the password reset link brings people back here with a recovery session: open the panel at "Choose a new password"
+  function onRecovery() {
+    S.login = { step: 'newpw', mode: 'signin', email: acctNow()?.email || '', err: '', show: false }; S.pdView = 'account'; S.pdDirect = true;
+    render(); if (!document.getElementById('stampdrawer')) stampsOpen(document.getElementById('hav'));
+    requestAnimationFrame(() => document.getElementById('lg-pw')?.focus());
+  }
+  document.addEventListener('submit', async (e) => {
+    if (!e.target.matches('[data-login-newpw]')) return;
+    e.preventDefault(); const L = S.login, pw = document.getElementById('lg-pw')?.value || '';
+    if (pw.length < 8) { L.err = 'Choose a password of at least 8 characters.'; render(); return document.getElementById('lg-pw')?.focus(); }
+    L.busy = true; L.err = ''; render();
+    try { await S.sb.account.setPassword(pw); S.login = null; S.pdView = ''; S.pdDirect = false; S.pdFocus = '.pd-stamps'; loadAcct(); toast('Password changed. You’re logged in'); render(); }
+    catch (err) { L.busy = false; L.err = lgMsg(err); render(); }
+  });
   // an error goes as soon as the field is edited
   document.addEventListener('input', (e) => { if (!S.login?.err || !['lg-email', 'lg-pw'].includes(e.target.id)) return; S.login.err = ''; S.login.errAt = ''; document.querySelector('.login #lg-e')?.remove(); e.target.removeAttribute('aria-invalid'); e.target.removeAttribute('aria-describedby'); });
-  function loadAcct() { if (S.sb && S.sb.account) S.sb.account.user().then((u) => { S.acct = u && { ...u, provider: (u.providers || []).find((x) => x !== 'anonymous') || '' }; render(); }, () => {}); }
+  function loadAcct() { if (S.sb && S.sb.account && !S.recoveryHooked) { S.recoveryHooked = true; S.sb.account.onRecovery(onRecovery); } if (S.sb && S.sb.account) S.sb.account.user().then((u) => { S.acct = u && { ...u, provider: (u.providers || []).find((x) => x !== 'anonymous') || '' }; render(); }, () => {}); }
   document.addEventListener('submit', (e) => {
     if (!e.target.matches('[data-acc-form]')) return;
     e.preventDefault(); const v = (document.getElementById('acc-email')?.value || '').trim(); S.accEmail = v;
@@ -3691,7 +3714,8 @@ body.barista-view .hav { display: none; }
     else if (a === 'lg-forgot') {
       const L = S.login, email = (document.getElementById('lg-email')?.value || '').trim(); L.email = email;
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { L.err = 'Enter your email above first, then tap Forgot password.'; L.errAt = 'email'; render(); return document.getElementById('lg-email')?.focus(); }
-      (S.sb && S.sb.account ? S.sb.account.resetPassword(email) : Promise.resolve()).then(() => { L.err = ''; L.note = `If ${email} has an account, a reset link is on its way.`; render(); }, (e) => { L.err = lgMsg(e); render(); });
+      if (!(S.sb && S.sb.account)) { L.err = ''; L.note = 'Resetting a password needs a connection to your Bija account. Try again when you’re online, or ask the team at the bar.'; return render(); }
+      S.sb.account.resetPassword(email).then(() => { L.err = ''; L.note = `If ${email} has an account, a reset link is on its way. Open it on this phone.`; render(); }, (e) => { L.err = lgMsg(e); render(); });
     }
     else if (a === 'acc-mode') { S.accMode = b.dataset.v; S.accErr = ''; S.accSent = ''; render(); }
     else if (a === 'acc-p') accSignIn(b.dataset.v);

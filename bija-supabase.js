@@ -252,6 +252,8 @@
   // Everyone starts as a guest (anonymous) with a Bija Card. Signing up links Google, Apple or an email to that same user,
   // so points and stamps stay; signing in on a new phone switches to the member's existing card. Google and Apple must be
   // turned on in Supabase (Authentication, Sign In / Providers), with manual linking allowed for guests.
+  // a password-reset link carries type=recovery; note it before supabase-js reads and clears the address
+  const RECOVERY_LINK = /[#&?]type=recovery\b/.test(location.hash + location.search);
   function accountApi(c) {
     const back = () => location.href.split('#')[0];
     return {
@@ -296,6 +298,14 @@
         if (r.error) throw r.error;
       },
       async passwordSignIn(address, password) { const r = await c.auth.signInWithPassword({ email: address, password }); if (r.error) throw r.error; },
+      // the reset link opens the app with a recovery session (supabase-js reads it from the URL); then a new password is set
+      onRecovery(cb) {
+        let done = false; const once = () => { if (!done) { done = true; cb(); } };
+        if (RECOVERY_LINK) setTimeout(once, 0); // the link was read before anyone was listening
+        const { data } = c.auth.onAuthStateChange((ev) => { if (ev === 'PASSWORD_RECOVERY') once(); });
+        return () => data.subscription.unsubscribe();
+      },
+      async setPassword(password) { const r = await c.auth.updateUser({ password }); if (r.error) throw r.error; },
       async resetPassword(address) { const r = await c.auth.resetPasswordForEmail(address, { redirectTo: back() }); if (r.error) throw r.error; },
       async signOut() { await c.auth.signOut(); },
     };
