@@ -50,23 +50,22 @@ Each section has its own empty state (Maheera has little Bija data until recipes
 
 **How it works:** the app calls the Edge Function `supabase/functions/maheera` with the signed-in user's token. The function checks the caller with Bija's own rules (a live staff PIN session, through `staff_touch`; owners with MFA too once `docs/backend/maheera-access.sql` is applied), signs in to Neon Auth as Bija's Maheera service user, and reads a fixed list of Maheera views (`stock_on_hand`, `reorder_suggestions`, `dish_performance`, `daily_pnl`, `daily_brief`). Nothing from the request is forwarded, and Maheera's row-level security limits every row to Bija. The Neon JWT is cached until a minute before it expires.
 
-**Secrets** (Supabase dashboard → Edge Functions → Secrets). Until the first four are set the tab says "Maheera isn't set up yet".
+**Settings.** Bija's Maheera settings live in Bija's own Vault, read through `public.kenduri_config(p_name)` (already live; only the service role can call it). The function reads each one from its environment variable if that is set, otherwise from Vault with its built-in `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`, once per cold start. The service key is used for that call only; the caller is always checked with their own token. Until all four are found the tab says "Maheera isn't set up yet".
 
-| Secret | What |
-|---|---|
-| `MAHEERA_AUTH_URL` | Neon Auth base URL (the function calls `/sign-in/email` and `/get-session`) |
-| `MAHEERA_DATA_API_URL` | Neon Data API base URL (ends in `/rest/v1`) |
-| `MAHEERA_BIJA_EMAIL` | Bija's Maheera service user |
-| `MAHEERA_BIJA_PASSWORD` | Its password |
-| `MAHEERA_AUTH_ORIGIN` | Optional. `Origin` sent to Neon Auth; default `https://rfim.github.io` |
+| Vault name | Env override | What |
+|---|---|---|
+| `maheera_auth_url` | `MAHEERA_AUTH_URL` | Neon Auth base URL (the function calls `/sign-in/email` and `/get-session`) |
+| `maheera_data_api_url` | `MAHEERA_DATA_API_URL` | Neon Data API base URL (ends in `/rest/v1`) |
+| `maheera_service_email` | `MAHEERA_BIJA_EMAIL` | Bija's Maheera service user |
+| `maheera_service_password` | `MAHEERA_BIJA_PASSWORD` | Its password |
+| – | `MAHEERA_AUTH_ORIGIN` | Optional. `Origin` sent to Neon Auth; default `https://rfim.github.io` |
 
-**Deploy** (JWT verification stays on):
+**Deploy** (JWT verification stays on; no dashboard secrets needed when the Vault entries are there):
 
 ```bash
-supabase secrets set --project-ref nvsampchuozqbtavuugx MAHEERA_AUTH_URL=... MAHEERA_DATA_API_URL=... MAHEERA_BIJA_EMAIL=... MAHEERA_BIJA_PASSWORD=...
 supabase functions deploy maheera --project-ref nvsampchuozqbtavuugx
 ```
 
 Optional, so owners with MFA can open the tab without the PIN: apply `docs/backend/maheera-access.sql` (one new function, nothing replaced).
 
-**Tests:** `node tests/maheera-function.js` (the function, with Supabase, Neon Auth and the Data API mocked) and `node tests/maheera-tab.js` (the tab in the browser, with Supabase and the function mocked; `SHOTS=dir` saves phone screenshots).
+**Tests:** `node tests/maheera-function.js` (the function, with Supabase, Vault, Neon Auth and the Data API mocked) and `node tests/maheera-tab.js` (the tab in the browser, with Supabase and the function mocked; `SHOTS=dir` saves phone screenshots).

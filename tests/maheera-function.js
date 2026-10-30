@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // The "maheera" Edge Function (supabase/functions/maheera/index.ts), run in Node with a mocked fetch: Bija's Supabase
-// (staff check with the caller's token), Neon Auth (sign-in, get-session) and Maheera's Data API. No network.
+// (staff check with the caller's token, settings from Vault with the service key), Neon Auth (sign-in, get-session) and Maheera's Data API. No network.
 // Needs Node 22.18 or later (TypeScript type stripping is on by default). Usage: node tests/maheera-function.js
 const assert = require('node:assert/strict');
 const path = require('path');
@@ -8,7 +8,9 @@ const { pathToFileURL } = require('url');
 
 const SB = 'https://bija.supabase.test', AUTH = 'https://auth.neon.test/neondb/auth', DATA = 'https://data.neon.test/neondb/rest/v1';
 const RID = '5b0c1b3e-2a7e-4c1d-9a51-6f1f6a0e0b11';
-const SECRETS = { SUPABASE_URL: SB, SUPABASE_ANON_KEY: 'anon', MAHEERA_AUTH_URL: AUTH + '/', MAHEERA_DATA_API_URL: DATA, MAHEERA_BIJA_EMAIL: 'bija@kenduri.test', MAHEERA_BIJA_PASSWORD: 'pw' };
+const VAULT = { maheera_auth_url: AUTH, maheera_data_api_url: DATA + '/', maheera_service_email: 'bija@kenduri.test', maheera_service_password: 'pw' };
+const NO_ENV = { MAHEERA_AUTH_URL: '', MAHEERA_DATA_API_URL: '', MAHEERA_BIJA_EMAIL: '', MAHEERA_BIJA_PASSWORD: '' };
+const SECRETS = { SUPABASE_URL: SB, SUPABASE_ANON_KEY: 'anon', SUPABASE_SERVICE_ROLE_KEY: 'service-key', MAHEERA_AUTH_URL: AUTH + '/', MAHEERA_DATA_API_URL: DATA, MAHEERA_BIJA_EMAIL: 'bija@kenduri.test', MAHEERA_BIJA_PASSWORD: 'pw' };
 const b64 = (o) => Buffer.from(JSON.stringify(o)).toString('base64url');
 const makeJwt = (expMs) => `${b64({ alg: 'EdDSA' })}.${b64({ sub: 'bija', exp: Math.floor(expMs / 1000) })}.sig`;
 
@@ -21,8 +23,14 @@ function world(opts = {}) {
     const u = String(url), h = new Headers(init.headers || {}), method = init.method || 'GET';
     log.push({ url: u, method, headers: Object.fromEntries(h), body: init.body });
     if (u.startsWith(SB + '/rest/v1/rpc/')) {
-      if (h.get('authorization') !== 'Bearer caller-token') return res(401, { message: 'JWT invalid' });
       const fn = u.slice((SB + '/rest/v1/rpc/').length);
+      if (fn === 'kenduri_config') {
+        if (h.get('authorization') !== 'Bearer service-key' || h.get('apikey') !== 'service-key') return res(401, { message: 'service role only' });
+        if (opts.vaultDown) return res(500, {});
+        const vault = opts.vault || VAULT, name = JSON.parse(init.body).p_name;
+        return res(200, name in vault ? vault[name] : null);
+      }
+      if (h.get('authorization') !== 'Bearer caller-token') return res(401, { message: 'JWT invalid' });
       if (fn === 'maheera_access') return opts.access === undefined ? res(404, { code: 'PGRST202' }) : res(200, opts.access);
       if (fn === 'staff_touch') return res(200, opts.staff === false ? { ok: false, expires_at: null } : { ok: true, expires_at: new Date(clock + 18e5).toISOString() });
       return res(404, {});
@@ -97,12 +105,15 @@ const post = (body = '{}', auth = 'Bearer caller-token') => new Request('https:/
     assert.equal((await createHandler(env(), no.fetch, no.now)(post())).status, 403);
   });
 
-  test('missing secrets: 503 setup (after the staff check), optional origin may be missing', async () => {
+  test('a setting missing from env with an empty Vault: 503 setup (after the staff check); no service key: 503', async () => {
     for (const k of ['MAHEERA_AUTH_URL', 'MAHEERA_DATA_API_URL', 'MAHEERA_BIJA_EMAIL', 'MAHEERA_BIJA_PASSWORD']) {
-      const w = world(), r = await createHandler(env({ [k]: '' }), w.fetch, w.now)(post());
+      const w = world({ vault: {} }), r = await createHandler(env({ [k]: '' }), w.fetch, w.now)(post());
       assert.equal(r.status, 503, k);
       assert.deepEqual(await r.json(), { error: 'setup' });
     }
+    const w = world();
+    assert.equal((await createHandler(env({ ...NO_ENV, SUPABASE_SERVICE_ROLE_KEY: '' }), w.fetch, w.now)(post())).status, 503);
+    assert.ok(!w.log.some((x) => x.url.endsWith('/rpc/kenduri_config')));
   });
 
   test('signs in to Neon Auth, reads only the allow-list, ignores the request body', async () => {
@@ -175,6 +186,46 @@ const post = (body = '{}', auth = 'Bearer caller-token') => new Request('https:/
     assert.ok(errs.length > 0);
     assert.ok(!/pw|sess123|caller-token|bija@kenduri/.test(text), 'no secrets in logs: ' + text);
     errs.forEach((a) => { assert.equal(a[0], 'maheera'); assert.match(String(a[1]), /^[a-z_0-9]+$/); });
+  });
+
+  test('settings from Vault when env is empty: loaded once, service key used for kenduri_config only', async () => {
+    const w = world(), h = createHandler(env(NO_ENV), w.fetch, w.now);
+    const r = await h(post());
+    assert.equal(r.status, 200);
+    assert.equal((await r.json()).stock[0].name, 'Oat milk');
+    const vault = w.log.filter((x) => x.url.endsWith('/rpc/kenduri_config'));
+    assert.deepEqual(vault.map((x) => JSON.parse(x.body).p_name).sort(), Object.keys(VAULT).sort());
+    const withKey = w.log.filter((x) => JSON.stringify(x.headers).includes('service-key'));
+    assert.deepEqual(withKey, vault, 'the service key goes to kenduri_config and nowhere else');
+    assert.ok(w.log.filter((x) => /staff_touch|maheera_access/.test(x.url)).every((x) => x.headers.authorization === 'Bearer caller-token'), 'the caller is still checked with their own token');
+    assert.deepEqual(JSON.parse(w.log.find((x) => x.url === AUTH + '/sign-in/email').body), { email: 'bija@kenduri.test', password: 'pw' });
+    await h(post()); await h(post());
+    assert.equal(w.log.filter((x) => x.url.endsWith('/rpc/kenduri_config')).length, 4, 'cached for the life of the instance');
+  });
+
+  test('env wins over Vault; Vault is not read for settings env already has', async () => {
+    const w = world(), h = createHandler(env({ MAHEERA_BIJA_EMAIL: '', MAHEERA_BIJA_PASSWORD: '' }), w.fetch, w.now);
+    assert.equal((await h(post())).status, 200);
+    assert.deepEqual(w.log.filter((x) => x.url.endsWith('/rpc/kenduri_config')).map((x) => JSON.parse(x.body).p_name).sort(), ['maheera_service_email', 'maheera_service_password']);
+  });
+
+  test('a setting in neither env nor Vault: 503 setup, looked up again on the next call; Vault error: 502', async () => {
+    const { maheera_service_password, ...rest } = VAULT;
+    const w = world({ vault: rest }), h = createHandler(env(NO_ENV), w.fetch, w.now);
+    const r = await h(post());
+    assert.equal(r.status, 503); assert.deepEqual(await r.json(), { error: 'setup' });
+    assert.ok(!w.log.some((x) => x.url.startsWith(AUTH)));
+    await h(post());
+    assert.equal(w.log.filter((x) => x.url.endsWith('/rpc/kenduri_config')).length, 8);
+    const refused = world({ staff: false });
+    assert.equal((await createHandler(env(NO_ENV), refused.fetch, refused.now)(post())).status, 403);
+    assert.ok(!refused.log.some((x) => x.url.endsWith('/rpc/kenduri_config')), 'Vault is not read for a refused caller');
+    const errs = []; const orig = console.error; console.error = (...a) => errs.push(a);
+    try {
+      const down = world({ vaultDown: true });
+      assert.equal((await createHandler(env(NO_ENV), down.fetch, down.now)(post())).status, 502);
+    } finally { console.error = orig; }
+    assert.deepEqual(errs, [['maheera', 'vault_500']]);
   });
 
   let failed = 0;

@@ -6,14 +6,23 @@
 // Who may call: staff with a live PIN session, or owners (MFA), checked with the caller's own token:
 //   public.maheera_access() (docs/backend/maheera-access.sql: private.is_staff() or private.is_owner()) when applied,
 //   otherwise public.staff_touch(), which is ok only inside a live staff session.
-// Secrets (Supabase dashboard > Edge Functions > Secrets): MAHEERA_AUTH_URL, MAHEERA_DATA_API_URL, MAHEERA_BIJA_EMAIL,
-// MAHEERA_BIJA_PASSWORD, optional MAHEERA_AUTH_ORIGIN. Without them every call returns 503 { error: 'setup' }.
+// Settings: each from its env var if set, else from Bija's Vault through public.kenduri_config(p_name) (service role only),
+// loaded once per cold start: MAHEERA_AUTH_URL / maheera_auth_url, MAHEERA_DATA_API_URL / maheera_data_api_url,
+// MAHEERA_BIJA_EMAIL / maheera_service_email, MAHEERA_BIJA_PASSWORD / maheera_service_password; optional env
+// MAHEERA_AUTH_ORIGIN. Without them every call returns 503 { error: 'setup' }. The service key is used for that RPC only.
 // Logs carry error codes only, never tokens, cookies or rows.
 
 type Env = (k: string) => string;
 type Fetch = typeof fetch;
 
-const SECRETS = ['MAHEERA_AUTH_URL', 'MAHEERA_DATA_API_URL', 'MAHEERA_BIJA_EMAIL', 'MAHEERA_BIJA_PASSWORD'];
+// setting -> [env var, Vault name]
+const SETTINGS = {
+  authUrl: ['MAHEERA_AUTH_URL', 'maheera_auth_url'],
+  dataUrl: ['MAHEERA_DATA_API_URL', 'maheera_data_api_url'],
+  email: ['MAHEERA_BIJA_EMAIL', 'maheera_service_email'],
+  password: ['MAHEERA_BIJA_PASSWORD', 'maheera_service_password'],
+} as const;
+type Settings = Record<keyof typeof SETTINGS, string>;
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, apikey, content-type, x-client-info',
@@ -49,13 +58,34 @@ export const jwtExp = (jwt: string) => {
 export function createHandler(env: Env, f: Fetch = fetch, now: () => number = Date.now) {
   const trim = (u: string) => u.replace(/\/+$/, '');
   let jwt = '', until = 0, signing: Promise<string> | null = null;
+  let settings: Settings | null = null, loading: Promise<Settings | null> | null = null;
+
+  // env first, then Vault (kenduri_config, callable by the service role only). Kept once complete; a gap is looked up again next time.
+  async function vault(name: string) {
+    const key = env('SUPABASE_SERVICE_ROLE_KEY'); if (!key) return '';
+    const r = await f(trim(env('SUPABASE_URL')) + '/rest/v1/rpc/kenduri_config', {
+      method: 'POST', headers: { apikey: key, Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' }, body: JSON.stringify({ p_name: name }),
+    });
+    if (!r.ok) { await r.body?.cancel(); throw fail('vault_' + r.status); }
+    const v = await r.json().catch(() => null);
+    return typeof v === 'string' ? v.trim() : '';
+  }
+  function config() {
+    if (settings) return Promise.resolve(settings);
+    if (!loading) loading = (async () => {
+      const entries = await Promise.all(Object.entries(SETTINGS).map(async ([k, [e, v]]) => [k, env(e) || await vault(v)]));
+      const s = Object.fromEntries(entries) as Settings;
+      return Object.values(s).every((x) => x.length > 0) ? (settings = s) : null;
+    })().finally(() => { loading = null; });
+    return loading;
+  }
 
   // Neon Auth: email sign-in gives a session cookie; get-session turns it into a short-lived JWT (set-auth-jwt header)
   async function signIn() {
-    const base = trim(env('MAHEERA_AUTH_URL')), origin = env('MAHEERA_AUTH_ORIGIN') || 'https://rfim.github.io';
+    const c = settings as Settings, base = trim(c.authUrl), origin = env('MAHEERA_AUTH_ORIGIN') || 'https://rfim.github.io';
     const r = await f(base + '/sign-in/email', {
       method: 'POST', headers: { 'Content-Type': 'application/json', Origin: origin },
-      body: JSON.stringify({ email: env('MAHEERA_BIJA_EMAIL'), password: env('MAHEERA_BIJA_PASSWORD') }),
+      body: JSON.stringify({ email: c.email, password: c.password }),
     });
     await r.body?.cancel();
     if (!r.ok) throw fail('auth_sign_in_' + r.status);
@@ -77,7 +107,7 @@ export function createHandler(env: Env, f: Fetch = fetch, now: () => number = Da
   // Neon Data API (PostgREST); a 401 means the JWT went stale: sign in again and retry once
   async function api(path: string, init: RequestInit = {}, retry = true): Promise<unknown> {
     const t = await token();
-    const r = await f(trim(env('MAHEERA_DATA_API_URL')) + '/' + path, { ...init, headers: { ...(init.headers || {}), Authorization: 'Bearer ' + t, Accept: 'application/json' } });
+    const r = await f(trim((settings as Settings).dataUrl) + '/' + path, { ...init, headers: { ...(init.headers || {}), Authorization: 'Bearer ' + t, Accept: 'application/json' } });
     if (r.status === 401 && retry) { await r.body?.cancel(); if (jwt === t) { jwt = ''; until = 0; } return api(path, init, false); }
     if (!r.ok) { await r.body?.cancel(); throw fail('data_' + r.status); }
     return r.json();
@@ -108,7 +138,12 @@ export function createHandler(env: Env, f: Fetch = fetch, now: () => number = Da
       console.error('maheera', 'access_check');
       return json(502, { error: 'access_check' });
     }
-    if (!SECRETS.every((k) => env(k).length > 0)) return json(503, { error: 'setup' });
+    try {
+      if (!(await config())) return json(503, { error: 'setup' });
+    } catch (e) {
+      console.error('maheera', (e as { code?: string })?.code || 'vault');
+      return json(502, { error: 'setup_read' });
+    }
 
     const today = londonDay(new Date(now())), q = queries(today);
     const keys = Object.keys(q) as Array<keyof typeof q>;
