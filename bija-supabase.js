@@ -276,7 +276,25 @@
         if (r.error) throw r.error;
       },
       // the installed apps sign in natively (Apple sheet, Google account picker) and hand Supabase the ID token
-      async withIdToken(provider, token, nonce) { const r = await c.auth.signInWithIdToken({ provider, token, ...(nonce ? { nonce } : {}) }); if (r.error) throw r.error; },
+      // a guest links the Google or Apple identity to their own card (points stay); if it already belongs to a member, sign in to that card
+      async withIdToken(provider, token, nonce) {
+        const cred = { provider, token, ...(nonce ? { nonce } : {}) };
+        const { data } = await c.auth.getUser();
+        if (data && data.user && data.user.is_anonymous) {
+          const l = await c.auth.linkIdentity(cred);
+          if (!l.error) return 'linked';
+          if (!/already|exists|linked/i.test(l.error.message || '')) throw l.error;
+        }
+        const r = await c.auth.signInWithIdToken(cred); if (r.error) throw r.error;
+        return 'signed-in';
+      },
+      // after signing up with email: is the address confirmed yet, and send the activation email again
+      async emailPending() { const { data } = await c.auth.getUser(); const u = data && data.user; return !!(u && (u.new_email || (u.email && !u.email_confirmed_at))); },
+      async resendActivation(address) {
+        const { data } = await c.auth.getUser(); const changing = !!(data && data.user && data.user.new_email);
+        const r = await c.auth.resend({ type: changing ? 'email_change' : 'signup', email: address, options: { emailRedirectTo: back() } });
+        if (r.error) throw r.error;
+      },
       async passwordSignIn(address, password) { const r = await c.auth.signInWithPassword({ email: address, password }); if (r.error) throw r.error; },
       async resetPassword(address) { const r = await c.auth.resetPasswordForEmail(address, { redirectTo: back() }); if (r.error) throw r.error; },
       async signOut() { await c.auth.signOut(); },

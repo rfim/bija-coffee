@@ -47,6 +47,8 @@ Supabase's built-in sender only delivers to people on Bija's Supabase team, abou
 | Android app | Google's own account picker (native) | Apple web page (Apple has no Android SDK) | Email and password |
 | iPhone app | Google's own sheet (native) | Apple's own sheet with Face ID (native) | Email and password |
 
-A guest who signs up with **email** keeps their Bija Card and points (the email is added to the guest's own account). The native Google and Apple sign-in starts a fresh session; a guest's points from before are not carried over yet (that needs a newer Supabase library with token-based linking, a small follow-up).
+A guest keeps their Bija Card and points whichever way they sign up: email is added to the guest's own account, and Google or Apple is linked to it (supabase-js 2.117.3, `linkIdentity` with the ID token). If that Google or Apple account already belongs to a member, the app signs in to the member's card instead.
+
+After an email sign-up the app shows **Check your email** with Resend (30 s apart) and "I've activated it"; the account is active once the link in the email is opened. This needs step 1 and, for customers, step 2 above.
 
 Until the steps above are done, the buttons say plainly that the option isn't switched on yet.
