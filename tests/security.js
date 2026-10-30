@@ -87,7 +87,7 @@ async function openApp(page, hash = '') {
 const isStaff = (page) => page.evaluate(() => document.body.classList.contains('barista-view')
   || [...document.querySelectorAll('[data-act="tab"][data-v="insights"], [data-act="tab"][data-v="members"]')].some((e) => e.offsetParent !== null));
 
-// Staff entry: ?view=bar, typing opensesame (web) or holding Order for 3 s opens the back office: admin email, then an 8-digit PIN.
+// Staff entry: ?view=bar, typing opensesame on the website (web admin) or holding Order in the app (mobile admin) for 3 s opens the back office: admin email, then an 8-digit PIN.
 async function enterPin(page) {
   const email = page.locator('#pin-email:visible, #pinsheet input[type="email"]:visible');
   if (await email.count()) {

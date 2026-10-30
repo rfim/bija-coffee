@@ -1031,6 +1031,8 @@ body.barista-view .hav { display: none; }
 .bcard .srow[data-act] { position: relative; } .bcard .srow[data-act]::after { content: ""; position: absolute; inset: -10px -6px; }
 .bcard .tier, .bcard .tag { margin-right: 6px; }
 /* the secret back-office panel (five taps on the logo): dark, batik, calm */
+body.bo-web { background: #0b0b0b; } body.bo-web:not(.barista-view) > :not(#pinsheet) { visibility: hidden; }
+body.bo-web #pinsheet { align-items: center; } body.bo-web #pinsheet .ppan { border-radius: 24px; } body.bo-web #pinsheet .pbg { background: #0b0b0b; backdrop-filter: none; }
 #pinsheet.secret .pbg { background: rgba(0,0,0,.62); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
 #pinsheet.secret .ppan { background: #0b0b0b url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.06' stroke-width='1.5'%3E%3Ccircle cx='28' cy='14' r='14'/%3E%3Ccircle cx='42' cy='28' r='14'/%3E%3Ccircle cx='28' cy='42' r='14'/%3E%3Ccircle cx='14' cy='28' r='14'/%3E%3C/g%3E%3C/svg%3E"); color: #fff; }
 #pinsheet.secret .px { color: #fff; background: rgba(255,255,255,.12); border: 0; } .top .logo .mark { transform-origin: 50% 50%; transform-box: fill-box; } #pinsheet.secret .pmsg { color: rgba(255,255,255,.7); }
@@ -1727,7 +1729,7 @@ body.barista-view .hav { display: none; }
   function obShow(i) { S.obi = i; const cs = document.querySelector('.onb .cards'); if (!cs) return; cs.dataset.i = i; document.querySelectorAll('.onb .pips i').forEach((p, k) => p.classList.toggle('on', k === i)); const nb = document.querySelector('.onb [data-act=obnext]'); if (nb) nb.textContent = i >= 2 ? 'Start ordering' : 'Next'; }
   function renderSwitch() {
     // customers see only the logo. Staff hold the Order button for 3 seconds (or open app.html?view=bar) and enter the staff PIN.
-    if (S.wantBar && S.configLoaded) { S.wantBar = false; setTimeout(pinOpen, 0); }
+    if (S.wantBar && S.configLoaded) { S.wantBar = false; setTimeout(() => pinOpen(true), 0); }
     if (S.view === 'bar' && !(S.admin && S.staffOk)) S.view = 'customer';
     const sw = $('#switch'); sw.hidden = S.view !== 'bar';
     sw.innerHTML = S.view === 'bar' ? '<button class="cust-link" data-act="view" data-v="customer">Exit</button>' : '';
@@ -2174,14 +2176,12 @@ body.barista-view .hav { display: none; }
     document.body.appendChild(el); pinRender(lockLeft() ? `Too many tries. Try again in ${Math.ceil(lockLeft() / 1000)} seconds.` : '');
     (S.pinEmail ? el.querySelector('.pkeys button') : el.querySelector('#pin-email')).focus();
   }
-  // the secret way in on the web: type "opensesame" anywhere outside a text field (phones keep the 3-second hold on Order)
-  let sesame = '';
-  addEventListener('keydown', (e) => {
-    if (window.BijaNative || S.view !== 'customer' || e.ctrlKey || e.metaKey || e.altKey || e.key.length !== 1) return;
-    const t = e.target; if (t && (t.isContentEditable || /^(input|textarea|select)$/i.test(t.tagName))) return;
-    sesame = (sesame + e.key.toLowerCase()).slice(-10);
-    if (sesame === 'opensesame') { sesame = ''; e.preventDefault(); pinOpen(true); } // the last 'e' must not land in the email field
-  });
+  // two ways in, one back office: on the website, typing "opensesame" opens app.html?view=bar (web admin, no customer app behind it,
+  // leaving returns to the website); in the app, staff hold the Order button for 3 seconds (mobile admin)
+  const WEB_ADMIN = /[?&]view=bar(&|$)/.test(location.search) && !window.BijaNative;
+  function toSite() { let b = ''; try { b = new URLSearchParams(location.search).get('back') || ''; } catch {} location.href = /^[a-z0-9-]+\.html$/.test(b) ? b : 'index.html'; }
+  if (WEB_ADMIN) document.body.classList.add('bo-web');
+  function pinCancel() { pinClose(); if (WEB_ADMIN && S.view !== 'bar') toSite(); }
   function pinClose() { const el = document.getElementById('pinsheet'); if (el) el.remove(); S.pinIn = ''; document.querySelector('.fab')?.focus({ preventScroll: true }); }
   async function pinKey(v) {
     const el = document.getElementById('pinsheet'); if (!el || S.pinBusy) return;
@@ -2223,12 +2223,12 @@ body.barista-view .hav { display: none; }
   }
   // staff mode ends after 30 minutes without a tap or key press
   ['pointerdown', 'keydown'].forEach((t) => addEventListener(t, () => { if (S.view === 'bar') S.staffAt = Date.now(); }, { passive: true, capture: true }));
-  setInterval(() => { if (S.view === 'bar' && Date.now() - (S.staffAt || 0) > STAFF_IDLE) { S.staffOk = false; S.view = 'customer'; S.sb?.staffLock().catch(() => {}); render(); toast('Staff view closed after 30 minutes idle'); } }, 30e3);
+  setInterval(() => { if (S.view === 'bar' && Date.now() - (S.staffAt || 0) > STAFF_IDLE) { S.staffOk = false; S.sb?.staffLock().catch(() => {}); if (WEB_ADMIN) return toSite(); S.view = 'customer'; render(); toast('Staff view closed after 30 minutes idle'); } }, 30e3);
   // shared backend: keep the server's staff session alive while staff are using the bar view
   setInterval(() => { if (S.sb && S.view === 'bar' && Date.now() - (S.staffAt || 0) < 5 * 60e3) S.sb.staffTouch().catch(() => {}); }, 5 * 60e3);
   addEventListener('keydown', (e) => {
     const ps = document.getElementById('pinsheet'); if (!ps) return;
-    if (e.key === 'Escape') { e.preventDefault(); pinClose(); }
+    if (e.key === 'Escape') { e.preventDefault(); pinCancel(); }
     else if (/^\d$/.test(e.key) && !e.target.closest?.('input')) { e.preventDefault(); pinKey(e.key); }
     else if (e.key === 'Backspace' && !e.target.closest?.('input')) { e.preventDefault(); pinKey('del'); }
     else if (e.key === 'Enter' && e.target.id === 'pin-email') { e.preventDefault(); ps.querySelector('.pkeys button')?.focus(); }
@@ -3620,8 +3620,8 @@ body.barista-view .hav { display: none; }
     const b = e.target.closest('[data-act]');
     if (!b || b.disabled) return;
     const a = b.dataset.act;
-    if (a === 'view') { if (b.dataset.v === 'bar' && !(S.admin && S.staffOk)) return pinOpen(); if (b.dataset.v === 'customer') { S.staffOk = false; S.sb?.staffLock().catch(() => {}); } S.view = b.dataset.v; render(); window.scrollTo({ top: 0 }); }
-    else if (a === 'pin-close') pinClose();
+    if (a === 'view') { if (b.dataset.v === 'bar' && !(S.admin && S.staffOk)) return pinOpen(); if (b.dataset.v === 'customer') { S.staffOk = false; S.sb?.staffLock().catch(() => {}); if (WEB_ADMIN) return toSite(); } S.view = b.dataset.v; render(); window.scrollTo({ top: 0 }); }
+    else if (a === 'pin-close') pinCancel();
     else if (a === 'pin-key') pinKey(b.dataset.v);
     else if (a === 'tab') { if (S.view === 'bar') S.btab = b.dataset.v; else { if (['home', 'more', 'beans'].includes(S.tab) && S.tab !== b.dataset.v) S.backTo = S.tab; S.tab = b.dataset.v; S.lastOrder = null; S.fresh = -1; S.dealt = null; } render(); window.scrollTo({ top: 0 }); }
     else if (a === 'pd') { const from = S.pdView; S.pdView = b.dataset.v; S.pdDirect = false; S.pdFocus = S.pdView ? '.pd-back' : (from ? `[data-act=pd][data-v="${from}"]` : ''); render(); const bd = document.querySelector('#stampdrawer .sd-body'); if (bd) bd.scrollTop = 0; }
