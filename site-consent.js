@@ -172,7 +172,7 @@
     const act = b.dataset.bc;
     if (act === 'accept') decide({ preferences: true, analytics: true, marketing: true }, 'accept-all');
     else if (act === 'reject') decide({}, 'reject-all');
-    else if (act === 'choose') { expand(true); root.querySelector('.bc-sw').focus(); }
+    else if (act === 'choose') { expand(true); (root.querySelector('.bc-sw:not([aria-disabled="true"])') || root.querySelector('.bc-sw')).focus(); }
     else if (act === 'save') {
       const c = {}; root.querySelectorAll('.bc-sw:not([aria-disabled])').forEach((s) => { c[s.dataset.cat] = s.getAttribute('aria-checked') === 'true'; });
       decide(c, 'custom');

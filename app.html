@@ -475,7 +475,8 @@ legend { font: 600 12px/1.3 var(--sans); letter-spacing: .1em; text-transform: u
 .promos::-webkit-scrollbar, .ptiles::-webkit-scrollbar, .offers::-webkit-scrollbar { display: none; }
 .slide { scroll-snap-align: start; position: relative; display: block; width: 100%; aspect-ratio: 1 / 1.08; padding: 0; border: 0; border-radius: 20px; overflow: hidden; background: #0b0b0b; color: #fff; text-align: left; cursor: pointer; }
 .slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.05) 30%, rgba(0,0,0,.78)); }
+.slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.08) 20%, rgba(0,0,0,.82)); }
+.slide .sl .eyebrow { color: #fff; opacity: .9; }
 .slide .sl { position: absolute; left: 18px; right: 18px; bottom: 18px; z-index: 1; display: grid; gap: 8px; justify-items: start; }
 .slide .sl b { font: 900 clamp(30px, 9vw, 44px)/.92 var(--display); text-transform: uppercase; letter-spacing: -.02em; }
 .slide .pl { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; background: #fff; color: #0b0b0b; font: 600 12px/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; }
@@ -904,13 +905,14 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
 .diet-ask fieldset { margin-top: 12px; }
 .diet-ask .opts .more { border-style: dashed; }
 .diet-ask .row .btn { flex: 1; }
+.diet-ask .dok-e { color: var(--warn); font-size: 13px; font-weight: 600; margin: 6px 0 0 32px; }
 .diet-ask .fine { font-size: 12px; color: var(--muted); margin: 10px 0 0; }
-.diet.alg-no { color: var(--warn) !important; font-weight: 600 !important; }
-.diet.alg-ok { color: var(--leaf) !important; font-weight: 600 !important; }
+.diet.alg-no { color: var(--ink) !important; font-weight: 700 !important; } .diet.alg-no::before { content: "! "; }
+.diet.alg-ok { color: var(--ink) !important; font-weight: 600 !important; } .diet.alg-ok::before { content: "✓ "; }
 .alg-line { font-size: 12.5px; line-height: 1.45; color: var(--muted); margin: 14px 0 0; }
-.alg-warn, .alg-sum { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: #fff4ec; border: 1px solid #f0cdb5; }
-.alg-warn b, .alg-sum b { display: block; color: var(--warn); font-size: 14px; } .alg-warn span, .alg-sum span { display: block; font-size: 13px; line-height: 1.4; color: var(--ink); margin-top: 2px; }
-.alg-sum { background: var(--card); border-color: var(--line); margin: 0 0 4px; } .alg-sum b { color: var(--ink); } .alg-sum.bad { background: #fff4ec; border-color: #f0cdb5; } .alg-sum.bad b { color: var(--warn); }
+.alg-warn, .alg-sum { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: #fff; border: 2px solid var(--ink); }
+.alg-warn b, .alg-sum b { display: block; color: var(--ink); font-size: 14px; font-weight: 800; } .alg-warn span, .alg-sum span { display: block; font-size: 13px; line-height: 1.4; color: var(--ink); margin-top: 2px; }
+.alg-sum { background: var(--card); border-color: var(--line); margin: 0 0 4px; } .alg-sum b { color: var(--ink); } .alg-sum { border-width: 1px; } .alg-sum.bad { border-width: 2px; border-color: var(--ink); }
 .alg-warn .btn { flex: none; }
 .quote.allergy { background: #fff4ec; border-left: 4px solid var(--warn); color: var(--ink); font-weight: 600; }
 
@@ -1092,7 +1094,8 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     const mine = myAlg(); if (!mine.size) return { st: 'ok', hits: [] };
     const milk = bestMilk(m), a = allergensOf(m, milk ? { milk } : (optsFor(m)?.milk ? { milk: 'Whole' } : null)), hits = a.has.filter((k) => mine.has(k));
     if (hits.length) return { st: 'contains', hits };
-    if (milk && (MILK_ALG.Whole.some((k) => mine.has(k)))) return { st: 'swap', milk, hits: [], check: a.check };
+    if (a.check) return { st: 'check', hits: [] };
+    if (milk && (MILK_ALG.Whole.some((k) => mine.has(k)))) return { st: 'swap', milk, hits: [] };
     return { st: a.check ? 'check' : 'ok', hits: [] };
   }
   const keyOf = (id, opts) => opts && Object.keys(opts).length ? [id, opts.milk || '', opts.sweet || '', opts.temp || ''].join('~') : id;
@@ -1658,7 +1661,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     const a = allergensOf(m, opts), mine = myAlg(), hits = a.has.filter((k) => mine.has(k)), milk = hits.length && bestMilk(m);
     const fix = milk && milk !== opts.milk && !allergensOf(m, { ...opts, milk }).has.some((k) => mine.has(k)) ? `<button class="btn sm" data-act="sopt" data-k="milk" data-v="${esc(milk)}">Switch to ${esc(milk.toLowerCase())}</button>` : '';
     if (hits.length) return `<div class="alg-warn" role="alert"><div><b>Contains ${esc(algList(hits))}</b><span>You told us you avoid ${hits.length > 1 ? 'these' : 'this'}.${fix ? '' : ' Ask our team for something else.'}</span></div>${fix}</div>`;
-    return `<p class="alg-line">${a.has.length ? `Contains ${esc(algList(a.has))}` : 'None of the 14 major allergens in the recipe'}${a.check ? ' · recipe still being confirmed, ask our team' : ''}${mine.size ? ' · we handle all 14 in one small kitchen, so traces are possible' : ''}</p>`;
+    return `<p class="alg-line">${a.has.length ? `Contains ${esc(algList(a.has))}` : 'None of the 14 major allergens in the recipe'}${a.check ? ' · recipe still being confirmed, ask our team' : ''} · made in a small kitchen that handles all 14, so traces are possible</p>`;
   }
   function renderSheet() {
     const el = $('#sheet'), sh = S.sheet, m = sh && menu().find((x) => x.id === sh.id);
@@ -1758,8 +1761,8 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
       <h3 id="diet-h-${where}">How do you take it?</h3>
       <fieldset><legend>Your usual milk</legend><div class="opts">${OPT.milk.map((v) => (MILK_ALG[v] || []).some((a) => d.alg.includes(a)) ? '' : chip('dpref', 'milk', v, d.milk === v, v)).join('')}</div></fieldset>
       <fieldset><legend>Sweetness</legend><div class="opts">${OPT.sweet.map((v) => chip('dpref', 'sweet', v, (d.sweet || 'Normal') === v, v)).join('')}</div></fieldset>
-      ${d.alg.length ? `<label class="dok"><input type="checkbox" data-act="dok" ${d.ok ? 'checked' : ''}><span>Use my allergies to prepare my orders. They stay on this phone and go to the bar with each order. Change or delete them any time in Profile.</span></label>` : ''}
-      <div class="row dact"><button class="btn ghost" data-act="dback">Back</button><button class="btn" data-act="dsave" ${d.alg.length && !d.ok ? 'disabled' : ''}>Save</button></div>`;
+      ${d.alg.length ? `<label class="dok"><input type="checkbox" id="dok-${where}" data-act="dok" ${d.ok ? 'checked' : ''} ${d.err ? `aria-invalid="true" aria-describedby="dok-e-${where}"` : ''}><span>Use my allergies to prepare my orders. Saved on this phone and sent with each order so the bar can see them. Change or delete them any time in Profile.</span></label>${d.err ? `<p class="dok-e" id="dok-e-${where}">Tick this so we can use your allergies, or go back and clear them.</p>` : ''}` : ''}
+      <div class="row dact"><button class="btn ghost" data-act="dback">Back</button><button class="btn" data-act="dsave">Save</button></div>`;
     return `<section class="diet-ask" id="diet-${where}" aria-labelledby="diet-h-${where}">
       <div class="dtop"><div><span class="eyebrow">Allergies</span>${pips}</div>${cupPreview(d)}</div>
       ${body}
@@ -1771,13 +1774,14 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
   function dietNudge(where) {
     if (S.dietEdit === where) return dietCard(where);
     if (diet()) return '';
+    if ((where === 'home' || where === 'order') && Date.now() - (+store.get('bija.diet.later') || 0) < 30 * 864e5) return '';
     return `<button class="dnudge" data-act="dedit" data-v="${where}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v5a6 6 0 0 1-12 0z M17 9.5h1.5a2.5 2.5 0 0 1 0 5H16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Any allergies? <b>Tell us once</b></span><i aria-hidden="true">›</i></button>`;
   }
   function dietCheckout(t) {
     if (S.dietEdit === 'checkout') return dietCard('checkout');
     if (!diet()) return dietNudge('checkout');
     const mine = myAlg(), bad = cartLines().filter((l) => { const m = menu().find((x) => x.id === l.id); return m && allergensOf(m, l.opts).has.some((k) => mine.has(k)); });
-    return `<div class="alg-sum${bad.length ? ' bad' : ''}"><div>${mine.size ? `<b>Allergies: ${esc(algList([...mine]))}</b><span>${bad.length ? `${esc(bad.map((l) => l.name).join(', '))} ${bad.length > 1 ? 'contain' : 'contains'} ${bad.length > 1 ? 'them' : 'one'}. Change ${bad.length > 1 ? 'them' : 'it'} above, or ask our team.` : 'Nothing in this order contains them. We’ll tell the barista too.'}</span>` : '<b>No allergies</b><span>Tell us if that changes.</span>'}</div><button class="back" data-act="dedit" data-v="checkout">Edit</button></div>`;
+    return `<div class="alg-sum${bad.length ? ' bad' : ''}"><div>${mine.size ? `<b>Allergies: ${esc(algList([...mine]))}</b><span>${bad.length ? bad.map((l) => { const m = menu().find((x) => x.id === l.id); const hit = allergensOf(m, l.opts).has.filter((k) => mine.has(k)); return `${esc(l.name)}${l.opts?.milk ? ` (${esc(l.opts.milk.toLowerCase())} milk)` : ''} contains ${esc(algList(hit))}.`; }).join(' ') + ' Change it above, or ask our team.' : 'Nothing in this order contains them. We’ll tell the barista too.'}</span>` : '<b>No allergies</b><span>Tell us if that changes.</span>'}</div><button class="back" data-act="dedit" data-v="checkout">Edit</button></div>`;
   }
   // the allergy line the barista sees, ahead of the customer's own note (the order note holds up to 140 characters)
   const orderNote = (note) => { const a = [...myAlg()]; const pre = a.length ? `ALLERGY: ${a.map((k) => ALG_NAME[k]).join(', ')}. ` : ''; return (pre + String(note || '').trim()).slice(0, 140); };
@@ -2222,14 +2226,14 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
       if (m.soon) return false;
       const hay = `${m.name} ${m.desc || ''} ${m.cat} ${m.badge || ''}`.toLowerCase();
       if (!terms.every((t) => hay.includes(t) || (/^ice/.test(t) && isIced(m)) || (/^(oat|soya?|coconut|plant)/.test(t) && plantOpt(m)))) return false;
-      return S.mf === 'safe' ? verdict(m).st !== 'contains' : S.mf === 'fav' ? favs.has(m.id) : S.mf === 'plant' ? plantOpt(m) : S.mf === 'iced' ? isIced(m) : true;
+      return S.mf === 'safe' ? ['ok', 'swap'].includes(verdict(m).st) : S.mf === 'fav' ? favs.has(m.id) : S.mf === 'plant' ? plantOpt(m) : S.mf === 'iced' ? isIced(m) : true;
     });
   }
   function menuTools() {
     const favN = favSet().size, rec = S.mq ? [] : listOf('bija.recent').slice(0, 4), n = (S.mq || S.mf) ? menuItems().length : 0;
     return `<div class="msearch" role="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><label class="sr" for="m-q">Search the menu</label><input id="m-q" type="search" data-mq value="${esc(S.mq || '')}" placeholder="Search drinks, cakes, beans" autocomplete="off" enterkeyhint="search" maxlength="40">${S.mq ? '<button type="button" class="clr" data-act="mqclear" aria-label="Clear search">×</button>' : ''}</div>
       ${rec.length ? `<div class="recent"><span class="hint">Recent</span>${rec.map((r) => `<button data-act="mqset" data-v="${esc(r)}">${esc(r)}</button>`).join('')}</div>` : ''}
-      ${S.mq || S.mf ? `<p class="mres" role="status">${n} ${n === 1 ? 'result' : 'results'}${S.mq ? ` for “${esc(S.mq.trim())}”` : ''}${S.mf === 'safe' ? ` without ${esc(algList([...myAlg()]))}` : S.mf === 'plant' ? ' · allergens? ask our team' : ''}</p>` : ''}`;
+      ${S.mq || S.mf ? `<p class="mres" role="status">${n} ${n === 1 ? 'result' : 'results'}${S.mq ? ` for “${esc(S.mq.trim())}”` : ''}${S.mf === 'safe' ? ` without ${esc(algList([...myAlg()]))} in the recipe. Traces are possible: tell the barista about a severe allergy` : S.mf === 'plant' ? ' · allergens? ask our team' : ''}</p>` : ''}`;
   }
   // filters share the category scroller, after a thin divider: one row of pills, not two
   function filterPills() {
@@ -2254,11 +2258,11 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     const lines = cartLines(), t = totals(lines), st = mine(), rt = dishRatings();
     // the Order tab opens on the menu: What's On, the award and the hours live on Home
     return `<h2 class="sr">Order ahead</h2>
-    ${dietNudge('order')}
     ${open ? '' : `<div class="panel" style="margin-bottom:8px"><b>Ordering paused</b><div class="hint">We're not taking app orders right now. ${esc(cfg().note || '')}</div></div>`}
     <section class="sec" style="margin-top:6px">
       ${menuTools()}
       ${S.mq ? '' : `<div class="cats sticky">${cats.map((c) => `<button data-act="cat" data-v="${esc(c)}" aria-pressed="${S.cat === c && !S.mf}">${esc(c)}</button>`).join('')}${filterPills()}</div>`}
+      ${S.mq ? '' : dietNudge('order')}
       ${f && filt && !S.mq && !S.mf ? `<div class="filter slim"><div class="fx"><span class="eyebrow">On filter</span><b>${esc(f.name)}</b><small class="fwhere">${esc(f.where)}</small><div class="notes">${f.notes.slice(0, 2).map((n) => `<span>${esc(n)}</span>`).join('')}</div></div><button class="btn sm" data-act="qty" data-id="${esc(filt.id)}" data-d="1" ${open ? '' : 'disabled'} aria-label="Add ${esc(f.name)} filter, ${money(filt.price)}">Add · ${money(filt.price)}</button></div>` : ''}
       <div class="menu">${(() => { const xs = menuItems(); return xs.length ? '' : `<div class="empty" style="grid-column:1/-1"><b>${S.mf === 'fav' && !S.mq ? 'No favourites yet' : 'Nothing found'}</b>${S.mf === 'fav' && !S.mq ? 'Tap the heart on any drink or cake to keep it here.' : 'Try another word, or clear the filters to see the whole menu.'}<br><button class="btn sm ghost" data-act="mqclear" style="margin-top:12px">Show the whole menu</button></div>`; })()}${menuItems().map((m) => {
         const q = itemQty(m.id), off = !m.available || !open, rr = rt[m.id], fv = favSet().has(m.id);
@@ -2287,7 +2291,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
         <fieldset><legend>Pick up at the bar</legend><div class="opts">${(cfg().slots || ['ASAP']).map((m) => `<button data-act="opt" data-k="slot" data-v="${esc(m)}" aria-pressed="${S.form.slot === m}">${esc(m)}</button>`).join('')}</div></fieldset>
         <div class="grid2">
           <label class="f">Name for the cup<input type="text" id="f-name" data-f="name" value="${esc(S.form.name)}" autocomplete="given-name" maxlength="40"></label>
-          <label class="f">Note for the bar <span class="h">Optional</span><input type="text" id="f-note" data-f="note" value="${esc(S.form.note)}" maxlength="120" placeholder="Extra hot, no lid…"></label>
+          <label class="f">Note for the bar <span class="h">Optional</span><input type="text" id="f-note" data-f="note" value="${esc(S.form.note)}" maxlength="${Math.min(120, 140 - orderNote('').length)}" placeholder="Extra hot, no lid…">${myAlg().size ? `<span class="h">The bar will see: ${esc(orderNote('').trim())}</span>` : ''}</label>
         </div>
         ${(() => {
           const opts = REWARDS.filter((r) => st.balance >= r.pts), next = REWARDS.find((r) => r.pts > st.balance);
@@ -3342,18 +3346,20 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     else if (a === 'dmore') { S.dietDraft.more = true; render(); }
     else if (a === 'dnext') { const d = S.dietDraft; if (b.dataset.v === 'none') d.alg = []; d.step = 1; d.done0 = true; d.fresh = ''; render(); }
     else if (a === 'dback') { S.dietDraft.step = 0; render(); }
-    else if (a === 'dok') { S.dietDraft.ok = b.checked; render(); }
+    else if (a === 'dok') { S.dietDraft.ok = b.checked; S.dietDraft.err = false; render(); }
     else if (a === 'dpref') { const d = S.dietDraft; d[b.dataset.k] = d[b.dataset.k] === b.dataset.v && b.dataset.k === 'milk' ? '' : b.dataset.v; d.fresh = b.dataset.k === 'sweet' ? b.dataset.v.toLowerCase() : ''; render(); }
     else if (a === 'dedit') { S.dietEdit = b.dataset.v; S.dietDraft = null; render(); }
-    else if (a === 'kenduri') { location.href = 'kenduri.html'; }
-    else if (a === 'dclose') { S.dietEdit = null; S.dietDraft = null; render(); }
+    else if (a === 'kenduri') { window.open('kenduri.html', '_blank', 'noopener'); }
+    else if (a === 'dclose') { if (!diet()) store.set('bija.diet.later', String(Date.now())); S.dietEdit = null; S.dietDraft = null; render(); }
     else if (a === 'dgo') { document.getElementById('diet-order')?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth', block: 'start' }); }
     else if (a === 'ddel') { try { localStorage.removeItem('bija.diet'); } catch {} S.dietDraft = null; S.dietEdit = null; if (S.mf === 'safe') S.mf = ''; toast('Allergy info deleted from this phone'); render(); }
     else if (a === 'dsave') {
-      const d = S.dietDraft || { alg: [] }, alg = d.ok ? d.alg : [];
+      const d = S.dietDraft || { alg: [] };
+      if (d.alg.length && !d.ok) { d.err = true; render(); return document.querySelector('.diet-ask [data-act=dok]')?.focus(); }
+      const alg = d.alg;
       try { localStorage.setItem('bija.diet', JSON.stringify({ alg, milk: d.milk || '', sweet: d.sweet || '', consent: alg.length ? new Date().toISOString() : null, at: new Date().toISOString() })); } catch {}
       S.dietDraft = null; S.dietEdit = null; if (S.mf === 'safe' && !alg.length) S.mf = '';
-      toast(alg.length ? `Saved. We’ll flag anything with ${algList(alg)}.` : 'Saved. Enjoy your coffee'); render();
+      toast(alg.length ? 'Allergies saved' : 'Saved'); render();
     }
     else if (a === 'sopt') { S.sheet.opts[b.dataset.k] = b.dataset.v; render(); }
     else if (a === 'sqty') { S.sheet.qty = Math.max(1, Math.min(20, S.sheet.qty + +b.dataset.d)); render(); }
