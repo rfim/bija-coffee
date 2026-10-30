@@ -87,7 +87,7 @@ html.bc-open .bc-spacer { display: block; height: var(--bc-h, 0px); }
 }
 
 /* the footer opener looks like its neighbouring links */
-.sfoot nav .bc-link { display: block; width: 100%; padding: 7px 0; border: 0; background: none; color: #cfcfcf; font: inherit; text-align: left; cursor: pointer; }
+.sfoot nav .bc-link { display: flex; align-items: center; width: 100%; min-height: 44px; padding: 0; border: 0; background: none; color: #cfcfcf; font: inherit; text-align: left; cursor: pointer; }
 .sfoot nav .bc-link:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
 .legal-main .bc-link { min-height: 48px; padding: 0 24px; border: 2px solid #0b0b0b; border-radius: 999px; background: #0b0b0b; color: #fff; font: 600 13px/1 Inter, "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; }
 .legal-main .bc-link:hover { background: #fff; color: #0b0b0b; }

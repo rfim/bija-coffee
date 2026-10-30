@@ -956,6 +956,21 @@ html { -webkit-tap-highlight-color: transparent; }
 button, .btn, .bnav, .fab, .opts, .cats, .step { -webkit-user-select: none; user-select: none; }
 .sheet, #stampdrawer, #pinsheet, #walletask, #scanner { overscroll-behavior: contain; }
 html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
+/* the quick allergy question: a bottom sheet, once, before the first drink */
+#algpop { position: fixed; inset: 0; z-index: 56; display: grid; align-items: end; }
+#algpop .bg { position: absolute; inset: 0; background: rgba(0,0,0,.42); opacity: 0; transition: opacity .3s ease; }
+#algpop .apan { position: relative; background: #fff; border-radius: 24px 24px 0 0; padding: 12px 20px calc(18px + var(--sa-bottom)); max-width: 520px; width: 100%; margin: 0 auto; max-height: 88vh; overflow: auto; overscroll-behavior: contain; transform: translateY(100%); transition: transform .42s cubic-bezier(.22, 1, .36, 1); }
+#algpop.on .bg { opacity: 1; } #algpop.on .apan { transform: none; }
+#algpop .grab { width: 40px; height: 4px; border-radius: 2px; background: #d8d8d4; margin: 0 auto 14px; }
+#algpop h3 { font: 900 28px/1 var(--display); text-transform: uppercase; margin: 0 0 8px; }
+#algpop p { margin: 0 0 14px; font-size: 14px; line-height: 1.45; color: var(--muted); }
+#algpop .opts .more { border-style: dashed; }
+#algpop .dok { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; margin-top: 14px; font-size: 13px; line-height: 1.45; }
+#algpop .dok input { width: 20px; height: 20px; margin: 1px 0 0; accent-color: #0b0b0b; }
+#algpop .dok-e { color: var(--warn); font-size: 13px; font-weight: 600; margin: 6px 0 0 32px; }
+#algpop .dact { gap: 8px; margin-top: 16px; flex-wrap: nowrap; } #algpop .dact .btn { flex: 1; }
+#algpop .aplater { display: block; margin: 10px auto 0; min-height: 44px; }
+@media (prefers-reduced-motion: reduce) { #algpop .bg, #algpop .apan { transition: none; } }
 </style>
 
 <div class="wrap" id="wrap">
@@ -1104,7 +1119,12 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
     const has = new Set(o.has); for (const a of MILK_ALG[opts?.milk] || []) has.add(a);
     return { has: ALLERGENS.map(([k]) => k).filter((k) => has.has(k)), check: !!o.check };
   }
-  const diet = () => { try { const d = JSON.parse(localStorage.getItem('bija.diet') || 'null'); return d && Array.isArray(d.alg) ? d : null; } catch { return null; } };
+  const diet = () => { const a = S.me && S.me.diet; if (a && Array.isArray(a.alg)) return a; try { const d = JSON.parse(localStorage.getItem('bija.diet') || 'null'); return d && Array.isArray(d.alg) ? d : null; } catch { return null; } };
+  // save once: this phone (works offline) and the member's account, so a signed-in member is never asked again on another device
+  function saveDiet(d) {
+    try { if (d) localStorage.setItem('bija.diet', JSON.stringify(d)); else localStorage.removeItem('bija.diet'); } catch {}
+    if (S.uid) saveMine({ diet: d }).catch(() => {});
+  }
   const myAlg = () => new Set(diet()?.alg || []);
   const algList = (ks) => { const n = ks.map((k) => (ALG_NAME[k] || k).toLowerCase()); return n.length > 1 ? n.slice(0, -1).join(', ') + ' and ' + n[n.length - 1] : n[0] || ''; };
   // the milk to start with: their usual if it suits them, else the first one without their allergens
@@ -1696,7 +1716,27 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
     if (hits.length) return `<div class="alg-warn" role="alert"><div><b>Contains ${esc(algList(hits))}</b><span>You told us you avoid ${hits.length > 1 ? 'these' : 'this'}.${fix ? '' : ' Ask our team for something else.'}</span></div>${fix}</div>`;
     return `${ask}<p class="alg-line">${a.has.length ? `Contains ${esc(algList(a.has))}` : 'None of the 14 major allergens in the recipe'}${a.check ? ' · recipe still being confirmed, ask our team' : ''} · made in a small kitchen that handles all 14, so traces are possible</p>`;
   }
+  // the Android Back button and Esc close the quick allergy question like Skip
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && S.algPop) { e.stopImmediatePropagation(); e.preventDefault(); document.querySelector('#algpop [data-act=apskip]')?.click(); } }, true);
+  function renderAlgPop() {
+    let el = document.getElementById('algpop'); const P = S.algPop;
+    if (!P || S.view !== 'customer') { if (el) el.remove(); return; }
+    const fresh = !el;
+    if (fresh) { el = document.createElement('div'); el.id = 'algpop'; document.body.appendChild(el); }
+    const shown = P.more ? ALLERGENS : ALLERGENS.filter(([k], i) => i < 7 || P.alg.includes(k));
+    el.innerHTML = `<div class="bg" data-act="apskip"></div><div class="apan" role="dialog" aria-modal="true" aria-labelledby="ap-h">
+      <div class="grab" aria-hidden="true"></div>
+      <h3 id="ap-h">Any allergies?</h3>
+      <p>A quick check before your first order. We’ll flag what to avoid, start drinks on a milk that suits you and tell the barista.</p>
+      <div class="opts" role="group" aria-label="Allergies">${shown.map(([k, l]) => `<button data-act="apalg" data-v="${k}" aria-pressed="${P.alg.includes(k)}">${esc(l)}</button>`).join('')}${P.more ? '' : '<button data-act="apmore" class="more">More</button>'}</div>
+      ${P.alg.length ? `<label class="dok"><input type="checkbox" data-act="apok" ${P.ok ? 'checked' : ''} ${P.err ? 'aria-invalid="true" aria-describedby="ap-e"' : ''}><span>Use my allergies to prepare my orders. Saved to your Bija card and sent with each order.</span></label>${P.err ? '<p class="dok-e" id="ap-e">Tick this so we can use your allergies.</p>' : ''}` : ''}
+      <div class="row dact">${P.alg.length ? '' : '<button class="btn ghost" data-act="apsave" data-v="none">No allergies</button>'}<button class="btn" data-act="apsave">${P.alg.length ? 'Save and continue' : 'Continue'}</button></div>
+      <button class="back aplater" data-act="apskip">Skip for now</button>
+    </div>`;
+    if (fresh) { requestAnimationFrame(() => el.classList.add('on')); el.querySelector('.apan').focus?.(); }
+  }
   function renderSheet() {
+    renderAlgPop();
     const el = $('#sheet'), sh = S.sheet, m = sh && menu().find((x) => x.id === sh.id);
     if (!m || S.view !== 'customer') { if (!el.hidden) { el.classList.remove('show'); setTimeout(() => { if (!S.sheet) el.hidden = true; }, 300); } return; }
     const o = optsFor(m) || {};
@@ -1728,6 +1768,7 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
     d.animate([{ transform: 'translate(0,0) scale(1)' }, { transform: `translate(${mx}px, ${my}px) scale(1.25)`, offset: .45 }, { transform: `translate(${x1 - x0}px, ${y1 - y0}px) scale(.4)`, opacity: .6 }], { duration: 650, easing: 'cubic-bezier(.3,.7,.4,1)' }).finished.then(() => { d.remove(); fabFx('bump'); buzz(12); });
   }
   function openSheet(id, from) {
+    if (!diet() && !store.get('bija.diet.asked') && S.view === 'customer' && !(navigator.webdriver && !/[?&]askalg=1/.test(location.search))) { S.algPop = { id, alg: [], more: false, ok: false, err: false }; return render(); }
     const m = menu().find((x) => x.id === id), o = optsFor(m);
     if (!o) {
       if (['contains', 'check'].includes(verdict(m).st)) { S.sheet = { id, qty: 1, opts: {} }; return render(); }
@@ -1794,7 +1835,7 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
       <h3 id="diet-h-${where}">How do you take it?</h3>
       <fieldset><legend>Your usual milk</legend><div class="opts">${OPT.milk.map((v) => (MILK_ALG[v] || []).some((a) => d.alg.includes(a)) ? '' : chip('dpref', 'milk', v, d.milk === v, v)).join('')}</div></fieldset>
       <fieldset><legend>Sweetness</legend><div class="opts">${OPT.sweet.map((v) => chip('dpref', 'sweet', v, (d.sweet || 'Normal') === v, v)).join('')}</div></fieldset>
-      ${d.alg.length ? `<label class="dok"><input type="checkbox" id="dok-${where}" data-act="dok" ${d.ok ? 'checked' : ''} ${d.err ? `aria-invalid="true" aria-describedby="dok-e-${where}"` : ''}><span>Use my allergies to prepare my orders. Saved on this phone and sent with each order so the bar can see them. Change or delete them any time in Profile.</span></label>${d.err ? `<p class="dok-e" id="dok-e-${where}">Tick this so we can use your allergies, or go back and clear them.</p>` : ''}` : ''}
+      ${d.alg.length ? `<label class="dok"><input type="checkbox" id="dok-${where}" data-act="dok" ${d.ok ? 'checked' : ''} ${d.err ? `aria-invalid="true" aria-describedby="dok-e-${where}"` : ''}><span>Use my allergies to prepare my orders. Saved to your Bija card and sent with each order so the bar can see them. Change or delete them any time in Profile.</span></label>${d.err ? `<p class="dok-e" id="dok-e-${where}">Tick this so we can use your allergies, or go back and clear them.</p>` : ''}` : ''}
       <div class="row dact"><button class="btn ghost" data-act="dback">Back</button><button class="btn" data-act="dsave">Save</button></div>`;
     return `<section class="diet-ask" id="diet-${where}" aria-labelledby="diet-h-${where}">
       <div class="dtop"><div><span class="eyebrow">Allergies</span>${pips}</div>${cupPreview(d)}</div>
@@ -3385,14 +3426,26 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
       if (b.dataset.from === 'sheet') { S.sheet = null; S.tab = 'order'; render(); requestAnimationFrame(() => document.getElementById('diet-order')?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth', block: 'center' })); return; }
       render();
     }
+    else if (a === 'apalg') { const P = S.algPop, k = b.dataset.v; P.alg = P.alg.includes(k) ? P.alg.filter((x) => x !== k) : [...P.alg, k]; render(); }
+    else if (a === 'apmore') { S.algPop.more = true; render(); }
+    else if (a === 'apok') { S.algPop.ok = b.checked; S.algPop.err = false; render(); }
+    else if (a === 'apsave' || a === 'apskip') {
+      const P = S.algPop; if (!P) return;
+      if (a === 'apsave') {
+        const alg = b.dataset.v === 'none' ? [] : P.alg;
+        if (alg.length && !P.ok) { P.err = true; render(); return document.querySelector('#algpop [data-act=apok]')?.focus(); }
+        saveDiet({ alg, milk: '', sweet: '', consent: alg.length ? new Date().toISOString() : null, at: new Date().toISOString() });
+      }
+      store.set('bija.diet.asked', '1'); S.algPop = null; render(); openSheet(P.id);
+    }
     else if (a === 'dclose') { if (!diet()) store.set('bija.diet.later', String(Date.now())); S.dietEdit = null; S.dietDraft = null; render(); }
     else if (a === 'dgo') { document.getElementById('diet-order')?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth', block: 'start' }); }
-    else if (a === 'ddel') { try { localStorage.removeItem('bija.diet'); } catch {} S.dietDraft = null; S.dietEdit = null; if (S.mf === 'safe') S.mf = ''; toast('Allergy info deleted from this phone'); render(); }
+    else if (a === 'ddel') { saveDiet(null); S.dietDraft = null; S.dietEdit = null; if (S.mf === 'safe') S.mf = ''; toast('Allergy info deleted'); render(); }
     else if (a === 'dsave') {
       const d = S.dietDraft || { alg: [] };
       if (d.alg.length && !d.ok) { d.err = true; render(); return document.querySelector('.diet-ask [data-act=dok]')?.focus(); }
       const alg = d.alg;
-      try { localStorage.setItem('bija.diet', JSON.stringify({ alg, milk: d.milk || '', sweet: d.sweet || '', consent: alg.length ? new Date().toISOString() : null, at: new Date().toISOString() })); } catch {}
+      saveDiet({ alg, milk: d.milk || '', sweet: d.sweet || '', consent: alg.length ? new Date().toISOString() : null, at: new Date().toISOString() });
       S.dietDraft = null; S.dietEdit = null; if (S.mf === 'safe' && !alg.length) S.mf = '';
       toast(alg.length ? 'Allergies saved' : 'Saved'); render();
     }
