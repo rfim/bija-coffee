@@ -817,6 +817,8 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
 .lt { display: inline-flex; align-items: center; gap: 8px; font: 600 13px var(--sans); white-space: nowrap; }
 .lt i { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
 .lt.ok i { background: var(--leaf); } .lt.amber i { background: #b7791f; } .lt.bad i { background: var(--warn); } .lt.bad { color: var(--warn); }
+/* Maheera tables sit on the grey panel, where --warn is too light for small text */
+.mh .panel :is(.lt.bad, .neg) { color: #9a4413; }
 .meter { position: relative; height: 8px; border-radius: 4px; background: var(--line); }
 .meter i { display: block; height: 100%; border-radius: 4px; background: var(--ink); }
 .meter em { position: absolute; top: -4px; width: 2px; height: 16px; background: var(--muted); }
@@ -1783,7 +1785,7 @@ body.barista-view #switch { display: flex; align-items: center; }
       const waiting = giftData().claims.length + giftData().gifts.filter((g) => !g.paid).length;
       const toSend = S.customers.reduce((a, c) => a + shopOf(c, S.bars[c.id]).filter((o) => o.status === 'placed').length, 0) + subsDue().length;
       const refWait = refsToConfirm().length;
-      tabs = [['queue', 'Queue', open], ['shop', 'Web & delivery', toSend], ['members', 'Members', refWait], ['gifts', 'Gift cards', waiting], ['insights', 'Insights'], ['finance', 'Finance'], ['menu', 'Menu']]; key = 'btab';
+      tabs = [['queue', 'Queue', open], ['shop', 'Web & delivery', toSend], ['members', 'Members', refWait], ['gifts', 'Gift cards', waiting], ['insights', 'Insights'], ['finance', 'Finance'], ['maheera', 'Maheera'], ['menu', 'Menu']]; key = 'btab';
     } else {
       const st = mine(), live = st.os.filter((o) => o.status !== 'collected' && o.status !== 'cancelled').length;
       const canRedeem = REWARDS.filter((r) => st.balance >= r.pts).length;
@@ -2270,7 +2272,7 @@ body.barista-view #switch { display: flex; align-items: center; }
   }
   // staff mode ends after 30 minutes without a tap or key press
   ['pointerdown', 'keydown'].forEach((t) => addEventListener(t, () => { if (S.view === 'bar') S.staffAt = Date.now(); }, { passive: true, capture: true }));
-  setInterval(() => { if (S.view === 'bar' && Date.now() - (S.staffAt || 0) > STAFF_IDLE) { S.staffOk = false; S.sb?.staffLock().catch(() => {}); if (WEB_ADMIN) return toSite(); S.view = 'customer'; render(); toast('Staff view closed after 30 minutes idle'); } }, 30e3);
+  setInterval(() => { if (S.view === 'bar' && Date.now() - (S.staffAt || 0) > STAFF_IDLE) { S.staffOk = false; S.mh = null; S.sb?.staffLock().catch(() => {}); if (WEB_ADMIN) return toSite(); S.view = 'customer'; render(); toast('Staff view closed after 30 minutes idle'); } }, 30e3);
   // shared backend: keep the server's staff session alive while staff are using the bar view
   setInterval(() => { if (S.sb && S.view === 'bar' && Date.now() - (S.staffAt || 0) < 5 * 60e3) S.sb.staffTouch().catch(() => {}); }, 5 * 60e3);
   addEventListener('keydown', (e) => {
@@ -3091,7 +3093,7 @@ body.barista-view #switch { display: flex; align-items: center; }
   }
 
   // ===== barista =====
-  // Staff screens (queue, web & delivery, members, gift cards, insights, finance, menu) live in app-staff.js and load only
+  // Staff screens (queue, web & delivery, members, gift cards, insights, finance, Maheera, menu) live in app-staff.js and load only
   // when someone opens the staff view; for staff accounts they prefetch once the app is idle. Customers never download them.
   let STAFF = null, staffLoading = null;
   const staffCore = {
@@ -3152,6 +3154,7 @@ body.barista-view #switch { display: flex; align-items: center; }
     get r2() { return r2; },
     get rateOf() { return rateOf; },
     get refsToConfirm() { return refsToConfirm; },
+    get render() { return render; },
     get saveBar() { return saveBar; },
     get shopOf() { return shopOf; },
     get signed() { return signed; },
@@ -3667,7 +3670,7 @@ body.barista-view #switch { display: flex; align-items: center; }
     const b = e.target.closest('[data-act]');
     if (!b || b.disabled) return;
     const a = b.dataset.act;
-    if (a === 'view') { if (b.dataset.v === 'bar' && !(S.admin && S.staffOk)) return pinOpen(); if (b.dataset.v === 'customer') { S.staffOk = false; S.sb?.staffLock().catch(() => {}); if (WEB_ADMIN) return toSite(); } S.view = b.dataset.v; render(); window.scrollTo({ top: 0 }); }
+    if (a === 'view') { if (b.dataset.v === 'bar' && !(S.admin && S.staffOk)) return pinOpen(); if (b.dataset.v === 'customer') { S.staffOk = false; S.mh = null; S.sb?.staffLock().catch(() => {}); if (WEB_ADMIN) return toSite(); } S.view = b.dataset.v; render(); window.scrollTo({ top: 0 }); }
     else if (a === 'pin-close') pinCancel();
     else if (a === 'pin-key') pinKey(b.dataset.v);
     else if (a === 'tab') { if (S.view === 'bar') S.btab = b.dataset.v; else { if (['home', 'more', 'beans'].includes(S.tab) && S.tab !== b.dataset.v) S.backTo = S.tab; S.tab = b.dataset.v; S.lastOrder = null; S.fresh = -1; S.dealt = null; } render(); window.scrollTo({ top: 0 }); }
@@ -3719,6 +3722,8 @@ body.barista-view #switch { display: flex; align-items: center; }
     }
     // barista
     else if (a === 'qf') { S.qFilter = b.dataset.v; render(); }
+    else if (a === 'mh-sub') { S.mh = { ...(S.mh || {}), sub: b.dataset.v }; render(); window.scrollTo({ top: 0 }); }
+    else if (a === 'mh-retry') { if (STAFF) { STAFF.mhLoad(); render(); } }
     else if (a === 'status') {
       const s = b.dataset.s, cid = b.dataset.c, oid = b.dataset.o, at = new Date().toISOString();
       // shared backend: the server collects (posts points, stamps, rewards and gift spend once) and says what to charge
@@ -4150,7 +4155,7 @@ body.barista-view #switch { display: flex; align-items: center; }
           S.demo = true; S.backend = 'supabase'; S.sb = conn; S.db = conn.db; S.uid = conn.uid; S.admin = await conn.isStaff(); loadAcct();
           conn.onStaffChange((on) => {
             if (on && !S.admin) { S.admin = true; listenAdmin(S.db); S.db.refreshAll(); lvRefresh(); }
-            else if (!on && S.admin) { S.admin = false; S.staffOk = false; if (S.view === 'bar') S.view = 'customer'; }
+            else if (!on && S.admin) { S.admin = false; S.staffOk = false; S.mh = null; if (S.view === 'bar') S.view = 'customer'; }
             render();
           });
           listen(S.db);
