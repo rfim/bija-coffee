@@ -1,4 +1,4 @@
--- Migration name: bija_maheera_access (optional)
+-- Migration name: bija_maheera_access (applied to Bija's live Supabase 2026-10-30, version 20261030210430)
 -- Lets owners (owners table + MFA) open the Maheera tab as well as staff with a live PIN session.
 -- The "maheera" Edge Function calls this with the caller's own token. Until it is applied, the function falls back to
 -- public.staff_touch(), so staff with an unlocked staff session get in and owners need the PIN like everyone else.
