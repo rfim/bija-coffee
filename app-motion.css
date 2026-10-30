@@ -61,7 +61,7 @@
 .mo-stamp { position: absolute; left: 18px; bottom: 30%; width: 90px; height: 90px; margin: -45px 0 0 -10px; border-radius: 50%; border: 3px solid currentColor; opacity: 0; pointer-events: none; z-index: 4; }
 .bcard.mo-foil::after { animation: mo-foil 1.4s var(--mo-out) 1; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.55) 48%, transparent 66%) no-repeat 0 0 / 250% 100% !important; }
 @keyframes mo-foil { from { background-position: 160% 0; } to { background-position: -60% 0; } }
-.mo-toast { position: fixed; left: 50%; top: calc(16px + env(safe-area-inset-top, 0px)); z-index: 95; transform: translateX(-50%); background: #0b0b0b; color: #fff; padding: 12px 20px; border-radius: 999px; font: 700 13px Inter, system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; box-shadow: 0 10px 30px rgba(0,0,0,.25); pointer-events: none; }
+.mo-toast { position: fixed; left: 50%; top: calc(16px + var(--sa-top)); z-index: 95; transform: translateX(-50%); background: #0b0b0b; color: #fff; padding: 12px 20px; border-radius: 999px; font: 700 13px Inter, system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; box-shadow: 0 10px 30px rgba(0,0,0,.25); pointer-events: none; }
 
 /* Bija Card lift: drag up into a full-screen scan view */
 [data-card-stage], .flip { touch-action: pan-x; }
@@ -70,7 +70,7 @@
 .mo-back { transform: none; opacity: 1; transition: transform .35s var(--mo-out), opacity .35s var(--mo-out); }
 .mo-recede { transform: scale(.96); opacity: .4; }
 .mo-springback { transition: transform .45s var(--mo-spring) !important; }
-.mo-scan { position: fixed; inset: 0; z-index: 70; background: #fff; display: flex; flex-direction: column; align-items: center; gap: 18px; padding: calc(20px + env(safe-area-inset-top, 0px)) 20px calc(24px + env(safe-area-inset-bottom, 0px)); overflow: auto; touch-action: pan-x; }
+.mo-scan { position: fixed; inset: 0; z-index: 70; background: #fff; display: flex; flex-direction: column; align-items: center; gap: 18px; padding: calc(20px + var(--sa-top)) 20px calc(24px + var(--sa-bottom)); overflow: auto; touch-action: pan-x; }
 .mo-scan .mo-x { align-self: flex-end; min-width: 48px; min-height: 48px; border-radius: 999px; border: 2px solid #0b0b0b; background: #fff; font: 600 13px Inter, sans-serif; letter-spacing: .06em; text-transform: uppercase; padding: 0 18px; }
 .mo-scan .mo-card { width: min(340px, 86vw); }
 .mo-scan .mo-qr { width: min(300px, 80vw); aspect-ratio: 1; background: #fff; border-radius: 24px; box-shadow: 0 0 0 2px #0b0b0b; display: grid; place-items: center; padding: 18px; }

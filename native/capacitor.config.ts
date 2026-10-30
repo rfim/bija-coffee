@@ -22,6 +22,8 @@ const config: CapacitorConfig = {
       splashFullScreen: false,
       splashImmersive: false,
     },
+    // Android 15+ draws edge to edge: Capacitor passes the system bar sizes to the page as --safe-area-inset-* CSS variables
+    SystemBars: { insetsHandling: 'css', style: 'LIGHT' },
     StatusBar: { style: 'LIGHT', backgroundColor: '#ffffff', overlaysWebView: false },
     PushNotifications: { presentationOptions: ['alert', 'sound'] },
   },

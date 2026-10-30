@@ -1,4 +1,4 @@
-<!doctype html><html lang="en-GB"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#ffffff"><meta http-equiv="Content-Security-Policy" content="base-uri 'none'; object-src 'none'"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html lang="en-GB"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#ffffff"><meta http-equiv="Content-Security-Policy" content="base-uri 'none'; object-src 'none'"><style>:root{color-scheme:light;box-sizing:border-box;}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Bija Coffee</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
 <meta name="robots" content="noindex, nofollow">
@@ -10,6 +10,8 @@
 <script src="wallet.js" defer></script>
 <script src="push.js" defer></script>
 <style>
+/* safe areas: iOS reports env(); Android's edge-to-edge WebView gets them from Capacitor as --safe-area-inset-* variables */
+:root { --sa-top: max(env(safe-area-inset-top, 0px), var(--safe-area-inset-top, 0px)); --sa-right: max(env(safe-area-inset-right, 0px), var(--safe-area-inset-right, 0px)); --sa-bottom: max(env(safe-area-inset-bottom, 0px), var(--safe-area-inset-bottom, 0px)); --sa-left: max(env(safe-area-inset-left, 0px), var(--safe-area-inset-left, 0px)); }
 /* Bija brand (Grind-style since Oct 2026): white pages, loud uppercase Archivo headings, black pills.
    Earlier note: black page, white Helvetica-style type, four-circle mark (matches bijacoffee.co.uk).
    Layout: one phone-first column (max 760px) that fills the real screen, built the way Stirring Up Joy is:
@@ -25,11 +27,11 @@
 :root[data-theme="dark"] { --paper: #ffffff; --card: #f2f2f0; --ink: #0b0b0b; --muted: #6b6b6b; --line: #e4e4e2; --accent: #0b0b0b; --accent-ink: #ffffff; --gold: #8a6514; --leaf: #2e7d32; --warn: #b4541a; color-scheme: light; }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.5 var(--sans); }
-body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: var(--sa-top); z-index: 10; background: var(--paper); }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.wrap { max-width: 760px; margin: 0 auto; padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(220px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.wrap { max-width: 760px; margin: 0 auto; padding: 10px max(16px, var(--sa-right)) calc(220px + var(--sa-bottom)) max(16px, var(--sa-left)); }
 .wrap.wide { max-width: 1080px; }
 
 .top { display: flex; align-items: center; gap: 12px; padding-block: 6px 10px; flex-wrap: wrap; }
@@ -45,7 +47,7 @@ button { cursor: pointer; }
 .switch button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 .demo { font-size: 12px; color: var(--muted); background: var(--card); border: 1px dashed var(--line); border-radius: 10px; padding: 6px 10px; margin-bottom: 8px; }
 
-.tabs { max-width: 100%; contain: inline-size; display: flex; gap: 6px; overflow-x: auto; padding-block: 4px 12px; scrollbar-width: none; position: sticky; top: env(safe-area-inset-top, 0px); background: var(--paper); z-index: 5; }
+.tabs { max-width: 100%; contain: inline-size; display: flex; gap: 6px; overflow-x: auto; padding-block: 4px 12px; scrollbar-width: none; position: sticky; top: var(--sa-top); background: var(--paper); z-index: 5; }
 .tabs button { flex: none; border: 1.5px solid var(--line); background: var(--card); border-radius: 999px; padding: 7px 14px; font-weight: 600; font-size: 14px; }
 .tabs button[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 .tabs .dot { display: inline-block; min-width: 18px; padding: 0 5px; margin-left: 6px; border-radius: 9px; background: var(--accent); color: var(--accent-ink); font-size: 11px; line-height: 18px; text-align: center; }
@@ -67,7 +69,7 @@ button { cursor: pointer; }
 .cats { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin-bottom: 10px; }
 .cats button { flex: none; border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600; min-height: 44px; }
 /* Order tab: category pills stay just under the top while the menu scrolls */
-.cats.sticky { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 4; background: var(--paper); margin: 0 0 10px; padding-block: 8px; }
+.cats.sticky { position: sticky; top: var(--sa-top); z-index: 4; background: var(--paper); margin: 0 0 10px; padding-block: 8px; }
 .filter.compact { padding: 10px 12px; margin-top: 4px; gap: 10px; border-radius: 14px; }
 .filter.compact b { font-size: 16px; }
 .filter.compact .notes { margin-top: 4px; }
@@ -126,7 +128,7 @@ legend { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
 .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .between { justify-content: space-between; }
 
-.basket { position: fixed; left: 0; right: 0; bottom: calc(96px + env(safe-area-inset-bottom, 0px)); border-radius: 16px 16px 0 0; z-index: 8; padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); background: var(--ink); color: var(--paper); }
+.basket { position: fixed; left: 0; right: 0; bottom: calc(96px + var(--sa-bottom)); border-radius: 16px 16px 0 0; z-index: 8; padding: 10px max(16px, var(--sa-right)) calc(10px + var(--sa-bottom)) max(16px, var(--sa-left)); background: var(--ink); color: var(--paper); }
 .basket .in { max-width: 728px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .basket b { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 
@@ -150,12 +152,12 @@ legend { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
 .empty b { display: block; color: var(--ink); font-size: 16px; margin-bottom: 4px; }
 .skel { height: 80px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); }
 /* toast sits just above the bottom nav, or above the basket bar when it shows */
-#toast { position: fixed; left: 50%; bottom: calc(108px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 10px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; z-index: 20; max-width: calc(100% - 32px); text-align: center; }
+#toast { position: fixed; left: 50%; bottom: calc(108px + var(--sa-bottom)); transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 10px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; z-index: 20; max-width: calc(100% - 32px); text-align: center; }
 
 /* Bija Card: black and white Kawung, themeable */
-body:has(#basket:not([hidden])) #toast { bottom: calc(172px + 2 * env(safe-area-inset-bottom, 0px)); }
-body.barista-view #toast { bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
-body.barista-view:has(#basket:not([hidden])) #toast { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+body:has(#basket:not([hidden])) #toast { bottom: calc(176px + var(--sa-bottom)); }
+body.barista-view #toast { bottom: calc(12px + var(--sa-bottom)); }
+body.barista-view:has(#basket:not([hidden])) #toast { bottom: calc(76px + var(--sa-bottom)); }
 .bcard { border: 1px solid rgba(255,255,255,.18); --c-bg: #0b0b0b; --c-ink: #ffffff; --c-sub: rgba(255,255,255,.7); --c-stamp: #ffffff; --c-stamp-ink: #0b0b0b; --c-empty: rgba(255,255,255,.35);
   position: relative; border-radius: 20px; padding: 18px; color: var(--c-ink); background-color: var(--c-bg); background-size: 56px 56px; overflow: hidden; box-shadow: 0 14px 34px rgba(0, 0, 0, .28); aspect-ratio: 1.586; display: flex; flex-direction: column; container-type: inline-size; }
 .bcard .t { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
@@ -232,7 +234,7 @@ body.barista-view:has(#basket:not([hidden])) #toast { bottom: calc(76px + env(sa
 .gpick .gcard .amt { font-size: 22px; }
 .stack > *, fieldset { min-width: 0; }
 /* bottom navigation, like a native app */
-.bnav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 9; background: rgba(0,0,0,.92); backdrop-filter: blur(10px); border-top: 1px solid var(--line); padding: 6px max(8px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px)); }
+.bnav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 9; background: rgba(0,0,0,.92); backdrop-filter: blur(10px); border-top: 1px solid var(--line); padding: 6px max(8px, var(--sa-right)) calc(6px + var(--sa-bottom)) max(8px, var(--sa-left)); }
 .bnav .in { max-width: 520px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; }
 .bnav .side { position: relative; }
 .bnav .side::after { content: ""; position: absolute; left: 50%; bottom: -2px; width: 18px; height: 3px; border-radius: 2px; background: #fff; transform: translateX(-50%) scaleX(0); transition: transform .35s cubic-bezier(.3,1.6,.5,1); }
@@ -274,7 +276,7 @@ button.back { min-height: 44px; }
 /* item options sheet */
 .sheet { position: fixed; inset: 0; z-index: 30; }
 .sheet .bg { position: absolute; inset: 0; background: rgba(0,0,0,.6); opacity: 0; transition: opacity .25s; }
-.sheet .pan { position: absolute; left: 0; right: 0; bottom: 0; max-width: 760px; margin: 0 auto; background: var(--card); border: 1px solid var(--line); border-bottom: 0; border-radius: 22px 22px 0 0; padding: 18px max(16px, env(safe-area-inset-right, 0px)) calc(18px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); transform: translateY(100%); transition: transform .32s cubic-bezier(.2,.8,.2,1); max-height: 88vh; overflow-y: auto; }
+.sheet .pan { position: absolute; left: 0; right: 0; bottom: 0; max-width: 760px; margin: 0 auto; background: var(--card); border: 1px solid var(--line); border-bottom: 0; border-radius: 22px 22px 0 0; padding: 18px max(16px, var(--sa-right)) calc(18px + var(--sa-bottom)) max(16px, var(--sa-left)); transform: translateY(100%); transition: transform .32s cubic-bezier(.2,.8,.2,1); max-height: 88vh; overflow-y: auto; }
 .sheet.show .bg { opacity: 1; } .sheet.show .pan { transform: none; }
 .sheet .grab { width: 40px; height: 4px; border-radius: 2px; background: var(--line); margin: -6px auto 12px; }
 /* home */
@@ -526,12 +528,12 @@ th { color: var(--muted); }
 .mini { color: #fff; }
 /* customer UX v2: sticky blurred header, floating basket, search, filters, favourites, onboarding, offline, undo, ETA */
 :root { --sp1: 4px; --sp2: 8px; --sp3: 12px; --sp4: 16px; --sp5: 24px; --sp6: 32px; --ease-spring: cubic-bezier(.2, 1.25, .35, 1); --shadow-1: 0 1px 2px rgba(0,0,0,.06), 0 4px 14px rgba(0,0,0,.06); --shadow-2: 0 10px 30px rgba(0,0,0,.14); }
-body:not(.barista-view) .top { position: sticky; top: 0; z-index: 20; margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding: calc(6px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px)); background: rgba(255,255,255,.86); -webkit-backdrop-filter: saturate(1.8) blur(16px); backdrop-filter: saturate(1.8) blur(16px); transition: box-shadow .25s; }
+body:not(.barista-view) .top { position: sticky; top: 0; z-index: 20; margin-inline: calc(-1 * max(16px, var(--sa-left))); padding: calc(6px + var(--sa-top)) max(16px, var(--sa-right)) 10px max(16px, var(--sa-left)); background: rgba(255,255,255,.86); -webkit-backdrop-filter: saturate(1.8) blur(16px); backdrop-filter: saturate(1.8) blur(16px); transition: box-shadow .25s; }
 body.scrolled:not(.barista-view) .top { box-shadow: 0 1px 0 var(--line), 0 6px 18px rgba(0,0,0,.05); border-bottom-color: transparent; }
 body:not(.barista-view) .cats.sticky { top: var(--hdr, 0px); }
-.basket { left: max(12px, env(safe-area-inset-left, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); max-width: 736px; margin: 0 auto; border-radius: 18px; padding: 10px 10px 10px 16px; bottom: calc(100px + env(safe-area-inset-bottom, 0px)); box-shadow: var(--shadow-2); }
+.basket { left: max(12px, var(--sa-left)); right: max(12px, var(--sa-right)); max-width: 736px; margin: 0 auto; border-radius: 18px; padding: 10px 10px 10px 16px; bottom: calc(100px + var(--sa-bottom)); box-shadow: var(--shadow-2); }
 @media (prefers-reduced-motion: no-preference) { .basket:not([hidden]) { animation: rise .35s var(--ease-spring); } @keyframes rise { from { transform: translateY(16px); opacity: 0; } } }
-.sheet .pan { transition: transform .42s var(--ease-spring); padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px)); }
+.sheet .pan { transition: transform .42s var(--ease-spring); padding-bottom: calc(18px + var(--sa-bottom)); }
 .prod, .ptile, .tile2, .slide, .offer, .hc { transition: transform .18s ease, box-shadow .18s ease; }
 @media (hover: hover) { .prod:hover, .ptile:hover, .tile2:hover { box-shadow: var(--shadow-1); transform: translateY(-2px); } }
 .prod:active, .ptile:active, .tile2:active, .slide:active, .offer:active { transform: scale(.985); }
@@ -569,8 +571,8 @@ body:not(.barista-view) .cats.sticky { top: var(--hdr, 0px); }
 .onb .pips { display: flex; gap: 6px; } .onb .pips i { width: 8px; height: 8px; border-radius: 4px; background: rgba(255,255,255,.35); transition: width .3s, background .3s; } .onb .pips i.on { width: 22px; background: #fff; }
 .onb .btn { background: #fff; color: #0b0b0b; } .onb .btn.ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.6); }
 /* offline banner, undo snackbar, ready estimate */
-#offline { position: fixed; left: 50%; top: calc(8px + env(safe-area-inset-top, 0px)); transform: translateX(-50%); z-index: 40; background: #0b0b0b; color: #fff; border-radius: 999px; padding: 10px 16px; font: 600 13px var(--sans); box-shadow: var(--shadow-2); max-width: calc(100vw - 24px); text-align: center; }
-#snack { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(176px + env(safe-area-inset-bottom, 0px)); z-index: 35; display: flex; align-items: center; gap: 12px; background: #0b0b0b; color: #fff; border-radius: 16px; padding: 6px 6px 6px 16px; font: 600 14px var(--sans); box-shadow: var(--shadow-2); max-width: calc(100vw - 24px); }
+#offline { position: fixed; left: 50%; top: calc(8px + var(--sa-top)); transform: translateX(-50%); z-index: 40; background: #0b0b0b; color: #fff; border-radius: 999px; padding: 10px 16px; font: 600 13px var(--sans); box-shadow: var(--shadow-2); max-width: calc(100vw - 24px); text-align: center; }
+#snack { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(176px + var(--sa-bottom)); z-index: 35; display: flex; align-items: center; gap: 12px; background: #0b0b0b; color: #fff; border-radius: 16px; padding: 6px 6px 6px 16px; font: 600 14px var(--sans); box-shadow: var(--shadow-2); max-width: calc(100vw - 24px); }
 #snack button { min-height: 44px; padding: 0 16px; border-radius: 12px; border: 0; background: #fff; color: #0b0b0b; font: 700 13px var(--sans); text-transform: uppercase; letter-spacing: .06em; }
 .eta { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .eta b { font: 900 28px/1 var(--display); text-transform: uppercase; }
@@ -633,17 +635,17 @@ button.chip { font: inherit; font-weight: 600; cursor: pointer; }
 .usual-card .btn { grid-column: 2; justify-self: end; background: #0b0b0b; color: #fff; width: auto; }
 .again2 { margin-top: 0; }
 /* floating pill nav, inset 16px, content scrolls behind it */
-.bnav { left: 16px; right: 16px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); border-radius: 28px; border: 1px solid var(--line); background: rgba(255,255,255,.97); box-shadow: 0 10px 30px rgba(0,0,0,.12); padding: 0 8px 6px; max-width: 520px; margin: 0 auto; }
+.bnav { left: 16px; right: 16px; bottom: calc(12px + var(--sa-bottom)); border-radius: 28px; border: 1px solid var(--line); background: rgba(255,255,255,.97); box-shadow: 0 10px 30px rgba(0,0,0,.12); padding: 0 8px 6px; max-width: 520px; margin: 0 auto; }
 .bnav { left: 0; right: 0; width: calc(100% - 32px); max-width: 480px; margin-inline: auto; } /* a floating pill at every width */
 .bnav .side::after { display: none; }
 .bnav button.side { margin-top: 6px; border-radius: 20px; padding: 6px 0 4px; min-height: 52px; }
 .bnav button.side[aria-current="page"] { background: #efedea; }
-.basket { bottom: calc(108px + env(safe-area-inset-bottom, 0px)); }
-#toast { bottom: calc(120px + env(safe-area-inset-bottom, 0px)); }
+.basket { bottom: calc(108px + var(--sa-bottom)); }
+#toast { bottom: calc(120px + var(--sa-bottom)); }
 /* wallet prompt */
 #walletask { position: fixed; inset: 0; z-index: 55; display: grid; align-items: end; }
 #walletask .wbg { position: absolute; inset: 0; background: rgba(0,0,0,.45); }
-#walletask .wpan { position: relative; background: #fff; border-radius: 24px 24px 0 0; padding: 28px 24px calc(20px + env(safe-area-inset-bottom, 0px)); max-width: 460px; width: 100%; margin: 0 auto; text-align: center; }
+#walletask .wpan { position: relative; background: #fff; border-radius: 24px 24px 0 0; padding: 28px 24px calc(20px + var(--sa-bottom)); max-width: 460px; width: 100%; margin: 0 auto; text-align: center; }
 #walletask h2 { font: 900 26px/1 var(--display); text-transform: uppercase; margin: 0 0 8px; } #walletask p { margin: 0 0 20px; color: var(--muted); }
 #walletask .wopts { display: grid; gap: 12px; justify-items: center; }
 #walletask .wbadge { min-height: 52px; padding: 0; border: 0; background: none; border-radius: 12px; }
@@ -744,7 +746,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
 /* stamp drawer */
 #stampdrawer { position: fixed; inset: 0; z-index: 45; }
 #stampdrawer .sd-bg { position: absolute; inset: 0; background: rgba(0,0,0,.45); opacity: 0; transition: opacity .25s; }
-#stampdrawer .sd-pan { position: absolute; top: 0; right: 0; bottom: 0; width: min(86vw, 420px); background: #fff; padding: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(24px + env(safe-area-inset-bottom, 0px)); overflow-y: auto; transform: translateX(100%); transition: transform .28s cubic-bezier(.2,.8,.2,1); touch-action: pan-y; }
+#stampdrawer .sd-pan { position: absolute; top: 0; right: 0; bottom: 0; width: min(86vw, 420px); background: #fff; padding: calc(16px + var(--sa-top)) 16px calc(24px + var(--sa-bottom)); overflow-y: auto; transform: translateX(100%); transition: transform .28s cubic-bezier(.2,.8,.2,1); touch-action: pan-y; }
 #stampdrawer.show .sd-bg { opacity: 1; } #stampdrawer.show .sd-pan { transform: translateX(0); }
 .sd-top { display: flex; align-items: center; justify-content: space-between; } .sd-top h2 { font: 900 30px/1 var(--display); text-transform: uppercase; margin: 0; }
 .sd-x, .px, .sc-x { width: 44px; height: 44px; border: 0; border-radius: 50%; background: var(--tile); font-size: 24px; line-height: 1; color: var(--ink); }
@@ -758,7 +760,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
 /* staff PIN sheet */
 #pinsheet { position: fixed; inset: 0; z-index: 50; display: grid; align-items: end; }
 #pinsheet .pbg { position: absolute; inset: 0; background: rgba(0,0,0,.5); }
-#pinsheet .ppan { position: relative; background: #fff; border-radius: 24px 24px 0 0; padding: 20px 24px calc(24px + env(safe-area-inset-bottom, 0px)); max-width: 420px; width: 100%; margin: 0 auto; text-align: center; }
+#pinsheet .ppan { position: relative; background: #fff; border-radius: 24px 24px 0 0; padding: 20px 24px calc(24px + var(--sa-bottom)); max-width: 420px; width: 100%; margin: 0 auto; text-align: center; }
 #pinsheet .px { position: absolute; right: 12px; top: 12px; }
 #pinsheet h2 { font: 900 24px/1 var(--display); text-transform: uppercase; margin: 8px 0 20px; }
 .pdots { display: flex; justify-content: center; gap: 12px; } .pdots i { width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid #0b0b0b; } .pdots i.on { background: #0b0b0b; }
@@ -769,7 +771,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
 @media (prefers-reduced-motion: no-preference) { .ppan.shake { animation: shake .4s; } @keyframes shake { 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } } }
 @media (prefers-reduced-motion: reduce) { .ppan.shake .pdots i { border-color: #b3261e; } }
 /* scanner */
-#scanner { position: fixed; inset: 0; z-index: 50; background: #0b0b0b; color: #fff; display: grid; grid-template-rows: auto 1fr auto auto; padding: calc(12px + env(safe-area-inset-top, 0px)) 16px calc(24px + env(safe-area-inset-bottom, 0px)); gap: 16px; }
+#scanner { position: fixed; inset: 0; z-index: 50; background: #0b0b0b; color: #fff; display: grid; grid-template-rows: auto 1fr auto auto; padding: calc(12px + var(--sa-top)) 16px calc(24px + var(--sa-bottom)); gap: 16px; }
 #scanner .sc-top { display: flex; align-items: center; justify-content: space-between; } #scanner .sc-top b { font: 900 24px var(--display); text-transform: uppercase; }
 #scanner .sc-x { background: rgba(255,255,255,.15); color: #fff; }
 #scanner .sc-view { position: relative; border-radius: 20px; overflow: hidden; background: #000; min-height: 0; }
@@ -794,7 +796,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
 .fin2 { display: grid; gap: 24px; }
 .fin2 > * { margin: 0; }
 .fin2 .hint { margin: 0; }
-.fsubs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 4; background: var(--paper); padding: 8px 0; margin: 0; }
+.fsubs { position: sticky; top: var(--sa-top); z-index: 4; background: var(--paper); padding: 8px 0; margin: 0; }
 .fsubs .fcount { display: inline-grid; place-items: center; min-width: 20px; height: 20px; margin-left: 8px; padding: 0 6px; border-radius: 999px; background: var(--warn); color: #fff; font: 700 11px/1 var(--sans); }
 .fhead h2 { margin: 0; font: 900 clamp(32px, 8vw, 48px)/.92 var(--display); text-transform: uppercase; letter-spacing: -.02em; }
 .fhead p { margin: 8px 0 0; color: var(--muted); font-size: 15px; }
@@ -932,6 +934,22 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
 .dnudge { display: flex; align-items: center; gap: 10px; width: 100%; margin: 4px 0 14px; padding: 10px 14px; min-height: 44px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--muted); font: 500 13px var(--sans); text-align: left; cursor: pointer; }
 .dnudge svg { width: 18px; height: 18px; flex: none; color: var(--ink); } .dnudge span { flex: 1; } .dnudge b { color: var(--ink); font-weight: 600; } .dnudge i { font-style: normal; font-size: 18px; color: var(--muted); }
 .diet-ask .dclose { display: block; margin: 10px auto 0; }
+#backhint { position: fixed; left: 50%; bottom: calc(96px + var(--sa-bottom)); transform: translateX(-50%); z-index: 60; background: #0b0b0b; color: #fff; padding: 10px 16px; border-radius: 999px; font: 600 13px var(--sans); white-space: nowrap; }
+/* short screens (Android phones lose ~70px to the status and Back/Home bars): a slimmer bar, button and basket so the content gets the room */
+@media (max-height: 720px) {
+  .bnav { bottom: calc(6px + var(--sa-bottom)); padding-bottom: 4px; }
+  .bnav button.side { min-height: 46px; margin-top: 4px; padding: 4px 0 2px; }
+  .fab { width: 54px; height: 54px; margin-top: -12px; } .fab svg { width: 32px; height: 32px; }
+  .basket { bottom: calc(90px + var(--sa-bottom)); } #toast, #backhint { bottom: calc(100px + var(--sa-bottom)); }
+  body:has(#basket:not([hidden])) #toast { bottom: calc(156px + var(--sa-bottom)); }
+  .wrap { padding-bottom: calc(180px + var(--sa-bottom)); }
+}
+@media (max-width: 400px) { .stab { width: 24px; min-height: 96px; padding: 8px 0; top: 62%; } .stab span { font-size: 10px; letter-spacing: .1em; } }
+/* native feel on Android and iOS: no blue tap flash, no text selection on long-press of controls, no pull-to-refresh bounce behind sheets */
+html { -webkit-tap-highlight-color: transparent; }
+button, .btn, .bnav, .fab, .opts, .cats, .step { -webkit-user-select: none; user-select: none; }
+.sheet, #stampdrawer, #pinsheet, #walletask, #scanner { overscroll-behavior: contain; }
+html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
 </style>
 
 <div class="wrap" id="wrap">
@@ -1217,6 +1235,12 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
   const fmt = (iso) => { try { return new Date(iso).toLocaleString('en-GB', { timeZone: 'Europe/London', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); } catch { return ''; } };
   const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
   let toastT;
+  // adding to the order: the item flies into the Order button and the count rolls, so the words go to screen readers only (a visible toast would cover checkout)
+  function added(msg) {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return toast(msg);
+    let l = document.getElementById('sr-live'); if (!l) { l = document.createElement('div'); l.id = 'sr-live'; l.className = 'sr'; l.setAttribute('role', 'status'); document.body.appendChild(l); }
+    l.textContent = ''; setTimeout(() => { l.textContent = msg; }, 50);
+  }
   function toast(msg) { const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => (t.hidden = true), 2600); }
 
   const pat = {
@@ -1698,7 +1722,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     const m = menu().find((x) => x.id === id), o = optsFor(m);
     if (!o) {
       if (['contains', 'check'].includes(verdict(m).st)) { S.sheet = { id, qty: 1, opts: {} }; return render(); }
-      S.cart[id] = Math.min(20, (S.cart[id] || 0) + 1); toast(`${m.name} added`); render(); return flyToBasket(from);
+      S.cart[id] = Math.min(20, (S.cart[id] || 0) + 1); added(`${m.name} added`); render(); return flyToBasket(from);
     }
     const last = S.lastOpts[id] || {}, d = diet() || {}, milk = bestMilk(m);
     const pick = (k, vals) => k === 'milk' && milk && (MILK_ALG[last[k]] || []).some((a) => myAlg().has(a)) ? milk
@@ -3365,7 +3389,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     else if (a === 'sadd') {
       const sh = S.sheet, m = menu().find((x) => x.id === sh.id), k = keyOf(sh.id, sh.opts);
       S.cart[k] = Math.min(20, (S.cart[k] || 0) + sh.qty); S.lastOpts[sh.id] = sh.opts; try { localStorage.setItem('bija.opts', JSON.stringify(S.lastOpts)); } catch {}
-      const src = document.querySelector('.sheet [data-act=sadd]'); const r = src && src.getBoundingClientRect(); S.sheet = null; toast(`${sh.qty}× ${m.name} added`); render(); flyToBasket(r ? { getBoundingClientRect: () => r } : null);
+      const src = document.querySelector('.sheet [data-act=sadd]'); const r = src && src.getBoundingClientRect(); S.sheet = null; added(`${sh.qty}× ${m.name} added`); render(); flyToBasket(r ? { getBoundingClientRect: () => r } : null);
     }
     else if (a === 'dec') { const id = b.dataset.id, k = Object.keys(S.cart).filter((x) => (x === id || x.startsWith(id + '~')) && S.cart[x] > 0).pop(); if (k) { S.cart[k]--; if (!S.cart[k]) { delete S.cart[k]; offerUndo(k, 1); } } render(); }
     else if (a === 'kqty') { const k = b.dataset.key, was = S.cart[k] || 0; S.cart[k] = Math.max(0, Math.min(20, was + +b.dataset.d)); if (!S.cart[k]) { delete S.cart[k]; if (was) offerUndo(k, was); } render(); }

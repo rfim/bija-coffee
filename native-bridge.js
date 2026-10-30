@@ -78,10 +78,22 @@
 
   // Android back button: close an open sheet or dialog first, then go back, then leave the app.
   const openOverlay = () => document.querySelector('dialog[open], [aria-modal="true"]:not([hidden]), #sheet:not([hidden]) .pan, .sheet.on, [data-stamp-drawer].open, [data-stamp-drawer][aria-hidden="false"]');
+  // In the app: sheet first, then an open allergy step, then back to Home, then "press again to leave" (the usual Android pattern).
+  let lastBack = 0;
+  const backHint = () => {
+    let t = document.getElementById('backhint');
+    if (!t) { t = document.createElement('div'); t.id = 'backhint'; t.setAttribute('role', 'status'); document.body.appendChild(t); }
+    t.textContent = 'Press back again to leave Bija'; t.hidden = false; clearTimeout(t._h); t._h = setTimeout(() => { t.hidden = true; }, 2000);
+  };
   if (App && platform === 'android') quiet(App.addListener('backButton', ({ canGoBack }) => {
     if (openOverlay()) { document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); return; }
-    if (canGoBack) history.back(); // canGoBack comes from the WebView's own history
-    else quiet(App.exitApp());
+    const close = document.querySelector('.diet-ask [data-act=dclose]');
+    if (close) { close.click(); return; }
+    if (!/app\.html$/.test(location.pathname)) { if (canGoBack) history.back(); else location.href = 'app.html?view=app'; return; }
+    const home = document.querySelector('.bnav [data-act=tab][data-v=home]');
+    if (home && home.getAttribute('aria-current') !== 'page') { home.click(); return; }
+    if (Date.now() - lastBack < 2000) { quiet(App.exitApp()); return; }
+    lastBack = Date.now(); backHint();
   }));
 
   // Status bar: dark text on white, matching the light app. The splash stays until the app has drawn.
