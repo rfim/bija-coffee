@@ -2,7 +2,8 @@
 (() => {
   const S = window.BijaShop, $ = (id) => document.getElementById(id);
   const esc = S.esc;
-  const LIVE = 'https://rfim.github.io/bija-coffee/trace.html';
+  // Codes point at the site this page is served from; the GitHub Pages demo address is only the fallback for local files.
+  const LIVE = location.protocol === 'https:' ? new URL('trace.html', location.href).href : 'https://rfim.github.io/bija-coffee/trace.html';
   const BEANS = ['house', 'mandheling', 'lintong', 'java', 'gayo', 'kintamani'];
   // L7160 geometry in millimetres
   const COLS = 3, ROWS = 7, W = 63.5, H = 38.1, TOP = 15.15, LEFT = 7.25, PITCH_X = 66.04, PITCH_Y = 38.1;

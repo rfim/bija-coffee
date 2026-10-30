@@ -11,7 +11,7 @@ A message from {{sender_name}}:
 
 Your gift card code: {{gift_code}}
 
-Add it in the Bija app: https://rfim.github.io/bija-coffee/app.html?view=app#gifts
+Add it in the Bija app: {{site_url}}/app.html?view=app#gifts
 
 Add the code in the Bija app (Gift cards tab), or show it at the bar at 2a St James's Market, London SW1Y 4AH.
 

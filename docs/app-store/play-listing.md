@@ -39,7 +39,7 @@ Best New Coffee Shop, London Coffee Festival Awards 2025.
 **Category:** Food & Drink
 **Tags:** coffee, café, order ahead, loyalty
 **Contact email:** info@bijalondon.co.uk
-**Website:** https://rfim.github.io/bija-coffee/ (switch to Bija's own domain at launch)
+**Website:** https://rfim.github.io/bija-coffee/ (demo address: **replace with Bija's own domain before submitting**, and update the Android deep links, `twa-manifest.json` and `assetlinks.json` to match)
 **Privacy policy URL:** https://rfim.github.io/bija-coffee/privacy.html (must be public and match the form below)
 
 ## Data safety form

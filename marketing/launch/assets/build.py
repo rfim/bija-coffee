@@ -63,15 +63,15 @@ def graphic(name, w, h, theme, eyebrow, lines, body, foot, size=None):
 FEED = [  # 1080 x 1350, grid posts that are graphics (the rest of the grid is real café photos, no text)
     ('feed-01-website', 'dark', 'New · the Bija website', ['Bija is', 'online.'], ['Indonesian beans, the Beans Club and', 'your Bija Card, in one place.'], 'Link in bio'),
     ('feed-03-app', 'light', 'The Bija app', ['Order', 'ahead.'], ['Order from your desk, collect at the', 'window bar. 100 points on your first order.'], '2a St James\'s Market'),
-    ('feed-05-beans-club', 'dark', 'The Beans Club', ['10% off', 'every bag.'], ['Fresh Indonesian beans every 2, 3 or 4 weeks.', '£10.80 a bag, free UK delivery. Cancel any time.'], 'Link in bio'),
-    ('feed-07-points', 'light', 'Bija Card', ['10 points', 'per £1.'], ['At the bar, in the app and online.', '350 cake · 400 drink · 1,200 beans.'], 'Terms in the app'),
+    ('feed-05-beans-club', 'dark', 'The Beans Club', ['10% off', 'every bag.'], ['Fresh Indonesian beans every 2, 3 or 4 weeks.', '£10.80 a bag, free UK delivery. Pause up to 3 days ahead.'], 'Link in bio'),
+    ('feed-07-points', 'light', 'Bija Card', ['10 points', 'per £1.'], ['At the bar, in the app and online.', 'Cake 350 · beans 1,200 · 10th drink free.'], 'Terms in the app'),
     ('feed-09-passport', 'dark', 'Origins Passport', ['Collect', 'the', 'islands.'], ['A stamp for each Indonesian origin you taste.', 'Fill the passport: +600 points.'], 'In the Bija app'),
     ('feed-11-secret', 'light', 'Secret St James\'s', ['Ten', 'secrets.'], ['A walking trail of stories around the market,', 'hiding in plain sight. Find all ten: +400.'], 'In the Bija app'),
 ]
 STORIES = [  # 1080 x 1920
     ('story-1-launch', 'dark', 'New', ['Bija,', 'now', 'online.'], ['Shop beans, join the Beans Club,', 'get your Bija Card.'], 'Tap the link'),
     ('story-2-app', 'light', 'Order ahead', ['Skip', 'the', 'queue.'], ['Order in the Bija app, collect at', 'the window bar.'], 'Tap the link'),
-    ('story-3-beans-club', 'dark', 'The Beans Club', ['10%', 'off,', 'always.'], ['Every 2, 3 or 4 weeks. Free UK delivery.', 'Skip, pause or cancel any time.'], 'Tap the link'),
+    ('story-3-beans-club', 'dark', 'The Beans Club', ['10%', 'off,', 'always.'], ['Every 2, 3 or 4 weeks. Free UK delivery.', 'Skip, pause or cancel up to 3 days ahead.'], 'Tap the link'),
     ('story-4-card', 'light', 'Bija Card', ['Show', 'your', 'QR.'], ['The barista scans it, the points land.', '10 points per £1.'], 'Get the app'),
     ('story-5-passport', 'dark', 'Origins Passport', ['Five', 'origins,', 'five', 'stamps.'], ['One stamp for each origin you taste.', 'Fill the passport for +600 points.'], 'Get the app'),
     ('story-6-secret', 'light', 'Secret St James\'s', ['Find', 'all', 'ten.'], ['A trail of stories around the market.', 'Finish it for +400 points.'], 'Get the app'),

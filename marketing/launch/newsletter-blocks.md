@@ -6,8 +6,8 @@ Reusable blocks for the email tool. Each one is a heading, one or two sentences 
 |---|---|---|---|---|
 | Hero | **Bija is online.** | Our beans, the Beans Club and your Bija Card, all in one place. Still best in person at 2a St James's Market. | Visit the website → home | `assets/feed-01-website.svg` |
 | App | **Order ahead.** | Order from your desk, collect at the window bar. 100 welcome points on your first order. | Get the app → app | `assets/feed-03-app.svg` |
-| Bija Card | **10 points per £1.** | At the bar, in the app and online. 350 for any cake, 400 for any drink, 1,200 for a bag of beans. | See rewards → rewards page | `assets/feed-07-points.svg` |
-| Beans Club | **10% off every bag.** | £10.80 a bag every 2, 3 or 4 weeks, with free UK delivery. Skip, pause or cancel any time. | Join the Beans Club → subscriptions page | `assets/feed-05-beans-club.svg` |
+| Bija Card | **10 points per £1.** | At the bar, in the app and online. 350 for any cake, 1,200 for a bag of beans. Every 10th handcrafted drink is free on the stamp card. | See rewards → rewards page | `assets/feed-07-points.svg` |
+| Beans Club | **10% off every bag.** | £10.80 a bag every 2, 3 or 4 weeks, with free UK delivery. Change, skip, pause or cancel up to 3 days before your next dispatch. | Join the Beans Club → subscriptions page | `assets/feed-05-beans-club.svg` |
 | Passport | **Collect the islands.** | A stamp for every Indonesian origin you taste. Fill the passport for 600 bonus points. | Start your passport → app | `assets/feed-09-passport.svg` |
 | Secret St James's | **Ten secrets.** | A walking trail of stories around the market, hiding in plain sight. Find all ten for 400 points. | Start the trail → app | `assets/feed-11-secret.svg` |
 | Gift | **Gift three months of kopi.** | Three bags over three months, one a month, prepaid at £36 with delivery included. No renewal. | Gift a subscription → gift product page | `photos/feature-1.jpg` (no text on it) |

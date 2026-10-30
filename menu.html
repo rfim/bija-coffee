@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         <div class="foot"><span class="pr">${money(m.price)}</span><a class="al" href="allergens.html">Allergens: ask us</a></div></div>
     </article>`;
   document.getElementById('sections').innerHTML = CATS.map(([c, id, sub]) => `<section class="msec" id="${id}" aria-labelledby="${id}-h">
-      <div class="sec-h"><div><span class="eyebrow">${esc(sub)}</span><h2 id="${id}-h">${esc(c)}</h2></div><a class="btn sm" href="app.html?view=app#order">Order ahead in the app</a></div>
+      <div class="sec-h"><div><span class="eyebrow">${esc(sub)}</span><h2 id="${id}-h">${esc(c)}</h2></div><a class="btn sm ghost" href="app.html?view=app#order">Order ahead in the app</a></div>
       <div class="mgrid">${MENU.filter((m) => m.cat === c).map(tile).join('')}</div>
     </section>`).join('');
   document.getElementById('cats').innerHTML = CATS.map(([c, id]) => `<a class="chip" href="#${id}">${esc(c)}</a>`).join('');

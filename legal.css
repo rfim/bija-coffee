@@ -4,8 +4,10 @@
 * { box-sizing: border-box; }
 html { background: var(--bg); color-scheme: light; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 Inter, "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
-.legal-main { max-width: 760px; margin: 0 auto; padding: 40px 20px 72px; overflow-wrap: anywhere; }
+.legal-main { max-width: 760px; margin: 0 auto; padding: 40px 20px 72px; overflow-wrap: break-word; }
 .legal-main table { display: block; overflow-x: auto; }
+.legal-main table > tbody { display: table; width: 100%; min-width: 520px; }
+.legal-main th, .legal-main td { overflow-wrap: normal; hyphens: manual; }
 a { color: inherit; }
 :focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 .legal-main h1 { font: 900 clamp(40px, 7vw, 72px)/.92 var(--disp); text-transform: uppercase; letter-spacing: -.01em; margin: 0 0 12px; }

@@ -111,7 +111,7 @@
           ${fact('Region', esc(p.where), esc(p.region))}
           ${fact('Altitude', esc(p.altitude))}
           ${fact('Process', esc(p.process))}
-          ${fact('Sourced with', 'Kindred Forest', 'Green coffee sourcing partner')}${fact('Roasted by', 'Bija\'s baristas', 'Roasted in-house for freshness')}
+          ${fact('Sourced with', 'Kindred Forest', 'Green coffee sourcing partner')}${fact('Roasted by', 'Bija\'s baristas', 'Roasted for freshness')}
           ${fact('Farm or co-op', code.f ? esc(code.f) : 'To be published by Bija', code.f ? '' : 'We share farm names once our importer confirms them', !code.f)}
           ${code.l ? fact('Lot', esc(code.l)) : ''}
           ${code.h ? fact('Harvest', esc(code.h)) : ''}
@@ -169,7 +169,7 @@
       return;
     }
     if (e.target.closest('#share')) {
-      const p = S.byId(code.b), data = { title: `${p.name} · Bija`, text: `${p.name} from ${p.where}, roasted for Bija in London.`, url: location.href };
+      const p = S.byId(code.b), data = { title: `${p.name} · Bija`, text: `${p.name} from ${p.where}, sourced with Kindred Forest and roasted by Bija's baristas.`, url: location.href };
       try { if (navigator.share) { await navigator.share(data); return; } } catch (err) { if (err && err.name === 'AbortError') return; }
       try { await navigator.clipboard.writeText(location.href); S.toast('Link copied. Paste it anywhere to share.'); } catch { S.toast('Copy the address from your browser bar to share.'); }
     }

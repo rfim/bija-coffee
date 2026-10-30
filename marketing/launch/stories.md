@@ -11,7 +11,7 @@
 |---|---|---|
 | 1 | Graphic | (the graphic has the headline) |
 | 2 | Screen recording: the home page scrolls to the beans | Caption sticker: "Beans, the Beans Club and your Bija Card" |
-| 3 | Screen recording: adding a bag of Sumatra Lintong to the basket | "Free UK delivery over £30" |
+| 3 | Screen recording: adding a bag of Sumatra Lintong to the basket | "Free UK delivery on orders of £30 or more" |
 | 4 | The bar at 8am, steam and the flower lamps (no customers' faces) | Link sticker: "Shop Bija" |
 
 ### Story 2 · "Skip the queue." (`assets/story-2-app.svg`)
@@ -30,7 +30,7 @@
 | 1 | Graphic | |
 | 2 | Hands packing a 200 g bag for posting | "£10.80 a bag instead of £12" |
 | 3 | Poll sticker over a plain band: "How do you brew at home?" Cafetière / V60 / Espresso / Moka pot | |
-| 4 | Plain text frame | "Every 2, 3 or 4 weeks. Free UK delivery. Skip, pause or cancel any time." Link sticker: "Join the Beans Club" |
+| 4 | Plain text frame | "Every 2, 3 or 4 weeks. Free UK delivery. Change, skip, pause or cancel up to 3 days before your next dispatch." Link sticker: "Join the Beans Club" |
 
 ### Story 4 · "Show your QR." (`assets/story-4-card.svg`)
 
@@ -38,8 +38,8 @@
 |---|---|---|
 | 1 | Graphic | |
 | 2 | Phone at the till showing the Bija Card QR; the barista scans it | "Scan, and the points land straight away" |
-| 3 | The rewards list: 350 cake, 400 drink, 1,200 beans | Quiz sticker: "How many points for a free drink?" 350 / 400 / 1,200 |
-| 4 | Answer frame | "400. That's about £40 of coffee." Link sticker: "Get your Bija Card" |
+| 3 | The stamp card: nine stamps, then the 10th drink free | Quiz sticker: "Which drink is free?" 5th / 10th / 20th |
+| 4 | Answer frame | "The 10th, up to £5.50. Cake at 350 points, beans at 1,200." Link sticker: "Get your Bija Card" |
 
 ### Story 5 · "Five origins, five stamps." (`assets/story-5-passport.svg`)
 

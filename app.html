@@ -8,6 +8,7 @@
 <script src="app-motion.js" defer></script>
 <script src="native-bridge.js" defer></script>
 <script src="wallet.js" defer></script>
+<script src="push.js" defer></script>
 <style>
 /* Bija brand (Grind-style since Oct 2026): white pages, loud uppercase Archivo headings, black pills.
    Earlier note: black page, white Helvetica-style type, four-circle mark (matches bijacoffee.co.uk).
@@ -878,6 +879,22 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
   #print-root tr.b th, #print-root tr.b td { font-weight: 700; }
   #print-root .note { margin-top: 16pt; color: #555; font-size: 9pt; }
 }
+/* design pass: quieter, tidier (presentation only) */
+/* menu tiles: a single round + until something is in the bag, then the full stepper */
+.prod .step:has(> button[data-act=dec]:disabled) { width: auto; border-color: transparent; background: transparent; justify-content: flex-end; align-self: flex-end; }
+.prod .step:has(> button[data-act=dec]:disabled) > button[data-act=dec], .prod .step:has(> button[data-act=dec]:disabled) > output { display: none; }
+.prod .step:has(> button[data-act=dec]:disabled) > button[data-act=sheet] { width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: #fff; }
+/* live order card: light while it's on its way, so it doesn't stack two black blocks above the black Bija Card; "ready" keeps its strong outline */
+.live:not([data-status="ready"]) { background: #f2f2f0; color: #0b0b0b; }
+.live:not([data-status="ready"]) .eyebrow, .live:not([data-status="ready"]) .lmeta { color: #555; }
+.live:not([data-status="ready"]) .ltrack > span { color: #6b6b6b; }
+.live:not([data-status="ready"]) .ltrack i { background: rgba(0,0,0,.12); }
+.live:not([data-status="ready"]) .ltrack .done, .live:not([data-status="ready"]) .ltrack .now { color: #0b0b0b; }
+.live:not([data-status="ready"]) .ltrack .done i, .live:not([data-status="ready"]) .ltrack .now i { background: #0b0b0b; }
+@media (min-width: 600px) { .hband { margin: 0 0 16px; border-radius: 20px; padding: 24px 72px 20px 20px; } .hband .avatar { right: 20px; } }
+.beanh .bw { font: 600 13px/1 var(--sans); text-transform: none; letter-spacing: 0; color: var(--muted); white-space: nowrap; }
+/* Secret St James's: undealt cards were a wall of black; quiet placeholders so the dealt cards stand out */
+.sc.back.mini { background-color: #f2f2f0; color: #0b0b0b; background-image: none !important; box-shadow: inset 0 0 0 1px #e4e4e2; }
 </style>
 
 <div class="wrap" id="wrap">
@@ -1040,13 +1057,12 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
   const UK_POSTCODE = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/i;
   const REFER = 300; // points for the new member and for the friend who invited them, both confirmed by the bar
   const REFER_MIN = 3; // PROPOSAL: the friend's first paid order must be at least £3
-  // PROPOSAL: points expire after 12 months without a visit. Shown as a rule for now; not yet enforced in the maths.
   // PROPOSED offers: for the owner to confirm before launch. Staff apply them at the till; the app never discounts on its own.
   const OFFERS = [
     { id: 'cup', big: '25p off', title: 'Bring your own cup', terms: 'Any hot drink in a clean reusable cup. Every day, at the till.' },
     { id: 'early', big: 'Double points', title: 'Early bird', terms: 'Mon–Fri before 9am. Show your Bija Card when you pay and the barista adds the double points.' },
     { id: 'student', big: '10% off', title: 'Students', terms: 'Show a valid student card (TOTUM or university ID) at the till. Not with other offers.' },
-    { id: 'club', big: '10% off beans', title: 'Beans Club', terms: 'Subscribe to any bag: £10.80 for 200 g, free UK delivery, skip, pause or cancel any time.', act: 'beans' },
+    { id: 'club', big: '10% off beans', title: 'Beans Club', terms: 'Subscribe to any bag: £10.80 for 200 g, free UK delivery; change, skip, pause or cancel up to 3 days before your next dispatch.', act: 'beans' },
   ];
   // Member codes are random, never derived from the account ID (S10). The member's app proposes one; the bar's record
   // (bar/{uid}.memberCode, written by staff the first time they see the member) is the one that counts. '' = not yet assigned.
@@ -1514,6 +1530,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     c.style.setProperty('--tx', (gx * .35).toFixed(2) + 'deg'); c.style.setProperty('--ty', (-gy * .25).toFixed(2) + 'deg');
     c.style.setProperty('--mx', (50 + gx * 2).toFixed(1) + '%'); c.style.setProperty('--my', (50 + gy * 2).toFixed(1) + '%'); c.style.setProperty('--go', .8);
   });
+  function obShow(i) { S.obi = i; const cs = document.querySelector('.onb .cards'); if (!cs) return; cs.dataset.i = i; document.querySelectorAll('.onb .pips i').forEach((p, k) => p.classList.toggle('on', k === i)); const nb = document.querySelector('.onb [data-act=obnext]'); if (nb) nb.textContent = i >= 2 ? 'Start ordering' : 'Next'; }
   function renderSwitch() {
     // customers see only the logo. Staff hold the Order button for 3 seconds (or open app.html?view=bar) and enter the staff PIN.
     if (S.wantBar && S.configLoaded) { S.wantBar = false; setTimeout(pinOpen, 0); }
@@ -1636,7 +1653,8 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     const cs = document.querySelector('.onb .cards');
     if (cs && !cs.dataset.fx) {
       cs.dataset.fx = 1;
-      cs.addEventListener('scroll', () => { const i = Math.round(cs.scrollLeft / Math.max(1, cs.clientWidth)); document.querySelectorAll('.onb .pips i').forEach((p, k) => p.classList.toggle('on', k === i)); const nb = document.querySelector('.onb [data-act=obnext]'); if (nb) nb.textContent = i >= 2 ? 'Start ordering' : 'Next'; }, { passive: true });
+      if (S.obi) { cs.dataset.i = S.obi; cs.scrollLeft = S.obi * cs.clientWidth; }
+      cs.addEventListener('scroll', () => { const i = Math.round(cs.scrollLeft / Math.max(1, cs.clientWidth)); if (cs.dataset.go != null) { if (i !== +cs.dataset.go) return; delete cs.dataset.go; } obShow(i); }, { passive: true });
     }
   }
   function onboarding(st) {
@@ -1650,7 +1668,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     return `<section class="onb" aria-label="Welcome to Bija" style="background-image:${attrq(pat.kawung('#ffffff', .07))}">
       <span class="eyebrow">Welcome to Bija</span>
       <div class="cards" tabindex="0" aria-label="Three things the app does, swipe to see them">${cards.map(([ic, t, s]) => `<div class="c">${ic}<div><b>${esc(t)}</b><span>${esc(s)}</span></div></div>`).join('')}</div>
-      <div class="ft"><div class="pips" aria-hidden="true"><i class="on"></i><i></i><i></i></div><div class="row" style="gap:8px;flex-wrap:nowrap"><button class="btn sm ghost" data-act="obskip">Skip</button><button class="btn sm" data-act="obnext">Next</button></div></div>
+      <div class="ft"><div class="pips" aria-hidden="true">${[0, 1, 2].map((k) => `<i${k === (S.obi || 0) ? ' class="on"' : ''}></i>`).join('')}</div><div class="row" style="gap:8px;flex-wrap:nowrap"><button class="btn sm ghost" data-act="obskip">Skip</button><button class="btn sm" data-act="obnext">${(S.obi || 0) >= 2 ? 'Start ordering' : 'Next'}</button></div></div>
     </section>`;
   }
   // ---- scan coffee: QR codes on bags and cups open the bean passport (trace.html) ----
@@ -2155,6 +2173,27 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
       </div>`}
     </section>`;
   }
+  // Order-ready notifications (push.js). Shown only when they can really work here: the live backend has its
+  // VAPID keys and this device supports Web Push (iPhone: only when installed to the Home Screen). Never in the demo.
+  function pushCheck() {
+    if (S.pushChecking || S.pushChecked || !window.BijaPush) return;
+    S.pushChecking = true;
+    Promise.resolve(BijaPush.refresh()).then(() => BijaPush.enabled()).then((on) => {
+      const avail = BijaPush.available();
+      S.pushChecked = true; S.pushChecking = false;
+      if (avail || on) { S.push = { avail, on }; render(); }
+    }, () => { S.pushChecked = true; S.pushChecking = false; });
+  }
+  function pushOffer(o) {
+    pushCheck();
+    if (!S.push || !S.push.avail || S.push.on || !['received', 'brewing'].includes(o.status)) return '';
+    return `<div class="row between push-offer"><span class="hint" style="margin:0">Get a notification when it's ready</span><button class="btn sm" data-act="push-on">Notify me</button></div>`;
+  }
+  function pushToggle() {
+    pushCheck();
+    if (!S.push || !S.push.avail) return '';
+    return `<div class="row between push-set"><span><b>Order-ready alerts</b><br><span class="hint">A notification on this phone when your order is ready.</span></span><button class="btn sm ${S.push.on ? 'ghost' : ''}" data-act="${S.push.on ? 'push-off' : 'push-on'}" aria-pressed="${S.push.on}">${S.push.on ? 'Turn off' : 'Turn on'}</button></div>`;
+  }
   function confirmation() {
     const o = (live() ? ordersOf(lvMe(), lvBar()) : ordersOf(S.me, S.bar)).find((x) => x.id === S.lastOrder) || null;
     if (!o) return notReady();
@@ -2170,6 +2209,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
       ${['received', 'brewing'].includes(o.status) && etaOf(o) ? `<div class="eta"><b>Ready around ${esc(etaOf(o))}</b><span>Estimate · updates live</span></div>` : ''}
       <div class="lines">${o.lines.map((l) => `<b>${l.qty}×</b> ${esc(l.name)}${optText(l) ? ` <small>(${esc(optText(l))})</small>` : ''}`).join(' · ')}</div>
       <p class="hint" style="margin:0">This updates live. Your points and a new Secret St James's card arrive when we hand it over.</p>
+      ${pushOffer(o)}
       <div class="row"><button class="btn sm ghost" data-act="again">Back to menu</button><button class="btn sm ghost" data-act="tab" data-v="orders">My orders</button></div>
     </section>`;
   }
@@ -2194,7 +2234,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     return `<div class="buy">
       <label class="f">Grind<select id="pk-${esc(pr.id)}" data-pick="${esc(pr.id)}:grind">${GRINDS.map((g) => `<option ${g === k.grind ? 'selected' : ''}>${esc(g)}</option>`).join('')}</select></label>
       <div class="opts" role="group" aria-label="One-off or subscribe"><button data-act="pplan" data-id="${esc(pr.id)}" data-v="once" aria-pressed="${!sub}">One-off · ${money(pr.price)}</button><button data-act="pplan" data-id="${esc(pr.id)}" data-v="sub" aria-pressed="${sub}">Subscribe · ${money(unitOf(pr, '4w'))}</button></div>
-      ${sub ? `<label class="f">Deliver<select id="pf-${esc(pr.id)}" data-pick="${esc(pr.id)}:freq">${Object.entries(PLANS).filter(([v]) => v !== 'once').map(([v, l]) => `<option value="${v}" ${v === k.freq ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select></label><span class="hint">10% off every bag and free delivery. Skip, pause or cancel any time in Beans Club.</span>` : ''}
+      ${sub ? `<label class="f">Deliver<select id="pf-${esc(pr.id)}" data-pick="${esc(pr.id)}:freq">${Object.entries(PLANS).filter(([v]) => v !== 'once').map(([v, l]) => `<option value="${v}" ${v === k.freq ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select></label><span class="hint">10% off every bag and free delivery. Change, skip, pause or cancel up to 3 days before each dispatch, in Beans Club.</span>` : ''}
       <div class="row between"><span class="hint">${q ? `${q} in your bag` : sub ? `${money(unit)} a bag` : 'Delivered or collect'}</span><button class="btn sm dark" data-act="shopadd" data-id="${esc(pr.id)}" ${S.busy ? 'disabled' : ''}>Add to bag · ${money(unit)}</button></div>
     </div>`;
   }
@@ -2220,7 +2260,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
       const i = m.info || {}, o = origin(m.origin), pr = SHOP.find((x) => x.menu === m.id);
       return `<article class="panel stack" style="gap:10px">
         ${bagArt(pr ? pr.id : '')}
-        <div class="row between"><h3 class="beanh">${esc(m.name)}</h3>${m.soon ? '<span class="pill received">Coming soon</span>' : m.available ? `<span class="price">${money(m.price)}</span>` : '<span class="pill cancelled">Sold out</span>'}</div>
+        <div class="row between"><h3 class="beanh">${esc(m.name).replace(/ · (\d+ g)$/, ' <small class="bw">· $1</small>')}</h3>${m.soon ? '<span class="pill received">Coming soon</span>' : m.available ? `<span class="price">${money(m.price)}</span>` : '<span class="pill cancelled">Sold out</span>'}</div>
         <div class="notes">${String(m.desc || '').split(',').map((n) => `<span>${esc(n.trim())}</span>`).join('')}</div>
         <dl style="display:grid;grid-template-columns:96px minmax(0,1fr);gap:4px 12px;margin:4px 0;font-size:14px">
           <dt class="hint">Region</dt><dd style="margin:0">${esc(i.region || '')}</dd>
@@ -2281,7 +2321,6 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
         ${st.refs.length ? `<div><b>${st.refs.length} friend${st.refs.length === 1 ? '' : 's'} joined</b> <span class="hint">· +${st.refs.length * REFER} points</span></div>` : ''}
         ${by ? `<div class="hint">Invited with ${esc(by)}${conf?.rejected ? ' · <span style="color:var(--warn)">not valid</span>' : conf ? ` · +${REFER} added` : ' · your bonus lands with your first collected order'}</div>`
           : !started ? `<div class="row" style="flex-wrap:nowrap"><label class="f" style="flex:1"><span class="sr">Friend's invite code</span><input type="text" id="ref-in" data-ref value="${esc(S.refCode)}" placeholder="Got a friend's code? BIJA-XXXXX" autocomplete="off" style="text-transform:uppercase;font-family:var(--mono)"></label><button class="btn sm" data-act="refadd" ${S.busy || !S.uid ? 'disabled' : ''}>Add</button></div>` : ''}
-        ${link ? `<span class="hint" style="word-break:break-all">${esc(link)}</span>` : ''}
       </div></section>`;
   }
   // live tracking at the top of Profile: the café order in progress, then beans on their way
@@ -2356,13 +2395,13 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
       <details class="psec more-d"><summary>Ways to earn</summary>
         <ul class="earn-l"><li>${PTS} points for every £1: at the till, in the app, in the beans shop and on the website, once we hand over or send your order.</li>
           <li>+${REFER} for you and each friend you invite, once their first paid order of at least £${REFER_MIN} is collected.</li><li>+${BONUS.welcome} welcome points with your first order.</li>
-          <li>Points expire after 12 months without a visit.</li>
           <li>+${BONUS.secret} for all ${SPOTS.length} Secret St James's spots${st.found === SPOTS.length ? ' ✓' : ` (${st.found}/${SPOTS.length})`}.</li>
           <li>+${BONUS.passport} for a full Origins Passport${passFull(st.origins) ? ' ✓' : ` (${passOrigins().filter((o) => st.origins.has(o.id)).length}/${passOrigins().length})`}.</li></ul>
       </details>
       <details class="psec more-d"><summary>Settings</summary>
         <p class="hint">Card design, saved on this device.</p>
         <div class="themes">${THEMES.map((x) => `<button data-act="theme" data-v="${x.id}" aria-pressed="${S.theme === x.id}">${cardHTML(x, { pts: 1240, tier: 'Sprout', pct: 60 })}${esc(x.name)}</button>`).join('')}</div>
+        ${pushToggle()}
         ${S.demo ? '<p class="links"><a href="privacy.html">Privacy</a><a href="accessibility.html">Accessibility</a><a href="allergens.html">Allergens</a></p>' : ''}
       </details>`;
   }
@@ -2731,7 +2770,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     return { st, today, from, to, inP, closes, exps, incs, takings, other, expenses, net, hasOpen, balance, trading, avg, fixed, breakEven, app: pen(app),
       byCat: [...byCat].map(([k, v]) => [k, pen(v)]).sort((a, b) => b[1] - a[1]), daily: days.map((d) => [dlabel(d), pen(dayMap.get(d) || 0)]),
       wallets: pen(wallets), unredeemed, gifts: pen(wallets + unredeemed), pts, ptsVal: pen(pts * st.ppv), tips, vat: st.vat ? pen(takings / 6) : 0,
-      stamps, stampVal: pen(stamps / 10 * st.stampCost), freeN, freeVal: pen(freeVal), ptsN, ptsOff: pen(ptsOff) };
+      stamps, stampVal: pen(stamps / STAMP_FREE_AT * st.stampCost), freeN, freeVal: pen(freeVal), ptsN, ptsOff: pen(ptsOff) };
   }
   // VAT return boxes for a period, following HMRC's 9-box layout. Estimates: the till does not split zero-rated cold takeaway food.
   function vatBoxes(a, b, st = finSet()) {
@@ -3082,6 +3121,16 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     else if (a === 'pin-key') pinKey(b.dataset.v);
     else if (a === 'tab') { if (S.view === 'bar') S.btab = b.dataset.v; else { if (['home', 'more', 'beans'].includes(S.tab) && S.tab !== b.dataset.v) S.backTo = S.tab; S.tab = b.dataset.v; S.lastOrder = null; S.fresh = -1; S.dealt = null; } render(); window.scrollTo({ top: 0 }); }
     else if (a === 'stamps') stampsOpen(b);
+    else if (a === 'push-on' || a === 'push-off') {
+      // the permission prompt must come straight from this tap
+      if (!window.BijaPush) return;
+      b.disabled = true;
+      (a === 'push-on' ? BijaPush.enable() : BijaPush.disable()).then((r) => {
+        if (r && r.ok) { S.push = { avail: true, on: a === 'push-on' }; toast(a === 'push-on' ? "We'll let you know when it's ready." : 'Order-ready alerts are off on this phone.'); }
+        else toast(r && r.reason === 'denied' ? 'Notifications are blocked. Turn them on for Bija in your phone settings.' : 'Couldn’t turn alerts on. Try again later.');
+        render();
+      }, () => { toast('Couldn’t change alerts. Try again later.'); render(); });
+    }
     else if (a === 'wallet-no') walletClose();
     else if (a === 'wallet-home') walletClose(); // the link still opens install.html
     else if (a === 'wallet-add') { walletClose(); try { Promise.resolve(window.BijaWallet?.add?.(b.dataset.id)).then((r) => { if (r && r.ok === false) toast('Couldn’t add it to your wallet. Try again later.'); }, () => toast('Couldn’t add it to your wallet. Try again later.')); } catch {} }
@@ -3131,7 +3180,11 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
           if (reason.length < 3) return toast('Add a reason to undo.');
           return run(async () => { await lvCall(S.sb.rpc.undoCollect(oid, reason)); await lvRefresh(); }, 'Collection undone. Points and stamps reversed.');
         }
-        return run(async () => { await lvCall(S.sb.rpc.setOrderStatus(oid, s)); await lvRefresh(); }, s === 'ready' ? 'Marked ready' : 'Updated');
+        return run(async () => {
+          await lvCall(S.sb.rpc.setOrderStatus(oid, s)); await lvRefresh();
+          // order-ready push: the server sends at most one per order, and only if the customer turned alerts on
+          if (s === 'ready' && window.BijaPush) BijaPush.notifyReady(oid).catch(() => {});
+        }, s === 'ready' ? 'Marked ready' : 'Updated');
       }
       // At Collected the bar writes its own record of the order (S2–S4): repriced total, points, lines, the gift amount
       // actually taken and the reward actually given. Points, stamps and gift balance are computed only from this record.
@@ -3163,7 +3216,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     else if (a === 'mf') { S.mf = b.dataset.v || ''; render(); }
     else if (a === 'mqclear') { S.mq = ''; S.mf = ''; render(); document.getElementById('m-q')?.focus({ preventScroll: true }); }
     else if (a === 'mqset') { S.mq = b.dataset.v; render(); }
-    else if (a === 'obnext') { const cs = document.querySelector('.onb .cards'); if (!cs) return; const i = Math.round(cs.scrollLeft / cs.clientWidth); if (i >= 2) { store.set('bija.onboarded', '1'); S.tab = 'order'; render(); window.scrollTo({ top: 0 }); } else cs.scrollTo({ left: (i + 1) * cs.clientWidth, behavior: calm() ? 'auto' : 'smooth' }); }
+    else if (a === 'obnext') { const cs = document.querySelector('.onb .cards'); if (!cs) return; const i = cs.dataset.i != null ? +cs.dataset.i : Math.round(cs.scrollLeft / cs.clientWidth); if (i >= 2) { store.set('bija.onboarded', '1'); S.tab = 'order'; render(); window.scrollTo({ top: 0 }); } else { cs.dataset.go = i + 1; obShow(i + 1); cs.scrollTo({ left: (i + 1) * cs.clientWidth, behavior: calm() ? 'auto' : 'smooth' }); } }
     else if (a === 'obskip') { store.set('bija.onboarded', '1'); render(); }
     else if (a === 'kadd') { const k = b.dataset.key, r = b.getBoundingClientRect(); S.cart[k] = Math.min(20, (S.cart[k] || 0) + 1); toast('Added to your order'); render(); flyToBasket({ getBoundingClientRect: () => r }); }
     else if (a === 'histall') { S.histAll = true; render(); }
@@ -3195,7 +3248,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
     else if (a === 'showcard') { S.tab = 'card'; S.showScan = true; render(); window.scrollTo({ top: 0 }); }
     else if (a === 'share') {
       const no = memberCode(S.uid), url = S.demo && /^https?:$/.test(location.protocol) ? `${location.origin}${location.pathname}?view=app&ref=${encodeURIComponent(no)}` : '';
-      const text = `Join me at Bija Coffee, 2a St James's Market. Add my code ${no} in the Bija app before your first order and we both get ${REFER} points.`;
+      const text = `Join me at Bija Coffee, 2a St James's Market. Add my code ${no} in the Bija app before your first order. Invite links give us both ${REFER} points when your first paid order of £3 or more is collected.`;
       if (navigator.share) navigator.share({ title: 'Bija Coffee', text, ...(url ? { url } : {}) }).catch(() => {});
       else try { navigator.clipboard.writeText(url ? text + ' ' + url : text).then(() => toast('Invite copied. Paste it into a message.'), () => toast(no)); } catch { toast(no); }
     }

@@ -72,6 +72,14 @@ Play Protect may warn that the app is from an unknown developer. That's expected
 
 ## Store releases
 
+### Replace the demo address before launch
+
+The Android and TWA settings still point at the demo site `rfim.github.io/bija-coffee`. Before a store release, replace it with Bija's own domain in:
+- `android/app/src/main/AndroidManifest.xml` (the deep-link intent filters),
+- `capacitor.config.ts` (`server.hostname` if you change the in-app address),
+- `../docs/app-store/twa-manifest.json` and `../.well-known/assetlinks.json` (which must be served from the new domain).
+
+
 ### Google Play
 1. Bija creates a Google Play developer account ($25 one-off; identity checks take a few days).
 2. Create an upload key once and keep it safe:

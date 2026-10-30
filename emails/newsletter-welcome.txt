@@ -8,9 +8,9 @@ Thanks for signing up, {{first_name}}. About twice a month we'll send you new be
 
 Kopi from the archipelago: specialty beans from Sumatra and Java. Sourced with our partner Kindred Forest and roasted by Bija's baristas. Best New Coffee Shop, London Coffee Festival Awards 2025.
 
-Shop coffee: https://rfim.github.io/bija-coffee/shop.html
+Shop coffee: {{site_url}}/shop.html
 
-Subscribe and save 10% on every bag with the Beans Club (https://rfim.github.io/bija-coffee/subscribe.html), and earn 10 points for every £1 on your Bija Card.
+Subscribe and save 10% on every bag with the Beans Club ({{site_url}}/subscribe.html), and earn 10 points for every £1 on your Bija Card.
 
 --
 Questions? Reply to this email, write to info@bijalondon.co.uk or call +44 20 4603 3086.

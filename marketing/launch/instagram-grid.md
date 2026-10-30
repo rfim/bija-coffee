@@ -30,7 +30,7 @@ Instagram shows the newest post top left. Post in the order below (1 first, 12 l
 
 ### 1 · Graphic: "Bija is online." (`assets/feed-01-website.svg`) · Launch day
 
-> Bija is online. Our new website has our Indonesian beans, the Beans Club and your Bija Card in one place, with free UK delivery on orders over £30.
+> Bija is online. Our new website has our Indonesian beans, the Beans Club and your Bija Card in one place, with free UK delivery on orders of £30 or more.
 > Still best in person, though: 2a St James's Market. Link in bio.
 > #bijalondon #indonesiancoffee #stjamesmarket
 
@@ -60,7 +60,7 @@ Instagram shows the newest post top left. Post in the order below (1 first, 12 l
 
 ### 5 · Graphic: "10% off every bag." (`assets/feed-05-beans-club.svg`)
 
-> Introducing the Beans Club. Our Indonesian beans arrive every 2, 3 or 4 weeks, at £10.80 a 200 g bag instead of £12, with free UK delivery. Change the coffee or grind, skip, pause or cancel any time before your next dispatch. There's no minimum term.
+> Introducing the Beans Club. Our Indonesian beans arrive every 2, 3 or 4 weeks, at £10.80 a 200 g bag instead of £12, with free UK delivery. Change the coffee or grind, change, skip, pause or cancel up to 3 days before your next dispatch. There's no minimum term.
 > Every bag earns Bija Card points too. Link in bio.
 > #indonesiancoffee #specialitycoffee #bijalondon
 
@@ -76,7 +76,7 @@ Instagram shows the newest post top left. Post in the order below (1 first, 12 l
 
 ### 7 · Graphic: "10 points per £1." (`assets/feed-07-points.svg`)
 
-> One card, three places to earn: at the bar (show the QR on your Bija Card when you pay), in the app and in our online shop. 350 points for any cake, 400 for any drink, 1,200 for a 200 g bag of beans.
+> One card, three places to earn: at the bar (show the QR on your Bija Card when you pay), in the app and in our online shop. 350 points for any cake and 1,200 for a 200 g bag of beans, plus a stamp on every handcrafted drink with the 10th free (up to £5.50).
 > Seed, Sprout, Kopi Tree: the more you visit, the more perks you get. Bija means seed, after all.
 > #bijalondon #stjamesmarket
 

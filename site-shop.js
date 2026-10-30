@@ -111,7 +111,7 @@
       : `<button class="btn" data-add="${p.id}" data-plan="${plan}" aria-label="Add ${esc(p.name)} to basket${plan !== 'once' ? ', ' + PLANS[plan].toLowerCase() : ''}">${plan !== 'once' ? 'Subscribe' : 'Add to basket'}</button>`;
     const price = plan !== 'once' && canSub(p) ? `${money(unit(p, plan))} <small>${esc(p.size)}</small>` : `${money(p.price)} <small>${esc(p.size)}</small>`;
     return `<article class="pcard ${p.soon ? 'soon' : ''}" data-type="${p.type}">
-      <a class="pimg" href="${link}" style="--pbg:${bgFor(p)}" tabindex="-1" aria-hidden="true">${bagArt(p)}${p.soon ? '<span class="flag">Coming soon</span>' : p.type === 'set' ? '<span class="flag">Set · save £3</span>' : p.type === 'gift' ? '<span class="flag">Gift</span>' : '<span class="flag light">Subscribe &amp; save</span>'}</a>
+      <a class="pimg" href="${link}" style="--pbg:${bgFor(p)}" tabindex="-1" aria-hidden="true">${bagArt(p)}${p.soon ? '<span class="flag">Coming soon</span>' : p.type === 'set' ? '<span class="flag">Set · save £3</span>' : p.type === 'gift' ? '<span class="flag">Gift</span>' : ''}</a>
       <div class="pbody"><span class="ptag">${esc(kind(p))}</span><h3><a href="${link}">${esc(p.name)}</a></h3>
         <p class="pnotes">${p.notes.map(esc).join(' · ')}</p>
         <div class="prow"><span class="pprice">${price}</span><p class="psub">${p.soon ? 'Be first to know when it lands' : p.type === 'gift' ? 'Prepaid, delivery included' : plan !== 'once' ? `Save 10% · ${PLANS[plan].toLowerCase()} · free delivery` : `${money(unit(p, '2w'))} on subscription`}</p>${btn}</div></div>

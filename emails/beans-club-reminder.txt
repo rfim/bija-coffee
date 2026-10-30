@@ -9,7 +9,7 @@ Hi {{first_name}}, your next Beans Club bag is due to be dispatched on {{dispatc
 {{quantity}} x {{coffee_name}} ({{grind}}, {{frequency}}): {{price}}
 Charged on dispatch: {{price}}
 
-Away, or still got beans? You can skip this delivery or pause your subscription any time before dispatch.
+Away, or still got beans? Changes for this delivery close today. You can still skip, pause or change your next one in the app or by replying to this email.
 
 Skip this delivery: {{skip_url}}
 Pause my subscription: {{pause_url}}

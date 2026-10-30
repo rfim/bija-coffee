@@ -15,7 +15,7 @@ Prices include VAT. Promotion terms are on every piece (CAP Code rule 8.17).
 > Show the QR on your Bija Card and this cup counts.
 > **No card yet?** Scan, join in 30 seconds, and get 100 welcome points on your first order.
 > [QR · utm_content=till]
-> 10 points per £1 · 400 points = any drink
+> 10 points per £1 · 10th drink free on your stamp card
 > *Points have no cash value. Terms in the app.*
 
 **Barista line (8 seconds, once only):** "Have you got the Bija Card? Show the QR and this one counts. If not, it's that code there, and your first order gets you 100 points."
@@ -50,7 +50,7 @@ Prices include VAT. Promotion terms are on every piece (CAP Code rule 8.17).
 
 **A4 bean-shelf poster**
 > **10% OFF EVERY BAG.**
-> Join the Beans Club: Sumatra Mandheling, Sumatra Lintong, Old Brown Java or the House Blend, delivered every 2, 3 or 4 weeks. £10.80 a bag instead of £12, with free UK delivery. Skip, pause or cancel any time.
+> Join the Beans Club: Sumatra Mandheling, Sumatra Lintong, Old Brown Java or the House Blend, delivered every 2, 3 or 4 weeks. £10.80 a bag instead of £12, with free UK delivery. Change, skip, pause or cancel up to 3 days before your next dispatch.
 > [QR to the subscriptions page · utm_content=shelf]
 > Or take a bag home today: £12.
 
@@ -58,4 +58,4 @@ Prices include VAT. Promotion terms are on every piece (CAP Code rule 8.17).
 
 - Black ink only on uncoated white stock, so the Kawung stays crisp and the print is cheap.
 - QR codes at least 25 mm wide on the A6 pieces and at least 60 mm on the A3. Test-scan each at arm's length before the full run.
-- Proof against the real wording on the app's rewards page, and re-check the numbers (100 / 350 / 400 / 1,200 / 600 / 400) on the day you print.
+- Proof against the real wording on the app's rewards page, and re-check the numbers (welcome 100 / cake 350 / beans 1,200 / stamp card 10th drink free up to £5.50 / passport 600 / Secret 400) on the day you print.

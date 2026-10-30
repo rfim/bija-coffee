@@ -57,7 +57,8 @@ body.about-open .mark-btn .x { opacity: 1; transform: none; }
 .hero3 { background: #0b0b0b; min-height: min(88vh, 860px); align-items: center; }
 .hero3::before { display: none; }
 .kfield { position: absolute; inset: 0; width: 100%; height: 100%; color: #fff; }
-.kfield use { opacity: .1; transform-box: fill-box; transform-origin: center; }
+.kfield { -webkit-mask-image: radial-gradient(120% 120% at 78% 50%, #000 0%, rgba(0,0,0,.55) 45%, transparent 85%); mask-image: radial-gradient(120% 120% at 78% 50%, #000 0%, rgba(0,0,0,.55) 45%, transparent 85%); }
+.kfield use { opacity: .08; transform-box: fill-box; transform-origin: center; }
 @media (prefers-reduced-motion: no-preference) { .kfield use { animation: kin 1.1s cubic-bezier(.2,.7,.2,1) both; animation-delay: var(--d); } @keyframes kin { from { opacity: 0; transform: scale(.2) rotate(-45deg); } } }
 .hgrid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: clamp(24px, 4vw, 72px); align-items: center; padding-top: clamp(56px, 7vw, 96px) !important; }
 .htxt h1 { max-width: 11ch; }
@@ -118,8 +119,8 @@ body.about-open .mark-btn .x { opacity: 1; transform: none; }
 @media (max-width: 760px) { .shop { grid-template-columns: 1fr 1fr; } .shop .ph.wide { grid-column: 1 / -1; aspect-ratio: 1.4; } }
 
 /* section titles: Grind-style, big, uppercase, left */
-.title { text-align: left; font: 900 clamp(36px, 5vw, 72px)/.95 var(--disp); text-transform: uppercase; letter-spacing: -.01em; margin: clamp(56px, 7vw, 100px) 0 0; padding-bottom: 16px; position: relative; }
-.title::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform 1.2s cubic-bezier(.2,.7,.2,1) .2s; }
+.title { text-align: left; font: 900 clamp(32px, 4.2vw, 60px)/.95 var(--disp); text-transform: uppercase; letter-spacing: -.01em; margin: clamp(56px, 7vw, 100px) 0 26px; padding-bottom: 0; position: relative; }
+.title::after { content: none; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform 1.2s cubic-bezier(.2,.7,.2,1) .2s; }
 .title.in::after { transform: scaleX(1); }
 .offer { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
 @media (max-width: 860px) { .offer { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -353,7 +354,7 @@ dialog.show .ov > *:nth-child(2) { transition-delay: .12s; } dialog.show .ov > *
     </div>
     <div class="grid3 cap">
       <div><h3>Authentic Indonesian Flavours</h3><p>Our beans come from Indonesia's best-known coffee regions. From a heavy, earthy Sumatra to a gentler Java, each cup shows what the islands can do.</p></div>
-      <div><h3>Quality &amp; Standards</h3><p>Our baristas roast the coffee in-house, so every bag and every cup meets the same standard.</p></div>
+      <div><h3>Quality &amp; Standards</h3><p>Sourced with our partner Kindred Forest and roasted by Bija's baristas, so every bag and every cup meets the same standard.<!-- to confirm with Bija: roaster (public Redber case study) --></p></div>
       <div><h3>A London Destination</h3><p>A couple of minutes from Piccadilly Circus, tucked into St James's Market: a calm corner to slow down, work for an hour or catch up with friends.</p></div>
     </div>
     <div class="meet">
