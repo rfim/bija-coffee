@@ -264,6 +264,20 @@
     } catch { return { ok: false, reason: 'down' }; }
   }
 
+  // The shared <maheera-panel>'s data: a Bundle v1 from the shared "maheera-panel" function (rfim/maheera
+  // relay/maheera-panel, deployed unchanged here; it checks maheera_access() with this user's token). Throws an Error
+  // with .status and .code; code 'not_deployed' while that function isn't in this project yet (the tab then falls back).
+  async function maheeraPanel() {
+    const c = await ensure();
+    const { data } = await c.auth.getSession();
+    const token = data && data.session && data.session.access_token;
+    if (!token) throw Object.assign(new Error('maheera'), { status: 401, code: 'not_signed_in' });
+    const r = await withTimeout(fetch(CONFIG.url + '/functions/v1/maheera-panel', { headers: { Authorization: 'Bearer ' + token, apikey: CONFIG.key } }), 20000, 'maheera-panel');
+    const j = await r.json().catch(() => ({}));
+    if (r.ok) return j;
+    throw Object.assign(new Error('maheera'), { status: r.status, code: (j && j.error) || (r.status === 404 ? 'not_deployed' : 'maheera_unavailable') });
+  }
+
   // ---------- member account ----------
   // Everyone starts as a guest (anonymous) with a Bija Card. Signing up links Google, Apple or an email to that same user,
   // so points and stamps stay; signing in on a new phone switches to the member's existing card. Google and Apple must be
@@ -335,7 +349,7 @@
       isStaff: async () => { try { await staffTouch(); } catch {} return isStaffNow(); },
       staffUnlock, staffLock, staffTouch, staffChangePin,
       onStaffChange: (f) => { staffSubs.add(f); return () => staffSubs.delete(f); },
-      rpc, myOrders, ledger, onLedgers, maheera,
+      rpc, myOrders, ledger, onLedgers, maheera, maheeraPanel,
       account: accountApi(c),
     };
   }
