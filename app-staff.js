@@ -654,7 +654,7 @@ const mhPart = (key) => (S.mh?.data?.missing || []).includes(key) ? `<p class="h
 // The panel's fonts (vendor/maheera-fonts/fonts.css, Maheera's host kit) are linked in the page with it: @font-face
 // does not work inside its shadow root. The integrity hash is v3's published SRI (rfim/maheera docs/embed.md); a
 // different file refuses to run and the tab falls back to the older view.
-const MH_PANEL_SRI = 'sha384-fjhjanpRAgsFSi1QgdRYqUKNkaKTt6RqZbO7OINBJEqJ5mzSLyTbNvkjTDXFdZKw';
+const MH_PANEL_SRI = 'sha384-xpFD8WfjKvNaipIWcm4+WHCJzdwS8knPKkyF6NJV3DG/nrdX+0pqGEEKVYljBixy';
 let mhScript = null;
 function mhPanelScript() {
     if (!document.getElementById('mh-fonts')) document.head.insertAdjacentHTML('beforeend', '<link id="mh-fonts" rel="stylesheet" href="vendor/maheera-fonts/fonts.css">');

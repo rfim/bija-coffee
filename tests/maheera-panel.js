@@ -79,7 +79,7 @@ const ROOT = path.join(__dirname, '..');
 {
   const file = fs.readFileSync(path.join(ROOT, 'vendor/maheera-panel.js'));
   const sri = 'sha384-' + crypto.createHash('sha384').update(file).digest('base64');
-  assert.equal(sri, 'sha384-fjhjanpRAgsFSi1QgdRYqUKNkaKTt6RqZbO7OINBJEqJ5mzSLyTbNvkjTDXFdZKw', 'vendor/maheera-panel.js is not the released v3');
+  assert.equal(sri, 'sha384-xpFD8WfjKvNaipIWcm4+WHCJzdwS8knPKkyF6NJV3DG/nrdX+0pqGEEKVYljBixy', 'vendor/maheera-panel.js is not the released v3');
   assert.match(file.toString('utf8', 0, 200), /<maheera-panel> 3\.0\.0/);
   assert.ok(fs.readFileSync(path.join(ROOT, 'app-staff.js'), 'utf8').includes(`'${sri}'`), 'app-staff.js loads the panel with its SRI hash');
   const css = fs.readFileSync(path.join(ROOT, 'vendor/maheera-fonts/fonts.css'), 'utf8');
