@@ -74,7 +74,8 @@ const ok = () => [200, BUNDLE];
 const ROOT = path.join(__dirname, '..');
 
 // No browser needed: the vendored file is v3 unchanged (rfim/maheera site/embed/v3, SRI from docs/embed.md), the app
-// loads it with that hash, and the host font kit is all there and cached for offline use.
+// loads it with that hash, and the host font kit is all there. None of it is in sw.js's install list: customers never
+// download the staff panel or its fonts at install (staff get them cached on first use, like any other page file).
 {
   const file = fs.readFileSync(path.join(ROOT, 'vendor/maheera-panel.js'));
   const sri = 'sha384-' + crypto.createHash('sha384').update(file).digest('base64');
@@ -87,10 +88,10 @@ const ROOT = path.join(__dirname, '..');
   const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
   for (const f of ['vendor/maheera-panel.js', 'vendor/maheera-fonts/fonts.css', ...fonts]) {
     assert.ok(fs.existsSync(path.join(ROOT, f)), `${f} is missing`);
-    assert.ok(sw.includes(`'${f}'`), `sw.js's offline list has no ${f}`);
+    assert.ok(!sw.includes(`'${f}'`), `sw.js precaches ${f}: customers would download it at install`);
   }
   for (const l of ['OFL-Inter.txt', 'OFL-Fraunces.txt']) assert.ok(fs.existsSync(path.join(ROOT, 'vendor/maheera-fonts/fonts', l)), `licence ${l} is missing`);
-  console.log('ok   vendor/maheera-panel.js is v3 with its SRI hash; the font kit is vendored and cached');
+  console.log('ok   vendor/maheera-panel.js is v3 with its SRI hash; the font kit is vendored, and neither is precached');
 }
 
 (async () => {
