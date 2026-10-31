@@ -1,15 +1,18 @@
 #!/usr/bin/env node
-// The Maheera tab with Kenduri's shared <maheera-panel> (vendor/maheera-panel.js), on the live-backend code path
+// The Maheera tab with Kenduri's shared <maheera-panel> (vendor/maheera-panel.js, v3), on the live-backend code path
 // (?backend=supabase) with Bija's Supabase and the shared "maheera-panel" function mocked by Playwright. Nothing leaves
 // the machine; the PIN and email are fake. The bundle (tests/maheera-bundle.json) is Maheera's demo café data with
-// Bija's settings: ink colour, "bar", "drinks and cakes", Bar prep.
+// Bija's settings: ink colour, "bar", "drinks and cakes", Bar prep; and v3's week heatmap (today.heatmap, Saturday 1pm
+// the busiest) for the Busy hours card.
 // Checks: staff-only, one GET with the session token, Bija's own name and words, a redraw keeps the same panel,
 // the panel's "no access" state, the older view when the function isn't deployed (404), and Exit drops it. The back
-// office is light only, so the panel is told to stay light.
+// office is light only, so the panel is told to stay light. v3: the vendored file is the released one (its SRI hash
+// matches the one the app loads it with), the host font kit is linked in the page, and Busy hours shows Bija's week.
 // Usage: node tests/maheera-panel.js   (serve the repo root first, see tests/README.md). SHOTS=dir saves screenshots.
 const assert = require('node:assert/strict');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { BASE } = require('./tools/common');
 
 let chromium;
@@ -68,6 +71,27 @@ const shadow = (page, sel) => page.evaluate((s) => [...(document.querySelector('
 const SHOTS = process.env.SHOTS ? path.resolve(process.env.SHOTS) : '';
 async function shot(page, name) { if (!SHOTS) return; fs.mkdirSync(SHOTS, { recursive: true }); await page.screenshot({ path: path.join(SHOTS, name + '.png'), fullPage: true }); }
 const ok = () => [200, BUNDLE];
+const ROOT = path.join(__dirname, '..');
+
+// No browser needed: the vendored file is v3 unchanged (rfim/maheera site/embed/v3, SRI from docs/embed.md), the app
+// loads it with that hash, and the host font kit is all there and cached for offline use.
+{
+  const file = fs.readFileSync(path.join(ROOT, 'vendor/maheera-panel.js'));
+  const sri = 'sha384-' + crypto.createHash('sha384').update(file).digest('base64');
+  assert.equal(sri, 'sha384-fjhjanpRAgsFSi1QgdRYqUKNkaKTt6RqZbO7OINBJEqJ5mzSLyTbNvkjTDXFdZKw', 'vendor/maheera-panel.js is not the released v3');
+  assert.match(file.toString('utf8', 0, 200), /<maheera-panel> 3\.0\.0/);
+  assert.ok(fs.readFileSync(path.join(ROOT, 'app-staff.js'), 'utf8').includes(`'${sri}'`), 'app-staff.js loads the panel with its SRI hash');
+  const css = fs.readFileSync(path.join(ROOT, 'vendor/maheera-fonts/fonts.css'), 'utf8');
+  const fonts = [...css.matchAll(/url\('([^']+)'\)/g)].map((m) => 'vendor/maheera-fonts/' + m[1]);
+  assert.ok(fonts.length >= 2, 'fonts.css names its woff2 files');
+  const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+  for (const f of ['vendor/maheera-panel.js', 'vendor/maheera-fonts/fonts.css', ...fonts]) {
+    assert.ok(fs.existsSync(path.join(ROOT, f)), `${f} is missing`);
+    assert.ok(sw.includes(`'${f}'`), `sw.js's offline list has no ${f}`);
+  }
+  for (const l of ['OFL-Inter.txt', 'OFL-Fraunces.txt']) assert.ok(fs.existsSync(path.join(ROOT, 'vendor/maheera-fonts/fonts', l)), `licence ${l} is missing`);
+  console.log('ok   vendor/maheera-panel.js is v3 with its SRI hash; the font kit is vendored and cached');
+}
 
 (async () => {
   const browser = await chromium.launch();
@@ -79,6 +103,7 @@ const ok = () => [200, BUNDLE];
     assert.equal(state.calls.length, 0, 'nothing is fetched until the tab is opened');
     await openPanel(page);
     assert.equal(await page.evaluate(() => document.querySelector('maheera-panel').state), 'ready');
+    assert.equal(await page.evaluate(() => window.MaheeraPanel.version), '3.0.0');
     assert.deepEqual(state.calls, [{ auth: 'Bearer test-access-token', method: 'GET' }]);
     assert.equal(state.legacy, 0, 'the older function is not called');
     const tabs = (await shadow(page, '[role=tab]')).join(' | ');
@@ -90,6 +115,39 @@ const ok = () => [200, BUNDLE];
     assert.ok(w <= 1, `page scrolls sideways by ${w}px`);
     await shot(page, 'panel-390-light');
   });
+
+  test("v3: Maheera's fonts are linked in the page (once), and the panel sets its text in Inter", async ({ page }) => {
+    await unlock(page);
+    assert.equal(await page.locator('link[href="vendor/maheera-fonts/fonts.css"]').count(), 0, 'not loaded for customers or other tabs');
+    await openPanel(page);
+    await page.locator('#tabs [data-act="tab"][data-v="queue"]').click(); await settle(page);
+    await page.locator('#tabs [data-act="tab"][data-v="maheera"]').click(); await settle(page);
+    assert.equal(await page.locator('link[href="vendor/maheera-fonts/fonts.css"]').count(), 1);
+    await page.evaluate(() => document.fonts.ready);
+    const fam = await page.evaluate(() => getComputedStyle(document.querySelector('maheera-panel').shadowRoot.querySelector('.mh')).fontFamily);
+    assert.match(fam, /^Inter\b/);
+    assert.ok(await page.evaluate(() => document.fonts.check('16px Inter')), 'Inter is available to the panel');
+  });
+
+  test("v3: Busy hours shows Bija's week, the busiest hour in words, with a table for screen readers", async ({ page }) => {
+    await unlock(page); await openPanel(page);
+    const card = page.locator('maheera-panel .terraces-card');
+    await card.getByRole('heading', { name: 'Busy hours' }).waitFor({ timeout: 5000 });
+    await card.getByText(/^Busiest: Sat 1pm, about 38 orders$/).waitFor({ timeout: 5000 });
+    assert.ok(await card.locator('table').count() >= 1, 'a table carries the numbers, not colour alone');
+    await card.locator('.terraces-flat').waitFor({ timeout: 5000 }); // a phone opens in Flat, where the numbers are readable
+    await card.getByRole('button', { name: '3D' }).click();
+    await card.locator('canvas.terraces-canvas').waitFor({ timeout: 5000 });
+    const w = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    assert.ok(w <= 1, `page scrolls sideways by ${w}px`);
+  });
+
+  test('v3 under reduced motion: nothing in the panel animates', async ({ page }) => {
+    await unlock(page); await openPanel(page);
+    await settle(page, 600);
+    const running = await page.evaluate(() => document.querySelector('maheera-panel').shadowRoot.getAnimations({ subtree: true }).filter((a) => a.playState === 'running').length);
+    assert.equal(running, 0);
+  }, ok, { reducedMotion: 'reduce' });
 
   test('a redraw keeps the same panel; leaving the tab and coming back does not fetch again', async ({ page, state }) => {
     await unlock(page); await openPanel(page);
@@ -119,11 +177,14 @@ const ok = () => [200, BUNDLE];
     assert.equal(await page.locator('maheera-panel').count(), 0);
   });
 
-  test('phone dark, desktop light and dark', async ({ browser }) => {
+  test('phone dark, desktop light and dark (Busy hours in 3D on desktop)', async ({ browser }) => {
     for (const [name, opts] of [['panel-390-dark', { colorScheme: 'dark' }], ['panel-1440-light', { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 }], ['panel-1440-dark', { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1, colorScheme: 'dark' }]]) {
       const t = await newPage(browser, ok, opts);
       await unlock(t.page); await openPanel(t.page);
       assert.equal(await t.page.evaluate(() => document.querySelector('maheera-panel').state), 'ready', name);
+      await t.page.locator('maheera-panel .terraces-card h3').waitFor({ timeout: 5000 });
+      if (name.startsWith('panel-1440')) await t.page.locator('maheera-panel canvas.terraces-canvas').waitFor({ timeout: 5000 });
+      await settle(t.page, 1200);
       await shot(t.page, name);
       assert.deepEqual(t.errors, [], name);
       await t.context.close();

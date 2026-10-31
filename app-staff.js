@@ -646,15 +646,20 @@ function mhQty(v, unit) {
     return `${x.toLocaleString('en-GB', { maximumFractionDigits: big ? 2 : unit === 'each' ? 1 : 0 })}${u ? ' ' + esc(u) : ''}`;
   }
 const mhPart = (key) => (S.mh?.data?.missing || []).includes(key) ? `<p class="hint warn" role="status">Maheera didn't send this part. <button class="linkish" data-act="mh-retry">Try again</button></p>` : '';
-// The tab shows Kenduri's shared <maheera-panel> (vendor/maheera-panel.js, loaded when the tab first opens), fed by the
-// shared "maheera-panel" function. Its look and words (Bija's ink colour, "bar", "drinks and cakes") are Bija's settings
-// in Maheera, not code here. Until that function is deployed, the older view below is shown, read through "maheera".
-// The one panel element lives in S.mh, so every render() moves it into the new slot instead of reloading it; Exit and
-// the idle lock destroy it with S.mh.
+// The tab shows Kenduri's shared <maheera-panel> (vendor/maheera-panel.js, v3, loaded when the tab first opens), fed by
+// the shared "maheera-panel" function. Its look and words (Bija's ink colour, "bar", "drinks and cakes") are Bija's
+// settings in Maheera, not code here. Until that function is deployed, the older view below is shown, read through
+// "maheera". The one panel element lives in S.mh, so every render() moves it into the new slot instead of reloading it;
+// Exit and the idle lock destroy it with S.mh.
+// The panel's fonts (vendor/maheera-fonts/fonts.css, Maheera's host kit) are linked in the page with it: @font-face
+// does not work inside its shadow root. The integrity hash is v3's published SRI (rfim/maheera docs/embed.md); a
+// different file refuses to run and the tab falls back to the older view.
+const MH_PANEL_SRI = 'sha384-fjhjanpRAgsFSi1QgdRYqUKNkaKTt6RqZbO7OINBJEqJ5mzSLyTbNvkjTDXFdZKw';
 let mhScript = null;
 function mhPanelScript() {
+    if (!document.getElementById('mh-fonts')) document.head.insertAdjacentHTML('beforeend', '<link id="mh-fonts" rel="stylesheet" href="vendor/maheera-fonts/fonts.css">');
     if (window.MaheeraPanel || mhScript) return;
-    mhScript = document.createElement('script'); mhScript.src = 'vendor/maheera-panel.js';
+    mhScript = document.createElement('script'); mhScript.src = 'vendor/maheera-panel.js'; mhScript.integrity = MH_PANEL_SRI;
     mhScript.onload = () => { if (S.view === 'bar' && S.btab === 'maheera') render(); };
     mhScript.onerror = () => { mhScript = null; if (S.mh) S.mh.legacy = true; if (S.view === 'bar' && S.btab === 'maheera') render(); };
     document.head.appendChild(mhScript);
