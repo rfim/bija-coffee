@@ -248,6 +248,22 @@
     ledgerSubs.add(cb); return () => ledgerSubs.delete(cb);
   }
 
+  // ---------- Maheera (Kenduri's shared back office), read-only through the "maheera" Edge Function ----------
+  // Staff and owners only (the function checks the staff session with this user's token). Returns { ok, data } or
+  // { ok: false, reason }: 'not_allowed' (no live staff session), 'setup' (secrets not added yet) or 'down'.
+  async function maheera() {
+    try {
+      const c = await ensure();
+      const { data } = await c.auth.getSession();
+      const token = data && data.session && data.session.access_token;
+      if (!token) return { ok: false, reason: 'not_allowed' };
+      const r = await withTimeout(fetch(CONFIG.url + '/functions/v1/maheera', { method: 'POST', headers: { Authorization: 'Bearer ' + token, apikey: CONFIG.key, 'Content-Type': 'application/json' }, body: '{}' }), 20000, 'maheera');
+      const j = await r.json().catch(() => ({}));
+      if (r.ok && j && typeof j === 'object') return { ok: true, data: j };
+      return { ok: false, reason: r.status === 401 || r.status === 403 ? 'not_allowed' : j && j.error === 'setup' ? 'setup' : 'down' };
+    } catch { return { ok: false, reason: 'down' }; }
+  }
+
   // ---------- member account ----------
   // Everyone starts as a guest (anonymous) with a Bija Card. Signing up links Google, Apple or an email to that same user,
   // so points and stamps stay; signing in on a new phone switches to the member's existing card. Google and Apple must be
@@ -319,10 +335,10 @@
       isStaff: async () => { try { await staffTouch(); } catch {} return isStaffNow(); },
       staffUnlock, staffLock, staffTouch, staffChangePin,
       onStaffChange: (f) => { staffSubs.add(f); return () => staffSubs.delete(f); },
-      rpc, myOrders, ledger, onLedgers,
+      rpc, myOrders, ledger, onLedgers, maheera,
       account: accountApi(c),
     };
   }
 
-  window.BijaSupabase = { config: CONFIG, connect, staffUnlock, staffLock, staffTouch, staffChangePin, isStaff: isStaffNow, onStaffChange: (f) => { staffSubs.add(f); return () => staffSubs.delete(f); }, placeShopOrder, subscribeNewsletter, rpc, balances: rpc.balances, myOrders, ledger, _ensure: ensure };
+  window.BijaSupabase = { config: CONFIG, connect, staffUnlock, staffLock, staffTouch, staffChangePin, isStaff: isStaffNow, onStaffChange: (f) => { staffSubs.add(f); return () => staffSubs.delete(f); }, placeShopOrder, subscribeNewsletter, maheera, rpc, balances: rpc.balances, myOrders, ledger, _ensure: ensure };
 })();

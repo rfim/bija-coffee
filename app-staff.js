@@ -1,4 +1,4 @@
-/* Bija staff tools (barista queue, web & delivery, members, gift cards, insights, finance, menu admin).
+/* Bija staff tools (barista queue, web & delivery, members, gift cards, insights, finance, menu admin, Maheera).
    Generated from app.html by scratchpad/perf/split/split.js: the code is unchanged, it just loads on demand.
    It runs inside the app's own scope through the accessor object app.html passes in (staffCore), so it reads and
    writes the same state (S, render, esc, money…) as before. */
@@ -45,6 +45,7 @@ function barista() {
     if (S.btab === 'insights') return insights();
     if (S.btab === 'menu') return menuEditor();
     if (S.btab === 'finance') return finance();
+    if (S.btab === 'maheera') return maheera();
     return queue();
   }
 function allOrders() {
@@ -619,6 +620,122 @@ function menuEditor() {
     </section>
     <section class="sec panel stack"><h3 style="margin:0">QR labels for bags and cups</h3><p class="hint" style="margin:0">Each code opens that coffee's Bean passport: origin, roast date and lot.</p><div class="row"><a class="btn sm ghost" href="labels.html" target="_blank" rel="noopener">Print QR labels</a></div></section>`;
   }
+// ---------- Maheera: Kenduri's shared back office, read-only (supabase/functions/maheera) ----------
+// One fetch when the tab opens (and on Refresh); the rest of the back office never waits for it.
+const MH_SUBS = [['today', 'Today'], ['stock', 'Stock'], ['costs', 'Drink & dish costs'], ['week', 'Last 7 days']];
+function mhLoad() {
+    const M = S.mh || (S.mh = { sub: 'today' });
+    if (M.loading || !S.sb?.maheera) return;
+    M.loading = true; M.err = null;
+    S.sb.maheera().then((r) => {
+      M.loading = false; M.at = Date.now();
+      if (r && r.ok) { M.data = r.data; M.err = null; } else M.err = (r && r.reason) || 'down';
+      if (S.view === 'bar' && S.btab === 'maheera') render();
+    });
+  }
+const mhN = (v) => (v === null || v === undefined || v === '' || !Number.isFinite(+v) ? null : +v);
+const mhMoney = (v) => (mhN(v) === null ? '–' : money(+v));
+const mhRows = (v) => (Array.isArray(v) ? v.filter((x) => x && typeof x === 'object') : []);
+const mhCount = (v) => (Array.isArray(v) ? v.length : Math.max(0, num(v, 0, 1e6)));
+const mhName = (x) => clip(typeof x === 'string' ? x : x?.name || x?.item || x?.supplier || x?.ingredient || '', 60);
+// grams and millilitres read better as kg and litres once they pass 1,000
+function mhQty(v, unit) {
+    const n = mhN(v); if (n === null) return '–';
+    const big = Math.abs(n) >= 1000 && (unit === 'g' || unit === 'ml');
+    const x = big ? n / 1000 : n, u = big ? (unit === 'g' ? 'kg' : 'L') : unit === 'each' ? '' : unit;
+    return `${x.toLocaleString('en-GB', { maximumFractionDigits: big ? 2 : unit === 'each' ? 1 : 0 })}${u ? ' ' + esc(u) : ''}`;
+  }
+const mhPart = (key) => (S.mh?.data?.missing || []).includes(key) ? `<p class="hint warn" role="status">Maheera didn't send this part. <button class="linkish" data-act="mh-retry">Try again</button></p>` : '';
+function maheera() {
+    if (!S.sb?.maheera) return `<div class="empty"><b>Maheera opens on the live back office</b>This back office is keeping data on this device only, so it can't reach Maheera. On the live site, staff see Kenduri's shared stock, drink costs and sales here.</div>`;
+    const M = S.mh || (S.mh = { sub: 'today' });
+    if (!M.data && !M.err && !M.loading) queueMicrotask(mhLoad);
+    const sub = MH_SUBS.some((x) => x[0] === M.sub) ? M.sub : 'today';
+    const nav = `<nav class="cats" aria-label="Maheera sections">${MH_SUBS.map(([id, l]) => `<button data-act="mh-sub" data-v="${id}" aria-pressed="${sub === id}">${l}</button>`).join('')}</nav>`;
+    const head = `<div class="sec-h"><h2>Maheera</h2><small>Kenduri's shared back office · read only</small></div>`;
+    if (!M.data) {
+      if (M.err === 'not_allowed') return `${head}<div class="empty"><b>Your staff session has ended</b>Exit and enter the PIN again to see Maheera.</div>`;
+      if (M.err === 'setup') return `${head}<div class="empty"><b>Maheera isn't set up yet</b>The owner adds Bija's Maheera sign-in to the backend first (README, "Maheera"). Everything else here works as normal.</div>`;
+      if (M.err) return `${head}<div class="empty" role="alert"><b>Maheera isn't answering</b>The rest of the back office works as normal. Try again in a minute.<div class="row" style="justify-content:center;margin-top:12px"><button class="btn sm" data-act="mh-retry">Try again</button></div></div>`;
+      return `${head}<div class="list" aria-busy="true"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div><p class="hint" role="status">Asking Maheera…</p>`;
+    }
+    const body = { today: mhToday, stock: mhStock, costs: mhCosts, week: mhWeek }[sub]();
+    const when = M.at ? new Date(M.at).toLocaleTimeString('en-GB', { timeZone: 'Europe/London', hour: '2-digit', minute: '2-digit' }) : '';
+    return `<div class="mh">${head}${nav}${M.err ? `<p class="hint warn" role="status">Maheera isn't answering, so this is from ${esc(when)}. <button class="linkish" data-act="mh-retry">Try again</button></p>` : ''}${body}
+    <p class="hint" style="margin-top:18px">From Maheera${when ? ' at ' + esc(when) : ''}. <button class="linkish" data-act="mh-retry" ${M.loading ? 'disabled' : ''}>${M.loading ? 'Refreshing…' : 'Refresh'}</button></p></div>`;
+  }
+function mhToday() {
+    const D = S.mh.data, b = D.brief && typeof D.brief === 'object' ? D.brief : null;
+    const yday = isDate(b?.day) ? b.day : addDays(isDate(D.today) ? D.today : ldate(), -1);
+    const row = mhRows(D.pnl).find((r) => r.day === yday);
+    const s = b?.sales, gross = mhN(s && typeof s === 'object' ? s.gross_sales ?? s.gross : s) ?? mhN(row?.gross_sales);
+    const avg = mhN(b?.same_weekday_avg_gross), wd = dlabel(yday, { weekday: 'long' });
+    const vs = gross === null || !avg ? `No ${esc(wd)}s to compare with yet` : `${gross >= avg ? '+' : '−'}${money(Math.abs(gross - avg))} on an average ${esc(wd)} (${money(avg)})`;
+    const orders = s && typeof s === 'object' ? mhN(s.orders ?? s.tickets ?? s.count) : null;
+    const top = mhRows(b?.top_items).slice(0, 5);
+    const below = b ? b.below_par : mhRows(D.stock).filter((x) => x.below_par);
+    const pos = b?.purchase_orders_due, norec = b?.dishes_without_recipe, batch = b?.open_batch;
+    const todo = [];
+    if (mhCount(below)) todo.push(`<li><button class="linkish" data-act="mh-sub" data-v="stock">${mhCount(below)} item${mhCount(below) === 1 ? '' : 's'} below par</button><span>${Array.isArray(below) ? below.slice(0, 4).map((x) => esc(mhName(x))).filter(Boolean).join(', ') : 'Check the stock list and reorder.'}</span></li>`);
+    if (mhCount(pos)) todo.push(`<li><b>${mhCount(pos)} supplier order${mhCount(pos) === 1 ? '' : 's'} due</b><span>${Array.isArray(pos) ? pos.slice(0, 3).map((x) => esc(mhName(x))).filter(Boolean).join(', ') : 'Expected in, or to send, today.'}</span></li>`);
+    if (mhCount(norec)) todo.push(`<li><button class="linkish" data-act="mh-sub" data-v="costs">${mhCount(norec)} item${mhCount(norec) === 1 ? '' : 's'} sold without a recipe</button><span>Their cost isn't counted until a recipe is added in Maheera${Array.isArray(norec) ? ': ' + norec.slice(0, 3).map((x) => esc(mhName(x))).filter(Boolean).join(', ') : ''}.</span></li>`);
+    if (batch && (typeof batch !== 'object' || Object.keys(batch).length)) todo.push(`<li><b>A batch is still open</b><span>${esc(mhName(batch) || 'Finish or close it in Maheera.')}</span></li>`);
+    return `<div class="tiles">
+      <div class="tile"><small>Yesterday's sales</small><b>${gross === null ? '–' : money(gross)}</b><span>${esc(dlabel(yday))}${orders !== null ? ` · ${num(orders, 0, 1e6)} sale${orders === 1 ? '' : 's'}` : ''}</span></div>
+      <div class="tile"><small>Same weekday</small><b>${avg ? money(avg) : '–'}</b><span>${vs}</span></div>
+    </div>
+    ${mhPart('brief')}
+    <section class="sec"><div class="sec-h"><h3>Top items yesterday</h3></div>
+      ${top.length ? bars(top.map((x) => [mhName(x), num(x.qty ?? x.count, 0, 1e6)])) : '<div class="empty"><b>No item sales yet</b>Items show here once Maheera has yesterday\'s sales with item detail.</div>'}</section>
+    <section class="sec"><div class="sec-h"><h3>Needs attention</h3></div>
+      ${todo.length ? `<ul class="todo">${todo.join('')}</ul>` : `<div class="empty"><b>Nothing needs attention</b>${b ? 'Stock is above par, no supplier orders are due and every item sold has a recipe.' : 'Maheera has little Bija data yet. This fills in once recipes and stock counts are entered.'}</div>`}</section>`;
+  }
+function mhStock() {
+    const D = S.mh.data, rows = mhRows(D.stock), sug = mhRows(D.reorder), low = rows.filter((x) => x.below_par);
+    const tbl = !rows.length ? '<div class="empty"><b>No stock in Maheera yet</b>Ingredients appear here once Bija\'s first stock count is entered in Maheera, with items below par at the top.</div>'
+      : `<div class="panel tablewrap"><table><thead><tr><th>Item</th><th class="num">On hand</th><th class="num">Par</th><th>Status</th></tr></thead><tbody>${rows.map((x) => `<tr><td><b>${esc(mhName(x))}</b>${x.category ? `<div class="hint">${esc(clip(x.category, 40))}</div>` : ''}</td><td class="num">${mhQty(x.on_hand, x.base_unit)}</td><td class="num">${mhQty(x.par_level, x.base_unit)}</td><td>${x.below_par ? light('bad', 'Low') : mhN(x.par_level) === null ? light('', 'No par') : light('ok', 'OK')}</td></tr>`).join('')}</tbody></table></div>`;
+    return `<div class="tiles">
+      <div class="tile"><small>Below par</small><b>${low.length}</b><span>of ${rows.length} item${rows.length === 1 ? '' : 's'} counted</span></div>
+      <div class="tile"><small>To reorder</small><b>${sug.length}</b><span>${sug.some((x) => mhN(x.pack_price) !== null) ? `about ${money(sug.reduce((a, x) => a + (mhN(x.pack_price) || 0) * (mhN(x.suggested_packs) || 0), 0))}` : 'suggested by Maheera'}</span></div>
+    </div>
+    ${mhPart('stock')}
+    <section class="sec"><div class="sec-h"><h3>Stock</h3><small>Low first</small></div>${tbl}</section>
+    ${mhPart('reorder')}
+    <section class="sec"><div class="sec-h"><h3>Reorder suggestions</h3><small>Up to par</small></div>
+      ${!sug.length ? '<div class="empty"><b>Nothing to reorder</b>When an item drops below par, Maheera suggests how much to order and in which pack.</div>'
+        : `<div class="panel tablewrap"><table><thead><tr><th>Item</th><th class="num">Order</th><th>Packs</th><th class="num">Cost</th></tr></thead><tbody>${sug.map((x) => { const p = mhN(x.suggested_packs), pp = mhN(x.pack_price); return `<tr><td><b>${esc(mhName(x))}</b><div class="hint">${mhQty(x.on_hand, x.base_unit)} of ${mhQty(x.par_level, x.base_unit)}</div></td><td class="num">${mhQty(x.suggested_qty, x.base_unit)}</td><td>${p !== null ? `${num(p, 0, 1e4)} × ${esc(clip(x.pack_desc || 'pack', 40))}` : '<span class="hint">No supplier pack yet</span>'}</td><td class="num">${p !== null && pp !== null ? money(p * pp) : '–'}</td></tr>`; }).join('')}</tbody></table></div>`}</section>`;
+  }
+function mhCosts() {
+    const rows = mhRows(S.mh.data.dishes), costed = rows.filter((x) => mhN(x.margin_pct) !== null);
+    const net = costed.reduce((a, x) => a + (mhN(x.net) || 0), 0), cogs = costed.reduce((a, x) => a + (mhN(x.cogs) || 0), 0);
+    const each = (x) => { const q = mhN(x.qty), c = mhN(x.cogs); return q && c !== null ? money(c / q) : '–'; };
+    return `<div class="tiles">
+      <div class="tile"><small>Margin</small><b>${costed.length && net > 0 ? Math.round((1 - cogs / net) * 1000) / 10 + '%' : '–'}</b><span>on costed items, last 28 days</span></div>
+      <div class="tile"><small>Costed</small><b>${costed.length}/${rows.length}</b><span>items with a recipe for every sale</span></div>
+    </div>
+    <p class="hint">Cost per item comes from its recipe in Maheera. Milk choices such as oat or soya are costed by their own recipe variant, so an oat flat white carries the cost of oat milk.</p>
+    ${mhPart('dishes')}
+    <section class="sec"><div class="sec-h"><h3>Drink & dish costs</h3><small>Last 28 days</small></div>
+      ${!rows.length ? '<div class="empty"><b>No costs yet</b>Drinks, cakes and beans show their cost and margin here once their recipes are entered in Maheera.</div>'
+        : `<div class="panel tablewrap"><table><thead><tr><th>Item</th><th class="num">Price</th><th class="num">Sold</th><th class="num">Cost each</th><th class="num">Margin</th></tr></thead><tbody>${rows.map((x) => { const m = mhN(x.margin_pct); return `<tr><td><b>${esc(mhName(x))}</b>${x.category ? `<div class="hint">${esc(clip(x.category, 40))}</div>` : ''}</td><td class="num">${mhMoney(x.price)}</td><td class="num">${num(x.qty, 0, 1e7)}</td><td class="num">${each(x)}</td><td class="num">${m === null ? '<span class="hint">Not costed yet</span>' : `<span${m < 60 ? ' class="neg"' : ''}>${m.toFixed(1)}%</span>`}</td></tr>`; }).join('')}</tbody></table></div>`}</section>`;
+  }
+function mhWeek() {
+    const rows = mhRows(S.mh.data.pnl).filter((r) => isDate(r.day)).sort((a, z) => z.day.localeCompare(a.day));
+    const sum = (k) => rows.reduce((a, r) => a + (mhN(r[k]) || 0), 0);
+    const noDetail = rows.filter((r) => num(r.sales_without_detail, 0, 1e6) > 0), noRecipe = rows.reduce((a, r) => a + num(r.lines_without_recipe, 0, 1e6), 0);
+    const gp = sum('gross_profit');
+    return `<div class="tiles">
+      <div class="tile"><small>Sales</small><b>${money(sum('gross_sales'))}</b><span>${money(sum('net_sales'))} after VAT</span></div>
+      <div class="tile"><small>Cost of goods</small><b>${money(sum('cogs'))}</b><span>from recipes</span></div>
+      <div class="tile"><small>Gross profit</small><b${gp < 0 ? ' style="color:var(--warn)"' : ''}>${gp < 0 ? '−' : ''}${money(Math.abs(gp))}</b><span>sales after VAT less cost of goods</span></div>
+    </div>
+    ${noDetail.length ? `<p class="hint warn"><b>${noDetail.length === 1 ? '1 day has' : noDetail.length + ' days have'} in-store till sales without item detail.</b> They are counted as totals only, so their cost of goods isn't included.</p>` : ''}
+    ${noRecipe ? `<p class="hint warn">${noRecipe} item line${noRecipe === 1 ? '' : 's'} sold without a recipe, so ${noRecipe === 1 ? 'its' : 'their'} cost isn't counted yet.</p>` : ''}
+    ${mhPart('pnl')}
+    <section class="sec"><div class="sec-h"><h3>Day by day</h3><small>Last 7 days</small></div>
+      ${!rows.length ? '<div class="empty"><b>No sales in Maheera yet</b>Each day\'s sales, cost of goods and gross profit show here once Bija\'s till sales reach Maheera.</div>'
+        : `<div class="panel tablewrap"><table><thead><tr><th>Day</th><th class="num">Sales</th><th class="num">Cost of goods</th><th class="num">Gross profit</th></tr></thead><tbody>${rows.map((r) => `<tr><td>${esc(dlabel(r.day))}${num(r.sales_without_detail, 0, 1e6) > 0 ? '<div class="hint">Some till sales are totals only</div>' : ''}</td><td class="num">${mhMoney(r.gross_sales)}</td><td class="num">${mhMoney(r.cogs)}</td><td class="num">${mhMoney(r.gross_profit)}</td></tr>`).join('')}</tbody></table></div>`}</section>`;
+  }
 const migrated = new Set();
 function migrateBar() {
     if (!S.admin || S.view !== 'bar' || !S.custLoaded || !S.configLoaded) return;
@@ -647,6 +764,6 @@ function migrateBar() {
       if (Object.keys(patch).length) saveBar(c.id, patch).catch(() => {});
     }
   }
-    return { FLOW, lvAllOrders, giftsBar, barista, allOrders, queue, shopBar, members, lvInsights, lvMembersTable, bars, insights, VAT_HELP, PERIODS, FIN_SUBS, UK, addMonths, appCollected, vatQuarters, recurringKeys, recurringDue, cashFlow, deadlines, daysTo, whenTxt, finance, ftile, fhead, fbig, more, fcta, finToday, finCloseView, finOutView, finBillsView, finFlowView, finPLView, finVatView, finStaffView, finDatesView, finReports, finSettingsView, menuEditor, migrated, migrateBar };
+    return { FLOW, lvAllOrders, giftsBar, barista, allOrders, queue, shopBar, members, lvInsights, lvMembersTable, bars, insights, VAT_HELP, PERIODS, FIN_SUBS, UK, addMonths, appCollected, vatQuarters, recurringKeys, recurringDue, cashFlow, deadlines, daysTo, whenTxt, finance, ftile, fhead, fbig, more, fcta, finToday, finCloseView, finOutView, finBillsView, finFlowView, finPLView, finVatView, finStaffView, finDatesView, finReports, finSettingsView, menuEditor, MH_SUBS, mhLoad, maheera, mhToday, mhStock, mhCosts, mhWeek, migrated, migrateBar };
   }
 };
