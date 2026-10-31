@@ -2272,7 +2272,7 @@ body.barista-view #switch { display: flex; align-items: center; }
   }
   // staff mode ends after 30 minutes without a tap or key press
   ['pointerdown', 'keydown'].forEach((t) => addEventListener(t, () => { if (S.view === 'bar') S.staffAt = Date.now(); }, { passive: true, capture: true }));
-  setInterval(() => { if (S.view === 'bar' && Date.now() - (S.staffAt || 0) > STAFF_IDLE) { S.staffOk = false; S.mh = null; S.sb?.staffLock().catch(() => {}); if (WEB_ADMIN) return toSite(); S.view = 'customer'; render(); toast('Staff view closed after 30 minutes idle'); } }, 30e3);
+  setInterval(() => { if (S.view === 'bar' && Date.now() - (S.staffAt || 0) > STAFF_IDLE) { S.staffOk = false; S.mh?.el?.destroy(); S.mh = null; S.sb?.staffLock().catch(() => {}); if (WEB_ADMIN) return toSite(); S.view = 'customer'; render(); toast('Staff view closed after 30 minutes idle'); } }, 30e3);
   // shared backend: keep the server's staff session alive while staff are using the bar view
   setInterval(() => { if (S.sb && S.view === 'bar' && Date.now() - (S.staffAt || 0) < 5 * 60e3) S.sb.staffTouch().catch(() => {}); }, 5 * 60e3);
   addEventListener('keydown', (e) => {
@@ -3670,7 +3670,7 @@ body.barista-view #switch { display: flex; align-items: center; }
     const b = e.target.closest('[data-act]');
     if (!b || b.disabled) return;
     const a = b.dataset.act;
-    if (a === 'view') { if (b.dataset.v === 'bar' && !(S.admin && S.staffOk)) return pinOpen(); if (b.dataset.v === 'customer') { S.staffOk = false; S.mh = null; S.sb?.staffLock().catch(() => {}); if (WEB_ADMIN) return toSite(); } S.view = b.dataset.v; render(); window.scrollTo({ top: 0 }); }
+    if (a === 'view') { if (b.dataset.v === 'bar' && !(S.admin && S.staffOk)) return pinOpen(); if (b.dataset.v === 'customer') { S.staffOk = false; S.mh?.el?.destroy(); S.mh = null; S.sb?.staffLock().catch(() => {}); if (WEB_ADMIN) return toSite(); } S.view = b.dataset.v; render(); window.scrollTo({ top: 0 }); }
     else if (a === 'pin-close') pinCancel();
     else if (a === 'pin-key') pinKey(b.dataset.v);
     else if (a === 'tab') { if (S.view === 'bar') S.btab = b.dataset.v; else { if (['home', 'more', 'beans'].includes(S.tab) && S.tab !== b.dataset.v) S.backTo = S.tab; S.tab = b.dataset.v; S.lastOrder = null; S.fresh = -1; S.dealt = null; } render(); window.scrollTo({ top: 0 }); }
@@ -4155,7 +4155,7 @@ body.barista-view #switch { display: flex; align-items: center; }
           S.demo = true; S.backend = 'supabase'; S.sb = conn; S.db = conn.db; S.uid = conn.uid; S.admin = await conn.isStaff(); loadAcct();
           conn.onStaffChange((on) => {
             if (on && !S.admin) { S.admin = true; listenAdmin(S.db); S.db.refreshAll(); lvRefresh(); }
-            else if (!on && S.admin) { S.admin = false; S.staffOk = false; S.mh = null; if (S.view === 'bar') S.view = 'customer'; }
+            else if (!on && S.admin) { S.admin = false; S.staffOk = false; S.mh?.el?.destroy(); S.mh = null; if (S.view === 'bar') S.view = 'customer'; }
             render();
           });
           listen(S.db);

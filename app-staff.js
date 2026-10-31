@@ -646,9 +646,39 @@ function mhQty(v, unit) {
     return `${x.toLocaleString('en-GB', { maximumFractionDigits: big ? 2 : unit === 'each' ? 1 : 0 })}${u ? ' ' + esc(u) : ''}`;
   }
 const mhPart = (key) => (S.mh?.data?.missing || []).includes(key) ? `<p class="hint warn" role="status">Maheera didn't send this part. <button class="linkish" data-act="mh-retry">Try again</button></p>` : '';
+// The tab shows Kenduri's shared <maheera-panel> (vendor/maheera-panel.js, loaded when the tab first opens), fed by the
+// shared "maheera-panel" function. Its look and words (Bija's ink colour, "bar", "drinks and cakes") are Bija's settings
+// in Maheera, not code here. Until that function is deployed, the older view below is shown, read through "maheera".
+// The one panel element lives in S.mh, so every render() moves it into the new slot instead of reloading it; Exit and
+// the idle lock destroy it with S.mh.
+let mhScript = null;
+function mhPanelScript() {
+    if (window.MaheeraPanel || mhScript) return;
+    mhScript = document.createElement('script'); mhScript.src = 'vendor/maheera-panel.js';
+    mhScript.onload = () => { if (S.view === 'bar' && S.btab === 'maheera') render(); };
+    mhScript.onerror = () => { mhScript = null; if (S.mh) S.mh.legacy = true; if (S.view === 'bar' && S.btab === 'maheera') render(); };
+    document.head.appendChild(mhScript);
+  }
+function mhMountPanel() {
+    const slot = document.getElementById('mh-slot'), M = S.mh;
+    if (!slot || !M || M.legacy || !window.MaheeraPanel || !S.staffOk) return;
+    if (!M.el) {
+      const el = M.el = document.createElement('maheera-panel');
+      el.config = { theme: { mode: 'light' } }; // the back office is light only, so the panel stays light in dark mode too
+      el.load = () => S.sb.maheeraPanel().catch((e) => {
+        if (e.code === 'not_deployed' && S.mh === M) { M.legacy = true; M.el = null; el.destroy(); if (S.view === 'bar' && S.btab === 'maheera') render(); }
+        throw e;
+      });
+    }
+    if (M.el.parentNode !== slot) slot.replaceChildren(M.el);
+  }
 function maheera() {
     if (!S.sb?.maheera) return `<div class="empty"><b>Maheera opens on the live back office</b>This back office is keeping data on this device only, so it can't reach Maheera. On the live site, staff see Kenduri's shared stock, drink costs and sales here.</div>`;
     const M = S.mh || (S.mh = { sub: 'today' });
+    if (!M.legacy && S.sb.maheeraPanel) {
+      mhPanelScript(); queueMicrotask(mhMountPanel);
+      return `<div id="mh-slot" class="mh-slot">${M.el ? '' : '<div class="list" aria-busy="true"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>'}</div>`;
+    }
     if (!M.data && !M.err && !M.loading) queueMicrotask(mhLoad);
     const sub = MH_SUBS.some((x) => x[0] === M.sub) ? M.sub : 'today';
     const nav = `<nav class="cats" aria-label="Maheera sections">${MH_SUBS.map(([id, l]) => `<button data-act="mh-sub" data-v="${id}" aria-pressed="${sub === id}">${l}</button>`).join('')}</nav>`;
