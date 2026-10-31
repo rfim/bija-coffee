@@ -1,6 +1,4 @@
-/*! Maheera panel v1.0.0, vendored unchanged from rfim/maheera site/embed/v1/maheera-panel.js (commit d1d371a, branch claude/embed, PR #11).
- *  Published copy: https://rfim.github.io/maheera/embed/v1/maheera-panel.js. Do not edit here: v1 is frozen; update by copying a new release. */
-/*! Maheera panel v1.0.0 | the shared Maheera back-office panel for Kenduri members | https://rfim.github.io/maheera/embed/v1/maheera-panel.js
+/*! Maheera panel v2.0.0 | the shared Maheera back-office panel for Kenduri members | https://rfim.github.io/maheera/embed/v2/maheera-panel.js
  *
  * A dependency-free web component, <maheera-panel>, that a restaurant embeds in its own staff backend.
  * It renders one Maheera Bundle v1 (see docs/embed.md) in a Shadow DOM, so no styles leak in or out.
@@ -10,12 +8,15 @@
  *   MaheeraPanel.mount(el, { load: () => Promise<Bundle>, config?: Partial<UiConfig>, onError? })
  *   or: <maheera-panel></maheera-panel> with  el.load = () => fetch(...).then(r => r.json())
  *
- * This file is immutable once released: fixes that change behaviour ship as /embed/v2/.
+ * This file is immutable once released: fixes that change behaviour ship as /embed/v3/.
+ *
+ * v2.0.0 (from v1.0.0): status chips wrap when they do not fit (a sentence such as "Batch 2026-w44 is short of
+ * 2 ingredients", or a long custom label) instead of overflowing on phones without Inter. Nothing else changed.
  */
 (function (root) {
   'use strict';
 
-  var VERSION = '1.0.0';
+  var VERSION = '2.0.0';
   var CONFIG_VERSION = 1;
   var BUNDLE_VERSION = 1;
   var LOAD_TIMEOUT_MS = 20000;
@@ -716,7 +717,9 @@
     '.kpi .value{font-size:var(--mh-type-kpi-size);line-height:var(--mh-type-kpi-line);font-weight:600;letter-spacing:-.02em;white-space:nowrap}',
     '.kpi .foot{color:var(--mh-text-3);font-size:12.5px;line-height:18px}',
     '.kpi .foot b{color:var(--mh-text-2);font-weight:500}',
-    '.chip{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:var(--mh-radius-pill);font-size:12px;font-weight:600;line-height:1;white-space:nowrap;',
+    // A chip is one line when it fits; a sentence or a long custom label wraps instead of overflowing, whatever
+    // font the device falls back to (the panel loads no web font).
+    '.chip{display:inline-flex;align-items:center;gap:4px;min-height:22px;max-width:100%;padding:3px 8px;border-radius:11px;font-size:12px;font-weight:600;line-height:1.25;white-space:normal;',
     'background:var(--tone-bg);color:var(--tone)}',
     '.chip svg.i{width:12px;height:12px;stroke-width:2}',
     '.chart svg.plot{display:block;width:100%;height:var(--mh-size-chart-height)}',
