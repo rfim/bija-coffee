@@ -1171,9 +1171,6 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
 .rot-d i { width: 8px; height: 8px; border-radius: 4px; background: #c9c7c2; transition: width .3s ease, background-color .3s ease; }
 .rot-d[aria-pressed="true"] i { width: 22px; background: var(--ink); }
 .rot-p svg { width: 16px; height: 16px; }
-.dnudge.set .dt { flex: 1; display: grid; gap: 2px; text-align: left; }
-.dnudge.set .dic::after { display: none; }
-.dnudge.set .dgo { flex: none; background: none; color: var(--ink); padding: 0 4px; font: 600 14px var(--sans); text-decoration: underline; text-underline-offset: 4px; }
 /* inside the For you card both cards are one compact row: picture, words, one action */
 .rot .usual-card { display: grid !important; grid-template-columns: 64px minmax(0, 1fr) auto; grid-template-rows: auto; align-items: center; gap: 12px; background: var(--tile); border-radius: 18px; padding: 12px 14px; }
 .rot .usual-card .uimg { width: 64px; height: 64px; grid-row: auto; }
@@ -2470,7 +2467,7 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
         <p class="sub">${esc(hello)} · ${(() => { const o = openState(); return esc(o.text); })()}</p>
       </section>
       ${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
-      ${active ? '' : S.dietEdit === 'home' || !diet() ? dietNudge('home') : forYou(st)}
+      ${active ? '' : S.dietEdit === 'home' ? dietNudge('home') : forYou(st)}
       <h2 class="wn-h">What's new</h2>
       <div class="promos wn" aria-label="What's new">${slides.map((x, i) => `<button class="slide wn-c" ${x.act}>${slidePic(x.img, i)}<span class="sl"><span class="ey">${esc(x.ey)}</span><b>${esc(x.t)}</b></span></button>`).join('')}</div>
       <div class="dots" aria-hidden="true">${slides.map(() => '<i></i>').join('')}</div>
@@ -2493,22 +2490,19 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
       ${sig && optsFor(main.m) ? `<button class="btn sm" data-act="sheet" data-id="${esc(main.m.id)}" ${canAdd ? '' : 'disabled'} aria-label="Add ${esc(main.m.name)}">Add</button>` : `<button class="btn sm" data-act="kadd" data-key="${esc(key)}" ${canAdd ? '' : 'disabled'} aria-label="Order ${esc(main.m.name)} again">Order again</button>`}
     </div>`;
   }
-  function allergyCard() {
-    const d = diet(), alg = d ? d.alg : [];
-    return `<button class="dnudge set" data-act="dedit" data-v="home"><span class="dic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M8.8 12.2l2.2 2.2 4.2-4.6"/></svg></span>
-      <span class="dt"><b>Your allergies</b><span class="hint">${alg.length ? `Avoiding ${esc(algList(alg))}. We flag it on the menu and tell the barista.` : 'No allergies. Tell us if that changes.'}${d?.milk ? ` Usual milk: ${esc(d.milk.toLocaleLowerCase('en-GB'))}.` : ''}</span></span>
-      <span class="dgo">Edit</span></button>`;
-  }
-  // allergies and "your usual" share one place and swap every 6 seconds. WCAG 2.2.2: it pauses while touched, focused or
+  // until allergies are answered, "your usual" and the allergy question share one place and swap every 6 seconds. WCAG 2.2.2: it pauses while touched, focused or
   // hovered, has a pause button, and stays still under reduced motion
   const ROT_MS = 6000;
   function forYou(st) {
-    const cards = [allergyCard(), usualCard(st)].filter(Boolean);
-    if (cards.length < 2) return cards.join('');
+    // allergies answered: never ask again, just their usual (or the signature drink). Not answered yet: a regular sees their
+    // usual, then the allergy question; a first-timer the allergy question, then the signature drink
+    const ordered = !!st.col[0], usual = [ordered ? 'your usual' : 'our signature drink', usualCard(st)];
+    const slots = (diet() ? [usual] : ordered ? [usual, ['the allergy question', dietNudge('home')]] : [['the allergy question', dietNudge('home')], usual]).filter(([, c]) => c), cards = slots.map(([, c]) => c);
+    if (cards.length < 2) return cards[0] ? `<div class="rot">${cards[0]}</div>` : '';
     const i = (S.rotI || 0) % cards.length, still = S.rotPaused || calm();
     return `<section class="rot" data-rot aria-roledescription="carousel" aria-label="For you">
       <div class="rot-s">${cards.map((c, k) => `<div class="rot-i${k === i ? ' on' : ''}" role="group" aria-roledescription="slide" aria-label="${k + 1} of ${cards.length}" ${k === i ? '' : 'aria-hidden="true" inert'}>${c}</div>`).join('')}</div>
-      <div class="rot-c">${cards.map((_, k) => `<button class="rot-d" data-act="rot" data-v="${k}" aria-label="Show ${k ? 'your usual' : 'your allergies'}" aria-pressed="${k === i}"><i></i></button>`).join('')}
+      <div class="rot-c">${cards.map((_, k) => `<button class="rot-d" data-act="rot" data-v="${k}" aria-label="Show ${slots[k][0]}" aria-pressed="${k === i}"><i></i></button>`).join('')}
         ${calm() ? '' : `<button class="rot-p" data-act="rotp" aria-label="${still ? 'Play' : 'Pause'} the cards">${still ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>' : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 5.5h3v13h-3zM13.5 5.5h3v13h-3z" fill="currentColor"/></svg>'}</button>`}</div>
     </section>`;
   }
@@ -3106,7 +3100,8 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
         <span class="pc-p"><b>${st.balance.toLocaleString('en-GB')}</b> points</span>
         <span class="pc-f"><span class="code">${esc(no)}</span><span class="pc-s">Scan at the till ›</span></span>
       </button>`;
-    return `${mini}${member ? '' : `<button class="pd-join" data-act="pd" data-v="account"><span><b>Log in or sign up</b><small>Keep your card, points and allergies on every phone</small></span><span class="pc" aria-hidden="true">›</span></button>`}
+    // logged in: the small Bija Card; not yet: just the way in (the card and points stay on Rewards either way)
+    return `${member ? mini : `<button class="pd-join" data-act="pd" data-v="account"><span><b>Log in or sign up</b><small>Keep your card, points and allergies on every phone</small></span><span class="pc" aria-hidden="true">›</span></button>`}
       <button class="pd-stamps" data-act="pd" data-v="stamps" aria-label="Stamp card, ${on} of ${STAMP_FREE_AT + 1}"><span class="pd-dots" aria-hidden="true">${Array.from({ length: STAMP_FREE_AT + 1 }, (_, i) => `<i class="${i < on ? 'on' : ''}${i === STAMP_FREE_AT ? ' free' : ''}"></i>`).join('')}</span><span class="pl"><b>Stamp card</b><small>${on} of ${STAMP_FREE_AT + 1} · ${STAMP_FREE_AT - on > 0 ? `${STAMP_FREE_AT - on} more to a free drink` : 'next drink is free'}</small></span><span class="pc" aria-hidden="true">›</span></button>
       <ul class="pd-menu">
         ${row('orders', IC.orders, 'My orders', n ? `${n} so far` : 'Track and reorder')}
