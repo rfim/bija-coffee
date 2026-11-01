@@ -1188,16 +1188,22 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
 body.bs-open { overflow: hidden; }
 body.bs-open #basket { visibility: hidden; } body.bs-open.bs-bloom #basket { visibility: visible; }
 #bagsheet { position: fixed; inset: 0; z-index: 50; }
-#bagsheet .bs-bg { position: absolute; inset: 0; background: rgba(0,0,0,.28); opacity: 0; transition: opacity .32s ease; }
-#bagsheet .bs-pan { position: absolute; max-height: min(78vh, 680px); display: flex; flex-direction: column; background: #0b0b0b; color: #fff; border-radius: 18px; box-shadow: 0 18px 50px rgba(0,0,0,.35); padding: 0 10px 10px 16px; clip-path: inset(var(--c, 0px) 0 0 0 round 18px); transition: clip-path .46s cubic-bezier(.2,.9,.2,1); overscroll-behavior: contain; }
-#bagsheet.show .bs-bg { opacity: 1; } #bagsheet.show .bs-pan { clip-path: inset(0 0 0 0 round 22px); }
-#bagsheet.out .bs-pan { transition-duration: .36s; transition-timing-function: cubic-bezier(.4,0,.2,1); }
-#bagsheet .bs-top, #bagsheet .bs-list, #bagsheet .bs-deal, #bagsheet .bs-empty { transition: opacity .25s ease; }
-#bagsheet:not(.show) .bs-top, #bagsheet:not(.show) .bs-list, #bagsheet:not(.show) .bs-deal { opacity: 0; }
+/* Smoothness: only transform and opacity move (both run on the GPU). The panel is a fixed, rounded window over the bar;
+   the order body slides up inside it from behind the bottom row, which is the bar itself and never moves. */
+#bagsheet .bs-bg { position: absolute; inset: 0; background: rgba(0,0,0,.3); opacity: 0; transition: opacity .42s cubic-bezier(.32,.72,0,1); will-change: opacity; }
+#bagsheet .bs-pan { position: absolute; max-height: min(78vh, 680px); display: flex; flex-direction: column; border-radius: 20px; overflow: hidden; overscroll-behavior: contain; transform: translateZ(0); }
+#bagsheet .bs-body { position: relative; z-index: 0; display: flex; flex-direction: column; min-height: 0; flex: 1 1 auto; background: #0b0b0b; border-radius: 20px 20px 0 0; color: #fff; padding: 0 10px 24px 16px; margin-bottom: -24px; transform: translate3d(0, 100%, 0); transition: transform .5s cubic-bezier(.32,.72,0,1); will-change: transform; }
+#bagsheet .bs-foot { position: relative; z-index: 1; background: #0b0b0b; color: #fff; }
+#bagsheet.show .bs-bg { opacity: 1; } #bagsheet.show .bs-body { transform: none; }
+#bagsheet.out .bs-body { transition: transform .34s cubic-bezier(.4,0,.6,1); }
+#bagsheet.out .bs-bg { transition-duration: .3s; }
+#bagsheet .bs-body > * { transition: opacity .3s ease .12s, transform .45s cubic-bezier(.32,.72,0,1) .08s; }
+#bagsheet:not(.show) .bs-body > * { opacity: 0; transform: translate3d(0, 12px, 0); }
+#bagsheet.out .bs-body > * { transition: opacity .14s ease, transform .3s ease; }
 #bagsheet .bs-top { position: relative; padding: 22px 6px 6px 0; touch-action: none; cursor: grab; -webkit-user-select: none; user-select: none; }
 #bagsheet .bs-grab { position: absolute; top: 8px; left: 50%; width: 40px; height: 5px; margin-left: -20px; border-radius: 3px; background: rgba(255,255,255,.28); }
 #bagsheet h2 { margin: 0; font: 800 22px/1.1 var(--display); letter-spacing: -.01em; color: #fff; }
-#bagsheet .bs-list { list-style: none; margin: 0; padding: 0 6px 0 0; overflow-y: auto; flex: 1 1 auto; min-height: 0; }
+#bagsheet .bs-list { list-style: none; margin: 0; padding: 0 6px 0 0; overflow-y: auto; flex: 1 1 auto; min-height: 0; -webkit-overflow-scrolling: touch; }
 #bagsheet .bl { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.12); overflow: hidden; transition: height .32s cubic-bezier(.2,.8,.2,1), opacity .24s ease, transform .32s cubic-bezier(.2,.8,.2,1), padding .32s ease; }
 #bagsheet .bl.gone { opacity: 0; transform: translateX(-24px); padding-block: 0; border-bottom-color: transparent; }
 #bagsheet .bl-img { width: 52px; height: 52px; border-radius: 12px; overflow: hidden; background: rgba(255,255,255,.1); display: grid; place-items: center; }
@@ -1215,8 +1221,8 @@ body.bs-open #basket { visibility: hidden; } body.bs-open.bs-bloom #basket { vis
 #bagsheet .bl-step button.bin { color: #ff8a80; }
 #bagsheet .bl-step button svg { width: 19px; height: 19px; }
 #bagsheet .bl-step output { min-width: 26px; text-align: center; font: 700 15px var(--sans); font-variant-numeric: tabular-nums; display: inline-block; }
-#bagsheet .bs-deal { margin: 8px 0 0; font: 500 12.5px var(--sans); color: rgba(255,255,255,.7); }
-#bagsheet .bs-foot { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 10px; }
+#bagsheet .bs-deal { margin: 8px 0 4px; font: 500 12.5px var(--sans); color: rgba(255,255,255,.7); }
+#bagsheet .bs-foot { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 10px 10px 16px; }
 #bagsheet .bs-sumbtn { display: flex; align-items: center; gap: 10px; min-height: 44px; flex: 1; min-width: 0; border: 0; background: none; color: #fff; font: inherit; text-align: left; padding: 0 8px 0 0; cursor: pointer; }
 #bagsheet .bs-sumbtn .bk-n { flex: none; min-width: 26px; height: 26px; padding: 0 7px; border-radius: 13px; background: #fff; color: #0b0b0b; font: 700 13px/26px var(--sans); text-align: center; }
 #bagsheet .bs-sumbtn svg { width: 18px; height: 18px; flex: none; opacity: .7; }
@@ -1228,23 +1234,27 @@ body.bs-open #basket { visibility: hidden; } body.bs-open.bs-bloom #basket { vis
   @keyframes bl-in { from { opacity: 0; transform: translateY(14px); } }
 }
 /* open styles. 1 unfold (above). Shared: closing drops the content a touch as it fades */
-#bagsheet.out .bs-top, #bagsheet.out .bs-list, #bagsheet.out .bs-deal { transform: translateY(10px); transition: opacity .18s ease, transform .3s ease; }
 /* 2 soft focus: the page behind blurs, the list comes into focus as the bar grows */
-#bagsheet[data-fx="2"] .bs-bg { -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); background: rgba(0,0,0,.18); }
-#bagsheet[data-fx="2"] .bs-top, #bagsheet[data-fx="2"] .bs-list { transition: opacity .4s ease, filter .5s ease, transform .5s cubic-bezier(.2,.9,.2,1); }
-#bagsheet[data-fx="2"]:not(.show) .bs-top, #bagsheet[data-fx="2"]:not(.show) .bs-list { filter: blur(10px); transform: scale(.96); }
-#bagsheet[data-fx="2"] .bs-pan { transition-duration: .55s; transition-timing-function: cubic-bezier(.16,1,.3,1); }
+#bagsheet[data-fx="2"] .bs-bg { background: rgba(0,0,0,.24); }
+/* the blur is its own layer and fades in once the panel has settled, so it never costs frames while things move */
+#bagsheet[data-fx="2"] .bs-bg::after { content: ""; position: absolute; inset: 0; -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); opacity: 0; transition: opacity .35s ease; }
+#bagsheet[data-fx="2"].show .bs-bg::after { opacity: 1; transition-delay: .48s; }
+#bagsheet[data-fx="2"].out .bs-bg::after { opacity: 0; transition: none; }
+#bagsheet[data-fx="2"] .bs-body > * { transition: opacity .38s ease .1s, transform .55s cubic-bezier(.32,.72,0,1) .06s; transform-origin: 50% 100%; }
+#bagsheet[data-fx="2"]:not(.show) .bs-body > * { opacity: 0; transform: translate3d(0, 10px, 0) scale(.97); }
+#bagsheet[data-fx="2"] .bs-body { transition-duration: .55s; }
 /* 3 bloom: the panel blooms out of the count circle */
+#bagsheet[data-fx="3"] .bs-body, #bagsheet[data-fx="6"] .bs-body { transform: none; transition: none; }
 #bagsheet[data-fx="3"] .bs-pan { clip-path: circle(16px at 29px calc(100% - 32px)); transition: clip-path .6s cubic-bezier(.65,0,.35,1); }
 #bagsheet[data-fx="3"].show .bs-pan { clip-path: circle(140% at 29px calc(100% - 32px)); }
 #bagsheet[data-fx="3"].out .bs-pan { transition-duration: .42s; }
 /* 4 elastic: the bar stretches up past its height and settles back, like a spring */
-#bagsheet[data-fx="4"] .bs-pan { transition: clip-path .5s cubic-bezier(.34,1.45,.55,1); transform-origin: 50% 100%; }
+#bagsheet[data-fx="4"] .bs-body { transition: transform .55s cubic-bezier(.34,1.3,.55,1); } #bagsheet[data-fx="4"] .bs-pan { transform-origin: 50% 100%; }
 #bagsheet[data-fx="4"].show .bs-pan { animation: bs-boing .62s cubic-bezier(.3,1.5,.5,1); }
 @keyframes bs-boing { 0% { transform: scale(.98, .9); } 55% { transform: scale(1.01, 1.03); } 100% { transform: none; } }
 /* 5 cascade: the lines tip up into place one by one, like cards on a table */
 #bagsheet[data-fx="5"] .bs-list { perspective: 700px; }
-#bagsheet[data-fx="5"] .bs-pan { transition-duration: .4s; }
+#bagsheet[data-fx="5"] .bs-body { transition-duration: .4s; }
 @media (prefers-reduced-motion: no-preference) {
   #bagsheet[data-fx="5"] .bs-list.stagger .bl { animation: bl-tip .6s cubic-bezier(.2,.9,.25,1.15) both; animation-delay: calc(160ms + var(--i) * 80ms); transform-origin: 50% 100%; }
   @keyframes bl-tip { from { opacity: 0; transform: rotateX(-75deg) translateY(18px); } }
@@ -2036,7 +2046,7 @@ body.bs-open #basket { visibility: hidden; } body.bs-open.bs-bloom #basket { vis
     if (document.getElementById('bagsheet') || !cartLines().length || !bar || bar.hidden) return;
     const r = bar.getBoundingClientRect();
     const el = document.createElement('div'); el.id = 'bagsheet'; el.dataset.fx = BAG_FX;
-    el.innerHTML = `<div class="bs-bg" data-act="bag-close"></div><div class="bs-pan" role="dialog" aria-modal="true" aria-labelledby="bag-h"><div class="bs-top"><span class="bs-grab" aria-hidden="true"></span><h2 id="bag-h">Your order</h2></div><ul class="bs-list"></ul><p class="bs-deal" hidden></p><div class="bs-foot"><button class="bs-sumbtn" data-act="bag-close" aria-label="Close your order"><span class="bk-n bs-c"></span><span><span class="bs-n"></span> · <b class="bs-tot"></b></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="btn sm bs-go" data-act="bag-go">Checkout</button></div><p class="sr" aria-live="polite" id="bag-live"></p></div>`;
+    el.innerHTML = `<div class="bs-bg" data-act="bag-close"></div><div class="bs-pan" role="dialog" aria-modal="true" aria-labelledby="bag-h"><div class="bs-body"><div class="bs-top"><span class="bs-grab" aria-hidden="true"></span><h2 id="bag-h">Your order</h2></div><ul class="bs-list"></ul><p class="bs-deal" hidden></p></div><div class="bs-foot"><button class="bs-sumbtn" data-act="bag-close" aria-label="Close your order"><span class="bk-n bs-c"></span><span><span class="bs-n"></span> · <b class="bs-tot"></b></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="btn sm bs-go" data-act="bag-go">Checkout</button></div><p class="sr" aria-live="polite" id="bag-live"></p></div>`;
     const pan = el.querySelector('.bs-pan');
     // the panel sits exactly where the bar is and grows up out of it
     pan.style.left = r.left + 'px'; pan.style.width = r.width + 'px'; pan.style.bottom = (innerHeight - r.bottom) + 'px';
@@ -2044,7 +2054,7 @@ body.bs-open #basket { visibility: hidden; } body.bs-open.bs-bloom #basket { vis
     // blooming styles grow out of the count circle: the bar stays put underneath until the bloom has covered it
     if (/^[36]$/.test(BAG_FX) && !calm()) { document.body.classList.add('bs-bloom'); setTimeout(() => document.body.classList.remove('bs-bloom'), 380); }
     S.bagFrom = document.activeElement; bagFill(true); bagClip(el, r.height);
-    el.getBoundingClientRect(); el.classList.add('show');
+    el.getBoundingClientRect(); requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
     el.querySelector('.bs-sumbtn').focus({ preventScroll: true });
     bagDrag(pan, el.querySelector('.bs-top'));
   }
@@ -2054,7 +2064,7 @@ body.bs-open #basket { visibility: hidden; } body.bs-open.bs-bloom #basket { vis
     const el = document.getElementById('bagsheet'); if (!el || el.classList.contains('out')) return;
     const bar = document.getElementById('basket'); bagClip(el, bar && !bar.hidden ? bar.offsetHeight : el.querySelector('.bs-foot').offsetHeight + 20);
     el.classList.add('out'); el.classList.remove('show'); document.body.classList.remove('bs-open');
-    setTimeout(() => { el.remove(); const b = document.getElementById('basket'); if (b && !calm() && /^[36]$/.test(el.dataset.fx)) b.animate?.([{ opacity: 0 }, { opacity: 1 }], { duration: 180 }); }, calm() ? 0 : 440);
+    setTimeout(() => { el.remove(); const b = document.getElementById('basket'); if (b && !calm() && /^[36]$/.test(el.dataset.fx)) b.animate?.([{ opacity: 0 }, { opacity: 1 }], { duration: 180 }); }, calm() ? 0 : 400);
     const back = S.bagFrom?.isConnected ? S.bagFrom : document.querySelector('#basket .bk-sum'); back?.focus({ preventScroll: true }); S.bagFrom = null;
   }
   function bagFill(first) {
