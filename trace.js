@@ -99,7 +99,7 @@
           <p class="lede">${esc(cup ? `Your drink was made with ${p.name}. ${p.blurb}` : p.blurb)}</p>
           <ul class="tr-notes" aria-label="Tasting notes">${p.notes.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>
           ${freshness()}
-          <div class="tr-acts">${p.soon ? `<a class="btn" href="product.html?id=${p.id}">Coming soon: get notified</a>` : `<a class="btn" href="product.html?id=${p.id}">Buy this coffee · ${S.money(p.price)}</a>`}</div>
+          <div class="tr-acts">${p.soon ? `<a class="btn" href="product.html?id=${p.id}">Coming soon: get notified</a>` : `<a class="btn" href="product.html?id=${p.id}">Buy this coffee · ${S.money(p.price)}</a>`}<button class="btn ghost" type="button" id="story">${IG_ICON} Share to Instagram</button></div>
           <ul class="tr-links">${p.soon ? '' : `<li><a href="product.html?id=${p.id}&amp;plan=2w">Subscribe &amp; save 10%</a></li>`}${single ? `<li><a href="app.html?view=app&amp;stamp=${p.id}">Stamp it in your Origins Passport</a></li>` : ''}${cup ? '<li><a href="app.html?view=app">Order it again</a></li>' : ''}<li><button type="button" id="share">Share</button></li></ul>
         </div>
       </section>
@@ -153,6 +153,81 @@
     root.querySelector('[data-more]').innerHTML = more.map((x) => S.card(x)).join('');
   }
 
+  // ---------- share to Instagram: a 1080×1920 story image made on the phone (their cup photo, or the bag), never uploaded ----------
+  const IG_ICON = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg>';
+  const LOOKS = {
+    noir: { name: 'Noir', bg: '#0b0b0b', panel: 'rgba(11,11,11,.92)', ink: '#ffffff', sub: 'rgba(255,255,255,.75)', photo: 'grayscale(1) contrast(1.12)' },
+    paper: { name: 'Paper', bg: '#f2f0ec', panel: 'rgba(255,255,255,.94)', ink: '#0b0b0b', sub: '#4a4a4a', photo: 'contrast(1.04) saturate(1.06)' },
+    kopi: { name: 'Kopi', bg: '#3b2a20', panel: 'rgba(241,230,208,.95)', ink: '#2a1d14', sub: '#5c4a3c', photo: 'sepia(.35) saturate(1.15) contrast(1.05)' },
+  };
+  const ST = { look: 'noir', photo: null, opener: null };
+  const svgImage = (markup) => new Promise((ok) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => ok(null); i.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(markup.includes('xmlns=') ? markup : markup.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"')); });
+  const rrect = (c, x, y, w, h, r) => { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); };
+  // the Kawung mark: four overlapping circles
+  const kawung = (c, cx, cy, r, color, lw) => { c.save(); c.strokeStyle = color; c.lineWidth = lw; for (const [dx, dy] of [[0, -r], [r, 0], [0, r], [-r, 0]]) { c.beginPath(); c.arc(cx + dx, cy + dy, r, 0, Math.PI * 2); c.stroke(); } c.restore(); };
+  function wrap(c, text, maxW) { const words = text.split(' '), lines = []; let line = ''; for (const w of words) { const t = line ? line + ' ' + w : w; if (c.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t; } if (line) lines.push(line); return lines; }
+  async function drawStory(canvas) {
+    const p = S.byId(code.b), L = LOOKS[ST.look], c = canvas.getContext('2d'), W = 1080, H = 1920;
+    try { await Promise.all(['900 120px Archivo', '600 36px Inter', '400 40px Inter'].map((f) => document.fonts.load(f))); } catch {}
+    c.clearRect(0, 0, W, H); c.fillStyle = L.bg; c.fillRect(0, 0, W, H);
+    if (ST.photo) {
+      const im = ST.photo, k = Math.max(W / im.naturalWidth, H / im.naturalHeight), w = im.naturalWidth * k, h = im.naturalHeight * k;
+      c.save(); c.filter = L.photo; c.drawImage(im, (W - w) / 2, (H - h) / 2, w, h); c.restore();
+    } else {
+      // no photo: a Kawung field and the bag itself
+      c.save(); c.globalAlpha = .08; for (let y = 0; y < H + 120; y += 120) for (let x = (y / 120) % 2 ? 60 : 0; x < W + 120; x += 120) kawung(c, x, y, 26, L.ink, 3); c.restore();
+      const bag = await svgImage(S.bagArt(p)); if (bag) c.drawImage(bag, (W - 560) / 2, 250, 560, 728);
+    }
+    // top: the Bija tag
+    c.textBaseline = 'middle'; c.font = '900 52px Archivo'; const bw = c.measureText('BIJA').width; c.font = '400 32px Inter'; const where = "2a St James's Market", ww = c.measureText(where).width;
+    c.fillStyle = L.panel; rrect(c, 60, 72, 148 + bw + 24 + ww + 40, 112, 56); c.fill();
+    kawung(c, 128, 128, 15, L.ink, 4);
+    c.fillStyle = L.ink; c.font = '900 52px Archivo'; c.fillText('BIJA', 178, 130);
+    c.font = '400 32px Inter'; c.fillStyle = L.sub; c.fillText(where, 178 + bw + 24, 131);
+    // bottom panel: what's in the cup
+    const x = 60, w = 960, pad = 56; c.font = '900 116px Archivo'; const name = wrap(c, p.name.toLocaleUpperCase('en-GB'), w - pad * 2).slice(0, 2);
+    const h = 520 + (name.length - 1) * 112, y = H - 80 - h;
+    c.fillStyle = L.panel; rrect(c, x, y, w, h, 52); c.fill();
+    c.textBaseline = 'alphabetic'; let ty = y + pad + 34;
+    c.fillStyle = L.sub; c.font = '600 36px Inter'; c.fillText(code.c === 'cup' ? 'In my cup today' : 'Just opened', x + pad, ty);
+    c.fillStyle = L.ink; c.font = '900 116px Archivo'; for (const n of name) { ty += 118; c.fillText(n, x + pad - 4, ty); }
+    c.fillStyle = L.sub; c.font = '400 40px Inter'; ty += 70; c.fillText(p.type === 'origin' ? `${p.where}, Indonesia` : 'Indonesian blend', x + pad, ty);
+    // tasting notes as outlined pills
+    c.font = '600 32px Inter'; let px = x + pad; ty += 48;
+    for (const note of p.notes.slice(0, 3)) { const tw = c.measureText(note).width + 52; if (px + tw > x + w - pad) break; c.strokeStyle = L.ink; c.lineWidth = 3; rrect(c, px, ty, tw, 68, 34); c.stroke(); c.fillStyle = L.ink; c.fillText(note, px + 26, ty + 45); px += tw + 14; }
+    ty += 68 + 70; c.fillStyle = L.sub; c.font = '400 32px Inter';
+    const age = code.r ? dayNo(londonToday()) - dayNo(code.r) : null;
+    c.fillText(code.r ? `Roasted ${ukDate(code.r)} · day ${age} of resting` : 'Sourced with Kindred Forest', x + pad, ty);
+  }
+  function storyOpen(btn) {
+    ST.opener = btn;
+    const el = document.createElement('div'); el.className = 'st-wrap'; el.innerHTML = `<div class="st-pan" role="dialog" aria-modal="true" aria-labelledby="st-h">
+      <div class="st-top"><h2 id="st-h">Share to Instagram</h2><button class="st-x" type="button" data-st="close" aria-label="Close">×</button></div>
+      <div class="st-prev"><canvas width="1080" height="1920" role="img" aria-label="Preview of your story image"></canvas></div>
+      <div class="st-looks" role="group" aria-label="Look">${Object.entries(LOOKS).map(([k, l]) => `<button type="button" data-look="${k}" aria-pressed="${ST.look === k}">${l.name}</button>`).join('')}</div>
+      <input type="file" id="st-file" accept="image/*" capture="environment" class="st-file">
+      <div class="st-acts"><label class="btn ghost" for="st-file">${ST.photo ? 'Change photo' : 'Add a photo of your cup'}</label>${ST.photo ? '<button class="btn ghost" type="button" data-st="nophoto">Use the bag</button>' : ''}<button class="btn" type="button" data-st="go">${IG_ICON} Share</button></div>
+      <p class="st-note">Your photo stays on this phone. In the share sheet pick Instagram, then Story or Reel.</p></div>`;
+    document.body.appendChild(el); document.body.style.overflow = 'hidden';
+    drawStory(el.querySelector('canvas')); el.querySelector('.st-x').focus();
+  }
+  function storyRefresh() { const el = document.querySelector('.st-wrap'); if (!el) return; const f = document.activeElement?.dataset?.look || document.activeElement?.dataset?.st; el.remove(); storyOpen(ST.opener); if (f) document.querySelector(`.st-wrap [data-look="${f}"], .st-wrap [data-st="${f}"]`)?.focus(); }
+  function storyClose() { document.querySelector('.st-wrap')?.remove(); document.body.style.overflow = ''; ST.opener?.focus(); }
+  async function storyShare() {
+    const p = S.byId(code.b), canvas = document.querySelector('.st-wrap canvas');
+    await drawStory(canvas);
+    const blob = await new Promise((ok) => canvas.toBlob(ok, 'image/png')); if (!blob) return S.toast('We couldn’t make the image. Try again.');
+    const file = new File([blob], `bija-${p.id}.png`, { type: 'image/png' });
+    try { if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: `${p.name} · Bija`, text: `${p.name} from ${p.where} at Bija, St James's Market.` }); return; } } catch (err) { if (err && err.name === 'AbortError') return; }
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file.name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    S.toast('Image saved. In Instagram tap +, choose Story or Reel, and pick it from your photos.');
+  }
+  document.addEventListener('change', (e) => {
+    if (e.target.id !== 'st-file' || !e.target.files?.[0]) return;
+    const im = new Image(); im.onload = () => { ST.photo = im; storyRefresh(); }; im.onerror = () => S.toast('That photo couldn’t be opened. Try another.'); im.src = URL.createObjectURL(e.target.files[0]);
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && document.querySelector('.st-wrap')) storyClose(); });
+
   function renderBad() {
     document.title = 'Bean passport · Bija';
     root.innerHTML = `<section class="tr-bad">${mark('mkbig')}<div><span class="eyebrow">Bean passport</span><h1>We couldn't read this code</h1>
@@ -168,6 +243,11 @@
       root.querySelector('#brew-t').textContent = S.BREW[chip.dataset.brew] || '';
       return;
     }
+    if (e.target.closest('#story')) return storyOpen(e.target.closest('#story'));
+    const look = e.target.closest('[data-look]'); if (look) { ST.look = look.dataset.look; return storyRefresh(); }
+    const st = e.target.closest('[data-st]');
+    if (st) { if (st.dataset.st === 'close') storyClose(); else if (st.dataset.st === 'nophoto') { ST.photo = null; storyRefresh(); } else if (st.dataset.st === 'go') storyShare(); return; }
+    if (e.target.closest('.st-wrap') && !e.target.closest('.st-pan')) return storyClose();
     if (e.target.closest('#share')) {
       const p = S.byId(code.b), data = { title: `${p.name} · Bija`, text: `${p.name} from ${p.where}, sourced with Kindred Forest and roasted by Bija's baristas.`, url: location.href };
       try { if (navigator.share) { await navigator.share(data); return; } } catch (err) { if (err && err.name === 'AbortError') return; }

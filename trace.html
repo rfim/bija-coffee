@@ -35,6 +35,25 @@ if (location.protocol !== 'file:') ['archivo-latin-900', 'archivo-latin-800', 'i
 .tr-links { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 22px; }
 .tr-links a, .tr-links button { display: inline-flex; align-items: center; min-height: 44px; background: none; border: 0; padding: 0; font: 600 13px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; color: var(--ink); cursor: pointer; }
 
+/* share to Instagram */
+.tr-acts .btn.ghost { background: #fff; color: var(--ink); }
+.tr-acts .btn svg { flex: none; }
+.st-wrap { position: fixed; inset: 0; z-index: 90; background: rgba(0, 0, 0, .55); display: grid; place-items: end center; }
+.st-pan { width: min(100%, 520px); max-height: 100dvh; overflow-y: auto; background: #fff; border-radius: 24px 24px 0 0; padding: 16px 20px calc(20px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 14px; }
+.st-top { display: flex; align-items: center; justify-content: space-between; }
+.st-top h2 { margin: 0; font: 600 20px/1.2 var(--sans); text-transform: none; letter-spacing: 0; }
+.st-x { width: 44px; height: 44px; border: 0; border-radius: 50%; background: var(--tile); font-size: 24px; line-height: 1; cursor: pointer; }
+.st-prev { display: grid; place-items: center; }
+.st-prev canvas { height: min(52dvh, 460px); width: auto; aspect-ratio: 9 / 16; border-radius: 16px; box-shadow: 0 1px 0 rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.12); }
+.st-looks { display: flex; justify-content: center; gap: 8px; }
+.st-looks button { min-height: 44px; padding: 0 18px; border: 1.5px solid var(--ink); border-radius: 999px; background: #fff; color: var(--ink); font: 600 14px var(--sans); cursor: pointer; }
+.st-looks button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.st-file { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.st-file:focus-visible + .st-acts label { outline: 2px solid var(--ink); outline-offset: 2px; }
+.st-acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.st-acts .btn { flex: 1 1 auto; cursor: pointer; }
+.st-note { margin: 0; font-size: 13px; color: #555; text-align: center; }
+
 /* freshness meter */
 .fresh { background: var(--tile); border-radius: 20px; padding: 18px 20px; margin: 0 0 20px; }
 .fresh .top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
