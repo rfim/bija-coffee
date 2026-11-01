@@ -1293,6 +1293,18 @@ body:not(.barista-view) .top::after { content: ""; position: absolute; left: 0; 
 body.scrolled:not(.barista-view) .top { box-shadow: none; }
 body.scrolled:not(.barista-view) .top::after { opacity: 1; }
 .prod, .ptile, .tile2, .slide, .offer, .hc { transition: transform .18s ease; }
+/* Account: card design picker. Full-size cards on a snapping strip, the one in use ringed and labelled */
+.pd-title { margin: 4px 0 0; }
+.themes2 { display: grid; grid-auto-flow: column; grid-auto-columns: 82%; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 2px; padding: 6px 2px 4px; margin: 0 -2px; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+.themes2::-webkit-scrollbar { display: none; }
+.themes2 button { scroll-snap-align: start; border: 0; background: none; padding: 0; text-align: left; display: grid; gap: 8px; color: var(--ink); cursor: pointer; }
+.themes2 .tc { display: block; border-radius: 22px; padding: 4px; box-shadow: inset 0 0 0 1.5px transparent; transition: box-shadow .2s ease, transform .2s ease; }
+.themes2 .tc .bcard { margin: 0; box-shadow: 0 6px 18px rgba(0,0,0,.12); }
+.themes2 button:active .tc { transform: scale(.98); }
+.themes2 button[aria-checked="true"] .tc { box-shadow: inset 0 0 0 2px var(--ink); }
+.themes2 .tn { display: flex; align-items: center; gap: 8px; padding-left: 6px; font: 600 14px var(--sans); }
+.themes2 .tn i { font: 600 11px/1 var(--sans); font-style: normal; background: var(--ink); color: #fff; border-radius: 999px; padding: 4px 8px; }
+.tw { margin-top: 10px; }
 </style>
 
 <div class="wrap" id="wrap">
@@ -2721,7 +2733,8 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
         ${row('club', 'Beans Club', st.subs.length ? `${st.subs.length} subscription${st.subs.length > 1 ? 's' : ''}` : 'Fresh beans on your schedule', 'rewards')}
         ${row('secret', 'Secret St James\'s', `${st.found} of ${SPOTS.length} found${st.dealt.some((x) => !st.visited[x.id]) ? ' · new card waiting' : ''}`, 'visit')}
         ${row('gifts', 'Gift cards', st.wallet ? money(st.wallet) + ' balance' : 'Send one from £5', 'menu')}
-        ${row('orders', 'My orders', st.os.length + st.shop.length ? `${st.os.length + st.shop.length} so far` : 'Your order history', 'cup')}
+        ${row('offers', 'Offers', `${OFFERS.length} ways to save`, 'rewards')}
+        ${row('orders', 'History', st.os.length + st.shop.length ? `${st.os.length + st.shop.length} so far` : 'Your past orders', 'cup')}
       </ul>
       ${showInstall ? `<div class="install"><span><b>Put Bija on your home screen</b><br><span class="hint">${S.installEvt ? 'One tap, opens full screen.' : 'Tap Share, then “Add to Home Screen”.'} <a href="install.html">How to</a></span></span><span class="row">${S.installEvt ? '<button class="btn sm" data-act="install">Install</button>' : ''}<button class="btn sm ghost" data-act="noinstall">Not now</button></span></div>` : ''}
       ${whatsOn()}
@@ -3231,21 +3244,24 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     const views = {
       account: () => accountHTML(),
       stamps: () => `<section class="sec psec" id="pd-stamps"><div class="sec-h"><h2>Stamp card</h2><small>${Math.min(st.stamps, STAMP_FREE_AT)} of ${STAMP_FREE_AT + 1}</small></div>${stampsBody()}</section>`,
-      orders: () => `${sec('Your orders', recent.length ? `<button class="back" data-act="tab" data-v="orders" style="padding:0">All orders ›</button>` : '', !recent.length ? '<p class="hint">Your orders from the café, the app and the beans shop appear here.</p>' : `<ul class="olist">${recent.map(({ o, shop }) => `<li><span><b>${esc(o.code || '')}</b> <span class="pill ${o.status}">${shop ? ({ placed: 'Placed', dispatched: 'Sent', collected: 'Collected', cancelled: 'Cancelled' }[o.status] || esc(o.status)) : STATUS[o.status]}</span><small>${fmt(o.createdAt)} · ${money(o.total)}</small></span>${!shop && o.status === 'collected' ? `<button class="btn sm ghost" data-act="reorder" data-id="${esc(o.id)}" ${isOpen() ? '' : 'disabled'}>Order again</button>` : ''}</li>`).join('')}</ul>`)}`,
-      allergies: () => `${sec('Allergies', diet() && S.dietEdit !== 'me' ? `<button class="back" data-act="dedit" data-v="me" style="padding:0">Edit ›</button>` : '', diet() && S.dietEdit !== 'me' ? `<p class="hint" style="margin-top:0">${myAlg().size ? `Avoiding ${esc(algList([...myAlg()]))}.` : 'No allergies.'}${diet().milk ? ` Usual milk: ${esc(diet().milk.toLocaleLowerCase('en-GB'))}.` : ''}${diet().sweet && diet().sweet !== 'Normal' ? ` ${esc(diet().sweet)}.` : ''} The barista sees your allergies with every order.</p>${myAlg().size ? '<button class="back" data-act="ddel" style="padding:0">Delete my allergy info</button>' : ''}` : dietNudge('me'))}`,
-      you: () => `${sec('You', '', `<div class="you">
+      orders: () => `${sec('History', recent.length ? `<button class="back" data-act="tab" data-v="orders" style="padding:0">All orders ›</button>` : '', !recent.length ? '<p class="hint">Your orders from the café, the app and the beans shop appear here.</p>' : `<ul class="olist">${recent.map(({ o, shop }) => `<li><span><b>${esc(o.code || '')}</b> <span class="pill ${o.status}">${shop ? ({ placed: 'Placed', dispatched: 'Sent', collected: 'Collected', cancelled: 'Cancelled' }[o.status] || esc(o.status)) : STATUS[o.status]}</span><small>${fmt(o.createdAt)} · ${money(o.total)}</small></span>${!shop && o.status === 'collected' ? `<button class="btn sm ghost" data-act="reorder" data-id="${esc(o.id)}" ${isOpen() ? '' : 'disabled'}>Order again</button>` : ''}</li>`).join('')}</ul>`)}`,
+      // one Account page: your details, allergies, card design and notifications
+      you: () => `<h2 class="ptitle pd-title">Account</h2>
+        ${sec('Your details', '', `<div class="you">
         <label class="f">Name for your cup<input type="text" id="p-name" data-pname value="${esc(S.pname ?? (S.me?.name || S.form.name || ''))}" maxlength="40" autocomplete="given-name"></label>
         <button class="btn sm ghost" data-act="pname-save" ${S.busy || !S.uid ? 'disabled' : ''}>Save</button></div>
         ${st.birthMonth ? `<p class="hint">Birthday month: ${MONTHS[st.birthMonth - 1]}. Your first order that month earns +${BONUS.birthday} points.</p>`
-          : `<div class="you"><label class="f">Birthday month <span class="h">For +${BONUS.birthday} points each year · set once</span><select id="bm"><option value="">Month…</option>${MONTHS.map((m, i) => `<option value="${i + 1}" ${String(i + 1) === S.bdayPick ? 'selected' : ''}>${m}</option>`).join('')}</select></label><button class="btn sm ghost" data-act="bday" ${S.busy || !S.uid ? 'disabled' : ''}>Save</button></div>`}`)}`,
-      settings: () => `<section class="sec psec"><div class="sec-h"><h2>Settings</h2></div>
-        <p class="hint">Card design, saved on this device.</p>
-        <div class="themes">${THEMES.map((x) => `<button data-act="theme" data-v="${x.id}" aria-pressed="${S.theme === x.id}">${cardHTML(x, { pts: 1240, tier: 'Sprout', pct: 60 })}${esc(x.name)}</button>`).join('')}</div>
-        ${pushToggle()}
-        ${S.demo ? '<p class="links"><a href="privacy.html">Privacy</a><a href="accessibility.html">Accessibility</a><a href="allergens.html">Allergens</a></p>' : ''}
-      </section>`,
+          : `<div class="you"><label class="f">Birthday month <span class="h">For +${BONUS.birthday} points each year · set once</span><select id="bm"><option value="">Month…</option>${MONTHS.map((m, i) => `<option value="${i + 1}" ${String(i + 1) === S.bdayPick ? 'selected' : ''}>${m}</option>`).join('')}</select></label><button class="btn sm ghost" data-act="bday" ${S.busy || !S.uid ? 'disabled' : ''}>Save</button></div>`}`)}
+        ${sec('Allergies', diet() && S.dietEdit !== 'me' ? `<button class="back" data-act="dedit" data-v="me" style="padding:0">Edit ›</button>` : '', diet() && S.dietEdit !== 'me' ? `<p class="hint" style="margin-top:0">${myAlg().size ? `Avoiding ${esc(algList([...myAlg()]))}.` : 'No allergies.'}${diet().milk ? ` Usual milk: ${esc(diet().milk.toLocaleLowerCase('en-GB'))}.` : ''}${diet().sweet && diet().sweet !== 'Normal' ? ` ${esc(diet().sweet)}.` : ''} The barista sees your allergies with every order.</p>${myAlg().size ? '<button class="back" data-act="ddel" style="padding:0">Delete my allergy info</button>' : ''}` : dietNudge('me'))}
+        <section class="sec psec"><div class="sec-h"><h2>Card design</h2><small>${esc(themeById(S.theme).name)}</small></div>
+          <div class="themes2" role="radiogroup" aria-label="Card design">${THEMES.map((x) => `<button role="radio" data-act="theme" data-v="${x.id}" aria-checked="${S.theme === x.id}" aria-label="${esc(x.name)}"><span class="tc">${cardHTML(x, { name: S.me?.name || 'Your card', pts: st.balance || 1240, tier: st.tier.name, pct: 60, still: true })}</span><span class="tn">${esc(x.name)}${S.theme === x.id ? '<i>In use</i>' : ''}</span></button>`).join('')}</div>
+          <p class="hint tw">${esc(themeById(S.theme).why || '')} Saved on this phone.</p>
+        </section>
+        <section class="sec psec"><div class="sec-h"><h2>Notifications</h2></div>${pushToggle()}</section>
+        ${S.demo ? '<p class="links"><a href="privacy.html">Privacy</a><a href="accessibility.html">Accessibility</a><a href="allergens.html">Allergens</a></p>' : ''}`,
     };
     const backBtn = V === 'account' && S.login?.step === 'email' ? '<button class="back pd-back" data-act="lg-start">‹ Other options</button>' : `<button class="back pd-back" data-act="pd" data-v="">${S.pdDirect ? '‹ Profile menu' : '‹ Profile'}</button>`;
+    views.allergies = views.settings = views.you;
     if (views[V]) return `${backBtn}<div class="pd-view">${views[V]()}</div>`;
     const ic = (x) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${x}</svg>`;
     const IC = {
@@ -3256,6 +3272,7 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
       help: ic('<circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6M12 17v.4"/>'),
       privacy: ic('<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/>'),
       offers: ic('<path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.4 1.4 0 0 1 0 2l-6.3 6.3a1.4 1.4 0 0 1-2 0z"/><circle cx="8" cy="8" r="1.4"/>'),
+      subs: ic('<path d="M4 12a8 8 0 0 1 13.7-5.7L20 8"/><path d="M20 4v4h-4"/><path d="M20 12a8 8 0 0 1-13.7 5.7L4 16"/><path d="M4 20v-4h4"/>'),
       more: ic('<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>'),
       visit: window.BijaIcons ? BijaIcons.svg('visit') : ic('<path d="M12 21s-6-5.6-6-10a6 6 0 0 1 12 0c0 4.4-6 10-6 10z"/><circle cx="12" cy="11" r="2"/>'),
     };
@@ -3272,13 +3289,11 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     return `${member ? mini : `<button class="pd-join" data-act="pd" data-v="account"><span><b>Log in or sign up</b><small>Keep your card, points and allergies on every phone</small></span><span class="pc" aria-hidden="true">›</span></button>`}
       <button class="pd-stamps" data-act="pd" data-v="stamps" aria-label="Stamp card, ${on} of ${STAMP_FREE_AT + 1}"><span class="pd-dots" aria-hidden="true">${Array.from({ length: STAMP_FREE_AT + 1 }, (_, i) => `<i class="${i < on ? 'on' : ''}${i === STAMP_FREE_AT ? ' free' : ''}"></i>`).join('')}</span><span class="pl"><b>Stamp card</b><small>${on} of ${STAMP_FREE_AT + 1} · ${STAMP_FREE_AT - on > 0 ? `${STAMP_FREE_AT - on} more to a free drink` : 'next drink is free'}</small></span><span class="pc" aria-hidden="true">›</span></button>
       <ul class="pd-menu">
-        ${row('orders', IC.orders, 'My orders', n ? `${n} so far` : 'Track and reorder')}
-        ${row('allergies', IC.allergies, 'Allergies', d ? (d.alg.length ? esc(algList(d.alg)).replace(/^./, (c) => c.toLocaleUpperCase('en-GB')) : 'None') : 'Not set yet')}
-        ${row('you', IC.you, 'Your details', esc((S.me?.name || '').trim()) || 'Name and birthday')}
-        ${row('settings', IC.settings, 'Settings', 'Card design and notifications')}
+        ${row('orders', IC.orders, 'History', n ? `${n} order${n === 1 ? '' : 's'} · reorder in a tap` : 'Your past orders')}
+        ${row('you', IC.you, 'Account', 'Details, allergies, card design')}
       </ul>
       <ul class="pd-menu">
-        ${tabRow('offers', IC.offers, 'Offers', `${OFFERS.length} ways to save`)}
+        ${tabRow('club', IC.subs, 'Subscription', st.subs.length ? `${st.subs.length} active · 10% off beans` : 'Beans Club · 10% off, free delivery')}
         ${tabRow('more', IC.more, 'More', 'Beans, gift cards and more')}
       </ul>
       <ul class="pd-menu pd-sub">
@@ -4043,7 +4058,7 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     else if (a === 'goto-checkout') { if (S.tab !== 'order') { S.tab = 'order'; render(); } document.getElementById('checkout')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
     else if (a === 'place') placeOrder();
     else if (a === 'again') { S.lastOrder = null; render(); window.scrollTo({ top: 0 }); }
-    else if (a === 'theme') { S.theme = b.dataset.v; store.set('bija.theme', S.theme); render(); }
+    else if (a === 'theme') { const sx = document.querySelector('.themes2')?.scrollLeft; S.theme = b.dataset.v; store.set('bija.theme', S.theme); render(); const t2 = document.querySelector('.themes2'); if (t2 && sx != null) { t2.scrollLeft = sx; t2.querySelector('[aria-checked=true]')?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); } }
     else if (a === 'spot') { S.spot = b.dataset.id; S.dealt = null; render(); }
     else if (a === 'checkin') { const id = b.dataset.id; run(async () => { if (live()) { await lvCall(S.sb.rpc.checkInSpot(id)); lvRefresh(); } await saveMine({ secret: { visited: { [id]: new Date().toISOString() } } }); }, 'Found. A bean lands on the map'); }
     else if (a === 'cancel') run(() => live() ? lvCall(S.sb.rpc.cancelOrder(b.dataset.id)).then(lvRefresh) : myRef().update({ orders: { [b.dataset.id]: { cancelled: true } } }), 'Order cancelled');
