@@ -571,10 +571,8 @@ body:not(.barista-view) .cats.sticky { top: var(--hdr, 0px); }
 @media (prefers-reduced-motion: no-preference) { .fav.pop svg { animation: heart .45s var(--ease-spring); } @keyframes heart { 40% { transform: scale(1.35); } } }
 .diet { display: inline-block; font: 600 11px var(--sans); color: var(--ink); border: 1px solid var(--ink); border-radius: 999px; padding: 1px 7px; margin-top: 4px; }
 /* first-run welcome: inline, swipeable, skippable, shown once */
-/* offline banner, undo snackbar, ready estimate */
+/* offline banner, ready estimate */
 #offline { position: fixed; left: 50%; top: calc(8px + var(--sa-top)); transform: translateX(-50%); z-index: 40; background: #0b0b0b; color: #fff; border-radius: 999px; padding: 10px 16px; font: 600 13px var(--sans); box-shadow: var(--shadow-2); max-width: calc(100vw - 24px); text-align: center; }
-#snack { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(176px + var(--sa-bottom)); z-index: 35; display: flex; align-items: center; gap: 12px; background: #0b0b0b; color: #fff; border-radius: 16px; padding: 6px 6px 6px 16px; font: 600 14px var(--sans); box-shadow: var(--shadow-2); max-width: calc(100vw - 24px); }
-#snack button { min-height: 44px; padding: 0 16px; border-radius: 12px; border: 0; background: #fff; color: #0b0b0b; font: 700 13px var(--sans); }
 .eta { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .eta b { font: 900 28px/1 var(--display); text-transform: uppercase; }
 .eta span { color: var(--muted); font-size: 13px; }
@@ -2044,17 +2042,6 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
       : vals.includes(last[k]) ? last[k] : k === 'milk' && milk ? milk : k === 'sweet' ? (vals.includes(d.sweet) ? d.sweet : 'Normal') : vals[0];
     S.sheet = { id, qty: 1, opts: Object.fromEntries(Object.entries(o).map(([k, vals]) => [k, pick(k, vals)])) };
     render();
-  }
-  // undo for items removed from the order: a snackbar with one action, gone after 5 seconds
-  let snackT;
-  function hideSnack() { const s = document.getElementById('snack'); if (s) s.remove(); clearTimeout(snackT); }
-  function offerUndo(k, q) {
-    hideSnack(); S.undo = { k, q };
-    const name = (menu().find((m) => m.id === k.split('~')[0]) || {}).name || 'Item';
-    const s = document.createElement('div'); s.id = 'snack'; s.setAttribute('role', 'status');
-    s.innerHTML = `<span>${esc(name)} removed</span><button data-act="undo">Undo</button>`;
-    document.body.appendChild(s); const t = $('#toast'); if (t) t.hidden = true;
-    snackT = setTimeout(() => { S.undo = null; hideSnack(); }, 5000);
   }
   // offline: say so plainly; the basket stays on this device
   function netFx() {
@@ -4032,9 +4019,8 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
       const src = document.querySelector('.sheet [data-act=sadd]'); const r = src && src.getBoundingClientRect(); S.sheet = null; added(`${sh.qty}× ${m.name} added`); render(); flyToBasket(r ? { getBoundingClientRect: () => r } : null);
     }
     // ai-design-check-ignore-next-line no-placeholder-data -- a cart lookup in code, not sample data
-    else if (a === 'dec') { const id = b.dataset.id, k = Object.keys(S.cart).filter((x) => (x === id || x.startsWith(id + '~')) && S.cart[x] > 0).pop(); if (k) { S.cart[k]--; if (!S.cart[k]) { delete S.cart[k]; offerUndo(k, 1); } } render(); }
-    else if (a === 'kqty') { const k = b.dataset.key, was = S.cart[k] || 0; S.cart[k] = Math.max(0, Math.min(20, was + +b.dataset.d)); if (!S.cart[k]) { delete S.cart[k]; if (was) offerUndo(k, was); } render(); }
-    else if (a === 'undo') { const u = S.undo; if (u) { S.cart[u.k] = Math.min(20, (S.cart[u.k] || 0) + u.q); S.undo = null; hideSnack(); toast('Back in your order'); render(); } }
+    else if (a === 'dec') { const id = b.dataset.id, k = Object.keys(S.cart).filter((x) => (x === id || x.startsWith(id + '~')) && S.cart[x] > 0).pop(); if (k) { S.cart[k]--; if (!S.cart[k]) delete S.cart[k]; } render(); }
+    else if (a === 'kqty') { const k = b.dataset.key, was = S.cart[k] || 0; S.cart[k] = Math.max(0, Math.min(20, was + +b.dataset.d)); if (!S.cart[k]) delete S.cart[k]; render(); }
     else if (a === 'fav') { const id = b.dataset.id, xs = listOf('bija.favs'), on = !xs.includes(id); store.set('bija.favs', JSON.stringify(on ? [id, ...xs] : xs.filter((x) => x !== id))); buzz(10); const m = menu().find((x) => x.id === id); toast(on ? `${m ? m.name : 'Saved'} saved to favourites` : 'Removed from favourites'); render(); const nb = document.querySelector(`.fav[data-id="${CSS.escape(id)}"]`); if (nb && on) nb.classList.add('pop'); }
     else if (a === 'mf') { S.mf = b.dataset.v || ''; render(); }
     else if (a === 'mqclear') { S.mq = ''; S.mf = ''; render(); document.getElementById('m-q')?.focus({ preventScroll: true }); }
