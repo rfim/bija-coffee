@@ -1158,6 +1158,11 @@ body.barista-view #switch { display: flex; align-items: center; }
 .pd-card .pc-p b { font: 300 34px/1 var(--sans); color: var(--c-ink); margin-right: 4px; font-variant-numeric: tabular-nums; }
 .pd-card .pc-f { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px; color: var(--c-sub); }
 .pd-card .pc-s { color: var(--c-ink); font-weight: 600; }
+/* Home breathes: one card under the greeting, then the carousel, then three rows */
+.hband { margin-bottom: 20px; }
+body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .onb { margin: 0 0 24px; }
+.promos { margin-bottom: 10px; }
+.hlist { margin-top: 28px; }
 </style>
 
 <div class="wrap" id="wrap">
@@ -2466,12 +2471,10 @@ body.barista-view #switch { display: flex; align-items: center; }
         <h2 class="greet q">${esc(greetQ(name))}</h2>
         <p class="sub">${esc(hello)} · ${(() => { const o = openState(); return esc(o.text); })()}</p>
       </section>
-      ${dietNudge('home')}
-      ${onboarding(st)}
+      ${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
+      ${active ? '' : S.dietEdit === 'home' ? dietNudge('home') : dietNudge('home') || onboarding(st)}
       <div class="promos" aria-label="Highlights">${slides.map((x, i) => `<button class="slide" ${x.act}>${slidePic(x.img, i)}<span class="sl"><span class="eyebrow">${esc(x.ey)}</span><b>${esc(x.t)}</b><span class="pl">${esc(x.pl)}</span></span></button>`).join('')}</div>
       <div class="dots" aria-hidden="true">${slides.map(() => '<i></i>').join('')}</div>
-      ${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
-      <button class="btn xl" data-act="fab">Order now</button>
       ${st.col[0] ? (() => {
         // "Your usual?": the main item of the last collected order (the priciest drink, else the priciest line), one tap to add it again
         const o = st.col[0], ls = (o.lines || []).map((l) => ({ l, m: menu().find((m) => m.id === l.id) })).filter((x) => x.m);
