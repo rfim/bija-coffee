@@ -2029,8 +2029,8 @@ body.bs-open #basket { visibility: hidden; } body.bs-open.bs-bloom #basket { vis
       <div class="bl-step"><button data-act="bagk" data-key="${esc(l.key)}" data-d="-1" class="${l.qty > 1 ? '' : 'bin'}" aria-label="${l.qty > 1 ? `One less ${nm}` : `Remove ${nm}`}">${l.qty > 1 ? '−' : BIN}</button><output>${l.qty}</output><button data-act="bagk" data-key="${esc(l.key)}" data-d="1" aria-label="One more ${nm}" ${l.qty >= 20 ? 'disabled' : ''}>+</button></div></li>`;
   }
   // how the bar opens (?bagfx=1..6 to try one; it's remembered on this device): 1 unfold, 2 soft focus, 3 bloom, 4 elastic, 5 cascade,
-  // 6 all five together (the default): the page softens, the bar blooms out of the count circle with a little spring, and the lines tip up one by one
-  const BAG_FX = (() => { let v = ''; try { v = new URLSearchParams(location.search).get('bagfx') || ''; if (/^[1-6]$/.test(v)) localStorage.setItem('bija.bagfx', v); else v = localStorage.getItem('bija.bagfx') || ''; } catch {} return /^[1-6]$/.test(v) ? v : '6'; })();
+  // 6 all five together: the page softens, the bar blooms out of the count circle with a little spring, and the lines tip up one by one
+  const BAG_FX = (() => { let v = ''; try { v = new URLSearchParams(location.search).get('bagfx') || ''; if (/^[1-6]$/.test(v)) localStorage.setItem('bija.bagfx', v); else v = localStorage.getItem('bija.bagfx') || ''; } catch {} return /^[1-6]$/.test(v) ? v : '1'; })();
   function bagOpen() {
     const bar = document.getElementById('basket');
     if (document.getElementById('bagsheet') || !cartLines().length || !bar || bar.hidden) return;
