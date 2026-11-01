@@ -1184,46 +1184,50 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
 .basket .bk-sum .bk-n { flex: none; min-width: 26px; height: 26px; padding: 0 7px; border-radius: 13px; background: #fff; color: #0b0b0b; font: 700 13px/26px var(--sans); text-align: center; }
 .basket .bk-sum svg { width: 18px; height: 18px; flex: none; opacity: .7; }
 .basket .in { gap: 8px; }
-/* the order sheet */
+/* the order list: the black basket bar grows upwards into it (same colours, same bottom row), and shrinks back */
 body.bs-open { overflow: hidden; }
+body.bs-open #basket { visibility: hidden; }
 #bagsheet { position: fixed; inset: 0; z-index: 50; }
-#bagsheet .bs-bg { position: absolute; inset: 0; background: rgba(0,0,0,.32); opacity: 0; transition: opacity .3s ease; }
-#bagsheet .bs-pan { position: absolute; left: 0; right: 0; bottom: 0; max-width: 560px; margin: 0 auto; max-height: min(84vh, 720px); display: flex; flex-direction: column; background: #fff; border-radius: 24px 24px 0 0; box-shadow: 0 -12px 40px rgba(0,0,0,.14); padding: 0 16px calc(16px + var(--sa-bottom)); transform: translateY(105%); transition: transform .42s cubic-bezier(.2,.9,.2,1); overscroll-behavior: contain; }
-#bagsheet.show .bs-bg { opacity: 1; } #bagsheet.show .bs-pan { transform: none; }
-#bagsheet.out .bs-pan { transition-duration: .3s; transition-timing-function: cubic-bezier(.4,0,1,1); }
-#bagsheet .bs-top { position: relative; display: flex; align-items: center; justify-content: space-between; padding: 22px 0 10px; touch-action: none; cursor: grab; -webkit-user-select: none; user-select: none; }
-#bagsheet .bs-grab { position: absolute; top: 8px; left: 50%; width: 40px; height: 5px; margin-left: -20px; border-radius: 3px; background: var(--line); }
-#bagsheet h2 { margin: 0; font: 800 24px/1.1 var(--display); letter-spacing: -.01em; }
-#bagsheet .bs-list { list-style: none; margin: 0; padding: 0; overflow-y: auto; flex: 1 1 auto; min-height: 0; }
-#bagsheet .bl { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); overflow: hidden; transition: height .32s cubic-bezier(.2,.8,.2,1), opacity .24s ease, transform .32s cubic-bezier(.2,.8,.2,1), padding .32s ease; }
+#bagsheet .bs-bg { position: absolute; inset: 0; background: rgba(0,0,0,.28); opacity: 0; transition: opacity .32s ease; }
+#bagsheet .bs-pan { position: absolute; max-height: min(78vh, 680px); display: flex; flex-direction: column; background: #0b0b0b; color: #fff; border-radius: 18px; box-shadow: 0 18px 50px rgba(0,0,0,.35); padding: 0 10px 10px 16px; clip-path: inset(var(--c, 0px) 0 0 0 round 18px); transition: clip-path .46s cubic-bezier(.2,.9,.2,1); overscroll-behavior: contain; }
+#bagsheet.show .bs-bg { opacity: 1; } #bagsheet.show .bs-pan { clip-path: inset(0 0 0 0 round 22px); }
+#bagsheet.out .bs-pan { transition-duration: .36s; transition-timing-function: cubic-bezier(.4,0,.2,1); }
+#bagsheet .bs-top, #bagsheet .bs-list, #bagsheet .bs-deal, #bagsheet .bs-empty { transition: opacity .25s ease; }
+#bagsheet:not(.show) .bs-top, #bagsheet:not(.show) .bs-list, #bagsheet:not(.show) .bs-deal { opacity: 0; }
+#bagsheet .bs-top { position: relative; padding: 22px 6px 6px 0; touch-action: none; cursor: grab; -webkit-user-select: none; user-select: none; }
+#bagsheet .bs-grab { position: absolute; top: 8px; left: 50%; width: 40px; height: 5px; margin-left: -20px; border-radius: 3px; background: rgba(255,255,255,.28); }
+#bagsheet h2 { margin: 0; font: 800 22px/1.1 var(--display); letter-spacing: -.01em; color: #fff; }
+#bagsheet .bs-list { list-style: none; margin: 0; padding: 0 6px 0 0; overflow-y: auto; flex: 1 1 auto; min-height: 0; }
+#bagsheet .bl { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.12); overflow: hidden; transition: height .32s cubic-bezier(.2,.8,.2,1), opacity .24s ease, transform .32s cubic-bezier(.2,.8,.2,1), padding .32s ease; }
 #bagsheet .bl.gone { opacity: 0; transform: translateX(-24px); padding-block: 0; border-bottom-color: transparent; }
-#bagsheet .bl-img { width: 56px; height: 56px; border-radius: 14px; overflow: hidden; background: var(--tile); display: grid; place-items: center; }
+#bagsheet .bl-img { width: 52px; height: 52px; border-radius: 12px; overflow: hidden; background: rgba(255,255,255,.1); display: grid; place-items: center; }
 #bagsheet .bl-img img, #bagsheet .bl-img picture { width: 100%; height: 100%; object-fit: cover; display: block; }
 #bagsheet .bl-img svg { width: 70%; height: 70%; }
 #bagsheet .bl-t { min-width: 0; display: grid; gap: 2px; }
 #bagsheet .bl-t b { font: 600 15px/1.25 var(--sans); }
-#bagsheet .bl-t small { font: 400 12.5px/1.3 var(--sans); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#bagsheet .bl-t small { font: 400 12.5px/1.3 var(--sans); color: rgba(255,255,255,.62); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #bagsheet .bl-p { font: 600 13.5px var(--sans); font-variant-numeric: tabular-nums; margin-top: 2px; }
-#bagsheet .bl-step { display: inline-flex; align-items: center; gap: 2px; background: var(--tile); border-radius: 999px; padding: 3px; }
-#bagsheet .bl-step button { width: 40px; height: 40px; border: 0; border-radius: 50%; background: #fff; color: var(--ink); font: 700 19px/1 var(--sans); display: grid; place-items: center; box-shadow: 0 1px 2px rgba(0,0,0,.08); transition: transform .18s cubic-bezier(.2,.8,.2,1), background-color .2s ease; }
+#bagsheet .bl-step { display: inline-flex; align-items: center; gap: 2px; background: rgba(255,255,255,.1); border-radius: 999px; padding: 3px; }
+#bagsheet .bl-step button { width: 40px; height: 40px; border: 0; border-radius: 50%; background: rgba(255,255,255,.14); color: #fff; font: 700 19px/1 var(--sans); display: grid; place-items: center; transition: transform .18s cubic-bezier(.2,.8,.2,1), background-color .2s ease; }
 #bagsheet .bl-step button:active { transform: scale(.86); }
-#bagsheet .bl-step button:last-child { background: #0b0b0b; color: #fff; }
+#bagsheet .bl-step button:last-child { background: #fff; color: #0b0b0b; }
 #bagsheet .bl-step button:disabled { opacity: .35; }
-#bagsheet .bl-step button.bin { color: #b3261e; }
+#bagsheet .bl-step button.bin { color: #ff8a80; }
 #bagsheet .bl-step button svg { width: 19px; height: 19px; }
 #bagsheet .bl-step output { min-width: 26px; text-align: center; font: 700 15px var(--sans); font-variant-numeric: tabular-nums; display: inline-block; }
-#bagsheet .bs-foot { flex: none; display: grid; gap: 8px; padding-top: 14px; }
-#bagsheet .bs-sum { display: flex; justify-content: space-between; align-items: baseline; }
-#bagsheet .bs-sum span { color: var(--muted); font: 500 14px var(--sans); } #bagsheet .bs-tot { font: 800 22px var(--sans); font-variant-numeric: tabular-nums; }
-#bagsheet .bs-deal { margin: 0; }
-#bagsheet .bs-go { width: 100%; min-height: 52px; font-size: 15px; }
-#bagsheet .bs-more { justify-self: center; min-height: 44px; }
-#bagsheet .bs-empty { padding: 28px 0 12px; text-align: center; color: var(--muted); } #bagsheet .bs-empty b { display: block; color: var(--ink); font-size: 16px; margin-bottom: 4px; }
+#bagsheet .bs-deal { margin: 8px 0 0; font: 500 12.5px var(--sans); color: rgba(255,255,255,.7); }
+#bagsheet .bs-foot { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 10px; }
+#bagsheet .bs-sumbtn { display: flex; align-items: center; gap: 10px; min-height: 44px; flex: 1; min-width: 0; border: 0; background: none; color: #fff; font: inherit; text-align: left; padding: 0 8px 0 0; cursor: pointer; }
+#bagsheet .bs-sumbtn .bk-n { flex: none; min-width: 26px; height: 26px; padding: 0 7px; border-radius: 13px; background: #fff; color: #0b0b0b; font: 700 13px/26px var(--sans); text-align: center; }
+#bagsheet .bs-sumbtn svg { width: 18px; height: 18px; flex: none; opacity: .7; }
+#bagsheet .bs-tot { font-variant-numeric: tabular-nums; }
+#bagsheet .bs-go { background: #fff; color: #0b0b0b; }
+#bagsheet .bs-empty { padding: 24px 0 8px; text-align: center; color: rgba(255,255,255,.65); } #bagsheet .bs-empty b { display: block; color: #fff; font-size: 16px; margin-bottom: 4px; }
 @media (prefers-reduced-motion: no-preference) {
-  #bagsheet .bs-list.stagger .bl { animation: bl-in .44s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(120ms + var(--i) * 45ms); }
+  #bagsheet .bs-list.stagger .bl { animation: bl-in .44s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(140ms + var(--i) * 45ms); }
   @keyframes bl-in { from { opacity: 0; transform: translateY(14px); } }
 }
-@media (prefers-reduced-motion: reduce) { #bagsheet .bs-pan, #bagsheet .bs-bg, #bagsheet .bl { transition: none; } }
+@media (prefers-reduced-motion: reduce) { #bagsheet .bs-pan, #bagsheet .bs-bg, #bagsheet .bl, #bagsheet .bs-list, #bagsheet .bs-top { transition: none; } }
 </style>
 
 <div class="wrap" id="wrap">
@@ -1989,19 +1993,27 @@ body.bs-open { overflow: hidden; }
       <div class="bl-step"><button data-act="bagk" data-key="${esc(l.key)}" data-d="-1" class="${l.qty > 1 ? '' : 'bin'}" aria-label="${l.qty > 1 ? `One less ${nm}` : `Remove ${nm}`}">${l.qty > 1 ? '−' : BIN}</button><output>${l.qty}</output><button data-act="bagk" data-key="${esc(l.key)}" data-d="1" aria-label="One more ${nm}" ${l.qty >= 20 ? 'disabled' : ''}>+</button></div></li>`;
   }
   function bagOpen() {
-    if (document.getElementById('bagsheet') || !cartLines().length) return;
+    const bar = document.getElementById('basket');
+    if (document.getElementById('bagsheet') || !cartLines().length || !bar || bar.hidden) return;
+    const r = bar.getBoundingClientRect();
     const el = document.createElement('div'); el.id = 'bagsheet';
-    el.innerHTML = `<div class="bs-bg" data-act="bag-close"></div><div class="bs-pan" role="dialog" aria-modal="true" aria-labelledby="bag-h"><div class="bs-top"><span class="bs-grab" aria-hidden="true"></span><h2 id="bag-h">Your order</h2><button class="sd-x" data-act="bag-close" aria-label="Close">×</button></div><ul class="bs-list"></ul><div class="bs-foot"><div class="bs-sum"><span class="bs-n"></span><b class="bs-tot"></b></div><p class="bs-deal hint" hidden></p><button class="btn bs-go" data-act="bag-go">Checkout</button><button class="back bs-more" data-act="bag-close">Add something else</button></div><p class="sr" aria-live="polite" id="bag-live"></p></div>`;
+    el.innerHTML = `<div class="bs-bg" data-act="bag-close"></div><div class="bs-pan" role="dialog" aria-modal="true" aria-labelledby="bag-h"><div class="bs-top"><span class="bs-grab" aria-hidden="true"></span><h2 id="bag-h">Your order</h2></div><ul class="bs-list"></ul><p class="bs-deal" hidden></p><div class="bs-foot"><button class="bs-sumbtn" data-act="bag-close" aria-label="Close your order"><span class="bk-n bs-c"></span><span><span class="bs-n"></span> · <b class="bs-tot"></b></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="btn sm bs-go" data-act="bag-go">Checkout</button></div><p class="sr" aria-live="polite" id="bag-live"></p></div>`;
+    const pan = el.querySelector('.bs-pan');
+    // the panel sits exactly where the bar is and grows up out of it
+    pan.style.left = r.left + 'px'; pan.style.width = r.width + 'px'; pan.style.bottom = (innerHeight - r.bottom) + 'px';
     document.body.appendChild(el); document.body.classList.add('bs-open');
-    S.bagFrom = document.activeElement; bagFill(true);
+    S.bagFrom = document.activeElement; bagFill(true); bagClip(el, r.height);
     el.getBoundingClientRect(); el.classList.add('show');
-    el.querySelector('.sd-x').focus({ preventScroll: true });
-    bagDrag(el.querySelector('.bs-pan'), el.querySelector('.bs-top'));
+    el.querySelector('.bs-sumbtn').focus({ preventScroll: true });
+    bagDrag(pan, el.querySelector('.bs-top'));
   }
+  // closed, the panel is clipped down to the bar's own height at its bottom; open, it shows in full
+  function bagClip(el, h) { const pan = el.querySelector('.bs-pan'); pan.style.setProperty('--c', Math.max(0, pan.offsetHeight - h) + 'px'); }
   function bagClose() {
     const el = document.getElementById('bagsheet'); if (!el || el.classList.contains('out')) return;
+    const bar = document.getElementById('basket'); bagClip(el, bar && !bar.hidden ? bar.offsetHeight : el.querySelector('.bs-foot').offsetHeight + 20);
     el.classList.add('out'); el.classList.remove('show'); document.body.classList.remove('bs-open');
-    setTimeout(() => el.remove(), calm() ? 0 : 340);
+    setTimeout(() => el.remove(), calm() ? 0 : 420);
     const back = S.bagFrom?.isConnected ? S.bagFrom : document.querySelector('#basket .bk-sum'); back?.focus({ preventScroll: true }); S.bagFrom = null;
   }
   function bagFill(first) {
@@ -2021,12 +2033,11 @@ body.bs-open { overflow: hidden; }
     });
     if (first) list.classList.add('stagger'); else list.classList.remove('stagger');
     const n = el.querySelector('.bs-n'), tot = el.querySelector('.bs-tot'), from = parseFloat((tot.dataset.v || '0')), to = t.total;
-    n.textContent = `${t.qty} item${t.qty === 1 ? '' : 's'}`; tot.dataset.v = to;
+    n.textContent = t.qty === 1 ? 'item' : 'items'; el.querySelector('.bs-c').textContent = t.qty; tot.dataset.v = to;
     if (first || calm() || from === to) tot.textContent = money(to);
     else { const t0 = performance.now(); const tick = (now) => { const k = Math.min(1, (now - t0) / 320), e = 1 - Math.pow(1 - k, 3); tot.textContent = money(Math.round((from + (to - from) * e) * 100) / 100); if (k < 1 && tot.isConnected) requestAnimationFrame(tick); }; requestAnimationFrame(tick); }
     const deal = el.querySelector('.bs-deal'), saved = t.discount + t.stampFree; deal.hidden = !saved; deal.textContent = saved ? `Includes ${money(saved)} off from your rewards` : '';
-    el.querySelector('.bs-go').innerHTML = t.qty ? `Checkout · ${money(t.total)}` : 'Checkout';
-    if (!t.qty) { el.querySelector('.bs-foot').hidden = true; list.insertAdjacentHTML('afterend', '<div class="bs-empty"><b>Your order is empty</b>Add a drink or a cake from the menu.</div>'); setTimeout(bagClose, 900); }
+    if (!t.qty) { list.insertAdjacentHTML('afterend', '<div class="bs-empty"><b>Your order is empty</b>Add a drink or a cake from the menu.</div>'); setTimeout(bagClose, 900); }
   }
   // pull the sheet down by its top to close it
   function bagDrag(pan, handle) {
