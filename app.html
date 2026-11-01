@@ -693,6 +693,8 @@ button.chip { font: inherit; font-weight: 600; cursor: pointer; }
 .bnav { padding: 6px; }
 .bnav button.side { margin: 0; padding: 8px 0; min-height: 56px; align-content: center; border-radius: 22px; -webkit-touch-callout: none; }
 .fab-l { margin-bottom: 8px; }
+/* the pill fills the row (as tall as Order and its label), so the gap above it matches the gap below and beside it */
+.bnav .in > span { align-self: stretch; } .bnav .in > span > button.side { height: 100%; }
 .slide { aspect-ratio: 5 / 4; }
 .bnav .ldot { position: absolute; top: 6px; left: calc(50% + 8px); width: 9px; height: 9px; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 2px #fff; }
 .bnav .ldot.rdy { background: #2e7d32; width: 11px; height: 11px; }
