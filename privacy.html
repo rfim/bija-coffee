@@ -1,42 +1,66 @@
 <!doctype html>
 <html lang="en-GB">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#000000">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#ffffff">
 <title>Privacy and cookies · Bija Coffee</title>
+<link rel="stylesheet" href="site-shop.css">
 <link rel="stylesheet" href="legal.css">
+<script src="site-shop.js" defer></script>
+<link rel="stylesheet" href="site-consent.css">
+<script src="site-consent.js" defer></script>
+<script src="site-backoffice.js" defer></script>
 </head>
-<body>
-<main>
-  <div class="top"><a class="logo" href="./?view=site">Bija</a><a href="app.html?view=app">Open the app</a></div>
+<body class="shop-page legal">
+<a class="skip" href="#main">Skip to content</a>
+<div id="shop-top"></div>
+<main id="main" class="legal-main">
   <h1>Privacy and cookies</h1>
-  <p class="muted">Last updated: 29 October 2026</p>
+  <p class="muted">Last updated: 30 October 2026</p>
   <p class="note">Draft for Bija Coffee Limited to review with its adviser before launch. It describes how this website and app work today.</p>
 
   <h2>Who we are</h2>
   <p>Bija Coffee Limited (company number 15383542), 2a St James's Market, London SW1Y 4AH, is the controller of the personal data described here. Contact us about your data at <a href="mailto:info@bijalondon.co.uk">info@bijalondon.co.uk</a>.</p>
 
   <h2>What we collect and why</h2>
-  <table>
+  <table tabindex="0">
     <tr><th>Data</th><th>Why</th><th>Lawful basis (UK GDPR)</th></tr>
     <tr><td>The name you give for your cup, your orders, drink options and pickup time</td><td>To make and hand over your order</td><td>Contract</td></tr>
+    <tr><td>Web shop and app beans orders: your name, email, delivery address and postcode, what you bought, grind and delivery choice</td><td>To take, send and support your order, and to email you about it</td><td>Contract</td></tr>
+    <tr><td>Beans Club subscriptions: bean, grind, how often, next delivery date, pauses and skips</td><td>To run the subscription you set up and let you change it</td><td>Contract</td></tr>
     <tr><td>Bija Card points, rewards used, challenges, Secret St James's check-ins, birthday month (month only, optional)</td><td>To run the loyalty scheme you joined</td><td>Contract</td></tr>
-    <tr><td>Gift cards you buy or redeem: amount, recipient's first name, your message, code</td><td>To issue and honour gift cards</td><td>Contract</td></tr>
+    <tr><td>Invite codes: the code you entered and whether staff confirmed the invite</td><td>To give you and your friend the invite bonus</td><td>Contract</td></tr>
+    <tr><td>Gift cards and gift subscriptions you buy or redeem: amount, recipient's first name, your message, code</td><td>To issue and honour them</td><td>Contract</td></tr>
+    <tr><td>Your email address for news, only if you tick the box</td><td>To send you news, new beans and offers. Unsubscribe in any email or by asking us.</td><td>Consent</td></tr>
     <tr><td>Ratings and comments you choose to leave</td><td>To improve our drinks and service</td><td>Legitimate interests</td></tr>
     <tr><td>In-store spend the barista adds to your card</td><td>To give you points for purchases at the till</td><td>Contract</td></tr>
   </table>
-  <p>We do not ask for your email address, phone number or date of birth in the app, and we do not sell your data.</p>
+  <p>We never sell your data, and we don't use it for advertising profiles. Staff records the owner keeps for payroll (first name, hours, pay rate) are covered by our separate notice for employees.</p>
 
   <h2>Who can see it</h2>
-  <p>Bija staff who run the bar and the owner can see orders, points and gift cards so they can serve you. Your data is stored with our app hosting provider, which processes it on our behalf. Card payments, when added, will be handled by a regulated payment provider; we will not see your full card number.</p>
+  <p>Bija staff who run the bar and the owner can see orders, points, subscriptions and gift cards so they can serve you. Your data is stored with Supabase, our database provider, in its London (UK) data centre; it processes the data only on our behalf, under a contract. When you use the app we give it an anonymous account ID, so we don't need your email to keep your Bija Card. Parcels are sent with Royal Mail, which receives your name and address to deliver them. Card payments, when added, will be handled by a regulated payment provider; we will not see your full card number. Email news, if you opt in, is sent through an email provider acting on our behalf.</p>
 
   <h2>How long we keep it</h2>
-  <p>Orders and loyalty records are kept while your Bija Card is active and for up to 2 years after your last visit, then deleted. Gift card records are kept for 6 years for accounting. Finance records are kept as UK tax law requires.</p>
+  <p>Orders, subscriptions and loyalty records are kept while your Bija Card or subscription is active and for up to 2 years after your last order or visit, then deleted. Sales, gift card and finance records are kept for 6 years, as UK tax law requires. Your news email is kept until you unsubscribe.</p>
 
-  <h2>Cookies and storage on your device</h2>
-  <p>We don't use advertising or analytics cookies. The app saves a few settings in your browser's storage so it works the way you left it: whether you prefer the website or the app, your card design, your last drink options, and whether you dismissed the install tip. These are strictly necessary for the service you asked for, so we don't need to ask for consent, but you can clear them at any time in your browser settings. Fonts load from Google Fonts, which receives your IP address to deliver them.</p>
+  <h2 id="cookies">Cookies and your choices</h2>
+  <p>This website sets no cookies, and it runs no analytics, advertising or tracking tools. There are no third-party embeds: our maps and Instagram are plain links, so nothing loads from Google or Instagram unless you click them, and our fonts are stored on our own site.</p>
+  <p>Your browser does keep a few things in its local storage so the site and app work: your basket, orders you placed in this browser, whether you prefer the website or the app, your privacy choices and, in the app, your Bija Card sign-in, card design, last drink options and whether you dismissed the install tip. Under the Privacy and Electronic Communications Regulations (PECR) these are strictly necessary for the service you asked for, so they don't need your consent and are always on.</p>
+  <p>Anything else needs your consent first. The privacy choices panel lists three optional types: preferences (such as coffees you viewed recently), analytics (simple, privacy-friendly visit counts) and marketing (personalised offers). We don't use any of them today, and each one stays off until you turn it on. If we start using one, we'll update this notice and ask you again. We keep your answer, with the date, in your browser for 12 months, then ask again.</p>
+  <p>You can change your mind at any time: choose <b>Privacy choices</b> at the bottom of any page, or use the button below. You can also clear the site's storage in your browser settings. Under UK GDPR you can complain to the Information Commissioner's Office (ICO) if you think we've got this wrong (details under "Your rights").</p>
+  <p><button type="button" class="bc-link" data-consent-open>Privacy choices</button></p>
+
+  <h2>Camera</h2>
+  <p>If you tap "Scan coffee" in the app, your phone asks permission to use the camera. The camera picture stays on your phone: it is only used to read the QR code on your bag or cup, nothing is recorded or sent to us, and the camera turns off when you close the scanner.</p>
+
+  <h2>Order-ready notifications</h2>
+  <p>If you turn on order-ready alerts, we store your device's push address and its encryption keys, linked to your Bija Card, so we can tell you when your order is ready at the bar. We only do this with your consent, we never send offers this way, and you can turn alerts off at any time in Profile, Settings, or in your phone's settings, which deletes them from our records.</p>
+
+  <h2>Children</h2>
+  <p>The Bija Card is meant for people aged 13 and over. If you're younger, please ask a parent or carer to order for you.</p>
 
   <h2>Your rights</h2>
   <p>You can ask for a copy of your data, ask us to correct or delete it, object to our use of it, or ask us to restrict it. Email <a href="mailto:info@bijalondon.co.uk">info@bijalondon.co.uk</a> and we'll reply within one month. If you're unhappy with how we handle your data, you can complain to the Information Commissioner's Office at <a href="https://ico.org.uk/make-a-complaint/" rel="noopener">ico.org.uk</a>.</p>
 </main>
+<div id="shop-foot"></div>
 </body>
 </html>

@@ -1,0 +1,27 @@
+/* invite landing: the page a shared invite link opens; the same card as the link preview (og/invite.jpg) */
+.invite { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 48px; align-items: center; padding: 40px 0 72px; }
+.invite h1 { margin: 10px 0 16px; font-size: clamp(48px, 8vw, 112px); line-height: .9; }
+.invite .lede { margin: 0; max-width: 46ch; color: #3d3d3d; font-size: 18px; line-height: 1.5; }
+.invite .code { display: flex; align-items: center; gap: 14px; margin-top: 24px; padding: 14px 16px 14px 20px; border: 2px solid #0b0b0b; border-radius: 16px; width: fit-content; max-width: 100%; }
+.invite .code[hidden] { display: none; }
+.invite .code span { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #5a5a5a; }
+.invite .code b { white-space: nowrap; font: 900 26px/1 var(--disp, 'Archivo', sans-serif); letter-spacing: .04em; }
+.invite .acts { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+.invite .how { margin: 32px 0 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 12px; max-width: 52ch; }
+.invite .how li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start; line-height: 1.45; color: #3d3d3d; }
+.invite .how li::before { content: counter(s); display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #0b0b0b; color: #fff; font-weight: 700; font-size: 14px; }
+.invite .how b { color: #0b0b0b; }
+.invite .fine { margin-top: 20px; font-size: 13px; color: #5a5a5a; max-width: 52ch; }
+.inv-c { display: grid; place-items: center; padding: 24px; background: var(--tile, #f2f2f0); border-radius: 28px; aspect-ratio: 1 / 1; }
+.vcard { position: relative; width: min(100%, 420px); aspect-ratio: 470 / 300; border-radius: 24px; background: #0b0b0b; color: #fff; transform: rotate(-6deg); box-shadow: 0 30px 60px rgba(0,0,0,.25); overflow: hidden;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.14' stroke-width='1.6'%3E%3Ccircle cx='24' cy='12' r='12'/%3E%3Ccircle cx='36' cy='24' r='12'/%3E%3Ccircle cx='24' cy='36' r='12'/%3E%3Ccircle cx='12' cy='24' r='12'/%3E%3C/g%3E%3C/svg%3E"); }
+.vcard .vt { position: absolute; left: 7%; top: 10%; font: 900 clamp(20px, 3vw, 30px)/1 var(--disp, 'Archivo', sans-serif); }
+.vcard .vtag { position: absolute; right: 6%; top: 10%; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; border: 2px solid #fff; border-radius: 999px; padding: 5px 10px; }
+.vcard .vpts { position: absolute; left: 7%; bottom: 26%; font: 900 clamp(56px, 9vw, 100px)/.8 var(--disp, 'Archivo', sans-serif); letter-spacing: -.03em; }
+.vcard .vpl { position: absolute; left: 7.5%; bottom: 11%; font-size: clamp(12px, 1.6vw, 17px); opacity: .85; }
+.vcard .vmk { position: absolute; right: 6%; bottom: 9%; width: 20%; height: auto; }
+@media (prefers-reduced-motion: no-preference) { .vcard { animation: vin .8s cubic-bezier(.16, 1, .3, 1) both; } @keyframes vin { from { opacity: 0; transform: rotate(-14deg) translateY(24px); } } }
+@media (max-width: 820px) { .invite { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-top: 24px; } .inv-c { order: -1; aspect-ratio: auto; padding: 36px 20px; } }
+@media (max-width: 420px) { .invite .acts .btn { flex: 1 1 100%; text-align: center; } }
+@media (max-width: 420px) { .invite .code { flex-wrap: wrap; gap: 8px 12px; } .invite .code span { flex-basis: 100%; } }
+.invite-c, .invite .acts { position: relative; }

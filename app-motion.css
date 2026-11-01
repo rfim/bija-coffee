@@ -1,0 +1,120 @@
+/* Bija motion layer: black and white, transform/opacity only, off under reduced motion. Driven by app-motion.js. */
+:root { --mo-spring: cubic-bezier(.3, 1.35, .5, 1); --mo-out: cubic-bezier(.2, .7, .2, 1); }
+
+/* launch: the mark draws, fills, opens like a Kawung flower, then wipes away */
+.mo-splash { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: #fff; pointer-events: none; }
+.mo-splash svg { width: 104px; height: 104px; overflow: visible; }
+.mo-splash .r circle { stroke-dasharray: 158; stroke-dashoffset: 158; animation: mo-draw .5s var(--mo-out) forwards; transform-box: fill-box; transform-origin: center; }
+.mo-splash .r circle:nth-child(2) { animation-delay: .07s; } .mo-splash .r circle:nth-child(3) { animation-delay: .14s; } .mo-splash .r circle:nth-child(4) { animation-delay: .21s; }
+.mo-splash .d circle { transform: scale(0); transform-box: fill-box; transform-origin: center; animation: mo-dot .32s var(--mo-spring) .5s forwards; }
+.mo-splash .r { animation: mo-open .4s var(--mo-out) .82s forwards; transform-origin: 50px 50px; }
+.mo-splash.out { opacity: 0; transform: scale(1.06); transition: opacity .38s ease, transform .38s ease; }
+@keyframes mo-draw { to { stroke-dashoffset: 0; } }
+@keyframes mo-dot { to { transform: scale(1); } }
+@keyframes mo-open { to { transform: rotate(45deg) scale(1.35); opacity: 0; } }
+
+/* the signature: items fly into the centre button, which catches them and counts */
+.mo-fly { position: fixed; left: 0; top: 0; width: 56px; height: 56px; margin: -28px 0 0 -28px; z-index: 90; border-radius: 16px; background: #0b0b0b center / cover no-repeat; color: #fff; display: grid; place-items: center; pointer-events: none; box-shadow: 0 10px 24px rgba(0, 0, 0, .25); will-change: transform, opacity; }
+.mo-fly svg { width: 30px; height: 30px; }
+.fab.mo .cnt { opacity: 0 !important; }
+.mo-cnt { position: absolute; top: -4px; right: -4px; min-width: 24px; height: 24px; padding: 0 6px; border-radius: 12px; background: #fff; color: #0b0b0b; box-shadow: 0 0 0 2px #0b0b0b; font: 700 12px/24px Inter, system-ui, sans-serif; text-align: center; overflow: hidden; pointer-events: none; font-variant-numeric: tabular-nums; }
+.mo-cnt[hidden] { display: none; }
+.mo-cnt i { display: block; font-style: normal; }
+.mo-cnt i.mo-o { position: absolute; inset: 0; }
+.mo-ring { position: absolute; inset: -3px; border-radius: 50%; border: 2px solid #0b0b0b; pointer-events: none; }
+.mo-cuppop { position: fixed; z-index: 90; width: 44px; height: 44px; margin: -22px 0 0 -22px; pointer-events: none; color: #0b0b0b; }
+
+/* selection: a black pill slides between choices */
+.mo-ghost { position: fixed; z-index: 40; background: #fff; mix-blend-mode: difference; pointer-events: none; border-radius: 999px; transform-origin: 0 0; }
+.mo-tgt { background: transparent !important; color: inherit !important; }
+.btn:active, .cats button:active, .opts button:active, [data-act=pplan]:active { transform: scale(.97); transition: transform .12s ease; }
+.mo-roll { animation: mo-roll .26s var(--mo-out); } .mo-roll.dn { animation-name: mo-rolldn; }
+@keyframes mo-roll { from { transform: translateY(70%); opacity: 0; } } @keyframes mo-rolldn { from { transform: translateY(-70%); opacity: 0; } }
+
+/* first view: tiles and sections rise in once */
+.mo-pre { opacity: 0; transform: translateY(14px); }
+.mo-in { opacity: 1; transform: none; transition: opacity .45s var(--mo-out), transform .45s var(--mo-out); }
+
+/* header condenses on scroll */
+.top .mark, .top .brand { transition: transform .25s var(--mo-out); transform-origin: left center; }
+.mo-scrolled body:not(.barista-view) .top .mark { transform: scale(.82); }
+.mo-scrolled body:not(.barista-view) .top .brand { transform: scale(.9); }
+
+/* sheet thumbnail the tile photo morphs into */
+.mo-sthumb { width: 56px; height: 56px; border-radius: 14px; object-fit: cover; float: left; margin: 2px 12px 4px 0; }
+
+/* order tracking: a cup fills up, steams while brewing, petals at ready */
+.mo-cupw { display: flex; justify-content: center; margin: 4px 0 10px; }
+.mo-cupw svg { width: 64px; height: 64px; overflow: visible; }
+.mo-cupw .fill { transform-box: fill-box; transform-origin: 50% 100%; transform: scaleY(.08); transition: transform .9s var(--mo-out); }
+.mo-cupw[data-s=received] .fill { transform: scaleY(.3); } .mo-cupw[data-s=brewing] .fill { transform: scaleY(.66); } .mo-cupw[data-s=ready] .fill { transform: scaleY(1); }
+.mo-cupw.still .fill { transition: none; }
+.mo-cupw .steam path { opacity: 0; }
+.mo-cupw[data-s=brewing] .steam path { animation: mo-steam 2.4s ease-in-out infinite; } .mo-cupw[data-s=brewing] .steam path:nth-child(2) { animation-delay: .8s; } .mo-cupw[data-s=brewing] .steam path:nth-child(3) { animation-delay: 1.6s; }
+@keyframes mo-steam { 0% { opacity: 0; transform: translateY(6px); } 40% { opacity: .7; } 100% { opacity: 0; transform: translateY(-10px); } }
+.mo-petal { position: fixed; z-index: 90; width: 10px; height: 16px; margin: -8px 0 0 -5px; border-radius: 50%; background: #0b0b0b; pointer-events: none; }
+.mo-petal.w { background: #fff; box-shadow: 0 0 0 1.5px #0b0b0b; }
+.mo-pulse { animation: mo-pulse .7s var(--mo-out); } @keyframes mo-pulse { 40% { transform: scale(1.025); } }
+.side .dot.mo-pop { animation: mo-pop .45s var(--mo-spring); } @keyframes mo-pop { from { transform: scale(0); } }
+
+/* Bija Card: stamp when points land, foil sweep when the tier goes up */
+.mo-stamp { position: absolute; left: 18px; bottom: 30%; width: 90px; height: 90px; margin: -45px 0 0 -10px; border-radius: 50%; border: 3px solid currentColor; opacity: 0; pointer-events: none; z-index: 4; }
+.bcard.mo-foil::after { animation: mo-foil 1.4s var(--mo-out) 1; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.55) 48%, transparent 66%) no-repeat 0 0 / 250% 100% !important; }
+@keyframes mo-foil { from { background-position: 160% 0; } to { background-position: -60% 0; } }
+.mo-toast { position: fixed; left: 50%; top: calc(16px + var(--sa-top)); z-index: 95; transform: translateX(-50%); background: #0b0b0b; color: #fff; padding: 12px 20px; border-radius: 999px; font: 700 13px Inter, system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; box-shadow: 0 10px 30px rgba(0,0,0,.25); pointer-events: none; }
+
+/* Bija Card lift: drag up into a full-screen scan view */
+[data-card-stage], .flip { touch-action: pan-x; }
+.mo-lift { position: relative; z-index: 25; transition: none !important; }
+.mo-lift .bcard { box-shadow: 0 30px 60px rgba(0, 0, 0, .35) !important; }
+.mo-back { transform: none; opacity: 1; transition: transform .35s var(--mo-out), opacity .35s var(--mo-out); }
+.mo-recede { transform: scale(.96); opacity: .4; }
+.mo-springback { transition: transform .45s var(--mo-spring) !important; }
+.mo-scan { position: fixed; inset: 0; z-index: 70; background: #fff; display: flex; flex-direction: column; align-items: center; gap: 18px; padding: calc(20px + var(--sa-top)) 20px calc(24px + var(--sa-bottom)); overflow: auto; touch-action: pan-x; }
+.mo-scan .mo-x { align-self: flex-end; min-width: 48px; min-height: 48px; border-radius: 999px; border: 2px solid #0b0b0b; background: #fff; font: 600 13px Inter, sans-serif; letter-spacing: .06em; text-transform: uppercase; padding: 0 18px; }
+.mo-scan .mo-card { width: min(340px, 86vw); }
+.mo-scan .mo-qr { width: min(300px, 80vw); aspect-ratio: 1; background: #fff; border-radius: 24px; box-shadow: 0 0 0 2px #0b0b0b; display: grid; place-items: center; padding: 18px; }
+.mo-scan .mo-qr svg { width: 100%; height: 100%; }
+.mo-scan .mo-code { font: 700 clamp(26px, 8vw, 36px) ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .12em; }
+.mo-scan .mo-hint { margin: 0; color: #6b6b6b; font: 14px Inter, sans-serif; text-align: center; }
+
+/* View Transitions between tabs: content slides with depth, header and nav stay put */
+body:not(.barista-view) .top { view-transition-name: mo-top; }
+.bnav { view-transition-name: mo-nav; }
+::view-transition, ::view-transition-group(*), ::view-transition-image-pair(*), ::view-transition-old(*), ::view-transition-new(*) { pointer-events: none; }
+/* calm dissolve: the old screen stays put underneath while the new one fades up on top, so there is never a pale in-between frame */
+::view-transition-group(root) { animation-duration: .42s; }
+::view-transition-old(root) { animation: none; opacity: 1; }
+::view-transition-new(root) { animation: mo-vt-in .42s cubic-bezier(.22, 1, .36, 1) both; }
+::view-transition-group(mo-top), ::view-transition-group(mo-nav), ::view-transition-group(mo-stab), ::view-transition-group(mo-basket) { animation-duration: .42s; animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
+@keyframes mo-vt-in { from { opacity: 0; transform: translateY(6px); } }
+.stab { view-transition-name: mo-stab; } #basket { view-transition-name: mo-basket; }
+html.mo-vt #main.enter { animation: none !important; }
+
+/* loading: black and white skeleton shimmer */
+.mo-skel { border-radius: 12px; background: linear-gradient(90deg, #f2f2f0 25%, #e6e6e3 50%, #f2f2f0 75%) 0 0 / 200% 100%; animation: mo-shim 1.2s linear infinite; }
+@keyframes mo-shim { to { background-position: -200% 0; } }
+
+/* Secret St James's: a new card flips in from the deck with a slight tilt */
+.sc.deal.mo-deal { animation: mo-deal .7s var(--mo-spring) both !important; }
+@keyframes mo-deal { from { transform: perspective(800px) translateY(-36px) rotateY(160deg) rotate(calc(var(--mo-tilt, 0deg) * 3)); opacity: 0; } 60% { opacity: 1; } to { transform: perspective(800px) rotate(var(--mo-tilt, 0deg)); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .mo-splash, .mo-fly, .mo-ring, .mo-petal, .mo-ghost, .mo-stamp { display: none !important; }
+  .mo-pre { opacity: 1; transform: none; }
+  .mo-in, .mo-back, .mo-springback, .top .mark, .top .brand, .mo-cupw .fill { transition: none !important; }
+  .mo-roll, .mo-pulse, .side .dot.mo-pop, .sc.deal.mo-deal, .bcard.mo-foil::after, .mo-cupw .steam path, .mo-skel { animation: none !important; }
+  .btn:active, .cats button:active, .opts button:active { transform: none; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
+}
+
+/* loyalty stamps: a rubber-stamp press, and the 10th slot turns into a free-drink coin */
+.bcard .st.mo-press { animation: mo-press .5s var(--mo-out) both !important; }
+@keyframes mo-press { 0% { transform: scale(1.6) rotate(-24deg); opacity: 0; } 55% { transform: scale(.9, .82) rotate(-10deg); opacity: 1; } 75% { transform: scale(1.06) rotate(-13deg); } 100% { transform: rotate(-12deg); } }
+.mo-ink { position: absolute; border-radius: 50%; border: 2px solid currentColor; pointer-events: none; opacity: 0; }
+.bcard .st.mo-coin { animation: mo-coin .7s var(--mo-out) both !important; background: var(--c-stamp, #fff) linear-gradient(110deg, transparent 35%, rgba(127,127,127,.45) 50%, transparent 65%) 0 0 / 250% 100% !important; }
+@keyframes mo-coin { 0% { transform: perspective(300px) rotateY(0); } 50% { transform: perspective(300px) rotateY(90deg); } 100% { transform: perspective(300px) rotateY(0); background-position: -150% 0; } }
+@media (prefers-reduced-motion: reduce) { .bcard .st.mo-press, .bcard .st.mo-coin { animation: mo-fade .3s ease both !important; } @keyframes mo-fade { from { opacity: 0; } } }
+#main.mo-under { transform: translateX(-24px); opacity: .7; }
+[data-stamp-drawer] [data-drawer-panel], [data-stamp-drawer] .pan { touch-action: pan-y; }
+@media (prefers-reduced-motion: reduce) { #main.mo-under { transform: none; } }

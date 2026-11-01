@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Email templates · Bija</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 104 104'%3E%3Crect x='-2' y='-2' width='104' height='104' fill='black'/%3E%3Cg fill='none' stroke='white' stroke-width='5'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="stylesheet" href="../fonts/fonts.css">
+<link rel="stylesheet" href="../site-shop.css">
+<style>
+.etop { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 72px; border-bottom: 1px solid var(--line); }
+.etop .brand { justify-self: auto; }
+.elist { list-style: none; margin: 0; padding: 0; display: grid; gap: 48px; }
+.elist li { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 32px; align-items: start; }
+@media (max-width: 900px) { .elist li { grid-template-columns: minmax(0, 1fr); gap: 16px; } }
+.elist h2 { margin: 0 0 8px; font-size: 32px; }
+.elist p { margin: 0 0 16px; color: #3d3d3d; }
+.elist .links { display: flex; gap: 8px; flex-wrap: wrap; }
+.elist iframe { width: 100%; max-width: 640px; height: 760px; border: 1px solid var(--line); border-radius: 16px; background: var(--tile); display: block; }
+.note { color: #3d3d3d; max-width: 70ch; margin: 0 0 48px; }
+code { font-size: 14px; background: var(--tile); padding: 2px 6px; border-radius: 4px; }
+</style>
+</head>
+<body class="shop-page">
+<a class="skip" href="#main">Skip to content</a>
+<header class="wrap etop"><a class="brand" href="../">Bija</a><a class="btn sm ghost" href="../shop.html">Back to the shop</a></header>
+<main id="main" class="wrap">
+  <div class="sec-h" style="padding-top:48px"><div><span class="eyebrow">For developers</span><h1 style="margin:8px 0 0;font-size:clamp(40px,6vw,80px)">Email templates</h1></div></div>
+  <p class="note">Five transactional and marketing emails: 600px table layouts with inline CSS, light and dark mode, and a plain-text version of each. Fields in <code>{{double_braces}}</code> are merge tags; <code>{{#items}}</code> repeats the line for each item. Use en-GB dates such as 29 October 2026 and prices including VAT.</p>
+  <ol class="elist">
+    <li><div><h2>Order confirmation</h2><p>Sent when an order is placed: items, totals, delivery address and points.</p><div class="links"><a class="btn sm" href="order-confirmation.html">Open HTML</a><a class="btn sm ghost" href="order-confirmation.txt">Plain text</a></div></div>
+      <iframe src="order-confirmation.html" title="Order confirmation email preview" loading="lazy"></iframe></li>
+    <li><div><h2>Dispatched</h2><p>Sent when an order leaves us by Royal Mail Tracked 48, with the tracking link.</p><div class="links"><a class="btn sm" href="dispatched.html">Open HTML</a><a class="btn sm ghost" href="dispatched.txt">Plain text</a></div></div>
+      <iframe src="dispatched.html" title="Dispatched email preview" loading="lazy"></iframe></li>
+    <li><div><h2>Beans Club reminder</h2><p>Sent 3 days before each subscription dispatch, with skip and pause links.</p><div class="links"><a class="btn sm" href="beans-club-reminder.html">Open HTML</a><a class="btn sm ghost" href="beans-club-reminder.txt">Plain text</a></div></div>
+      <iframe src="beans-club-reminder.html" title="Beans Club reminder email preview" loading="lazy"></iframe></li>
+    <li><div><h2>Gift card received</h2><p>Sent to the recipient once a gift card is paid and active: amount, message and code.</p><div class="links"><a class="btn sm" href="gift-card-received.html">Open HTML</a><a class="btn sm ghost" href="gift-card-received.txt">Plain text</a></div></div>
+      <iframe src="gift-card-received.html" title="Gift card received email preview" loading="lazy"></iframe></li>
+    <li><div><h2>Newsletter welcome</h2><p>Sent after someone signs up with consent. Includes the unsubscribe link.</p><div class="links"><a class="btn sm" href="newsletter-welcome.html">Open HTML</a><a class="btn sm ghost" href="newsletter-welcome.txt">Plain text</a></div></div>
+      <iframe src="newsletter-welcome.html" title="Newsletter welcome email preview" loading="lazy"></iframe></li>
+  </ol>
+</main>
+</body>
+</html>

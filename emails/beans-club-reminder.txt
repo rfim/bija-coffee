@@ -1,0 +1,22 @@
+BIJA
+
+The Beans Club
+
+Next delivery in 3 days.
+
+Hi {{first_name}}, your next Beans Club bag is due to be dispatched on {{dispatch_date}} by Royal Mail Tracked 48, free as always.
+
+{{quantity}} x {{coffee_name}} ({{grind}}, {{frequency}}): {{price}}
+Charged on dispatch: {{price}}
+
+Away, or still got beans? Changes for this delivery close today. You can still skip, pause or change your next one in the app or by replying to this email.
+
+Skip this delivery: {{skip_url}}
+Pause my subscription: {{pause_url}}
+
+To change your coffee or grind, reply to this email or ask at the bar.
+
+--
+Questions? Reply to this email, write to info@bijalondon.co.uk or call +44 20 4603 3086.
+Bija Coffee Limited, registered in England and Wales, company number 15383542.
+2a St James's Market, London SW1Y 4AH. Prices include VAT.

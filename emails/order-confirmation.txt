@@ -1,0 +1,26 @@
+BIJA
+
+Order {{order_number}} · {{order_date}}
+
+Thanks, {{first_name}}.
+
+Your order is confirmed. We usually dispatch within two working days and will email you tracking when it leaves us.
+
+{{#items}}
+{{quantity}} x {{name}} ({{grind}}, {{plan}}): {{line_total}}
+{{/items}}
+Subtotal: {{subtotal}}
+Delivery ({{delivery_method}}): {{delivery_fee}}
+Total incl. VAT: {{total}}
+
+Delivering to:
+{{delivery_address}}
+
+You'll earn about {{points}} points on your Bija Card when your order is dispatched. Payment is taken on dispatch.
+
+View your order: {{order_url}}
+
+--
+Questions? Reply to this email, write to info@bijalondon.co.uk or call +44 20 4603 3086.
+Bija Coffee Limited, registered in England and Wales, company number 15383542.
+2a St James's Market, London SW1Y 4AH. Prices include VAT.

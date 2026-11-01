@@ -1,0 +1,112 @@
+{
+ "ks": {
+  "file": "illustrations/ks.svg",
+  "alt": "Kopi Susu Aren: espresso floating on milk over a layer of gula aren palm sugar",
+  "bytes": 1009
+ },
+ "tub": {
+  "file": "illustrations/tub.svg",
+  "alt": "Kopi tubruk: a glass of coffee with the grounds settling at the bottom",
+  "bytes": 1625
+ },
+ "affogato": {
+  "file": "illustrations/affogato.svg",
+  "alt": "Arenga Affogato: a scoop of ice cream with espresso poured over and palm sugar",
+  "bytes": 940
+ },
+ "filt": {
+  "file": "illustrations/filt.svg",
+  "alt": "Single-origin filter coffee brewing through a V60 dripper into a glass server",
+  "bytes": 936
+ },
+ "tea": {
+  "file": "illustrations/tea.svg",
+  "alt": "Teh tarik: sweet milk tea pulled in a long stream from one cup into another",
+  "bytes": 892
+ },
+ "turmeric": {
+  "file": "illustrations/turmeric.svg",
+  "alt": "Iced turmeric blend in a tall glass with ice",
+  "bytes": 1032
+ },
+ "mangga": {
+  "file": "illustrations/mangga.svg",
+  "alt": "Mango and passion fruit smoothie with a mango and a halved passion fruit",
+  "bytes": 1273
+ },
+ "juice": {
+  "file": "illustrations/juice.svg",
+  "alt": "A glass of fresh juice with a citrus slice on the rim",
+  "bytes": 827
+ },
+ "choc": {
+  "file": "illustrations/choc.svg",
+  "alt": "A mug of hot chocolate with steam rising",
+  "bytes": 1092
+ },
+ "lapis": {
+  "file": "illustrations/lapis.svg",
+  "alt": "A slice of lapis legit, Indonesian thousand-layer spice cake",
+  "bytes": 1544
+ },
+ "pandan": {
+  "file": "illustrations/pandan.svg",
+  "alt": "A slice of bolu pandan, light pandan chiffon cake",
+  "bytes": 937
+ },
+ "klepon": {
+  "file": "illustrations/klepon.svg",
+  "alt": "Three klepon: pandan rice balls rolled in grated coconut on a banana leaf",
+  "bytes": 985
+ },
+ "cake": {
+  "file": "illustrations/cake.svg",
+  "alt": "A slice of cake",
+  "bytes": 756
+ },
+ "set": {
+  "file": "illustrations/set.svg",
+  "alt": "The Discovery set: three 200 g bags of Bija coffee",
+  "bytes": 1339
+ },
+ "gift": {
+  "file": "illustrations/gift.svg",
+  "alt": "A Bija gift card tied with a ribbon",
+  "bytes": 698
+ },
+ "brew-v60": {
+  "file": "illustrations/brew-v60.svg",
+  "alt": "V60 pour-over dripper",
+  "bytes": 638
+ },
+ "brew-cafetiere": {
+  "file": "illustrations/brew-cafetiere.svg",
+  "alt": "Cafetière (French press)",
+  "bytes": 741
+ },
+ "brew-aeropress": {
+  "file": "illustrations/brew-aeropress.svg",
+  "alt": "AeroPress",
+  "bytes": 664
+ },
+ "brew-moka": {
+  "file": "illustrations/brew-moka.svg",
+  "alt": "Moka pot",
+  "bytes": 620
+ },
+ "brew-espresso": {
+  "file": "illustrations/brew-espresso.svg",
+  "alt": "Espresso machine portafilter pulling a shot",
+  "bytes": 761
+ },
+ "brew-filter": {
+  "file": "illustrations/brew-filter.svg",
+  "alt": "Batch filter brewer with a jug",
+  "bytes": 804
+ },
+ "brew-wholebean": {
+  "file": "illustrations/brew-wholebean.svg",
+  "alt": "Whole coffee beans",
+  "bytes": 842
+ }
+}
