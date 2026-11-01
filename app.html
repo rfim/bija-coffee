@@ -1310,8 +1310,9 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
 .pd-bal span { display: grid; gap: 2px; } .pd-bal small { font: 500 12.5px var(--sans); color: var(--muted); }
 .pd-bal b { font: 700 24px/1.1 var(--sans); font-variant-numeric: tabular-nums; } .pd-bal em { font: 500 12px var(--sans); font-style: normal; color: var(--muted); }
 .pd-bal .btn { flex: none; min-height: 44px; padding: 0 20px; }
-.pd-links { display: flex; gap: 18px; justify-content: center; margin: 18px 0 4px; font: 500 13px var(--sans); }
-.pd-links a { color: var(--muted); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+.pd-links { display: flex; justify-content: center; align-items: center; margin: 22px 0 0; font: 400 12px var(--sans); }
+.pd-links a { color: var(--muted); opacity: .75; text-decoration: none; min-height: 44px; padding: 0 8px; display: inline-flex; align-items: center; }
+.pd-links a + a::before { content: "·"; margin: 0 8px 0 -8px; opacity: .6; }
 .tu-amt { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 16px 0 12px; }
 .tu-amt button { min-height: 56px; border-radius: 16px; border: 1.5px solid var(--line); background: #fff; font: 700 18px var(--sans); color: var(--ink); transition: background-color .15s ease, color .15s ease, transform .15s ease; }
 .tu-amt button:active { transform: scale(.96); }
