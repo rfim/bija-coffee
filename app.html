@@ -161,9 +161,9 @@ legend { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
 #toast { position: fixed; left: 50%; bottom: calc(108px + var(--sa-bottom)); transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 10px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; z-index: 20; max-width: calc(100% - 32px); text-align: center; }
 
 /* Bija Card: black and white Kawung, themeable */
-body:has(#basket:not([hidden])) #toast { bottom: calc(176px + var(--sa-bottom)); }
+body.bk-on #toast { bottom: calc(176px + var(--sa-bottom)); }
 body.barista-view #toast { bottom: calc(12px + var(--sa-bottom)); }
-body.barista-view:has(#basket:not([hidden])) #toast { bottom: calc(76px + var(--sa-bottom)); }
+body.barista-view.bk-on #toast { bottom: calc(76px + var(--sa-bottom)); }
 .bcard { border: 1px solid rgba(255,255,255,.18); --c-bg: #0b0b0b; --c-ink: #ffffff; --c-sub: rgba(255,255,255,.7); --c-stamp: #ffffff; --c-stamp-ink: #0b0b0b; --c-empty: rgba(255,255,255,.35);
   position: relative; border-radius: 20px; padding: 18px; color: var(--c-ink); background-color: var(--c-bg); background-size: 56px 56px; overflow: hidden; box-shadow: 0 14px 34px rgba(0, 0, 0, .28); aspect-ratio: 1.586; display: flex; flex-direction: column; container-type: inline-size; }
 .bcard .t { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
@@ -595,7 +595,7 @@ body:not(.barista-view) .cats.sticky { top: var(--hdr, 0px); }
 .cats button.fpill { border-color: var(--line); text-transform: none; letter-spacing: 0; font-size: 13px; }
 .cats button.fpill[aria-pressed="true"] { border-color: var(--ink); }
 .diet { border: 0 !important; padding: 0 !important; color: var(--muted) !important; text-transform: none !important; letter-spacing: 0 !important; font: 500 12px var(--sans) !important; }
-body:has(.stab) #main { padding-right: 24px; }
+body.has-stab #main { padding-right: 24px; }
 .hero .meta .chip { min-height: 44px; padding: 0 16px; font-weight: 600; }
 button.chip { font: inherit; font-weight: 600; cursor: pointer; }
 .cats button { scroll-snap-align: start; }
@@ -959,7 +959,7 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
   .bnav button.side { min-height: 48px; margin: 0; padding: 5px 0; } .fab-l { margin-bottom: 5px; }
   .fab { width: 54px; height: 54px; margin-top: -12px; } .fab svg { width: 32px; height: 32px; }
   .basket { bottom: calc(90px + var(--sa-bottom)); } #toast, #backhint { bottom: calc(100px + var(--sa-bottom)); }
-  body:has(#basket:not([hidden])) #toast { bottom: calc(156px + var(--sa-bottom)); }
+  body.bk-on #toast { bottom: calc(156px + var(--sa-bottom)); }
   .wrap { padding-bottom: calc(180px + var(--sa-bottom)); }
 }
 @media (max-width: 400px) { .stab { width: 24px; min-height: 96px; padding: 8px 0; top: 62%; } .stab span { font-size: 11px; letter-spacing: .1em; } }
@@ -1238,7 +1238,7 @@ body.bs-open #basket { visibility: hidden; } body.bs-open.bs-bloom #basket { vis
 #bagsheet[data-fx="2"] .bs-bg { background: rgba(0,0,0,.24); }
 /* the blur is its own layer and fades in once the panel has settled, so it never costs frames while things move */
 #bagsheet[data-fx="2"] .bs-bg::after { content: ""; position: absolute; inset: 0; -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); opacity: 0; transition: opacity .35s ease; }
-#bagsheet[data-fx="2"].show .bs-bg::after { opacity: 1; transition-delay: .48s; }
+#bagsheet[data-fx="2"].show .bs-bg::after { opacity: 1; transition-delay: .72s; }
 #bagsheet[data-fx="2"].out .bs-bg::after { opacity: 0; transition: none; }
 #bagsheet[data-fx="2"] .bs-body > * { transition: opacity .38s ease .1s, transform .55s cubic-bezier(.32,.72,0,1) .06s; transform-origin: 50% 100%; }
 #bagsheet[data-fx="2"]:not(.show) .bs-body > * { opacity: 0; transform: translate3d(0, 10px, 0) scale(.97); }
@@ -1277,6 +1277,25 @@ body.bs-open #basket { visibility: hidden; } body.bs-open.bs-bloom #basket { vis
   #bagsheet[data-fx="6"].out .bl { opacity: 0; transition: opacity .16s ease; }
 }
 @media (prefers-reduced-motion: reduce) { #bagsheet .bs-pan, #bagsheet .bs-bg, #bagsheet .bl, #bagsheet .bs-list, #bagsheet .bs-top { transition: none; } }
+/* Smoothness: effects that used to repaint every frame (shadow, background position) now move only transform and opacity */
+.fab.ready { animation: none; }
+.fab.ready::after { content: ""; position: absolute; inset: -7px; border-radius: 50%; border: 2px solid rgba(46,125,50,.9); pointer-events: none; animation: fab-ready 1.6s ease-in-out infinite; will-change: transform, opacity; }
+@keyframes fab-ready { 0%, 100% { transform: scale(.94); opacity: .35; } 50% { transform: scale(1.04); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .fab.ready::after { animation: none; opacity: 1; transform: none; } }
+.track span { position: relative; overflow: hidden; transition: background-color .5s; }
+@media (prefers-reduced-motion: no-preference) {
+  .track span.on.now { background-image: none; animation: none; }
+  .track span.on.now::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent); transform: translateX(-100%); animation: track-run 1.4s linear infinite; }
+  @keyframes track-run { to { transform: translateX(100%); } }
+  .dnudge .dic::after { animation: none; }
+  .dnudge .dic::before { content: ""; position: absolute; top: 0; right: 0; width: 9px; height: 9px; border-radius: 50%; border: 2px solid rgba(180,84,26,.5); animation: dping2 2.4s ease-out 1s 3; opacity: 0; }
+  @keyframes dping2 { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2.4); opacity: 0; } }
+}
+body:not(.barista-view) .top { transition: none; }
+body:not(.barista-view) .top::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 18px; transform: translateY(100%); background: linear-gradient(rgba(0,0,0,.06), transparent); border-top: 1px solid var(--line); opacity: 0; transition: opacity .25s ease; pointer-events: none; }
+body.scrolled:not(.barista-view) .top { box-shadow: none; }
+body.scrolled:not(.barista-view) .top::after { opacity: 1; }
+.prod, .ptile, .tile2, .slide, .offer, .hc { transition: transform .18s ease; }
 </style>
 
 <div class="wrap" id="wrap">
@@ -1409,6 +1428,8 @@ body.bs-open #basket { visibility: hidden; } body.bs-open.bs-bloom #basket { vis
     const d = ILLO[m.id] || ILLO_CAT[m.cat] || ILLO_CAT.Coffee;
     return `<svg class="illo" viewBox="0 0 120 120" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
   };
+  // decode the menu photos while the app is idle, so the first visit to Order doesn't decode them mid-transition
+  (window.requestIdleCallback || ((f) => setTimeout(f, 1500)))(() => Object.values(PHOTO).forEach((n) => { const i = new Image(); i.src = `photos/ig/${n}.jpg`; i.decode?.().catch(() => {}); }));
   const thumb = (m) => PHOTO[m.id] ? `<img src="photos/ig/${PHOTO[m.id]}.jpg" alt="" width="400" height="400" loading="lazy" decoding="async" data-fb="${esc(illo(m))}">` : illo(m);
   // a photo that fails to load swaps to its illustration; delegated, because the strict CSP blocks inline onerror (S12)
   document.addEventListener('error', (e) => { const t = e.target; if (t instanceof HTMLImageElement && t.dataset.fb) t.replaceWith(document.createRange().createContextualFragment(t.dataset.fb)); }, true);
@@ -1933,8 +1954,10 @@ body.bs-open #basket { visibility: hidden; } body.bs-open.bs-bloom #basket { vis
     $('#demo').innerHTML = '';
     const pageKey = S.view + ':' + (S.view === 'bar' ? S.btab : S.tab);
     $('#main').innerHTML = S.view === 'bar' ? barista() : customer();
-    if (pageKey !== S.lastPage) { S.lastPage = pageKey; const mn = $('#main'); mn.classList.remove('enter'); void mn.offsetWidth; mn.classList.add('enter'); }
+    // a new page fades up; started with the animation API, so the browser isn't forced to lay the page out early. A tab switch has its own transition.
+    if (pageKey !== S.lastPage) { S.lastPage = pageKey; if (!document.documentElement.classList.contains('mo-vt') && !matchMedia('(prefers-reduced-motion: reduce)').matches) $('#main').animate?.([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: 500, easing: 'cubic-bezier(.16,1,.3,1)' }); }
     watchCheckout(); renderBasket(); renderSheet(); cardFx(); layoutFx(); stampFx(); walletFx();
+    document.body.classList.toggle('has-stab', !!document.querySelector('#main .stab'));
     if (aid) { const el = document.getElementById(aid); if (el) { el.focus({ preventScroll: true }); try { if (s0 != null) el.setSelectionRange(s0, s1); } catch {} } }
   }
   // card motion: points count up when they change, the card leans towards a finger or the mouse
@@ -2016,19 +2039,20 @@ body.bs-open #basket { visibility: hidden; } body.bs-open.bs-bloom #basket { vis
   // One observer for the page; render() re-creates #checkout, so it is re-observed after each render.
   const coIO = 'IntersectionObserver' in window ? new IntersectionObserver((es) => {
     for (const e of es) if (e.target === document.getElementById('checkout')) S.coVisible = e.isIntersecting;
-    const el = $('#basket'); if (el && el.innerHTML) el.hidden = !basketShown();
+    const el = $('#basket'); if (el && el.innerHTML) { el.hidden = !basketShown(); document.body.classList.toggle('bk-on', !el.hidden); }
   }) : null;
   function watchCheckout() {
     if (!coIO) return;
     coIO.disconnect();
     const co = document.getElementById('checkout');
-    if (co) { coIO.observe(co); const r = co.getBoundingClientRect(); S.coVisible = r.top < innerHeight && r.bottom > 0; } else S.coVisible = false;
+    // measuring forces an early layout, so only when the checkout could be on screen (it sits below the whole menu); the observer keeps it right after that
+    if (co) { coIO.observe(co); if (scrollY > 200) { const r = co.getBoundingClientRect(); S.coVisible = r.top < innerHeight && r.bottom > 0; } else S.coVisible = false; } else S.coVisible = false;
   }
   const basketShown = (t = totals(cartLines())) => S.view === 'customer' && ['order', 'beans', 'home'].includes(S.tab) && !S.lastOrder && t.qty > 0 && !(S.tab === 'order' && S.coVisible);
   function renderBasket() {
     const t = totals(cartLines()), el = $('#basket');
     const show = basketShown(t);
-    el.hidden = !show;
+    el.hidden = !show; document.body.classList.toggle('bk-on', show);
     if (show) el.innerHTML = `<div class="in"><button class="bk-sum" data-act="bag-open" aria-haspopup="dialog" aria-label="See your order: ${t.qty} item${t.qty > 1 ? 's' : ''}, ${money(t.total)}"><span class="bk-n">${t.qty}</span><span>${t.qty > 1 ? 'items' : 'item'} · <b>${money(t.total)}</b></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14l5-5 5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="btn sm" data-act="goto-checkout">Checkout</button></div>`;
     if (show && S.bagNudge !== t.qty) { const was = S.bagNudge; S.bagNudge = t.qty; if (was != null && t.qty > was) { const n = el.querySelector('.bk-n'); n && n.animate && !calm() && n.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.35)' }, { transform: 'scale(1)' }], { duration: 360, easing: 'cubic-bezier(.3,1.4,.5,1)' }); } }
   }
