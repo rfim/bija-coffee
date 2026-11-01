@@ -320,20 +320,18 @@ button.back { min-height: 44px; }
 .foot a { color: var(--muted); display: inline-flex; align-items: center; min-height: 44px; }
 .install { border: 1px dashed var(--line); border-radius: 14px; padding: 12px 14px; display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
 /* flip card */
-.flip { perspective: 1400px; cursor: pointer; }
-.flip-in { position: relative; transition: transform .7s cubic-bezier(.2,.7,.2,1); transform-style: preserve-3d; }
-.flip.on .flip-in { transform: rotateY(180deg); }
-.flip .face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-/* Screen transitions take flat snapshots, where backface-visibility doesn't apply, so the QR side showed through mirrored.
-   The hidden side is also visibility: hidden, switched at the flip's halfway point so the turn itself looks the same. */
-.flip .face { transition: visibility 0s linear .3s; }
+.flip { cursor: pointer; }
+.flip .face { position: relative; }
+.flip-in { position: relative; }
+/* Only the side in use is shown, flat. No 3D stacking and no backface-visibility, which iPhone Safari and screen
+   transitions can flatten, showing the other side mirrored. A tap turns the card in two half-turns (see a === 'scan'). */
 .flip:not(.on) .face.back, .flip.on .face:not(.back) { visibility: hidden; }
-.flip.turning .face { visibility: visible !important; } /* mid-turn the real 3D hides the far side */
-.flip .back { position: absolute; inset: 0; transform: rotateY(180deg); background: #fff; color: #000; border-radius: 20px; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 4%; padding: 5%; container-type: inline-size; }
+.flip.turning .face { visibility: visible; }
+.flip .back { position: absolute; inset: 0; background: #fff; color: #000; border-radius: 20px; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 4%; padding: 5%; container-type: inline-size; }
 .flip .back svg { width: 38cqi; height: 38cqi; display: block; }
 .flip .back .code { font-size: clamp(14px, 6cqi, 26px); letter-spacing: .1em; }
 .flip .back p { margin: 6px 0 0; font-size: clamp(11px, 3.4cqi, 13px); color: #555; }
-@media (prefers-reduced-motion: reduce) { .flip-in, .sheet .pan, .sheet .bg, .flip .face { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .sheet .pan, .sheet .bg { transition: none; } }
 .hist { display: grid; gap: 0; }
 .hist div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
 .hist small { color: var(--muted); font-size: 12px; }
@@ -4106,8 +4104,14 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     else if (a === 'scan') {
       S.showScan = !S.showScan; render();
       // the card is redrawn, so turn the new one over from where the old one was
-      const fi = document.querySelector('#main .flip-in'), f = fi?.closest('.flip');
-      if (fi?.animate && !matchMedia('(prefers-reduced-motion: reduce)').matches) { f.classList.add('turning'); const an = fi.animate([{ transform: `rotateY(${S.showScan ? 0 : 180}deg)` }, { transform: `rotateY(${S.showScan ? 180 : 0}deg)` }], { duration: 700, easing: 'cubic-bezier(.2,.7,.2,1)' }); const done = () => f.classList.remove('turning'); an.finished.then(done, done); }
+      // the card is redrawn, so turn it here: the old side turns away to edge-on, then the new side turns in from edge-on
+      const f = document.querySelector('#main .flip'), was = f?.querySelector(S.showScan ? '.face:not(.back)' : '.face.back'), now = f?.querySelector(S.showScan ? '.face.back' : '.face:not(.back)');
+      if (was?.animate && now && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        f.classList.add('turning'); was.style.zIndex = 2;
+        was.animate([{ transform: 'perspective(1200px) rotateY(0deg)' }, { transform: 'perspective(1200px) rotateY(90deg)' }], { duration: 300, easing: 'cubic-bezier(.5,0,.75,0)', fill: 'forwards' });
+        const an = now.animate([{ transform: 'perspective(1200px) rotateY(-90deg)' }, { transform: 'perspective(1200px) rotateY(0deg)' }], { duration: 380, delay: 300, easing: 'cubic-bezier(.25,1,.5,1)', fill: 'backwards' });
+        const done = () => { f.classList.remove('turning'); was.style.zIndex = ''; was.getAnimations().forEach((x) => x.cancel()); }; an.finished.then(done, done);
+      }
     }
     else if (a === 'sheet') openSheet(b.dataset.id, b);
     else if (a === 'fab') {
