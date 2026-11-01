@@ -1170,11 +1170,6 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
 .rot-i { grid-area: 1 / 1; visibility: hidden; opacity: 0; transition: opacity .4s ease; }
 .rot-i.on { visibility: visible; opacity: 1; }
 .rot-i > * { height: 100%; margin: 0; }
-.rot-c { display: flex; justify-content: center; align-items: center; gap: 0; margin-top: 2px; }
-.rot-d, .rot-p { width: 44px; height: 44px; display: grid; place-items: center; border: 0; background: none; padding: 0; color: var(--ink); }
-.rot-d i { width: 8px; height: 8px; border-radius: 4px; background: #c9c7c2; transition: width .3s ease, background-color .3s ease; }
-.rot-d[aria-pressed="true"] i { width: 22px; background: var(--ink); }
-.rot-p svg { width: 16px; height: 16px; }
 /* inside the For you card both cards are one compact row: picture, words, one action */
 .rot .usual-card { display: grid !important; grid-template-columns: 64px minmax(0, 1fr) auto; grid-template-rows: auto; align-items: center; gap: 12px; background: var(--tile); border-radius: 18px; padding: 12px 14px; }
 .rot .usual-card .uimg { width: 64px; height: 64px; grid-row: auto; }
@@ -2676,22 +2671,19 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     const ordered = !!st.col[0], usual = [ordered ? 'your usual' : 'our signature drink', usualCard(st)];
     const slots = (diet() ? [usual] : ordered ? [usual, ['the allergy question', dietNudge('home')]] : [['the allergy question', dietNudge('home')], usual]).filter(([, c]) => c), cards = slots.map(([, c]) => c);
     if (cards.length < 2) return cards[0] ? `<div class="rot">${cards[0]}</div>` : '';
-    const i = (S.rotI || 0) % cards.length, still = S.rotPaused || calm();
+    const i = (S.rotI || 0) % cards.length;
     return `<section class="rot" data-rot aria-roledescription="carousel" aria-label="For you">
       <div class="rot-s">${cards.map((c, k) => `<div class="rot-i${k === i ? ' on' : ''}" role="group" aria-roledescription="slide" aria-label="${k + 1} of ${cards.length}" ${k === i ? '' : 'aria-hidden="true" inert'}>${c}</div>`).join('')}</div>
-      <div class="rot-c">${cards.map((_, k) => `<button class="rot-d" data-act="rot" data-v="${k}" aria-label="Show ${slots[k][0]}" aria-pressed="${k === i}"><i></i></button>`).join('')}
-        ${calm() ? '' : `<button class="rot-p" data-act="rotp" aria-label="${still ? 'Play' : 'Pause'} the cards">${still ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>' : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 5.5h3v13h-3zM13.5 5.5h3v13h-3z" fill="currentColor"/></svg>'}</button>`}</div>
     </section>`;
   }
   function rotShow(i) {
     const r = document.querySelector('[data-rot]'); if (!r) return;
     const items = r.querySelectorAll('.rot-i'); S.rotI = (i + items.length) % items.length;
     items.forEach((el, k) => { const on = k === S.rotI; el.classList.toggle('on', on); el.toggleAttribute('inert', !on); if (on) el.removeAttribute('aria-hidden'); else el.setAttribute('aria-hidden', 'true'); });
-    r.querySelectorAll('.rot-d').forEach((d, k) => d.setAttribute('aria-pressed', String(k === S.rotI)));
   }
   setInterval(() => {
     const r = document.querySelector('[data-rot]');
-    if (!r || S.rotPaused || calm() || document.hidden || S.tab !== 'home' || r.matches(':hover') || r.contains(document.activeElement) || r.dataset.touch) return;
+    if (!r || calm() || document.hidden || S.tab !== 'home' || r.matches(':hover') || r.contains(document.activeElement) || r.dataset.touch) return;
     rotShow((S.rotI || 0) + 1);
   }, ROT_MS);
   addEventListener('pointerdown', (e) => { const r = e.target.closest?.('[data-rot]'); if (r) { r.dataset.touch = '1'; setTimeout(() => { delete r.dataset.touch; }, ROT_MS * 2); } }, { passive: true });
@@ -4194,8 +4186,6 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     else if (a === 'fav') { const id = b.dataset.id, xs = listOf('bija.favs'), on = !xs.includes(id); store.set('bija.favs', JSON.stringify(on ? [id, ...xs] : xs.filter((x) => x !== id))); buzz(10); const m = menu().find((x) => x.id === id); toast(on ? `${m ? m.name : 'Saved'} saved to favourites` : 'Removed from favourites'); render(); const nb = document.querySelector(`.fav[data-id="${CSS.escape(id)}"]`); if (nb && on) nb.classList.add('pop'); }
     else if (a === 'mf') { S.mf = b.dataset.v || ''; render(); }
     else if (a === 'mqclear') { S.mq = ''; S.mf = ''; render(); document.getElementById('m-q')?.focus({ preventScroll: true }); }
-    else if (a === 'rot') rotShow(+b.dataset.v);
-    else if (a === 'rotp') { S.rotPaused = !S.rotPaused; render(); document.querySelector('[data-act=rotp]')?.focus({ preventScroll: true }); }
     else if (a === 'mqset') { S.mq = b.dataset.v; render(); }
     else if (a === 'kadd') { const k = b.dataset.key, r = b.getBoundingClientRect(); S.cart[k] = Math.min(20, (S.cart[k] || 0) + 1); toast('Added to your order'); render(); flyToBasket({ getBoundingClientRect: () => r }); }
     else if (a === 'histall') { S.histAll = true; render(); }
