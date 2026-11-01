@@ -2467,11 +2467,7 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
       ${active ? '' : S.dietEdit === 'home' ? dietNudge('home') : forYou(st)}
       <h2 class="wn-h">What's new</h2>
       <div class="promos wn" aria-label="What's new">${slides.map((x, i) => `<button class="slide wn-c" ${x.act}>${slidePic(x.img, i)}<span class="sl"><span class="ey">${esc(x.ey)}</span><b>${esc(x.t)}</b></span></button>`).join('')}</div>
-      <div class="dots" aria-hidden="true">${slides.map(() => '<i></i>').join('')}</div>
-      <ul class="mlist hlist">
-        <li><button data-act="tab" data-v="offers"><span><b>Offers</b><span class="hint">${OFFERS.length} ways to save · ${esc(OFFERS.map((o) => o.big).slice(0, 2).join(', '))}</span></span><span aria-hidden="true">›</span></button></li>
-        <li><button data-act="tab" data-v="more"><span><b>More</b><span class="hint">Beans, gifts, Secret St James's and more</span></span><span aria-hidden="true">›</span></button></li>
-      </ul>`;
+      <div class="dots" aria-hidden="true">${slides.map(() => '<i></i>').join('')}</div>`;
   }
   // "Your usual?": the main item of the last collected order (the priciest drink, else the priciest line); a first-timer gets the signature drink
   function usualCard(st) {
@@ -3083,10 +3079,13 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
       settings: ic('<circle cx="12" cy="12" r="3"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/>'),
       help: ic('<circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6M12 17v.4"/>'),
       privacy: ic('<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/>'),
+      offers: ic('<path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.4 1.4 0 0 1 0 2l-6.3 6.3a1.4 1.4 0 0 1-2 0z"/><circle cx="8" cy="8" r="1.4"/>'),
+      more: ic('<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>'),
       visit: window.BijaIcons ? BijaIcons.svg('visit') : ic('<path d="M12 21s-6-5.6-6-10a6 6 0 0 1 12 0c0 4.4-6 10-6 10z"/><circle cx="12" cy="11" r="2"/>'),
     };
     const n = st.os.length + st.shop.length, on = Math.min(st.stamps, STAMP_FREE_AT);
     const row = (v, icon, label, meta) => `<li><button data-act="pd" data-v="${v}"><span class="pi">${icon}</span><span class="pl"><b>${label}</b>${meta ? `<small>${meta}</small>` : ''}</span><span class="pc" aria-hidden="true">›</span></button></li>`;
+    const tabRow = (v, icon, label, meta) => row(v, icon, label, meta).replace('data-act="pd"', 'data-act="tab"');
     const link = (href, icon, label) => `<li><a href="${href}"><span class="pi">${icon}</span><span class="pl"><b>${label}</b></span><span class="pc" aria-hidden="true">›</span></a></li>`;
     const mini = `<button class="pd-card" data-act="pd-card" style="${attrq(cardStyle(t))}" aria-label="Bija Card: ${st.balance} points, ${esc(st.tier.name)}. Show the code to scan at the till">
         <span class="pc-t"><b>Bija Card</b><span>${esc(st.tier.name)}</span></span>
@@ -3101,6 +3100,10 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
         ${row('allergies', IC.allergies, 'Allergies', d ? (d.alg.length ? esc(algList(d.alg)).replace(/^./, (c) => c.toLocaleUpperCase('en-GB')) : 'None') : 'Not set yet')}
         ${row('you', IC.you, 'Your details', esc((S.me?.name || '').trim()) || 'Name and birthday')}
         ${row('settings', IC.settings, 'Settings', 'Card design and notifications')}
+      </ul>
+      <ul class="pd-menu">
+        ${tabRow('offers', IC.offers, 'Offers', `${OFFERS.length} ways to save`)}
+        ${tabRow('more', IC.more, 'More', 'Beans, gift cards and more')}
       </ul>
       <ul class="pd-menu pd-sub">
         ${link('help.html', IC.help, 'Help centre')}
@@ -3828,7 +3831,7 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
     if (a === 'view') { if (b.dataset.v === 'bar' && !(S.admin && S.staffOk)) return pinOpen(); if (b.dataset.v === 'customer') { S.staffOk = false; S.mh?.el?.destroy(); S.mh = null; S.sb?.staffLock().catch(() => {}); if (WEB_ADMIN) return toSite(); } S.view = b.dataset.v; render(); window.scrollTo({ top: 0 }); }
     else if (a === 'pin-close') pinCancel();
     else if (a === 'pin-key') pinKey(b.dataset.v);
-    else if (a === 'tab') { if (S.view === 'bar') S.btab = b.dataset.v; else { if (['home', 'more', 'beans'].includes(S.tab) && S.tab !== b.dataset.v) S.backTo = S.tab; S.tab = b.dataset.v; S.lastOrder = null; S.fresh = -1; S.dealt = null; if (S.tab === 'card') S.rview = ''; } render(); window.scrollTo({ top: 0 }); }
+    else if (a === 'tab') { if (S.view === 'bar') S.btab = b.dataset.v; else { if (b.closest('#stampdrawer')) stampsClose(); if (['home', 'more', 'beans'].includes(S.tab) && S.tab !== b.dataset.v) S.backTo = S.tab; S.tab = b.dataset.v; S.lastOrder = null; S.fresh = -1; S.dealt = null; if (S.tab === 'card') S.rview = ''; } render(); window.scrollTo({ top: 0 }); }
     else if (a === 'pd') { const from = S.pdView; S.pdView = b.dataset.v; S.pdDirect = false; S.pdFocus = S.pdView ? '.pd-back' : (from ? `[data-act=pd][data-v="${from}"]` : ''); render(); const bd = document.querySelector('#stampdrawer .sd-body'); if (bd) bd.scrollTop = 0; }
     else if (a === 'stamps') { S.pdView = 'stamps'; S.pdDirect = true; stampsOpen(b); requestAnimationFrame(() => document.getElementById('pd-stamps')?.scrollIntoView({ block: 'start' })); }
     else if (a === 'profile') { if (document.getElementById('stampdrawer')) stampsClose(); else { S.pdView = ''; stampsOpen(b); } }
