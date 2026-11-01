@@ -1135,6 +1135,29 @@ body.barista-view #switch { display: flex; align-items: center; }
 .menu.rows .prod .step { margin: 0; width: auto; }
 .menu.rows .prod.off { opacity: 1; } /* sold out: the photo greys out, the words stay readable */
 .menu.rows .prod.off .pimg { filter: grayscale(1) opacity(.6); }
+/* Rewards and Home, one thing at a time (Nov 2026): the card and six tiles; each area opens on its own page */
+.rtiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
+.rtile { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-height: 104px; padding: 14px; border: 0; border-radius: 16px; background: var(--tile); color: var(--ink); text-align: left; font: inherit; cursor: pointer; }
+.rtile .rt-h { font: 600 13px/1.3 var(--sans); color: var(--muted); }
+.rtile b { font: 700 20px/1.2 var(--display); font-variant-numeric: tabular-nums; }
+.rtile .hint { font-size: 12.5px; line-height: 1.35; }
+.rtile .prog { width: 100%; margin-top: auto; }
+.rv-h { margin-top: 4px; }
+.rv-h .ptitle { margin: 0; }
+.rv-sub { margin: 24px 0 6px; font: 600 18px/1.3 var(--sans); }
+.hmonth h3 { margin: 20px 0 8px; font: 600 14px/1.3 var(--sans); color: var(--muted); }
+.hmonth .hist { padding: 0; }
+.offers-l { display: grid; gap: 12px; }
+.offers-l .offer { width: auto; min-height: 0; }
+.hlist { margin-top: 20px; }
+.pd-card { display: grid; gap: 10px; width: 100%; margin: 6px 0 12px; padding: 16px; border: 0; border-radius: 18px; background-color: var(--c-bg); color: var(--c-ink); background-size: 56px 56px; text-align: left; font: inherit; cursor: pointer; }
+.pd-card .pc-t { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.pd-card .pc-t b { font: 700 18px/1.2 var(--display); }
+.pd-card .pc-t span { font: 600 12px/1.2 var(--sans); padding: 3px 10px; border: 1.5px solid currentColor; border-radius: 999px; }
+.pd-card .pc-p { font: 400 14px/1.2 var(--sans); color: var(--c-sub); }
+.pd-card .pc-p b { font: 300 34px/1 var(--sans); color: var(--c-ink); margin-right: 4px; font-variant-numeric: tabular-nums; }
+.pd-card .pc-f { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px; color: var(--c-sub); }
+.pd-card .pc-s { color: var(--c-ink); font-weight: 600; }
 </style>
 
 <div class="wrap" id="wrap">
@@ -2392,6 +2415,7 @@ body.barista-view #switch { display: flex; align-items: center; }
     const back = `<button class="back" data-act="tab" data-v="${bk}">‹ ${{ more: 'More', beans: 'Beans', home: 'Home' }[bk]}</button>`;
     if (S.tab === 'home') return homePage();
     if (S.tab === 'more') return morePage();
+    if (S.tab === 'offers') return back + offersPage();
     if (S.tab === 'beans') return back + beansPage();
     if (S.tab === 'card') return cardPage();
     if (S.tab === 'gifts') return back + giftsPage();
@@ -2447,10 +2471,6 @@ body.barista-view #switch { display: flex; align-items: center; }
       <div class="promos" aria-label="Highlights">${slides.map((x, i) => `<button class="slide" ${x.act}>${slidePic(x.img, i)}<span class="sl"><span class="eyebrow">${esc(x.ey)}</span><b>${esc(x.t)}</b><span class="pl">${esc(x.pl)}</span></span></button>`).join('')}</div>
       <div class="dots" aria-hidden="true">${slides.map(() => '<i></i>').join('')}</div>
       ${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
-      <button class="hc" data-act="tab" data-v="card" aria-label="Open your Bija Card">
-        ${cardHTML(themeById(S.theme), { name: name || 'Tap to scan at the till', no: memberCode(S.uid), pts: st.balance, tier: st.tier.name, pct: nextR ? (st.balance / nextR.pts) * 100 : 100, next: nextR ? `${nextR.pts - st.balance} points to ${nextR.name.toLocaleLowerCase('en-GB')}` : 'Every reward unlocked', stamps: st.stamps, still: true })}
-        <span class="hint">${st.os.length ? `Free cake every ~£${Math.round(rewardPts('cake') / PTS)} · every ${STAMP_FREE_AT + 1}th drink free` : `+${BONUS.welcome} welcome points on your first order`}</span>
-      </button>
       <button class="btn xl" data-act="fab">Order now</button>
       ${st.col[0] ? (() => {
         // "Your usual?": the main item of the last collected order (the priciest drink, else the priciest line), one tap to add it again
@@ -2463,11 +2483,11 @@ body.barista-view #switch { display: flex; align-items: center; }
           <div class="ub"><span class="eyebrow">Your usual?</span><b>${esc(main.m.name)}</b><span class="hint">${esc(opt || main.m.desc || '')}</span><span class="price">${money(main.m.price)}</span></div>
           <button class="btn sm" data-act="kadd" data-key="${esc(key)}" ${isOpen() && main.m.available ? '' : 'disabled'} aria-label="Order ${esc(main.m.name)} again">Order again</button>
         </div></section>`; })() : ''}
-      <section class="sec"><div class="sec-h"><h2>Offers</h2><small>Show your card at the till</small></div>
-        <div class="offers">${OFFERS.map((o) => `<article class="offer"><span class="big">${esc(o.big)}</span><b>${esc(o.title)}</b><span class="hint">${esc(o.terms)}</span>${o.act ? `<button class="btn sm" data-act="tab" data-v="${o.act}">Shop beans</button>` : '<button class="btn sm ghost" data-act="showcard">Show my card</button>'}</article>`).join('')}</div>
-      </section>
-      <button class="scantile" data-act="scan-open"><span class="sci" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 11V6a2 2 0 0 1 2-2h5M21 4h5a2 2 0 0 1 2 2v5M28 21v5a2 2 0 0 1-2 2h-5M11 28H6a2 2 0 0 1-2-2v-5"/><path d="M9 16h14"/></svg></span><span><b>Scan coffee</b><span class="hint">See where your bag or cup came from</span></span><span aria-hidden="true">›</span></button>
-      <button class="morelink" data-act="tab" data-v="more">Beans, gifts, Secret St James's and more <span aria-hidden="true">›</span></button>`;
+      <ul class="mlist hlist">
+        <li><button data-act="tab" data-v="offers"><span><b>Offers</b><span class="hint">${OFFERS.length} ways to save · ${esc(OFFERS.map((o) => o.big).slice(0, 2).join(', '))}</span></span><span aria-hidden="true">›</span></button></li>
+        <li><button data-act="scan-open"><span><b>Scan coffee</b><span class="hint">See where your bag or cup came from</span></span><span aria-hidden="true">›</span></button></li>
+        <li><button data-act="tab" data-v="more"><span><b>More</b><span class="hint">Beans, gifts, Secret St James's and more</span></span><span aria-hidden="true">›</span></button></li>
+      </ul>`;
   }
   // greeting as a question, by the time of day in London (and iced in the warm months)
   function greetQ(name) {
@@ -2481,6 +2501,10 @@ body.barista-view #switch { display: flex; align-items: center; }
     const att = `alt="" decoding="async" width="600" height="480" ${i ? 'loading="lazy"' : 'fetchpriority="high"'}`;
     const m = String(src).match(/^photos\/(feature-\d|shop-3|founder)\.jpg$/);
     return m ? `<picture><source type="image/webp" srcset="photos/${m[1]}-600.webp"><img src="photos/${m[1]}-600.jpg" ${att}></picture>` : `<img src="${esc(src)}" ${att}>`;
+  }
+  function offersPage() {
+    return `<div class="sec-h rv-h"><h2 class="ptitle">Offers</h2><small>Show your card at the till</small></div>
+      <div class="offers-l">${OFFERS.map((o) => `<article class="offer"><span class="big">${esc(o.big)}</span><b>${esc(o.title)}</b><span class="hint">${esc(o.terms)}</span>${o.act ? `<button class="btn sm" data-act="tab" data-v="${o.act}">Shop beans</button>` : '<button class="btn sm ghost" data-act="showcard">Show my card</button>'}</article>`).join('')}</div>`;
   }
   // one level below Home: everything that isn't the daily essentials
   function morePage() {
@@ -2800,13 +2824,11 @@ body.barista-view #switch { display: flex; align-items: center; }
   }
   function cardPage() {
     if (!S.meLoaded) return notReady();
+    if (S.rview) return rewardsView(S.rview);
     const st = mine(), t = themeById(S.theme), no = memberCode(S.uid);
     const nextR = REWARDS.find((r) => r.pts > st.balance), pct = nextR ? (st.balance / nextR.pts) * 100 : 100;
     let qr = '';
     try { const q = qrcode(0, 'M'); q.addData(no); q.make(); qr = q.createSvgTag(6, 2); } catch { qr = ''; }
-    const wkLeft = Math.max(0, 3 - st.thisWeek), favs = [...favSet()].map((id) => menu().find((m) => m.id === id)).filter(Boolean);
-    const recent = [...st.os.map((o) => ({ o, shop: false })), ...st.shop.map((o) => ({ o, shop: true }))].sort((x, y) => String(y.o.createdAt).localeCompare(String(x.o.createdAt))).slice(0, 5);
-    const sec = (h, small, body) => `<section class="sec psec"><div class="sec-h"><h2>${h}</h2>${small ? `<small>${small}</small>` : ''}</div>${body}</section>`;
     return `<h2 class="sr">Rewards</h2>
       ${stampAskHTML()}
       ${liveHTML(st)}
@@ -2817,31 +2839,48 @@ body.barista-view #switch { display: flex; align-items: center; }
       </div></div>
       </div>
       <div class="row pact"><button class="btn xl" data-act="scan">${S.showScan ? 'Show my points' : 'Scan at the till'}</button></div>
-      ${sec('Rewards', `${st.balance.toLocaleString('en-GB')} points to spend`, `<div class="list">${REWARDS.map((r) => { const ok = st.balance >= r.pts; return `<div class="panel rw"><div><b>${esc(r.name)}</b><div class="hint">${ok ? 'Unlocked: choose it at checkout' : `${(r.pts - st.balance).toLocaleString('en-GB')} more points`}</div></div><span class="pill ${ok ? 'ready' : 'collected'}">${r.pts.toLocaleString('en-GB')} pts</span>${ok ? '' : `<div class="prog" style="grid-column:1/-1"><i style="width:${(st.balance / r.pts) * 100}%"></i></div>`}</div>`; }).join('')}</div>`)}
-      ${sec('Points history', `${st.hist.length} entr${st.hist.length === 1 ? 'y' : 'ies'}`, !st.hist.length ? '<p class="hint">Your first collected order starts the list.</p>' : `<div class="hist">${st.hist.slice(0, S.histAll ? 200 : 5).map((h) => `<div><span>${esc(h.label)}<br><small>${fmt(h.at)} · ${esc(h.sub)}</small></span><b class="${h.pts >= 0 ? 'plus' : 'minus'}">${h.pts >= 0 ? '+' : '−'}${Math.abs(h.pts)}</b></div>`).join('')}</div>${st.hist.length > 5 && !S.histAll ? '<button class="back" data-act="histall">Show all</button>' : ''}`)}
-      ${referHTML(st, no)}
-      ${sec('Origins Passport', `${passOrigins().filter((o) => st.origins.has(o.id)).length} of ${passOrigins().length}`, `<p class="hint" style="margin-top:0">Buy the single-origin filter or a 200 g bag to stamp an island. Fill it for +${BONUS.passport} points.</p>
+      ${(() => {
+        const unlocked = REWARDS.filter((r) => st.balance >= r.pts).length, last = st.hist[0], got = passOrigins().filter((o) => st.origins.has(o.id)).length;
+        const tile = (v, h, val, sub, extra = '') => `<button class="rtile" data-act="rv" data-v="${v}"><span class="rt-h">${h}</span><b>${val}</b><span class="hint">${sub}</span>${extra}</button>`;
+        return `<div class="rtiles">
+          ${tile('rewards', 'Rewards', unlocked ? `${unlocked} unlocked` : `${(nextR.pts - st.balance).toLocaleString('en-GB')} to go`, unlocked ? 'Choose one at checkout' : `for ${esc(nextR.short || nextR.name.toLocaleLowerCase('en-GB'))}`, `<span class="prog"><i style="width:${Math.min(100, pct)}%"></i></span>`)}
+          ${tile('history', 'Points history', last ? `${last.pts >= 0 ? '+' : '−'}${Math.abs(last.pts).toLocaleString('en-GB')}` : 'None yet', last ? esc(last.label) : 'Starts with your first order')}
+          ${tile('invite', 'Invite friends', `+${REFER} each`, st.refs.length ? `${st.refs.length} ${plural(st.refs.length, 'friend', 'friends')} joined` : 'Share your code')}
+          ${tile('passport', 'Origins Passport', `${got} of ${passOrigins().length}`, `islands stamped · +${BONUS.passport} when full`)}
+          ${tile('levels', 'Level', esc(st.tier.name), st.nextTier ? `${(st.nextTier.min - st.lifetime).toLocaleString('en-GB')} points to ${esc(st.nextTier.name)}` : 'Top level')}
+          ${tile('earn', 'Ways to earn', `${PTS} per £1`, 'Plus invites, challenges and more')}
+        </div>`; })()}`;
+  }
+  // one Rewards area at a time, on its own page, so nothing is crammed under the card
+  function rewardsView(v) {
+    const st = mine(), no = memberCode(S.uid), wkLeft = Math.max(0, 3 - st.thisWeek);
+    const head = (t, small) => `<button class="back" data-act="rv" data-v="">‹ Rewards</button><div class="sec-h rv-h"><h2 class="ptitle">${t}</h2>${small ? `<small>${small}</small>` : ''}</div>`;
+    if (v === 'rewards') return head('Rewards', `${st.balance.toLocaleString('en-GB')} points to spend`) + `<div class="list">${REWARDS.map((r) => { const ok = st.balance >= r.pts; return `<div class="panel rw"><div><b>${esc(r.name)}</b><div class="hint">${ok ? 'Unlocked: choose it at checkout' : `${(r.pts - st.balance).toLocaleString('en-GB')} more points`}</div></div><span class="pill ${ok ? 'ready' : 'collected'}">${r.pts.toLocaleString('en-GB')} pts</span>${ok ? '' : `<div class="prog" style="grid-column:1/-1"><i style="width:${(st.balance / r.pts) * 100}%"></i></div>`}</div>`; }).join('')}</div>`;
+    if (v === 'history') {
+      // grouped by month, newest first: a ledger you read down, not a box you scroll inside
+      const months = new Map(); for (const h of st.hist) { const k = monthOf(h.at); if (!months.has(k)) months.set(k, []); months.get(k).push(h); }
+      const mname = (k) => { const [y, m] = k.split('-'); return `${MONTHS[+m - 1]} ${y}`; };
+      return head('Points history', `${st.hist.length} ${plural(st.hist.length, 'entry', 'entries')}`) + (!st.hist.length ? '<div class="empty"><b>Nothing yet</b>Your first collected order starts the list.</div>'
+        : [...months].map(([k, hs]) => `<section class="hmonth"><h3>${mname(k)}</h3><div class="hist">${hs.map((h) => `<div><span>${esc(h.label)}<br><small>${fmt(h.at)} · ${esc(h.sub)}</small></span><b class="${h.pts >= 0 ? 'plus' : 'minus'}">${h.pts >= 0 ? '+' : '−'}${Math.abs(h.pts).toLocaleString('en-GB')}</b></div>`).join('')}</div></section>`).join(''));
+    }
+    if (v === 'invite') return `<button class="back" data-act="rv" data-v="">‹ Rewards</button>${referHTML(st, no)}`;
+    if (v === 'passport') return head('Origins Passport', `${passOrigins().filter((o) => st.origins.has(o.id)).length} of ${passOrigins().length}`) + `<p class="hint" style="margin-top:0">Buy the single-origin filter or a 200 g bag to stamp an island. Fill it for +${BONUS.passport} points.</p>
         <div class="passport">${ORIGINS.map((o) => { const soon = !passOrigins().includes(o); return `<div class="visa ${st.origins.has(o.id) ? 'got' : ''} ${!st.origins.has(o.id) && st.scanned.has(o.id) ? 'scanned' : ''} ${soon ? 'soon' : ''}"><div><b>${esc(o.name)}</b><br><small>${esc(o.where)}</small></div>${st.origins.has(o.id) ? '<span class="seal">KOPI</span>' : soon ? '<small>Coming soon</small>' : st.scanned.has(o.id) ? '<small>Scanned · buy a bag to stamp</small>' : `<small>${esc(o.notes[0])}</small>`}</div>`; }).join('')}</div>
-        <button class="btn sm ghost" data-act="scan-open" style="margin-top:12px">Scan coffee</button>`)}
-      <ul class="mlist">
-        <li><button data-act="tab" data-v="club"><span><b>Beans Club</b><span class="hint">${st.subs.some((x) => !x.cancelled) ? `${st.subs.filter((x) => !x.cancelled).length} active · manage deliveries` : 'Fresh beans on your schedule, 10% off'}</span></span><span aria-hidden="true">›</span></button></li>
-        <li><button data-act="favmenu"><span><b>Favourites</b><span class="hint">${favs.length ? favs.slice(0, 3).map((m) => esc(m.name)).join(', ') + (favs.length > 3 ? ` and ${favs.length - 3} more` : '') : 'Tap the heart on any drink to keep it here'}</span></span><span aria-hidden="true">›</span></button></li>
-      </ul>
-      <details class="psec more-d"><summary>Levels and challenges</summary>
-        <p class="hint">Challenge bonuses add up to ${CHALLENGE_CAP} points a month · ${st.capLeft} left this month.</p>
+        <button class="btn sm ghost" data-act="scan-open" style="margin-top:12px">Scan coffee</button>`;
+    if (v === 'levels') return head('Level and challenges', esc(st.tier.name)) + `
+        <div class="ladder">${TIERS.map((x) => `<div class="${x.id === st.tier.id ? 'on' : ''}"><b>${esc(x.name)}</b><span class="hint">${x.min ? x.min.toLocaleString('en-GB') + '+ points' : 'Where everyone starts'}</span><span>${esc(x.perk)}</span></div>`).join('')}</div>
+        ${st.nextTier ? `<p class="hint">${(st.nextTier.min - st.lifetime).toLocaleString('en-GB')} points to ${esc(st.nextTier.name)}. Levels count everything you've earned, so spending points never drops you down.</p>` : '<p class="hint">Top level. Terima kasih for being part of Bija.</p>'}
+        <h3 class="rv-sub">Challenges</h3>
+        <p class="hint" style="margin-top:0">Challenge bonuses add up to ${CHALLENGE_CAP} points a month · ${st.capLeft} left this month.</p>
         <div class="chal">
           <div class="panel"><div class="row between"><b>Regular</b><span class="pill ${wkLeft ? 'collected' : 'ready'}">+${BONUS.week}</span></div><span class="hint">${wkLeft ? `Visit ${wkLeft} more time${wkLeft === 1 ? '' : 's'} this week (Mon–Sun).` : 'Done this week. Back on Monday.'}</span><div class="prog"><i style="width:${Math.min(3, st.thisWeek) / 3 * 100}%"></i></div></div>
           <div class="panel"><div class="row between"><b>Explorer</b><span class="pill ${st.kinds >= 5 ? 'ready' : 'collected'}">+${BONUS.explorer}</span></div><span class="hint">${st.kinds >= 5 ? 'Done: five different drinks.' : `Try five different drinks: ${st.kinds} of 5 so far.`}</span><div class="prog"><i style="width:${Math.min(5, st.kinds) / 5 * 100}%"></i></div></div>
-        </div>
-        <div class="ladder">${TIERS.map((x) => `<div class="${x.id === st.tier.id ? 'on' : ''}"><b>${esc(x.name)}</b><span class="hint">${x.min ? x.min.toLocaleString('en-GB') + '+ points' : 'Where everyone starts'}</span><span>${esc(x.perk)}</span></div>`).join('')}</div>
-        ${st.nextTier ? `<p class="hint">${(st.nextTier.min - st.lifetime).toLocaleString('en-GB')} points to ${esc(st.nextTier.name)}. Levels count everything you've earned, so spending points never drops you down.</p>` : '<p class="hint">Top level. Terima kasih for being part of Bija.</p>'}
-      </details>
-      <details class="psec more-d"><summary>Ways to earn</summary>
-        <ul class="earn-l"><li>${PTS} points for every £1: at the till, in the app, in the beans shop and on the website, once we hand over or send your order.</li>
+        </div>`;
+    if (v === 'earn') return head('Ways to earn') + `<ul class="earn-l"><li>${PTS} points for every £1: at the till, in the app, in the beans shop and on the website, once we hand over or send your order.</li>
           <li>+${REFER} for you and each friend you invite, once their first paid order of at least £${REFER_MIN} is collected.</li><li>+${BONUS.welcome} welcome points with your first order.</li>
           <li>+${BONUS.secret} for all ${SPOTS.length} Secret St James's spots${st.found === SPOTS.length ? ' (done)' : ` (${st.found}/${SPOTS.length})`}.</li>
-          <li>+${BONUS.passport} for a full Origins Passport${passFull(st.origins) ? ' (done)' : ` (${passOrigins().filter((o) => st.origins.has(o.id)).length}/${passOrigins().length})`}.</li></ul>
-      </details>`;
+          <li>+${BONUS.passport} for a full Origins Passport${passFull(st.origins) ? ' (done)' : ` (${passOrigins().filter((o) => st.origins.has(o.id)).length}/${passOrigins().length})`}.</li></ul>`;
+    return '';
   }
 
   // ----- Profile (top-right avatar): account, orders, allergies, you, settings -----
@@ -3027,7 +3066,12 @@ body.barista-view #switch { display: flex; align-items: center; }
     const n = st.os.length + st.shop.length, on = Math.min(st.stamps, STAMP_FREE_AT);
     const row = (v, icon, label, meta) => `<li><button data-act="pd" data-v="${v}"><span class="pi">${icon}</span><span class="pl"><b>${label}</b>${meta ? `<small>${meta}</small>` : ''}</span><span class="pc" aria-hidden="true">›</span></button></li>`;
     const link = (href, icon, label) => `<li><a href="${href}"><span class="pi">${icon}</span><span class="pl"><b>${label}</b></span><span class="pc" aria-hidden="true">›</span></a></li>`;
-    return `${member ? '' : `<button class="pd-join" data-act="pd" data-v="account"><span><b>Log in or sign up</b><small>Keep your card, points and allergies on every phone</small></span><span class="pc" aria-hidden="true">›</span></button>`}
+    const mini = `<button class="pd-card" data-act="pd-card" style="${attrq(cardStyle(t))}" aria-label="Bija Card: ${st.balance} points, ${esc(st.tier.name)}. Show the code to scan at the till">
+        <span class="pc-t"><b>Bija Card</b><span>${esc(st.tier.name)}</span></span>
+        <span class="pc-p"><b>${st.balance.toLocaleString('en-GB')}</b> points</span>
+        <span class="pc-f"><span class="code">${esc(no)}</span><span class="pc-s">Scan at the till ›</span></span>
+      </button>`;
+    return `${mini}${member ? '' : `<button class="pd-join" data-act="pd" data-v="account"><span><b>Log in or sign up</b><small>Keep your card, points and allergies on every phone</small></span><span class="pc" aria-hidden="true">›</span></button>`}
       <button class="pd-stamps" data-act="pd" data-v="stamps" aria-label="Stamp card, ${on} of ${STAMP_FREE_AT + 1}"><span class="pd-dots" aria-hidden="true">${Array.from({ length: STAMP_FREE_AT + 1 }, (_, i) => `<i class="${i < on ? 'on' : ''}${i === STAMP_FREE_AT ? ' free' : ''}"></i>`).join('')}</span><span class="pl"><b>Stamp card</b><small>${on} of ${STAMP_FREE_AT + 1} · ${STAMP_FREE_AT - on > 0 ? `${STAMP_FREE_AT - on} more to a free drink` : 'next drink is free'}</small></span><span class="pc" aria-hidden="true">›</span></button>
       <ul class="pd-menu">
         ${row('orders', IC.orders, 'My orders', n ? `${n} so far` : 'Track and reorder')}
@@ -3761,7 +3805,7 @@ body.barista-view #switch { display: flex; align-items: center; }
     if (a === 'view') { if (b.dataset.v === 'bar' && !(S.admin && S.staffOk)) return pinOpen(); if (b.dataset.v === 'customer') { S.staffOk = false; S.mh?.el?.destroy(); S.mh = null; S.sb?.staffLock().catch(() => {}); if (WEB_ADMIN) return toSite(); } S.view = b.dataset.v; render(); window.scrollTo({ top: 0 }); }
     else if (a === 'pin-close') pinCancel();
     else if (a === 'pin-key') pinKey(b.dataset.v);
-    else if (a === 'tab') { if (S.view === 'bar') S.btab = b.dataset.v; else { if (['home', 'more', 'beans'].includes(S.tab) && S.tab !== b.dataset.v) S.backTo = S.tab; S.tab = b.dataset.v; S.lastOrder = null; S.fresh = -1; S.dealt = null; } render(); window.scrollTo({ top: 0 }); }
+    else if (a === 'tab') { if (S.view === 'bar') S.btab = b.dataset.v; else { if (['home', 'more', 'beans'].includes(S.tab) && S.tab !== b.dataset.v) S.backTo = S.tab; S.tab = b.dataset.v; S.lastOrder = null; S.fresh = -1; S.dealt = null; if (S.tab === 'card') S.rview = ''; } render(); window.scrollTo({ top: 0 }); }
     else if (a === 'pd') { const from = S.pdView; S.pdView = b.dataset.v; S.pdDirect = false; S.pdFocus = S.pdView ? '.pd-back' : (from ? `[data-act=pd][data-v="${from}"]` : ''); render(); const bd = document.querySelector('#stampdrawer .sd-body'); if (bd) bd.scrollTop = 0; }
     else if (a === 'stamps') { S.pdView = 'stamps'; S.pdDirect = true; stampsOpen(b); requestAnimationFrame(() => document.getElementById('pd-stamps')?.scrollIntoView({ block: 'start' })); }
     else if (a === 'profile') { if (document.getElementById('stampdrawer')) stampsClose(); else { S.pdView = ''; stampsOpen(b); } }
@@ -3956,7 +4000,9 @@ body.barista-view #switch { display: flex; align-items: center; }
       if (S.subDel !== id) { S.subDel = id; render(); return; }
       S.subDel = null; run(() => saveMine({ subs: { [id]: { cancelled: new Date().toISOString() } } }), 'Subscription cancelled');
     }
-    else if (a === 'showcard') { S.tab = 'card'; S.showScan = true; render(); window.scrollTo({ top: 0 }); }
+    else if (a === 'rv') { S.rview = b.dataset.v; render(); window.scrollTo({ top: 0 }); document.querySelector(S.rview ? '#main .back' : `[data-act=rv][data-v="${b.dataset.v || ''}"]`)?.focus({ preventScroll: true }); }
+    else if (a === 'pd-card') { stampsClose(); S.tab = 'card'; S.rview = ''; S.showScan = true; render(); window.scrollTo({ top: 0 }); }
+    else if (a === 'showcard') { S.tab = 'card'; S.rview = ''; S.showScan = true; render(); window.scrollTo({ top: 0 }); }
     else if (a === 'share') {
       // the link always points at the public site, whose invite page carries the preview card (og/invite.jpg) that WhatsApp and iMessage show
       const no = memberCode(S.uid), url = `${PUBLIC_SITE}invite.html?ref=${encodeURIComponent(no)}`;
