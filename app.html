@@ -1179,6 +1179,51 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
 .rot .usual-card .ub b { font-size: 16px; }
 .rot .usual-card .btn { grid-column: auto; align-self: center; }
 .rot .rot-i > * { min-height: 92px; }
+/* basket bar: the summary is a button that opens the order sheet */
+.basket .bk-sum { display: flex; align-items: center; gap: 10px; min-height: 44px; flex: 1; min-width: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; padding: 0 8px 0 0; cursor: pointer; }
+.basket .bk-sum .bk-n { flex: none; min-width: 26px; height: 26px; padding: 0 7px; border-radius: 13px; background: #fff; color: #0b0b0b; font: 700 13px/26px var(--sans); text-align: center; }
+.basket .bk-sum svg { width: 18px; height: 18px; flex: none; opacity: .7; }
+.basket .in { gap: 8px; }
+/* the order sheet */
+body.bs-open { overflow: hidden; }
+#bagsheet { position: fixed; inset: 0; z-index: 50; }
+#bagsheet .bs-bg { position: absolute; inset: 0; background: rgba(0,0,0,.32); opacity: 0; transition: opacity .3s ease; }
+#bagsheet .bs-pan { position: absolute; left: 0; right: 0; bottom: 0; max-width: 560px; margin: 0 auto; max-height: min(84vh, 720px); display: flex; flex-direction: column; background: #fff; border-radius: 24px 24px 0 0; box-shadow: 0 -12px 40px rgba(0,0,0,.14); padding: 0 16px calc(16px + var(--sa-bottom)); transform: translateY(105%); transition: transform .42s cubic-bezier(.2,.9,.2,1); overscroll-behavior: contain; }
+#bagsheet.show .bs-bg { opacity: 1; } #bagsheet.show .bs-pan { transform: none; }
+#bagsheet.out .bs-pan { transition-duration: .3s; transition-timing-function: cubic-bezier(.4,0,1,1); }
+#bagsheet .bs-top { position: relative; display: flex; align-items: center; justify-content: space-between; padding: 22px 0 10px; touch-action: none; cursor: grab; }
+#bagsheet .bs-grab { position: absolute; top: 8px; left: 50%; width: 40px; height: 5px; margin-left: -20px; border-radius: 3px; background: var(--line); }
+#bagsheet h2 { margin: 0; font: 800 24px/1.1 var(--display); letter-spacing: -.01em; }
+#bagsheet .bs-list { list-style: none; margin: 0; padding: 0; overflow-y: auto; flex: 1 1 auto; min-height: 0; }
+#bagsheet .bl { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); overflow: hidden; transition: height .32s cubic-bezier(.2,.8,.2,1), opacity .24s ease, transform .32s cubic-bezier(.2,.8,.2,1), padding .32s ease; }
+#bagsheet .bl.gone { opacity: 0; transform: translateX(-24px); padding-block: 0; border-bottom-color: transparent; }
+#bagsheet .bl-img { width: 56px; height: 56px; border-radius: 14px; overflow: hidden; background: var(--tile); display: grid; place-items: center; }
+#bagsheet .bl-img img, #bagsheet .bl-img picture { width: 100%; height: 100%; object-fit: cover; display: block; }
+#bagsheet .bl-img svg { width: 70%; height: 70%; }
+#bagsheet .bl-t { min-width: 0; display: grid; gap: 2px; }
+#bagsheet .bl-t b { font: 600 15px/1.25 var(--sans); }
+#bagsheet .bl-t small { font: 400 12.5px/1.3 var(--sans); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#bagsheet .bl-p { font: 600 13.5px var(--sans); font-variant-numeric: tabular-nums; margin-top: 2px; }
+#bagsheet .bl-step { display: inline-flex; align-items: center; gap: 2px; background: var(--tile); border-radius: 999px; padding: 3px; }
+#bagsheet .bl-step button { width: 40px; height: 40px; border: 0; border-radius: 50%; background: #fff; color: var(--ink); font: 700 19px/1 var(--sans); display: grid; place-items: center; box-shadow: 0 1px 2px rgba(0,0,0,.08); transition: transform .18s cubic-bezier(.2,.8,.2,1), background-color .2s ease; }
+#bagsheet .bl-step button:active { transform: scale(.86); }
+#bagsheet .bl-step button:last-child { background: #0b0b0b; color: #fff; }
+#bagsheet .bl-step button:disabled { opacity: .35; }
+#bagsheet .bl-step button.bin { color: #b3261e; }
+#bagsheet .bl-step button svg { width: 19px; height: 19px; }
+#bagsheet .bl-step output { min-width: 26px; text-align: center; font: 700 15px var(--sans); font-variant-numeric: tabular-nums; display: inline-block; }
+#bagsheet .bs-foot { flex: none; display: grid; gap: 8px; padding-top: 14px; }
+#bagsheet .bs-sum { display: flex; justify-content: space-between; align-items: baseline; }
+#bagsheet .bs-sum span { color: var(--muted); font: 500 14px var(--sans); } #bagsheet .bs-tot { font: 800 22px var(--sans); font-variant-numeric: tabular-nums; }
+#bagsheet .bs-deal { margin: 0; }
+#bagsheet .bs-go { width: 100%; min-height: 52px; font-size: 15px; }
+#bagsheet .bs-more { justify-self: center; min-height: 44px; }
+#bagsheet .bs-empty { padding: 28px 0 12px; text-align: center; color: var(--muted); } #bagsheet .bs-empty b { display: block; color: var(--ink); font-size: 16px; margin-bottom: 4px; }
+@media (prefers-reduced-motion: no-preference) {
+  #bagsheet .bs-list.stagger .bl { animation: bl-in .44s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(120ms + var(--i) * 45ms); }
+  @keyframes bl-in { from { opacity: 0; transform: translateY(14px); } }
+}
+@media (prefers-reduced-motion: reduce) { #bagsheet .bs-pan, #bagsheet .bs-bg, #bagsheet .bl { transition: none; } }
 </style>
 
 <div class="wrap" id="wrap">
@@ -1931,8 +1976,67 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
     const t = totals(cartLines()), el = $('#basket');
     const show = basketShown(t);
     el.hidden = !show;
-    if (show) el.innerHTML = `<div class="in"><span>${t.qty} item${t.qty > 1 ? 's' : ''} · <b>${money(t.total)}</b></span><button class="btn sm" data-act="goto-checkout">Checkout</button></div>`;
+    if (show) el.innerHTML = `<div class="in"><button class="bk-sum" data-act="bag-open" aria-haspopup="dialog" aria-label="See your order: ${t.qty} item${t.qty > 1 ? 's' : ''}, ${money(t.total)}"><span class="bk-n">${t.qty}</span><span>${t.qty > 1 ? 'items' : 'item'} · <b>${money(t.total)}</b></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14l5-5 5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="btn sm" data-act="goto-checkout">Checkout</button></div>`;
+    if (show && S.bagNudge !== t.qty) { const was = S.bagNudge; S.bagNudge = t.qty; if (was != null && t.qty > was) { const n = el.querySelector('.bk-n'); n && n.animate && !calm() && n.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.35)' }, { transform: 'scale(1)' }], { duration: 360, easing: 'cubic-bezier(.3,1.4,.5,1)' }); } }
   }
+  // ---- the order sheet: tap the basket bar to see the order, change how many or take things out, then check out ----
+  // It lives outside #main and updates in place, so a changed number rolls and a removed line folds away instead of the list redrawing.
+  const BIN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12M10.5 10.5v6M13.5 10.5v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  function bagLine(l, i) {
+    const m = menu().find((x) => x.id === l.id), nm = esc(l.name);
+    return `<li class="bl" data-key="${esc(l.key)}" style="--i:${i}"><div class="bl-img pimg${PHOTO[l.id] ? '' : m?.cat === 'Beans' ? ' bean' : ' ill'}">${m ? thumb(m) : ''}</div>
+      <div class="bl-t"><b>${nm}</b>${optText(l) ? `<small>${esc(optText(l))}</small>` : ''}<span class="bl-p">${money(l.qty * l.price)}</span></div>
+      <div class="bl-step"><button data-act="bagk" data-key="${esc(l.key)}" data-d="-1" class="${l.qty > 1 ? '' : 'bin'}" aria-label="${l.qty > 1 ? `One less ${nm}` : `Remove ${nm}`}">${l.qty > 1 ? '−' : BIN}</button><output>${l.qty}</output><button data-act="bagk" data-key="${esc(l.key)}" data-d="1" aria-label="One more ${nm}" ${l.qty >= 20 ? 'disabled' : ''}>+</button></div></li>`;
+  }
+  function bagOpen() {
+    if (document.getElementById('bagsheet') || !cartLines().length) return;
+    const el = document.createElement('div'); el.id = 'bagsheet';
+    el.innerHTML = `<div class="bs-bg" data-act="bag-close"></div><div class="bs-pan" role="dialog" aria-modal="true" aria-labelledby="bag-h"><div class="bs-top"><span class="bs-grab" aria-hidden="true"></span><h2 id="bag-h">Your order</h2><button class="sd-x" data-act="bag-close" aria-label="Close">×</button></div><ul class="bs-list"></ul><div class="bs-foot"><div class="bs-sum"><span class="bs-n"></span><b class="bs-tot"></b></div><p class="bs-deal hint" hidden></p><button class="btn bs-go" data-act="bag-go">Checkout</button><button class="back bs-more" data-act="bag-close">Add something else</button></div><p class="sr" aria-live="polite" id="bag-live"></p></div>`;
+    document.body.appendChild(el); document.body.classList.add('bs-open');
+    S.bagFrom = document.activeElement; bagFill(true);
+    el.getBoundingClientRect(); el.classList.add('show');
+    el.querySelector('.sd-x').focus({ preventScroll: true });
+    bagDrag(el.querySelector('.bs-pan'), el.querySelector('.bs-top'));
+  }
+  function bagClose() {
+    const el = document.getElementById('bagsheet'); if (!el || el.classList.contains('out')) return;
+    el.classList.add('out'); el.classList.remove('show'); document.body.classList.remove('bs-open');
+    setTimeout(() => el.remove(), calm() ? 0 : 340);
+    const back = S.bagFrom?.isConnected ? S.bagFrom : document.querySelector('#basket .bk-sum'); back?.focus({ preventScroll: true }); S.bagFrom = null;
+  }
+  function bagFill(first) {
+    const el = document.getElementById('bagsheet'); if (!el) return;
+    const lines = cartLines(), t = totals(lines), list = el.querySelector('.bs-list'), live = (k) => [...list.children].find((x) => x.dataset.key === k && !x.classList.contains('gone'));
+    for (const li of [...list.children]) if (!li.classList.contains('gone') && !lines.some((l) => l.key === li.dataset.key)) {
+      li.classList.add('gone');
+      if (calm()) li.remove(); else { li.style.height = li.offsetHeight + 'px'; li.getBoundingClientRect(); li.style.height = '0px'; setTimeout(() => li.remove(), 340); }
+    }
+    lines.forEach((l, i) => {
+      const li = live(l.key), tmp = document.createElement('ul'); tmp.innerHTML = bagLine(l, i);
+      if (!li) { list.appendChild(tmp.firstElementChild); return; }
+      const was = +li.querySelector('output').textContent; if (was === l.qty) return;
+      li.innerHTML = tmp.firstElementChild.innerHTML;
+      const o = li.querySelector('output'), up = l.qty > was;
+      if (!calm() && o.animate) { o.animate([{ transform: `translateY(${up ? 60 : -60}%)`, opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 220, easing: 'cubic-bezier(.2,.8,.2,1)' }); li.querySelector('.bl-p').animate([{ opacity: .3 }, { opacity: 1 }], { duration: 260 }); }
+    });
+    if (first) list.classList.add('stagger'); else list.classList.remove('stagger');
+    const n = el.querySelector('.bs-n'), tot = el.querySelector('.bs-tot'), from = parseFloat((tot.dataset.v || '0')), to = t.total;
+    n.textContent = `${t.qty} item${t.qty === 1 ? '' : 's'}`; tot.dataset.v = to;
+    if (first || calm() || from === to) tot.textContent = money(to);
+    else { const t0 = performance.now(); const tick = (now) => { const k = Math.min(1, (now - t0) / 320), e = 1 - Math.pow(1 - k, 3); tot.textContent = money(Math.round((from + (to - from) * e) * 100) / 100); if (k < 1 && tot.isConnected) requestAnimationFrame(tick); }; requestAnimationFrame(tick); }
+    const deal = el.querySelector('.bs-deal'), saved = t.discount + t.stampFree; deal.hidden = !saved; deal.textContent = saved ? `Includes ${money(saved)} off from your rewards` : '';
+    el.querySelector('.bs-go').innerHTML = t.qty ? `Checkout · ${money(t.total)}` : 'Checkout';
+    if (!t.qty) { el.querySelector('.bs-foot').hidden = true; list.insertAdjacentHTML('afterend', '<div class="bs-empty"><b>Your order is empty</b>Add a drink or a cake from the menu.</div>'); setTimeout(bagClose, 900); }
+  }
+  // pull the sheet down by its top to close it
+  function bagDrag(pan, handle) {
+    let y0 = null, dy = 0, t0 = 0;
+    handle.addEventListener('pointerdown', (e) => { if (e.target.closest('button')) return; y0 = e.clientY; dy = 0; t0 = performance.now(); pan.style.transition = 'none'; handle.setPointerCapture?.(e.pointerId); });
+    handle.addEventListener('pointermove', (e) => { if (y0 == null) return; dy = Math.max(0, e.clientY - y0); pan.style.transform = `translateY(${dy}px)`; });
+    const up = () => { if (y0 == null) return; y0 = null; pan.style.transition = ''; const fast = dy / Math.max(1, performance.now() - t0) > .6; if (dy > 90 || (fast && dy > 24)) { pan.style.transform = ''; bagClose(); } else pan.style.transform = ''; };
+    handle.addEventListener('pointerup', up); handle.addEventListener('pointercancel', up);
+  }
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && document.getElementById('bagsheet')) { e.preventDefault(); bagClose(); } });
   function sheetAlg(m, opts) {
     const a = allergensOf(m, opts), mine = myAlg(), hits = a.has.filter((k) => mine.has(k)), milk = hits.length && bestMilk(m);
     const fix = milk && milk !== opts.milk && !allergensOf(m, { ...opts, milk }).has.some((k) => mine.has(k)) ? `<button class="btn sm" data-act="sopt" data-k="milk" data-v="${esc(milk)}">Switch to ${esc(milk.toLocaleLowerCase('en-GB'))}</button>` : '';
@@ -3849,6 +3953,10 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
     else if (a === 'cat') { S.cat = b.dataset.v; for (const x of b.parentElement.querySelectorAll('button')) x.setAttribute('aria-pressed', String(x === b)); document.getElementById('mcat-' + catSlug(b.dataset.v))?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth', block: 'start' }); }
     else if (a === 'qty') { const id = b.dataset.id, r = b.getBoundingClientRect(); S.cart[id] = Math.max(0, Math.min(20, (S.cart[id] || 0) + +b.dataset.d)); render(); if (+b.dataset.d > 0) flyToBasket({ getBoundingClientRect: () => r }); }
     else if (a === 'opt') { S.form[b.dataset.k] = b.dataset.v; render(); }
+    else if (a === 'bag-open') { buzz(8); bagOpen(); }
+    else if (a === 'bag-close') bagClose();
+    else if (a === 'bagk') { const k = b.dataset.key, was = S.cart[k] || 0, now = Math.max(0, Math.min(20, was + +b.dataset.d)); if (now === was) return; if (now) S.cart[k] = now; else delete S.cart[k]; buzz(now ? 6 : 14); render(); bagFill(); const nm = (cartLines().find((l) => l.key === k) || {}).name; const lv = document.getElementById('bag-live'); if (lv) lv.textContent = now ? `${nm}: ${now}` : 'Removed from your order'; }
+    else if (a === 'bag-go') { bagClose(); if (S.tab !== 'order') { S.tab = 'order'; render(); } setTimeout(() => document.getElementById('checkout')?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth' }), calm() ? 0 : 200); }
     else if (a === 'goto-checkout') { if (S.tab !== 'order') { S.tab = 'order'; render(); } document.getElementById('checkout')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
     else if (a === 'place') placeOrder();
     else if (a === 'again') { S.lastOrder = null; render(); window.scrollTo({ top: 0 }); }
