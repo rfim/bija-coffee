@@ -1345,6 +1345,30 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
 .pd-acc[open] { padding-bottom: 18px; }
 .pd-danger > summary { background: transparent; }
 .pd-danger .pd-out { width: calc(100% - 32px); }
+/* compact checkout: items, total and Place order on one screen */
+#checkout { scroll-margin-top: calc(76px + var(--sa-top)); }
+#checkout .sec-h { margin-bottom: 8px; }
+.co { gap: 10px; padding: 14px 14px 12px; }
+.co .co-who label, .co .co-slot legend { font: 600 13px var(--sans); }
+.co .co-who label input { margin-top: 4px; }
+.co .sum > .co-l { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+.co .co-n { flex: 1; min-width: 0; display: grid; } .co .co-n b { font: 600 15px/1.25 var(--sans); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.co .co-n small { font: 400 12.5px/1.25 var(--sans); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.co .co-l > .row { flex: none; gap: 8px !important; }
+.co .co-l .step { border-width: 1.5px; } .co .co-l .step button { width: 38px; height: 38px; min-width: 38px; min-height: 38px; font-size: 17px; } .co .co-l .step output { min-width: 18px; font-size: 14px; }
+.co .co-l > .row > span:last-child { min-width: 52px; text-align: right; font-variant-numeric: tabular-nums; }
+.co .tot { padding-top: 8px; margin-top: 4px; }
+.co .co-pts { display: block; margin-top: 2px; font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.co .co-alg { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 44px; padding: 0 14px; border: 0; border-radius: 12px; background: #fff; font: 500 14px var(--sans); color: var(--ink); }
+.co .co-alg b { font-weight: 600; }
+.co .co-slot { margin: 0; } .co .co-slot legend { font-size: 13px; margin-bottom: 6px; }
+.co .co-slot .opts { display: flex; flex-wrap: nowrap; gap: 6px; }
+.co .co-slot .opts button { flex: 1; min-height: 44px; padding: 0 6px; font-size: 14px; white-space: nowrap; }
+.co .co-who { gap: 8px; } .co .co-who input { min-height: 44px; }
+.co .co-addnote { padding: 0; min-height: 36px; justify-self: start; font-size: 14px; }
+.co .co-go { position: sticky; bottom: calc(104px + var(--sa-bottom)); z-index: 5; display: grid; gap: 4px; justify-items: center; padding: 8px 0 2px; background: var(--card); box-shadow: 0 -12px 12px -4px var(--card); }
+.co .co-go .btn { width: 100%; min-height: 50px; font-size: 16px; } .co .co-go .hint { font-size: 12.5px; }
+@media (max-height: 720px) { .co .co-go { bottom: calc(84px + var(--sa-bottom)); } }
 </style>
 
 <div class="wrap" id="wrap">
@@ -2319,7 +2343,7 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
   }
   function dietCheckout(t) {
     if (S.dietEdit === 'checkout') return dietCard('checkout');
-    if (!diet()) return dietNudge('checkout');
+    if (!diet()) return '<button class="co-alg" data-act="dedit" data-v="checkout"><span>Any allergies?</span> <b>Tell us ›</b></button>';
     const mine = myAlg(), bad = cartLines().filter((l) => { const m = menu().find((x) => x.id === l.id); return m && allergensOf(m, l.opts).has.some((k) => mine.has(k)); });
     return `<div class="alg-sum${bad.length ? ' bad' : ''}"><div>${mine.size ? `<b>Allergies: ${esc(algList([...mine]))}</b><span>${bad.length ? bad.map((l) => { const m = menu().find((x) => x.id === l.id); const hit = allergensOf(m, l.opts).has.filter((k) => mine.has(k)); return `${esc(l.name)}${l.opts?.milk ? ` (${esc(l.opts.milk.toLocaleLowerCase('en-GB'))} milk)` : ''} contains ${esc(algList(hit))}.`; }).join(' ') + ' Change it above, or ask our team.' : 'Nothing in this order contains them. We’ll tell the barista too.'}</span>` : '<b>No allergies</b><span>Tell us if that changes.</span>'}</div><button class="back" data-act="dedit" data-v="checkout">Edit</button></div>`;
   }
@@ -2865,32 +2889,32 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     <section class="sec" id="checkout">
       <div class="sec-h"><h2>Your order</h2>${t.qty ? `<small>${t.qty} item${t.qty > 1 ? 's' : ''}</small>` : ''}</div>
       ${!t.qty ? `<div class="empty"><b>Nothing in your order yet</b>Tap + on a drink to choose milk, sweetness and hot or iced. Every £1 earns ${PTS} points on your Bija Card.</div>` : `
-      <div class="panel stack">
+      <div class="panel stack co">
         <div class="sum">
-          ${lines.map((l) => `<div style="align-items:center"><span style="min-width:0">${esc(l.name)}${l.origin ? ` (${esc(origin(l.origin)?.name || '')})` : ''}${optText(l) ? `<br><small class="hint">${esc(optText(l))}</small>` : ''}</span><span class="row" style="flex-wrap:nowrap;gap:10px"><span class="step"><button data-act="kqty" data-key="${esc(l.key)}" data-d="-1" aria-label="One less">−</button><output>${l.qty}</output><button data-act="kqty" data-key="${esc(l.key)}" data-d="1" aria-label="One more">+</button></span><span>${money(l.qty * l.price)}</span></span></div>`).join('')}
+          ${lines.map((l) => `<div class="co-l"><span class="co-n"><b>${esc(l.name)}${l.origin ? ` (${esc(origin(l.origin)?.name || '')})` : ''}</b>${optText(l) ? `<small>${esc(optText(l))}</small>` : ''}</span><span class="row" style="flex-wrap:nowrap;gap:10px"><span class="step"><button data-act="kqty" data-key="${esc(l.key)}" data-d="-1" aria-label="One less">−</button><output>${l.qty}</output><button data-act="kqty" data-key="${esc(l.key)}" data-d="1" aria-label="One more">+</button></span><span>${money(l.qty * l.price)}</span></span></div>`).join('')}
           ${t.discount ? `<div class="deal"><span>${esc(t.reward.name)} · −${t.reward.pts} pts</span><span>−${money(t.discount)}</span></div>` : ''}
           ${t.stampFree ? `<div class="deal"><span>Free drink · stamp card</span><span>−${money(t.stampFree)}</span></div>` : ''}
           <div class="tot"><span>Total</span><span>${money(t.total)}</span></div>
           ${t.giftPay ? `<div class="deal"><span>Bija balance</span><span>−${money(t.giftPay)}</span></div><div><span>Left to pay at the bar</span><span>${money(t.due)}</span></div>` : ''}
           ${(() => { const proj = st.balance + t.earn + t.welcome - (t.reward ? t.reward.pts : 0), goal = REWARDS.find((r) => r.pts > proj);
-            return `<div class="hint" style="margin-top:4px;display:block">You'll earn about ${t.earn} points${t.welcome ? ` <b style="color:var(--leaf)">+${t.welcome} welcome bonus</b>` : ''}${goal ? ` → ${proj.toLocaleString('en-GB')} of ${goal.pts.toLocaleString('en-GB')} for ${goal.short}` : ' → every reward unlocked'}</div>`; })()}
+            return `<div class="hint co-pts">+${t.earn} points${t.welcome ? ` <b style="color:var(--leaf)">+${t.welcome} welcome</b>` : ''}${goal ? ` · ${proj.toLocaleString('en-GB')} of ${goal.pts.toLocaleString('en-GB')} for ${goal.short}` : ' · every reward unlocked'}</div>`; })()}
         </div>
         ${dietCheckout(t)}
-        <fieldset><legend>Pick up at the bar</legend><div class="opts">${(cfg().slots || ['ASAP']).map((m) => `<button data-act="opt" data-k="slot" data-v="${esc(m)}" aria-pressed="${S.form.slot === m}">${esc(m)}</button>`).join('')}</div></fieldset>
-        <div class="grid2">
+        <fieldset class="co-slot"><legend>Pick up</legend><div class="opts">${(cfg().slots || ['ASAP']).map((m) => `<button data-act="opt" data-k="slot" data-v="${esc(m)}" aria-pressed="${S.form.slot === m}" aria-label="${esc(m)}">${esc(m.replace(/^In /, ''))}</button>`).join('')}</div></fieldset>
+        <div class="grid2 co-who">
           <label class="f">Name for the cup<input type="text" id="f-name" data-f="name" value="${esc(S.form.name)}" autocomplete="given-name" maxlength="40"></label>
-          <label class="f">Note for the bar <span class="h">Optional</span><input type="text" id="f-note" data-f="note" value="${esc(S.form.note)}" maxlength="${Math.min(120, 140 - orderNote('').length)}" placeholder="Extra hot, no lid…">${myAlg().size ? `<span class="h">The bar will see: ${esc(orderNote('').trim())}</span>` : ''}</label>
+          ${S.form.note || S.noteOpen || myAlg().size ? '' : '<button class="back co-addnote" data-act="note-open">+ Add a note for the bar</button>'}<label class="f"${S.form.note || S.noteOpen || myAlg().size ? '' : ' hidden'}>Note for the bar <span class="h">Optional</span><input type="text" id="f-note" data-f="note" value="${esc(S.form.note)}" maxlength="${Math.min(120, 140 - orderNote('').length)}" placeholder="Extra hot, no lid…">${myAlg().size ? `<span class="h">The bar will see: ${esc(orderNote('').trim())}</span>` : ''}</label>
         </div>
         ${(() => {
           const opts = REWARDS.filter((r) => st.balance >= r.pts), next = REWARDS.find((r) => r.pts > st.balance);
-          if (!opts.length) return `<div class="hint">${st.balance} points${next ? ` · ${next.pts - st.balance} more for ${next.name.toLocaleLowerCase('en-GB')}` : ''}</div>`;
+          if (!opts.length) return '';
           return `<fieldset><legend>Use your points · ${st.balance} available</legend><div class="opts"><button data-act="opt" data-k="reward" data-v="" aria-pressed="${!S.form.reward}">Save them</button>${opts.map((r) => `<button data-act="opt" data-k="reward" data-v="${r.id}" aria-pressed="${S.form.reward === r.id}" ${lines.some(r.match) ? '' : 'disabled'}>${esc(r.name)} · ${r.pts}</button>`).join('')}</div>
             ${opts.some((r) => !lines.some(r.match)) ? '<p class="hint" style="margin:6px 0 0">Greyed out? Add that item to your order first.</p>' : ''}</fieldset>`;
         })()}
         ${st.stamps >= STAMP_FREE_AT && lines.some(isDrink) ? `<label class="check"><input type="checkbox" id="f-stamp" data-f="stamp" ${S.form.stamp ? 'checked' : ''}><span><b>Free drink (stamp card)</b><br><span class="hint">Takes up to ${money(STAMP_CAP)} off your priciest drink · uses ${STAMP_FREE_AT} stamps</span></span></label>` : ''}
         ${st.wallet > 0 ? `<label class="check"><input type="checkbox" id="f-gift" data-f="gift" ${S.form.gift ? 'checked' : ''}><span><b>Pay with your Bija balance</b><br><span class="hint">${money(st.wallet)} available</span></span></label>` : ''}
         ${!S.uid ? `<p class="hint warn">Sign in to claude.ai to place an order.</p>` : ''}
-        <div class="row between"><span class="hint">${t.due === 0 ? 'Fully paid with your gift card.' : 'Pay at the bar when you collect.'}</span><button class="btn" data-act="place" ${!open || S.busy || !S.uid ? 'disabled' : ''}>${S.busy ? 'Sending…' : 'Place order · ' + money(t.due)}</button></div>
+        <div class="co-go"><button class="btn" data-act="place" ${!open || S.busy || !S.uid ? 'disabled' : ''}>${S.busy ? 'Sending…' : 'Place order · ' + money(t.due)}</button><span class="hint">${t.due === 0 ? 'Fully paid with your Bija balance.' : 'Pay at the bar when you collect.'}</span></div>
       </div>`}
     </section>`;
   }
@@ -4335,6 +4359,7 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     else if (a === 'noinstall') { store.set('bija.install', 'no'); render(); }
     else if (a === 'gamt') { S.gift.amount = b.dataset.v === 'other' ? 'other' : +b.dataset.v; render(); }
     else if (a === 'gdesign') { S.gift.design = b.dataset.v; render(); }
+    else if (a === 'note-open') { S.noteOpen = true; render(); document.getElementById('f-note')?.focus(); }
     else if (a === 'tu-amt') { S.topup = +b.dataset.v; render(); document.querySelector(`[data-act=tu-amt][data-v="${S.topup}"]`)?.focus({ preventScroll: true }); }
     else if (a === 'tu-go') {
       const amount = S.topup || 20, name = (S.me?.name || S.form.name || '').trim(), base = { amount, to: 'Top-up', from: name, message: '', design: S.theme, self: true, createdAt: new Date().toISOString() };
