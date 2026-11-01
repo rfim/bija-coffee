@@ -324,11 +324,16 @@ button.back { min-height: 44px; }
 .flip-in { position: relative; transition: transform .7s cubic-bezier(.2,.7,.2,1); transform-style: preserve-3d; }
 .flip.on .flip-in { transform: rotateY(180deg); }
 .flip .face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+/* Screen transitions take flat snapshots, where backface-visibility doesn't apply, so the QR side showed through mirrored.
+   The hidden side is also visibility: hidden, switched at the flip's halfway point so the turn itself looks the same. */
+.flip .face { transition: visibility 0s linear .3s; }
+.flip:not(.on) .face.back, .flip.on .face:not(.back) { visibility: hidden; }
+.flip.turning .face { visibility: visible !important; } /* mid-turn the real 3D hides the far side */
 .flip .back { position: absolute; inset: 0; transform: rotateY(180deg); background: #fff; color: #000; border-radius: 20px; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 4%; padding: 5%; container-type: inline-size; }
 .flip .back svg { width: 38cqi; height: 38cqi; display: block; }
 .flip .back .code { font-size: clamp(14px, 6cqi, 26px); letter-spacing: .1em; }
 .flip .back p { margin: 6px 0 0; font-size: clamp(11px, 3.4cqi, 13px); color: #555; }
-@media (prefers-reduced-motion: reduce) { .flip-in, .sheet .pan, .sheet .bg { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .flip-in, .sheet .pan, .sheet .bg, .flip .face { transition: none; } }
 .hist { display: grid; gap: 0; }
 .hist div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
 .hist small { color: var(--muted); font-size: 12px; }
@@ -4098,7 +4103,12 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
       }
       run(() => saveBar(cid, patch), done);
     }
-    else if (a === 'scan') { S.showScan = !S.showScan; render(); }
+    else if (a === 'scan') {
+      S.showScan = !S.showScan; render();
+      // the card is redrawn, so turn the new one over from where the old one was
+      const fi = document.querySelector('#main .flip-in'), f = fi?.closest('.flip');
+      if (fi?.animate && !matchMedia('(prefers-reduced-motion: reduce)').matches) { f.classList.add('turning'); const an = fi.animate([{ transform: `rotateY(${S.showScan ? 0 : 180}deg)` }, { transform: `rotateY(${S.showScan ? 180 : 0}deg)` }], { duration: 700, easing: 'cubic-bezier(.2,.7,.2,1)' }); const done = () => f.classList.remove('turning'); an.finished.then(done, done); }
+    }
     else if (a === 'sheet') openSheet(b.dataset.id, b);
     else if (a === 'fab') {
       if (S.holdDone) { S.holdDone = false; return; } // the 3-second hold opened the staff PIN instead
