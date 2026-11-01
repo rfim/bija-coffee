@@ -14,6 +14,16 @@
 .mo-greet span { font: 500 14px var(--sans, sans-serif); color: #6b6b6b; }
 @keyframes mo-greet { to { opacity: 1; transform: none; } }
 .mo-splash.out { opacity: 0; transform: scale(1.06); transition: opacity .38s ease, transform .38s ease; }
+/* bar lens: glass that lifts over the tab under the finger; the tab beneath grows a touch */
+.bnav { touch-action: none; }
+.mo-lens { position: absolute; left: 0; top: 0; z-index: 0; pointer-events: none; transition: transform .14s var(--mo-out); }
+.bnav .in { position: relative; z-index: 1; }
+.mo-lens i { position: absolute; inset: 0; border-radius: 26px; background: #fff; box-shadow: 0 8px 24px rgba(0,0,0,.14), 0 1px 3px rgba(0,0,0,.08), inset 0 0 0 1px rgba(0,0,0,.05); opacity: 0; transform: scale(.82); transition: opacity .18s ease, transform .22s var(--mo-spring); }
+.bnav.lensing button.side[aria-current="page"] { background: transparent; }
+.mo-lens.on i { opacity: 1; transform: scale(1); }
+.bnav button.side, .bnav .fab { transition: transform .2s var(--mo-spring), background-color .2s ease; }
+.bnav button.side.mo-mag { transform: scale(1.14); }
+.bnav .fab.mo-mag { transform: translateY(-3px) scale(1.08); }
 @keyframes mo-draw { to { stroke-dashoffset: 0; } }
 @keyframes mo-dot { to { transform: scale(1); } }
 @keyframes mo-open { to { transform: rotate(45deg) scale(1.35); opacity: 0; } }

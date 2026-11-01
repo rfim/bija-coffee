@@ -24,6 +24,50 @@
     addEventListener('pointerdown', end, { once: true, capture: true }); setTimeout(end, g ? 2300 : 1150);
   }
 
+  // ---- hold or drag along the bar: a glass lens lifts over the tab under the finger, magnifies it and follows; let go to open that tab ----
+  (() => {
+    let lens = null, tm = 0, on = false, down = null, cur = null, eat = 0, lx = 0;
+    const tabs = () => [...$$('.bnav button.side'), $('.bnav .fab')].filter(Boolean);
+    const box = (t) => (t.classList.contains('fab') ? t.parentElement : t).getBoundingClientRect(); // Order: the button and its label
+    const under = (x) => tabs().reduce((a, t) => { const r = box(t), d = Math.abs(x - (r.left + r.width / 2)); return !a || d < a.d ? { t, d } : a; }, null)?.t;
+    function place(x) {
+      lx = x;
+      const side = $('.bnav button.side'), bar = $('.bnav'); if (!side || !bar || !lens) return;
+      const s = side.getBoundingClientRect(), b = bar.getBoundingClientRect(), w = s.width + 8;
+      const l = Math.max(b.left - 4, Math.min(b.right - w + 4, x - w / 2));
+      lens.style.width = w + 'px'; lens.style.height = s.height + 8 + 'px';
+      lens.style.transform = `translate(${l - b.left - bar.clientLeft}px, ${s.top - 4 - b.top - bar.clientTop}px)`;
+      const t = under(x);
+      if (t !== cur) { cur?.classList.remove('mo-mag'); if (cur) vib(5); cur = t; }
+      t?.classList.add('mo-mag'); // the bar re-renders its tabs, so the class is put back on every move
+    }
+    function start(x) {
+      on = true; clearTimeout(tm);
+      lens = D.createElement('div'); lens.className = 'mo-lens'; lens.setAttribute('aria-hidden', 'true'); lens.innerHTML = '<i></i>';
+      lens.style.transition = 'none'; $('.bnav').prepend(lens); $('.bnav').classList.add('lensing'); place(x); lens.getBoundingClientRect(); lens.style.transition = ''; lens.classList.add('on'); vib(8);
+    }
+    function stop(open) {
+      clearTimeout(tm); down = null; if (!on) return; on = false;
+      const t = under(lx); $$('.bnav .mo-mag').forEach((x) => x.classList.remove('mo-mag')); cur = null;
+      const l = lens; lens = null; l.classList.remove('on'); setTimeout(() => l.remove(), 220); $('.bnav')?.classList.remove('lensing');
+      if (open && t) { eat = Date.now(); t.click(); }
+    }
+    addEventListener('pointerdown', (e) => {
+      if (calm() || !e.isPrimary || e.button > 0 || !e.target.closest?.('.bnav button.side')) return;
+      down = { x: e.clientX, y: e.clientY }; tm = setTimeout(() => down && start(down.x), 260);
+    }, { passive: true });
+    addEventListener('pointermove', (e) => {
+      if (!down || !e.isPrimary) return;
+      if (on) return place(e.clientX);
+      if (Math.abs(e.clientX - down.x) > 8) start(e.clientX); else if (Math.abs(e.clientY - down.y) > 14) stop(false);
+    }, { passive: true });
+    addEventListener('pointerup', (e) => { if (e.isPrimary) stop(true); });
+    addEventListener('pointercancel', () => stop(false));
+    // the lens opened the tab itself: swallow the browser's own click that follows the lift
+    addEventListener('click', (e) => { if (e.isTrusted && Date.now() - eat < 450) { e.preventDefault(); e.stopImmediatePropagation(); eat = 0; } }, true);
+    addEventListener('contextmenu', (e) => { if (e.target.closest?.('.bnav')) e.preventDefault(); });
+  })();
+
   // ---- the signature: added items arc into the centre button, which catches them and counts ----
   const fab = () => $('.bnav .fab');
   const real = () => { const c = $('.bnav .fab .cnt'); return c && !c.hidden ? (+c.textContent || 0) : 0; };

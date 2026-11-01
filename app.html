@@ -689,6 +689,10 @@ button.chip { font: inherit; font-weight: 600; cursor: pointer; }
 .fab.holding .hold-ring circle { animation: hold 3s linear forwards; } @keyframes hold { to { stroke-dashoffset: 0; } }
 @media (prefers-reduced-motion: reduce) { .fab.holding .hold-ring circle { animation: none; stroke-dashoffset: 0; opacity: .5; } }
 .bnav .side::after { bottom: auto; top: 0; }
+/* the selected pill sits inside the bar with the same 6px all round, icon and label centred in it; Order's label shares their baseline */
+.bnav { padding: 6px; }
+.bnav button.side { margin: 0; padding: 8px 0; min-height: 56px; align-content: center; border-radius: 22px; -webkit-touch-callout: none; }
+.fab-l { margin-bottom: 8px; }
 .slide { aspect-ratio: 5 / 4; }
 .bnav .ldot { position: absolute; top: 6px; left: calc(50% + 8px); width: 9px; height: 9px; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 2px #fff; }
 .bnav .ldot.rdy { background: #2e7d32; width: 11px; height: 11px; }
@@ -951,8 +955,8 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
 #backhint { position: fixed; left: 50%; bottom: calc(96px + var(--sa-bottom)); transform: translateX(-50%); z-index: 60; background: #0b0b0b; color: #fff; padding: 10px 16px; border-radius: 999px; font: 600 13px var(--sans); white-space: nowrap; }
 /* short screens (Android phones lose ~70px to the status and Back/Home bars): a slimmer bar, button and basket so the content gets the room */
 @media (max-height: 720px) {
-  .bnav { bottom: calc(6px + var(--sa-bottom)); padding-bottom: 4px; }
-  .bnav button.side { min-height: 46px; margin-top: 4px; padding: 4px 0 2px; }
+  .bnav { bottom: calc(6px + var(--sa-bottom)); padding: 5px; }
+  .bnav button.side { min-height: 48px; margin: 0; padding: 5px 0; } .fab-l { margin-bottom: 5px; }
   .fab { width: 54px; height: 54px; margin-top: -12px; } .fab svg { width: 32px; height: 32px; }
   .basket { bottom: calc(90px + var(--sa-bottom)); } #toast, #backhint { bottom: calc(100px + var(--sa-bottom)); }
   body:has(#basket:not([hidden])) #toast { bottom: calc(156px + var(--sa-bottom)); }
