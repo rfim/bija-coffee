@@ -2081,7 +2081,7 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
   function dietNudge(where) {
     if (S.dietEdit === where) return dietCard(where);
     if (diet()) return '';
-    if ((where === 'home' || where === 'order') && Date.now() - (+store.get('bija.diet.later') || 0) < 30 * 864e5) return '';
+    if (where === 'home' && Date.now() - (+store.get('bija.diet.later') || 0) < 30 * 864e5) return '';
     return `<button class="dnudge" data-act="dedit" data-v="${where}"><span class="dic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 8h12v5a6 6 0 0 1-12 0z M17 9.5h1.5a2.5 2.5 0 0 1 0 5H16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><span class="dtx"><b>Any allergies?</b><small>Tell us once. We’ll flag what to avoid and tell the barista.</small></span><span class="dgo">Tell us</span></button>`;
   }
   function dietCheckout(t) {
@@ -2635,7 +2635,6 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
     <section class="sec" style="margin-top:6px">
       ${menuTools()}
       ${S.mq ? '' : `<div class="cats mfilters" role="group" aria-label="Filters">${filterPills()}</div>`}
-      ${S.mq ? '' : dietNudge('order')}
       ${f && filt && !S.mq && !S.mf ? `<div class="filter slim"><div class="fx"><span class="eyebrow">On filter</span><b>${esc(f.name)}</b><small class="fwhere">${esc(f.where)}</small><div class="notes">${f.notes.slice(0, 2).map((n) => `<span>${esc(n)}</span>`).join('')}</div></div><button class="btn sm" data-act="qty" data-id="${esc(filt.id)}" data-d="1" ${open ? '' : 'disabled'} aria-label="Add ${esc(f.name)} filter, ${money(filt.price)}">Add · ${money(filt.price)}</button></div>` : ''}
       ${(() => { const xs = menuItems(); return xs.length ? '' : `<div class="empty"><b>${S.mf === 'fav' && !S.mq ? 'No favourites yet' : 'Nothing found'}</b>${S.mf === 'fav' && !S.mq ? 'Tap the heart on any drink or cake to keep it here.' : 'Try another word, or clear the filters to see the whole menu.'}<br><button class="btn sm ghost" data-act="mqclear" style="margin-top:12px">Show the whole menu</button></div>`; })()}
       ${(() => { const xs = menuItems(), shown = cats.filter((c) => xs.some((m) => m.cat === c));
