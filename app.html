@@ -1102,10 +1102,6 @@ body.barista-view #switch { display: flex; align-items: center; }
 }
 /* Menu as one list (Nov 2026, after Grind): a section per category, compact rows with the photo on the left,
    three to four items per phone screen, and a sticky category bar that follows the scroll */
-.cats.mfilters { margin: 0 0 6px; flex-wrap: wrap; overflow: visible; }
-.cats.mfilters .fpill { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; min-width: 44px; padding: 0 12px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: 600 13px/1 var(--sans); }
-.cats.mfilters .fpill svg { width: 14px; height: 14px; }
-.cats.mfilters .fpill[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: #fff; }
 .cats.sticky.spy { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 6px; margin: 8px -16px 0; padding: 8px 16px; border-bottom: 1px solid var(--line); }
 .cats.sticky.spy::-webkit-scrollbar { display: none; }
 .cats.sticky.spy button { flex: 0 0 auto; padding: 0 16px; }
@@ -2580,13 +2576,9 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
     const favN = favSet().size, rec = S.mq ? [] : listOf('bija.recent').slice(0, 4), n = (S.mq || S.mf) ? menuItems().length : 0;
     return `<div class="msearch" role="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><label class="sr" for="m-q">Search the menu</label><input id="m-q" type="search" data-mq value="${esc(S.mq || '')}" placeholder="Search drinks, cakes, beans" autocomplete="off" enterkeyhint="search" maxlength="40">${S.mq ? '<button type="button" class="clr" data-act="mqclear" aria-label="Clear search">×</button>' : ''}</div>
       ${rec.length ? `<div class="recent"><span class="hint">Recent</span>${rec.map((r) => `<button data-act="mqset" data-v="${esc(r)}">${esc(r)}</button>`).join('')}</div>` : ''}
-      ${S.mq || S.mf ? `<p class="mres" role="status">${n} ${plural(n, 'result', 'results')}${S.mq ? ` for “${esc(S.mq.trim())}”` : ''}${S.mf === 'safe' ? ` without ${esc(algList([...myAlg()]))} in the recipe. Traces are possible: tell the barista about a severe allergy` : S.mf === 'plant' ? ' · allergens? ask our team' : ''}</p>` : ''}`;
+      ${S.mq || S.mf ? `<p class="mres" role="status">${n} ${plural(n, 'result', 'results')}${S.mq ? ` for “${esc(S.mq.trim())}”` : ''}${S.mf === 'safe' ? ` without ${esc(algList([...myAlg()]))} in the recipe. Traces are possible: tell the barista about a severe allergy` : S.mf === 'plant' ? ' · allergens? ask our team' : ''}${S.mf && !S.mq ? ' · <button class="back" data-act="mqclear" style="padding:0">Show all</button>' : ''}</p>` : ''}`;
   }
   // quick filters sit under search; the sticky bar above the list holds only the categories
-  function filterPills() {
-    const favN = favSet().size;
-    return `${[...(myAlg().size ? [['safe', 'Suits me']] : []), ['fav', `Favourites${favN ? ' · ' + favN : ''}`], ['plant', 'Plant milk'], ['iced', 'Iced']].map(([v, l]) => `<button data-act="mf" data-v="${S.mf === v ? '' : v}" aria-pressed="${S.mf === v}" class="fpill">${v === 'fav' ? `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.7c0 5.6-7.5 10.2-7.5 10.2z" fill="${S.mf === 'fav' ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>` : ''}${esc(l)}</button>`).join('')}`;
-  }
   // honest ready estimate: about 4 minutes per drink in the queue (ours, plus earlier ones when staff data is visible) plus 2,
   // and never before the pickup time the customer chose
   function etaOf(o) {
@@ -2637,7 +2629,6 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
     ${open ? '' : `<div class="panel" style="margin-bottom:8px"><b>Ordering paused</b><div class="hint">We're not taking app orders right now. ${esc(cfg().note || '')}</div></div>`}
     <section class="sec" style="margin-top:6px">
       ${menuTools()}
-      ${S.mq ? '' : `<div class="cats mfilters" role="group" aria-label="Filters">${filterPills()}</div>`}
       ${f && filt && !S.mq && !S.mf ? `<div class="filter slim"><div class="fx"><span class="eyebrow">On filter</span><b>${esc(f.name)}</b><small class="fwhere">${esc(f.where)}</small><div class="notes">${f.notes.slice(0, 2).map((n) => `<span>${esc(n)}</span>`).join('')}</div></div><button class="btn sm" data-act="qty" data-id="${esc(filt.id)}" data-d="1" ${open ? '' : 'disabled'} aria-label="Add ${esc(f.name)} filter, ${money(filt.price)}">Add · ${money(filt.price)}</button></div>` : ''}
       ${(() => { const xs = menuItems(); return xs.length ? '' : `<div class="empty"><b>${S.mf === 'fav' && !S.mq ? 'No favourites yet' : 'Nothing found'}</b>${S.mf === 'fav' && !S.mq ? 'Tap the heart on any drink or cake to keep it here.' : 'Try another word, or clear the filters to see the whole menu.'}<br><button class="btn sm ghost" data-act="mqclear" style="margin-top:12px">Show the whole menu</button></div>`; })()}
       ${(() => { const xs = menuItems(), shown = cats.filter((c) => xs.some((m) => m.cat === c));
