@@ -622,6 +622,7 @@ button.chip { font: inherit; font-weight: 600; cursor: pointer; }
 /* Grind-style Home: greeting band with avatar, "Your usual?" card */
 .hband { position: relative; margin: -12px -16px 16px; padding: 24px 72px 20px 16px; background-color: #efedea; background-size: 56px 56px; }
 .greet.q { font: 800 clamp(28px, 8.4vw, 38px)/1.05 var(--display); text-transform: none; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+.hsub { margin: 4px 0 12px; font: 500 13px var(--sans); color: var(--muted); }
 .hband .sub { margin: 8px 0 0; font: 500 13px var(--sans); color: var(--muted); }
 .avatar { position: absolute; top: 20px; right: 16px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #0b0b0b; color: #fff; display: grid; place-items: center; font: 700 18px var(--display); }
 .avatar svg { width: 24px; height: 24px; }
@@ -688,6 +689,10 @@ button.chip { font: inherit; font-weight: 600; cursor: pointer; }
 .fab.holding .hold-ring circle { animation: hold 3s linear forwards; } @keyframes hold { to { stroke-dashoffset: 0; } }
 @media (prefers-reduced-motion: reduce) { .fab.holding .hold-ring circle { animation: none; stroke-dashoffset: 0; opacity: .5; } }
 .bnav .side::after { bottom: auto; top: 0; }
+/* the selected pill sits inside the bar with the same 6px all round, icon and label centred in it; Order's label shares their baseline */
+.bnav { padding: 6px; }
+.bnav button.side { margin: 0; padding: 8px 0; min-height: 56px; align-content: center; border-radius: 22px; -webkit-touch-callout: none; }
+.fab-l { margin-bottom: 8px; }
 .slide { aspect-ratio: 5 / 4; }
 .bnav .ldot { position: absolute; top: 6px; left: calc(50% + 8px); width: 9px; height: 9px; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 2px #fff; }
 .bnav .ldot.rdy { background: #2e7d32; width: 11px; height: 11px; }
@@ -950,8 +955,8 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
 #backhint { position: fixed; left: 50%; bottom: calc(96px + var(--sa-bottom)); transform: translateX(-50%); z-index: 60; background: #0b0b0b; color: #fff; padding: 10px 16px; border-radius: 999px; font: 600 13px var(--sans); white-space: nowrap; }
 /* short screens (Android phones lose ~70px to the status and Back/Home bars): a slimmer bar, button and basket so the content gets the room */
 @media (max-height: 720px) {
-  .bnav { bottom: calc(6px + var(--sa-bottom)); padding-bottom: 4px; }
-  .bnav button.side { min-height: 46px; margin-top: 4px; padding: 4px 0 2px; }
+  .bnav { bottom: calc(6px + var(--sa-bottom)); padding: 5px; }
+  .bnav button.side { min-height: 48px; margin: 0; padding: 5px 0; } .fab-l { margin-bottom: 5px; }
   .fab { width: 54px; height: 54px; margin-top: -12px; } .fab svg { width: 32px; height: 32px; }
   .basket { bottom: calc(90px + var(--sa-bottom)); } #toast, #backhint { bottom: calc(100px + var(--sa-bottom)); }
   body:has(#basket:not([hidden])) #toast { bottom: calc(156px + var(--sa-bottom)); }
@@ -1097,10 +1102,6 @@ body.barista-view #switch { display: flex; align-items: center; }
 }
 /* Menu as one list (Nov 2026, after Grind): a section per category, compact rows with the photo on the left,
    three to four items per phone screen, and a sticky category bar that follows the scroll */
-.cats.mfilters { margin: 0 0 6px; flex-wrap: wrap; overflow: visible; }
-.cats.mfilters .fpill { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; min-width: 44px; padding: 0 12px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: 600 13px/1 var(--sans); }
-.cats.mfilters .fpill svg { width: 14px; height: 14px; }
-.cats.mfilters .fpill[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: #fff; }
 .cats.sticky.spy { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 6px; margin: 8px -16px 0; padding: 8px 16px; border-bottom: 1px solid var(--line); }
 .cats.sticky.spy::-webkit-scrollbar { display: none; }
 .cats.sticky.spy button { flex: 0 0 auto; padding: 0 16px; }
@@ -2081,7 +2082,7 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
   function dietNudge(where) {
     if (S.dietEdit === where) return dietCard(where);
     if (diet()) return '';
-    if ((where === 'home' || where === 'order') && Date.now() - (+store.get('bija.diet.later') || 0) < 30 * 864e5) return '';
+    if (where === 'home' && Date.now() - (+store.get('bija.diet.later') || 0) < 30 * 864e5) return '';
     return `<button class="dnudge" data-act="dedit" data-v="${where}"><span class="dic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 8h12v5a6 6 0 0 1-12 0z M17 9.5h1.5a2.5 2.5 0 0 1 0 5H16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><span class="dtx"><b>Any allergies?</b><small>Tell us once. We’ll flag what to avoid and tell the barista.</small></span><span class="dgo">Tell us</span></button>`;
   }
   function dietCheckout(t) {
@@ -2442,7 +2443,6 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
   }
   function homePage() {
     const st = mine(), h = new Date().getHours(), name = (S.me?.name || S.form.name || '').split(' ')[0];
-    const hello = h < 11 ? 'Selamat pagi' : h < 15 ? 'Selamat siang' : h < 18 ? 'Selamat sore' : 'Selamat malam';
     const active = st.os.find((o) => ['received', 'brewing', 'ready'].includes(o.status));
     const nextR = REWARDS.find((r) => r.pts > st.balance), f = origin(cfg().filter), filt = menu().find((m) => m.filter && m.available);
     // your usual: most collected item + options, else the house favourites
@@ -2462,19 +2462,12 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
       { img: 'photos/shop-3.jpg', ey: 'Secret St James\'s', t: 'Find the hidden streets', act: 'data-act="tab" data-v="secret"' },
     ];
     const ini = name ? esc(name.trim().charAt(0).toLocaleUpperCase('en-GB')) : `<svg viewBox="-2 -2 104 104" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="7"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg>`;
-    return `<section class="hband" style="background-image:${attrq(pat.kawung('#0b0b0b', .035))}">
-        <h2 class="greet q">${esc(greetQ(name))}</h2>
-        <p class="sub">${esc(hello)} · ${(() => { const o = openState(); return esc(o.text); })()}</p>
-      </section>
+    return `<p class="hsub">${esc(window.BijaGreet().sub)}</p>
       ${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
       ${active ? '' : S.dietEdit === 'home' ? dietNudge('home') : forYou(st)}
       <h2 class="wn-h">What's new</h2>
       <div class="promos wn" aria-label="What's new">${slides.map((x, i) => `<button class="slide wn-c" ${x.act}>${slidePic(x.img, i)}<span class="sl"><span class="ey">${esc(x.ey)}</span><b>${esc(x.t)}</b></span></button>`).join('')}</div>
-      <div class="dots" aria-hidden="true">${slides.map(() => '<i></i>').join('')}</div>
-      <ul class="mlist hlist">
-        <li><button data-act="tab" data-v="offers"><span><b>Offers</b><span class="hint">${OFFERS.length} ways to save · ${esc(OFFERS.map((o) => o.big).slice(0, 2).join(', '))}</span></span><span aria-hidden="true">›</span></button></li>
-        <li><button data-act="tab" data-v="more"><span><b>More</b><span class="hint">Beans, gifts, Secret St James's and more</span></span><span aria-hidden="true">›</span></button></li>
-      </ul>`;
+      <div class="dots" aria-hidden="true">${slides.map(() => '<i></i>').join('')}</div>`;
   }
   // "Your usual?": the main item of the last collected order (the priciest drink, else the priciest line); a first-timer gets the signature drink
   function usualCard(st) {
@@ -2519,6 +2512,8 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
   }, ROT_MS);
   addEventListener('pointerdown', (e) => { const r = e.target.closest?.('[data-rot]'); if (r) { r.dataset.touch = '1'; setTimeout(() => { delete r.dataset.touch; }, ROT_MS * 2); } }, { passive: true });
   // greeting as a question, by the time of day in London (and iced in the warm months)
+  // the launch splash shows the greeting and whether the bar is open (app-motion.js)
+  window.BijaGreet = () => { const h = new Date().getHours(), name = (S.me?.name || S.form?.name || '').split(' ')[0]; return { q: greetQ(name), sub: `${h < 11 ? 'Selamat pagi' : h < 15 ? 'Selamat siang' : h < 18 ? 'Selamat sore' : 'Selamat malam'} · ${openState().text}` }; };
   function greetQ(name) {
     let h = 12, mo = 0; try { const d = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', hour: 'numeric', month: 'numeric', hour12: false }).formatToParts(new Date()); h = +d.find((x) => x.type === 'hour').value; mo = +d.find((x) => x.type === 'month').value; } catch {}
     const warm = mo >= 5 && mo <= 9;
@@ -2577,13 +2572,9 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
     const favN = favSet().size, rec = S.mq ? [] : listOf('bija.recent').slice(0, 4), n = (S.mq || S.mf) ? menuItems().length : 0;
     return `<div class="msearch" role="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><label class="sr" for="m-q">Search the menu</label><input id="m-q" type="search" data-mq value="${esc(S.mq || '')}" placeholder="Search drinks, cakes, beans" autocomplete="off" enterkeyhint="search" maxlength="40">${S.mq ? '<button type="button" class="clr" data-act="mqclear" aria-label="Clear search">×</button>' : ''}</div>
       ${rec.length ? `<div class="recent"><span class="hint">Recent</span>${rec.map((r) => `<button data-act="mqset" data-v="${esc(r)}">${esc(r)}</button>`).join('')}</div>` : ''}
-      ${S.mq || S.mf ? `<p class="mres" role="status">${n} ${plural(n, 'result', 'results')}${S.mq ? ` for “${esc(S.mq.trim())}”` : ''}${S.mf === 'safe' ? ` without ${esc(algList([...myAlg()]))} in the recipe. Traces are possible: tell the barista about a severe allergy` : S.mf === 'plant' ? ' · allergens? ask our team' : ''}</p>` : ''}`;
+      ${S.mq || S.mf ? `<p class="mres" role="status">${n} ${plural(n, 'result', 'results')}${S.mq ? ` for “${esc(S.mq.trim())}”` : ''}${S.mf === 'safe' ? ` without ${esc(algList([...myAlg()]))} in the recipe. Traces are possible: tell the barista about a severe allergy` : S.mf === 'plant' ? ' · allergens? ask our team' : ''}${S.mf && !S.mq ? ' · <button class="back" data-act="mqclear" style="padding:0">Show all</button>' : ''}</p>` : ''}`;
   }
   // quick filters sit under search; the sticky bar above the list holds only the categories
-  function filterPills() {
-    const favN = favSet().size;
-    return `${[...(myAlg().size ? [['safe', 'Suits me']] : []), ['fav', `Favourites${favN ? ' · ' + favN : ''}`], ['plant', 'Plant milk'], ['iced', 'Iced']].map(([v, l]) => `<button data-act="mf" data-v="${S.mf === v ? '' : v}" aria-pressed="${S.mf === v}" class="fpill">${v === 'fav' ? `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.7c0 5.6-7.5 10.2-7.5 10.2z" fill="${S.mf === 'fav' ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>` : ''}${esc(l)}</button>`).join('')}`;
-  }
   // honest ready estimate: about 4 minutes per drink in the queue (ours, plus earlier ones when staff data is visible) plus 2,
   // and never before the pickup time the customer chose
   function etaOf(o) {
@@ -2634,8 +2625,6 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
     ${open ? '' : `<div class="panel" style="margin-bottom:8px"><b>Ordering paused</b><div class="hint">We're not taking app orders right now. ${esc(cfg().note || '')}</div></div>`}
     <section class="sec" style="margin-top:6px">
       ${menuTools()}
-      ${S.mq ? '' : `<div class="cats mfilters" role="group" aria-label="Filters">${filterPills()}</div>`}
-      ${S.mq ? '' : dietNudge('order')}
       ${f && filt && !S.mq && !S.mf ? `<div class="filter slim"><div class="fx"><span class="eyebrow">On filter</span><b>${esc(f.name)}</b><small class="fwhere">${esc(f.where)}</small><div class="notes">${f.notes.slice(0, 2).map((n) => `<span>${esc(n)}</span>`).join('')}</div></div><button class="btn sm" data-act="qty" data-id="${esc(filt.id)}" data-d="1" ${open ? '' : 'disabled'} aria-label="Add ${esc(f.name)} filter, ${money(filt.price)}">Add · ${money(filt.price)}</button></div>` : ''}
       ${(() => { const xs = menuItems(); return xs.length ? '' : `<div class="empty"><b>${S.mf === 'fav' && !S.mq ? 'No favourites yet' : 'Nothing found'}</b>${S.mf === 'fav' && !S.mq ? 'Tap the heart on any drink or cake to keep it here.' : 'Try another word, or clear the filters to see the whole menu.'}<br><button class="btn sm ghost" data-act="mqclear" style="margin-top:12px">Show the whole menu</button></div>`; })()}
       ${(() => { const xs = menuItems(), shown = cats.filter((c) => xs.some((m) => m.cat === c));
@@ -3090,10 +3079,13 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
       settings: ic('<circle cx="12" cy="12" r="3"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/>'),
       help: ic('<circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6M12 17v.4"/>'),
       privacy: ic('<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/>'),
+      offers: ic('<path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.4 1.4 0 0 1 0 2l-6.3 6.3a1.4 1.4 0 0 1-2 0z"/><circle cx="8" cy="8" r="1.4"/>'),
+      more: ic('<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>'),
       visit: window.BijaIcons ? BijaIcons.svg('visit') : ic('<path d="M12 21s-6-5.6-6-10a6 6 0 0 1 12 0c0 4.4-6 10-6 10z"/><circle cx="12" cy="11" r="2"/>'),
     };
     const n = st.os.length + st.shop.length, on = Math.min(st.stamps, STAMP_FREE_AT);
     const row = (v, icon, label, meta) => `<li><button data-act="pd" data-v="${v}"><span class="pi">${icon}</span><span class="pl"><b>${label}</b>${meta ? `<small>${meta}</small>` : ''}</span><span class="pc" aria-hidden="true">›</span></button></li>`;
+    const tabRow = (v, icon, label, meta) => row(v, icon, label, meta).replace('data-act="pd"', 'data-act="tab"');
     const link = (href, icon, label) => `<li><a href="${href}"><span class="pi">${icon}</span><span class="pl"><b>${label}</b></span><span class="pc" aria-hidden="true">›</span></a></li>`;
     const mini = `<button class="pd-card" data-act="pd-card" style="${attrq(cardStyle(t))}" aria-label="Bija Card: ${st.balance} points, ${esc(st.tier.name)}. Show the code to scan at the till">
         <span class="pc-t"><b>Bija Card</b><span>${esc(st.tier.name)}</span></span>
@@ -3108,6 +3100,10 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
         ${row('allergies', IC.allergies, 'Allergies', d ? (d.alg.length ? esc(algList(d.alg)).replace(/^./, (c) => c.toLocaleUpperCase('en-GB')) : 'None') : 'Not set yet')}
         ${row('you', IC.you, 'Your details', esc((S.me?.name || '').trim()) || 'Name and birthday')}
         ${row('settings', IC.settings, 'Settings', 'Card design and notifications')}
+      </ul>
+      <ul class="pd-menu">
+        ${tabRow('offers', IC.offers, 'Offers', `${OFFERS.length} ways to save`)}
+        ${tabRow('more', IC.more, 'More', 'Beans, gift cards and more')}
       </ul>
       <ul class="pd-menu pd-sub">
         ${link('help.html', IC.help, 'Help centre')}
@@ -3835,7 +3831,7 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
     if (a === 'view') { if (b.dataset.v === 'bar' && !(S.admin && S.staffOk)) return pinOpen(); if (b.dataset.v === 'customer') { S.staffOk = false; S.mh?.el?.destroy(); S.mh = null; S.sb?.staffLock().catch(() => {}); if (WEB_ADMIN) return toSite(); } S.view = b.dataset.v; render(); window.scrollTo({ top: 0 }); }
     else if (a === 'pin-close') pinCancel();
     else if (a === 'pin-key') pinKey(b.dataset.v);
-    else if (a === 'tab') { if (S.view === 'bar') S.btab = b.dataset.v; else { if (['home', 'more', 'beans'].includes(S.tab) && S.tab !== b.dataset.v) S.backTo = S.tab; S.tab = b.dataset.v; S.lastOrder = null; S.fresh = -1; S.dealt = null; if (S.tab === 'card') S.rview = ''; } render(); window.scrollTo({ top: 0 }); }
+    else if (a === 'tab') { if (S.view === 'bar') S.btab = b.dataset.v; else { if (b.closest('#stampdrawer')) stampsClose(); if (['home', 'more', 'beans'].includes(S.tab) && S.tab !== b.dataset.v) S.backTo = S.tab; S.tab = b.dataset.v; S.lastOrder = null; S.fresh = -1; S.dealt = null; if (S.tab === 'card') S.rview = ''; } render(); window.scrollTo({ top: 0 }); }
     else if (a === 'pd') { const from = S.pdView; S.pdView = b.dataset.v; S.pdDirect = false; S.pdFocus = S.pdView ? '.pd-back' : (from ? `[data-act=pd][data-v="${from}"]` : ''); render(); const bd = document.querySelector('#stampdrawer .sd-body'); if (bd) bd.scrollTop = 0; }
     else if (a === 'stamps') { S.pdView = 'stamps'; S.pdDirect = true; stampsOpen(b); requestAnimationFrame(() => document.getElementById('pd-stamps')?.scrollIntoView({ block: 'start' })); }
     else if (a === 'profile') { if (document.getElementById('stampdrawer')) stampsClose(); else { S.pdView = ''; stampsOpen(b); } }
