@@ -1227,6 +1227,29 @@ body.bs-open #basket { visibility: hidden; }
   #bagsheet .bs-list.stagger .bl { animation: bl-in .44s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(140ms + var(--i) * 45ms); }
   @keyframes bl-in { from { opacity: 0; transform: translateY(14px); } }
 }
+/* open styles. 1 unfold (above). Shared: closing drops the content a touch as it fades */
+#bagsheet.out .bs-top, #bagsheet.out .bs-list, #bagsheet.out .bs-deal { transform: translateY(10px); transition: opacity .18s ease, transform .3s ease; }
+/* 2 soft focus: the page behind blurs, the list comes into focus as the bar grows */
+#bagsheet[data-fx="2"] .bs-bg { -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); background: rgba(0,0,0,.18); }
+#bagsheet[data-fx="2"] .bs-top, #bagsheet[data-fx="2"] .bs-list { transition: opacity .4s ease, filter .5s ease, transform .5s cubic-bezier(.2,.9,.2,1); }
+#bagsheet[data-fx="2"]:not(.show) .bs-top, #bagsheet[data-fx="2"]:not(.show) .bs-list { filter: blur(10px); transform: scale(.96); }
+#bagsheet[data-fx="2"] .bs-pan { transition-duration: .55s; transition-timing-function: cubic-bezier(.16,1,.3,1); }
+/* 3 bloom: the panel blooms out of the count circle */
+#bagsheet[data-fx="3"] .bs-pan { clip-path: circle(16px at 29px calc(100% - 32px)); transition: clip-path .6s cubic-bezier(.65,0,.35,1); }
+#bagsheet[data-fx="3"].show .bs-pan { clip-path: circle(140% at 29px calc(100% - 32px)); }
+#bagsheet[data-fx="3"].out .bs-pan { transition-duration: .42s; }
+/* 4 elastic: the bar stretches up past its height and settles back, like a spring */
+#bagsheet[data-fx="4"] .bs-pan { transition: clip-path .5s cubic-bezier(.34,1.45,.55,1); transform-origin: 50% 100%; }
+#bagsheet[data-fx="4"].show .bs-pan { animation: bs-boing .62s cubic-bezier(.3,1.5,.5,1); }
+@keyframes bs-boing { 0% { transform: scale(.98, .9); } 55% { transform: scale(1.01, 1.03); } 100% { transform: none; } }
+/* 5 cascade: the lines tip up into place one by one, like cards on a table */
+#bagsheet[data-fx="5"] .bs-list { perspective: 700px; }
+#bagsheet[data-fx="5"] .bs-pan { transition-duration: .4s; }
+@media (prefers-reduced-motion: no-preference) {
+  #bagsheet[data-fx="5"] .bs-list.stagger .bl { animation: bl-tip .6s cubic-bezier(.2,.9,.25,1.15) both; animation-delay: calc(160ms + var(--i) * 80ms); transform-origin: 50% 100%; }
+  @keyframes bl-tip { from { opacity: 0; transform: rotateX(-75deg) translateY(18px); } }
+  #bagsheet[data-fx="5"].out .bl { transform: rotateX(60deg); opacity: 0; transition: transform .28s ease, opacity .22s ease; transform-origin: 50% 100%; }
+}
 @media (prefers-reduced-motion: reduce) { #bagsheet .bs-pan, #bagsheet .bs-bg, #bagsheet .bl, #bagsheet .bs-list, #bagsheet .bs-top { transition: none; } }
 </style>
 
@@ -1992,11 +2015,13 @@ body.bs-open #basket { visibility: hidden; }
       <div class="bl-t"><b>${nm}</b>${optText(l) ? `<small>${esc(optText(l))}</small>` : ''}<span class="bl-p">${money(l.qty * l.price)}</span></div>
       <div class="bl-step"><button data-act="bagk" data-key="${esc(l.key)}" data-d="-1" class="${l.qty > 1 ? '' : 'bin'}" aria-label="${l.qty > 1 ? `One less ${nm}` : `Remove ${nm}`}">${l.qty > 1 ? '−' : BIN}</button><output>${l.qty}</output><button data-act="bagk" data-key="${esc(l.key)}" data-d="1" aria-label="One more ${nm}" ${l.qty >= 20 ? 'disabled' : ''}>+</button></div></li>`;
   }
+  // five ways for the bar to open (?bagfx=1..5 to try one; it's remembered on this device): 1 unfold, 2 soft focus, 3 bloom, 4 elastic, 5 cascade
+  const BAG_FX = (() => { let v = ''; try { v = new URLSearchParams(location.search).get('bagfx') || ''; if (/^[1-5]$/.test(v)) localStorage.setItem('bija.bagfx', v); else v = localStorage.getItem('bija.bagfx') || ''; } catch {} return /^[1-5]$/.test(v) ? v : '1'; })();
   function bagOpen() {
     const bar = document.getElementById('basket');
     if (document.getElementById('bagsheet') || !cartLines().length || !bar || bar.hidden) return;
     const r = bar.getBoundingClientRect();
-    const el = document.createElement('div'); el.id = 'bagsheet';
+    const el = document.createElement('div'); el.id = 'bagsheet'; el.dataset.fx = BAG_FX;
     el.innerHTML = `<div class="bs-bg" data-act="bag-close"></div><div class="bs-pan" role="dialog" aria-modal="true" aria-labelledby="bag-h"><div class="bs-top"><span class="bs-grab" aria-hidden="true"></span><h2 id="bag-h">Your order</h2></div><ul class="bs-list"></ul><p class="bs-deal" hidden></p><div class="bs-foot"><button class="bs-sumbtn" data-act="bag-close" aria-label="Close your order"><span class="bk-n bs-c"></span><span><span class="bs-n"></span> · <b class="bs-tot"></b></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="btn sm bs-go" data-act="bag-go">Checkout</button></div><p class="sr" aria-live="polite" id="bag-live"></p></div>`;
     const pan = el.querySelector('.bs-pan');
     // the panel sits exactly where the bar is and grows up out of it
@@ -2013,7 +2038,7 @@ body.bs-open #basket { visibility: hidden; }
     const el = document.getElementById('bagsheet'); if (!el || el.classList.contains('out')) return;
     const bar = document.getElementById('basket'); bagClip(el, bar && !bar.hidden ? bar.offsetHeight : el.querySelector('.bs-foot').offsetHeight + 20);
     el.classList.add('out'); el.classList.remove('show'); document.body.classList.remove('bs-open');
-    setTimeout(() => el.remove(), calm() ? 0 : 420);
+    setTimeout(() => { el.remove(); const b = document.getElementById('basket'); if (b && !calm() && el.dataset.fx === '3') b.animate?.([{ opacity: 0 }, { opacity: 1 }], { duration: 180 }); }, calm() ? 0 : 440);
     const back = S.bagFrom?.isConnected ? S.bagFrom : document.querySelector('#basket .bk-sum'); back?.focus({ preventScroll: true }); S.bagFrom = null;
   }
   function bagFill(first) {
