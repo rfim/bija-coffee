@@ -4,6 +4,7 @@
 |---|---|
 | `fullstack/security-review.md` | Security review of `app.html`: how a customer could fake points, gift balance or order status, or read others' data, with a fix for each. |
 | `fullstack/pos-integration.md` | Till (POS) comparison (Square, SumUp, Lightspeed, Epos Now): fees, daily takings exports, APIs, automatic Bija Card points, recommended path. |
+| `fullstack/supabase-review.md` | Review of the Supabase plan: append-only points and gift ledgers changed only through server functions, staff PIN sessions, triggers for the generic `docs` table, pgTAP tests. |
 | `fullstack/analytics.md` | Analytics plan: event list, cookie-free tool choice (Plausible) under UK GDPR/PECR, setup steps. The wrapper is `../bija-analytics.js`. |
 | `finance/bija-unit-economics.xlsx` | Finance model: inputs (all assumptions to replace), monthly P&L for 3 scenarios, break-even transactions per day, 13-week cash flow. |
 | `ops/runbook.md` | Launch runbook: contacts, Supabase backups and restore drill, staff PINs, incident steps if orders stop, data subject requests (one month), retention. |
