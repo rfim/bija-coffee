@@ -16,9 +16,12 @@
     ss.set('mo.splash', '1');
     const s = D.createElement('div'); s.className = 'mo-splash'; s.setAttribute('aria-hidden', 'true');
     s.innerHTML = `<svg viewBox="-4 -4 108 108"><g class="r" fill="none" stroke="#0b0b0b" stroke-width="3">${C4}</g><g class="d" fill="#0b0b0b"><circle cx="50" cy="25" r="7"/><circle cx="75" cy="50" r="7"/><circle cx="50" cy="75" r="7"/><circle cx="25" cy="50" r="7"/><circle cx="50" cy="50" r="5"/></g></svg>`;
+    // the greeting band lives here now: the question for the time of day, then hello and whether the bar is open
+    let g = null; try { g = W.BijaGreet && W.BijaGreet(); } catch {}
+    if (g) { const t = D.createElement('div'); t.className = 'mo-greet'; t.innerHTML = '<b></b><span></span>'; t.firstChild.textContent = g.q; t.lastChild.textContent = g.sub; s.appendChild(t); }
     D.body.appendChild(s); M.splash = s;
     const end = () => { if (!s.isConnected || s.classList.contains('out')) return; s.classList.add('out'); setTimeout(() => s.remove(), 400); };
-    addEventListener('pointerdown', end, { once: true, capture: true }); setTimeout(end, 1150);
+    addEventListener('pointerdown', end, { once: true, capture: true }); setTimeout(end, g ? 2300 : 1150);
   }
 
   // ---- the signature: added items arc into the centre button, which catches them and counts ----

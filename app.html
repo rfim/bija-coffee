@@ -2442,7 +2442,6 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
   }
   function homePage() {
     const st = mine(), h = new Date().getHours(), name = (S.me?.name || S.form.name || '').split(' ')[0];
-    const hello = h < 11 ? 'Selamat pagi' : h < 15 ? 'Selamat siang' : h < 18 ? 'Selamat sore' : 'Selamat malam';
     const active = st.os.find((o) => ['received', 'brewing', 'ready'].includes(o.status));
     const nextR = REWARDS.find((r) => r.pts > st.balance), f = origin(cfg().filter), filt = menu().find((m) => m.filter && m.available);
     // your usual: most collected item + options, else the house favourites
@@ -2462,11 +2461,7 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
       { img: 'photos/shop-3.jpg', ey: 'Secret St James\'s', t: 'Find the hidden streets', act: 'data-act="tab" data-v="secret"' },
     ];
     const ini = name ? esc(name.trim().charAt(0).toLocaleUpperCase('en-GB')) : `<svg viewBox="-2 -2 104 104" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="7"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg>`;
-    return `<section class="hband" style="background-image:${attrq(pat.kawung('#0b0b0b', .035))}">
-        <h2 class="greet q">${esc(greetQ(name))}</h2>
-        <p class="sub">${esc(hello)} · ${(() => { const o = openState(); return esc(o.text); })()}</p>
-      </section>
-      ${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
+    return `${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
       ${active ? '' : S.dietEdit === 'home' ? dietNudge('home') : forYou(st)}
       <h2 class="wn-h">What's new</h2>
       <div class="promos wn" aria-label="What's new">${slides.map((x, i) => `<button class="slide wn-c" ${x.act}>${slidePic(x.img, i)}<span class="sl"><span class="ey">${esc(x.ey)}</span><b>${esc(x.t)}</b></span></button>`).join('')}</div>
@@ -2519,6 +2514,8 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
   }, ROT_MS);
   addEventListener('pointerdown', (e) => { const r = e.target.closest?.('[data-rot]'); if (r) { r.dataset.touch = '1'; setTimeout(() => { delete r.dataset.touch; }, ROT_MS * 2); } }, { passive: true });
   // greeting as a question, by the time of day in London (and iced in the warm months)
+  // the launch splash shows the greeting and whether the bar is open (app-motion.js)
+  window.BijaGreet = () => { const h = new Date().getHours(), name = (S.me?.name || S.form?.name || '').split(' ')[0]; return { q: greetQ(name), sub: `${h < 11 ? 'Selamat pagi' : h < 15 ? 'Selamat siang' : h < 18 ? 'Selamat sore' : 'Selamat malam'} · ${openState().text}` }; };
   function greetQ(name) {
     let h = 12, mo = 0; try { const d = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', hour: 'numeric', month: 'numeric', hour12: false }).formatToParts(new Date()); h = +d.find((x) => x.type === 'hour').value; mo = +d.find((x) => x.type === 'month').value; } catch {}
     const warm = mo >= 5 && mo <= 9;
