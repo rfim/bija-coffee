@@ -1106,6 +1106,35 @@ body.barista-view #switch { display: flex; align-items: center; }
   body.barista-view #main { grid-column: 2; min-width: 0; }
   .bo-who { max-width: none; }
 }
+/* Menu as one list (Nov 2026, after Grind): a section per category, compact rows with the photo on the left,
+   three to four items per phone screen, and a sticky category bar that follows the scroll */
+.cats.mfilters { margin: 0 0 6px; flex-wrap: wrap; overflow: visible; }
+.cats.mfilters .fpill { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; min-width: 44px; padding: 0 12px; border: 1px solid var(--line); background: #fff; color: var(--ink); font: 600 13px/1 var(--sans); }
+.cats.mfilters .fpill svg { width: 14px; height: 14px; }
+.cats.mfilters .fpill[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: #fff; }
+.cats.sticky.spy { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; gap: 6px; margin: 8px -16px 0; padding: 8px 16px; border-bottom: 1px solid var(--line); }
+.cats.sticky.spy::-webkit-scrollbar { display: none; }
+.cats.sticky.spy button { flex: 0 0 auto; padding: 0 16px; }
+.mcat { scroll-margin-top: calc(var(--hdr, 0px) + 70px); }
+.mcat-h { margin: 20px 0 2px; font: 600 18px/1.3 var(--sans); }
+.menu.rows { display: block; }
+.menu.rows .prod { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 14px; align-items: start; padding: 14px 0; background: none; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; overflow: visible; }
+.menu.rows .prod:last-child { border-bottom: 0; }
+.menu.rows .prod:hover, .menu.rows .prod:active { transform: none; box-shadow: none; }
+.menu.rows .pimg, .menu.rows .pimg.ill, .menu.rows .pimg.bean { width: 84px; height: 84px; aspect-ratio: 1; padding: 0; border-radius: 12px; background: #f1eee8; }
+.menu.rows .pimg img, .menu.rows .pimg .bagart { inset: 0; width: 100%; height: 100%; border-radius: 12px; }
+.menu.rows .pb { padding: 0; gap: 2px; }
+.menu.rows .ph { display: flex; align-items: flex-start; gap: 4px; }
+.menu.rows .prod h4 { flex: 1; min-height: 0; margin: 2px 0 0; font: 600 16px/1.25 var(--sans); display: block; overflow: visible; }
+.menu.rows .ptag { display: inline-block; margin-left: 4px; padding: 1px 8px; border: 1px solid var(--ink); border-radius: 999px; font: 600 11px/1.5 var(--sans); vertical-align: 2px; white-space: nowrap; }
+.menu.rows .fav { position: static; flex: none; width: 44px; height: 44px; margin: -10px -12px -10px 0; background: none; box-shadow: none; }
+.menu.rows .fav svg { width: 18px; height: 18px; }
+.menu.rows .prod p { min-height: 0; margin: 0; font-size: 13px; line-height: 1.4; }
+.menu.rows .diet { align-self: flex-start; margin-top: 4px; }
+.menu.rows .pf { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 4px; }
+.menu.rows .prod .step { margin: 0; width: auto; }
+.menu.rows .prod.off { opacity: 1; } /* sold out: the photo greys out, the words stay readable */
+.menu.rows .prod.off .pimg { filter: grayscale(1) opacity(.6); }
 </style>
 
 <div class="wrap" id="wrap">
@@ -2482,7 +2511,7 @@ body.barista-view #switch { display: flex; align-items: center; }
   const isIced = (m) => (optsFor(m)?.temp || []).includes('Iced') || m.ic === 'iced';
   function menuItems() {
     const q = (S.mq || '').trim().toLocaleLowerCase('en-GB'), favs = favSet();
-    if (!q && !S.mf) return menu().filter((m) => m.cat === S.cat);
+    if (!q && !S.mf) return menu();
     const terms = q.split(/\s+/).filter(Boolean);
     return menu().filter((m) => {
       if (m.soon) return false;
@@ -2497,10 +2526,10 @@ body.barista-view #switch { display: flex; align-items: center; }
       ${rec.length ? `<div class="recent"><span class="hint">Recent</span>${rec.map((r) => `<button data-act="mqset" data-v="${esc(r)}">${esc(r)}</button>`).join('')}</div>` : ''}
       ${S.mq || S.mf ? `<p class="mres" role="status">${n} ${plural(n, 'result', 'results')}${S.mq ? ` for “${esc(S.mq.trim())}”` : ''}${S.mf === 'safe' ? ` without ${esc(algList([...myAlg()]))} in the recipe. Traces are possible: tell the barista about a severe allergy` : S.mf === 'plant' ? ' · allergens? ask our team' : ''}</p>` : ''}`;
   }
-  // filters share the category scroller, after a thin divider: one row of pills, not two
+  // quick filters sit under search; the sticky bar above the list holds only the categories
   function filterPills() {
     const favN = favSet().size;
-    return `<span class="psep" aria-hidden="true"></span>${[...(myAlg().size ? [['safe', 'Suits me']] : []), ['fav', `Favourites${favN ? ' · ' + favN : ''}`], ['plant', 'Plant milk'], ['iced', 'Iced']].map(([v, l]) => `<button data-act="mf" data-v="${S.mf === v ? '' : v}" aria-pressed="${S.mf === v}" class="fpill">${v === 'fav' ? `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.7c0 5.6-7.5 10.2-7.5 10.2z" fill="${S.mf === 'fav' ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>` : ''}${esc(l)}</button>`).join('')}`;
+    return `${[...(myAlg().size ? [['safe', 'Suits me']] : []), ['fav', `Favourites${favN ? ' · ' + favN : ''}`], ['plant', 'Plant milk'], ['iced', 'Iced']].map(([v, l]) => `<button data-act="mf" data-v="${S.mf === v ? '' : v}" aria-pressed="${S.mf === v}" class="fpill">${v === 'fav' ? `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.7c0 5.6-7.5 10.2-7.5 10.2z" fill="${S.mf === 'fav' ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>` : ''}${esc(l)}</button>`).join('')}`;
   }
   // honest ready estimate: about 4 minutes per drink in the queue (ours, plus earlier ones when staff data is visible) plus 2,
   // and never before the pickup time the customer chose
@@ -2512,6 +2541,35 @@ body.barista-view #switch { display: flex; align-items: center; }
     const t = new Date(new Date(o.createdAt).getTime() + mins * 60000);
     try { return t.toLocaleTimeString('en-GB', { timeZone: 'Europe/London', hour: 'numeric', minute: '2-digit', hour12: true }).replace(':', '.').replace(' ', '').toLocaleLowerCase('en-GB'); } catch { return null; }
   }
+  const catSlug = (c) => String(c).toLocaleLowerCase('en-GB').replace(/[^a-z0-9]+/g, '-');
+  function prodRow(m) {
+    const open = isOpen(), f = origin(cfg().filter), q = itemQty(m.id), off = !m.available || !open, rr = dishRatings()[m.id], fv = favSet().has(m.id);
+    const v = verdict(m), tag = v.st === 'contains' ? `<span class="diet alg-no">Contains ${esc(algList(v.hits))}</span>` : v.st === 'swap' ? `<span class="diet alg-ok">Made with ${esc(v.milk.toLocaleLowerCase('en-GB'))} for you</span>` : v.st === 'check' ? '<span class="diet">Ask us about allergens</span>' : plantOpt(m) ? '<span class="diet">Plant milk option</span>' : '';
+    return `<article class="prod ${m.available ? '' : 'off'}">
+      <div class="pimg${PHOTO[m.id] ? '' : m.cat === 'Beans' ? ' bean' : ' ill'}">${thumb(m)}</div>
+      <div class="pb">
+        <div class="ph"><h4>${esc(m.name)}${m.badge ? ` <span class="ptag">${esc(m.badge)}</span>` : ''}</h4><button class="fav" data-act="fav" data-id="${esc(m.id)}" aria-pressed="${fv}" aria-label="${fv ? 'Remove ' + esc(m.name) + ' from favourites' : 'Save ' + esc(m.name) + ' to favourites'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.7c0 5.6-7.5 10.2-7.5 10.2z" fill="${fv ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button></div>
+        <p>${esc(m.filter && f ? `Today: ${f.name}. ` : '')}${esc(m.desc || '')}</p>
+        ${tag}
+        <div class="pf"><span><span class="price">${money(m.price)}</span>${!m.available ? ' · <b>Sold out</b>' : ''}${rr && rr.length ? ` · <span class="stars">${lineIcon('star')} ${num1(rr.reduce((a, b) => a + b, 0) / rr.length)}</span>` : ''}</span>
+        <div class="step" role="group" aria-label="Quantity of ${esc(m.name)}"><button data-act="dec" data-id="${esc(m.id)}" ${q ? '' : 'disabled'} aria-label="Remove one">−</button><output>${q}</output><button data-act="sheet" data-id="${esc(m.id)}" ${off ? 'disabled' : ''} aria-label="Add ${esc(m.name)}">+</button></div></div>
+      </div>
+    </article>`;
+  }
+  // the category bar follows the scroll: the section under the bar is the one highlighted, like Grind's menu
+  function menuSpy() {
+    const bar = document.querySelector('.cats.spy'); if (!bar || S.tab !== 'order') return;
+    const line = bar.getBoundingClientRect().bottom + 12;
+    let cur = null; for (const sec of document.querySelectorAll('.mcat')) if (sec.getBoundingClientRect().top <= line) cur = sec.dataset.cat;
+    // at the very bottom the last section wins, even when it is too short to reach the bar
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) { const all = document.querySelectorAll('.mcat'); if (all.length) cur = all[all.length - 1].dataset.cat; }
+    cur = cur || bar.querySelector('button')?.dataset.v;
+    if (!cur || cur === S.cat) return;
+    S.cat = cur;
+    for (const b of bar.querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.v === cur));
+    const on = bar.querySelector('[aria-pressed="true"]'); if (on) bar.scrollTo({ left: on.offsetLeft - 16, behavior: calm() ? 'auto' : 'smooth' });
+  }
+  addEventListener('scroll', menuSpy, { passive: true });
   function orderPage() {
     if (S.lastOrder) return confirmation();
     const open = isOpen(), cats = [...new Set(menu().map((m) => m.cat))];
@@ -2523,18 +2581,14 @@ body.barista-view #switch { display: flex; align-items: center; }
     ${open ? '' : `<div class="panel" style="margin-bottom:8px"><b>Ordering paused</b><div class="hint">We're not taking app orders right now. ${esc(cfg().note || '')}</div></div>`}
     <section class="sec" style="margin-top:6px">
       ${menuTools()}
-      ${S.mq ? '' : `<div class="cats sticky">${cats.map((c) => `<button data-act="cat" data-v="${esc(c)}" aria-pressed="${S.cat === c && !S.mf}">${esc(c)}</button>`).join('')}${filterPills()}</div>`}
+      ${S.mq ? '' : `<div class="cats mfilters" role="group" aria-label="Filters">${filterPills()}</div>`}
       ${S.mq ? '' : dietNudge('order')}
       ${f && filt && !S.mq && !S.mf ? `<div class="filter slim"><div class="fx"><span class="eyebrow">On filter</span><b>${esc(f.name)}</b><small class="fwhere">${esc(f.where)}</small><div class="notes">${f.notes.slice(0, 2).map((n) => `<span>${esc(n)}</span>`).join('')}</div></div><button class="btn sm" data-act="qty" data-id="${esc(filt.id)}" data-d="1" ${open ? '' : 'disabled'} aria-label="Add ${esc(f.name)} filter, ${money(filt.price)}">Add · ${money(filt.price)}</button></div>` : ''}
-      <div class="menu">${(() => { const xs = menuItems(); return xs.length ? '' : `<div class="empty" style="grid-column:1/-1"><b>${S.mf === 'fav' && !S.mq ? 'No favourites yet' : 'Nothing found'}</b>${S.mf === 'fav' && !S.mq ? 'Tap the heart on any drink or cake to keep it here.' : 'Try another word, or clear the filters to see the whole menu.'}<br><button class="btn sm ghost" data-act="mqclear" style="margin-top:12px">Show the whole menu</button></div>`; })()}${menuItems().map((m) => {
-        const q = itemQty(m.id), off = !m.available || !open, rr = rt[m.id], fv = favSet().has(m.id);
-        return `<article class="prod ${m.available ? '' : 'off'}">
-          <div class="pimg${PHOTO[m.id] ? '' : m.cat === 'Beans' ? ' bean' : ' ill'}">${thumb(m)}${m.badge ? `<span class="flag lt">${esc(m.badge)}</span>` : ''}<button class="fav" data-act="fav" data-id="${esc(m.id)}" aria-pressed="${fv}" aria-label="${fv ? 'Remove ' + esc(m.name) + ' from favourites' : 'Save ' + esc(m.name) + ' to favourites'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.7c0 5.6-7.5 10.2-7.5 10.2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button></div>
-          <div class="pb"><h4>${esc(m.name)}</h4><p>${esc(m.filter && f ? `Today: ${f.name}. ` : '')}${esc(m.desc || '')}</p>${(() => { const v = verdict(m); return v.st === 'contains' ? `<span class="diet alg-no">Contains ${esc(algList(v.hits))}</span>` : v.st === 'swap' ? `<span class="diet alg-ok">Made with ${esc(v.milk.toLocaleLowerCase('en-GB'))} for you</span>` : v.st === 'check' ? '<span class="diet">Ask us about allergens</span>' : plantOpt(m) && !m.badge ? '<span class="diet">Plant milk option</span>' : ''; })()}
-            <span><span class="price">${money(m.price)}</span>${!m.available ? ' · <b>Sold out</b>' : ''}${rr && rr.length ? ` · <span class="stars">${lineIcon('star')} ${num1(rr.reduce((a, b) => a + b, 0) / rr.length)}</span>` : ''}</span>
-          <div class="step" role="group" aria-label="Quantity of ${esc(m.name)}"><button data-act="dec" data-id="${esc(m.id)}" ${q ? '' : 'disabled'} aria-label="Remove one">−</button><output>${q}</output><button data-act="sheet" data-id="${esc(m.id)}" ${off ? 'disabled' : ''} aria-label="Add ${esc(m.name)}">+</button></div></div>
-        </article>`;
-      }).join('')}</div>
+      ${(() => { const xs = menuItems(); return xs.length ? '' : `<div class="empty"><b>${S.mf === 'fav' && !S.mq ? 'No favourites yet' : 'Nothing found'}</b>${S.mf === 'fav' && !S.mq ? 'Tap the heart on any drink or cake to keep it here.' : 'Try another word, or clear the filters to see the whole menu.'}<br><button class="btn sm ghost" data-act="mqclear" style="margin-top:12px">Show the whole menu</button></div>`; })()}
+      ${(() => { const xs = menuItems(), shown = cats.filter((c) => xs.some((m) => m.cat === c));
+        if (shown.length && !shown.includes(S.cat)) S.cat = shown[0];
+        const bar = S.mq || shown.length < 2 ? '' : `<nav class="cats sticky spy" aria-label="Menu sections">${shown.map((c) => `<button data-act="cat" data-v="${esc(c)}" aria-pressed="${S.cat === c}">${esc(c)}</button>`).join('')}</nav>`;
+        return bar + shown.map((c) => `<section class="mcat" id="mcat-${catSlug(c)}" data-cat="${esc(c)}" aria-labelledby="mcat-${catSlug(c)}-h"><h3 class="mcat-h" id="mcat-${catSlug(c)}-h">${esc(c)}</h3><div class="menu rows">${xs.filter((m) => m.cat === c).map(prodRow).join('')}</div></section>`).join(''); })()}
     </section>
     <section class="sec" id="checkout">
       <div class="sec-h"><h2>Your order</h2>${t.qty ? `<small>${t.qty} item${t.qty > 1 ? 's' : ''}</small>` : ''}</div>
@@ -3733,7 +3787,7 @@ body.barista-view #switch { display: flex; align-items: center; }
     else if (a === 'scan-file') document.getElementById('scan-file')?.click();
     else if (a === 'scan-open') scanOpen();
     else if (a === 'scan-close') scanClose();
-    else if (a === 'cat') { S.cat = b.dataset.v; S.mf = ''; render(); }
+    else if (a === 'cat') { S.cat = b.dataset.v; for (const x of b.parentElement.querySelectorAll('button')) x.setAttribute('aria-pressed', String(x === b)); document.getElementById('mcat-' + catSlug(b.dataset.v))?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth', block: 'start' }); }
     else if (a === 'qty') { const id = b.dataset.id, r = b.getBoundingClientRect(); S.cart[id] = Math.max(0, Math.min(20, (S.cart[id] || 0) + +b.dataset.d)); render(); if (+b.dataset.d > 0) flyToBasket({ getBoundingClientRect: () => r }); }
     else if (a === 'opt') { S.form[b.dataset.k] = b.dataset.v; render(); }
     else if (a === 'goto-checkout') { if (S.tab !== 'order') { S.tab = 'order'; render(); } document.getElementById('checkout')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
