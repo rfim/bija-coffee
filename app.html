@@ -1178,6 +1178,20 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
 .rot .usual-card .ub b { font-size: 16px; }
 .rot .usual-card .btn { grid-column: auto; align-self: center; }
 .rot .rot-i > * { min-height: 92px; }
+/* bottom bar like Grind: the lens pill sits 8px in from the bar on every side, icon and label centred in it */
+.bnav { padding: 8px; }
+.bnav .in { position: relative; align-items: stretch; }
+.bnav .in > span { position: relative; z-index: 1; align-self: stretch; } /* the lens (an <i>) sits under them */
+.bnav .in > span > button.side { height: 100%; }
+.bnav button.side { margin: 0; min-height: 52px; padding: 0; gap: 3px; align-content: center; background: none !important; transition: transform .25s cubic-bezier(.2,.8,.2,1); }
+.bnav .lens { position: absolute; left: 0; top: 0; z-index: 0; border-radius: 20px; background: #efedea; opacity: 0; pointer-events: none; transform: translateX(var(--lx, 0)); transition: transform .46s cubic-bezier(.2,.8,.2,1), opacity .2s ease, background-color .2s ease, box-shadow .2s ease, scale .25s cubic-bezier(.2,.8,.2,1); }
+.bnav .lens.on { opacity: 1; }
+/* pressed: a glass lens, a touch bigger, and the icon magnified under it */
+.bnav .lens.press { scale: 1.08; background: rgba(239, 237, 234, .72); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .9), 0 6px 18px rgba(0, 0, 0, .14); -webkit-backdrop-filter: blur(4px) saturate(1.4); backdrop-filter: blur(4px) saturate(1.4); }
+.bnav button.side.press { transform: scale(1.06); }
+.bnav button.side.press svg { transform: scale(1.22) translateY(-1px); }
+@media (max-height: 720px) { .bnav { padding: 6px; } .bnav button.side { min-height: 46px; margin: 0; padding: 0; } }
+@media (prefers-reduced-motion: reduce) { .bnav .lens { transition: opacity .2s ease; } .bnav .lens.press { scale: 1; } .bnav button.side.press, .bnav button.side.press svg { transform: none; } }
 </style>
 
 <div class="wrap" id="wrap">
@@ -1871,6 +1885,27 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
     c.style.setProperty('--tx', (gx * .35).toFixed(2) + 'deg'); c.style.setProperty('--ty', (-gy * .25).toFixed(2) + 'deg');
     c.style.setProperty('--mx', (50 + gx * 2).toFixed(1) + '%'); c.style.setProperty('--my', (50 + gy * 2).toFixed(1) + '%'); c.style.setProperty('--go', .8);
   });
+  // the bottom bar's lens, like Grind's: one pill that slides to the current tab with a little liquid stretch; pressing a tab
+  // pulls the lens under your finger and magnifies the icon. Under reduced motion it simply jumps.
+  function lensTo(btn, press) {
+    const inn = document.querySelector('#bnav .in'); if (!inn) return;
+    let lens = inn.querySelector('.lens');
+    if (!lens) { lens = document.createElement('i'); lens.className = 'lens'; lens.setAttribute('aria-hidden', 'true'); inn.prepend(lens); }
+    if (!btn) { lens.classList.remove('on', 'press'); return; }
+    const a = inn.getBoundingClientRect(), r = btn.getBoundingClientRect(), x = Math.round(r.left - a.left);
+    const was = lens.classList.contains('on') ? +lens.dataset.x : null;
+    if (was == null) { lens.style.transition = 'none'; void lens.offsetWidth; }
+    Object.assign(lens.style, { width: r.width + 'px', height: r.height + 'px', top: (r.top - a.top) + 'px' });
+    lens.style.setProperty('--lx', x + 'px'); lens.dataset.x = x;
+    if (was == null) { void lens.offsetWidth; lens.style.transition = ''; }
+    lens.classList.add('on'); lens.classList.toggle('press', !!press);
+    if (was != null && was !== x && !calm() && lens.animate) lens.animate([{ scale: '1 1' }, { scale: '1.22 .9', offset: .45 }, { scale: '1 1' }], { duration: 460, easing: 'cubic-bezier(.2,.8,.2,1)', composite: 'add' });
+  }
+  const sideBtn = (e) => e.target.closest?.('#bnav button.side');
+  addEventListener('pointerdown', (e) => { const b = sideBtn(e); if (!b) return; b.classList.add('press'); lensTo(b, true); }, { passive: true });
+  const unpress = (e) => { const b = document.querySelector('#bnav button.side.press'); if (!b) return; b.classList.remove('press'); if (e.type !== 'pointerup') lensTo(document.querySelector('#bnav button.side[aria-current="page"]')); else document.querySelector('#bnav .lens')?.classList.remove('press'); };
+  addEventListener('pointerup', unpress, { passive: true }); addEventListener('pointercancel', unpress, { passive: true });
+  addEventListener('resize', () => lensTo(document.querySelector('#bnav button.side[aria-current="page"]')), { passive: true });
   function renderSwitch() {
     // customers see only the logo. Staff hold the Order button for 3 seconds (or open app.html?view=bar) and enter the staff PIN.
     if (S.wantBar && S.configLoaded) { S.wantBar = false; setTimeout(() => pinOpen(true), 0); }
@@ -1909,6 +1944,7 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
       }
       fab.classList.toggle('ready', ready); fab.setAttribute('aria-label', qty ? `Order, ${qty} item${qty > 1 ? 's' : ''} in basket` : 'Order');
       nav.querySelector('.fab-l').classList.toggle('on', cur === 'order');
+      lensTo(nav.querySelector('button.side[aria-current="page"]'));
       tabs = []; key = 'tab';
     }
     $('#tabs').innerHTML = tabs.map(([id, l, n], i) => `<button role="tab" data-act="tab" data-v="${id}" aria-selected="${S[key] === id}"${S.view === 'bar' ? ` aria-keyshortcuts="${i + 1}"` : ''}>${l}${n ? `<span class="dot">${n}</span>` : ''}${S.view === 'bar' ? `<kbd aria-hidden="true">${i + 1}</kbd>` : ''}</button>`).join('');
