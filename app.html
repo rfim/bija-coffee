@@ -622,6 +622,7 @@ button.chip { font: inherit; font-weight: 600; cursor: pointer; }
 /* Grind-style Home: greeting band with avatar, "Your usual?" card */
 .hband { position: relative; margin: -12px -16px 16px; padding: 24px 72px 20px 16px; background-color: #efedea; background-size: 56px 56px; }
 .greet.q { font: 800 clamp(28px, 8.4vw, 38px)/1.05 var(--display); text-transform: none; letter-spacing: -.02em; margin: 0; text-wrap: balance; }
+.hsub { margin: 4px 0 12px; font: 500 13px var(--sans); color: var(--muted); }
 .hband .sub { margin: 8px 0 0; font: 500 13px var(--sans); color: var(--muted); }
 .avatar { position: absolute; top: 20px; right: 16px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #0b0b0b; color: #fff; display: grid; place-items: center; font: 700 18px var(--display); }
 .avatar svg { width: 24px; height: 24px; }
@@ -2461,7 +2462,8 @@ body:not(.barista-view) #main > .dnudge, body:not(.barista-view) #main > .rot { 
       { img: 'photos/shop-3.jpg', ey: 'Secret St James\'s', t: 'Find the hidden streets', act: 'data-act="tab" data-v="secret"' },
     ];
     const ini = name ? esc(name.trim().charAt(0).toLocaleUpperCase('en-GB')) : `<svg viewBox="-2 -2 104 104" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="7"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg>`;
-    return `${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
+    return `<p class="hsub">${esc(window.BijaGreet().sub)}</p>
+      ${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
       ${active ? '' : S.dietEdit === 'home' ? dietNudge('home') : forYou(st)}
       <h2 class="wn-h">What's new</h2>
       <div class="promos wn" aria-label="What's new">${slides.map((x, i) => `<button class="slide wn-c" ${x.act}>${slidePic(x.img, i)}<span class="sl"><span class="ey">${esc(x.ey)}</span><b>${esc(x.t)}</b></span></button>`).join('')}</div>
