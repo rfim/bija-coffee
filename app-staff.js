@@ -86,7 +86,7 @@ function queue() {
         <div class="lines">${(o.lines || []).map((l) => `<b>${num(l.qty, 0, 20)}×</b> ${esc(l.name)}${l.origin ? ` (${esc(origin(l.origin)?.name || '')})` : ''}${optText(l) ? ` — <b style="color:var(--ink)">${esc(clip(optText(l), 60))}</b>` : ''}`).join(' · ')}</div>
         <div class="hint">${o.milk ? esc(o.milk) + ' milk · ' + esc(o.sweet) + ' · ' : ''}${esc(o.slot)} · <b style="color:var(--ink)">${money(o.total)}</b> · ${fmt(o.createdAt)}</div>
         ${o.status !== 'collected' && Math.abs((+o.claimed || 0) - o.total) > 0.01 ? `<div class="hint warn"><b>Price check:</b> ${money(o.total)} on today's menu, ${Number.isFinite(o.claimed) ? money(o.claimed) : 'no total'} in the order. Charge the menu price.</div>` : ''}
-        ${o.note ? `<p class="quote${/^ALLERGY:/.test(o.note) ? ' allergy' : ''}">${/^ALLERGY:/.test(o.note) ? '⚠ ' : ''}${esc(o.note)}</p>` : ''}
+        ${o.note ? `<p class="quote${/^ALLERGY:/.test(o.note) ? ' allergy' : ''}">${/^ALLERGY:/.test(o.note) ? lineIcon('alert') + ' ' : ''}${esc(o.note)}</p>` : ''}
         ${o.reward ? `<div class="hint warn"><b>Points reward:</b> ${esc(o.reward.name)} (−${num(o.reward.pts, 0, 1e5)} pts) · ${money(o.discount)} off${o.status !== 'collected' && st.pointsRaw < 0 ? ' · <b>not enough points: charge full price</b>' : ''}</div>` : ''}
         ${o.status !== 'collected' && o.stampFree ? `<div class="hint warn"><b>Stamp card:</b> free drink${st.stampsRaw < 0 ? ' · <b>not enough stamps: charge full price</b>' : ''}</div>` : ''}
         ${o.status !== 'collected' && +o.giftPay > 0 ? (() => { const give = Math.min(+o.giftPay, o.total, Math.max(0, st.giftBase)); return `<div class="hint"><b>Gift card:</b> ${money(give)} from their balance · take ${money(Math.max(0, r2(o.total - give)))}</div>`; })() : ''}
@@ -160,13 +160,13 @@ function lvInsights() {
       <div class="tile"><small>Members visiting</small><b>${num(I.members_active, 0, 1e6)}</b><span>${num(I.repeat_members, 0, 1e6)} came back (${pct}%), last ${num(I.days, 1, 366)} days</span></div>
       <div class="tile"><small>App revenue</small><b>${money(+I.revenue || 0)}</b><span>${num(I.orders, 0, 1e6)} collected · ${money(+I.avg_order || 0)} average</span></div>
       <div class="tile"><small>In store with Bija Card</small><b>${money(+ins.amount || 0)}</b><span>${num(ins.count, 0, 1e6)} visit${+ins.count === 1 ? '' : 's'} recorded</span></div>
-      <div class="tile"><small>Rating</small><b>${ratings.length ? avg.toFixed(1) : '–'}</b><span>${ratings.length} rating${ratings.length === 1 ? '' : 's'}</span></div>
+      <div class="tile"><small>Rating</small><b>${ratings.length ? num1(avg) : '–'}</b><span>${ratings.length} rating${ratings.length === 1 ? '' : 's'}</span></div>
     </div>
     <div class="cols sec">
       <div class="panel"><div class="sec-h"><h2>Best sellers</h2><small>Last ${num(I.days, 1, 366)} days</small></div>${bars(best)}</div>
       <div class="panel"><div class="sec-h"><h2>Collected by hour</h2><small>London time</small></div>${bars(hours)}</div>
       <div class="panel"><div class="sec-h"><h2>Secret spots found</h2></div>${bars(spots.filter((s) => s[1]))}</div>
-      <div class="panel"><div class="sec-h"><h2>What people say</h2></div>${comments.length ? `<div class="list">${comments.map((r) => `<p class="quote">${esc(r.comment)}<br><span class="hint">${esc(r.name || 'Guest')} · ${'★'.repeat(num(r.stars, 0, 5))}</span></p>`).join('')}</div>` : '<p class="hint">No comments yet.</p>'}</div>
+      <div class="panel"><div class="sec-h"><h2>What people say</h2></div>${comments.length ? `<div class="list">${comments.map((r) => `<p class="quote">${esc(r.comment)}<br><span class="hint">${esc(r.name || 'Guest')} · ${stars(num(r.stars, 0, 5))}</span></p>`).join('')}</div>` : '<p class="hint">No comments yet.</p>'}</div>
     </div>`;
   }
 function lvMembersTable() {
@@ -201,13 +201,13 @@ function insights() {
       <div class="tile"><small>App customers</small><b>${buyers.length}</b><span>${repeat} came back</span></div>
       <div class="tile"><small>Revenue</small><b>${money(all.reduce((a, o) => a + (+o.total || 0), 0))}</b><span>${all.length} order${all.length === 1 ? '' : 's'}, all time</span></div>
       <div class="tile"><small>Points issued</small><b>${S.customers.reduce((a, c) => a + stats(c, S.bars[c.id]).lifetime, 0).toLocaleString('en-GB')}</b><span>${S.customers.reduce((a, c) => a + stats(c, S.bars[c.id]).spent, 0).toLocaleString('en-GB')} spent on rewards</span></div>
-      <div class="tile"><small>Rating</small><b>${ratings.length ? avg.toFixed(1) : '–'}</b><span>${ratings.length} rating${ratings.length === 1 ? '' : 's'}</span></div>
+      <div class="tile"><small>Rating</small><b>${ratings.length ? num1(avg) : '–'}</b><span>${ratings.length} rating${ratings.length === 1 ? '' : 's'}</span></div>
     </div>
     <div class="cols sec">
       <div class="panel"><div class="sec-h"><h2>Best sellers</h2></div>${bars([...qty].sort((a, b) => b[1] - a[1]).slice(0, 8))}</div>
       <div class="panel"><div class="sec-h"><h2>Order times</h2></div>${bars([...hours].sort((a, b) => a[0].localeCompare(b[0])))}</div>
       <div class="panel"><div class="sec-h"><h2>Secret spots found</h2></div>${bars(spots.filter((s) => s[1]))}</div>
-      <div class="panel"><div class="sec-h"><h2>What people say</h2></div>${comments.length ? `<div class="list">${comments.map((r) => `<p class="quote">${esc(r.comment)}<br><span class="hint">${esc(r.name || 'Guest')} · ${'★'.repeat(num(r.stars, 0, 5))}</span></p>`).join('')}</div>` : '<p class="hint">No comments yet.</p>'}</div>
+      <div class="panel"><div class="sec-h"><h2>What people say</h2></div>${comments.length ? `<div class="list">${comments.map((r) => `<p class="quote">${esc(r.comment)}<br><span class="hint">${esc(r.name || 'Guest')} · ${stars(num(r.stars, 0, 5))}</span></p>`).join('')}</div>` : '<p class="hint">No comments yet.</p>'}</div>
     </div>`;
   }
 const VAT_HELP = { 20: 'Standard rate', 5: 'Reduced rate, e.g. home energy', 0: 'Zero rate, e.g. milk, beans, most food', exempt: 'Exempt, e.g. insurance, card fees', none: 'No VAT: wages, business rates' };
@@ -228,12 +228,12 @@ function vatQuarters(st = finSet(), today = ldate()) { // most recent first: the
   }
 function recurringKeys() { // latest entry for each monthly cost, keyed by category and supplier
     const m = new Map();
-    for (const e of S.fin.entries) if (e.kind === 'expense' && e.recurring) { const k = catOf(e) + '|' + String(e.note || '').trim().toLowerCase(); const p = m.get(k); if (!p || e.date > p.date) m.set(k, e); }
+    for (const e of S.fin.entries) if (e.kind === 'expense' && e.recurring) { const k = catOf(e) + '|' + String(e.note || '').trim().toLocaleLowerCase('en-GB'); const p = m.get(k); if (!p || e.date > p.date) m.set(k, e); }
     return [...m.values()];
   }
 function recurringDue(today = ldate()) { // monthly costs not yet added this month
     const ym = today.slice(0, 7);
-    return recurringKeys().filter((e) => e.date.slice(0, 7) < ym && !S.fin.entries.some((x) => x.kind === 'expense' && x.date.slice(0, 7) === ym && catOf(x) === catOf(e) && String(x.note || '').trim().toLowerCase() === String(e.note || '').trim().toLowerCase()));
+    return recurringKeys().filter((e) => e.date.slice(0, 7) < ym && !S.fin.entries.some((x) => x.kind === 'expense' && x.date.slice(0, 7) === ym && catOf(x) === catOf(e) && String(x.note || '').trim().toLocaleLowerCase('en-GB') === String(e.note || '').trim().toLocaleLowerCase('en-GB')));
   }
 function cashFlow(st = finSet(), today = ldate()) {
     const wk0 = monday(today), weeks = [];
@@ -488,7 +488,7 @@ function finStaffView() {
     const low = ppl.filter((p) => p.rate && p.rate < UK.nlw);
     return `${fhead('Staff costs', 'An estimate of what the team costs. Your payroll provider has exact figures.')}
     ${fbig('fin-staff-total', 'Team cost a week', money(total), '', `${money(gross)} wages · ${money(ni)} employer NI · ${money(pens)} pension · about ${money(total * 52 / 12)} a month`)}
-    ${low.length ? `<p class="hint warn">${low.map((p) => esc(p.name || 'Someone')).join(', ')} ${low.length === 1 ? 'is' : 'are'} below the National Living Wage of £${UK.nlw.toFixed(2)} an hour (21 and over, from April 2026). Check ages and gov.uk rates.</p>` : ''}
+    ${low.length ? `<p class="hint warn">${low.map((p) => esc(p.name || 'Someone')).join(', ')} ${low.length === 1 ? 'is' : 'are'} below the National Living Wage of ${money(UK.nlw)} an hour (21 and over, from April 2026). Check ages and gov.uk rates.</p>` : ''}
     <section class="fsec" id="fin-staff"><h3 class="fh3">Team</h3>
       ${D.map((p, i) => `<div class="staffrow"><label class="f">Name<input type="text" id="fst-${i}-name" data-staff="${i}:name" value="${esc(p.name)}" maxlength="30"></label><label class="f">£ an hour<input type="number" inputmode="decimal" min="0" step="0.01" id="fst-${i}-rate" data-staff="${i}:rate" value="${esc(p.rate)}"></label><label class="f">Hours a week<input type="number" inputmode="decimal" min="0" step="0.5" id="fst-${i}-hours" data-staff="${i}:hours" value="${esc(p.hours)}"></label><button class="btn sm ghost" data-act="fstaffdel" data-v="${i}" aria-label="Remove ${esc(p.name || 'person ' + (i + 1))}">Remove</button></div>`).join('') || '<p class="hint">Add the people you pay, first names only, to estimate weekly costs.</p>'}
       <button class="linkish" data-act="fstaffadd">+ Add a person</button>
@@ -555,7 +555,7 @@ function finReports() {
     <section class="fsec"><h3 class="fh3">Export</h3><p class="hint">Accountant CSV: Date, Description, Reference, Amount, Account, Tax rate. Imports into Xero or QuickBooks as a bank statement or journal.</p>
       ${fcta(`<button class="btn" data-act="facsv" ${ledger.length ? '' : 'disabled'}>Accountant CSV</button>`, `<button class="btn ghost" data-act="fcsv" ${ledger.length ? '' : 'disabled'}>Cash flow CSV</button>`)}</section>
     <section class="fsec"><h3 class="fh3">Ledger</h3>
-      ${!ledger.length ? `<div class="empty"><b>Nothing in ${esc(pl.toLowerCase())}</b>Daily closes, expenses and other income you add show up here.</div>` : `<div class="tablewrap"><table class="ftab" id="fin-ledger"><thead><tr><th scope="col">Date</th><th scope="col">Type</th><th scope="col">Details</th><th scope="col" class="num">In</th><th scope="col" class="num">Out</th><th scope="col"><span class="sr">Actions</span></th></tr></thead><tbody>${ledger.map((e) => { const v = flow(e); return `<tr><td class="d">${dlabel(e.date)}</td><td>${KIND[e.kind] || ''}</td><td>${detail(e)}</td><td class="num">${v > 0 ? money(v) : ''}</td><td class="num">${v < 0 ? money(-v) : ''}</td><td class="act"><button class="btn sm ghost" data-act="fdel" data-id="${esc(e.id)}" ${S.busy ? 'disabled' : ''}>${F.del === e.id ? 'Sure? Delete' : 'Delete'}</button></td></tr>`; }).join('')}</tbody></table></div>`}
+      ${!ledger.length ? `<div class="empty"><b>Nothing in ${esc(pl.toLocaleLowerCase('en-GB'))}</b>Daily closes, expenses and other income you add show up here.</div>` : `<div class="tablewrap"><table class="ftab" id="fin-ledger"><thead><tr><th scope="col">Date</th><th scope="col">Type</th><th scope="col">Details</th><th scope="col" class="num">In</th><th scope="col" class="num">Out</th><th scope="col"><span class="sr">Actions</span></th></tr></thead><tbody>${ledger.map((e) => { const v = flow(e); return `<tr><td class="d">${dlabel(e.date)}</td><td>${KIND[e.kind] || ''}</td><td>${detail(e)}</td><td class="num">${v > 0 ? money(v) : ''}</td><td class="num">${v < 0 ? money(-v) : ''}</td><td class="act"><button class="btn sm ghost" data-act="fdel" data-id="${esc(e.id)}" ${S.busy ? 'disabled' : ''}>${F.del === e.id ? 'Sure? Delete' : 'Delete'}</button></td></tr>`; }).join('')}</tbody></table></div>`}
     </section>`;
   }
 function finSettingsView() {
@@ -752,7 +752,7 @@ function mhCosts() {
     ${mhPart('dishes')}
     <section class="sec"><div class="sec-h"><h3>Drink & dish costs</h3><small>Last 28 days</small></div>
       ${!rows.length ? '<div class="empty"><b>No costs yet</b>Drinks, cakes and beans show their cost and margin here once their recipes are entered in Maheera.</div>'
-        : `<div class="panel tablewrap"><table><thead><tr><th>Item</th><th class="num">Price</th><th class="num">Sold</th><th class="num">Cost each</th><th class="num">Margin</th></tr></thead><tbody>${rows.map((x) => { const m = mhN(x.margin_pct); return `<tr><td><b>${esc(mhName(x))}</b>${x.category ? `<div class="hint">${esc(clip(x.category, 40))}</div>` : ''}</td><td class="num">${mhMoney(x.price)}</td><td class="num">${num(x.qty, 0, 1e7)}</td><td class="num">${each(x)}</td><td class="num">${m === null ? '<span class="hint">Not costed yet</span>' : `<span${m < 60 ? ' class="neg"' : ''}>${m.toFixed(1)}%</span>`}</td></tr>`; }).join('')}</tbody></table></div>`}</section>`;
+        : `<div class="panel tablewrap"><table><thead><tr><th>Item</th><th class="num">Price</th><th class="num">Sold</th><th class="num">Cost each</th><th class="num">Margin</th></tr></thead><tbody>${rows.map((x) => { const m = mhN(x.margin_pct); return `<tr><td><b>${esc(mhName(x))}</b>${x.category ? `<div class="hint">${esc(clip(x.category, 40))}</div>` : ''}</td><td class="num">${mhMoney(x.price)}</td><td class="num">${num(x.qty, 0, 1e7)}</td><td class="num">${each(x)}</td><td class="num">${m === null ? '<span class="hint">Not costed yet</span>' : `<span${m < 60 ? ' class="neg"' : ''}>${num1(m)}%</span>`}</td></tr>`; }).join('')}</tbody></table></div>`}</section>`;
   }
 function mhWeek() {
     const rows = mhRows(S.mh.data.pnl).filter((r) => isDate(r.day)).sort((a, z) => z.day.localeCompare(a.day));
