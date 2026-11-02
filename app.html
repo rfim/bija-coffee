@@ -2876,10 +2876,10 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
       </div>
     </article>`;
   }
-  // how the menu bar switches section as you scroll (?catfx=1..5 on the link, for that visit; none until one is chosen):
+  // how the menu bar switches section as you scroll (?catfx=1..5 on the link tries another, for that visit; 2 ink is the default):
   // 1 glide (a black pill slides to the new section), 2 ink (the new chip fills in the direction you scroll),
   // 3 pop (the new chip springs in), 4 underline (a bar slides under the names), 5 roll (the name rolls up as it fills)
-  const CAT_FX = (() => { try { const v = new URLSearchParams(location.search).get('catfx') || ''; return /^[1-5]$/.test(v) ? v : ''; } catch { return ''; } })();
+  const CAT_FX = (() => { try { const v = new URLSearchParams(location.search).get('catfx') || ''; return /^[1-5]$/.test(v) ? v : '2'; } catch { return '2'; } })();
   // chip positions are measured once per draw and reused, so a switch never forces the browser to re-measure mid-scroll
   function catInd(bar, now) {
     const ind = bar.querySelector('.cat-ind'), bs = [...bar.querySelectorAll('button')]; if (!ind || !bs.length) return;
