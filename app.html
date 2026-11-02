@@ -3178,9 +3178,9 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
   };
   const subPlan = (w) => { const c = CUPS.find((x) => x.id === w.cups), pr = product(w.pid); if (!c || !pr) return null; const qty = pr.set ? Math.max(1, Math.round(c.bags / 3)) : c.bags, unit = unitOf(pr, c.plan); return { c, pr, qty, plan: c.plan, unit, total: r2(unit * qty), full: r2(pr.price * qty) }; };
   function cupsArt(n) { return `<svg viewBox="0 0 64 40" aria-hidden="true">${Array.from({ length: n }, (_, i) => `<g transform="translate(${8 + i * 14} ${n > 2 ? (i % 2) * 6 : 3})"><path d="M2 10h16v8a8 8 0 0 1-16 0z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M18 12h2.5a3 3 0 0 1 0 6H17" fill="none" stroke="currentColor" stroke-width="2"/></g>`).join('')}</svg>`; }
-  // how Create subscription moves (?subfx=1..5 on the link, for that visit; the plain slide-up until one is chosen):
+  // how Create subscription moves (?subfx=1..5 on the link tries another, for that visit; 2 soft focus is the default):
   // 1 lift and tick, 2 soft focus, 3 cascade, 4 slide along, 5 spring cards
-  const SUB_FX = (() => { try { const v = new URLSearchParams(location.search).get('subfx') || ''; return /^[1-5]$/.test(v) ? v : ''; } catch { return ''; } })();
+  const SUB_FX = (() => { try { const v = new URLSearchParams(location.search).get('subfx') || ''; return /^[1-5]$/.test(v) ? v : '2'; } catch { return '2'; } })();
   function subSheet() {
     const anim = S.swJust ? ' in' : ''; S.swJust = false; const ev = S.swEv || {}; S.swEv = null;
     const fxa = SUB_FX ? ` data-subfx="${SUB_FX}"` : '';
