@@ -1461,6 +1461,29 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
   .sw[data-subfx="5"] .sw-t.just { animation: sf5-bounce .55s cubic-bezier(.3,1.5,.5,1); } @keyframes sf5-bounce { 0% { transform: scale(.9); } 100% { transform: none; } }
   .sw[data-subfx="1"] .sw-body.rv-in, .sw[data-subfx="2"] .sw-body.rv-in, .sw[data-subfx="3"] .sw-body.rv-in, .sw[data-subfx="5"] .sw-body.rv-in { animation: sf1-in .45s cubic-bezier(.32,.72,0,1); }
 }
+/* Maheera & insights mark (back office, ?mhui=): Maheera's own mark in its warm amber with a soft, slow glow, as in Stir */
+.mh-mark { width: 24px; height: 24px; flex: none; color: #E0A526; filter: drop-shadow(0 0 3px rgba(224,165,38,.55)) drop-shadow(0 0 8px rgba(224,165,38,.35)); }
+@media (prefers-reduced-motion: no-preference) { .mh-mark { animation: mh-glow 3.2s ease-in-out infinite; } @keyframes mh-glow { 50% { opacity: .78; } } }
+.mhb { display: inline-grid; place-items: center; border: 0; padding: 0; cursor: pointer; color: var(--ink); background: radial-gradient(circle, rgba(224,165,38,.22), rgba(224,165,38,0) 70%); transition: transform .15s ease; }
+.mhb:active { transform: scale(.94); }
+.mhb[aria-pressed="true"] { background: radial-gradient(circle, rgba(240,190,80,.42), rgba(224,165,38,0) 72%); }
+.mhb[aria-pressed="true"] .mh-mark { color: #F0BE50; filter: drop-shadow(0 0 5px rgba(240,190,80,.9)) drop-shadow(0 0 14px rgba(224,165,38,.6)); }
+.mhb:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.mhb-head, .mhb-title { width: 44px; height: 44px; border-radius: 50%; margin-right: 6px; } .mhb-head .mh-mark, .mhb-title .mh-mark { width: 28px; height: 28px; }
+.top .brand:has(.mhb-title) { display: flex; align-items: center; gap: 8px; }
+.mhb-mob { display: none; } @media (max-width: 599px) { .mhb-mob { display: inline-grid; margin-right: auto; } }
+#mhorb { position: fixed; right: max(18px, var(--sa-right)); bottom: calc(22px + var(--sa-bottom)); z-index: 30; }
+.mhb-orb { width: 60px; height: 60px; border-radius: 50%; background: #0b0b0b; box-shadow: 0 10px 28px rgba(0,0,0,.25), 0 0 0 6px rgba(224,165,38,.14); } .mhb-orb .mh-mark { width: 34px; height: 34px; }
+.mhb-orb[aria-pressed="true"] { background: #0b0b0b; box-shadow: 0 10px 28px rgba(0,0,0,.25), 0 0 0 7px rgba(240,190,80,.3); }
+.mhb-card { display: flex; align-items: center; gap: 10px; justify-content: flex-start; min-height: 48px; padding: 8px 12px; border-radius: 12px; font: 600 14px var(--sans); white-space: nowrap; background: linear-gradient(90deg, rgba(224,165,38,.16), rgba(224,165,38,.04)); border: 1px solid rgba(224,165,38,.35); }
+.mhb-card[aria-pressed="true"] { background: linear-gradient(90deg, rgba(240,190,80,.3), rgba(224,165,38,.08)); border-color: rgba(224,165,38,.7); }
+@media (min-width: 900px) { #tabs .mhb-card { margin-top: auto; } #mhban { display: none; } }
+@media (max-width: 899px) { #tabs .mhb-card { display: none; } #mhban { margin: 4px 0 10px; } #mhban .mhb-card { width: 100%; } #mhban .mhb-card::after { content: '›'; margin-left: auto; font-size: 18px; color: var(--muted); } }
+#tabs [data-v="insights"] .mh-mark { width: 18px; height: 18px; margin-right: 6px; vertical-align: -4px; }
+.mh-seg { display: flex; gap: 6px; padding: 4px; margin: 0 0 16px; border-radius: 999px; background: var(--card); width: max-content; max-width: 100%; }
+.mh-seg button { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; background: transparent; font: 600 14px var(--sans); color: var(--ink); cursor: pointer; transition: background-color .25s ease, color .25s ease; }
+.mh-seg button .mh-mark { width: 18px; height: 18px; }
+.mh-seg button[aria-selected="true"] { background: #0b0b0b; color: #fff; }
 </style>
 
 <div class="wrap" id="wrap">
@@ -2163,6 +2186,11 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     c.style.setProperty('--tx', (gx * .35).toFixed(2) + 'deg'); c.style.setProperty('--ty', (-gy * .25).toFixed(2) + 'deg');
     c.style.setProperty('--mx', (50 + gx * 2).toFixed(1) + '%'); c.style.setProperty('--my', (50 + gy * 2).toFixed(1) + '%'); c.style.setProperty('--go', .8);
   });
+  // Maheera & insights behind one glowing mark, the way Stir's kitchen has it: the mark opens Insights first, and a
+  // Maheera | Insights switch sits on top. ?mhui=1..5 picks where the mark lives (1 header, 2 tab, 3 floating, 4 sidebar card, 5 title)
+  const MH_MARK = '<svg class="mh-mark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path class="mh-mark-shape" fill="currentColor" fill-rule="evenodd" d="M49.31 95.46C49.11 95.31 46.80 93.02 44.19 90.39C41.58 87.76 38.77 84.95 37.95 84.14C35.94 82.18 35.94 82.18 35.14 81.23C33.41 79.19 33.11 78.65 32.51 76.56C32.04 74.94 32.03 73.52 32.47 71.82C32.88 70.23 33.46 69.22 34.98 67.43C35.94 66.29 35.94 66.15 34.89 65.10C33.85 64.06 33.71 64.06 32.57 65.02C30.78 66.54 29.77 67.12 28.18 67.53C26.48 67.97 25.06 67.96 23.44 67.49C21.35 66.89 20.81 66.59 18.77 64.86C17.82 64.06 17.82 64.05 15.86 62.05C15.06 61.23 12.22 58.40 9.56 55.75C4.50 50.72 4.25 50.44 4.25 50.00C4.25 49.56 4.50 49.28 9.56 44.25C12.22 41.60 15.06 38.77 15.86 37.95C17.82 35.95 17.82 35.94 18.77 35.14C20.81 33.41 21.35 33.11 23.44 32.51C25.06 32.04 26.48 32.03 28.18 32.47C29.77 32.88 30.78 33.46 32.57 34.98C33.71 35.94 33.85 35.94 34.90 34.89C35.94 33.85 35.94 33.71 34.98 32.57C33.46 30.78 32.88 29.77 32.47 28.18C32.03 26.48 32.04 25.06 32.51 23.44C33.11 21.35 33.41 20.81 35.14 18.77C35.94 17.82 35.95 17.82 37.95 15.86C38.77 15.06 41.60 12.22 44.25 9.56C49.28 4.50 49.56 4.25 50.00 4.25C50.44 4.25 50.72 4.50 55.75 9.56C58.40 12.22 61.23 15.06 62.05 15.86C64.05 17.82 64.06 17.82 64.86 18.77C66.59 20.81 66.89 21.35 67.49 23.44C67.96 25.06 67.97 26.48 67.53 28.18C67.12 29.77 66.54 30.78 65.02 32.57C64.06 33.71 64.06 33.85 65.10 34.89C66.15 35.94 66.29 35.94 67.43 34.98C69.22 33.46 70.23 32.88 71.82 32.47C73.52 32.03 74.94 32.04 76.56 32.51C78.65 33.11 79.19 33.41 81.23 35.14C82.18 35.94 82.18 35.95 84.14 37.95C84.94 38.77 87.78 41.60 90.44 44.25C95.50 49.28 95.75 49.56 95.75 50.00C95.75 50.44 95.50 50.72 90.44 55.75C87.78 58.40 84.94 61.23 84.14 62.05C82.18 64.05 82.18 64.06 81.23 64.86C79.19 66.59 78.65 66.89 76.56 67.49C74.94 67.96 73.52 67.97 71.82 67.53C70.23 67.12 69.22 66.54 67.43 65.02C66.29 64.06 66.15 64.06 65.11 65.10C64.06 66.15 64.06 66.29 65.02 67.43C66.54 69.22 67.12 70.23 67.53 71.82C67.97 73.52 67.96 74.94 67.49 76.56C66.89 78.65 66.59 79.19 64.86 81.23C64.06 82.18 64.05 82.18 62.05 84.14C61.23 84.94 58.40 87.78 55.75 90.44C53.10 93.10 50.79 95.38 50.61 95.51C50.17 95.82 49.78 95.80 49.31 95.46ZM16.82 82.80C17.08 82.32 17.43 81.77 17.59 81.56C17.76 81.36 18.22 80.74 18.62 80.19C19.71 78.68 21.30 76.91 23.54 74.70C26.59 71.69 27.12 71.38 27.85 72.16C28.58 72.95 28.31 73.41 25.30 76.46C23.09 78.70 21.32 80.29 19.81 81.38C19.26 81.78 18.64 82.24 18.44 82.41C18.23 82.57 17.68 82.92 17.20 83.18L16.35 83.65L16.82 82.80ZM82.74 83.15C82.29 82.90 81.76 82.56 81.55 82.40C81.35 82.24 80.74 81.79 80.19 81.38C78.68 80.28 76.90 78.69 74.70 76.46C71.69 73.41 71.38 72.88 72.16 72.15C72.95 71.42 73.41 71.69 76.46 74.70C78.70 76.91 80.29 78.68 81.38 80.19C81.78 80.74 82.24 81.36 82.41 81.56C82.69 81.91 83.68 83.63 83.60 83.62C83.58 83.62 83.19 83.41 82.74 83.15ZM53.50 63.96C58.82 62.56 62.85 58.41 64.08 53.06C64.41 51.65 64.41 48.35 64.08 46.94C62.82 41.46 58.54 37.18 53.06 35.92C51.65 35.59 48.35 35.59 46.94 35.92C41.46 37.18 37.18 41.46 35.92 46.94C35.59 48.35 35.59 51.65 35.92 53.06C36.76 56.71 39.00 59.95 42.11 62.01C43.87 63.18 45.61 63.84 48.12 64.30C48.30 64.33 49.31 64.34 50.38 64.32C51.96 64.28 52.53 64.22 53.50 63.96ZM48.29 59.62C46.44 59.29 44.12 58.02 42.90 56.69C41.98 55.68 41.20 54.35 40.73 53.00C40.34 51.87 40.32 51.72 40.32 50.00C40.32 48.28 40.34 48.13 40.73 47.00C41.77 43.97 43.97 41.76 46.96 40.74C48.13 40.34 48.27 40.32 50.00 40.32C51.73 40.32 51.87 40.34 53.04 40.74C56.03 41.76 58.23 43.97 59.27 47.00C59.66 48.13 59.68 48.28 59.68 50.00C59.68 51.72 59.66 51.87 59.27 53.00C57.89 57.00 54.47 59.57 50.38 59.69C49.58 59.72 48.65 59.69 48.29 59.62ZM26.18 27.76C24.49 26.46 20.10 21.85 18.62 19.81C18.22 19.26 17.76 18.64 17.59 18.44C17.43 18.23 17.08 17.68 16.82 17.20L16.35 16.35L17.20 16.82C17.68 17.08 18.23 17.43 18.44 17.59C18.64 17.76 19.26 18.22 19.81 18.62C21.32 19.71 23.09 21.30 25.30 23.54C28.31 26.60 28.62 27.12 27.83 27.86C27.33 28.33 26.89 28.31 26.18 27.76ZM72.62 28.16C72.28 28.03 71.89 27.60 71.81 27.24C71.70 26.74 72.29 25.99 74.70 23.54C76.91 21.30 78.68 19.71 80.19 18.62C80.74 18.22 81.36 17.76 81.56 17.59C81.77 17.43 82.32 17.08 82.80 16.82L83.65 16.35L83.18 17.20C82.92 17.68 82.57 18.23 82.41 18.44C82.24 18.64 81.78 19.26 81.38 19.81C79.36 22.60 73.69 28.28 72.97 28.24C72.89 28.23 72.73 28.20 72.62 28.16Z"/></svg>';
+  S.mhui = (() => { try { const v = new URLSearchParams(location.search).get('mhui') || ''; return /^[1-5]$/.test(v) ? v : ''; } catch { return ''; } })();
+  const mhBtn = (cls, label) => `<button class="mhb ${cls}" data-act="mh-open" aria-pressed="${['insights', 'maheera'].includes(S.btab)}" aria-label="Maheera and insights" title="Maheera and insights">${MH_MARK}${label ? `<span>${label}</span>` : ''}</button>`;
   function renderSwitch() {
     // customers see only the logo. Staff hold the Order button for 3 seconds (or open app.html?view=bar) and enter the staff PIN.
     if (S.wantBar && S.configLoaded) { S.wantBar = false; setTimeout(() => pinOpen(true), 0); }
@@ -2170,6 +2198,12 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     const sw = $('#switch'); sw.hidden = S.view !== 'bar';
     sw.innerHTML = S.view === 'bar' ? `<span class="bo-who" title="Signed in to the back office"><i class="${S.sb ? '' : 'off'}" aria-hidden="true"></i>${esc(S.pinEmail || 'Staff')} · ${S.sb ? 'live' : 'this device only'}</span><button class="cust-link" data-act="view" data-v="customer">Exit</button>` : '';
     const bh = document.querySelector('.top .brand h1'); if (bh) bh.textContent = S.view === 'bar' ? 'Back office' : 'Bija';
+    const bar = S.view === 'bar' && S.mhui;
+    if (bar && S.mhui === '1') sw.insertAdjacentHTML('afterbegin', mhBtn('mhb-head'));
+    if (bar && S.mhui === '5') sw.insertAdjacentHTML('afterbegin', mhBtn('mhb-title mhb-mob')); // phones hide the title block, so the mark leads the header row there
+    const br = document.querySelector('.top .brand'); br?.querySelector('.mhb')?.remove(); if (bar && S.mhui === '5' && br) br.insertAdjacentHTML('afterbegin', mhBtn('mhb-title'));
+    document.getElementById('mhban')?.remove(); if (bar && S.mhui === '4') document.getElementById('tabs')?.insertAdjacentHTML('afterend', `<div id="mhban">${mhBtn('mhb-card', 'Maheera &amp; insights')}</div>`);
+    document.getElementById('mhorb')?.remove(); if (bar && S.mhui === '3') { document.body.insertAdjacentHTML('beforeend', `<div id="mhorb">${mhBtn('mhb-orb')}</div>`); }
   }
   function renderTabs() {
     let tabs, key;
@@ -2179,6 +2213,7 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
       const toSend = S.customers.reduce((a, c) => a + shopOf(c, S.bars[c.id]).filter((o) => o.status === 'placed').length, 0) + subsDue().length;
       const refWait = refsToConfirm().length;
       tabs = [['queue', 'Queue', open], ['shop', 'Web & delivery', toSend], ['members', 'Members', refWait], ['gifts', 'Gift cards', waiting], ['insights', 'Insights'], ['finance', 'Finance'], ['maheera', 'Maheera'], ['menu', 'Menu']]; key = 'btab';
+      if (S.mhui) tabs = tabs.filter(([id]) => id !== 'maheera' && (S.mhui === '2' || id !== 'insights'));
     } else {
       const st = mine(), live = st.os.filter((o) => o.status !== 'collected' && o.status !== 'cancelled').length;
       const canRedeem = REWARDS.filter((r) => st.balance >= r.pts).length;
@@ -2203,7 +2238,8 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
       nav.querySelector('.fab-l').classList.toggle('on', cur === 'order');
       tabs = []; key = 'tab';
     }
-    $('#tabs').innerHTML = tabs.map(([id, l, n], i) => `<button role="tab" data-act="tab" data-v="${id}" aria-selected="${S[key] === id}"${S.view === 'bar' ? ` aria-keyshortcuts="${i + 1}"` : ''}>${l}${n ? `<span class="dot">${n}</span>` : ''}${S.view === 'bar' ? `<kbd aria-hidden="true">${i + 1}</kbd>` : ''}</button>`).join('');
+    const mhSel = S.view === 'bar' && ['insights', 'maheera'].includes(S.btab);
+    $('#tabs').innerHTML = tabs.map(([id, l, n], i) => `<button role="tab" data-act="tab" data-v="${id}" aria-selected="${S[key] === id || (id === 'insights' && mhSel)}"${S.view === 'bar' ? ` aria-keyshortcuts="${i + 1}"` : ''}>${S.view === 'bar' && id === 'insights' && S.mhui === '2' ? MH_MARK : ''}${l}${n ? `<span class="dot">${n}</span>` : ''}${S.view === 'bar' ? `<kbd aria-hidden="true">${i + 1}</kbd>` : ''}</button>`).join('') + (S.view === 'bar' && S.mhui === '4' ? mhBtn('mhb-card', 'Maheera &amp; insights') : '');
   }
   // the basket bar hides while the checkout section is on screen, so it never covers "Place order".
   // One observer for the page; render() re-creates #checkout, so it is re-observed after each render.
@@ -3728,6 +3764,7 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
   // when someone opens the staff view; for staff accounts they prefetch once the app is idle. Customers never download them.
   let STAFF = null, staffLoading = null;
   const staffCore = {
+    get MH_MARK() { return MH_MARK; },
     get CAT_META() { return CAT_META; },
     get FIN_GROUPS() { return FIN_GROUPS; },
     get KIND() { return KIND; },
@@ -4573,6 +4610,8 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
       if (!S.form.name) S.form.name = name;
       run(async () => { await saveMine({ name: S.me?.name || name, updatedAt: createdAt, shop: { [sid]: order }, subs: subsFrom(sid, t.lines, createdAt, delivery) }); S.subw = null; window.scrollTo({ top: 0 }); }, 'Subscription started. Welcome to Beans Club.');
     }
+    else if (a === 'mh-open') { S.btab = 'insights'; render(); window.scrollTo({ top: 0 }); }
+    else if (a === 'mh-view') { S.btab = b.dataset.v; render(); }
     else if (a === 'note-open') { S.noteOpen = true; render(); document.getElementById('f-note')?.focus(); }
     else if (a === 'tu-amt') { S.topup = +b.dataset.v; render(); document.querySelector(`[data-act=tu-amt][data-v="${S.topup}"]`)?.focus({ preventScroll: true }); }
     else if (a === 'tu-go') {

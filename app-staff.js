@@ -42,6 +42,8 @@ function barista() {
     if (S.btab === 'members') return members();
     if (S.btab === 'shop') return shopBar();
     if (S.btab === 'gifts') return giftsBar();
+    // with the Maheera mark (S.mhui) both live behind one switch, Insights first
+    if (S.mhui && (S.btab === 'insights' || S.btab === 'maheera')) return `<div class="mh-seg" role="tablist" aria-label="Insights or Maheera"><button role="tab" data-act="mh-view" data-v="insights" aria-selected="${S.btab === 'insights'}">Insights</button><button role="tab" data-act="mh-view" data-v="maheera" aria-selected="${S.btab === 'maheera'}">${MH_MARK}Maheera</button></div>` + (S.btab === 'insights' ? insights() : maheera());
     if (S.btab === 'insights') return insights();
     if (S.btab === 'menu') return menuEditor();
     if (S.btab === 'finance') return finance();
