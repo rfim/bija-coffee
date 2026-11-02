@@ -1370,6 +1370,23 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
 .co .co-go { position: sticky; bottom: calc(104px + var(--sa-bottom)); z-index: 5; display: grid; gap: 4px; justify-items: center; padding: 8px 0 2px; background: var(--card); box-shadow: 0 -12px 12px -4px var(--card); }
 .co .co-go .btn { width: 100%; min-height: 50px; font-size: 16px; } .co .co-go .hint { font-size: 12.5px; }
 @media (max-height: 720px) { .co .co-go { bottom: calc(84px + var(--sa-bottom)); } }
+/* menu bar section switch styles (only with ?catfx=); every move is transform or opacity, the pill width aside */
+.cats.spy[data-catfx] { position: sticky; }
+.cats.spy[data-catfx] button { position: relative; z-index: 1; overflow: hidden; transition: color .4s cubic-bezier(.32,.72,0,1), background-color .4s cubic-bezier(.32,.72,0,1), border-color .4s cubic-bezier(.32,.72,0,1); }
+.cats.spy[data-catfx] button > span { position: relative; z-index: 1; display: inline-block; }
+.cat-ind { position: absolute; left: 0; top: 0; height: 44px; border-radius: 999px; background: var(--ink); z-index: 0; pointer-events: none; transition: transform .55s cubic-bezier(.32,.72,0,1), width .55s cubic-bezier(.32,.72,0,1); will-change: transform, width; contain: strict; }
+/* 1 glide */
+.cats.spy[data-catfx="1"] button[aria-pressed="true"] { background: transparent; border-color: transparent; color: #fff; }
+/* 2 ink */
+.cats.spy[data-catfx="2"] .cat-ind, .cats.spy[data-catfx="3"] .cat-ind, .cats.spy[data-catfx="5"] .cat-ind { display: none; }
+.cats.spy[data-catfx="2"] button[aria-pressed="true"] { background: var(--card); color: #fff; border-color: var(--ink); }
+.cats.spy[data-catfx="2"] button::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform .55s cubic-bezier(.32,.72,0,1); will-change: transform; }
+.cats.spy[data-catfx="2"][data-dir="back"] button::before { transform-origin: right; }
+.cats.spy[data-catfx="2"] button[aria-pressed="true"]::before { transform: scaleX(1); }
+/* 4 underline */
+.cats.spy[data-catfx="4"] .cat-ind { height: 3px; }
+.cats.spy[data-catfx="4"] button, .cats.spy[data-catfx="4"] button[aria-pressed="true"] { background: transparent; border-color: transparent; color: var(--muted); }
+.cats.spy[data-catfx="4"] button[aria-pressed="true"] { color: var(--ink); }
 </style>
 
 <div class="wrap" id="wrap">
@@ -2036,6 +2053,7 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     watchCheckout(); renderBasket(); renderSheet(); cardFx(); layoutFx(); stampFx(); walletFx();
     document.body.classList.toggle('has-stab', !!document.querySelector('#main .stab'));
     topupFx();
+    { const cb = document.querySelector('#main .cats.spy[data-catfx]'); if (cb) catInd(cb, true); }
     if (aid) { const el = document.getElementById(aid); if (el) { el.focus({ preventScroll: true }); try { if (s0 != null) el.setSelectionRange(s0, s1); } catch {} } }
   }
   // card motion: points count up when they change, the card leans towards a finger or the mouse
@@ -2858,6 +2876,28 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
       </div>
     </article>`;
   }
+  // how the menu bar switches section as you scroll (?catfx=1..5 on the link, for that visit; none until one is chosen):
+  // 1 glide (a black pill slides to the new section), 2 ink (the new chip fills in the direction you scroll),
+  // 3 pop (the new chip springs in), 4 underline (a bar slides under the names), 5 roll (the name rolls up as it fills)
+  const CAT_FX = (() => { try { const v = new URLSearchParams(location.search).get('catfx') || ''; return /^[1-5]$/.test(v) ? v : ''; } catch { return ''; } })();
+  // chip positions are measured once per draw and reused, so a switch never forces the browser to re-measure mid-scroll
+  function catInd(bar, now) {
+    const ind = bar.querySelector('.cat-ind'), bs = [...bar.querySelectorAll('button')]; if (!ind || !bs.length) return;
+    if (now || !bar._pos) bar._pos = bs.map((b) => [b.offsetLeft, b.offsetTop, b.offsetWidth, b.offsetHeight]);
+    const i = bs.findIndex((b) => b.getAttribute('aria-pressed') === 'true'), q = bar._pos[i]; if (!q) return;
+    if (now) ind.style.transition = 'none';
+    ind.style.width = q[2] + 'px'; ind.style.transform = `translate3d(${q[0]}px, ${bar.dataset.catfx === '4' ? q[1] + q[3] - 6 : q[1]}px, 0)`;
+    if (now) requestAnimationFrame(() => { ind.style.transition = ''; });
+  }
+  addEventListener('resize', () => { const cb = document.querySelector('#main .cats.spy[data-catfx]'); if (cb) catInd(cb, true); }, { passive: true });
+  function catFx(bar, from, to) {
+    if (!CAT_FX || calm() || !to) return catInd(bar, true);
+    const bs = [...bar.querySelectorAll('button')], fwd = bs.indexOf(to) > bs.indexOf(from);
+    bar.dataset.dir = fwd ? 'fwd' : 'back';
+    if (CAT_FX === '1' || CAT_FX === '4') catInd(bar);
+    if (CAT_FX === '3') to.animate?.([{ transform: 'scale(.88)' }, { transform: 'scale(1.06)', offset: .6 }, { transform: 'none' }], { duration: 520, easing: 'cubic-bezier(.32,.72,0,1)' });
+    if (CAT_FX === '5') { const sp = to.firstElementChild, y = fwd ? '110%' : '-110%'; sp?.animate?.([{ transform: `translateY(${y})`, opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 520, easing: 'cubic-bezier(.32,.72,0,1)' }); from?.firstElementChild?.animate?.([{ transform: 'none', opacity: 1 }, { transform: `translateY(${fwd ? '-110%' : '110%'})`, opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 520, easing: 'cubic-bezier(.32,.72,0,1)' }); }
+  }
   // the category bar follows the scroll: the section under the bar is the one highlighted, like Grind's menu
   function menuSpy() {
     const bar = document.querySelector('.cats.spy'); if (!bar || S.tab !== 'order') return;
@@ -2867,8 +2907,9 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) { const all = document.querySelectorAll('.mcat'); if (all.length) cur = all[all.length - 1].dataset.cat; }
     cur = cur || bar.querySelector('button')?.dataset.v;
     if (!cur || cur === S.cat) return;
-    S.cat = cur;
+    S.cat = cur; const was = bar.querySelector('[aria-pressed="true"]');
     for (const b of bar.querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.v === cur));
+    catFx(bar, was, bar.querySelector('[aria-pressed="true"]'));
     const on = bar.querySelector('[aria-pressed="true"]'); if (on) bar.scrollTo({ left: on.offsetLeft - 16, behavior: calm() ? 'auto' : 'smooth' });
   }
   addEventListener('scroll', menuSpy, { passive: true });
@@ -2887,7 +2928,7 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
       ${(() => { const xs = menuItems(); return xs.length ? '' : `<div class="empty"><b>${S.mf === 'fav' && !S.mq ? 'No favourites yet' : 'Nothing found'}</b>${S.mf === 'fav' && !S.mq ? 'Tap the heart on any drink or cake to keep it here.' : 'Try another word, or clear the filters to see the whole menu.'}<br><button class="btn sm ghost" data-act="mqclear" style="margin-top:12px">Show the whole menu</button></div>`; })()}
       ${(() => { const xs = menuItems(), shown = cats.filter((c) => xs.some((m) => m.cat === c));
         if (shown.length && !shown.includes(S.cat)) S.cat = shown[0];
-        const bar = S.mq || shown.length < 2 ? '' : `<nav class="cats sticky spy" aria-label="Menu sections">${shown.map((c) => `<button data-act="cat" data-v="${esc(c)}" aria-pressed="${S.cat === c}">${esc(c)}</button>`).join('')}</nav>`;
+        const bar = S.mq || shown.length < 2 ? '' : `<nav class="cats sticky spy" aria-label="Menu sections"${CAT_FX ? ` data-catfx="${CAT_FX}"` : ''}>${CAT_FX ? '<i class="cat-ind" aria-hidden="true"></i>' : ''}${shown.map((c) => `<button data-act="cat" data-v="${esc(c)}" aria-pressed="${S.cat === c}"><span>${esc(c)}</span></button>`).join('')}</nav>`;
         return bar + shown.map((c) => `<section class="mcat" id="mcat-${catSlug(c)}" data-cat="${esc(c)}" aria-labelledby="mcat-${catSlug(c)}-h"><h3 class="mcat-h" id="mcat-${catSlug(c)}-h">${esc(c)}</h3><div class="menu rows">${xs.filter((m) => m.cat === c).map(prodRow).join('')}</div></section>`).join(''); })()}
     </section>
     <section class="sec" id="checkout">
