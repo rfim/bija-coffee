@@ -496,7 +496,7 @@ legend { font: 600 12px/1.3 var(--sans); }
 .slide .sl { position: absolute; left: 18px; right: 18px; bottom: 18px; z-index: 1; display: grid; gap: 8px; justify-items: start; }
 .slide .sl b { font: 900 clamp(30px, 9vw, 44px)/.92 var(--display); text-transform: uppercase; letter-spacing: -.02em; }
 .slide .pl { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; background: #fff; color: #0b0b0b; font: 600 12px/1 var(--sans); }
-.dots { display: flex; justify-content: center; gap: 6px; margin: -4px 0 14px; } .dots i { width: 6px; height: 6px; border-radius: 3px; background: var(--line); } .dots i:first-child { width: 18px; background: var(--ink); }
+.dots { display: flex; justify-content: center; gap: 6px; margin: -4px 0 14px; } .dots i { width: 6px; height: 6px; border-radius: 3px; background: var(--line); } .dots i { transition: width .3s cubic-bezier(.32,.72,0,1), background-color .3s ease; } .dots i.on { width: 18px; background: var(--ink); }
 .ptiles { display: grid; grid-auto-flow: column; grid-auto-columns: 46%; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .ptile { scroll-snap-align: start; display: flex; flex-direction: column; align-items: stretch; padding: 0; border: 0; background: var(--tile); border-radius: 16px; overflow: hidden; min-width: 0; }
 .ptile .pb { gap: 6px; } .ptile b { font: 600 15px/1.2 var(--sans); } .ptile small { color: var(--muted); font-size: 12px; }
@@ -2027,7 +2027,10 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     const sl = document.querySelector('.site-link'); if (sl) sl.hidden = !S.demo; // the claude.ai page has no website beside it
     $('#demo').innerHTML = '';
     const pageKey = S.view + ':' + (S.view === 'bar' ? S.btab : S.tab);
+    // keep side-swiped strips (What's new, product tiles) where they were when the page is redrawn in place
+    const keepX = pageKey === S.lastPage ? [...document.querySelectorAll('#main .promos, #main .ptiles')].map((e) => [e.className, e.scrollLeft]) : [];
     $('#main').innerHTML = S.view === 'bar' ? barista() : customer();
+    for (const [c, x] of keepX) { const e = [...document.querySelectorAll('#main .promos, #main .ptiles')].find((y) => y.className === c); if (e && x) { e.scrollLeft = x; e.dispatchEvent(new Event('scroll')); } }
     // a new page fades up; started with the animation API, so the browser isn't forced to lay the page out early. A tab switch has its own transition.
     if (pageKey !== S.lastPage) { S.lastPage = pageKey; if (!document.documentElement.classList.contains('mo-vt') && !matchMedia('(prefers-reduced-motion: reduce)').matches) $('#main').animate?.([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: 500, easing: 'cubic-bezier(.16,1,.3,1)' }); }
     watchCheckout(); renderBasket(); renderSheet(); cardFx(); layoutFx(); stampFx(); walletFx();
@@ -2724,7 +2727,7 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
       ${active ? '' : S.dietEdit === 'home' ? dietNudge('home') : forYou(st)}
       <h2 class="wn-h">What's new</h2>
       <div class="promos wn" aria-label="What's new">${slides.map((x, i) => `<button class="slide wn-c" ${x.act}>${slidePic(x.img, i)}<span class="sl"><span class="ey">${esc(x.ey)}</span><b>${esc(x.t)}</b></span></button>`).join('')}</div>
-      <div class="dots" aria-hidden="true">${slides.map(() => '<i></i>').join('')}</div>`;
+      <div class="dots" aria-hidden="true">${slides.map((_, k) => `<i${k ? '' : ' class="on"'}></i>`).join('')}</div>`;
   }
   // "Your usual?": the main item of the last collected order (the priciest drink, else the priciest line); a first-timer gets the signature drink
   function usualCard(st) {
@@ -3416,6 +3419,17 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     }
   }
   document.addEventListener('toggle', (e) => { const d = e.target; if (d?.classList?.contains('pd-acc')) S.pdAcc = { ...(S.pdAcc || {}), [d.dataset.k]: d.open }; }, true);
+  // What's new: the dot under the photos follows the slide you've swiped to
+  let wnRaf = 0;
+  document.addEventListener('scroll', (e) => {
+    const r = e.target; if (!r?.classList?.contains('promos') || wnRaf) return;
+    wnRaf = requestAnimationFrame(() => {
+      wnRaf = 0; const first = r.firstElementChild, dots = r.nextElementSibling; if (!first || !dots?.classList.contains('dots')) return;
+      const step = first.offsetWidth + (parseFloat(getComputedStyle(r).columnGap) || 0), n = dots.children.length;
+      const i = r.scrollLeft + r.clientWidth >= r.scrollWidth - 4 ? n - 1 : Math.round(r.scrollLeft / Math.max(1, step));
+      [...dots.children].forEach((d, k) => d.classList.toggle('on', k === Math.min(n - 1, i)));
+    });
+  }, { capture: true, passive: true });
   function giftsPage() {
     if (!S.meLoaded) return notReady();
     const st = mine(), g = S.gift, amount = g.amount === 'other' ? +g.custom || 0 : g.amount;
