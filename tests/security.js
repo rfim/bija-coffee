@@ -136,7 +136,10 @@ async function enterStaff(page) {
 }
 async function staffTab(page, v, label) {
   const t = page.locator(`[data-act="tab"][data-v="${v}"]:visible`);
-  if (await t.count()) await t.first().click();
+  // Insights and Maheera sit behind the glowing Maheera mark (it opens Insights first)
+  const mh = page.locator('[data-act="mh-open"]:visible');
+  if (!(await t.count()) && (v === 'insights' || v === 'maheera') && (await mh.count())) { await mh.first().click(); await settle(page); if (v === 'maheera') await page.locator('[data-act="mh-view"][data-v="maheera"]').first().click(); }
+  else if (await t.count()) await t.first().click();
   else await page.locator('button:visible, [role="tab"]:visible').filter({ hasText: label }).first().click();
   await settle(page);
 }
