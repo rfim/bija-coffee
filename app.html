@@ -1387,6 +1387,46 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
 .cats.spy[data-catfx="4"] .cat-ind { height: 3px; }
 .cats.spy[data-catfx="4"] button, .cats.spy[data-catfx="4"] button[aria-pressed="true"] { background: transparent; border-color: transparent; color: var(--muted); }
 .cats.spy[data-catfx="4"] button[aria-pressed="true"] { color: var(--ink); }
+/* Beans Club landing and the Create subscription sheet */
+.cb { display: grid; justify-items: center; text-align: center; gap: 12px; padding: 8px 0 6px; }
+.cb-pic { width: 100%; max-width: 420px; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 20px; }
+.cb h2 { margin: 8px 0 0; font: 800 clamp(24px, 7vw, 30px)/1.1 var(--display); letter-spacing: -.01em; text-wrap: balance; max-width: 14em; }
+.cb > p { margin: 0; color: var(--muted); max-width: 34ch; }
+.cb-ben { list-style: none; margin: 10px 0 4px; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; text-align: left; width: 100%; max-width: 420px; }
+.cb-ben li { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; line-height: 1.35; color: var(--muted); }
+.cb-ben b { color: var(--ink); font-weight: 600; }
+.cb-ic { flex: none; width: 28px; height: 28px; display: grid; place-items: center; } .cb-ic svg { width: 24px; height: 24px; }
+.cb-go { width: 100%; max-width: 420px; min-height: 52px; margin-top: 8px; font-size: 16px; }
+.sw { position: fixed; inset: 0; z-index: 40; background: var(--paper, #fff); display: flex; flex-direction: column; }
+@media (prefers-reduced-motion: no-preference) { .sw.in { animation: sw-up .5s cubic-bezier(.32,.72,0,1); } @keyframes sw-up { from { transform: translate3d(0, 100%, 0); } } }
+.sw-top { flex: none; display: flex; align-items: center; gap: 12px; padding: calc(10px + var(--sa-top)) max(16px, var(--sa-right)) 10px max(16px, var(--sa-left)); border-bottom: 1px solid var(--line); }
+.sw-top .back { padding: 0 14px; min-height: 40px; border-radius: 999px; background: var(--card); font-weight: 600; }
+.sw-top h2 { margin: 0; font: 700 18px var(--sans); }
+.sw-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 18px max(16px, var(--sa-right)) 24px max(16px, var(--sa-left)); -webkit-overflow-scrolling: touch; }
+.sw-s { margin-bottom: 28px; scroll-margin-top: 12px; transition: opacity .3s ease; } .sw-s.dim { opacity: .38; }
+.sw-h { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+.sw-n { flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--ink); display: grid; place-items: center; font: 600 13px var(--sans); }
+.sw-n.done { background: var(--ink); color: #fff; }
+.sw-h h3 { margin: 2px 0 2px; font: 700 17px/1.25 var(--sans); } .sw-h p { margin: 0; font-size: 13px; color: var(--muted); }
+.sw-g { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sw-t { display: grid; gap: 4px; justify-items: start; align-content: start; text-align: left; padding: 12px; border: 1.5px solid var(--line); border-radius: 16px; background: #fff; color: var(--ink); cursor: pointer; transition: border-color .2s ease, box-shadow .2s ease, transform .15s ease; }
+.sw-t:active { transform: scale(.97); }
+.sw-t.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.sw-t b { font: 600 14px/1.25 var(--sans); } .sw-t small { font-size: 12px; color: var(--muted); }
+.sw-ic { width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; background: var(--card); display: grid; place-items: center; margin-bottom: 4px; } .sw-ic svg { width: 40%; height: auto; max-height: 70%; }
+.sw-ic.cups svg { width: 62%; }
+.sw-art { width: 100%; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background: var(--card); margin-bottom: 4px; display: block; position: relative; }
+.sw-m { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; } .sw-t.sm { padding: 12px 12px 14px; }
+.sw-body .f { margin-top: 10px; display: grid; gap: 6px; font: 600 13px var(--sans); }
+.sw-body .f input { width: 100%; min-height: 48px; padding: 0 14px; border: 1.5px solid var(--line); border-radius: 12px; background: #fff; font: 400 16px var(--sans); color: var(--ink); }
+.sw-body .f input:focus { outline: none; border-color: var(--ink); }
+.cb-more { width: 100%; min-height: 48px; margin-top: 12px; }
+.sw-foot { flex: none; padding: 10px max(16px, var(--sa-right)) calc(12px + var(--sa-bottom)) max(16px, var(--sa-left)); border-top: 1px solid var(--line); background: var(--paper, #fff); }
+.sw-foot .btn { width: 100%; min-height: 52px; font-size: 15px; }
+.sw-sum { display: flex; gap: 14px; align-items: center; padding: 12px; border-radius: 16px; background: var(--card); }
+.sw-sum .bagart { width: 72px; height: 72px; flex: none; position: relative; } .sw-sum b { display: block; font: 700 16px var(--sans); } .sw-sum span { font-size: 13px; color: var(--muted); }
+.sw-dl { margin: 16px 0; display: grid; } .sw-dl > div { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.sw-dl dt { color: var(--muted); } .sw-dl dd { margin: 0; text-align: right; font-weight: 500; } .sw-dl s { color: var(--muted); font-weight: 400; }
 </style>
 
 <div class="wrap" id="wrap">
@@ -3084,11 +3124,70 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
       </div>`}
     </section>`;
   }
+  // Beans Club, Grind-style: a short landing, then "Create subscription" asks three questions with picture tiles
+  // (how you brew, how much you drink, which beans) and where to send it; the answers become a normal shop subscription
+  const CUPS = [
+    { id: 'less', t: 'Less than once a day', bags: 1, plan: '4w' },
+    { id: 'one', t: 'Once a day', bags: 1, plan: '2w' },
+    { id: 'two', t: '1–2 cups a day', bags: 2, plan: '3w' },
+    { id: 'more', t: '3–4 cups a day', bags: 3, plan: '2w' },
+  ];
+  const BREWS = [['Whole bean', 'Grind it yourself'], ['Espresso', 'Machine'], ['Cafetière', 'French press'], ['Filter', 'Drip or batch brew'], ['V60', 'Pour-over'], ['Moka pot', 'Stovetop'], ['AeroPress', 'Press']];
+  const BREW_ART = {
+    'Whole bean': '<ellipse cx="20" cy="20" rx="9" ry="13" transform="rotate(25 20 20)"/><path d="M15 9c5 6 5 15 10 22"/>',
+    Espresso: '<path d="M11 16h16v5a8 8 0 0 1-16 0z"/><path d="M27 18h2a3 3 0 0 1 0 6h-3"/><path d="M8 33h24"/><path d="M17 8v4M21 8v4"/>',
+    'Cafetière': '<rect x="12" y="11" width="15" height="21" rx="2"/><path d="M27 15h3v12h-3"/><path d="M19.5 6v15M15 21h9"/>',
+    Filter: '<path d="M10 10h20l-6 12h-8z"/><path d="M14 26h12v6H14z"/><path d="M20 22v4"/>',
+    V60: '<path d="M9 11h22l-8 13h-6z"/><path d="M13 28h14"/><path d="M15 24h10"/>',
+    'Moka pot': '<path d="M14 6h12l-2 12h-8z"/><path d="M13 18h14l2 15H11z"/><path d="M26 9h4l-2 6"/>',
+    AeroPress: '<rect x="14" y="5" width="12" height="9" rx="1"/><rect x="12" y="14" width="16" height="16" rx="2"/><path d="M10 33h20"/>',
+  };
+  const subPlan = (w) => { const c = CUPS.find((x) => x.id === w.cups), pr = product(w.pid); if (!c || !pr) return null; const qty = pr.set ? Math.max(1, Math.round(c.bags / 3)) : c.bags, unit = unitOf(pr, c.plan); return { c, pr, qty, plan: c.plan, unit, total: r2(unit * qty), full: r2(pr.price * qty) }; };
+  function cupsArt(n) { return `<svg viewBox="0 0 64 40" aria-hidden="true">${Array.from({ length: n }, (_, i) => `<g transform="translate(${8 + i * 14} ${n > 2 ? (i % 2) * 6 : 3})"><path d="M2 10h16v8a8 8 0 0 1-16 0z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M18 12h2.5a3 3 0 0 1 0 6H17" fill="none" stroke="currentColor" stroke-width="2"/></g>`).join('')}</svg>`; }
+  function subSheet() {
+    const anim = S.swJust ? ' in' : ''; S.swJust = false;
+    const w = S.subw, pl = subPlan(w), step3 = !!w.grind && !!w.cups, ok = pl && (w.method === 'collect' || (w.address.trim() && UK_POSTCODE.test(w.postcode.trim()))) && (w.name || S.form.name || '').trim();
+    const tile = (act, v, on, art, t, sub) => `<button class="sw-t${on ? ' on' : ''}" data-act="${act}" data-v="${esc(v)}" aria-pressed="${on}">${art}<b>${esc(t)}</b>${sub ? `<small>${esc(sub)}</small>` : ''}</button>`;
+    const step = (n, done, h, sub, body, dim) => `<section class="sw-s${dim ? ' dim' : ''}"><div class="sw-h"><span class="sw-n${done ? ' done' : ''}">${done ? '✓' : n}</span><div><h3>${h}</h3><p>${sub}</p></div></div>${body}</section>`;
+    if (w.review && ok) {
+      const first = addDays(ldate(), 2);
+      return `<div class="sw${anim}" role="dialog" aria-modal="true" aria-labelledby="sw-t"><div class="sw-top"><button class="back" data-act="sw-back">‹ Back</button><h2 id="sw-t">Your subscription</h2></div>
+        <div class="sw-body"><div class="sw-sum">${bagArt(pl.pr.id)}<div><b>${pl.qty} × ${esc(pl.pr.name)}</b><span>${esc(w.grind === 'Whole bean' ? 'Whole bean' : 'Ground for ' + w.grind)}</span></div></div>
+          <dl class="sw-dl"><div><dt>How often</dt><dd>${esc(PLANS[pl.plan])}</dd></div><div><dt>First delivery</dt><dd>${esc(ukDay(first))}</dd></div><div><dt>Delivery</dt><dd>${esc(w.method === 'post' ? 'Free, Royal Mail Tracked 48 to ' + w.postcode.trim().toLocaleUpperCase('en-GB') : 'Collect at 2a St James\'s Market')}</dd></div><div><dt>Each delivery</dt><dd><b>${money(pl.total)}</b> <s>${money(pl.full)}</s> · 10% off</dd></div></dl>
+          <p class="hint">Change, skip, pause or cancel up to 3 days before each dispatch. Every £1 earns ${PTS} points once it's sent.</p></div>
+        <div class="sw-foot"><button class="btn" data-act="sw-go" ${S.busy ? 'disabled' : ''}>${S.busy ? 'Starting…' : 'Start subscription · ' + money(pl.total)}</button></div></div>`;
+    }
+    return `<div class="sw${anim}" role="dialog" aria-modal="true" aria-labelledby="sw-t"><div class="sw-top"><button class="back" data-act="sw-close">Close</button><h2 id="sw-t">Create subscription</h2></div>
+      <div class="sw-body">
+        ${step(1, !!w.grind, 'How do you brew?', 'We grind it for you, or send whole beans.', `<div class="sw-g">${BREWS.map(([g, sub]) => tile('sw-grind', g, w.grind === g, `<span class="sw-ic"><svg viewBox="0 0 40 40" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${BREW_ART[g] || ''}</svg></span>`, g, sub)).join('')}</div>`, false)}
+        ${step(2, !!w.cups, 'How much do you drink?', 'We’ll do the maths. A 200 g bag makes about 13 cups, and you can change this later.', `<div class="sw-g">${CUPS.map((c, i) => tile('sw-cups', c.id, w.cups === c.id, `<span class="sw-ic cups">${cupsArt([1, 1, 2, 4][i])}</span>`, c.t, `${c.bags} bag${c.bags > 1 ? 's' : ''} ${PLANS[c.plan].toLocaleLowerCase('en-GB')}`)).join('')}</div>`, !w.grind)}
+        ${step(3, !!w.pid, 'Choose your beans', 'Roasted with Kindred Forest, 200 g bags.', `<div class="sw-g">${SHOP.filter((x) => !x.soon).map((pr) => tile('sw-bean', pr.id, w.pid === pr.id, `<span class="sw-art">${bagArt(pr.id)}</span>`, pr.name, pr.set ? '3 bags, one of each' : money(unitOf(pr, '2w')) + ' with the club')).join('')}</div>`, !step3)}
+        ${step(4, ok, 'Where should it go?', 'Free delivery on every subscription.', `<div class="sw-m"><button class="sw-t sm${w.method === 'post' ? ' on' : ''}" data-act="sw-method" data-v="post" aria-pressed="${w.method === 'post'}"><b>Post it to me</b><small>Royal Mail Tracked 48, free</small></button><button class="sw-t sm${w.method === 'collect' ? ' on' : ''}" data-act="sw-method" data-v="collect" aria-pressed="${w.method === 'collect'}"><b>I’ll collect it</b><small>At the bar, St James’s Market</small></button></div>
+          <label class="f">Your name<input id="sw-name" data-sw="name" value="${esc(w.name || S.form.name || '')}" autocomplete="name" maxlength="60"></label>
+          ${w.method === 'post' ? `<label class="f">Address<input id="sw-address" data-sw="address" value="${esc(w.address)}" autocomplete="street-address" maxlength="120"></label><label class="f">Postcode<input id="sw-postcode" data-sw="postcode" value="${esc(w.postcode)}" autocomplete="postal-code" maxlength="8" style="text-transform:uppercase"></label>` : ''}`, !pl)}
+      </div>
+      <div class="sw-foot"><button class="btn" data-act="sw-review" ${ok ? '' : 'disabled'}>${pl ? `View my subscription · ${money(pl.total)}` : 'View my subscription'}</button></div></div>`;
+  }
   function clubPage() {
     if (!S.meLoaded) return notReady();
     const subs = mine().subs, live = subs.filter((x) => !x.cancelled), ended = subs.filter((x) => x.cancelled);
-    return `<section class="hero" style="background-image:${attrq(pat.kawung('#ffffff', .1))}"><div class="kick">Beans Club</div><h2>Fresh beans, on your schedule.</h2><p>10% off every 200 g bag and free delivery. Change the grind or how often, skip, pause or cancel up to 3 days before your next dispatch.</p></section>
-      ${!live.length ? `<div class="empty sec"><b>No subscriptions yet</b>Choose “Subscribe” on any bag in the beans shop.<br><br><button class="btn sm" data-act="tab" data-v="beans">Shop beans</button></div>` : `<div class="list sec">${live.map((x) => `<article class="panel stack club">
+    const ben = (ic, b, t) => `<li><span class="cb-ic" aria-hidden="true">${ic}</span><span><b>${b}</b> ${t}</span></li>`;
+    const I = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+    const landing = `<section class="cb">
+        <img class="cb-pic" src="photos/feature-1-600.webp" alt="" width="600" height="480" onerror="this.src='photos/feature-1.jpg'">
+        <h2>Subscribe to get Bija beans at home.</h2>
+        <p>A 200 g bag of Indonesian beans, whole or ground for how you brew, on the schedule you choose.</p>
+        <ul class="cb-ben">
+          ${ben(I('<path d="M20 12l-8 8-8-8V4h8z"/><circle cx="8" cy="8" r="1.4"/>'), '10% off', 'every bag')}
+          ${ben(I('<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/>'), 'Free UK', 'delivery')}
+          ${ben(I('<path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>'), 'Ground', 'for how you brew')}
+          ${ben(I('<path d="M4 12a8 8 0 0 1 13.7-5.7L20 8"/><path d="M20 4v4h-4"/><path d="M20 12a8 8 0 0 1-13.7 5.7L4 16"/><path d="M4 20v-4h4"/>'), 'Skip, pause', 'or cancel anytime')}
+        </ul>
+        <button class="btn cb-go" data-act="sw-open">Subscribe now</button>
+      </section>`;
+    // subscribed: your subscriptions come first, with a small way to add another; the pitch is for people without one
+    return `${S.subw ? subSheet() : ''}${live.length ? '' : landing}
+      ${!live.length ? '' : `<div class="sec-h sec"><h2>Your subscriptions</h2></div><div class="list">${live.map((x) => `<article class="panel stack club">
         <div class="row between"><b>${x.qty}× ${esc(x.name)}</b><span class="pill ${x.paused ? 'received' : 'ready'}">${x.paused ? 'Paused' : 'Active'}</span></div>
         <div class="nextd"><span class="hint">Next delivery</span><b>${x.next ? esc(ukDay(x.next)) : 'Paused'}</b><span class="hint">${esc(shipText(x.delivery))} · ${money(x.unit * x.qty)} · ${x.done.length} sent so far</span></div>
         <div class="grid2"><label class="f">Grind<select id="sg-${esc(x.id)}" data-sub="${esc(x.id)}:grind" ${S.busy ? 'disabled' : ''}>${GRINDS.map((g) => `<option ${g === x.grind ? 'selected' : ''}>${esc(g)}</option>`).join('')}</select></label>
@@ -3100,6 +3199,7 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
         </div>
         ${Object.keys(x.skips || {}).filter((d) => d >= ldate()).length ? `<span class="hint">Skipping ${Object.keys(x.skips).filter((d) => d >= ldate()).sort().map(ukDay).map(esc).join(', ')}</span>` : ''}
       </article>`).join('')}</div>`}
+      ${live.length ? '<button class="btn ghost cb-more" data-act="sw-open">+ Add another subscription</button>' : ''}
       ${ended.length ? `<section class="sec"><div class="sec-h"><h2>Ended</h2></div><div class="list">${ended.map((x) => `<div class="usual"><div><b>${x.qty}× ${esc(x.name)}</b><small>${esc(x.grind)} · cancelled ${esc(fmt(x.cancelled))}</small></div></div>`).join('')}</div></section>` : ''}
       <p class="hint sec">Each delivery earns ${PTS} points per £1 once we send it.</p>`;
   }
@@ -4415,6 +4515,25 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     else if (a === 'noinstall') { store.set('bija.install', 'no'); render(); }
     else if (a === 'gamt') { S.gift.amount = b.dataset.v === 'other' ? 'other' : +b.dataset.v; render(); }
     else if (a === 'gdesign') { S.gift.design = b.dataset.v; render(); }
+    else if (a === 'sw-open') { S.subw = { grind: '', cups: '', pid: '', method: 'post', name: S.me?.name || S.form.name || '', address: S.sf.address || '', postcode: S.sf.postcode || '', review: false }; S.swJust = true; render(); }
+    else if (a === 'sw-close') { S.subw = null; render(); }
+    else if (a === 'sw-back') { S.subw.review = false; render(); }
+    else if (a === 'sw-grind' || a === 'sw-cups' || a === 'sw-bean' || a === 'sw-method') {
+      const k = { 'sw-grind': 'grind', 'sw-cups': 'cups', 'sw-bean': 'pid', 'sw-method': 'method' }[a], first = !S.subw[k];
+      S.subw[k] = b.dataset.v; const y = document.querySelector('.sw-body')?.scrollTop; render(); const bd = document.querySelector('.sw-body'); if (bd && y != null) { bd.scrollTop = y;
+        // after answering a question for the first time, the next one slides up into view
+        const nx = bd.querySelectorAll('.sw-s')[{ grind: 1, cups: 2, pid: 3 }[k]]; if (first && nx) setTimeout(() => nx.scrollIntoView({ block: 'start', behavior: calm() ? 'auto' : 'smooth' }), 120); }
+    }
+    else if (a === 'sw-review') { if (!subPlan(S.subw)) return; S.subw.review = true; render(); document.querySelector('.sw-body')?.scrollTo(0, 0); }
+    else if (a === 'sw-go') {
+      const w = S.subw, pl = subPlan(w); if (!pl) return; const name = (w.name || S.form.name || '').trim();
+      const sid = 'a' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), createdAt = new Date().toISOString();
+      const t = shopTotals([{ id: pl.pr.id, grind: w.grind, qty: pl.qty, plan: pl.plan }], w.method);
+      const delivery = { method: w.method, fee: t.fee, ...(w.method === 'post' ? { address: w.address.trim(), postcode: w.postcode.trim().toLocaleUpperCase('en-GB') } : {}) };
+      const order = { code: 'S' + newCode().slice(1), createdAt, name, email: '', lines: t.lines, delivery, subtotal: t.subtotal, total: t.total, source: 'app' };
+      if (!S.form.name) S.form.name = name;
+      run(async () => { await saveMine({ name: S.me?.name || name, updatedAt: createdAt, shop: { [sid]: order }, subs: subsFrom(sid, t.lines, createdAt, delivery) }); S.subw = null; window.scrollTo({ top: 0 }); }, 'Subscription started. Welcome to Beans Club.');
+    }
     else if (a === 'note-open') { S.noteOpen = true; render(); document.getElementById('f-note')?.focus(); }
     else if (a === 'tu-amt') { S.topup = +b.dataset.v; render(); document.querySelector(`[data-act=tu-amt][data-v="${S.topup}"]`)?.focus({ preventScroll: true }); }
     else if (a === 'tu-go') {
@@ -4554,6 +4673,7 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     else if (el.dataset.is) S.instore[el.dataset.is] = val;
     else if (el.dataset.pick) { const [id, k] = el.dataset.pick.split(':'); if (k === 'grind' && GRINDS.includes(val)) pickOf(id).grind = val; if (k === 'freq' && planDays(val)) pickOf(id).freq = val; }
     else if (el.dataset.sf) S.sf[el.dataset.sf] = val;
+    else if (el.dataset.sw && S.subw) { S.subw[el.dataset.sw] = val; const w = S.subw, ok = subPlan(w) && (w.method === 'collect' || (w.address.trim() && UK_POSTCODE.test(w.postcode.trim()))) && (w.name || '').trim(); const bt = document.querySelector('[data-act=sw-review]'); if (bt) bt.disabled = !ok; }
     else if (el.hasAttribute('data-ref')) S.refCode = val;
     else if (el.hasAttribute('data-mq')) { S.mq = String(val).slice(0, 40); render(); }
     else if (el.dataset.pc) S.pc[el.dataset.pc] = String(val).replace(/\D/g, '').slice(0, 8);
