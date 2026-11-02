@@ -1427,6 +1427,40 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
 .sw-sum .bagart { width: 72px; height: 72px; flex: none; position: relative; } .sw-sum b { display: block; font: 700 16px var(--sans); } .sw-sum span { font-size: 13px; color: var(--muted); }
 .sw-dl { margin: 16px 0; display: grid; } .sw-dl > div { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
 .sw-dl dt { color: var(--muted); } .sw-dl dd { margin: 0; text-align: right; font-weight: 500; } .sw-dl s { color: var(--muted); font-weight: 400; }
+/* Create subscription motion styles (?subfx=). Only what just changed animates, and only transform, opacity (and a small blur in 2) */
+@media (prefers-reduced-motion: no-preference) {
+  .sw[data-subfx].in { animation: none; }
+  /* 1 lift and tick */
+  .sw[data-subfx="1"].in { animation: sf1-up .55s cubic-bezier(.32,.72,0,1); } @keyframes sf1-up { from { transform: translate3d(0, 100%, 0); } }
+  .sw[data-subfx="1"] .sw-t.just { animation: sf1-tap .42s cubic-bezier(.32,.72,0,1); } @keyframes sf1-tap { 0% { transform: scale(.95); } 55% { transform: scale(1.03); } 100% { transform: none; } }
+  .sw[data-subfx="1"] .sw-s.answered .sw-n { animation: sf1-tick .45s cubic-bezier(.32,.72,0,1); } @keyframes sf1-tick { from { transform: rotate(-90deg) scale(.6); opacity: .3; } }
+  .sw[data-subfx="1"] .sw-s.unlock { animation: sf1-in .45s cubic-bezier(.32,.72,0,1); } @keyframes sf1-in { from { opacity: .38; transform: translate3d(0, 12px, 0); } }
+  /* 2 soft focus */
+  .sw[data-subfx="2"].in { animation: sf2-in .5s cubic-bezier(.32,.72,0,1); } @keyframes sf2-in { from { opacity: 0; transform: scale(.97); } }
+  .sw[data-subfx="2"] .sw-s.unlock { animation: sf2-focus .6s cubic-bezier(.32,.72,0,1); } @keyframes sf2-focus { from { opacity: .38; filter: blur(6px); } }
+  .sw[data-subfx="2"] .sw-t.just::after { content: ""; position: absolute; inset: -1.5px; border-radius: 16px; border: 2px solid var(--ink); animation: sf2-ring .45s cubic-bezier(.32,.72,0,1) forwards; pointer-events: none; }
+  .sw[data-subfx="2"] .sw-t { position: relative; } @keyframes sf2-ring { from { transform: scale(1.08); opacity: 0; } to { transform: none; opacity: 0; } 60% { opacity: 1; } }
+  /* 3 cascade */
+  .sw[data-subfx="3"].in { animation: sf1-up .5s cubic-bezier(.32,.72,0,1); }
+  .sw[data-subfx="3"] .sw-s.unlock .sw-t { animation: sf3-drop .5s cubic-bezier(.32,.72,0,1) both; }
+  .sw[data-subfx="3"] .sw-s.unlock .sw-t:nth-child(2) { animation-delay: .05s; } .sw[data-subfx="3"] .sw-s.unlock .sw-t:nth-child(3) { animation-delay: .1s; } .sw[data-subfx="3"] .sw-s.unlock .sw-t:nth-child(4) { animation-delay: .15s; } .sw[data-subfx="3"] .sw-s.unlock .sw-t:nth-child(5) { animation-delay: .2s; } .sw[data-subfx="3"] .sw-s.unlock .sw-t:nth-child(n+6) { animation-delay: .25s; }
+  @keyframes sf3-drop { from { opacity: 0; transform: translate3d(0, 18px, 0); } }
+  .sw[data-subfx="3"] .sw-t.just { animation: sf1-tap .4s cubic-bezier(.32,.72,0,1); }
+  /* 4 slide along */
+  .sw[data-subfx="4"].in { animation: sf4-in .5s cubic-bezier(.32,.72,0,1); } @keyframes sf4-in { from { transform: translate3d(100%, 0, 0); } }
+  .sw[data-subfx="4"] .sw-s.unlock { animation: sf4-step .5s cubic-bezier(.32,.72,0,1); } @keyframes sf4-step { from { opacity: .38; transform: translate3d(28px, 0, 0); } }
+  .sw[data-subfx="4"] .sw-body.rv-in { animation: sf4-step .45s cubic-bezier(.32,.72,0,1); }
+  .sw[data-subfx="4"] .sw-body.rv-back { animation: sf4-back .45s cubic-bezier(.32,.72,0,1); } @keyframes sf4-back { from { opacity: .4; transform: translate3d(-28px, 0, 0); } }
+  .sw[data-subfx="4"] .sw-t.just { animation: sf1-tap .4s cubic-bezier(.32,.72,0,1); }
+  /* 5 spring cards */
+  .sw[data-subfx="5"].in { animation: sf5-up .7s cubic-bezier(.3,1.25,.5,1); } @keyframes sf5-up { from { transform: translate3d(0, 100%, 0); } }
+  .sw[data-subfx="5"] .sw-s.unlock .sw-g { perspective: 800px; }
+  .sw[data-subfx="5"] .sw-s.unlock .sw-t { animation: sf5-flip .6s cubic-bezier(.3,1.25,.5,1) both; transform-origin: 50% 100%; }
+  .sw[data-subfx="5"] .sw-s.unlock .sw-t:nth-child(2n) { animation-delay: .06s; } .sw[data-subfx="5"] .sw-s.unlock .sw-t:nth-child(n+3) { animation-delay: .12s; } .sw[data-subfx="5"] .sw-s.unlock .sw-t:nth-child(n+5) { animation-delay: .18s; }
+  @keyframes sf5-flip { from { opacity: 0; transform: rotateX(-65deg); } }
+  .sw[data-subfx="5"] .sw-t.just { animation: sf5-bounce .55s cubic-bezier(.3,1.5,.5,1); } @keyframes sf5-bounce { 0% { transform: scale(.9); } 100% { transform: none; } }
+  .sw[data-subfx="1"] .sw-body.rv-in, .sw[data-subfx="2"] .sw-body.rv-in, .sw[data-subfx="3"] .sw-body.rv-in, .sw[data-subfx="5"] .sw-body.rv-in { animation: sf1-in .45s cubic-bezier(.32,.72,0,1); }
+}
 </style>
 
 <div class="wrap" id="wrap">
@@ -3119,7 +3153,7 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
           ${f.method === 'post' && !t.free ? `<div class="hint">Add ${money(FREE_POST - t.subtotal)} more, or subscribe, for free delivery.</div>` : ''}
           <div class="row between tot"><b>Total</b><b>${money(t.total)}</b></div>
           <div class="hint">You'll earn about ${Math.round(t.subtotal * PTS)} points when it's ${f.method === 'post' ? 'dispatched' : 'collected'}.</div></div>
-        <p class="hint" style="margin:0">Demo: no payment is taken. Prices include VAT. Subscriptions renew until you pause or cancel. Change, skip or cancel up to 3 days before your next dispatch.</p>
+        <p class="hint" style="margin:0">Nothing is charged in the app yet. Prices include VAT. Subscriptions renew until you pause or cancel. Change, skip or cancel up to 3 days before your next dispatch.</p>
         <button class="btn block" data-act="shopplace" ${S.busy || !S.uid ? 'disabled' : ''}>${S.busy ? 'Placing…' : `Place order · ${money(t.total)}`}</button>
       </div>`}
     </section>`;
@@ -3144,21 +3178,25 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
   };
   const subPlan = (w) => { const c = CUPS.find((x) => x.id === w.cups), pr = product(w.pid); if (!c || !pr) return null; const qty = pr.set ? Math.max(1, Math.round(c.bags / 3)) : c.bags, unit = unitOf(pr, c.plan); return { c, pr, qty, plan: c.plan, unit, total: r2(unit * qty), full: r2(pr.price * qty) }; };
   function cupsArt(n) { return `<svg viewBox="0 0 64 40" aria-hidden="true">${Array.from({ length: n }, (_, i) => `<g transform="translate(${8 + i * 14} ${n > 2 ? (i % 2) * 6 : 3})"><path d="M2 10h16v8a8 8 0 0 1-16 0z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M18 12h2.5a3 3 0 0 1 0 6H17" fill="none" stroke="currentColor" stroke-width="2"/></g>`).join('')}</svg>`; }
+  // how Create subscription moves (?subfx=1..5 on the link, for that visit; the plain slide-up until one is chosen):
+  // 1 lift and tick, 2 soft focus, 3 cascade, 4 slide along, 5 spring cards
+  const SUB_FX = (() => { try { const v = new URLSearchParams(location.search).get('subfx') || ''; return /^[1-5]$/.test(v) ? v : ''; } catch { return ''; } })();
   function subSheet() {
-    const anim = S.swJust ? ' in' : ''; S.swJust = false;
+    const anim = S.swJust ? ' in' : ''; S.swJust = false; const ev = S.swEv || {}; S.swEv = null;
+    const fxa = SUB_FX ? ` data-subfx="${SUB_FX}"` : '';
     const w = S.subw, pl = subPlan(w), step3 = !!w.grind && !!w.cups, ok = pl && (w.method === 'collect' || (w.address.trim() && UK_POSTCODE.test(w.postcode.trim()))) && (w.name || S.form.name || '').trim();
-    const tile = (act, v, on, art, t, sub) => `<button class="sw-t${on ? ' on' : ''}" data-act="${act}" data-v="${esc(v)}" aria-pressed="${on}">${art}<b>${esc(t)}</b>${sub ? `<small>${esc(sub)}</small>` : ''}</button>`;
-    const step = (n, done, h, sub, body, dim) => `<section class="sw-s${dim ? ' dim' : ''}"><div class="sw-h"><span class="sw-n${done ? ' done' : ''}">${done ? '✓' : n}</span><div><h3>${h}</h3><p>${sub}</p></div></div>${body}</section>`;
+    const tile = (act, v, on, art, t, sub) => `<button class="sw-t${on ? ' on' : ''}${ev.act === act && ev.v === v ? ' just' : ''}" data-act="${act}" data-v="${esc(v)}" aria-pressed="${on}">${art}<b>${esc(t)}</b>${sub ? `<small>${esc(sub)}</small>` : ''}</button>`;
+    const step = (n, done, h, sub, body, dim) => `<section class="sw-s${dim ? ' dim' : ''}${ev.unlock === n ? ' unlock' : ''}${ev.done === n ? ' answered' : ''}"><div class="sw-h"><span class="sw-n${done ? ' done' : ''}">${done ? '✓' : n}</span><div><h3>${h}</h3><p>${sub}</p></div></div>${body}</section>`;
     if (w.review && ok) {
       const first = addDays(ldate(), 2);
-      return `<div class="sw${anim}" role="dialog" aria-modal="true" aria-labelledby="sw-t"><div class="sw-top"><button class="back" data-act="sw-back">‹ Back</button><h2 id="sw-t">Your subscription</h2></div>
-        <div class="sw-body"><div class="sw-sum">${bagArt(pl.pr.id)}<div><b>${pl.qty} × ${esc(pl.pr.name)}</b><span>${esc(w.grind === 'Whole bean' ? 'Whole bean' : 'Ground for ' + w.grind)}</span></div></div>
+      return `<div class="sw${anim}"${fxa} role="dialog" aria-modal="true" aria-labelledby="sw-t"><div class="sw-top"><button class="back" data-act="sw-back">‹ Back</button><h2 id="sw-t">Your subscription</h2></div>
+        <div class="sw-body${ev.act === 'sw-review' ? ' rv-in' : ''}${ev.act === 'sw-back' ? ' rv-back' : ''}"><div class="sw-sum">${bagArt(pl.pr.id)}<div><b>${pl.qty} × ${esc(pl.pr.name)}</b><span>${esc(w.grind === 'Whole bean' ? 'Whole bean' : 'Ground for ' + w.grind)}</span></div></div>
           <dl class="sw-dl"><div><dt>How often</dt><dd>${esc(PLANS[pl.plan])}</dd></div><div><dt>First delivery</dt><dd>${esc(ukDay(first))}</dd></div><div><dt>Delivery</dt><dd>${esc(w.method === 'post' ? 'Free, Royal Mail Tracked 48 to ' + w.postcode.trim().toLocaleUpperCase('en-GB') : 'Collect at 2a St James\'s Market')}</dd></div><div><dt>Each delivery</dt><dd><b>${money(pl.total)}</b> <s>${money(pl.full)}</s> · 10% off</dd></div></dl>
           <p class="hint">Change, skip, pause or cancel up to 3 days before each dispatch. Every £1 earns ${PTS} points once it's sent.</p></div>
         <div class="sw-foot"><button class="btn" data-act="sw-go" ${S.busy ? 'disabled' : ''}>${S.busy ? 'Starting…' : 'Start subscription · ' + money(pl.total)}</button></div></div>`;
     }
-    return `<div class="sw${anim}" role="dialog" aria-modal="true" aria-labelledby="sw-t"><div class="sw-top"><button class="back" data-act="sw-close">Close</button><h2 id="sw-t">Create subscription</h2></div>
-      <div class="sw-body">
+    return `<div class="sw${anim}"${fxa} role="dialog" aria-modal="true" aria-labelledby="sw-t"><div class="sw-top"><button class="back" data-act="sw-close">Close</button><h2 id="sw-t">Create subscription</h2></div>
+      <div class="sw-body${ev.act === 'sw-back' ? ' rv-back' : ''}">
         ${step(1, !!w.grind, 'How do you brew?', 'We grind it for you, or send whole beans.', `<div class="sw-g">${BREWS.map(([g, sub]) => tile('sw-grind', g, w.grind === g, `<span class="sw-ic"><svg viewBox="0 0 40 40" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${BREW_ART[g] || ''}</svg></span>`, g, sub)).join('')}</div>`, false)}
         ${step(2, !!w.cups, 'How much do you drink?', 'We’ll do the maths. A 200 g bag makes about 13 cups, and you can change this later.', `<div class="sw-g">${CUPS.map((c, i) => tile('sw-cups', c.id, w.cups === c.id, `<span class="sw-ic cups">${cupsArt([1, 1, 2, 4][i])}</span>`, c.t, `${c.bags} bag${c.bags > 1 ? 's' : ''} ${PLANS[c.plan].toLocaleLowerCase('en-GB')}`)).join('')}</div>`, !w.grind)}
         ${step(3, !!w.pid, 'Choose your beans', 'Roasted with Kindred Forest, 200 g bags.', `<div class="sw-g">${SHOP.filter((x) => !x.soon).map((pr) => tile('sw-bean', pr.id, w.pid === pr.id, `<span class="sw-art">${bagArt(pr.id)}</span>`, pr.name, pr.set ? '3 bags, one of each' : money(unitOf(pr, '2w')) + ' with the club')).join('')}</div>`, !step3)}
@@ -4517,14 +4555,15 @@ body.scrolled:not(.barista-view) .top::after { opacity: 1; }
     else if (a === 'gdesign') { S.gift.design = b.dataset.v; render(); }
     else if (a === 'sw-open') { S.subw = { grind: '', cups: '', pid: '', method: 'post', name: S.me?.name || S.form.name || '', address: S.sf.address || '', postcode: S.sf.postcode || '', review: false }; S.swJust = true; render(); }
     else if (a === 'sw-close') { S.subw = null; render(); }
-    else if (a === 'sw-back') { S.subw.review = false; render(); }
+    else if (a === 'sw-back') { S.subw.review = false; S.swEv = { act: 'sw-back' }; render(); }
     else if (a === 'sw-grind' || a === 'sw-cups' || a === 'sw-bean' || a === 'sw-method') {
       const k = { 'sw-grind': 'grind', 'sw-cups': 'cups', 'sw-bean': 'pid', 'sw-method': 'method' }[a], first = !S.subw[k];
+      S.swEv = { act: a, v: b.dataset.v, done: { grind: 1, cups: 2, pid: 3, method: 4 }[k], unlock: first ? { grind: 2, cups: 3, pid: 4 }[k] : 0 };
       S.subw[k] = b.dataset.v; const y = document.querySelector('.sw-body')?.scrollTop; render(); const bd = document.querySelector('.sw-body'); if (bd && y != null) { bd.scrollTop = y;
         // after answering a question for the first time, the next one slides up into view
         const nx = bd.querySelectorAll('.sw-s')[{ grind: 1, cups: 2, pid: 3 }[k]]; if (first && nx) setTimeout(() => nx.scrollIntoView({ block: 'start', behavior: calm() ? 'auto' : 'smooth' }), 120); }
     }
-    else if (a === 'sw-review') { if (!subPlan(S.subw)) return; S.subw.review = true; render(); document.querySelector('.sw-body')?.scrollTo(0, 0); }
+    else if (a === 'sw-review') { if (!subPlan(S.subw)) return; S.subw.review = true; S.swEv = { act: 'sw-review' }; render(); document.querySelector('.sw-body')?.scrollTo(0, 0); }
     else if (a === 'sw-go') {
       const w = S.subw, pl = subPlan(w); if (!pl) return; const name = (w.name || S.form.name || '').trim();
       const sid = 'a' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), createdAt = new Date().toISOString();
