@@ -284,7 +284,7 @@ button.back { min-height: 44px; }
 /* item options sheet */
 .sheet { position: fixed; inset: 0; z-index: 30; }
 .sheet .bg { position: absolute; inset: 0; background: rgba(0,0,0,.6); opacity: 0; transition: opacity .25s; }
-.sheet .pan { position: absolute; left: 0; right: 0; bottom: 0; max-width: 760px; margin: 0 auto; background: var(--card); border: 1px solid var(--line); border-bottom: 0; border-radius: 22px 22px 0 0; padding: 18px max(16px, var(--sa-right)) calc(18px + var(--sa-bottom)) max(16px, var(--sa-left)); transform: translateY(100%); transition: transform .32s cubic-bezier(.2,.8,.2,1); max-height: 88vh; overflow-y: auto; }
+.sheet .pan { position: absolute; left: 0; right: 0; bottom: 0; max-width: 760px; margin: 0 auto; background: var(--card); border: 1px solid var(--line); border-bottom: 0; border-radius: 22px 22px 0 0; padding: 18px max(16px, var(--sa-right)) calc(18px + var(--sa-bottom)) max(16px, var(--sa-left)); transform: translateY(100%); transition: transform .32s cubic-bezier(.2,.8,.2,1); max-height: 88vh; max-height: 88dvh; overflow-y: auto; }
 .sheet.show .bg { opacity: 1; } .sheet.show .pan { transform: none; }
 .sheet .grab { width: 40px; height: 4px; border-radius: 2px; background: var(--line); margin: -6px auto 12px; }
 /* home */
@@ -974,7 +974,7 @@ html.is-android body, html.is-ios body { overscroll-behavior-y: none; }
 /* the quick allergy question: a bottom sheet, once, before the first drink */
 #algpop { position: fixed; inset: 0; z-index: 56; display: grid; align-items: end; }
 #algpop .bg { position: absolute; inset: 0; background: rgba(0,0,0,.42); opacity: 0; transition: opacity .3s ease; }
-#algpop .apan { position: relative; background: #fff; border-radius: 24px 24px 0 0; padding: 12px 20px calc(18px + var(--sa-bottom)); max-width: 520px; width: 100%; margin: 0 auto; max-height: 88vh; overflow: auto; overscroll-behavior: contain; transform: translateY(100%); transition: transform .42s cubic-bezier(.22, 1, .36, 1); }
+#algpop .apan { position: relative; background: #fff; border-radius: 24px 24px 0 0; padding: 12px 20px calc(18px + var(--sa-bottom)); max-width: 520px; width: 100%; margin: 0 auto; max-height: 88vh; max-height: 88dvh; overflow: auto; overscroll-behavior: contain; transform: translateY(100%); transition: transform .42s cubic-bezier(.22, 1, .36, 1); }
 #algpop.on .bg { opacity: 1; } #algpop.on .apan { transform: none; }
 #algpop .grab { width: 40px; height: 4px; border-radius: 2px; background: #d8d8d4; margin: 0 auto 14px; }
 #algpop h3 { font: 900 28px/1 var(--display); text-transform: uppercase; margin: 0 0 8px; }
@@ -1189,7 +1189,7 @@ body.bs-open #basket { visibility: hidden; } body.bs-open.bs-bloom #basket { vis
 /* Smoothness: only transform and opacity move (both run on the GPU). The panel is a fixed, rounded window over the bar;
    the order body slides up inside it from behind the bottom row, which is the bar itself and never moves. */
 #bagsheet .bs-bg { position: absolute; inset: 0; background: rgba(0,0,0,.3); opacity: 0; transition: opacity .42s cubic-bezier(.32,.72,0,1); will-change: opacity; }
-#bagsheet .bs-pan { position: absolute; max-height: min(78vh, 680px); display: flex; flex-direction: column; border-radius: 20px; overflow: hidden; overscroll-behavior: contain; transform: translateZ(0); }
+#bagsheet .bs-pan { position: absolute; max-height: min(78vh, 680px); max-height: min(78dvh, 680px); display: flex; flex-direction: column; border-radius: 20px; overflow: hidden; overscroll-behavior: contain; transform: translateZ(0); }
 #bagsheet .bs-body { position: relative; z-index: 0; display: flex; flex-direction: column; min-height: 0; flex: 1 1 auto; background: #0b0b0b; border-radius: 20px 20px 0 0; color: #fff; padding: 0 10px 24px 16px; margin-bottom: -24px; transform: translate3d(0, 100%, 0); transition: transform .5s cubic-bezier(.32,.72,0,1); will-change: transform; }
 #bagsheet .bs-foot { position: relative; z-index: 1; background: #0b0b0b; color: #fff; }
 #bagsheet.show .bs-bg { opacity: 1; } #bagsheet.show .bs-body { transform: none; }
@@ -2284,6 +2284,8 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
     const pan = el.querySelector('.bs-pan');
     // the panel sits exactly where the bar is and grows up out of it
     pan.style.left = r.left + 'px'; pan.style.width = r.width + 'px'; pan.style.bottom = (innerHeight - r.bottom) + 'px';
+    // never taller than the room above the bar (Android's status bar and Chrome's address bar included)
+    pan.style.maxHeight = Math.max(260, Math.min(680, r.bottom - 64 - (parseFloat(getComputedStyle(document.body, '::before').height) || 0))) + 'px';
     document.body.appendChild(el); document.body.classList.add('bs-open');
     // blooming styles grow out of the count circle: the bar stays put underneath until the bloom has covered it
     if (/^[36]$/.test(BAG_FX) && !calm()) { document.body.classList.add('bs-bloom'); setTimeout(() => document.body.classList.remove('bs-bloom'), 380); }
