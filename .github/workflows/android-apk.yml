@@ -1,5 +1,5 @@
 # Builds the Bija Android app (Capacitor) and publishes it as a downloadable APK.
-# Stable download link: https://github.com/rfim/bija-coffee/releases/download/android-latest/bija-android.apk
+# Stable download link: https://rfim.github.io/bija-coffee/download/bija-android.apk (pages.yml copies it from the android-latest release)
 name: Android APK
 
 on:
@@ -22,6 +22,7 @@ on:
 
 permissions:
   contents: write
+  actions: write # start pages.yml so the website serves the new APK
 
 concurrency:
   group: android-apk
@@ -124,3 +125,8 @@ jobs:
             # shellcheck disable=SC2086
             gh release create android-latest $files --target "$GITHUB_SHA" --prerelease --title "$title" --notes "$notes"
           fi
+
+      - name: Put the new APK on the website
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run pages.yml --ref main --repo "$GITHUB_REPOSITORY"

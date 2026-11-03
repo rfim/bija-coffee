@@ -1,0 +1,44 @@
+# Publishes the site to GitHub Pages, with the latest Android test build at download/bija-android.apk.
+# The repo is private, so GitHub Release downloads are not public; the website serves the APK instead.
+# Runs on every push to main, and again from android-apk.yml once a new APK is published.
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Add the latest Android APK
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p download
+          gh release download android-latest --pattern bija-android.apk --dir download --clobber \
+            || echo "::warning::No android-latest APK yet: the download link will 404 until android-apk.yml publishes one"
+
+      - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
+
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
+        with:
+          path: .
+
+      - id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
