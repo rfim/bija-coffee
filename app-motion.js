@@ -19,7 +19,7 @@
     // the greeting band lives here now: the question for the time of day, then hello and whether the bar is open
     let g = null; try { g = W.BijaGreet && W.BijaGreet(); } catch {}
     if (g) { const t = D.createElement('div'); t.className = 'mo-greet'; t.innerHTML = '<b></b><span></span>'; t.firstChild.textContent = g.q; t.lastChild.textContent = g.sub; s.appendChild(t); }
-    D.body.appendChild(s); M.splash = s;
+    D.body.appendChild(s); M.splash = s; H.classList.remove('mo-boot');
     const end = () => { if (!s.isConnected || s.classList.contains('out')) return; s.classList.add('out'); setTimeout(() => s.remove(), 400); };
     addEventListener('pointerdown', end, { once: true, capture: true }); setTimeout(end, g ? 2300 : 1150);
   }
@@ -68,6 +68,7 @@
     addEventListener('contextmenu', (e) => { if (e.target.closest?.('.bnav')) e.preventDefault(); });
   })();
 
+  H.classList.remove('mo-boot'); // no splash this time (already seen, or calm): lift the first-frame cover
   // ---- the signature: added items arc into the centre button, which catches them and counts ----
   const fab = () => $('.bnav .fab');
   const real = () => { const c = $('.bnav .fab .cnt'); return c && !c.hidden ? (+c.textContent || 0) : 0; };

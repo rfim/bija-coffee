@@ -2,6 +2,7 @@
 :root { --mo-spring: cubic-bezier(.2,.8,.2,1); --mo-out: cubic-bezier(.2, .7, .2, 1); }
 
 /* launch: the mark draws, fills, opens like a Kawung flower, then wipes away */
+html.mo-boot body::after { content: ""; position: fixed; inset: 0; z-index: 100; background: #fff; }
 .mo-splash { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: #fff; pointer-events: none; }
 .mo-splash svg { width: 104px; height: 104px; overflow: visible; }
 .mo-splash .r circle { stroke-dasharray: 158; stroke-dashoffset: 158; animation: mo-draw .5s var(--mo-out) forwards; transform-box: fill-box; transform-origin: center; }
