@@ -4875,6 +4875,68 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
     }
     render();
   }
+  // ----- Onboarding: first open, not signed in. Three short screens (order ahead, rewards, beans), then Apple, Google
+  //       or Continue as guest. Shown once per device (bija.onb); never for staff, deep links or automated browsers
+  //       (?onb=1 forces it for a look). Swipe or the arrow moves on; Skip goes to the last screen. -----
+  function onbMember() {
+    try { const a = acctNow(); if (a && !a.guest) return true; } catch {}
+    try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (/^sb-.*-auth-token$/.test(k)) { const u = JSON.parse(localStorage.getItem(k) || 'null')?.user; if (u && u.is_anonymous === false) return true; } } } catch {}
+    return false;
+  }
+  function onbMaybe() {
+    const q = new URLSearchParams(location.search);
+    if (q.get('onb') !== '1') {
+      try { if (localStorage.getItem('bija.onb')) return; } catch { return; }
+      if (navigator.webdriver || window.__BIJA_TEST_NO_MOTION || S.view !== 'customer' || location.hash || ['stamp', 'ref', 'order', 'table', 'view'].some((k) => q.has(k)) || onbMember()) return;
+    }
+    const W = (t) => t.split(' ').map((w, i, a) => `<span class="ob-w${i === a.length - 1 ? ' ob-hl' : ''}" style="--i:${i}">${esc(w)}</span>`).join(' ');
+    const P = [
+      { h: 'Skip the queue.', p: "Order on your way and collect at the bar in St James's Market.", img: 'photos/feature-3-900.webp', pos: '50% 60%' },
+      { h: 'Earn as you sip.', p: '10 points for every £1, plus stamps and rewards on your Bija Card.', img: 'photos/ig/latte-pour.jpg', pos: '60% 50%' },
+      { h: 'Beans at home.', p: 'Subscribe in a few taps. 10% off and free UK delivery.', img: 'photos/ig/iced-pour.jpg', pos: '50% 40%' },
+      { h: 'Make it yours.', p: 'Save your usual, keep your points and see every order in one place.' },
+    ];
+    const o = document.createElement('div'); o.className = 'ob'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); o.setAttribute('aria-label', 'Welcome to Bija'); o.tabIndex = -1;
+    o.innerHTML = `<div class="ob-top"><button class="ob-back" type="button" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H5M11 6l-6 6 6 6"/></svg></button><button class="ob-skip" type="button">Skip</button></div>`
+      + P.map((x, i) => `<section class="ob-s" data-i="${i}" aria-hidden="true"><h2>${W(x.h)}</h2><p>${esc(x.p)}</p>`
+        + (x.img ? `<div class="ob-ph"><img src="${x.img}" alt="" decoding="async" style="object-position:${x.pos}"></div>` : `<svg class="ob-mk" viewBox="-4 -4 108 108" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="5"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg>`
+          + `<div class="ob-acct"><button class="ob-b ob-k" type="button" data-p="apple">${ICON_APPLE}<span>Continue with Apple</span></button><button class="ob-b" type="button" data-p="google">${ICON_GOOGLE}<span>Continue with Google</span></button><button class="ob-b ob-guest" type="button">Continue as guest</button><p class="ob-fine">By continuing you agree to our <a href="delivery.html#terms">terms</a> and <a href="privacy.html">privacy notice</a>.</p></div>`)
+        + '</section>').join('')
+      + '<div class="ob-foot"><div class="ob-dots" aria-hidden="true"><i></i><i></i><i></i></div><button class="ob-go" type="button" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button></div>';
+    document.body.appendChild(o); document.body.classList.add('ob-open');
+    let cur = -1, done = false;
+    const secs = [...o.querySelectorAll('.ob-s')];
+    const show = (n) => {
+      n = Math.max(0, Math.min(P.length - 1, n)); if (n === cur) return;
+      const old = secs[cur]; if (old) { old.classList.remove('on'); old.classList.add('out', n < cur ? 'rev' : 'fwd'); old.setAttribute('aria-hidden', 'true'); setTimeout(() => old.classList.remove('out', 'rev', 'fwd'), 420); }
+      const fresh = cur < 0; cur = n;
+      setTimeout(() => { secs[n].classList.add('on'); secs[n].removeAttribute('aria-hidden'); }, fresh ? 0 : 260);
+      o.querySelectorAll('.ob-dots i').forEach((d, i) => d.classList.toggle('on', i === Math.min(n, 2)));
+      o.classList.toggle('last', n === P.length - 1); o.classList.toggle('first', n === 0);
+      if (fresh) o.focus({ preventScroll: true }); // the dialog itself, so no ring shows on a button for touch users
+    };
+    const close = (then) => {
+      if (done) return; done = true; try { localStorage.setItem('bija.onb', '1'); } catch {}
+      o.classList.add('bye'); document.body.classList.remove('ob-open'); setTimeout(() => o.remove(), 520); if (then) then();
+    };
+    o.addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b || done) return;
+      if (b.classList.contains('ob-go')) show(cur + 1);
+      else if (b.classList.contains('ob-back')) show(cur - 1);
+      else if (b.classList.contains('ob-skip')) show(P.length - 1);
+      else if (b.classList.contains('ob-guest')) { close(); toast('Browsing as a guest. You can log in from your profile any time'); }
+      else if (b.dataset.p) { const prov = b.dataset.p; close(() => { S.pdView = 'account'; S.pdDirect = true; render(); if (!document.getElementById('stampdrawer')) stampsOpen(document.getElementById('hav')); accSignIn(prov); }); }
+    });
+    o.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') show(cur + 1); else if (e.key === 'ArrowLeft') show(cur - 1); else if (e.key === 'Escape') { e.preventDefault(); close(); } });
+    let sx = null, sy = 0; // swipe between screens
+    o.addEventListener('pointerdown', (e) => { if (e.isPrimary && !e.target.closest('a')) { sx = e.clientX; sy = e.clientY; } }, { passive: true });
+    o.addEventListener('pointerup', (e) => { if (sx == null) return; const dx = e.clientX - sx, dy = e.clientY - sy; sx = null; if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) show(cur + (dx < 0 ? 1 : -1)); });
+    o.addEventListener('pointercancel', () => { sx = null; });
+    // the opening (the mark) plays over the first screen; the words start as it lifts
+    let mark = false; try { mark = !matchMedia('(prefers-reduced-motion: reduce)').matches && !sessionStorage.getItem('mo.splash'); } catch {}
+    setTimeout(() => show(0), mark ? 1100 : 60);
+  }
+  onbMaybe();
   addEventListener('DOMContentLoaded', () => { if (window.qrcode && (S.tab === 'card' || S.showScan)) render(); });
   (async () => {
     const c = window.claude;
