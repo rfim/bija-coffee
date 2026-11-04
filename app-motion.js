@@ -11,19 +11,16 @@
   const anim = (el, k, o) => (el && el.animate && !calm() ? el.animate(k, o) : null);
   const M = (W.BijaMotion = { flying: 0 });
 
-  // ---- opening: the Bija mark draws and says hello, on every open and on coming back after more than 2 minutes
+  // ---- opening: just the Bija mark drawing itself, on every open and on coming back after more than 2 minutes
   //      away (not in the back office). Never blocks; any tap skips it.
   //      Capture scripts set sessionStorage mo.splash to film without either. ----
   function splash() {
     if (M.splash?.isConnected) return;
     const s = D.createElement('div'); s.className = 'mo-splash'; s.setAttribute('aria-hidden', 'true');
     s.innerHTML = `<svg viewBox="-4 -4 108 108"><g class="r" fill="none" stroke="#0b0b0b" stroke-width="3">${C4}</g><g class="d" fill="#0b0b0b"><circle cx="50" cy="25" r="7"/><circle cx="75" cy="50" r="7"/><circle cx="50" cy="75" r="7"/><circle cx="25" cy="50" r="7"/><circle cx="50" cy="50" r="5"/></g></svg>`;
-    // the greeting band lives here now: the question for the time of day, then hello and whether the bar is open
-    let g = null; try { g = W.BijaGreet && W.BijaGreet(); } catch {}
-    if (g) { const t = D.createElement('div'); t.className = 'mo-greet'; t.innerHTML = '<b></b><span></span>'; t.firstChild.textContent = g.q; t.lastChild.textContent = g.sub; s.appendChild(t); }
     D.body.appendChild(s); M.splash = s; H.classList.remove('mo-boot');
     const end = () => { if (!s.isConnected || s.classList.contains('out')) return; s.classList.add('out'); setTimeout(() => s.remove(), 400); };
-    addEventListener('pointerdown', end, { once: true, capture: true }); setTimeout(end, g ? 2300 : 1150);
+    addEventListener('pointerdown', end, { once: true, capture: true }); setTimeout(end, 1150);
   }
   if (!ss.get('mo.splash') && !calm()) splash();
   { let away = 0; D.addEventListener('visibilitychange', () => {
