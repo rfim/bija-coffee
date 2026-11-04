@@ -12,7 +12,7 @@
   const M = (W.BijaMotion = { flying: 0 });
 
   // ---- opening: the kinetic-type greeting ("Kopi means coffee.") plays on every open and whenever someone comes back
-  //      to the app, however briefly they were away (not in the back office). Skip or any tap ends it. splash() is the
+  //      to the app after more than 2 minutes away (a glance at another app, a share sheet or a sign-in page doesn't count) (not in the back office). Skip or any tap ends it. splash() is the
   //      older mark-and-hello opening, kept for reuse.
   //      Capture scripts set sessionStorage mo.splash to film without either. ----
   const ls = { get: (k) => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch {} } };
@@ -52,7 +52,7 @@
   if (!ss.get('mo.splash') && !calm()) intro();
   { let away = 0; D.addEventListener('visibilitychange', () => {
     if (D.hidden) { away = Date.now(); return; }
-    if (away && !calm() && !ss.get('mo.splash') && !D.body.classList.contains('barista-view')) intro();
+    if (away && Date.now() - away > 2 * 60e3 && !calm() && !ss.get('mo.splash') && !D.body.classList.contains('barista-view')) intro();
   }); }
 
   // ---- hold or drag along the bar: a glass lens lifts over the tab under the finger, magnifies it and follows; let go to open that tab ----
