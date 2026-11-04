@@ -15,6 +15,34 @@ html.mo-boot body::after { content: ""; position: fixed; inset: 0; z-index: 100;
 .mo-greet span { font: 500 14px var(--sans, sans-serif); color: #6b6b6b; }
 @keyframes mo-greet { to { opacity: 1; transform: none; } }
 .mo-splash.out { opacity: 0; transform: scale(1.06); transition: opacity .38s ease, transform .38s ease; }
+/* first open only: a slow, quiet introduction. A hairline Kawung mark draws, opens into an arched window of the bar,
+   two photos drift past with one short line each, then the name settles. Everything is a function of time (CSS only). */
+.mo-intro { position: fixed; inset: 0; z-index: 101; display: grid; grid-template-rows: 1fr auto; justify-items: center; padding: calc(var(--sa-top, 0px) + 12vh) 24px calc(var(--sa-bottom, 0px) + 9vh); background: #fff; color: #0b0b0b; }
+.mo-intro.out { opacity: 0; pointer-events: none; transition: opacity .55s ease .3s; } /* the words leave first, then the white lifts off Home: no double exposure */
+.mo-intro.out > * { opacity: 0; transform: translate3d(0, -8px, 0); transition: opacity .3s ease, transform .4s ease; }
+.mi-stage { display: grid; place-items: center; align-self: center; width: min(68vw, 300px); aspect-ratio: 3 / 4; }
+.mi-stage > * { grid-area: 1 / 1; }
+.mi-mark { width: 38%; overflow: visible; animation: mi-mark-out .8s cubic-bezier(.4,0,.2,1) 1.55s forwards; }
+.mi-mark circle { stroke-dasharray: 158; stroke-dashoffset: 158; animation: mi-draw 1.3s cubic-bezier(.45,.05,.25,1) both; }
+.mi-mark circle:nth-child(2) { animation-delay: .12s; } .mi-mark circle:nth-child(3) { animation-delay: .24s; } .mi-mark circle:nth-child(4) { animation-delay: .36s; }
+.mi-win { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 50% 50% 6px 6px / 37.5% 37.5% 6px 6px; background: #f2f2f0; transform-origin: 50% 46%; animation: mi-win-in 1.5s cubic-bezier(.32,.72,0,1) 1.55s both, mi-win-out .8s cubic-bezier(.4,0,.2,1) 5.05s forwards; }
+.mi-win img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.8) contrast(1.02); }
+.mi-win .p1 { animation: mi-drift 4.2s cubic-bezier(.2,.6,.3,1) 1.55s both; }
+.mi-win .p2 { opacity: 0; animation: mi-in 1.1s ease 3.55s both, mi-drift 3s cubic-bezier(.2,.6,.3,1) 3.55s both; }
+.mi-word { font: 900 clamp(40px, 13vw, 58px)/1 var(--display, 'Archivo', sans-serif); letter-spacing: .42em; margin-right: -.42em; opacity: 0; transform: translate3d(0, 12px, 0); animation: mi-rise 1.1s cubic-bezier(.32,.72,0,1) 5.55s both; }
+.mi-lines { display: grid; justify-items: center; min-height: 3.2em; }
+.mi-lines p { grid-area: 1 / 1; margin: 0; font: 400 13px/1.4 var(--sans, sans-serif); letter-spacing: .22em; text-transform: uppercase; color: #3a3a3a; text-align: center; opacity: 0; transform: translate3d(0, 8px, 0); animation: mi-rise .9s cubic-bezier(.32,.72,0,1) var(--a) both, mi-out .45s ease var(--b) forwards; }
+.mi-lines .mi-sub { color: #6b6b6b; letter-spacing: .14em; text-transform: none; font-size: 14px; }
+.mi-time { position: absolute; left: 50%; bottom: calc(var(--sa-bottom, 0px) + 4vh); width: 44px; height: 1px; margin-left: -22px; background: #0b0b0b; opacity: .35; transform: scaleX(0); transform-origin: left; animation: mi-time 7.2s linear both; }
+@keyframes mi-draw { to { stroke-dashoffset: 0; } }
+@keyframes mi-mark-out { to { opacity: 0; transform: scale(1.7); } }
+@keyframes mi-win-in { from { opacity: 0; transform: scale(.22); } 30% { opacity: 1; } to { opacity: 1; transform: none; } }
+@keyframes mi-win-out { to { opacity: 0; transform: scale(.94); } }
+@keyframes mi-drift { from { transform: scale(1.14); } to { transform: scale(1.02); } }
+@keyframes mi-in { to { opacity: 1; } }
+@keyframes mi-rise { to { opacity: 1; transform: none; } }
+@keyframes mi-out { to { opacity: 0; transform: translate3d(0, -6px, 0); } }
+@keyframes mi-time { to { transform: scaleX(1); } }
 /* bar lens: glass that lifts over the tab under the finger; the tab beneath grows a touch */
 .bnav { touch-action: none; }
 .mo-lens { position: absolute; left: 0; top: 0; z-index: 0; pointer-events: none; transition: transform .14s var(--mo-out); }
@@ -118,7 +146,7 @@ html.mo-vt #main.enter { animation: none !important; }
 @keyframes mo-deal { from { transform: perspective(800px) translateY(-36px) rotateY(160deg) rotate(calc(var(--mo-tilt, 0deg) * 3)); opacity: 0; } 60% { opacity: 1; } to { transform: perspective(800px) rotate(var(--mo-tilt, 0deg)); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .mo-splash, .mo-fly, .mo-ring, .mo-petal, .mo-ghost, .mo-stamp { display: none !important; }
+  .mo-splash, .mo-intro, .mo-fly, .mo-ring, .mo-petal, .mo-ghost, .mo-stamp { display: none !important; }
   .mo-pre { opacity: 1; transform: none; }
   .mo-in, .mo-back, .mo-springback, .top .mark, .top .brand, .mo-cupw .fill { transition: none !important; }
   .mo-roll, .mo-pulse, .side .dot.mo-pop, .sc.deal.mo-deal, .bcard.mo-foil::after, .mo-cupw .steam path, .mo-skel { animation: none !important; }

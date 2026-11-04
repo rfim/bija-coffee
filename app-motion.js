@@ -11,9 +11,12 @@
   const anim = (el, k, o) => (el && el.animate && !calm() ? el.animate(k, o) : null);
   const M = (W.BijaMotion = { flying: 0 });
 
-  // ---- launch: once per session, never blocks (pointer-events: none, any tap skips it) ----
-  if (!ss.get('mo.splash') && !calm()) {
-    ss.set('mo.splash', '1');
+  // ---- opening. The very first time: a slow, quiet introduction (tap skips it). After that, on every open and on
+  //      coming back after a few minutes away: the mark draws and says hello (never blocks; any tap skips it).
+  //      Capture scripts set sessionStorage mo.splash to film without either. ----
+  const ls = { get: (k) => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch {} } };
+  function splash() {
+    if (M.splash?.isConnected) return;
     const s = D.createElement('div'); s.className = 'mo-splash'; s.setAttribute('aria-hidden', 'true');
     s.innerHTML = `<svg viewBox="-4 -4 108 108"><g class="r" fill="none" stroke="#0b0b0b" stroke-width="3">${C4}</g><g class="d" fill="#0b0b0b"><circle cx="50" cy="25" r="7"/><circle cx="75" cy="50" r="7"/><circle cx="50" cy="75" r="7"/><circle cx="25" cy="50" r="7"/><circle cx="50" cy="50" r="5"/></g></svg>`;
     // the greeting band lives here now: the question for the time of day, then hello and whether the bar is open
@@ -23,6 +26,23 @@
     const end = () => { if (!s.isConnected || s.classList.contains('out')) return; s.classList.add('out'); setTimeout(() => s.remove(), 400); };
     addEventListener('pointerdown', end, { once: true, capture: true }); setTimeout(end, g ? 2300 : 1150);
   }
+  function intro() {
+    ls.set('bija.intro', '1');
+    const s = D.createElement('div'); s.className = 'mo-intro'; s.setAttribute('aria-hidden', 'true');
+    s.innerHTML = `<div class="mi-stage"><svg class="mi-mark" viewBox="-4 -4 108 108"><g fill="none" stroke="#0b0b0b" stroke-width="1.1">${C4}</g></svg>`
+      + '<div class="mi-win"><img class="p1" src="photos/feature-3-900.webp" alt="" decoding="async" fetchpriority="high"><img class="p2" src="photos/shop-3-900.webp" alt="" decoding="async"></div>'
+      + '<b class="mi-word">BIJA</b></div>'
+      + '<div class="mi-lines"><p style="--a:.6s;--b:1.9s">Indonesian coffee</p><p style="--a:2.3s;--b:3.7s">Kopi susu, sweetened with gula aren</p><p style="--a:4s;--b:5s">St James\'s Market, London</p><p style="--a:5.6s;--b:99s" class="mi-sub">Order ahead · Earn as you sip</p></div>'
+      + '<i class="mi-time"></i>';
+    D.body.appendChild(s); M.splash = s; H.classList.remove('mo-boot');
+    const end = () => { if (!s.isConnected || s.classList.contains('out')) return; s.classList.add('out'); setTimeout(() => s.remove(), 900); };
+    s.addEventListener('pointerdown', end); setTimeout(end, 7200);
+  }
+  if (!ss.get('mo.splash') && !calm()) (ls.get('bija.intro') ? splash : intro)();
+  { let away = 0; D.addEventListener('visibilitychange', () => {
+    if (D.hidden) { away = Date.now(); return; }
+    if (away && Date.now() - away > 3 * 60e3 && !calm() && !ss.get('mo.splash') && !D.body.classList.contains('barista-view')) splash();
+  }); }
 
   // ---- hold or drag along the bar: a glass lens lifts over the tab under the finger, magnifies it and follows; let go to open that tab ----
   (() => {
