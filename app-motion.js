@@ -28,15 +28,24 @@
   }
   function intro() {
     ls.set('bija.intro', '1');
-    const s = D.createElement('div'); s.className = 'mo-intro'; s.setAttribute('aria-hidden', 'true');
-    s.innerHTML = `<div class="mi-stage"><svg class="mi-mark" viewBox="-4 -4 108 108"><g fill="none" stroke="#0b0b0b" stroke-width="1.1">${C4}</g></svg>`
-      + '<div class="mi-win"><img class="p1" src="photos/feature-3-900.webp" alt="" decoding="async" fetchpriority="high"><img class="p2" src="photos/shop-3-900.webp" alt="" decoding="async"></div>'
-      + '<b class="mi-word">BIJA</b></div>'
-      + '<div class="mi-lines"><p style="--a:.6s;--b:1.9s">Indonesian coffee</p><p style="--a:2.3s;--b:3.7s">Kopi susu, sweetened with gula aren</p><p style="--a:4s;--b:5s">St James\'s Market, London</p><p style="--a:5.6s;--b:99s" class="mi-sub">Order ahead · Earn as you sip</p></div>'
-      + '<i class="mi-time"></i>';
-    D.body.appendChild(s); M.splash = s; H.classList.remove('mo-boot');
-    const end = () => { if (!s.isConnected || s.classList.contains('out')) return; s.classList.add('out'); setTimeout(() => s.remove(), 900); };
-    s.addEventListener('pointerdown', end); setTimeout(end, 7200);
+    const w = (txt, t0) => txt.split(' ').map((x, i) => `<span class="mi-w" style="--t:${(t0 + i * .09).toFixed(2)}s">${x}</span>`).join(' ');
+    // a hairline Kawung field: flowers on a diagonal grid, each drawing a beat after the last
+    let field = ''; for (let r = -2; r <= 2; r++) for (let c = -2; c <= 2; c++) if (Math.abs(r) + Math.abs(c) <= 3) field += `<g transform="translate(${c * 100 + (r & 1 ? 50 : 0)} ${r * 100})" style="--d:${((Math.abs(r) + Math.abs(c)) * .18).toFixed(2)}s">${C4}</g>`;
+    const s = D.createElement('div'); s.className = 'mo-intro';
+    s.innerHTML = '<div class="mi-night"></div><div class="mi-lamp"></div>'
+      + `<svg class="mi-field" viewBox="-250 -250 600 600" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="1">${field}</g></svg>`
+      + '<p class="mi-lab" aria-hidden="true">Selamat datang</p>'
+      + '<p class="mi-line mi-a1" aria-hidden="true"><span class="mi-hl"><span class="mi-w">Kopi</span></span></p>'
+      + `<p class="mi-line mi-a2" aria-hidden="true">${w('means coffee.', 1.15)}</p>`
+      + `<p class="mi-line mi-b1" aria-hidden="true">${w('Indonesian', 2.55)}</p><p class="mi-line mi-b2" aria-hidden="true">${w('specialty coffee', 2.75)}</p><p class="mi-line mi-b3" aria-hidden="true">${w("in St James's.", 3.05)}</p>`
+      + '<div class="mi-kelir"></div>'
+      + `<div class="mi-end" aria-hidden="true"><svg viewBox="-4 -4 108 108"><g fill="none" stroke="#0b0b0b" stroke-width="5">${C4}</g></svg><b>BIJA</b><span>St James's Market · London</span></div>`
+      + '<button class="mi-skip" type="button">Skip</button>';
+    s.querySelectorAll('.mi-end circle').forEach((c, i) => c.style.setProperty('--d', i * .1 + 's'));
+    D.body.appendChild(s); M.splash = s; H.classList.remove('mo-boot', 'mo-ink');
+    const end = () => { if (!s.isConnected || s.classList.contains('out')) return; s.classList.add('out'); setTimeout(() => s.remove(), 800); };
+    s.addEventListener('pointerdown', (e) => { e.preventDefault(); end(); }); addEventListener('keydown', end, { once: true }); setTimeout(end, 6600);
+    D.addEventListener('visibilitychange', () => D.hidden && end(), { once: true });
   }
   if (!ss.get('mo.splash') && !calm()) (ls.get('bija.intro') ? splash : intro)();
   { let away = 0; D.addEventListener('visibilitychange', () => {
