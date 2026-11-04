@@ -2154,7 +2154,12 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
     const pageKey = S.view + ':' + (S.view === 'bar' ? S.btab : S.tab);
     // keep side-swiped strips (What's new, product tiles) where they were when the page is redrawn in place
     const keepX = pageKey === S.lastPage ? [...document.querySelectorAll('#main .promos, #main .ptiles')].map((e) => [e.className, e.scrollLeft]) : [];
+    // photos already on screen are kept and moved into the new page: a rebuilt <img> repaints blank for a frame or two on iPhone, so the hero blinked whenever sign-in redrew Home
+    // (a whole <picture> is kept, matched on identical markup, since moving an <img> into another <picture> makes it pick its photo again)
+    const pic = (i) => (i.parentElement?.tagName === 'PICTURE' ? i.parentElement : i);
+    const keepImg = new Map(); document.querySelectorAll('#main img').forEach((i) => { if (i.complete && i.naturalWidth) { const p = pic(i), k = p.outerHTML; if (!keepImg.has(k)) keepImg.set(k, p); } });
     $('#main').innerHTML = S.view === 'bar' ? barista() : customer();
+    if (keepImg.size) document.querySelectorAll('#main img').forEach((n) => { const p = pic(n), o = keepImg.get(p.outerHTML); if (o) { keepImg.delete(p.outerHTML); p.replaceWith(o); } });
     for (const [c, x] of keepX) { const e = [...document.querySelectorAll('#main .promos, #main .ptiles')].find((y) => y.className === c); if (e && x) { e.scrollLeft = x; e.dispatchEvent(new Event('scroll')); } }
     // a new page fades up; started with the animation API, so the browser isn't forced to lay the page out early. A tab switch has its own transition.
     if (pageKey !== S.lastPage) { S.lastPage = pageKey; if (!document.documentElement.classList.contains('mo-vt') && !matchMedia('(prefers-reduced-motion: reduce)').matches) $('#main').animate?.([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: 500, easing: 'cubic-bezier(.16,1,.3,1)' }); }
