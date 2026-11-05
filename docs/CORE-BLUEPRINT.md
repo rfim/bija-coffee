@@ -2,6 +2,8 @@
 
 How the Bija website, app, back office and their backends fit together, written so the same core can be rebuilt for another brand. Bija is the worked example throughout; anything marked **Brand** is what you swap.
 
+The short versions for day-to-day work are three skills in `.claude/skills/`, shared with Ngopi UK: `core-design` (look and motion), `core-architecture` (how it's built) and `core-ux` (journeys and the pre-delivery checklist).
+
 Contents:
 1. What the core is
 2. Brand swap checklist
