@@ -549,6 +549,12 @@ th { color: var(--muted); }
 body:not(.barista-view) .top { position: sticky; top: 0; z-index: 20; margin-inline: calc(-1 * max(16px, var(--sa-left))); padding: calc(6px + var(--sa-top)) max(16px, var(--sa-right)) 10px max(16px, var(--sa-left)); background: rgba(255,255,255,.86); -webkit-backdrop-filter: saturate(1.8) blur(16px); backdrop-filter: saturate(1.8) blur(16px); transition: box-shadow .25s; }
 body.scrolled:not(.barista-view) .top { box-shadow: 0 1px 0 var(--line), 0 6px 18px rgba(0,0,0,.05); border-bottom-color: transparent; }
 body:not(.barista-view) .cats.sticky { top: var(--hdr, 0px); }
+/* phones: the header is pinned to the screen, not the page, so pulling down stretches only the content beneath it (as in
+   Grind); a sticky header rode the iPhone's bounce down with the page. The page keeps the header's room at the top. */
+@media (max-width: 760px) {
+  body:not(.barista-view) .top { position: fixed; top: 0; left: 0; right: 0; margin: 0; }
+  body:not(.barista-view) .wrap { padding-top: calc(var(--hdr, 61px) + 18px); }
+}
 .basket { left: max(12px, var(--sa-left)); right: max(12px, var(--sa-right)); max-width: 736px; margin: 0 auto; border-radius: 18px; padding: 10px 10px 10px 16px; bottom: calc(100px + var(--sa-bottom)); box-shadow: var(--shadow-2); }
 @media (prefers-reduced-motion: no-preference) { .basket:not([hidden]) { animation: rise .35s var(--ease-spring); } @keyframes rise { from { transform: translateY(16px); opacity: 0; } } }
 .sheet .pan { transition: transform .42s var(--ease-spring); padding-bottom: calc(18px + var(--sa-bottom)); }
