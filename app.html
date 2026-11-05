@@ -794,7 +794,11 @@ details.more-d summary::-webkit-details-marker { display: none; } details.more-d
 @media (prefers-reduced-motion: reduce) { .ppan.shake .pdots i { border-color: #b3261e; } }
 /* scanner */
 #scanner { position: fixed; inset: 0; z-index: 50; background: #0b0b0b; color: #fff; display: grid; grid-template-rows: auto 1fr auto auto; padding: calc(12px + var(--sa-top)) 16px calc(24px + var(--sa-bottom)); gap: 16px; }
-#scanner .sc-top { display: flex; align-items: center; justify-content: space-between; } #scanner .sc-top b { font: 900 24px var(--display); text-transform: uppercase; }
+/* phones: Scan coffee is a page under the Bija header, like every other page, and it arrives the same way */
+@media (max-width: 760px) { body:not(.barista-view) #scanner { top: var(--hdr, 61px); z-index: 19; padding-top: 14px; animation: sc-in .4s cubic-bezier(.32,.72,0,1) both; } }
+@keyframes sc-in { from { opacity: 0; transform: translateY(10px); } }
+@media (prefers-reduced-motion: reduce) { #scanner { animation: none !important; } }
+#scanner .sc-top { display: flex; align-items: center; justify-content: space-between; } #scanner .sc-top b { font: 800 24px/1.1 var(--display); letter-spacing: -.01em; }
 #scanner .sc-x { background: rgba(255,255,255,.15); color: #fff; }
 #scanner .sc-view { position: relative; border-radius: 20px; overflow: hidden; background: #000; min-height: 0; }
 #scanner video { width: 100%; height: 100%; object-fit: cover; }
