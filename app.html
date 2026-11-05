@@ -2541,37 +2541,49 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
       return;
     }
     const el = document.createElement('div'); el.id = 'scanner'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', 'Scan coffee');
-    const can = 'BarcodeDetector' in window && navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
+    // the camera opens straight away wherever the browser allows it; codes are read by the browser's own BarcodeDetector,
+    // or by jsQR (vendor/jsqr.min.js, loaded on first use) where there isn't one, such as Safari on iPhone
+    const can = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
     if (!can) el.classList.add('light');
     el.innerHTML = `<div class="sc-top"><b>Scan coffee</b><button class="sc-x" data-act="scan-close" aria-label="Close scanner">×</button></div>
       ${can ? '<div class="sc-view"><video playsinline muted autoplay aria-hidden="true"></video><div class="sc-frame" aria-hidden="true"></div></div>' : '<div class="sc-art" aria-hidden="true"><svg viewBox="0 0 240 200" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M40 70h70l6 110H34z"/><path d="M48 70l6-16h42l6 16"/><rect x="55" y="104" width="40" height="40" rx="3"/><path d="M63 112h8v8h-8zM79 112h8v8h-8zM63 128h8v8h-8zM81 130h6v6h-6z" fill="currentColor" stroke="none"/><rect x="132" y="22" width="76" height="140" rx="14"/><path d="M160 34h20"/><path d="M146 66h14M146 66v14M194 66h-14M194 66v14M146 118h14M146 118v-14M194 118h-14M194 118v-14"/><path d="M120 120c-6 0-10 4-14 8" stroke-dasharray="2 6"/></svg></div>'}
-      <p class="sc-msg" role="status">${can ? 'Point your camera at the code on your Bija bag or cup.' : 'Use your phone’s Camera app to scan the code on your bag or cup. It opens the bean’s story here.'}</p>
-      ${!can && 'BarcodeDetector' in window ? '<input type="file" accept="image/*" capture="environment" id="scan-file" class="sr" tabindex="-1"><button class="btn sc-file" data-act="scan-file">Take a photo of the code</button>' : ''}`;
+      <p class="sc-msg" role="status">${can ? 'Starting the camera…' : 'Use your phone’s Camera app to scan the code on your bag or cup. It opens the bean’s story here.'}</p>`;
     document.body.appendChild(el); el.querySelector('.sc-x').focus();
     if (!can) return;
     const msg = el.querySelector('.sc-msg');
     try {
-      const formats = (await BarcodeDetector.getSupportedFormats?.()) || ['qr_code'];
-      if (!formats.includes('qr_code')) { msg.textContent = 'Use your phone’s Camera app to scan the code on your bag or cup.'; return; }
-      const det = new BarcodeDetector({ formats: ['qr_code'] });
-      scanStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+      let read = null;
+      try { if ('BarcodeDetector' in window && ((await BarcodeDetector.getSupportedFormats?.()) || ['qr_code']).includes('qr_code')) { const det = new BarcodeDetector({ formats: ['qr_code'] }); read = async (v) => (await det.detect(v)).map((c) => c.rawValue); } } catch {}
+      const camera = navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment', width: { ideal: 1280 } }, audio: false });
+      if (!read) {
+        if (!window.jsQR) await new Promise((ok, no) => { const sc = document.createElement('script'); sc.src = 'vendor/jsqr.min.js'; sc.onload = ok; sc.onerror = no; document.head.appendChild(sc); });
+        const cv = document.createElement('canvas'), cx = cv.getContext('2d', { willReadFrequently: true });
+        read = async (v) => {
+          const w = v.videoWidth, h = v.videoHeight; if (!w || !h) return [];
+          const k = Math.min(1, 640 / Math.max(w, h)); cv.width = Math.round(w * k); cv.height = Math.round(h * k);
+          cx.drawImage(v, 0, 0, cv.width, cv.height);
+          const r = window.jsQR(cx.getImageData(0, 0, cv.width, cv.height).data, cv.width, cv.height, { inversionAttempts: 'dontInvert' });
+          return r ? [r.data] : [];
+        };
+      }
+      scanStream = await camera;
       if (!document.getElementById('scanner')) { scanStream.getTracks().forEach((t) => t.stop()); scanStream = null; return; }
       const v = el.querySelector('video'); v.srcObject = scanStream; await v.play().catch(() => {});
+      msg.textContent = 'Point your camera at the code on your Bija bag or cup.';
       const tick = async () => {
         if (!scanStream) return;
         try {
-          const codes = await det.detect(v);
-          for (const c of codes || []) {
-            const to = traceUrl(c.rawValue);
+          for (const raw of await read(v)) {
+            const to = traceUrl(raw);
             if (to) { buzz(15); scanClose(); location.href = to; return; }
             msg.textContent = 'That code isn’t a Bija coffee code. Try the one on the bag label or cup sleeve.';
           }
         } catch {}
-        scanTimer = setTimeout(tick, 250);
+        scanTimer = setTimeout(tick, 200);
       };
       tick();
     } catch (e) {
-      msg.textContent = e && e.name === 'NotAllowedError' ? 'Camera access was blocked. Allow the camera in your browser settings, or use your phone’s Camera app to scan the code.' : 'We couldn’t start the camera. Use your phone’s Camera app to scan the code on your bag or cup.';
+      msg.textContent = e && e.name === 'NotAllowedError' ? 'Camera access was blocked. Allow the camera for this site in your phone’s settings, or use your phone’s Camera app to scan the code.' : 'We couldn’t start the camera. Use your phone’s Camera app to scan the code on your bag or cup.';
     }
   }
   addEventListener('keydown', (e) => { if (e.key === 'Escape' && document.getElementById('scanner')) scanClose(); });
