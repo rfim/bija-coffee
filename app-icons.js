@@ -24,11 +24,11 @@
       '<path d="M6.8 7.5l1.3 13.1c.05.5.45.9.95.9h5.9c.5 0 .9-.4.95-.9l1.3-13.1"/>' +
       '<path d="M7.1 10.2h9.8M7.9 18.4h8.2"/>',
 
-    home:
-      '<path d="M20.5 2.5v19"/>' +
-      '<path d="M16 8.6h4.5M16 15.4h4.5"/>' +
-      '<circle cx="9.5" cy="12" r="7"/>' +
-      kawung(9.5, 12, 2.2, 1.3),
+    home: // the blade sign outside the bar: a tall panel with capped ends on two arms from the wall, the mark in the middle
+      '<path d="M21.5 2.5v19"/>' +
+      '<path d="M16.5 6h5M16.5 18h5"/>' +
+      '<rect x="4" y="2.5" width="12.5" height="19" rx="2.2"/>' +
+      kawung(10.25, 12, 2.1, 1.1),
 
     menu:
       '<path d="M8.4 3.6 2.8 21.5"/>' +
