@@ -32,6 +32,7 @@ body.shop-page { margin: 0; background: var(--bg); color: var(--ink); font: 16px
 .shead { position: sticky; top: 0; z-index: 20; background: rgba(255, 255, 255, .97); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
 .shead .in { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 16px; min-height: 72px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; font: 900 34px/1 var(--disp); text-transform: uppercase; letter-spacing: -.02em; text-decoration: none; justify-self: center; grid-column: 2; grid-row: 1; }
+.brand .wordmark { height: 1.02em; width: auto; display: block; margin-top: .06em; } /* the fascia lettering; its j and a dip below the line */
 .brand svg { width: 34px; height: 34px; color: var(--ink); }
 .mainnav { display: flex; gap: 0; align-items: center; grid-column: 1; grid-row: 1; min-width: 0; flex-wrap: nowrap; }
 .mainnav a { text-decoration: none; color: var(--ink); font: 600 12.5px/1 var(--sans); letter-spacing: .07em; text-transform: uppercase; padding: 14px 9px; border-radius: 999px; white-space: nowrap; }
