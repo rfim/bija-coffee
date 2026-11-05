@@ -24,13 +24,11 @@
       '<path d="M6.8 7.5l1.3 13.1c.05.5.45.9.95.9h5.9c.5 0 .9-.4.95-.9l1.3-13.1"/>' +
       '<path d="M7.1 10.2h9.8M7.9 18.4h8.2"/>',
 
-    home: // the blade sign outside the bar, as it hangs on St James's Market: the wall on the left, a lit rounded cap above
-          // and a rail below reaching out from it, a tall panel between them with the mark
-      '<path d="M2.6 1v22"/>' +
-      '<rect x="2.6" y="4" width="19" height="1.9" rx=".95" fill="currentColor" stroke="none"/>' +
-      '<rect x="2.6" y="18.1" width="19" height="1.9" rx=".95" fill="currentColor" stroke="none"/>' +
-      '<rect x="11.3" y="5.9" width="8.6" height="12.2" rx=".8"/>' +
-      kawung(15.6, 12, 1.7, 0.9),
+    home: // the blade sign outside the bar: a tall panel on two arms from the wall (on the left), the mark in the middle
+      '<path d="M2.5 2.5v19"/>' +
+      '<path d="M2.5 6h5M2.5 18h5"/>' +
+      '<rect x="7.5" y="2.5" width="12.5" height="19" rx="2.2"/>' +
+      kawung(13.75, 12, 2.1, 1.1),
 
     menu:
       '<path d="M8.4 3.6 2.8 21.5"/>' +
