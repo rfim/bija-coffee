@@ -4927,7 +4927,7 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
       if (b.classList.contains('ob-go')) show(cur + 1);
       else if (b.classList.contains('ob-back')) show(cur - 1);
       else if (b.classList.contains('ob-skip')) show(P.length - 1);
-      else if (b.classList.contains('ob-guest')) { close(); toast('Browsing as a guest. You can log in from your profile any time'); }
+      else if (b.classList.contains('ob-guest')) { close(); }
       else if (b.dataset.p) { const prov = b.dataset.p; close(() => { S.pdView = 'account'; S.pdDirect = true; render(); if (!document.getElementById('stampdrawer')) stampsOpen(document.getElementById('hav')); accSignIn(prov); }); }
     });
     o.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') show(cur + 1); else if (e.key === 'ArrowLeft') show(cur - 1); else if (e.key === 'Escape') { e.preventDefault(); close(); } });
