@@ -78,7 +78,7 @@
   const QUIZ = [
     { k: 'brew', q: 'How do you make coffee at home?', a: [['espresso', 'Espresso machine', 'Espresso'], ['moka', 'Moka pot', 'Moka pot'], ['cafetiere', 'Cafetière', 'Cafetière'], ['v60', 'V60 or pour-over', 'V60'], ['aeropress', 'AeroPress', 'AeroPress'], ['filter', 'Filter machine', 'Filter'], ['grinder', 'I grind my own', 'Whole bean']] },
     { k: 'milk', q: 'Milk, or black?', a: [['milk', 'Mostly with milk'], ['black', 'Black'], ['iced', 'Iced, most of the year']] },
-    { k: 'taste', q: 'Which sounds most like you?', a: [['choc', 'Chocolate and caramel'], ['dark', 'Dark chocolate, deep and syrupy'], ['herbal', 'Herbal, cocoa, big body'], ['woody', 'Woody, spicy, very smooth'], ['bright', 'Bright and fruity']] },
+    { k: 'taste', q: 'Which sounds most like you?', a: [['choc', 'Chocolate and fruit, a little spice'], ['dark', 'Chocolate, brown sugar, syrupy'], ['herbal', 'Dark chocolate, herbs and spice'], ['woody', 'Earthy and bold, low acidity'], ['bright', 'Bright and fruity']] },
     { k: 'strength', q: 'How strong?', a: [['gentle', 'Gentle'], ['balanced', 'Balanced'], ['bold', 'Bold']] },
     { k: 'often', q: 'How fast do you get through 200 g?', a: [['2w', 'About two weeks'], ['3w', 'Three weeks'], ['4w', 'A month'], ['once', 'Just trying it for now']] },
   ];
