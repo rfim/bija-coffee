@@ -127,10 +127,11 @@
     x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
     mark: `<svg viewBox="-2 -2 104 104" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="5">${MARK}</g></svg>`,
   };
-  const NAV = [['shop.html', 'Shop'], ['subscribe.html', 'Subscribe'], ['gifts.html', 'Gifts'], ['menu.html', 'Menu'], ['find.html', 'Find your kopi'], ['visit.html', 'Visit']];
+  const NAV = [['shop.html', 'Shop'], ['subscribe.html', 'Subscribe'], ['gifts.html', 'Gifts'], ['stories.html', 'Coffee stories'], ['stories.html#roots', 'Indonesian roots'], ['stories.html#community', 'Communities'], ['offices.html', 'Events & catering'], ['visit.html', 'Visit']];
   function announce() {
     return `<div class="announce" role="region" aria-label="Offers">
-      <span class="msg">Free UK delivery on orders of £30 or more · <a href="delivery.html">Delivery &amp; returns</a></span>
+      <span class="msg">Indonesian coffee in Piccadilly · <a href="visit.html">Visit us at St James’s Market</a></span>
+      <span class="msg" aria-hidden="true" inert>Free UK delivery on orders of £30 or more · <a href="delivery.html">Delivery &amp; returns</a></span>
       <span class="msg" aria-hidden="true" inert>Subscribe and save 10% on every bag · <a href="subscribe.html">Join the Beans Club</a></span>
       <span class="msg" aria-hidden="true" inert>10 points for every £1 in the café, the app and online · <a href="rewards.html">Rewards</a></span></div>`;
   }
@@ -159,6 +160,8 @@
         <nav aria-label="Legal"><p class="fh">Legal</p><a href="privacy.html">Privacy notice</a><button type="button" class="bc-link" data-consent-open>Privacy choices</button><a href="privacy.html#cookies">Cookies</a><a href="accessibility.html">Accessibility</a><a href="https://www.instagram.com/bija.london/" rel="noopener" target="_blank">Instagram @bija.london</a></nav>
       </div>
       <div class="bigmark" aria-hidden="true">${ICON.mark}Bija</div>
+      <p class="soc"><a href="https://www.instagram.com/bija.london/" rel="noopener">Instagram</a><a href="https://www.tiktok.com/@bijalondon" rel="noopener">TikTok</a><a href="https://www.facebook.com/share/19ZKGk6Zq2/" rel="noopener">Facebook</a></p>
+      <p class="tm">Bija and Bija Coffee are trading names of Bija Coffee Limited. The BIJA INDONESIAN COFFEE logo is a registered UK trade mark (No. UK00004017967). All rights in our names, trade marks and branding are reserved.</p>
       <div class="legalline"><span>© Bija Coffee Limited, registered in England and Wales, company number 15383542. 2a St James's Market, London SW1Y 4AH. Prices include VAT.</span><span>Concept rebuild by Firman Insan M, not an official Bija page.</span></div>
     </div></footer>`;
   }

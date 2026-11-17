@@ -485,3 +485,77 @@ h1, h2 { overflow-wrap: break-word; }
 .dhero > div:has(.fan) { display: flex; flex-direction: column-reverse; gap: 20px; }
 /* origin side card: Add + Details wrap instead of pushing past the edge at tablet widths */
 main div:has(> .btn[data-add]) { flex-wrap: wrap; }
+
+/* ================================================================================================================
+   Editorial theme (Nov 2026), after Bija's own shop (bija-coffee-london.myshopify.com): warm cream paper and near-black
+   bands, Libre Baskerville headlines in sentence case, Inter for everything else, small letter-spaced eyebrows,
+   quiet rectangular buttons and underlined text links with an arrow. Loaded last, so it wins over the older shop styles.
+   ================================================================================================================ */
+:root {
+  --bg: #f4f0e7; --paper: #f4f0e7; --ink: #111111; --muted: #6a665e; --line: rgba(17, 17, 17, .14); --tile: #ebe5d8; --tile2: #e2dbcc;
+  --inv: #111111; --inv-ink: #f4f0e7; --soft: #ebe5d8; --soft2: #e2dbcc;
+  --serif: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+  --disp: var(--serif);
+}
+html { background: var(--bg); }
+body.shop-page { background: var(--bg); color: var(--ink); font: 15.5px/1.6 var(--sans); }
+:where(.shop-page) :is(h1, h2) { font-family: var(--serif); font-weight: 400; text-transform: none; letter-spacing: -.012em; line-height: 1.12; }
+:where(.shop-page) h3 { font-family: var(--serif); font-weight: 400; text-transform: none; letter-spacing: -.005em; }
+.shop-page .eyebrow { font: 600 11px/1.4 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.shop-page :is(.dark, .band, .hero2, .batik, .sfoot, .inv, .ed-dark) .eyebrow { color: rgba(244, 240, 231, .62); }
+
+/* buttons: quiet rectangles, not pills */
+.btn { border-radius: 2px; min-height: 46px; padding: 0 22px; font: 500 13px/1 var(--sans); letter-spacing: .02em; text-transform: none; background: var(--ink); border-color: var(--ink); color: var(--paper) !important; }
+.btn:hover { background: #2a2a2a; border-color: #2a2a2a; }
+.btn.ghost { background: transparent; color: var(--ink) !important; border: 1px solid var(--ink); }
+.btn.ghost:hover { background: rgba(17, 17, 17, .06); }
+:is(.dark, .band, .hero2, .batik, .sfoot, .inv, .ed-dark) .btn { background: var(--paper); color: var(--ink) !important; border-color: var(--paper); }
+:is(.dark, .band, .hero2, .batik, .sfoot, .inv, .ed-dark) .btn:hover { background: #e6dfcf; border-color: #e6dfcf; }
+:is(.dark, .band, .hero2, .batik, .sfoot, .inv, .ed-dark) .btn.ghost { background: transparent; color: var(--paper) !important; border-color: rgba(244, 240, 231, .7); }
+.btn .arr, .ed-link .arr { font-size: 1.1em; line-height: 1; }
+/* the house text link: underlined, with ↗ */
+.ed-link { display: inline-flex; align-items: center; gap: 10px; padding: 8px 0 6px; border-bottom: 1px solid currentColor; font: 500 13px/1.2 var(--sans); text-decoration: none; color: inherit; }
+.ed-link:hover { opacity: .7; }
+.more { font: 500 13px/1.2 var(--sans); text-transform: none; letter-spacing: .01em; }
+
+/* announcement and header: near-black, calm */
+.announce { background: var(--inv); color: rgba(244, 240, 231, .82); font: 500 12px/1.3 var(--sans); letter-spacing: .02em; text-transform: none; min-height: 34px; border-bottom: 1px solid rgba(244, 240, 231, .08); }
+.announce a { color: var(--paper); }
+.shead { background: rgba(17, 17, 17, .97); color: var(--paper); border-bottom: 1px solid rgba(244, 240, 231, .14); backdrop-filter: blur(10px); }
+.shead .in { min-height: 76px; grid-template-columns: auto minmax(0, 1fr) auto; }
+.shead .brand { grid-column: 1; justify-self: start; display: inline-flex; flex-direction: column; align-items: center; gap: 4px; color: var(--paper); font-size: 26px; }
+.shead .brand svg { width: 30px; height: 30px; color: var(--paper); }
+.shead .brand .wordmark { height: 22px; margin: 0; }
+.shead .mainnav { grid-column: 2; justify-content: center; }
+.shead .mainnav a { color: rgba(244, 240, 231, .78); font: 400 13px/1 var(--sans); letter-spacing: .01em; text-transform: none; padding: 14px 11px; }
+.shead .mainnav a:hover, .shead .mainnav a[aria-current="page"] { color: var(--paper); text-decoration: none; }
+.shead .mainnav a[aria-current="page"] { box-shadow: inset 0 -1px 0 var(--paper); border-radius: 0; }
+.shead .hact { grid-column: 3; }
+.shead .hlink { color: rgba(244, 240, 231, .78); font: 400 13px var(--sans); text-transform: none; letter-spacing: .01em; }
+.shead .iconbtn { color: var(--paper); }
+.shead .btn.ghost { color: var(--paper) !important; border-color: rgba(244, 240, 231, .55); min-height: 38px; padding: 0 16px; }
+.shead .btn.ghost:hover { background: rgba(244, 240, 231, .08); }
+.shead .count { background: var(--paper); color: var(--ink); }
+@media (max-width: 1100px) { .shead .in { grid-template-columns: auto auto minmax(0, 1fr) auto; } .shead .menuslot { grid-column: 1; } .shead .brand { grid-column: 2; } }
+
+/* footer: near-black, no giant wordmark, the trade mark line at the bottom */
+.sfoot { background: var(--inv); color: rgba(244, 240, 231, .78); }
+.sfoot .fh { font: 400 18px/1.3 var(--serif); text-transform: none; letter-spacing: 0; color: var(--paper); }
+.sfoot a { color: rgba(244, 240, 231, .78); }
+.sfoot a:hover { color: var(--paper); }
+.sfoot .inp { background: var(--paper); color: var(--ink); border-radius: 2px; border: 0; }
+.sfoot .bigmark { display: none; }
+.sfoot .tm { margin: 18px 0 0; padding-top: 18px; border-top: 1px solid rgba(244, 240, 231, .12); font-size: 12px; line-height: 1.6; color: rgba(244, 240, 231, .55); max-width: 92ch; }
+.sfoot .soc { display: flex; gap: 16px; margin-top: 14px; } .sfoot .soc a { font-size: 13px; }
+
+/* tiles and cards: warm paper instead of grey */
+.pcard, .dcard:not(.dark) { background: var(--tile); }
+.pcard h3 { font: 400 18px/1.25 var(--serif); }
+.crumbs { color: var(--muted); }
+/* chips: quiet outlines in sentence case */
+.chip { border-radius: 2px; border: 1px solid var(--line); background: transparent; font: 500 13px/1 var(--sans); letter-spacing: .01em; text-transform: none; min-height: 40px; padding: 0 16px; }
+.chip:hover { border-color: var(--ink); }
+.chip[aria-pressed="true"], .chip[aria-checked="true"], .chip[aria-selected="true"], .chip:has(input:checked) { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+/* the dropdown menu on narrower screens sits on the dark header; fields are quiet rectangles */
+@media (max-width: 1100px) { .shead .mainnav { background: #111111; border-top: 1px solid rgba(244, 240, 231, .12); } .shead .mainnav a { padding: 16px clamp(16px, 3vw, 40px); } }
+.inp, select.inp { border-radius: 2px; border-width: 1px; background: #fffdf8; }
