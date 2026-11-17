@@ -78,6 +78,7 @@ node tests/security.js             # 12 findings must pass
 
 - Commit with a message that says what changed for the people using it. Push `main`; check the Pages run (and CI, Lighthouse, APK) succeed.
 - Copy changed files to the site mirror if the brand keeps one.
+- Actions minutes are paid on private repos, and macOS minutes count ten times. So: the website deploy and the tests run on pushes (not for notes, docs or native-only changes); the Android APK builds on native changes, on request and nightly when the app changed that day; Lighthouse runs weekly and on request; the iOS build only on native changes or request. Batch small fixes into one push.
 - Vendor files are pinned and copied in with their integrity hash. No new packages or CDN scripts without asking the owner.
 
 ## 10. Porting between Bija and Ngopi

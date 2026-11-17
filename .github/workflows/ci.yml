@@ -2,11 +2,14 @@
 # How to run the same checks locally: tests/README.md
 name: CI
 
+# Saves Actions minutes: notes, docs and the native shells don't change what these tests check.
 on:
   push:
     branches: [main]
+    paths-ignore: ['docs/**', '.claude/**', '**/*.md', 'native/**']
   pull_request:
     branches: [main]
+    paths-ignore: ['docs/**', '.claude/**', '**/*.md', 'native/**']
   workflow_dispatch:
 
 permissions:
@@ -31,6 +34,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      - name: Keep the Playwright browser between runs
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ env.PLAYWRIGHT_VERSION }}
 
       - name: Install Playwright and axe-core (pinned)
         run: |

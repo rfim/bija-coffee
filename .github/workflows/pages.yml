@@ -6,6 +6,7 @@ name: Pages
 on:
   push:
     branches: [main]
+    paths-ignore: ['.claude/**', 'docs/**/*.md', 'README.md', 'native/**', '.github/workflows/android-apk.yml', '.github/workflows/ios-simulator.yml', '.github/workflows/lighthouse.yml']
   workflow_dispatch:
 
 permissions:

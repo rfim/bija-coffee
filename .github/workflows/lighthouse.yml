@@ -3,9 +3,10 @@
 # Budgets: LCP < 2.5 s, CLS < 0.1, TBT < 200 ms, accessibility score 100. Config: tests/lighthouse/
 name: Lighthouse
 
+# Saves Actions minutes: performance budgets are checked weekly and on request (Run workflow), not on every push.
 on:
-  push:
-    branches: [main]
+  schedule:
+    - cron: '23 5 * * 1' # Mondays 05:23 UTC
   workflow_dispatch:
 
 permissions:
