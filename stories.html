@@ -36,6 +36,11 @@ if (location.protocol !== 'file:') ['archivo-latin-900', 'archivo-latin-800', 'i
 .story2 .art.wide { aspect-ratio: 16 / 10; }
 .story2 .art img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .story2 .src { font-size: 13px; color: var(--muted); }
+.isles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 28px; }
+.isles article { background: var(--tile); border-radius: 18px; overflow: hidden; padding: 0 0 20px; }
+.isles picture { display: block; aspect-ratio: 2.4 / 1; overflow: hidden; margin-bottom: 16px; } .isles picture img { display: block; width: 100% !important; height: 100% !important; aspect-ratio: auto; object-fit: cover; }
+.isles .eyebrow, .isles h3, .isles p { margin-left: 20px; margin-right: 20px; } .isles h3 { margin-top: 6px; text-transform: none; font-size: 22px; } .isles p { font-size: 15px; }
+@media (max-width: 860px) { .isles { grid-template-columns: minmax(0, 1fr); } }
 .comm { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 24px; }
 .comm div { background: var(--tile); border-radius: 16px; padding: 24px; }
 .comm h3 { margin: 0 0 8px; } .comm p { margin: 0; font-size: 15px; }
@@ -53,7 +58,7 @@ if (location.protocol !== 'file:') ['archivo-latin-900', 'archivo-latin-800', 'i
     <h1 id="h">Every cup has a past.</h1>
     <p>Behind each coffee we pour lies a chain of people, places and improbable voyages. These are the stories we find ourselves telling across the counter, set down here for anyone curious enough to follow a bean back to where it began.</p>
     <ul class="st-toc">
-      <li><a href="#java">How coffee reached Java</a></li><li><a href="#house">Two forests, one cup</a></li><li><a href="#gayo">Aceh Gayo</a></li><li><a href="#concept">The idea</a></li><li><a href="#identity">The seed and the pattern</a></li><li><a href="#award">An award we share</a></li><li><a href="#people">The people</a></li><li><a href="#community">Communities</a></li><li><a href="#events">Events &amp; catering</a></li>
+      <li><a href="#java">How coffee reached Java</a></li><li><a href="#roots">Indonesian roots</a></li><li><a href="#house">Two forests, one cup</a></li><li><a href="#gayo">Aceh Gayo</a></li><li><a href="#concept">The idea</a></li><li><a href="#identity">The seed and the pattern</a></li><li><a href="#award">An award we share</a></li><li><a href="#people">The people</a></li><li><a href="#community">Communities</a></li><li><a href="#events">Events &amp; catering</a></li>
     </ul>
   </section>
 
@@ -74,6 +79,16 @@ if (location.protocol !== 'file:') ['archivo-latin-900', 'archivo-latin-800', 'i
       <p class="src">Further reading: Amsterdam City Archives on coffee houses; Oneindig Noord-Holland on coffee and Pieter van den Broecke.</p>
     </div>
     <div class="art wide"><picture><source type="image/webp" srcset="photos/shop/bromo-engraving-600.webp 600w, photos/shop/bromo-engraving.webp 1200w" sizes="(max-width: 760px) 100vw, 50vw"><img src="photos/shop/bromo-engraving.jpg" width="1200" height="400" alt="An engraving of Mount Bromo, East Java" loading="lazy" decoding="async" style="object-fit:contain;background:#efe9df"></picture></div>
+  </section>
+
+  <section class="story2 roots" id="roots" aria-labelledby="roots-h" style="display:block">
+    <span class="eyebrow">Indonesian roots</span><h2 id="roots-h">Many islands. One extraordinary coffee culture.</h2>
+    <p>Volcanic slopes, rainforest and highland farming communities: each of Indonesia’s coffee regions has its own history and growing conditions. By the USDA’s 2025/26 figures, Indonesia is the world’s fourth-largest coffee producer, and a global count in November 2025, reported by IndonesiaBaik, ranked it first for the sheer number of coffee shops, from modern cafés to the humble warung kopi.</p>
+    <div class="isles">
+      <article><picture><source type="image/webp" srcset="photos/shop/kerinci-600.webp 600w, photos/shop/kerinci.webp 1200w" sizes="(max-width: 860px) 100vw, 33vw"><img src="photos/shop/kerinci.jpg" width="1200" height="400" alt="Mount Kerinci, Sumatra" loading="lazy" decoding="async"></picture><span class="eyebrow">01 · Sumatra · Mount Kerinci</span><h3>The Island of Gold</h3><p>Once linked to the Sanskrit name Suvarnadvipa, the “Island of Gold”, Sumatra is spined by the Bukit Barisan range, where rainforest climbs into cool highlands; Kerinci Seblat, Gunung Leuser and Bukit Barisan Selatan shelter vital forest habitat. Coffee spread here in the nineteenth century, partly through forced cultivation under Dutch rule in West Sumatra. Today Aceh, Lake Toba and Kerinci each bring their own terrain, communities and processing traditions.</p><p class="src">At Bija: Sumatra Mandheling, Sumatra Lintong, Aceh Gayo (soon).</p></article>
+      <article><picture><source type="image/webp" srcset="photos/shop/bromo-600.webp 600w, photos/shop/bromo.webp 1200w" sizes="(max-width: 860px) 100vw, 33vw"><img src="photos/shop/bromo.jpg" width="1200" height="400" alt="Mount Bromo, Java" loading="lazy" decoding="async"></picture><span class="eyebrow">02 · Java · Mount Bromo</span><h3>The island that named coffee</h3><p>Indonesia’s most populous island, home to more than half the nation at the 2020 census. Beyond its cities lie farmed plains, volcanic slopes and mountain forest, with coffee thriving in the cooler uplands. After a first planting in Batavia was lost to floods, a second introduction in 1699 spread through the Priangan highlands; exports began in 1711, and “java” has meant coffee ever since.</p><p class="src">At Bija: Old Brown Java, Bija House Blend.</p></article>
+      <article><picture><source type="image/webp" srcset="photos/shop/batur-600.webp 600w, photos/shop/batur.webp 1200w" sizes="(max-width: 860px) 100vw, 33vw"><img src="photos/shop/batur.jpg" width="1200" height="400" alt="Mount Batur, Bali" loading="lazy" decoding="async"></picture><span class="eyebrow">03 · Bali · Mount Batur</span><h3>Coffee among the clouds</h3><p>In the Kintamani highlands, coffee grows more than 900 metres up the volcanic flanks of Mount Batur, in cool air and fertile soil beneath shade trees. The tradition dates to the early nineteenth century; farmers organise through subak abian, customary groups that bind agriculture to community and spiritual life, and in 2008 Kintamani Arabica became Indonesia’s first registered geographical indication.</p><p class="src">At Bija: Bali Kintamani (soon).</p></article>
+    </div>
   </section>
 
   <section class="story2 flip" id="house" aria-labelledby="house-h">

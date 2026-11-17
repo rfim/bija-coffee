@@ -1035,6 +1035,18 @@ body.barista-view .hav { display: none; }
 .pd-menu .pi { width: 40px; height: 40px; border-radius: 12px; background: var(--card); display: grid; place-items: center; flex: none; } .pd-menu .pi svg { width: 22px; height: 22px; }
 .pl { display: grid; gap: 2px; flex: 1; min-width: 0; } .pl b { font-size: 15px; font-weight: 600; } .pl small { font-size: 12.5px; color: var(--muted); overflow-wrap: anywhere; }
 .pc { font-size: 22px; color: var(--muted); flex: none; }
+.stx-h { margin: 6px 0 10px; font: 900 34px/1 var(--display); letter-spacing: -.02em; }
+.stx-lead { margin: 0 0 16px; color: #3a3a3a; font-size: 15px; line-height: 1.5; }
+.stx-chips { display: flex; gap: 8px; overflow-x: auto; margin: 0 -2px 8px; padding: 2px; scrollbar-width: none; } .stx-chips::-webkit-scrollbar { display: none; }
+.stx-chips button { flex: none; min-height: 40px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink); font: 600 13px/1 var(--sans); }
+.stx-ch { margin: 26px 0 12px; font: 900 22px/1.1 var(--display); letter-spacing: -.01em; scroll-margin-top: calc(var(--hdr, 61px) + 12px); }
+.stx-card { border-radius: 18px; overflow: hidden; background: var(--tile); margin: 0 0 14px; }
+.stx-ph { aspect-ratio: 16 / 10; background: #e9e6e0; } .stx-ph.wide { aspect-ratio: 2.4 / 1; } .stx-ph img { width: 100%; height: 100%; object-fit: cover; display: block; } .stx-ph img.fit { object-fit: contain; }
+.stx-tx { padding: 16px 18px 18px; } .stx-tx h4 { margin: 4px 0 8px; font: 800 20px/1.15 var(--display); letter-spacing: -.01em; }
+.stx-tx p { margin: 0 0 10px; font-size: 15px; line-height: 1.55; color: #2f2f2f; }
+.stx-tx details summary { cursor: pointer; font: 600 14px var(--sans); color: var(--ink); text-decoration: underline; text-underline-offset: 3px; list-style: none; padding: 4px 0 10px; } .stx-tx details summary::-webkit-details-marker { display: none; }
+.stx-tx details[open] summary { display: none; }
+.stx-more { margin: 18px 0 0; text-align: center; font-size: 14px; } .stx-more a { color: var(--ink); }
 .pd-sub { margin-top: 18px; padding-top: 6px; border-top: 6px solid var(--card); } .pd-sub .pi { background: transparent; } .pd-sub b { font-weight: 500; }
 .pd-acct { margin: 20px 0 8px; font-size: 13px; color: var(--muted); text-align: center; } .pd-out { width: 100%; }
 .pd-back { margin: 2px 0 6px; min-height: 44px; }
@@ -2851,6 +2863,7 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
     if (S.tab === 'card') return cardPage();
     if (S.tab === 'gifts') return back + giftsPage();
     if (S.tab === 'secret') return back + secretPage();
+    if (S.tab === 'stories') return back + storiesPage();
     if (S.tab === 'orders') return back + ordersPage();
     if (S.tab === 'club') return back + clubPage();
     return orderPage();
@@ -3609,6 +3622,7 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
       stamps: ic('<circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.4 2.3 4.6-4.8"/>'),
       subs: ic('<path d="M4 12a8 8 0 0 1 13.7-5.7L20 8"/><path d="M20 4v4h-4"/><path d="M20 12a8 8 0 0 1-13.7 5.7L4 16"/><path d="M4 20v-4h4"/>'),
       more: ic('<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>'),
+      story: ic('<path d="M4 5.5c2.7-1 5.3-1 8 .8 2.7-1.8 5.3-1.8 8-.8v13c-2.7-1-5.3-1-8 .8-2.7-1.8-5.3-1.8-8-.8z"/><path d="M12 6.3v13.5"/>'),
       visit: window.BijaIcons ? BijaIcons.svg('visit') : ic('<path d="M12 21s-6-5.6-6-10a6 6 0 0 1 12 0c0 4.4-6 10-6 10z"/><circle cx="12" cy="11" r="2"/>'),
     };
     const n = st.os.length + st.shop.length, on = Math.min(st.stamps, STAMP_FREE_AT);
@@ -3637,6 +3651,9 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
         ${row('you', IC.you, 'Account', 'Details, allergies, card design')}
         ${tabRow('club', IC.subs, 'Subscription', st.subs.length ? `${st.subs.length} active` : 'Beans Club · 10% off')}
         ${tabRow('more', IC.more, 'More', 'Beans, gift cards and more')}
+      </ul>
+      <ul class="pd-menu pd-sub" aria-label="Bija">
+        ${tabRow('stories', IC.story, 'Stories', 'Our story, Indonesian roots and coffee stories')}
       </ul>
       <p class="pd-links"><a href="help.html">Help</a><a href="visit.html">Visit us</a><a href="privacy.html">Privacy</a></p>
       ${member ? `<details class="pd-acc pd-danger" data-k="dz" ${S.pdAcc?.dz ? 'open' : ''}><summary>Danger zone<i aria-hidden="true"></i></summary><p class="pd-acct">Logged in${a.email ? ' as ' + esc(a.email) : a.provider ? ' with ' + esc({ apple: 'Apple', google: 'Google' }[a.provider] || 'email') : ''}</p><button class="btn ghost pd-out" data-act="acc-out">Log out</button></details>` : ''}`;
@@ -3752,6 +3769,64 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
       <g font-family="DM Sans, sans-serif" font-size="8.5" fill="#6a6a6a" letter-spacing=".08em"><text x="70" y="22">PICCADILLY</text><text x="250" y="58">JERMYN ST</text><text x="140" y="178">PALL MALL</text><text x="236" y="218">THE MALL</text><text x="20" y="262">ST JAMES'S PARK</text><text x="138" y="88">ST JAMES'S SQ</text><text x="62" y="120" transform="rotate(84 62 120)">ST JAMES'S ST</text><text x="322" y="96" transform="rotate(86 322 96)">HAYMARKET</text></g>
       <g transform="translate(268 110)"><rect x="-17" y="-11" width="34" height="22" rx="11" fill="#0b0b0b"/><text y="4" text-anchor="middle" font-size="10" font-weight="700" fill="#fff" font-family="DM Sans, sans-serif">BIJA</text></g>
       ${pins}</svg></div>`;
+  }
+  // ----- Stories: Our story, Indonesian roots and coffee stories in one place (paraphrased from Bija's own shop pages, Nov 2026) -----
+  const STORIES = [
+    { ch: 'Our story', id: 'idea', img: 'shopfront', eb: 'The idea', t: 'A little corner of Indonesia in London.', p: [
+      'Everything starts with the coffee: distinctive Indonesian origins, roasted with care and prepared with precision. Yet what grows around it matters just as much: a genuine welcome, an unhurried conversation, a reason to linger.',
+      'Black and white give Bija a crisp, timeless face to the street. Inside, amber light, pale wood and flower-shaped lamps soften the mood, and a living wall of succulents brings a breath of nature to the mezzanine.',
+      'We want the richness of Indonesian coffee culture to travel beyond our door: through the beans you brew at home, the stories you read and the coffee we bring to your gatherings.'] },
+    { ch: 'Our story', id: 'people', img: 'latte-pour', eb: 'The people', t: 'The people behind your cup.', p: [
+      'A café begins as an idea, but it only comes alive through people. Devi founded Bija with a clear ambition: to introduce more people to Indonesian specialty coffee and to give it a welcoming home in London.',
+      'Our baristas turn that idea into something you can taste, from choosing the grind to making time for a conversation, united by a wish to build a café people want to return to.'] },
+    { ch: 'Our story', id: 'seed', img: 'cups', eb: 'Our identity', t: 'A seed. A pattern. A sense of belonging.', p: [
+      'For us, the seed is a point of departure: the coffee bean, the potential it holds and the connections that can grow around a shared cup.',
+      'The repeating, interlocking forms of Batik Kawung bring an Indonesian design reference into our visual language. In the logo they resolve into a clean geometric mark: a small pattern with a generous sense of connection.',
+      'The identity stays black and white. Warm cream makes room for reading, the café’s amber light comes through in photography, and each origin card carries its own colour.'] },
+    { ch: 'Our story', id: 'award', img: 'award-2025', fit: true, bg: '#0b0b0b', eb: 'London Coffee Festival 2025', t: 'A small café. A shared milestone.', p: [
+      'Bija was named Best New Coffee Shop at the London Coffee Festival Awards 2025. The awards were decided by public vote, which made the recognition all the more meaningful.',
+      'Every visit, conversation and recommendation helped a little corner of Indonesia find its place in London. The next chapter is the everyday work: welcoming people in and sharing the character of Indonesian coffee.'] },
+    { ch: 'Indonesian roots', id: 'roots', img: 'indonesia-tile', fit: true, bg: '#0b0b0b', eb: 'Indonesian roots', t: 'Many islands. One extraordinary coffee culture.', p: [
+      'Volcanic slopes, rainforest and highland farming communities: each of Indonesia’s coffee regions has its own history and its own growing conditions.',
+      'By the USDA’s 2025/26 figures, Indonesia is the world’s fourth-largest coffee producer. A global count in November 2025, reported by IndonesiaBaik, also ranked it first for the sheer number of coffee shops, from modern cafés to the humble warung kopi.'] },
+    { ch: 'Indonesian roots', id: 'sumatra', img: 'kerinci', wide: true, eb: '01 · Sumatra · Mount Kerinci', t: 'The Island of Gold.', go: 'beans', p: [
+      'Sumatra was once linked to the Sanskrit name Suvarnadvipa, the “Island of Gold”. The Bukit Barisan range runs down its western flank, where rainforest climbs into cool highlands, and the national parks of Kerinci Seblat, Gunung Leuser and Bukit Barisan Selatan shelter vital forest habitat.',
+      'Coffee spread across the island in the nineteenth century, partly through forced cultivation under Dutch colonial rule in West Sumatra. Today its growing regions, among them Aceh, Lake Toba and Kerinci, each bring their own terrain, communities and ways of processing.',
+      'From Sumatra at Bija: Sumatra Mandheling, Sumatra Lintong and, soon, Aceh Gayo.'] },
+    { ch: 'Indonesian roots', id: 'java', img: 'bromo', wide: true, eb: '02 · Java · Mount Bromo', t: 'The island that gave coffee a name.', go: 'beans', p: [
+      'Java is Indonesia’s most populous island, home to more than half the nation at the 2020 census. Beyond its cities lie farmed plains, volcanic slopes and mountain forest, with coffee flourishing in the cooler uplands.',
+      'Coffee had already travelled far to get here. Arabica is native to Ethiopia; across the Red Sea, Yemen became a hub of cultivation and trade, and the harbour of Mocha lent its name to the drink centuries before it evoked chocolate.',
+      'Arabica seedlings reached Batavia, today’s Jakarta, in 1696, but floods destroyed that first planting. A second introduction in 1699 took hold and spread through West Java’s Priangan highlands; exports began in 1711. So close did the bond become that “java” is still another word for coffee.',
+      'Around 1706 living plants were sent from Java to Amsterdam’s Hortus botanical garden, and cuttings from there helped carry cultivation across the world. These routes were also forged by colonial power: coffee enriched the Dutch East India Company while local communities bore forced cultivation and tightly controlled trade.',
+      'From Java at Bija: Old Brown Java and our House Blend.'] },
+    { ch: 'Indonesian roots', id: 'bali', img: 'batur', wide: true, eb: '03 · Bali · Mount Batur', t: 'Coffee among the clouds.', p: [
+      'In Bali’s Kintamani highlands, coffee grows more than 900 metres up the volcanic flanks of Mount Batur: cool air, fertile soil, shade trees overhead and other crops planted alongside.',
+      'The tradition reaches back to the early nineteenth century. Farmers organise through subak abian, customary groups that bind agriculture to community and spiritual life, and in 2008 Kintamani Arabica became Indonesia’s first registered geographical indication.',
+      'From Bali at Bija: Bali Kintamani, coming soon.'] },
+    { ch: 'Coffee stories', id: 'house', img: 'house-blend-tile', fit: true, bg: '#3a240f', eb: 'Our House Blend', t: 'Two forests. One considered cup.', go: 'beans', p: [
+      'Naturally processed Arabica from Cisurupan in West Java meets specialty-grade Robusta from the Petungkriyono Forest in Central Java. The Arabica supplies chocolate, grapefruit and sweet raisin; the Robusta lends a darker register of pine, spice and clove.',
+      'In Cisurupan, coffee grows in shaded home gardens, and through the Little Fireface Project farmers and conservationists protect the endangered Javan slow loris. In Petungkriyono, SwaraOwa works with the communities around the home of the Javan gibbon. Both coffees are Wildlife Friendly® certified.',
+      'Sourced and roasted with our partner Kindred Forest. Drink it black to explore its layers, or with milk for a mellower, rounder cup.'] },
+    { ch: 'Coffee stories', id: 'gayo', img: 'card-aceh-gayo', fit: true, bg: '#4a0f2a', eb: 'Coming soon', t: 'The next chapter: Aceh Gayo.', go: 'beans', p: [
+      'A rich, fruit-forward natural from the Asman Gayo Mill near Takengon, in the highlands of Aceh: cacao, cooked cranberry, cola and dried plum, with a candied sweetness and a gently boozy acidity.',
+      'The mill works with smallholders from the Pantan Musara villages, communities who rebuilt their farms after being displaced. We will tell their story more fully once the coffee arrives.'] },
+    { ch: 'Coffee stories', id: 'tubruk', img: 'kopi-tubruk', eb: 'At our counter', t: 'Kopi tubruk, and a little patience.', p: [
+      'Javanese-style coffee with the grounds in the cup. Let it settle for two minutes, then enjoy its full depth. Ask for it at the bar, alongside our Kopi Susu Aren.'] },
+  ];
+  const STORY_CH = ['Our story', 'Indonesian roots', 'Coffee stories'];
+  function storiesPage() {
+    const pic = (x) => `<picture><source type="image/webp" srcset="photos/shop/${x.img}-600.webp"><img src="photos/shop/${x.img}.jpg" alt="" loading="lazy" decoding="async"${x.fit ? ' class="fit"' : ''}></picture>`;
+    return `<section class="stx">
+      <span class="eyebrow">Stories</span><h2 class="stx-h">From seed to cup.</h2>
+      <p class="stx-lead">Behind each coffee we pour lies a chain of people, places and improbable voyages. Here are the ones we find ourselves telling across the counter.</p>
+      <div class="stx-chips" role="navigation" aria-label="Chapters">${STORY_CH.map((c, i) => `<button data-act="st-jump" data-v="${i}">${esc(c)}</button>`).join('')}</div>
+      ${STORY_CH.map((c, i) => `<h3 class="stx-ch" id="stx-ch-${i}">${esc(c)}</h3>${STORIES.filter((x) => x.ch === c).map((x) => `
+        <article class="stx-card"><div class="stx-ph${x.wide ? ' wide' : ''}"${x.bg ? ` style="background:${x.bg}"` : ''}>${pic(x)}</div>
+          <div class="stx-tx"><span class="eyebrow">${esc(x.eb)}</span><h4>${esc(x.t)}</h4><p>${esc(x.p[0])}</p>
+          ${x.p.length > 1 ? `<details><summary>Read more</summary>${x.p.slice(1).map((q) => `<p>${esc(q)}</p>`).join('')}</details>` : ''}
+          ${x.go ? `<button class="btn sm ghost" data-act="tab" data-v="${x.go}">Shop beans</button>` : ''}</div></article>`).join('')}`).join('')}
+      <p class="stx-more"><a href="stories.html">Read the full stories on our website</a></p>
+    </section>`;
   }
   function secretPage() {
     if (!S.meLoaded) return notReady();
@@ -4413,6 +4488,7 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
     else if (a === 'pin-change') pinChange();
     else if (a === 'scan-file') document.getElementById('scan-file')?.click();
     else if (a === 'scan-open') scanOpen();
+    else if (a === 'st-jump') document.getElementById('stx-ch-' + b.dataset.v)?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     else if (a === 'scan-close') scanClose();
     else if (a === 'cat') { S.cat = b.dataset.v; for (const x of b.parentElement.querySelectorAll('button')) x.setAttribute('aria-pressed', String(x === b)); document.getElementById('mcat-' + catSlug(b.dataset.v))?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth', block: 'start' }); }
     else if (a === 'qty') { const id = b.dataset.id, r = b.getBoundingClientRect(); S.cart[id] = Math.max(0, Math.min(20, (S.cart[id] || 0) + +b.dataset.d)); render(); if (+b.dataset.d > 0) flyToBasket({ getBoundingClientRect: () => r }); }
