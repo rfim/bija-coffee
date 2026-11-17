@@ -1047,6 +1047,20 @@ body.barista-view .hav { display: none; }
 .stx-tx details summary { cursor: pointer; font: 600 14px var(--sans); color: var(--ink); text-decoration: underline; text-underline-offset: 3px; list-style: none; padding: 4px 0 10px; } .stx-tx details summary::-webkit-details-marker { display: none; }
 .stx-tx details[open] summary { display: none; }
 .stx-more { margin: 18px 0 0; text-align: center; font-size: 14px; } .stx-more a { color: var(--ink); }
+.vx-hero { border-radius: 18px; overflow: hidden; aspect-ratio: 16 / 10; background: var(--tile); margin: 0 0 16px; } .vx-hero img { width: 100%; height: 100%; object-fit: cover; display: block; } .vx-hero img.low { object-position: 50% 72%; }
+.vx-open { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 10px; font: 600 14px var(--sans); color: var(--muted); } .vx-open i { width: 8px; height: 8px; border-radius: 50%; background: #b9b9b6; } .vx-open.on { color: var(--ink); } .vx-open.on i { background: #2e7d32; }
+.vx-acts { display: flex; gap: 10px; flex-wrap: wrap; margin: 4px 0 6px; } .vx-acts .btn { flex: 1; min-width: 140px; text-align: center; text-decoration: none; }
+.vx-hours { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); } .vx-hours li { display: flex; justify-content: space-between; gap: 12px; padding: 12px 2px; border-bottom: 1px solid var(--line); font-size: 15px; } .vx-hours li.now { font-weight: 700; } .vx-hours li span:last-child { color: #3a3a3a; text-align: right; }
+.vx-strip { display: grid; grid-auto-flow: column; grid-auto-columns: 62%; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -2px; padding: 2px; scrollbar-width: none; } .vx-strip::-webkit-scrollbar { display: none; }
+.vx-strip div { scroll-snap-align: start; border-radius: 14px; overflow: hidden; aspect-ratio: 4 / 5; background: var(--tile); } .vx-strip img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.vx-rev { display: grid; gap: 10px; } .vx-rev figure { margin: 0; background: var(--tile); border-radius: 16px; padding: 16px 18px; } .vx-rev span { letter-spacing: 2px; font-size: 13px; } .vx-rev blockquote { margin: 6px 0 8px; font-size: 15px; line-height: 1.5; } .vx-rev figcaption { font-size: 12px; color: var(--muted); }
+.vx-social { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 22px 0 0; font: 600 14px var(--sans); } .vx-social a { color: var(--ink); min-height: 44px; display: inline-flex; align-items: center; }
+.cx-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; } .cx-grid div { background: var(--tile); border-radius: 16px; padding: 16px; } .cx-grid h4 { margin: 0 0 6px; font: 800 16px/1.2 var(--display); } .cx-grid p { margin: 0; font-size: 13.5px; line-height: 1.45; color: #2f2f2f; }
+.ex-pack { background: var(--tile); border-radius: 18px; padding: 18px; margin: 0 0 12px; } .ex-pack h4 { margin: 4px 0 4px; font: 900 24px/1 var(--display); } .ex-price { margin: 0 0 10px; font-size: 14px; color: #3a3a3a; } .ex-price b { color: var(--ink); }
+.ex-pack ul { margin: 0 0 14px; padding-left: 18px; font-size: 14px; line-height: 1.6; } .ex-fine { font-size: 13px !important; color: var(--muted) !important; }
+.ex-form { display: grid; gap: 12px; } .ex-form .f { display: grid; gap: 6px; font: 600 14px var(--sans); } .ex-form .h { font-weight: 400; color: var(--muted); }
+.ex-form input, .ex-form select, .ex-form textarea { min-height: 48px; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font: 400 16px var(--sans); background: #fff; color: var(--ink); width: 100%; box-sizing: border-box; } .ex-form textarea { min-height: 110px; resize: vertical; }
+.ex-two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .pd-sub { margin-top: 18px; padding-top: 6px; border-top: 6px solid var(--card); } .pd-sub .pi { background: transparent; } .pd-sub b { font-weight: 500; }
 .pd-acct { margin: 20px 0 8px; font-size: 13px; color: var(--muted); text-align: center; } .pd-out { width: 100%; }
 .pd-back { margin: 2px 0 6px; min-height: 44px; }
@@ -2864,6 +2878,9 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
     if (S.tab === 'gifts') return back + giftsPage();
     if (S.tab === 'secret') return back + secretPage();
     if (S.tab === 'stories') return back + storiesPage();
+    if (S.tab === 'visit') return back + visitPage();
+    if (S.tab === 'community') return back + communityPage();
+    if (S.tab === 'events') return back + eventsPage();
     if (S.tab === 'orders') return back + ordersPage();
     if (S.tab === 'club') return back + clubPage();
     return orderPage();
@@ -3622,6 +3639,8 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
       stamps: ic('<circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.4 2.3 4.6-4.8"/>'),
       subs: ic('<path d="M4 12a8 8 0 0 1 13.7-5.7L20 8"/><path d="M20 4v4h-4"/><path d="M20 12a8 8 0 0 1-13.7 5.7L4 16"/><path d="M4 20v-4h4"/>'),
       more: ic('<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>'),
+      people: ic('<circle cx="9" cy="8.5" r="3.2"/><path d="M3 19.5c.9-3.2 3.3-4.8 6-4.8s5.1 1.6 6 4.8"/><circle cx="17" cy="9.5" r="2.4"/><path d="M16.5 14.6c2.2.1 3.8 1.5 4.5 4"/>'),
+      events: ic('<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/><path d="M9 14.5l2 2 4-4"/>'),
       story: ic('<path d="M4 5.5c2.7-1 5.3-1 8 .8 2.7-1.8 5.3-1.8 8-.8v13c-2.7-1-5.3-1-8 .8-2.7-1.8-5.3-1.8-8-.8z"/><path d="M12 6.3v13.5"/>'),
       visit: window.BijaIcons ? BijaIcons.svg('visit') : ic('<path d="M12 21s-6-5.6-6-10a6 6 0 0 1 12 0c0 4.4-6 10-6 10z"/><circle cx="12" cy="11" r="2"/>'),
     };
@@ -3653,9 +3672,12 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
         ${tabRow('more', IC.more, 'More', 'Beans, gift cards and more')}
       </ul>
       <ul class="pd-menu pd-sub" aria-label="Bija">
+        ${tabRow('visit', IC.visit, 'Visit', openState().text)}
         ${tabRow('stories', IC.story, 'Stories', 'Our story, Indonesian roots and coffee stories')}
+        ${tabRow('community', IC.people, 'Community', 'Run clubs, partners and press')}
+        ${tabRow('events', IC.events, 'Events & catering', 'Coffee for your office or gathering')}
       </ul>
-      <p class="pd-links"><a href="help.html">Help</a><a href="visit.html">Visit us</a><a href="privacy.html">Privacy</a></p>
+      <p class="pd-links"><a href="help.html">Help</a><a href="privacy.html">Privacy</a></p>
       ${member ? `<details class="pd-acc pd-danger" data-k="dz" ${S.pdAcc?.dz ? 'open' : ''}><summary>Danger zone<i aria-hidden="true"></i></summary><p class="pd-acct">Logged in${a.email ? ' as ' + esc(a.email) : a.provider ? ' with ' + esc({ apple: 'Apple', google: 'Google' }[a.provider] || 'email') : ''}</p><button class="btn ghost pd-out" data-act="acc-out">Log out</button></details>` : ''}`;
   }
 
@@ -3828,6 +3850,101 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
       <p class="stx-more"><a href="stories.html">Read the full stories on our website</a></p>
     </section>`;
   }
+  // ----- Visit, Community, Events & catering (from Bija's own shop pages, paraphrased, Nov 2026) -----
+  const SOCIAL = [['Instagram', 'https://www.instagram.com/bija.london/'], ['TikTok', 'https://www.tiktok.com/@bijalondon'], ['Facebook', 'https://www.facebook.com/share/19ZKGk6Zq2/']];
+  const REVIEWS = [
+    ['Great coffee with a modern atmosphere, slightly off the beaten path but well worth it. I went back the very next day.', 'Local Guide · Google'],
+    ['Worth a trip for the chocolate cake alone. Coffee is the best I’ve had.', 'Local Guide · Google'],
+    ['A curated coffee experience that showcases both quality and Indonesian coffee culture.', 'Google review'],
+    ['Really helpful, polite and lovely staff. Food delicious.', 'Google review'],
+  ];
+  const shopPic = (img, alt = '', cls = '') => `<picture><source type="image/webp" srcset="photos/shop/${img}-600.webp"><img src="photos/shop/${img}.jpg" alt="${esc(alt)}"${cls ? ` class="${cls}"` : ''} loading="lazy" decoding="async"></picture>`;
+  function visitPage() {
+    const o = openState(), today = (() => { try { return DAYS.indexOf(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', weekday: 'short' }).format(new Date())); } catch { return new Date().getDay(); } })();
+    const order = [1, 2, 3, 4, 5, 6, 0], full = { Sun: 'Sunday', Mon: 'Monday', Tue: 'Tuesday', Wed: 'Wednesday', Thu: 'Thursday', Fri: 'Friday', Sat: 'Saturday' };
+    return `<section class="stx vx">
+      <div class="vx-hero">${shopPic('shopfront', 'Bija’s shopfront on St James’s Market')}</div>
+      <span class="eyebrow">Visit Bija</span><h2 class="stx-h">Your coffee stop in Piccadilly.</h2>
+      <p class="vx-open ${o.open ? 'on' : ''}" role="status"><i aria-hidden="true"></i>${esc(o.text)}</p>
+      <p class="stx-lead">2a St James’s Market, London SW1Y 4AH. Two minutes on foot from Piccadilly Circus and the Eros statue.</p>
+      <div class="vx-acts"><a class="btn" href="${MAPS}" target="_blank" rel="noopener">Directions</a><a class="btn ghost" href="tel:+442046033086">Call</a></div>
+      <h3 class="stx-ch">Opening hours</h3>
+      <ul class="vx-hours">${order.map((d) => `<li${d === today ? ' class="now"' : ''}><span>${full[DAYS[d]]}</span><span>${ukTime(HOURS[d][0])} – ${ukTime(HOURS[d][1])}</span></li>`).join('')}</ul>
+      <h3 class="stx-ch">Getting here</h3>
+      <ul class="vx-hours"><li><span>Piccadilly Circus</span><span>2 min · Piccadilly, Bakerloo</span></li><li><span>Leicester Square</span><span>7 min · Piccadilly, Northern</span></li></ul>
+      <h3 class="stx-ch">Inside</h3>
+      <p class="stx-lead">We opened our doors in November 2024. Warm lighting, pale wood and our flower-shaped lamps set the mood, and upstairs a living wall of succulents brings greenery to the mezzanine. Try kopi tubruk, Kopi Susu Aren or a turmeric drink, with cakes, pastries and light bites.</p>
+      <div class="vx-strip">${['interior', 'living-wall', 'window', 'entrance', 'cups'].map((x) => `<div>${shopPic(x)}</div>`).join('')}</div>
+      <h3 class="stx-ch">What people say</h3>
+      <div class="vx-rev">${REVIEWS.map(([q, w]) => `<figure><span aria-label="Five stars">★★★★★</span><blockquote>${esc(q)}</blockquote><figcaption>${esc(w)}</figcaption></figure>`).join('')}</div>
+      <p class="vx-social">${SOCIAL.map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join('')}<a href="mailto:info@bijalondon.co.uk">Email</a></p>
+    </section>`;
+  }
+  function communityPage() {
+    const card = (h, t) => `<div><h4>${esc(h)}</h4><p>${esc(t)}</p></div>`;
+    return `<section class="stx">
+      <span class="eyebrow">Community</span><h2 class="stx-h">Come for the coffee. Find your people.</h2>
+      <p class="stx-lead">Runners, cyclists, neighbours and musicians all spend time at Bija. The coffee brings us together; the people make each visit their own.</p>
+      <article class="stx-card"><div class="stx-ph" style="background:#0b0b0b">${shopPic('award-2025', 'Best New Coffee Shop, London Coffee Festival Awards 2025', 'fit')}</div><div class="stx-tx"><span class="eyebrow">London Coffee Festival 2025</span><h4>Best New Coffee Shop</h4><p>Decided by public vote, and shared with everyone who has made Bija part of their day.</p><button class="btn sm ghost" data-act="tab" data-v="stories">Read the story</button></div></article>
+      <h3 class="stx-ch">Around the café</h3>
+      <div class="cx-grid">
+        ${card('The Asian Run Club', 'Movement, shared heritage and conversations that carry on over Indonesian coffee.')}
+        ${card('Hyde & Seek Run Club', 'We marked their second birthday on 1 November 2025: a run, coffee and a DJ set.')}
+        ${card('Ravito', 'A meeting point for the cycling community, with a pause for coffee built into the ride.')}
+        ${card('Music, launches & socials', 'DJ nights, album launches and socials give the café a different rhythm.')}
+        ${card('Too Good To Go', 'Surplus food gets a second chance in Surprise Bags. Check the app for today’s bags.')}
+        ${card('Independence Day', 'A celebration of Indonesia with Edge Group Conservation, in support of the Javan rhino.')}
+      </div>
+      <h3 class="stx-ch">Partners</h3>
+      <div class="cx-grid">
+        ${card('Kindred Forest', 'Our partner in sourcing and roasting Indonesian specialty coffee, including both halves of the House Blend.')}
+        ${card('Redber', 'With us from the start: commercial equipment, technical support and coffee expertise.')}
+      </div>
+      <h3 class="stx-ch">In the press</h3>
+      <p class="stx-lead">Bija has featured in Crema, Sprudge, Kompas.com and DW, and Devi spoke at The Lab’s Ones to Watch session at the London Coffee Festival 2026.</p>
+      <p class="stx-lead">Have an idea for a gathering or a collaboration? We would love to hear it.</p>
+      <div class="vx-acts"><a class="btn" href="https://www.instagram.com/bija.london/" target="_blank" rel="noopener">Follow @bija.london</a><a class="btn ghost" href="mailto:info@bijalondon.co.uk?subject=${encodeURIComponent('A community idea for Bija')}">Tell us your idea</a></div>
+    </section>`;
+  }
+  const PACKS = [
+    { id: 'Personal', price: 'From £11.50 per person + VAT', min: 'Minimum 20 servings', who: 'Private events and gatherings', inc: ['Freshly brewed Indonesian filter coffee', 'A croissant or muffin per person', 'Cups, stirrers, milk and sugar', 'Delivery to your venue', 'Seasonal cold-pressed juice, optional extra'] },
+    { id: 'Business', price: 'From £13.50 per person + VAT', min: 'Minimum 30 servings', who: 'Office meetings and team gatherings', inc: ['Expanded premium coffee options', 'A croissant or muffin per person', 'Savoury pastry rolls and fruit', 'Custom menu planning', 'Cold-pressed juice, optional extra'] },
+    { id: 'Business+', price: 'From £25 per person', min: '40 or more guests', who: 'Large events and corporate partnerships', inc: ['Our full range of signature drinks', 'Extended service hours (extra fees may apply)', 'Priority booking and dedicated support', 'Packed lunches, or salads, quiches, rolls and filo pastries'] },
+  ];
+  function eventsPage() {
+    const E = S.ev || (S.ev = { name: '', email: '', company: '', date: '', guests: '', pack: 'Help me choose', note: '', err: '' });
+    return `<section class="stx">
+      <div class="vx-hero">${shopPic('catering', 'Bija coffee and pastries laid out for a meeting', 'low')}</div>
+      <span class="eyebrow">Events &amp; catering</span><h2 class="stx-h">Coffee with character, served with soul.</h2>
+      <p class="stx-lead">We bring Bija’s Indonesian coffee to corporate meetings, conferences and private celebrations: anything from delivered coffee and pastries to a full signature-drinks service, with equipment, trained baristas and set-up planned around your timings.</p>
+      <h3 class="stx-ch">Packages</h3>
+      ${PACKS.map((k) => `<article class="ex-pack"><span class="eyebrow">${esc(k.who)}</span><h4>${esc(k.id)}</h4><p class="ex-price"><b>${esc(k.price)}</b> · ${esc(k.min)}</p><ul>${k.inc.map((x) => `<li>${esc(x)}</li>`).join('')}</ul><button class="btn sm ghost" data-act="ev-pack" data-v="${esc(k.id)}">Choose ${esc(k.id)}</button></article>`).join('')}
+      <p class="stx-lead ex-fine">Every package can be tailored. Final prices depend on the length of the event, guest numbers and service; VAT for Business+ is confirmed in your quote.</p>
+      <h3 class="stx-ch" id="ev-form-h">Plan your event</h3>
+      <form class="ex-form" data-ev-form novalidate>
+        <label class="f">Name<input id="ev-name" data-ev="name" autocomplete="name" value="${esc(E.name)}"></label>
+        <label class="f">Email<input id="ev-email" data-ev="email" type="email" inputmode="email" autocomplete="email" value="${esc(E.email)}" ${E.err ? 'aria-invalid="true" aria-describedby="ev-e"' : ''}></label>
+        <label class="f">Company or organisation <span class="h">Optional</span><input id="ev-company" data-ev="company" autocomplete="organization" value="${esc(E.company)}"></label>
+        <div class="ex-two"><label class="f">Event date <span class="h">Optional</span><input id="ev-date" data-ev="date" type="date" value="${esc(E.date)}"></label><label class="f">Guests <span class="h">Optional</span><input id="ev-guests" data-ev="guests" type="number" inputmode="numeric" min="1" value="${esc(E.guests)}"></label></div>
+        <label class="f">Package<select id="ev-pack" data-ev="pack">${['Help me choose', ...PACKS.map((k) => k.id)].map((x) => `<option${x === E.pack ? ' selected' : ''}>${esc(x)}</option>`).join('')}</select></label>
+        <label class="f">Venue, timings, dietary needs and anything else<textarea id="ev-note" data-ev="note" rows="4">${esc(E.note)}</textarea></label>
+        ${E.err ? `<p class="dok-e" id="ev-e" role="alert">${esc(E.err)}</p>` : ''}
+        <button class="btn" type="submit">Send enquiry</button>
+        <p class="ex-fine">This opens an email to info@bijalondon.co.uk with your details filled in. Sending an enquiry does not confirm a booking.</p>
+      </form>
+    </section>`;
+  }
+  document.addEventListener('input', (e) => { const k = e.target?.dataset?.ev; if (k && S.ev) S.ev[k] = e.target.value; });
+  document.addEventListener('submit', (e) => {
+    if (!e.target.matches?.('[data-ev-form]')) return; e.preventDefault();
+    const E = S.ev || {};
+    if (!String(E.name || '').trim()) { E.err = 'Add your name so we know who to reply to.'; render(); return document.getElementById('ev-name')?.focus(); }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(E.email || '').trim())) { E.err = 'Enter an email address like name@example.com.'; render(); return document.getElementById('ev-email')?.focus(); }
+    E.err = '';
+    const body = [`Name: ${E.name}`, `Email: ${E.email}`, E.company && `Company: ${E.company}`, E.date && `Event date: ${E.date}`, E.guests && `Guests: ${E.guests}`, `Package: ${E.pack}`, '', E.note].filter((x) => x !== '' && x != null && x !== false).join('\n');
+    location.href = `mailto:info@bijalondon.co.uk?subject=${encodeURIComponent('Events & catering enquiry' + (E.date ? ' for ' + E.date : ''))}&body=${encodeURIComponent(body)}`;
+    render();
+  });
   function secretPage() {
     if (!S.meLoaded) return notReady();
     const st = mine();
@@ -4488,6 +4605,7 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
     else if (a === 'pin-change') pinChange();
     else if (a === 'scan-file') document.getElementById('scan-file')?.click();
     else if (a === 'scan-open') scanOpen();
+    else if (a === 'ev-pack') { (S.ev ||= { name: '', email: '', company: '', date: '', guests: '', pack: 'Help me choose', note: '', err: '' }).pack = b.dataset.v; render(); document.getElementById('ev-form-h')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }
     else if (a === 'st-jump') document.getElementById('stx-ch-' + b.dataset.v)?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     else if (a === 'scan-close') scanClose();
     else if (a === 'cat') { S.cat = b.dataset.v; for (const x of b.parentElement.querySelectorAll('button')) x.setAttribute('aria-pressed', String(x === b)); document.getElementById('mcat-' + catSlug(b.dataset.v))?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth', block: 'start' }); }

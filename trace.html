@@ -119,6 +119,10 @@ if (location.protocol !== 'file:') ['archivo-latin-900', 'archivo-latin-800', 'i
 .tr-bad h1 { font-size: clamp(44px, 7vw, 96px); margin: 10px 0 16px; }
 .tr-bad p { color: #333; max-width: 48ch; }
 
+.tr-forest-g { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.tr-forest-g article { background: #3a240f; color: #f3efe6; border-radius: 20px; padding: 24px; }
+.tr-forest-g .eyebrow { color: #d9c3a0; } .tr-forest-g h3 { margin: 8px 0 10px; color: #fff; font-size: 24px; } .tr-forest-g p { margin: 0 0 12px; color: #e6e1d6; } .tr-forest-g small { color: #d9c3a0; font-size: 13px; }
+@media (max-width: 760px) { .tr-forest-g { grid-template-columns: minmax(0, 1fr); } }
 .tr-sec { padding: clamp(40px, 6vw, 88px) 0 0; }
 .tr-sec:last-of-type { padding-bottom: clamp(40px, 6vw, 88px); }
 .tr-sec .sec-h { margin-bottom: 20px; }

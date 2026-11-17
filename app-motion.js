@@ -188,7 +188,7 @@
     const ev = new MouseEvent('click', { bubbles: true, cancelable: true, clientX: r.x, clientY: r.y }); ev.moVT = true; el.dispatchEvent(ev);
   }, true);
   D.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') flush(); }, true);
-  const RANK = { home: 0, beans: .5, more: .5, gifts: .5, secret: .5, stories: .5, club: .5, order: 1, orders: 1.5, card: 2, me: 2.5 };
+  const RANK = { home: 0, beans: .5, more: .5, gifts: .5, secret: .5, stories: .5, visit: .5, community: .5, events: .5, club: .5, order: 1, orders: 1.5, card: 2, me: 2.5 };
   const here = () => { if ($('#hav[aria-current=page]')) return 'me'; const c = $('.bnav [aria-current=page]'); return c ? c.dataset.v : $('.bnav .fab-l.on') ? 'order' : (location.hash || '#home').slice(1); };
   D.addEventListener('click', (e) => {
     const b = e.target.closest && e.target.closest('[data-act=tab],[data-act=fab],[data-act=favmenu],[data-act=goto-checkout],[data-act=showcard]');

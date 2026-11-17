@@ -103,7 +103,7 @@
           <ul class="tr-links">${p.soon ? '' : `<li><a href="product.html?id=${p.id}&amp;plan=2w">Subscribe &amp; save 10%</a></li>`}${single ? `<li><a href="app.html?view=app&amp;stamp=${p.id}">Stamp it in your Origins Passport</a></li>` : ''}${cup ? '<li><a href="app.html?view=app">Order it again</a></li>' : ''}<li><button type="button" id="share">Share</button></li></ul>
         </div>
       </section>
-      ${cup ? `<section class="cupband"><img src="photos/ig/latte-pour.jpg" alt="A latte being poured at the Bija bar" width="291" height="293" loading="lazy" decoding="async"><div><b>Brewed at 2a St James's Market</b><p>Made at our bar in St James's Market, two minutes from Piccadilly Circus, with ${esc(p.name)}.</p></div></section>` : ''}
+      ${cup ? `<section class="cupband"><img src="photos/shop/latte-pour-600.webp" alt="A latte being poured at the Bija bar" width="600" height="1067" loading="lazy" decoding="async" style="object-fit:cover"><div><b>Brewed at 2a St James's Market</b><p>Made at our bar in St James's Market, two minutes from Piccadilly Circus, with ${esc(p.name)}.</p></div></section>` : ''}
 
       <section class="tr-sec" aria-labelledby="facts-h">
         <div class="sec-h"><div><span class="eyebrow">Where it comes from</span><h2 id="facts-h">The facts</h2></div></div>
@@ -123,10 +123,19 @@
         <div class="tr-map">
           <figure style="margin:0">${mapSvg(p.id)}<figcaption class="small">${pin ? `${esc(pin.at)}, ${esc(p.where)}, Indonesia.` : 'Indonesia: the islands our coffees come from.'} Map data: Natural Earth (public domain).</figcaption></figure>
           <div><span class="eyebrow">On the map</span><h3 id="map-h">${esc(pin ? pin.at : 'Across the archipelago')}</h3>
-            <p>${esc(single ? p.region + '. Grown at ' + p.altitude + '.' : 'Our House Blend brings together Indonesian coffees for a round, chocolatey espresso. Bija will publish the coffees in each batch.')}</p>
+            <p>${esc(single ? p.region + '. Grown at ' + p.altitude + '.' : 'Two Javanese coffees in one cup: naturally processed Arabica from Cisurupan in West Java and forest-grown Robusta from Petungkriyono in Central Java.')}</p>
 </div>
         </div>
       </section>
+
+      ${p.id === 'house' ? `<section class="tr-sec tr-forest" aria-labelledby="forest-h">
+        <div class="sec-h"><div><span class="eyebrow">Wildlife Friendly® · with Kindred Forest</span><h2 id="forest-h">The forests in your cup</h2><p>Both halves of the House Blend come from places where coffee and wildlife share the land, and both are Wildlife Friendly® certified.</p></div></div>
+        <div class="tr-forest-g">
+          <article><span class="eyebrow">The Arabica · Cisurupan, West Java</span><h3>Home of the Javan slow loris</h3><p>Coffee grows in shaded home gardens rather than cleared fields. Through the Little Fireface Project, farmers and conservationists work together to protect the endangered Javan slow loris and the trees it lives in.</p><small>Gives the cup its chocolate, grapefruit and sweet raisin.</small></article>
+          <article><span class="eyebrow">The Robusta · Petungkriyono Forest, Central Java</span><h3>Home of the Javan gibbon</h3><p>SwaraOwa works with the communities living around the gibbons' forest, pairing conservation with training so growers can produce better coffee and keep the forest standing.</p><small>Gives the cup its pine, spice and clove.</small></article>
+        </div>
+        <p class="small" style="margin-top:14px">Sourced and roasted with our partner Kindred Forest. Read the full story in <a href="stories.html#house">Coffee stories</a>.</p>
+      </section>` : ''}
 
       <section class="tr-sec" aria-labelledby="j-h">
         <div class="sec-h"><div><span class="eyebrow">From farm to ${cup ? 'cup' : 'kitchen'}</span><h2 id="j-h">The journey</h2></div></div>
