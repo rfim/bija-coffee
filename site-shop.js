@@ -136,12 +136,16 @@
       <span class="msg" aria-hidden="true" inert>10 points for every £1 in the café, the app and online · <a href="rewards.html">Rewards</a></span></div>`;
   }
   const cartBtn = () => `<button class="iconbtn cartbtn" data-cart aria-label="Basket">${ICON.bag}<span class="count" data-cart-count></span></button>`;
+  // ?look=delta previews the layout-and-motion redesign (floating capsule header, pill buttons, full-screen moving hero) for the visit;
+  // ?look=now goes back. Fonts and colours never change. Off unless asked for, until the owner decides.
+  const LOOK = (() => { let v = ''; try { v = new URLSearchParams(location.search).get('look') || sessionStorage.getItem('bija.look') || ''; if (v === 'now') { sessionStorage.removeItem('bija.look'); v = ''; } else if (v === 'delta') sessionStorage.setItem('bija.look', v); } catch {} return v === 'delta' ? 'd' : ''; })();
+  if (LOOK) document.documentElement.classList.add('look-d');
   function header() {
     const here = location.pathname.split('/').pop() + location.search;
     return `<header class="shead"><div class="wrap in">
       <span class="menuslot"><button class="iconbtn menubtn" aria-expanded="false" aria-controls="mainnav" aria-label="Menu">${ICON.menu}</button></span>
       <a class="brand" href="./" aria-label="Bija home">${ICON.mark}${WORDMARK}</a>
-      <nav class="mainnav" id="mainnav" aria-label="Main">${NAV.map(([h, l]) => `<a href="${h}" ${here === h || (h === 'shop.html' && here === 'shop.html') || (here.startsWith('product.html') && h === 'shop.html') ? 'aria-current="page"' : ''}>${l}</a>`).join('')}</nav>
+      <nav class="mainnav" id="mainnav" aria-label="Main">${NAV.map(([h, l], ni) => (LOOK && ni === Math.ceil(NAV.length / 2) ? `<a class="mid" href="./" aria-label="Bija home">${ICON.mark}</a>` : '') + `<a href="${h}" ${here === h || (h === 'shop.html' && here === 'shop.html') || (here.startsWith('product.html') && h === 'shop.html') ? 'aria-current="page"' : ''}>${l}</a>`).join('')}</nav>
       <div class="hact"><a class="hlink hidesm" href="help.html">Help</a><a class="btn sm ghost hidesm" href="app.html?view=app">Order ahead</a>${cartBtn()}</div>
     </div></header>`;
   }
@@ -251,6 +255,8 @@
     // a fan of three bag illustrations, used as designed art in heroes
     document.querySelectorAll('[data-fan]').forEach((el) => { el.innerHTML = el.dataset.fan.split(',').map((id) => byId(id.trim())).filter(Boolean).map((p) => `<div class="pimg" style="--pbg:${bgFor(p)}">${bagArt(p)}</div>`).join(''); });
     document.querySelectorAll('[data-mk]').forEach((el, i) => { el.innerHTML = markCycle(); el.firstChild.style.animationDelay = `${-i * 3}s`; });
+    // the redesign preview: a page that opens on a full-screen hero lets the floating header sit over it
+    if (LOOK) { const first = document.querySelector('main')?.firstElementChild; if (first && first.matches('.ed-hero, .hero2')) document.documentElement.classList.add('hd-over'); }
     // after the header, footer and product cards are in place: draw the Kawung marks and measure the header
     drawMarks(); setTimeout(arrPulse, 0);
     // pages place sticky bars under the header with --hdr: keep it equal to the header's real height

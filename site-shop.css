@@ -697,3 +697,48 @@ a:hover > .arr circle, button:hover > .arr circle, a:focus-visible > .arr circle
   .shead .hact { grid-column: 3; grid-row: 1; justify-self: end; }
   #shop-top { height: 115px; }
 }
+
+/* ===== Redesign preview (html.look-d, ?look=delta): the layout and motion of the reference, in Bija's own fonts and colours ===== */
+/* header: transparent, a floating dark capsule with the Kawung in a cream circle in the middle, dark pills either side */
+.look-d .shead { background: transparent; border-bottom: 0; backdrop-filter: none; }
+.look-d.hd-over .shead { margin-bottom: calc(-1 * var(--hdr, 77px)); }
+.look-d .shead .hlink, .look-d .shead .btn.ghost, .look-d .shead .iconbtn { height: 40px; min-height: 40px; display: inline-flex; align-items: center; padding: 0 16px; border-radius: 999px; border: 0; background: rgba(17, 17, 17, .78); backdrop-filter: blur(10px); color: #f4f0e7 !important; text-decoration: none; }
+.look-d .shead .iconbtn { width: 40px; padding: 0; justify-content: center; }
+.look-d .shead .mainnav .mid { display: none; }
+@media (min-width: 1181px) {
+  .look-d .shead .brand { visibility: hidden; }
+  .look-d .shead .mainnav { height: 46px; padding: 0 8px; border-radius: 999px; background: rgba(17, 17, 17, .78); backdrop-filter: blur(10px); align-self: center; }
+  .look-d .shead .mainnav a { padding: 10px 12px; border-radius: 999px; color: rgba(244, 240, 231, .82); transition: background .3s ease, color .3s ease; }
+  .look-d .shead .mainnav a:hover, .look-d .shead .mainnav a[aria-current="page"] { background: rgba(244, 240, 231, .1); color: #f4f0e7; box-shadow: none; }
+  .look-d .shead .mainnav .mid { display: grid; place-items: center; width: 60px; height: 60px; margin: 10px 12px -4px; padding: 0; border-radius: 50%; background: #f4f0e7; color: #111; box-shadow: 0 6px 20px rgba(0, 0, 0, .3); }
+  .look-d .shead .mainnav .mid:hover { background: #fff; }
+  .look-d .shead .mainnav .mid svg { width: 32px; height: 32px; color: #111; }
+}
+@media (max-width: 1180px) {
+  .look-d .shead .brand { width: 52px; height: 52px; margin-top: 6px; border-radius: 50%; background: #f4f0e7; color: #111; display: grid; place-items: center; justify-self: center; }
+  .look-d .shead .brand svg { width: 28px; height: 28px; color: #111; } .look-d .shead .brand .wordmark { display: none; }
+  .look-d .shead .menuslot .iconbtn { color: #f4f0e7; }
+  .look-d .shead .in { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+  .look-d .shead .menuslot { grid-column: 1; justify-self: start; } .look-d .shead .brand { grid-column: 2; } .look-d .shead .hact { grid-column: 3; justify-self: end; }
+  .look-d .shead .hact .hidesm { display: none; }
+}
+/* buttons: a pill, with the Kawung in its own round button beside it */
+.look-d .btn:has(> .arr), .look-d .ed-link:has(> .arr) { position: relative; margin-right: 48px; }
+.look-d .ed-link { min-height: 44px; padding: 0 20px; border: 0; border-radius: 999px; background: rgba(17, 17, 17, .07); transition: transform .5s cubic-bezier(.22, 1, .36, 1); }
+.look-d :is(.ed-dark, .dark, .band, .hero2, .batik, .sfoot, .inv) .ed-link { background: rgba(244, 240, 231, .12); }
+.look-d .ed-link:hover { opacity: 1; transform: translateX(-3px); }
+.look-d :is(.btn, .ed-link) > .arr { position: absolute; right: -48px; top: 50%; width: 44px; height: 44px; margin: -22px 0 0; padding: 13px; border-radius: 50%; background: #111; color: #f4f0e7; transition: transform .5s cubic-bezier(.22, 1, .36, 1); }
+.look-d :is(.ed-dark, .dark, .band, .hero2, .batik, .sfoot, .inv) :is(.btn, .ed-link) > .arr { background: #2a2a2a; }
+.look-d :is(.btn, .ed-link):hover > .arr { transform: translateX(3px) rotate(45deg); }
+/* the opening hero fills the screen, its photo slowly pushing in like a film */
+.look-d .ed-hero { position: relative; height: 100vh; height: 100svh; min-height: 560px; padding: 0; display: flex; align-items: flex-end; overflow: hidden; }
+.look-d .ed-hero > .wrap { position: static; padding-bottom: clamp(36px, 6vh, 72px); }
+.look-d .ed-hero .top { position: relative; z-index: 1; }
+.look-d .ed-hero .ph { position: absolute; inset: 0; z-index: 0; margin: 0; border-radius: 0; aspect-ratio: auto; }
+.look-d .ed-hero .ph::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(11, 11, 11, .86), rgba(11, 11, 11, .4) 60%, rgba(11, 11, 11, .5)), linear-gradient(0deg, rgba(11, 11, 11, .92), rgba(11, 11, 11, 0) 55%); }
+.look-d .ed-hero .ph img, .look-d .hero2 > picture img, .look-d .hero2 > img { animation: look-film 14s linear both; }
+@keyframes look-film { from { transform: scale(1.12); } to { transform: scale(1); } }
+.look-d .hero2 { min-height: 100vh; min-height: 100svh; }
+@media (max-width: 760px) { .look-d .hero2 { min-height: 0; } }
+@media (prefers-reduced-motion: reduce) { .look-d .ed-hero .ph img, .look-d .hero2 > picture img, .look-d .hero2 > img { animation: none; } }
+.look-d .btn { border-radius: 999px; }
