@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
-if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-latin-900', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
 <link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
@@ -33,7 +33,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 .buy .notes { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0 14px; }
 .buy .notes span { background: var(--tile); font-weight: 600; border-radius: 999px; padding: 4px 12px; font-size: 13px; }
 .buy .blurb { color: #3d3d3d; margin: 0 0 18px; max-width: 54ch; }
-.price { font: 900 34px/1 var(--disp); font-variant-numeric: tabular-nums; }
+.price { font: 400 34px/1.12 var(--disp); font-variant-numeric: tabular-nums; }
 .price small { font-size: 14px; color: var(--muted); font-weight: 400; }
 .form { display: grid; gap: 20px; margin-top: 18px; }
 .plans { display: grid; gap: 10px; }

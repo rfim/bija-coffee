@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
-if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-latin-900', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
 <link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
@@ -45,7 +45,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 .cform form { display: grid; gap: 16px; }
 .cform .note { margin: 0; font-size: 14px; color: #333; }
 .errsum { border: 2px solid var(--bad); border-radius: 12px; padding: 16px; background: #fff; }
-.errsum h3 { margin: 0 0 8px; font: 800 16px/1.2 var(--disp); text-transform: uppercase; }
+.errsum h3 { margin: 0 0 8px; font: 400 16px/1.2 var(--disp); }
 .errsum ul { margin: 0; padding-left: 20px; }
 .errsum a { color: var(--ink); }
 textarea.inp { min-height: 160px; resize: vertical; line-height: 1.5; }

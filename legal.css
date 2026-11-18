@@ -1,6 +1,6 @@
 /* Legal pages in the shop's light Grind-style look */
 @import url('fonts/fonts.css');
-:root { --bg: #fff; --ink: #0b0b0b; --muted: #6b6b6b; --line: #e4e4e2; --tile: #f2f2f0; --disp: Archivo, "Arial Black", Helvetica, sans-serif; }
+:root { --bg: #fff; --ink: #0b0b0b; --muted: #6b6b6b; --line: #e4e4e2; --tile: #f2f2f0; }
 * { box-sizing: border-box; }
 html { background: var(--bg); color-scheme: light; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 Inter, "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
@@ -10,8 +10,8 @@ body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 Inter
 .legal-main th, .legal-main td { overflow-wrap: normal; hyphens: manual; }
 a { color: inherit; }
 :focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-.legal-main h1 { font: 900 clamp(40px, 7vw, 72px)/.92 var(--disp); text-transform: uppercase; letter-spacing: -.01em; margin: 0 0 12px; }
-.legal-main h2 { font: 900 26px/1 var(--disp); text-transform: uppercase; margin: 40px 0 10px; }
+.legal-main h1 { font: 400 clamp(36px, 5vw, 60px)/1.08 var(--disp); letter-spacing: -.012em; margin: 0 0 12px; }
+.legal-main h2 { font: 400 24px/1.2 var(--disp); margin: 40px 0 10px; }
 .legal-main p, .legal-main li { color: #333; } .muted { color: var(--muted); font-size: 14px; }
 .legal-main table { width: 100%; border-collapse: collapse; font-size: 14px; } th, td { text-align: left; padding: 10px 6px; border-bottom: 1px solid var(--line); vertical-align: top; } th { color: var(--muted); font-weight: 600; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
 .note { background: var(--tile); border-radius: 12px; padding: 14px 16px; font-size: 14px; color: #333; }

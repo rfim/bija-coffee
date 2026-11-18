@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
-if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-latin-900', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
 <link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
@@ -26,7 +26,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 .ofacts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: clamp(40px, 5vw, 72px); }
 @media (max-width: 760px) { .ofacts { grid-template-columns: minmax(0, 1fr); } }
 .ofacts > div { border-top: 2px solid var(--ink); padding-top: 14px; }
-.ofacts h2 { font: 900 24px/1 var(--disp); text-transform: uppercase; margin: 0 0 8px; }
+.ofacts h2 { font: 400 24px/1.12 var(--disp); margin: 0 0 8px; }
 .ofacts p { margin: 0; color: #3d3d3d; font-size: 15px; }
 .mapcredit { margin: 8px 0 0; font-size: 12px; color: #6b6b6b; }
 </style>

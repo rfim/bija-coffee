@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
-if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-latin-900', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
 <link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
@@ -25,7 +25,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 .maths { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 @media (max-width: 760px) { .maths { grid-template-columns: minmax(0, 1fr); } }
 .maths div { background: var(--tile); border-radius: 16px; padding: 24px; }
-.maths b { display: block; font: 900 44px/1 var(--disp); font-variant-numeric: tabular-nums; }
+.maths b { display: block; font: 400 44px/1.12 var(--disp); font-variant-numeric: tabular-nums; }
 .maths span { color: var(--muted); font-size: 14px; }
 </style>
 </head>

@@ -166,6 +166,9 @@
     </div></footer>`;
   }
   // the main buttons' Kawung pulses once as each comes into view
+  // every link mark becomes Bija's Kawung, drawn inline so it can glow
+  const KAWUNG = '<svg viewBox="-6 -6 112 112" aria-hidden="true" focusable="false"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></svg>';
+  function drawMarks(root = document) { root.querySelectorAll('.arr:not([data-k])').forEach((a) => { a.dataset.k = '1'; a.innerHTML = KAWUNG; }); }
   function arrPulse() {
     if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { const b = e.target; setTimeout(() => b.classList.add('arr-in'), 500); io.unobserve(b); } }), { threshold: .8 });
@@ -232,7 +235,7 @@
 
   // ---------- wiring ----------
   function mount() {
-    setTimeout(arrPulse, 0);
+    drawMarks(); setTimeout(arrPulse, 0);
     const top = document.getElementById('shop-top'); if (top) top.outerHTML = announce() + header();
     const ann = document.getElementById('shop-announce'); if (ann) ann.outerHTML = announce();
     document.querySelectorAll('[data-cart-slot]').forEach((s) => (s.outerHTML = cartBtn()));

@@ -25,7 +25,7 @@
 })();
 </script>
 <script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
-if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-latin-900', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
 <link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="preload" as="image" href="photos/shop/shopfront-600.webp" imagesrcset="photos/shop/shopfront-600.webp 600w, photos/shop/shopfront.webp 1200w" imagesizes="(max-width: 1100px) 100vw, 1100px">
 <link rel="stylesheet" href="site-shop.css">
@@ -71,6 +71,8 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 .ed-split .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .ed-split .ph.tall { aspect-ratio: 4 / 5; max-width: 480px; justify-self: center; width: 100%; }
 .ed-split .ph.wide { aspect-ratio: 16 / 11; }
+.ed-split .ph.pano { aspect-ratio: 2 / 1; }
+.ed-split .ph.sq { aspect-ratio: 1 / 1; max-width: 560px; justify-self: center; width: 100%; }
 .ed-split .ph.arch { border-radius: 18px 140px 18px 18px; }
 .ed-split.flip > :first-child { order: 2; }
 .ed-sec + .ed-sec { padding-top: 0; }
@@ -134,7 +136,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
         <article class="reveal"><div class="ph"><picture><source type="image/webp" srcset="photos/shop/indonesia-tile-600.webp 600w, photos/shop/indonesia-tile.webp 1200w" sizes="(max-width: 760px) 100vw, 25vw"><img src="photos/shop/indonesia-tile.jpg" width="1200" height="608" alt="" decoding="async" loading="lazy"></picture></div><span class="eyebrow">Origins &amp; journeys</span><h3>Indonesia and coffee</h3><p>A small bean’s voyage across oceans and centuries, into Indonesia’s volcanic highlands.</p><a class="ed-link" href="stories.html#java">Read the story <span class="arr" aria-hidden="true">↗</span></a></article>
         <article class="reveal"><div class="ph"><picture><source type="image/webp" srcset="photos/shop/house-blend-tile-600.webp 600w, photos/shop/house-blend-tile.webp 1200w" sizes="(max-width: 760px) 100vw, 25vw"><img src="photos/shop/house-blend-tile.jpg" width="1200" height="696" alt="" decoding="async" loading="lazy"></picture></div><span class="eyebrow">Two forests. One cup.</span><h3>Our House Blend</h3><p>Highland Arabica and forest-grown Robusta: two landscapes, one distinctly Indonesian blend.</p><a class="ed-link" href="stories.html#house">Read the story <span class="arr" aria-hidden="true">↗</span></a></article>
         <article class="reveal"><div class="ph"><picture><source type="image/webp" srcset="photos/shop/identity-tile-600.webp 600w, photos/shop/identity-tile.webp 1200w" sizes="(max-width: 760px) 100vw, 25vw"><img src="photos/shop/identity-tile.jpg" width="1200" height="696" alt="" decoding="async" loading="lazy"></picture></div><span class="eyebrow">Our brand story</span><h3>The Bija identity</h3><p>The seed, the Kawung pattern and the sketches that became our mark.</p><a class="ed-link" href="stories.html#identity">Read the story <span class="arr" aria-hidden="true">↗</span></a></article>
-        <article class="reveal"><div class="ph"><picture><source type="image/webp" srcset="photos/shop/kopi-tubruk-600.webp 600w, photos/shop/kopi-tubruk.webp 1200w" sizes="(max-width: 760px) 100vw, 25vw"><img src="photos/shop/kopi-tubruk.jpg" width="1200" height="1509" alt="" decoding="async" loading="lazy"></picture></div><span class="eyebrow">At our counter</span><h3>Bija speciality drinks</h3><p>Kopi tubruk, Kopi Susu Aren and the other favourites we pour every day.</p><a class="ed-link" href="menu.html">See the café menu <span class="arr" aria-hidden="true">↗</span></a></article>
+        <article class="reveal"><div class="ph"><picture><source type="image/webp" srcset="photos/shop/cups-600.webp 600w, photos/shop/cups.webp 1200w" sizes="(max-width: 760px) 100vw, 25vw"><img src="photos/shop/cups.jpg" width="1200" height="676" alt="" decoding="async" loading="lazy"></picture></div><span class="eyebrow">At our counter</span><h3>Bija speciality drinks</h3><p>Kopi tubruk, Kopi Susu Aren and the other favourites we pour every day.</p><a class="ed-link" href="menu.html">See the café menu <span class="arr" aria-hidden="true">↗</span></a></article>
       </div>
     </div>
   </section>
@@ -142,7 +144,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
   <section class="ed ed-cream" aria-labelledby="roots-h" style="padding-top:0">
     <div class="wrap ed-split reveal">
       <div><span class="eyebrow">Indonesian roots</span><h2 id="roots-h">It begins in Indonesia.</h2><p class="lead">Volcanic slopes, rainforest highlands and generations of farming tradition: meet the islands and landscapes behind the coffee in your cup.</p><a class="ed-link" href="stories.html#roots">Begin with a volcano <span class="arr" aria-hidden="true">↗</span></a></div>
-      <div class="ph wide ed-sky"><span class="ed-wy ed-wy-garuda" data-wayang="garuda" data-decor data-once></span><picture><source type="image/webp" srcset="photos/shop/bromo-600.webp 600w, photos/shop/bromo.webp 1200w" sizes="(max-width: 760px) 100vw, 50vw"><img src="photos/shop/bromo.jpg" width="1200" height="400" alt="Mount Bromo, Java" decoding="async" loading="lazy"></picture></div>
+      <div class="ph pano ed-sky"><span class="ed-wy ed-wy-garuda" data-wayang="garuda" data-decor data-once></span><picture><source type="image/webp" srcset="photos/shop/bromo-600.webp 600w, photos/shop/bromo.webp 1200w" sizes="(max-width: 760px) 100vw, 50vw"><img src="photos/shop/bromo.jpg" width="1200" height="400" alt="Mount Bromo, Java" decoding="async" loading="lazy"></picture></div>
     </div>
   </section>
 
@@ -180,7 +182,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
   <section class="ed ed-dark ed-sec" aria-labelledby="ev-h">
     <div class="wrap ed-split reveal">
       <div><span class="eyebrow">Events &amp; catering</span><h2 id="ev-h">Bring Bija to your gathering.</h2><p class="lead">Corporate coffee, private events and catering, from delivered coffee and pastries to a full signature-drinks bar, from £11.50 per person.</p><a class="ed-link" href="offices.html">Explore our packages <span class="arr" aria-hidden="true">↗</span></a></div>
-      <div class="ph wide"><picture><source type="image/webp" srcset="photos/shop/catering-600.webp 600w, photos/shop/catering.webp 1200w" sizes="(max-width: 760px) 100vw, 50vw"><img src="photos/shop/catering.jpg" width="1200" height="1600" alt="Bija coffee and pastries laid out for a meeting" decoding="async" loading="lazy" style="object-position:50% 72%"></picture></div>
+      <div class="ph sq"><picture><source type="image/webp" srcset="photos/shop/catering-600.webp 600w, photos/shop/catering.webp 1200w" sizes="(max-width: 760px) 100vw, 50vw"><img src="photos/shop/catering.jpg" width="1200" height="1600" alt="Bija coffee and pastries laid out for a meeting" decoding="async" loading="lazy" style="object-position:50% 78%"></picture></div>
     </div>
   </section>
 

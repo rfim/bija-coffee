@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
-if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-latin-900', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
 <link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
@@ -57,7 +57,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 /* freshness meter */
 .fresh { background: var(--tile); border-radius: 20px; padding: 18px 20px; margin: 0 0 20px; }
 .fresh .top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-.fresh b { font: 900 28px/1 var(--disp); text-transform: uppercase; }
+.fresh b { font: 400 28px/1.12 var(--disp); }
 .fresh .scale { position: relative; height: 12px; border-radius: 99px; margin: 16px 0 8px; background: linear-gradient(90deg, #cfcfcb 0 11.67%, var(--ink) 11.67% 50%, #8a8a86 50% 100%); }
 .fresh .dot { position: absolute; top: 50%; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; background: #fff; border: 4px solid var(--ink); box-shadow: 0 2px 8px rgba(0, 0, 0, .25); }
 .fresh .ticks { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
@@ -68,7 +68,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 .tr-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin: 0; }
 .tr-facts > div { background: var(--tile); border-radius: 16px; padding: 18px; min-height: 120px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
 .tr-facts dt { font: 600 12px/1.3 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-.tr-facts dd { margin: 0; font: 800 20px/1.15 var(--disp); text-transform: uppercase; overflow-wrap: anywhere; }
+.tr-facts dd { margin: 0; font: 400 20px/1.15 var(--disp); overflow-wrap: anywhere; }
 .tr-facts dd small { display: block; font: 400 13px/1.4 var(--sans); text-transform: none; color: var(--muted); margin-top: 6px; }
 .tr-facts dd.soft { font: 600 15px/1.35 var(--sans); text-transform: none; }
 
@@ -81,10 +81,10 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 .tr-map .sea { font: 600 11px var(--sans); letter-spacing: .18em; fill: #8a8a86; text-transform: uppercase; }
 .tr-map .pinr { fill: #fff; stroke: var(--ink); stroke-width: 3; }
 .tr-map .pinc { fill: var(--ink); }
-.tr-map .lbl { font: 800 15px var(--disp); text-transform: uppercase; fill: var(--ink); paint-order: stroke; stroke: #fff; stroke-width: 5px; stroke-linejoin: round; }
+.tr-map .lbl { font: 400 15px var(--disp); fill: var(--ink); paint-order: stroke; stroke: #fff; stroke-width: 5px; stroke-linejoin: round; }
 .tr-map .ring { fill: none; stroke: var(--ink); stroke-width: 2; transform-box: fill-box; transform-origin: center; }
 @media (prefers-reduced-motion: no-preference) { .tr-map .ring { animation: ping 2.4s ease-out infinite; } @keyframes ping { from { transform: scale(.4); opacity: 1; } to { transform: scale(2.4); opacity: 0; } } }
-.tr-map h3 { font: 900 30px/1 var(--disp); text-transform: uppercase; margin: 6px 0 10px; }
+.tr-map h3 { font: 400 30px/1.12 var(--disp); margin: 6px 0 10px; }
 .tr-map p { margin: 0 0 10px; color: #333; }
 
 /* journey */
@@ -92,7 +92,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 .journey li { counter-increment: j; position: relative; background: var(--tile); border-radius: 16px; padding: 18px; }
 .journey li::before { content: counter(j, decimal-leading-zero); display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--ink); color: #fff; font: 600 13px var(--sans); margin-bottom: 12px; }
 .journey li:not(:last-child)::after { content: ""; position: absolute; top: 37px; right: -14px; width: 14px; height: 2px; background: var(--ink); }
-.journey h3 { font: 800 18px/1.1 var(--disp); text-transform: uppercase; margin: 0 0 8px; }
+.journey h3 { font: 400 18px/1.1 var(--disp); margin: 0 0 8px; }
 .journey p { margin: 0; font-size: 14px; color: #333; }
 .journey li.here { background: var(--ink); color: #fff; }
 .journey li.here::before { background: #fff; color: var(--ink); }
@@ -101,7 +101,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 /* brew + cup */
 .brewcard { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 20px; align-items: start; background: var(--ink); color: #fff; border-radius: 20px; padding: clamp(20px, 3vw, 34px); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='%23ffffff' fill-opacity='.07'%3E%3Cellipse cx='28' cy='13' rx='7' ry='12'/%3E%3Cellipse cx='28' cy='43' rx='7' ry='12'/%3E%3Cellipse cx='13' cy='28' rx='12' ry='7'/%3E%3Cellipse cx='43' cy='28' rx='12' ry='7'/%3E%3C/g%3E%3C/svg%3E"); }
 .brewcard .mk { width: 64px; height: 64px; color: #fff; }
-.brewcard h3 { font: 900 clamp(26px, 3vw, 40px)/1 var(--disp); text-transform: uppercase; margin: 6px 0 12px; }
+.brewcard h3 { font: 400 clamp(26px, 3vw, 40px)/1.12 var(--disp); margin: 6px 0 12px; }
 .brewcard p { margin: 0 0 14px; color: #e6e6e6; max-width: 70ch; }
 .brewcard .eyebrow { color: #bdbdbd; }
 .brewcard .chips .chip { background: transparent; color: #fff; border-color: #fff; }
@@ -110,7 +110,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 .cupband img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .82; }
 .cupband::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(0, 0, 0, .78)); }
 .cupband div { position: relative; z-index: 1; padding: clamp(18px, 3vw, 34px); color: #fff; }
-.cupband b { display: block; font: 900 clamp(38px, 6vw, 84px)/.95 var(--disp); text-transform: uppercase; }
+.cupband b { display: block; font: 400 clamp(38px, 6vw, 84px)/1.08 var(--disp); }
 .cupband p { margin: 10px 0 0; color: #eee; max-width: 52ch; }
 
 /* unreadable code */

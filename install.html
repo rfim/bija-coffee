@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
-if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-latin-900', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
 <link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
@@ -33,17 +33,17 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 .isteps { list-style: none; margin: 0 0 48px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; counter-reset: s; }
 .isteps li { counter-increment: s; background: var(--tile); border-radius: 16px; padding: 24px; display: grid; gap: 16px; align-content: start; min-width: 0; }
 .isteps svg { width: 100%; max-width: 220px; height: auto; margin: 0 auto; display: block; color: var(--ink); }
-.isteps h3 { margin: 0; font: 900 20px/1.05 var(--disp); text-transform: uppercase; }
+.isteps h3 { margin: 0; font: 400 20px/1.05 var(--disp); }
 .isteps h3::before { content: counter(s) ". "; }
 .isteps p { margin: 0; color: #3d3d3d; font-size: 15px; }
 .why { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 0 0 64px; padding: 0; list-style: none; }
 .why li { border-top: 2px solid var(--ink); padding-top: 16px; }
-.why b { display: block; font: 900 18px/1.1 var(--disp); text-transform: uppercase; margin-bottom: 8px; }
+.why b { display: block; font: 400 18px/1.1 var(--disp); margin-bottom: 8px; }
 .why span { color: #3d3d3d; font-size: 15px; }
 .note { color: var(--muted); font-size: 14px; margin: -24px 0 56px; }
 [hidden] { display: none !important; }
 .apk { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 2px solid var(--ink); padding: 24px 0 0; margin: -16px 0 56px; }
-.apk h2 { margin: 0 0 8px; font: 900 22px/1.05 var(--disp); text-transform: uppercase; }
+.apk h2 { margin: 0 0 8px; font: 400 22px/1.05 var(--disp); }
 .apk p { margin: 0; color: #3d3d3d; font-size: 15px; max-width: 52ch; }
 @media (max-width: 900px) { .isteps, .why { grid-template-columns: minmax(0, 1fr); } .isteps li { grid-template-columns: 120px minmax(0, 1fr); align-items: center; } .isteps svg { max-width: 120px; grid-row: span 2; } }
 @media (max-width: 420px) { .isteps li { grid-template-columns: minmax(0, 1fr); } .isteps svg { max-width: 160px; grid-row: auto; } }

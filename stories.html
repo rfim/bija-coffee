@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
-if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-latin-900', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
 <link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
@@ -30,7 +30,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 .story2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 72px); align-items: center; padding: clamp(48px, 6vw, 96px) 0; border-top: 1px solid var(--line); scroll-margin-top: 90px; }
 .story2.flip .art { order: -1; }
 .story2 h2 { margin: 8px 0 18px; font-size: clamp(32px, 4.2vw, 60px); line-height: .98; }
-.story2 h3 { margin: 26px 0 8px; font: 900 18px/1.15 var(--disp, Archivo), sans-serif; text-transform: uppercase; }
+.story2 h3 { margin: 26px 0 8px; font: 400 20px/1.25 var(--disp, Archivo), serif; }
 .story2 p { margin: 0 0 14px; max-width: 60ch; color: #2f2f2f; font-size: 17px; line-height: 1.6; }
 .story2 .art { border-radius: 22px; overflow: hidden; background: var(--tile); aspect-ratio: 4 / 5; width: 100%; max-width: 560px; justify-self: center; }
 .story2 .art.wide { aspect-ratio: 16 / 10; }
@@ -125,7 +125,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
       <h3>From our counter to your kitchen</h3>
       <p>We want the richness of Indonesian coffee culture to travel beyond our door, through the beans you brew at home, the stories you read and the coffee we bring to your gatherings.</p>
     </div>
-    <div class="art"><picture><source type="image/webp" srcset="photos/shop/interior-600.webp 600w, photos/shop/interior.webp 1200w" sizes="(max-width: 760px) 100vw, 50vw"><img src="photos/shop/interior.jpg" width="1200" height="968" alt="Inside Bija: lamps and a batik mural" loading="lazy" decoding="async"></picture></div>
+    <div class="art wide"><picture><source type="image/webp" srcset="photos/shop/interior-600.webp 600w, photos/shop/interior.webp 1200w" sizes="(max-width: 760px) 100vw, 50vw"><img src="photos/shop/interior.jpg" width="1200" height="968" alt="Inside Bija: lamps and a batik mural" loading="lazy" decoding="async"></picture></div>
   </section>
 
   <section class="story2" id="identity" aria-labelledby="id-h">
@@ -136,7 +136,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
       <h3>Room for character</h3>
       <p>The identity itself stays black and white. Warm cream makes space for reading, natural photography brings in the café’s amber light, and the bean cards express the distinct personality of every origin.</p>
     </div>
-    <div class="art"><picture><source type="image/webp" srcset="photos/shop/cups-600.webp 600w, photos/shop/cups.webp 1200w" sizes="(max-width: 760px) 100vw, 50vw"><img src="photos/shop/cups.jpg" width="1200" height="676" alt="Bija cups with the Kawung mark" loading="lazy" decoding="async"></picture></div>
+    <div class="art wide"><picture><source type="image/webp" srcset="photos/shop/cups-600.webp 600w, photos/shop/cups.webp 1200w" sizes="(max-width: 760px) 100vw, 50vw"><img src="photos/shop/cups.jpg" width="1200" height="676" alt="Bija cups with the Kawung mark" loading="lazy" decoding="async"></picture></div>
   </section>
 
   <section class="story2 flip" id="award" aria-labelledby="award-h">

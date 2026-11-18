@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
-if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-latin-900', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
 <link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
@@ -23,7 +23,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 .doc { max-width: 760px; padding: 18px 0 0; }
 .doc h1 { margin: 8px 0 8px; font-size: clamp(34px, 4.4vw, 56px);  line-height: 1.02; }
 .doc h2 { margin: 44px 0 12px; font-size: clamp(26px, 3vw, 36px); scroll-margin-top: 90px; }
-.doc h3 { margin: 24px 0 6px; font: 800 18px/1.1 var(--disp); text-transform: uppercase; }
+.doc h3 { margin: 24px 0 6px; font: 400 18px/1.1 var(--disp); }
 .doc p, .doc li { color: #333; }
 .doc table { width: 100%; border-collapse: collapse; font-size: 15px; margin: 10px 0; }
 .doc th, .doc td { text-align: left; padding: 12px 8px 12px 0; border-bottom: 1px solid var(--line); vertical-align: top; }

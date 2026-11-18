@@ -3106,6 +3106,8 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
   // the category bar follows the scroll: the section under the bar is the one highlighted, like Grind's menu
   function menuSpy() {
     const bar = document.querySelector('.cats.spy'); if (!bar || S.tab !== 'order') return;
+    // after a tap, stay on the tapped section until the glide has settled
+    if (S.catHold) { const n = performance.now(); if (n < S.catHold) { S.catHold = Math.min(S.catHoldMax, Math.max(S.catHold, n + 160)); return; } S.catHold = 0; return; }
     const line = bar.getBoundingClientRect().bottom + 12;
     let cur = null; for (const sec of document.querySelectorAll('.mcat')) if (sec.getBoundingClientRect().top <= line) cur = sec.dataset.cat;
     // at the very bottom the last section wins, even when it is too short to reach the bar
@@ -4631,7 +4633,15 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
     else if (a === 'ev-pack') { (S.ev ||= { name: '', email: '', company: '', date: '', guests: '', pack: 'Help me choose', note: '', err: '' }).pack = b.dataset.v; render(); document.getElementById('ev-form-h')?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }
     else if (a === 'st-jump') document.getElementById('stx-ch-' + b.dataset.v)?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     else if (a === 'scan-close') scanClose();
-    else if (a === 'cat') { S.cat = b.dataset.v; for (const x of b.parentElement.querySelectorAll('button')) x.setAttribute('aria-pressed', String(x === b)); document.getElementById('mcat-' + catSlug(b.dataset.v))?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth', block: 'start' }); }
+    else if (a === 'cat') {
+      // a tap lands on its section in one move: the highlight fills the tapped chip at once and holds still while the page glides,
+      // instead of flicking through every section it passes on the way
+      const bar = b.parentElement, was = bar.querySelector('[aria-pressed="true"]');
+      S.cat = b.dataset.v; for (const x of bar.querySelectorAll('button')) x.setAttribute('aria-pressed', String(x === b));
+      if (was !== b && bar.classList.contains('spy')) { catFx(bar, was, b); bar.scrollTo({ left: b.offsetLeft - 16, behavior: calm() ? 'auto' : 'smooth' }); }
+      const n = performance.now(); S.catHold = n + 450; S.catHoldMax = n + 1800;
+      document.getElementById('mcat-' + catSlug(b.dataset.v))?.scrollIntoView({ behavior: calm() ? 'auto' : 'smooth', block: 'start' });
+    }
     else if (a === 'qty') { const id = b.dataset.id, r = b.getBoundingClientRect(); S.cart[id] = Math.max(0, Math.min(20, (S.cart[id] || 0) + +b.dataset.d)); render(); if (+b.dataset.d > 0) flyToBasket({ getBoundingClientRect: () => r }); }
     else if (a === 'opt') { S.form[b.dataset.k] = b.dataset.v; render(); }
     else if (a === 'bag-open') { buzz(8); bagOpen(); }

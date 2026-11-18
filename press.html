@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
-if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-latin-900', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
 <link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
@@ -32,7 +32,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 .facts > div { background: var(--tile); border-radius: 16px; padding: 24px; }
 .facts dt { font: 600 12px/1.3 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .facts dd { margin: 10px 0 0; }
-.facts dd b { display: block; font: 900 26px/1.02 var(--disp); text-transform: uppercase; margin-bottom: 8px; }
+.facts dd b { display: block; font: 400 26px/1.02 var(--disp); margin-bottom: 8px; }
 .facts .src { font-size: 13px; color: var(--muted); }
 .kit { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 14px; }
 .kit figure { margin: 0; display: flex; flex-direction: column; background: var(--tile); border-radius: 16px; overflow: hidden; }
@@ -40,6 +40,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 .kit .art.dark { background: #0b0b0b; }
 .kit .art img { width: 46%; height: auto; }
 .kit .ph { position: relative; aspect-ratio: 4 / 5; background: var(--tile2); overflow: hidden; }
+.kit .ph img { object-fit: contain !important; }
 .kit .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 .kit figcaption { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
 .kit figcaption b { font-weight: 600; }
@@ -51,7 +52,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 .contact { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px; align-items: end; }
 @media (max-width: 760px) { .contact { grid-template-columns: minmax(0, 1fr); } }
 .contact h2 { margin: 6px 0 0; font-size: clamp(36px, 5vw, 72px); }
-.contact a.big { font: 900 clamp(22px, 2.6vw, 34px)/1.1 var(--disp); color: #fff; overflow-wrap: anywhere; }
+.contact a.big { font: 400 clamp(22px, 2.6vw, 34px)/1.1 var(--disp); color: #fff; overflow-wrap: anywhere; }
 .contact ul { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 6px; }
 .note { font-size: 14px; color: var(--muted); max-width: 70ch; }
 </style>

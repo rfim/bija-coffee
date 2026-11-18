@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
-if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-latin-900', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
 <link rel="stylesheet" href="fonts/fonts-site.css">
 <link rel="stylesheet" href="site-shop.css">
 <script src="site-shop.js" defer></script>
@@ -21,11 +21,11 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'archivo-lati
 <script src="site-discover.js" defer></script>
 
 <style>
-.vaddr { font: 900 clamp(28px, 3.4vw, 48px)/.95 var(--disp); text-transform: uppercase; margin: 18px 0 8px; }
+.vaddr { font: 400 clamp(28px, 3.4vw, 48px)/1.08 var(--disp); margin: 18px 0 8px; }
 .ev { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 12px; }
 .ev article { background: var(--tile); border-radius: 18px; padding: 20px; }
 .ev time { font: 600 12px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-.ev h3 { font: 900 20px/1 var(--disp); text-transform: uppercase; margin: 8px 0; }
+.ev h3 { font: 400 20px/1.12 var(--disp); margin: 8px 0; }
 .ev p { margin: 0; font-size: 14px; color: #3d3d3d; }
 .vacts { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
 /* the hours table is filled by script: reserve its height (7 rows) */
