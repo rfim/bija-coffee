@@ -157,12 +157,12 @@
   // open a panel on hover or focus, as in the reference: the capsule grows into a dark card with a title, three picture links and the socials
   const CAP = [['stories.html', 'Bija'], ['shop.html', 'Shop'], ['gifts.html', 'Gifts'], ['offices.html', 'Events'], ['rewards.html', 'Rewards'], ['visit.html', 'Visit']];
   const PANELS = {
-    'stories.html': ['Bija', [['stories.html', 'Coffee stories', 'bromo-engraving'], ['stories.html#roots', 'Indonesian roots', 'kerinci'], ['stories.html#community', 'Communities', 'living-wall']]],
+    'stories.html': ['Bija', [['our-story.html', 'Our story', 'shared-table'], ['concept.html', 'The concept', 'design-facade'], ['identity.html', 'Brand identity', 'mark-studies'], ['people.html', 'The people', 'barista-olive']], [['stories.html', 'Coffee stories'], ['stories.html#roots', 'Indonesian roots'], ['stories.html#community', 'Communities']]],
     'shop.html': ['Shop by island', 'islands'],
     'visit.html': ['Visit Bija', [['visit.html', 'Find us in Piccadilly', 'shopfront'], ['menu.html', 'The café menu', 'kopi-tubruk'], ['events.html', "What's on", 'interior']]],
   };
   // artwork, labels and bags are shown whole inside the card; landscape photos fill it
-  const WHOLE = new Set(['bag-old-brown-java', 'bag-mandheling', 'cups', 'bromo-engraving', 'house-blend-tile', 'identity-tile', 'kopi-tubruk', 'card-aceh-gayo']);
+  const WHOLE = new Set(['mark-studies', 'bag-old-brown-java', 'bag-mandheling', 'cups', 'bromo-engraving', 'house-blend-tile', 'identity-tile', 'kopi-tubruk', 'card-aceh-gayo']);
   // the Shop panel: our coffees by island, as on the Indonesian roots page
   const ISLANDS = [
     ['Sumatra', 'Mount Kerinci', 'kerinci', ['mandheling', 'lintong', 'gayo']],
@@ -178,10 +178,10 @@
   const socRow = () => `<span class="pn-soc">${SOC.map(([h, l, g]) => `<a href="${h}" rel="noopener" aria-label="${l}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${g}</svg></a>`).join('')}</span>`;
   function capsule(here) {
     const link = ([h, l]) => {
-      const pn = PANELS[h], cur = here === h || (h === 'shop.html' && /^(product|subscribe|find)\.html/.test(here)) || (h === 'stories.html' && here.startsWith('stories.html')) || (h === 'visit.html' && /^(menu|events)\.html/.test(here)) ? ' aria-current="page"' : '';
+      const pn = PANELS[h], cur = here === h || (h === 'shop.html' && /^(product|subscribe|find)\.html/.test(here)) || (h === 'stories.html' && /^(stories|our-story|concept|identity|people)\.html/.test(here)) || (h === 'visit.html' && /^(menu|events)\.html/.test(here)) ? ' aria-current="page"' : '';
       if (!pn) return `<a href="${h}"${cur}>${l}</a>`;
       const lab = l === 'Bija' ? `<span class="vh">Bija</span>${WORDMARK}` : l;
-      return `<span class="has-pn"><a href="${h}"${cur} aria-haspopup="true" aria-expanded="false">${lab}<i class="crt" aria-hidden="true"></i></a><span class="pn" role="group" aria-label="${pn[0]}"><b class="pn-t">${pn[0]}</b>${pn[1] === 'islands' ? islandsPanel() : `<span class="pn-g">${pn[1].map(([ph, pl, img], i) => `<a href="${ph}" style="--i:${i}"><img${WHOLE.has(img) ? ' class="whole"' : ''} src="photos/shop/${img}-600.webp" alt="" loading="lazy" decoding="async"><span>${pl}</span></a>`).join('')}</span><span class="pn-f">${socRow()}<span>© Bija Coffee</span></span>`}</span></span>`;
+      return `<span class="has-pn"><a href="${h}"${cur} aria-haspopup="true" aria-expanded="false">${lab}<i class="crt" aria-hidden="true"></i></a><span class="pn" role="group" aria-label="${pn[0]}"><b class="pn-t">${pn[0]}</b>${pn[1] === 'islands' ? islandsPanel() : `<span class="pn-g">${pn[1].map(([ph, pl, img], i) => `<a href="${ph}" style="--i:${i}"><img${WHOLE.has(img) ? ' class="whole"' : ''} src="photos/shop/${img}-600.webp" alt="" loading="lazy" decoding="async"><span>${pl}</span></a>`).join('')}</span><span class="pn-f">${socRow()}${pn[2] ? `<span class="pn-more">${pn[2].map(([mh, ml]) => `<a href="${mh}">${ml}</a>`).join('')}</span>` : '<span>© Bija Coffee</span>'}</span>`}</span></span>`;
     };
     return `<span class="nl">${CAP.slice(0, 3).map(link).join('')}</span><a class="mid" href="./" aria-label="Bija home"><span class="mid-k">${ICON.mark}</span><span class="mid-w">${WORDMARK}</span></a><span class="nr">${CAP.slice(3).map(link).join('')}</span>`;
   }
@@ -204,7 +204,7 @@
             <label class="check"><input type="checkbox" name="consent" required><span>Yes, email me news and offers from Bija. I can unsubscribe at any time. See our <a href="privacy.html">privacy notice</a>.</span></label>
             <p class="err" data-news-err role="alert"></p><p class="ok" data-news-ok role="status"></p></form></div>
         <nav aria-label="Shop"><p class="fh">Shop</p><a href="shop.html">All coffee</a><a href="subscribe.html">Subscriptions</a><a href="gifts.html">Gifts</a><a href="product.html?id=set">Discovery set</a><a href="product.html?id=gift">Gift subscription</a><a href="app.html?view=app#gifts">Gift cards</a><a href="offices.html">For offices</a></nav>
-        <nav aria-label="Bija"><p class="fh">Bija</p><a href="visit.html">Visit us</a><a href="menu.html">Café menu</a><a href="events.html">What's on</a><a href="stories.html">Coffee stories</a><a href="find.html">Find your kopi</a><a href="origins.html">Origins</a><a href="brew.html">Brew guides</a><a href="trace.html?b=house">Bean passport</a><a href="sustainability.html">Sustainability</a><a href="rewards.html">Rewards</a><a href="install.html">Get the app</a><a href="press.html">Press</a></nav>
+        <nav aria-label="Bija"><p class="fh">Bija</p><a href="visit.html">Visit us</a><a href="menu.html">Café menu</a><a href="events.html">What's on</a><a href="our-story.html">Our story</a><a href="identity.html">Brand identity</a><a href="stories.html">Coffee stories</a><a href="find.html">Find your kopi</a><a href="origins.html">Origins</a><a href="brew.html">Brew guides</a><a href="trace.html?b=house">Bean passport</a><a href="sustainability.html">Sustainability</a><a href="rewards.html">Rewards</a><a href="install.html">Get the app</a><a href="press.html">Press</a></nav>
         <!-- email address is a mock-up: to confirm with Bija -->
         <nav aria-label="Help"><p class="fh">Help</p><a href="help.html">Help centre</a><a href="contact.html">Contact us</a><a href="delivery.html">Delivery &amp; returns</a><a href="delivery.html#terms">Terms of sale</a><a href="allergens.html">Allergens</a><a href="mailto:info@bijalondon.co.uk">info@bijalondon.co.uk</a><a href="tel:+442046033086">+44 20 4603 3086</a></nav>
         <nav aria-label="Legal"><p class="fh">Legal</p><a href="privacy.html">Privacy notice</a><button type="button" class="bc-link" data-consent-open>Privacy choices</button><a href="privacy.html#cookies">Cookies</a><a href="accessibility.html">Accessibility</a><a href="https://www.instagram.com/bija.london/" rel="noopener" target="_blank">Instagram @bija.london</a></nav>
