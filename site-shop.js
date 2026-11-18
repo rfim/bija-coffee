@@ -235,7 +235,10 @@
 
   // ---------- wiring ----------
   function mount() {
-    drawMarks(); setTimeout(arrPulse, 0);
+    // editorial sections rise in gently as they reach the screen (the home page runs its own copy; adding 'in' twice is harmless)
+    { const els = document.querySelectorAll('.reveal:not(.in)');
+      if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) els.forEach((e) => e.classList.add('in'));
+      else { const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' }); els.forEach((e) => io.observe(e)); } }
     const top = document.getElementById('shop-top'); if (top) top.outerHTML = announce() + header();
     const ann = document.getElementById('shop-announce'); if (ann) ann.outerHTML = announce();
     document.querySelectorAll('[data-cart-slot]').forEach((s) => (s.outerHTML = cartBtn()));
@@ -248,6 +251,10 @@
     // a fan of three bag illustrations, used as designed art in heroes
     document.querySelectorAll('[data-fan]').forEach((el) => { el.innerHTML = el.dataset.fan.split(',').map((id) => byId(id.trim())).filter(Boolean).map((p) => `<div class="pimg" style="--pbg:${bgFor(p)}">${bagArt(p)}</div>`).join(''); });
     document.querySelectorAll('[data-mk]').forEach((el, i) => { el.innerHTML = markCycle(); el.firstChild.style.animationDelay = `${-i * 3}s`; });
+    // after the header, footer and product cards are in place: draw the Kawung marks and measure the header
+    drawMarks(); setTimeout(arrPulse, 0);
+    // pages place sticky bars under the header with --hdr: keep it equal to the header's real height
+    { const hd = document.querySelector('.shead'); const setH = () => { if (hd) document.documentElement.style.setProperty('--hdr', hd.offsetHeight + 'px'); }; setH(); addEventListener('resize', setH, { passive: true }); }
     // reveal on scroll for shop pages (the home page has its own)
     if (!document.body.classList.contains('home') && 'IntersectionObserver' in window && !reduce()) {
       const els = document.querySelectorAll('.pgrid .pcard, .steps > div, .earn3 > div, .sec-h, .kband, .batik');
