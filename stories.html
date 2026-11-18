@@ -19,33 +19,41 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-
 <script src="site-consent.js" defer></script>
 <script src="site-backoffice.js" defer></script>
 <style>
-.sus-hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: center; padding: 24px 0 0; }
-<style>
+/* Coffee stories: one calm rhythm. Text on one side, a photo on the other that stays beside you as you read; every frame the same size */
 .st-hero { padding: 24px 0 8px; max-width: 980px; }
-.st-hero h1 { margin: 8px 0 16px; font-size: clamp(44px, 7vw, 112px); line-height: .95; }
-.st-hero p { margin: 0; color: #3d3d3d; max-width: 60ch; font-size: 19px; line-height: 1.55; }
-.st-toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 0; padding: 0; list-style: none; }
-.st-toc a { display: inline-block; padding: 10px 16px; border: 1px solid var(--line); border-radius: 999px; font: 600 13px/1 var(--sans); color: var(--ink); text-decoration: none; }
+.st-hero h1 { margin: 8px 0 16px; }
+.st-hero p { margin: 0; color: #3d3d3d; max-width: 60ch; font-size: 18px; line-height: 1.6; }
+.st-toc { display: flex; gap: 8px; margin: 28px 0 0; padding: 0 0 6px; list-style: none; overflow-x: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent); mask-image: linear-gradient(90deg, #000 92%, transparent); }
+.st-toc::-webkit-scrollbar { display: none; }
+.st-toc li { flex: none; }
+.st-toc a { display: inline-block; padding: 10px 16px; border: 1px solid var(--line); border-radius: 999px; font: 600 13px/1 var(--sans); color: var(--ink); text-decoration: none; white-space: nowrap; }
 .st-toc a:hover { border-color: var(--ink); }
-.story2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 72px); align-items: center; padding: clamp(48px, 6vw, 96px) 0; border-top: 1px solid var(--line); scroll-margin-top: 90px; }
+.story2 { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(28px, 5vw, 88px); align-items: start; padding: clamp(56px, 6vw, 96px) 0; border-top: 1px solid var(--line); scroll-margin-top: 90px; }
+.story2.flip { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
 .story2.flip .art { order: -1; }
-.story2 h2 { margin: 8px 0 18px; font-size: clamp(32px, 4.2vw, 60px); line-height: .98; }
-.story2 h3 { margin: 26px 0 8px; font: 400 20px/1.25 var(--disp, Archivo), serif; }
-.story2 p { margin: 0 0 14px; max-width: 60ch; color: #2f2f2f; font-size: 17px; line-height: 1.6; }
-.story2 .art { border-radius: 22px; overflow: hidden; background: var(--tile); aspect-ratio: 4 / 5; width: 100%; max-width: 560px; justify-self: center; }
-.story2 .art.wide { aspect-ratio: 16 / 10; }
+.story2 h2 { margin: 8px 0 20px; font-size: clamp(32px, 3.6vw, 52px); }
+.story2 h3 { margin: 28px 0 8px; font: 400 20px/1.25 var(--disp, Archivo), serif; }
+.story2 p { margin: 0 0 14px; max-width: 62ch; color: #2f2f2f; font-size: 16.5px; line-height: 1.65; }
+.story2 .art { position: sticky; top: calc(var(--hdr, 72px) + 28px); border-radius: 18px; overflow: hidden; background: var(--tile); aspect-ratio: 4 / 5; width: 100%; max-width: 500px; justify-self: center; }
+.story2 .art.wide { aspect-ratio: 4 / 3; }
+.story2 .art picture { display: block; width: 100%; height: 100%; }
 .story2 .art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.story2 .art.fit { display: grid; place-items: center; } .story2 .art.fit img { object-fit: contain; padding: 8%; }
 .story2 .src { font-size: 13px; color: var(--muted); }
 .isles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 28px; }
 .isles article { background: var(--tile); border-radius: 18px; overflow: hidden; padding: 0 0 20px; }
 .isles picture { display: block; aspect-ratio: 2.4 / 1; overflow: hidden; margin-bottom: 16px; } .isles picture img { display: block; width: 100% !important; height: 100% !important; aspect-ratio: auto; object-fit: cover; }
 .isles .eyebrow, .isles h3, .isles p { margin-left: 20px; margin-right: 20px; } .isles h3 { margin-top: 6px; text-transform: none; font-size: 22px; } .isles p { font-size: 15px; }
-@media (max-width: 860px) { .isles { grid-template-columns: minmax(0, 1fr); } }
 .comm { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 24px; }
-.comm div { background: var(--tile); border-radius: 16px; padding: 24px; }
-.comm h3 { margin: 0 0 8px; } .comm p { margin: 0; font-size: 15px; }
+.comm div { background: var(--tile); border-radius: 16px; padding: 22px; }
+.comm h3 { margin: 0 0 8px; font-size: 19px; } .comm p { margin: 0; font-size: 14.5px; }
 .st-band { padding: clamp(48px, 6vw, 96px) 0; }
-@media (max-width: 860px) { .story2 { grid-template-columns: minmax(0, 1fr); } .story2.flip .art { order: 0; } .comm { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 1000px) { .comm { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 860px) {
+  .story2, .story2.flip { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .story2 .art, .story2.flip .art { order: -1; position: static; aspect-ratio: 4 / 3; max-width: none; }
+  .isles, .comm { grid-template-columns: minmax(0, 1fr); }
+}
 </style>
 </head>
 <body class="shop-page">
@@ -78,7 +86,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-
       <p>No single flavour can speak for Indonesian coffee. At Bija, Sumatra offers the depth of wet-hulled lots alongside fruit-laden naturals; Java brings the earthy richness of Old Brown Java and the layered character of our House Blend; Bali Kintamani strikes a softer balance of cacao and citrus. Start with whichever flavour intrigues you, and trace it back to its place.</p>
       <p class="src">Further reading: Amsterdam City Archives on coffee houses; Oneindig Noord-Holland on coffee and Pieter van den Broecke.</p>
     </div>
-    <div class="art wide"><picture><source type="image/webp" srcset="photos/shop/bromo-engraving-600.webp 600w, photos/shop/bromo-engraving.webp 1200w" sizes="(max-width: 760px) 100vw, 50vw"><img src="photos/shop/bromo-engraving.jpg" width="1200" height="400" alt="An engraving of Mount Bromo, East Java" loading="lazy" decoding="async" style="object-fit:contain;background:#efe9df"></picture></div>
+    <div class="art wide fit"><picture><source type="image/webp" srcset="photos/shop/bromo-engraving-600.webp 600w, photos/shop/bromo-engraving.webp 1200w" sizes="(max-width: 760px) 100vw, 50vw"><img src="photos/shop/bromo-engraving.jpg" width="1200" height="400" alt="An engraving of Mount Bromo, East Java" loading="lazy" decoding="async" style="object-fit:contain;background:#efe9df"></picture></div>
   </section>
 
   <section class="story2 roots" id="roots" aria-labelledby="roots-h" style="display:block">
