@@ -148,11 +148,13 @@
     'stories.html#roots': ['Indonesian roots', [['stories.html#roots', 'Sumatra · Mount Kerinci', 'kerinci'], ['stories.html#roots', 'Java · Mount Bromo', 'bromo'], ['stories.html#roots', 'Bali · Mount Batur', 'batur']]],
     'visit.html': ['Visit Bija', [['visit.html', 'Find us in Piccadilly', 'shopfront'], ['menu.html', 'The café menu', 'kopi-tubruk'], ['events.html', "What's on", 'interior']]],
   };
+  // artwork, labels and bags are shown whole inside the card; landscape photos fill it
+  const WHOLE = new Set(['bag-old-brown-java', 'bag-mandheling', 'cups', 'bromo-engraving', 'house-blend-tile', 'identity-tile', 'kopi-tubruk', 'card-aceh-gayo']);
   function capsule(here) {
     const link = ([h, l]) => {
       const pn = PANELS[h], cur = here === h || (h === 'shop.html' && here.startsWith('product.html')) ? ' aria-current="page"' : '';
       if (!pn) return `<a href="${h}"${cur}>${l === 'Events & catering' ? 'Events' : l}</a>`;
-      return `<span class="has-pn"><a href="${h}"${cur} aria-haspopup="true">${l}</a><span class="pn" role="group" aria-label="${pn[0]}"><b class="pn-t">${pn[0]}</b><span class="pn-g">${pn[1].map(([ph, pl, img], i) => `<a href="${ph}" style="--i:${i}"><img src="photos/shop/${img}-600.webp" alt="" loading="lazy" decoding="async"><span>${pl}</span></a>`).join('')}</span><span class="pn-f"><span><a href="https://www.instagram.com/bija.london/" rel="noopener">Instagram</a><a href="https://www.tiktok.com/@bijalondon" rel="noopener">TikTok</a></span><span>© Bija Coffee</span></span></span></span>`;
+      return `<span class="has-pn"><a href="${h}"${cur} aria-haspopup="true">${l}</a><span class="pn" role="group" aria-label="${pn[0]}"><b class="pn-t">${pn[0]}</b><span class="pn-g">${pn[1].map(([ph, pl, img], i) => `<a href="${ph}" style="--i:${i}"><img${WHOLE.has(img) ? ' class="whole"' : ''} src="photos/shop/${img}-600.webp" alt="" loading="lazy" decoding="async"><span>${pl}</span></a>`).join('')}</span><span class="pn-f"><span><a href="https://www.instagram.com/bija.london/" rel="noopener">Instagram</a><a href="https://www.tiktok.com/@bijalondon" rel="noopener">TikTok</a></span><span>© Bija Coffee</span></span></span></span>`;
     };
     const half = Math.ceil(NAV.length / 2);
     return `<span class="nl">${NAV.slice(0, half).map(link).join('')}</span><a class="mid" href="./" aria-label="Bija home">${ICON.mark}</a><span class="nr">${NAV.slice(half).map(link).join('')}</span>`;
