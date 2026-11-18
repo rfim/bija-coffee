@@ -29,6 +29,9 @@
         const ports = [[0, 'Mocha'], [.5, 'Java'], [1, 'St James’s']].map(([f, l], n) => { const t = a0 + (a1 - a0) * f, [x, y] = P(t), ox = Math.cos(t) * 18, oy = Math.sin(t) * 18, lx = x + ox, anc = lx < 70 ? 'start' : lx > H.width - 70 ? 'end' : Math.cos(t) > .3 ? 'start' : Math.cos(t) < -.3 ? 'end' : 'middle'; return `<circle cx="${x}" cy="${y}" r="4" style="animation-delay:${.2 + n * .95}s"/><text x="${Math.min(H.width - 8, Math.max(8, lx))}" y="${y + oy + 5}" text-anchor="${anc}" style="animation-delay:${.3 + n * .95}s">${l}</text>`; }).join('');
         hero.insertAdjacentHTML('afterbegin', `<svg class="sx-route" viewBox="0 0 ${H.width} ${H.height}" aria-hidden="true"><path d="${d}"/><path class="ln" pathLength="1400" d="${d}"/>${ports}<g class="sx-ship" style="offset-path:path('${d}')"><use href="#bija-kw-b" x="-9" y="-9" width="18" height="18"/></g></svg>`); };
       draw(); let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(draw, 200); }, { passive: true }); } }
+  // Communities: cards land as they reach the screen
+  document.querySelectorAll('.cwall .cw').forEach((e) => (io && !calm ? io.observe(e) : e.classList.add('in')));
+  const pour = document.querySelector('.pour'); if (pour) { pour.dataset.p = '1'; if (calm) { pour.dataset.p = '4'; pour.style.cssText = '--pg:1;--pw:1;--pst:1'; } }
   if (calm) { steps.forEach((s) => s.classList.add('on')); return; }
   const pols = [...document.querySelectorAll('[data-sp]')], rails = [...document.querySelectorAll('.sp-rail')];
   let q = false;
@@ -39,6 +42,9 @@
     if (walk) { const r = walk.getBoundingClientRect(), p = Math.min(1, Math.max(0, -r.top / (r.height - vh))), seg = (a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));
       const s = walk.style; s.setProperty('--t1', seg(0, .34).toFixed(4)); s.setProperty('--f12', seg(.28, .40).toFixed(4)); s.setProperty('--t2', seg(.34, .70).toFixed(4)); s.setProperty('--f23', seg(.64, .76).toFixed(4)); s.setProperty('--t3', seg(.70, 1).toFixed(4));
       walk.dataset.sc = p < .36 ? '1' : p < .72 ? '2' : '3'; }
+    if (pour) { const r = pour.getBoundingClientRect(), p = Math.min(1, Math.max(0, -r.top / (r.height - vh))), seg = (a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));
+      const s = pour.style; s.setProperty('--pg', seg(0, .22).toFixed(3)); s.setProperty('--pw', seg(.25, .5).toFixed(3)); s.setProperty('--pu', (seg(.25, .45) - seg(.5, .72)).toFixed(3)); s.setProperty('--pst', seg(.72, .9).toFixed(3));
+      pour.dataset.p = p < .25 ? '1' : p < .5 ? '2' : p < .75 ? '3' : '4'; }
     if (kb) { const r = kb.getBoundingClientRect(), p = Math.min(.999, Math.max(0, -r.top / (r.height - vh))); setStep(1 + Math.floor(p * 5)); }
   };
   addEventListener('scroll', () => { if (!q) { q = true; requestAnimationFrame(tick); } }, { passive: true });

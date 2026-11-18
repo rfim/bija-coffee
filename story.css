@@ -182,3 +182,37 @@
 [data-sfx="3"] .sp-hero .in { animation: sx-settle 1.1s ease 1.4s both; }
 @keyframes sx-settle { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .sx-ship { offset-distance: 100%; } [data-sfx] .sp-hero *, [data-sfx] .sp-hero::after { animation: none !important; -webkit-mask: none !important; mask: none !important; } .sx-route { display: none !important; } }
+
+/* Speciality drinks: a kopi tubruk made as you scroll. Grounds fall, water rises, the grounds settle, steam lifts */
+.pour { position: relative; height: 340vh; background: var(--paper); color: var(--ink); }
+.pour-stick { position: sticky; top: 0; height: 100svh; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(24px, 6vw, 100px); padding: calc(var(--hdr, 77px) + 10px) clamp(16px, 5vw, 80px) 30px; }
+.pour-cup { justify-self: end; width: min(380px, 38vw, 56svh); }
+.pour-cup svg { width: 100%; height: auto; overflow: visible; }
+.pour-cup .cup { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.pour-cup .water { fill: #3b2414; transform-box: fill-box; transform-origin: 50% 100%; transform: scaleY(calc(var(--pw, 0) * .92)); opacity: calc(.15 + var(--pw, 0) * .85); }
+.pour-cup .grounds circle { fill: #1c120b; transform: translateY(calc((1 - var(--pg, 0)) * -150px + var(--ps, 0) * 0px)); opacity: calc(var(--pg, 0)); transition: transform .3s linear; }
+.pour-cup .grounds { transform: translateY(calc(var(--pu, 0) * -60px)); }
+.pour-cup .steam { fill: none; stroke: rgba(17, 17, 17, .4); stroke-width: 2.4; stroke-linecap: round; opacity: var(--pst, 0); animation: steam 3s ease-in-out infinite; }
+.pour-cup .s2 { animation-delay: .6s; } .pour-cup .s3 { animation-delay: 1.2s; }
+@keyframes steam { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.pour-text { position: relative; min-height: 220px; max-width: 420px; }
+.ps { position: absolute; inset: 0 0 auto 0; opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .7s cubic-bezier(.22, 1, .36, 1); }
+.pour[data-p="1"] [data-p="1"], .pour[data-p="2"] [data-p="2"], .pour[data-p="3"] [data-p="3"], .pour[data-p="4"] [data-p="4"] { opacity: 1; transform: none; }
+.ps .n { font: italic 400 15px/1 var(--serif); opacity: .6; } .ps h3 { margin: 10px 0 12px; font: 400 clamp(28px, 3vw, 44px)/1.08 var(--serif); } .ps p { margin: 0; font-size: 16px; line-height: 1.65; color: #3d3a34; }
+@media (max-width: 760px) { .pour-stick { grid-template-columns: minmax(0, 1fr); align-content: center; gap: 10px; } .pour-cup { justify-self: center; width: min(62vw, 34svh); } }
+.sp-cards .dk { border-top: 1px solid rgba(244, 240, 231, .16); padding-top: 18px; } .sp-cards .dk p { color: rgba(244, 240, 231, .78); } .sp-cards .dk h3 { color: var(--paper); }
+
+/* Communities: a journal wall, each card dealt onto the table at a slight angle and straightening as it lands */
+.cwall { columns: 4 260px; column-gap: 20px; }
+.cwall .cw { display: inline-block; width: 100%; margin: 0 0 20px; break-inside: avoid; text-decoration: none; color: inherit; background: #fffdf8; border-radius: 6px; padding: 10px 10px 16px; box-shadow: 0 14px 30px rgba(17, 17, 17, .08), 0 0 0 1px rgba(17, 17, 17, .06);
+  opacity: 0; transform: translateY(40px) rotate(var(--r)); transition: opacity .7s ease calc(var(--i) * .08s), transform 1s cubic-bezier(.22, 1, .36, 1) calc(var(--i) * .08s), box-shadow .4s ease; }
+.cwall .cw.in { opacity: 1; transform: rotate(calc(var(--r) * .25)); }
+.cwall a.cw:hover { transform: rotate(0) translateY(-4px); box-shadow: 0 20px 40px rgba(17, 17, 17, .14), 0 0 0 1px rgba(17, 17, 17, .06); }
+.cwall .ph { overflow: hidden; border-radius: 3px; background: var(--tile); aspect-ratio: 4 / 3; }
+.cwall .tall .ph { aspect-ratio: 3 / 4; } .cwall .wide .ph { aspect-ratio: 16 / 9; } .cwall .logo .ph { aspect-ratio: 16 / 7; display: grid; place-items: center; background: #111; } .cwall .logo img { width: 60% !important; height: auto !important; object-fit: contain !important; }
+.cwall img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 1.2s cubic-bezier(.22, 1, .36, 1); }
+.cwall a.cw:hover img { transform: scale(1.04); }
+.cwall .eyebrow { display: block; margin: 14px 6px 4px; }
+.cwall h3 { margin: 0 6px 6px; font: 400 20px/1.2 var(--serif); }
+.cwall p { margin: 0 6px; font-size: 14px; line-height: 1.55; color: #3d3a34; }
+@media (prefers-reduced-motion: reduce) { .cwall .cw { opacity: 1; transform: none; transition: none; } }

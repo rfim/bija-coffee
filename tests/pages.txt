@@ -15,3 +15,5 @@ our-story.html
 concept.html
 identity.html
 people.html
+drinks.html
+communities.html
