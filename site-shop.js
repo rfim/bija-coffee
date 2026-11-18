@@ -165,6 +165,12 @@
       <div class="legalline"><span>© Bija Coffee Limited, registered in England and Wales, company number 15383542. 2a St James's Market, London SW1Y 4AH. Prices include VAT.</span><span>Concept rebuild by Firman Insan M, not an official Bija page.</span></div>
     </div></footer>`;
   }
+  // the main buttons' Kawung pulses once as each comes into view
+  function arrPulse() {
+    if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { const b = e.target; setTimeout(() => b.classList.add('arr-in'), 500); io.unobserve(b); } }), { threshold: .8 });
+    document.querySelectorAll('.btn > .arr').forEach((a) => io.observe(a.parentElement));
+  }
   function drawer() {
     return `<div class="drawer" id="drawer" aria-hidden="true"><div class="scrim" data-close-cart></div>
       <div class="pan" role="dialog" aria-modal="true" aria-labelledby="drawer-h">
@@ -226,6 +232,7 @@
 
   // ---------- wiring ----------
   function mount() {
+    setTimeout(arrPulse, 0);
     const top = document.getElementById('shop-top'); if (top) top.outerHTML = announce() + header();
     const ann = document.getElementById('shop-announce'); if (ann) ann.outerHTML = announce();
     document.querySelectorAll('[data-cart-slot]').forEach((s) => (s.outerHTML = cartBtn()));

@@ -559,7 +559,7 @@ body.shop-page { background: var(--bg); color: var(--ink); font: 15.5px/1.6 var(
 /* the dropdown menu on narrower screens sits on the dark header; fields are quiet rectangles */
 @media (max-width: 1100px) { .shead .mainnav { background: #111111; border-top: 1px solid rgba(244, 240, 231, .12); } .shead .mainnav a { padding: 16px clamp(16px, 3vw, 40px); } }
 .inp, select.inp { border-radius: 2px; border-width: 1px; background: #fffdf8; }
-/* link mark: a small Kawung flower (Bija's own mark) in place of the arrow; it turns a quarter on hover */
+/* link mark: a small Kawung flower (Bija's own mark) in place of the arrow */
 .arr { display: inline-block; width: 13px; height: 13px; font-size: 0; line-height: 0; color: transparent; flex: none; vertical-align: -1px;
   background: currentColor; -webkit-mask: var(--kawung) center / contain no-repeat; mask: var(--kawung) center / contain no-repeat;
   --kawung: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-6 -6 112 112'%3E%3Cg fill='none' stroke='black' stroke-width='9'%3E%3Ccircle cx='50' cy='25' r='25'/%3E%3Ccircle cx='75' cy='50' r='25'/%3E%3Ccircle cx='50' cy='75' r='25'/%3E%3Ccircle cx='25' cy='50' r='25'/%3E%3C/g%3E%3C/svg%3E");
@@ -567,5 +567,8 @@ body.shop-page { background: var(--bg); color: var(--ink); font: 15.5px/1.6 var(
 .btn .arr, .ed-link .arr, .ed-pgrid .arr { background: currentColor; color: inherit; }
 .btn .arr { background-color: var(--ink); } :is(.dark, .band, .hero2, .batik, .sfoot, .inv, .ed-dark) .btn .arr { background-color: var(--ink); } .btn.ghost .arr { background-color: currentColor; }
 .ed-link .arr, .ed-pgrid .arr { background-color: currentColor; }
-a:hover > .arr, button:hover > .arr, a:focus-visible > .arr { transform: rotate(45deg); }
+/* one soft pulse on hover or focus (never a loop); the main buttons pulse once as they come into view */
+a:hover > .arr, button:hover > .arr, a:focus-visible > .arr, .btn.arr-in > .arr { animation: arr-pulse .9s cubic-bezier(.22, 1, .36, 1) 1; }
+@keyframes arr-pulse { 0% { transform: scale(1); opacity: 1; } 40% { transform: scale(1.35); opacity: .75; } 100% { transform: scale(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { a:hover > .arr, button:hover > .arr, a:focus-visible > .arr, .btn.arr-in > .arr { animation: none; } }
 @media (prefers-reduced-motion: reduce) { .arr { transition: none; } }
