@@ -9,6 +9,14 @@ const fs = require('fs');
 const path = require('path');
 const { BASE, screenshot } = require('./tools/common');
 
+// Maheera opens from the floating mark (the Maheera tab became the mark in Nov 2026): Insights first, then the switch
+async function openMaheera(page) {
+  const tab = page.locator('#tabs [data-act="tab"][data-v="maheera"]');
+  if (await tab.count()) return tab.click();
+  await page.locator('[data-act="mh-open"]:visible').first().click();
+  await page.locator('[data-act="mh-view"][data-v="maheera"]').first().click();
+}
+
 let chromium;
 try { ({ chromium } = require('playwright')); } catch { console.error('playwright is not installed. See tests/README.md.'); process.exit(2); }
 
@@ -88,7 +96,7 @@ async function unlock(page) {
   await page.waitForFunction(() => document.body.classList.contains('barista-view'), null, { timeout: 10000 });
 }
 async function openTab(page) {
-  await page.locator('#tabs [data-act="tab"][data-v="maheera"]').click();
+  await openMaheera(page);
   await page.waitForFunction(() => !document.querySelector('#main [aria-busy="true"]') && /Maheera/.test(document.getElementById('main').innerText), null, { timeout: 10000 });
   await settle(page, 300);
 }
@@ -176,7 +184,7 @@ async function shot(page, name) { if (!SHOTS) return; fs.mkdirSync(SHOTS, { recu
     await shot(page, '6-down');
     await page.locator('#tabs [data-act="tab"][data-v="queue"]').click(); await settle(page);
     assert.match(await main(page), /Queue is clear|In the queue/);
-    await page.locator('#tabs [data-act="tab"][data-v="maheera"]').click(); await settle(page);
+    await openMaheera(page); await settle(page);
     assert.equal(state.calls.length, 1, 'no automatic hammering after a failure');
     await page.locator('#main [data-act="mh-retry"]').first().click();
     await page.waitForFunction(() => /Yesterday's sales/i.test(document.getElementById('main').innerText), null, { timeout: 10000 });
@@ -220,7 +228,7 @@ async function shot(page, name) { if (!SHOTS) return; fs.mkdirSync(SHOTS, { recu
     await page.locator('#pin-email').fill(EMAIL);
     for (const d of PIN) await page.locator('#pinsheet [data-act="pin-key"]').filter({ hasText: new RegExp(`^\\s*${d}\\s*$`) }).first().click();
     await page.waitForFunction(() => document.body.classList.contains('barista-view'), null, { timeout: 10000 });
-    await page.locator('#tabs [data-act="tab"][data-v="maheera"]').click(); await settle(page);
+    await openMaheera(page); await settle(page);
     assert.match(await main(page), /Maheera opens on the live back office/);
   });
 

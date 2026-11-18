@@ -15,6 +15,14 @@ const path = require('path');
 const crypto = require('crypto');
 const { BASE } = require('./tools/common');
 
+// Maheera opens from the floating mark (the Maheera tab became the mark in Nov 2026): Insights first, then the switch
+async function openMaheera(page) {
+  const tab = page.locator('#tabs [data-act="tab"][data-v="maheera"]');
+  if (await tab.count()) return tab.click();
+  await page.locator('[data-act="mh-open"]:visible').first().click();
+  await page.locator('[data-act="mh-view"][data-v="maheera"]').first().click();
+}
+
 let chromium;
 try { ({ chromium } = require('playwright')); } catch { console.error('playwright is not installed. See tests/README.md.'); process.exit(2); }
 
@@ -63,7 +71,7 @@ async function unlock(page) {
   await page.waitForFunction(() => document.body.classList.contains('barista-view'), null, { timeout: 10000 });
 }
 async function openPanel(page) {
-  await page.locator('#tabs [data-act="tab"][data-v="maheera"]').click();
+  await openMaheera(page);
   await page.waitForFunction(() => ['ready', 'error'].includes(document.querySelector('#mh-slot maheera-panel')?.state), null, { timeout: 10000 });
   await settle(page, 300);
 }
@@ -122,7 +130,7 @@ const ROOT = path.join(__dirname, '..');
     assert.equal(await page.locator('link[href="vendor/maheera-fonts/fonts.css"]').count(), 0, 'not loaded for customers or other tabs');
     await openPanel(page);
     await page.locator('#tabs [data-act="tab"][data-v="queue"]').click(); await settle(page);
-    await page.locator('#tabs [data-act="tab"][data-v="maheera"]').click(); await settle(page);
+    await openMaheera(page); await settle(page);
     assert.equal(await page.locator('link[href="vendor/maheera-fonts/fonts.css"]').count(), 1);
     await page.evaluate(() => document.fonts.ready);
     const fam = await page.evaluate(() => getComputedStyle(document.querySelector('maheera-panel').shadowRoot.querySelector('.mh')).fontFamily);
@@ -153,7 +161,7 @@ const ROOT = path.join(__dirname, '..');
   test('a redraw keeps the same panel; leaving the tab and coming back does not fetch again', async ({ page, state }) => {
     await unlock(page); await openPanel(page);
     await page.locator('#tabs [data-act="tab"][data-v="queue"]').click(); await settle(page);
-    await page.locator('#tabs [data-act="tab"][data-v="maheera"]').click(); await settle(page);
+    await openMaheera(page); await settle(page);
     assert.equal(await page.evaluate(() => document.querySelector('#mh-slot maheera-panel')?.state), 'ready');
     assert.equal(state.calls.length, 1);
   });
@@ -166,7 +174,7 @@ const ROOT = path.join(__dirname, '..');
 
   test("function not deployed yet (404): the older Maheera view, read through 'maheera'", async ({ page, state }) => {
     await unlock(page);
-    await page.locator('#tabs [data-act="tab"][data-v="maheera"]').click();
+    await openMaheera(page);
     await page.waitForFunction(() => /Kenduri's shared back office/.test(document.getElementById('main').innerText), null, { timeout: 10000 });
     assert.equal(await page.locator('maheera-panel').count(), 0);
     assert.equal(state.legacy, 1);

@@ -1,0 +1,192 @@
+/* Wayang motion (wayang.js). Each drawing is layers of the owner's own art, in its original black and gold, stacked in one box; limbs turn on the
+   joint dots drawn on them. Motion runs only for people who haven't asked for less (prefers-reduced-motion), and the
+   pause button stops every drawing on the page (WCAG 2.2.2). Size a drawing with its width: .wy { --ww: 240px }. */
+.wy { position: relative; display: block; width: var(--ww, 240px); max-width: 100%; height: auto; flex: none;
+  /* the sheet's own black and gold (sampled from the owner's drawing); override --wy-ink / --wy-acc on a container
+     for a one-off colour */
+  --wy-ink: #060608;
+  --wy-acc: #e2b23a;
+  --wy-shine: rgba(255, 255, 255, .9); }
+.wy-fig, .wy-l, .wy-ink, .wy-acc, .wy-gold { position: absolute; inset: 0; width: 100%; height: 100%; }
+.wy-fig { display: block; }
+.wy-ink, .wy-acc, .wy-gold { display: block; -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
+.wy-ink { background: var(--wy-ink); }
+.wy-acc { background: var(--wy-acc); }
+.wy-gold {
+  background: linear-gradient(110deg, transparent 38%, var(--wy-shine) 50%, transparent 62%) no-repeat;
+  background-size: 260% 100%; background-position: 140% 0; opacity: 0; }
+
+.wy-pause { position: absolute; left: 0; top: 0; z-index: 1; display: grid; place-items: center; width: 32px; height: 32px; padding: 0;
+  border-radius: 50%; border: 1px solid rgba(20, 22, 79, .25); background: rgba(255, 255, 255, .92); color: #14164f; cursor: pointer; }
+.wy-pause svg { width: 12px; height: 12px; fill: currentColor; }
+.wy-pause .wy-i-play, html.wayang-paused .wy-pause .wy-i-stop { display: none; }
+html.wayang-paused .wy-pause .wy-i-play { display: block; }
+.wy-pause:focus-visible { outline: 2px solid #14164f; outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) { .wy-pause { display: none; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* the light over the gold: one sweep every few seconds, the same moment on every layer of a drawing */
+  .wy-gold { opacity: 1; animation: wy-shine 6s ease-in-out infinite; }
+  .wy-keris .wy-gold { animation-duration: 4.5s; }
+  .wy-gate .wy-gold { background: linear-gradient(0deg, transparent 38%, var(--wy-shine) 50%, transparent 62%) no-repeat;
+    background-size: 100% 260%; animation-name: wy-rise; animation-duration: 7s; }
+
+  /* dancer: slow sway on her feet, raised hand turns and flicks at the elbow dot, lower arm swings */
+  .wy-dancer > .wy-fig { transform-origin: 50% 99%; animation: wy-sway 6.4s ease-in-out infinite; }
+  .wy-dancer-armR { animation: wy-dancer-armR 3.2s ease-in-out infinite; }
+  .wy-dancer-armL { animation: wy-dancer-armL 6.4s ease-in-out infinite; }
+
+  /* warrior: a puppeteer's rod lifts the arm at the shoulder dot, the forearm swings at the elbow dot */
+  .wy-warrior > .wy-fig { transform-origin: 50% 99%; animation: wy-sway 7.6s ease-in-out infinite; }
+  .wy-warrior-upper { animation: wy-warrior-upper 3.8s ease-in-out infinite; }
+  .wy-warrior-fore { animation: wy-warrior-fore 3.8s ease-in-out infinite; }
+
+  .wy-mask > .wy-fig { animation: wy-float 7s ease-in-out infinite; }
+  .wy-crown > .wy-fig { animation: wy-float 8s ease-in-out infinite reverse; }
+  .wy-keris > .wy-fig { animation: wy-hover 6s ease-in-out infinite; }
+  .wy-garuda > .wy-fig { animation: wy-soar 5.6s ease-in-out infinite; }
+  .wy-gate > .wy-fig { transform-origin: 50% 100%; animation: wy-breathe 7s ease-in-out infinite; }
+
+  /* flower: every piece grows from its own stem, one after another */
+  .wy-flower > .wy-fig { transform-origin: 50% 100%; animation: wy-breathe 8s ease-in-out infinite; }
+  .wy-flower .wy-l:not(.wy-flower-base) { animation: wy-bloom 4s ease-in-out infinite; }
+  .wy-flower-bud { animation-delay: 0s; }
+  .wy-flower-leafL, .wy-flower-leafR { animation-delay: -3.5s !important; }
+  .wy-flower-centre { animation-delay: -3s !important; }
+  .wy-flower-flowerL { animation-name: wy-bloom-l !important; animation-delay: -2.5s !important; }
+  .wy-flower-flowerR { animation-name: wy-bloom-r !important; animation-delay: -2.5s !important; }
+  .wy-flower-top { animation-delay: -2s !important; }
+
+  /* gamelan: the mallets lift and strike, the gongs shine as they're struck */
+  .wy-gamelan-mallets { animation: wy-strike 1.6s cubic-bezier(.5, 0, .2, 1) infinite; }
+  .wy-gamelan-base .wy-gold { animation: wy-shine 1.6s ease-out infinite; }
+}
+
+@keyframes wy-shine { 0%, 45% { background-position: 140% 0; } 100% { background-position: -40% 0; } }
+@keyframes wy-rise { 0%, 40% { background-position: 0 -40%; } 100% { background-position: 0 140%; } }
+@keyframes wy-sway { 0%, 100% { transform: rotate(-1.2deg); } 25%, 75% { transform: translateY(-.7%) rotate(0); } 50% { transform: rotate(1.2deg); } }
+@keyframes wy-float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-3%) rotate(1deg); } }
+@keyframes wy-hover { 0%, 100% { transform: translateY(2%) rotate(-1.2deg); } 50% { transform: translateY(-4%) rotate(1deg); } }
+@keyframes wy-soar { 0%, 100% { transform: translateY(2%) rotate(-2deg) scale(1); } 50% { transform: translateY(-4%) rotate(1.5deg) scale(1.03); } }
+@keyframes wy-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.015); } }
+@keyframes wy-bloom { 0%, 100% { transform: scale(1); } 40% { transform: scale(1.06); } 60% { transform: scale(1.04); } }
+@keyframes wy-bloom-l { 0%, 100% { transform: scale(1) rotate(0); } 45% { transform: scale(1.05) rotate(-4deg); } }
+@keyframes wy-bloom-r { 0%, 100% { transform: scale(1) rotate(0); } 45% { transform: scale(1.05) rotate(4deg); } }
+@keyframes wy-dancer-armR { 0%, 100% { transform: rotate(4deg); } 42% { transform: rotate(-9deg); } 52% { transform: rotate(-6.5deg); } 60% { transform: rotate(-8deg); } }
+@keyframes wy-dancer-armL { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+@keyframes wy-warrior-upper { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-7deg); } }
+@keyframes wy-warrior-fore { 0%, 100% { transform: rotate(4deg); } 50% { transform: rotate(-12deg); } }
+@keyframes wy-strike { 0%, 100% { transform: rotate(0); } 55% { transform: rotate(7deg); } 85% { transform: rotate(-.6deg); } }
+
+html.wayang-paused .wy *, html.wayang-paused .wy { animation-play-state: paused !important; }
+
+/* 'once' drawings (data-once): one pass of about 4.8 s when they come into view, starting and ending at rest;
+   wayang.js starts it, and plays it again on hover or tap */
+@media (prefers-reduced-motion: no-preference) {
+  .wy-once .wy-fig, .wy-once .wy-l, .wy-once .wy-gold { animation-duration: 4.8s !important; animation-iteration-count: 1 !important;
+    animation-fill-mode: both !important; animation-delay: 0s !important; }
+  .wy-once .wy-gamelan-mallets, .wy-once.wy-gamelan .wy-gamelan-base .wy-gold { animation-duration: 1.6s !important; animation-iteration-count: 3 !important; }
+  .wy-once.wy-flower .wy-l:not(.wy-flower-base) { animation-duration: 3.4s !important; }
+  .wy-once .wy-flower-leafL, .wy-once .wy-flower-leafR { animation-delay: .35s !important; }
+  .wy-once .wy-flower-centre { animation-delay: .7s !important; }
+  .wy-once .wy-flower-flowerL, .wy-once .wy-flower-flowerR { animation-delay: 1s !important; }
+  .wy-once .wy-flower-top { animation-delay: 1.35s !important; }
+}
+.wy-once { cursor: default; }
+
+/* a drawing beside a page's title: <div class="wy-head"><h1>…</h1><span data-wayang="…" data-once data-decor style="--wy-w:140px"></span></div> */
+.wy-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.wy-head > h1 { margin: 0; }
+.wy-head > [data-wayang] { flex: none; }
+.wy-head .wy { --ww: var(--wy-w, 140px); }
+.wy-head.wy-centre { flex-direction: column; justify-content: center; gap: 12px; }
+@media (max-width: 600px) { .wy-head .wy { --ww: calc(var(--wy-w, 140px) * .6); } }
+
+/* About page: text beside the dancer, dancer under the text on phones */
+.about-hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px 48px; align-items: center; }
+.about-hero .wy { --ww: 200px; }
+/* hold the dancer's box before wayang.js builds her (no layout shift on the one-column phone layout) */
+.about-hero > [data-wayang]:empty { display: block; width: 200px; aspect-ratio: 356 / 633; }
+@media (max-width: 760px) { .about-hero > [data-wayang]:empty { width: 150px; } }
+@media (max-width: 760px) { .about-hero { grid-template-columns: minmax(0, 1fr); } .about-hero .wy { --ww: 150px; } .about-hero > [data-wayang] { justify-self: center; } }
+
+/* shop: the keris under the Collections line */
+.shop-keris { display: block; margin-top: 10px; }
+.shop-keris .wy { --ww: 200px; }
+@media (max-width: 600px) { .shop-keris .wy { --ww: 150px; } }
+
+/* App: the wayang screen (kelir) that passes over every main screen change, with that screen's drawing (app.html
+   kelir(); storyboard B1). Lamp-led and light: the blencong blooms high on the screen (it hangs above the kelir), the
+   paper cover is never fully opaque (.9) and has gone by 220 ms, so the new screen is readable early; the drawing is a
+   96 px guest in the lamp's light. 480 ms in all, never takes a tap (pointer-events: none), off for reduced motion. */
+.kelir { view-transition-name: mo-kelir; position: fixed; inset: 0; z-index: 60; pointer-events: none; display: grid; place-items: start center;
+  padding-top: calc(34vh - 48px); contain: strict; animation: kelir-gone .48s step-end both; }
+.kelir::after, .kelir::before { content: ""; position: absolute; pointer-events: none; will-change: opacity, transform; }
+.kelir::after { inset: 0; z-index: -2; background: var(--m-paper, #fff); animation: kelir-out .48s var(--tepak, cubic-bezier(.3, 0, .2, 1)) both; }
+.kelir::before { left: 50%; top: 34%; width: 64vmin; height: 64vmin; margin: -32vmin 0 0 -32vmin; z-index: -1; border-radius: 50%;
+  background: radial-gradient(closest-side, var(--m-lamp, rgba(255, 214, 140, .55)), rgba(255, 214, 140, .16) 50%, rgba(255, 214, 140, 0) 100%);
+  animation: kelir-lamp .48s var(--alon, cubic-bezier(.22, 1, .36, 1)) both; }
+.kelir .wy { --ww: 96px; width: min(var(--ww), 36vw); max-height: 30vh; will-change: transform, opacity;
+  animation: kelir-in .48s var(--alon, cubic-bezier(.22, 1, .36, 1)) both; }
+.kelir .wy-keris, .kelir .wy-gamelan { --ww: 148px; width: min(var(--ww), 52vw); }
+/* 480 ms is too short for the light over the gold: it would read as glitter */
+.kelir .wy-gold { animation: none !important; opacity: 0 !important; }
+@keyframes kelir-gone { to { visibility: hidden; } }
+/* the paper is fully opaque until the screens have swapped under it, then lifts */
+@keyframes kelir-out { 0%, 17% { opacity: 1; } 46%, 100% { opacity: 0; } }
+@keyframes kelir-lamp { 0% { opacity: 0; transform: scale(.6); } 25% { opacity: .9; transform: scale(1); } 54% { opacity: .86; } 100% { opacity: 0; transform: scale(1.1); } }
+@keyframes kelir-in { 0% { opacity: 0; transform: translateY(6px) scale(.96); } 33% { opacity: 1; transform: none; } 66% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translateY(-4px); } }
+@media (prefers-reduced-motion: reduce) { .kelir { display: none; } }
+
+/* App: the drawing on the order screen (dancer while it's made, gamelan when it's ready) */
+.conf-wy { display: block; margin: 0 auto 10px; width: max-content; position: relative; }
+/* the order screen's drawing stands in the warm light of a blencong that blooms once when the screen opens */
+.conf-wy.blencong::before { content: ""; position: absolute; left: 50%; top: 50%; width: 180%; aspect-ratio: 1; transform: translate(-50%, -50%);
+  border-radius: 50%; pointer-events: none; z-index: 0;
+  background: radial-gradient(closest-side, rgba(255, 206, 120, .55), rgba(240, 178, 74, .18) 55%, rgba(226, 178, 58, 0) 100%); }
+.conf-wy.blencong > .wy { z-index: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .conf-wy.blencong::before { animation: conf-lamp 1.1s cubic-bezier(.22, 1, .36, 1) both; }
+}
+@keyframes conf-lamp { from { opacity: 0; transform: translate(-50%, -50%) scale(.4); } }
+
+.conf-wy .wy { --ww: 84px; }
+.conf-wy .wy-gamelan { --ww: 150px; }
+
+/* App: every wayang drawing is a sticker, a white border along its own edge and a soft shadow (no box behind it) */
+.kelir .wy-fig, .conf-wy .wy-fig, .stk .wy-fig { filter: drop-shadow(2.5px 0 0 #fff) drop-shadow(-2.5px 0 0 #fff) drop-shadow(0 2.5px 0 #fff) drop-shadow(0 -2.5px 0 #fff) drop-shadow(0 3px 4px rgba(20, 22, 79, .28)); }
+
+/* App: stickers on the corner of a screen's main card (app.html stickers()) */
+.stk-host { position: relative; overflow: visible !important; }
+.stk { position: absolute; right: -6px; top: -18px; z-index: 2; transform: rotate(9deg); }
+.stk .wy { --ww: 52px; }
+.stk-keris .wy, .stk-gamelan .wy { --ww: 86px; }
+.stk-crown, .stk-garuda { transform: rotate(-8deg); }
+.stk-crown { top: 20%; bottom: auto; right: 18px; left: auto; }
+.stk-crown .wy { --ww: 58px; }
+.stk-flower { top: auto; bottom: -22px; right: 8px; }
+.stk-warrior { top: -30px; }
+
+/* Soft screen change (owner, 4 Nov: "super smooth"): no paper over the screen; one faint lamp glow, behind nothing,
+   that fades in and out while the screens cross-fade. */
+.kelir.kelir-soft { view-transition-name: none; z-index: 1; background: none !important; }
+.kelir.kelir-soft::after { display: none !important; }
+.kelir.kelir-soft::before { opacity: 0; animation: kelir-soft-glow .7s cubic-bezier(.37, 0, .63, 1) both !important; }
+@keyframes kelir-soft-glow { 0% { opacity: 0; transform: scale(.9); } 40% { opacity: .22; } 100% { opacity: 0; transform: scale(1.05); } }
+
+/* a once / idle drawing rests on its first frame until it plays (wayang.js) */
+.wy-hold, .wy-hold * { animation-play-state: paused !important; }
+
+/* Stickers move as one piece (owner, 4 Nov: the warrior's arm lost its white outline while moving). The white border is
+   a filter over the whole drawing, and phones (iOS Safari especially) don't re-rasterise it while a limb turns inside,
+   so limbs no longer move on stickers: the whole sticker floats and sways a little, on its own compositor layer, and the
+   outline always travels with it. */
+.stk .wy-l { animation: none !important; transform: none !important; }
+.stk .wy { will-change: transform; transform: translateZ(0); }
+.stk .wy-fig { will-change: transform; }
+@media (prefers-reduced-motion: no-preference) {
+  .stk .wy .wy-fig { animation: stk-float 4.8s cubic-bezier(.37, 0, .63, 1) 1 both !important; transform-origin: 50% 90%; }
+  @keyframes stk-float { 0%, 100% { transform: translateY(0) rotate(0); } 30% { transform: translateY(-4%) rotate(-3deg); } 65% { transform: translateY(-2%) rotate(2.5deg); } }
+}
