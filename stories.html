@@ -462,9 +462,12 @@ window.readTop = window.readTop || (() => (document.querySelector(".shead")?.off
   // centre each long chapter's picture column on screen, and start its text level with the picture's middle
   const fit = () => document.querySelectorAll('.st-long').forEach((w) => { const a = w.querySelector('aside'), t = w.querySelector('.st-text'), p = t && t.querySelector('p'); if (!a || !t) return;
     if (innerWidth <= 760) { w.style.removeProperty('--aside-top'); w.style.removeProperty('--text-pad'); return; }
-    const hdr = readTop();
-    const ph = a.querySelector('.arcs, .cc, .ph'); const mid = ph ? ph.getBoundingClientRect().top - a.getBoundingClientRect().top + ph.offsetHeight / 2 : a.offsetHeight / 2;
-    w.style.setProperty('--aside-top', ((innerHeight + hdr) / 2 - mid) + 'px');
+    const hdr = readTop(), ph = a.querySelector('.arcs, .cc, .ph');
+    // the picture shrinks so heading, button and picture all fit below the chapter bar
+    if (ph) { const headH = ph.getBoundingClientRect().top - a.getBoundingClientRect().top, room = innerHeight - hdr - headH - 40; ph.style.maxHeight = Math.max(220, room) + 'px'; if (ph.matches('.arcs')) ph.style.height = Math.min(room, innerHeight * .54, 560) + 'px'; else { ph.style.aspectRatio = 'auto'; ph.style.height = Math.min(room, ph.offsetWidth / 1.2) + 'px'; } }
+    const mid = ph ? ph.getBoundingClientRect().top - a.getBoundingClientRect().top + ph.offsetHeight / 2 : a.offsetHeight / 2;
+    // centred on the reading area, but never higher than just below the bar, so the heading is never cut
+    w.style.setProperty('--aside-top', Math.max(hdr + 14, (innerHeight + hdr) / 2 - mid) + 'px');
     w.style.setProperty('--text-pad', Math.max(0, mid - (p ? p.offsetHeight / 2 : 0)) + 'px'); });
   addEventListener('load', fit); addEventListener('resize', fit, { passive: true }); fit(); setTimeout(fit, 800);
 })();
