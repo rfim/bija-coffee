@@ -2,9 +2,9 @@
 :root { --mo-spring: cubic-bezier(.2,.8,.2,1); --mo-out: cubic-bezier(.2, .7, .2, 1); }
 
 /* launch: the mark draws, fills, opens like a Kawung flower, then wipes away */
-html.mo-boot body::after { content: ""; position: fixed; inset: 0; z-index: 100; background: #fff; }
-.mo-splash { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: #fff; pointer-events: none; }
-.mo-splash .mo-lk { display: grid; justify-items: center; gap: 18px; color: #0b0b0b; }
+html.mo-boot body::after { content: ""; position: fixed; inset: 0; z-index: 100; background: #111; }
+.mo-splash { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: #111; pointer-events: none; }
+.mo-splash .mo-lk { display: grid; justify-items: center; gap: 18px; color: #f4f0e7; }
 .mo-splash .mo-kw { width: 92px; height: 92px; opacity: 0; transform: scale(.86) rotate(-45deg); animation: mo-kw-in .7s var(--mo-out) .05s forwards; }
 .mo-splash .mo-wm { height: 34px; width: auto; overflow: visible; opacity: 0; transform: translateY(10px); animation: mo-wm-in .55s var(--mo-out) .45s forwards; }
 .mo-splash .mo-wm path { transform-box: fill-box; transform-origin: 50% 100%; }
