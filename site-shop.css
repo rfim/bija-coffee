@@ -769,3 +769,19 @@ a:hover > .arr circle, button:hover > .arr circle, a:focus-visible > .arr circle
 @media (max-width: 1180px) { .look-d .shead .mainnav :is(.nl, .nr, .has-pn) { display: contents; } .look-d .shead .mainnav .pn { display: none; } }
 @media (prefers-reduced-motion: reduce) { .look-d .shead .pn, .look-d .shead .pn *, .look-d .shead .pn::before { transition: none !important; } }
 @media (min-width: 1181px) and (max-width: 1500px) { .look-d .shead .mainnav a:not(.mid) { padding: 10px 10px; } }
+
+/* preview header spacing: Help on the left, Order ahead and the bag on the right, the capsule centred between them with room either side;
+   capsule and buttons share one height and one centre line, and the Kawung hangs just below the capsule */
+.look-d .shead .hleft { display: none; }
+@media (min-width: 1181px) {
+  .look-d .shead .in { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); column-gap: 20px; align-items: center; }
+  .look-d .shead .hleft { display: block; grid-column: 1; grid-row: 1; justify-self: start; }
+  .look-d .shead .hact .hlink { display: none; }
+  .look-d .shead .hlink, .look-d .shead .btn.ghost, .look-d .shead .iconbtn { height: 44px; min-height: 44px; }
+  .look-d .shead .iconbtn { width: 44px; }
+  .look-d .shead .mainnav { height: 44px; align-self: center; }
+  .look-d .shead .mainnav .nl, .look-d .shead .mainnav .nr { height: 44px; }
+  .look-d .shead .mainnav a:not(.mid) { padding: 0 11px; height: 32px; display: inline-flex; align-items: center; }
+  .look-d .shead .mainnav .mid { margin: -8px 14px; position: relative; top: 9px; }
+}
+@media (min-width: 1181px) and (max-width: 1366px) { .look-d .shead .mainnav a:not(.mid) { padding: 0 8px; font-size: 12.5px; } .look-d .shead .mainnav .mid { margin-inline: 10px; } }

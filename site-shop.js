@@ -165,6 +165,7 @@
       <span class="menuslot"><button class="iconbtn menubtn" aria-expanded="false" aria-controls="mainnav" aria-label="Menu">${ICON.menu}</button></span>
       <a class="brand" href="./" aria-label="Bija home">${ICON.mark}${WORDMARK}</a>
       <nav class="mainnav" id="mainnav" aria-label="Main">${LOOK ? capsule(here) : NAV.map(([h, l]) => `<a href="${h}" ${here === h || (h === 'shop.html' && here === 'shop.html') || (here.startsWith('product.html') && h === 'shop.html') ? 'aria-current="page"' : ''}>${l}</a>`).join('')}</nav>
+      ${LOOK ? '<div class="hleft"><a class="hlink" href="help.html">Help</a></div>' : ''}
       <div class="hact"><a class="hlink hidesm" href="help.html">Help</a><a class="btn sm ghost hidesm" href="app.html?view=app">Order ahead</a>${cartBtn()}</div>
     </div></header>`;
   }
