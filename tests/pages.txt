@@ -11,3 +11,7 @@ delivery.html
 privacy.html
 accessibility.html
 invite.html?ref=BIJA-PEGDE
+our-story.html
+concept.html
+identity.html
+people.html
