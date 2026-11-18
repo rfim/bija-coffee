@@ -851,5 +851,5 @@ a:hover > .arr svg, button:hover > .arr svg, a:focus-visible > .arr svg, .btn.ar
 @media (min-width: 1181px) { .look-d .shead .mainnav .mid svg { width: 38px; height: 38px; } }
 
 /* the first menu item is Bija's wordmark, nothing else */
-.look-d .shead .mainnav .wordmark { display: block; width: auto; height: 17px; margin: 0; color: inherit; }
+.look-d .shead .mainnav .wordmark { display: block; width: auto; height: 11px; margin: 0; color: inherit; }
 @media (max-width: 1180px) { .look-d .shead .mainnav .wordmark { height: 24px; } }
