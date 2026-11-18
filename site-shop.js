@@ -144,7 +144,12 @@
   // the website's look: floating capsule header, pill buttons, full-screen moving heroes (chosen by the owner).
   // ?look=now shows the previous look for the visit, for comparison; ?look=delta comes back.
   // page transition options: ?vt=1..5 on any link tries one for the visit (1 lift is the default until the owner picks)
-  try { const q = new URLSearchParams(location.search).get('ij'); if (/^[1-5]$/.test(q || '')) sessionStorage.setItem('bija.ij', q); const v = sessionStorage.getItem('bija.ij'); if (v) document.documentElement.dataset.ij = v; } catch {}
+  // the ij motion: each time it plays, one of 2 handshake, 3 embrace, 4 bow, 5 heartbeat at random; ?ij=1..5 fixes one for the visit
+  let IJ_FIXED = ''; try { const q = new URLSearchParams(location.search).get('ij'); if (/^[1-5]$/.test(q || '')) sessionStorage.setItem('bija.ij', q); IJ_FIXED = sessionStorage.getItem('bija.ij') || ''; } catch {}
+  const ijPick = () => { document.documentElement.dataset.ij = IJ_FIXED || String(2 + Math.floor(Math.random() * 4)); };
+  ijPick();
+  document.addEventListener('pointerover', (e) => { const t = e.target.closest && e.target.closest('.mid, .shead .brand, .has-pn > a, .sfoot .wordmark'); if (t && !t.contains(e.relatedTarget)) ijPick(); }, { passive: true });
+  document.addEventListener('focusin', (e) => { if (e.target.closest && e.target.closest('.mid')) ijPick(); });
   try { const v = new URLSearchParams(location.search).get('vt'); if (/^[1-5]$/.test(v || '')) { sessionStorage.setItem('bija.vt', v); document.documentElement.dataset.vt = v; } } catch {}
   const LOOK = (() => { let v = ''; try { v = new URLSearchParams(location.search).get('look') || sessionStorage.getItem('bija.look') || ''; if (v === 'delta') { sessionStorage.removeItem('bija.look'); v = ''; } else if (v === 'now') sessionStorage.setItem('bija.look', v); } catch {} return v === 'now' ? '' : 'd'; })();
   document.documentElement.classList.toggle('look-d', !!LOOK);
@@ -301,7 +306,7 @@
     // the home hero stops short of the screen's foot so the award strip shows on the first screen
     if (LOOK) { const hero = document.querySelector('main > .ed-hero'), aw = hero?.nextElementSibling; if (aw?.matches('.ed-award')) { const fit = () => { hero.style.height = innerWidth > 1000 ? Math.max(520, innerHeight - hero.getBoundingClientRect().top - scrollY - aw.offsetHeight) + 'px' : ''; }; fit(); addEventListener('resize', fit, { passive: true }); } }
     // phones: the centre mark grows into the stacked logo, the ij leaning in, once when a visit starts and on each press
-    if (LOOK) { const br = document.querySelector('.shead .brand'); if (br) { const play = () => { br.classList.remove('logo-play'); void br.offsetWidth; br.classList.add('logo-play'); };
+    if (LOOK) { const br = document.querySelector('.shead .brand'); if (br) { const play = () => { ijPick(); br.classList.remove('logo-play'); void br.offsetWidth; br.classList.add('logo-play'); };
       let first = false; try { first = !sessionStorage.getItem('bija.logo'); sessionStorage.setItem('bija.logo', '1'); } catch {}
       if (first && !reduce()) setTimeout(play, 700); br.addEventListener('pointerdown', play); br.addEventListener('animationend', (e) => { if (e.animationName === 'mlogo') br.classList.remove('logo-play'); }); } }
     // preview menu panels: open on hover, keyboard focus or a first tap (tablets have no hover); stay open while the pointer moves
