@@ -150,17 +150,24 @@
   const CAP = [['stories.html', 'Bija'], ['shop.html', 'Shop'], ['gifts.html', 'Gifts'], ['offices.html', 'Events'], ['rewards.html', 'Rewards'], ['visit.html', 'Visit']];
   const PANELS = {
     'stories.html': ['Bija', [['stories.html', 'Coffee stories', 'bromo-engraving'], ['stories.html#roots', 'Indonesian roots', 'kerinci'], ['stories.html#community', 'Communities', 'living-wall']]],
-    'shop.html': ['Shop', [['shop.html', 'All coffee', 'bag-old-brown-java'], ['subscribe.html', 'The Beans Club', 'bag-mandheling'], ['find.html', 'Find your kopi', 'cups']]],
+    'shop.html': ['Shop by island', 'islands'],
     'visit.html': ['Visit Bija', [['visit.html', 'Find us in Piccadilly', 'shopfront'], ['menu.html', 'The café menu', 'kopi-tubruk'], ['events.html', "What's on", 'interior']]],
   };
   // artwork, labels and bags are shown whole inside the card; landscape photos fill it
   const WHOLE = new Set(['bag-old-brown-java', 'bag-mandheling', 'cups', 'bromo-engraving', 'house-blend-tile', 'identity-tile', 'kopi-tubruk', 'card-aceh-gayo']);
+  // the Shop panel: our coffees by island, as on the Indonesian roots page
+  const ISLANDS = [
+    ['Sumatra', 'Mount Kerinci', 'kerinci', ['mandheling', 'lintong', 'gayo']],
+    ['Java', 'Mount Bromo', 'bromo', ['java', 'house']],
+    ['Bali', 'Mount Batur', 'batur', ['kintamani']],
+  ];
+  const islandsPanel = () => `<span class="pn-g pn-isl">${ISLANDS.map(([isl, mt, img, ids], i) => `<span class="isl" style="--i:${i}"><a class="isl-h" href="stories.html#roots"><img src="photos/shop/${img}-600.webp" alt="" loading="lazy" decoding="async"><small>${mt}</small><b>${isl}</b></a>${ids.map((id) => { const p = byId(id); return p ? `<a class="isl-c" href="product.html?id=${id}">${p.name}${p.soon ? ' <em>soon</em>' : ''}</a>` : ''; }).join('')}</span>`).join('')}</span><span class="pn-f"><span><a href="shop.html">All coffee</a><a href="subscribe.html">The Beans Club</a><a href="find.html">Find your kopi</a></span><span>Roasted with Kindred Forest</span></span>`;
   function capsule(here) {
     const link = ([h, l]) => {
       const pn = PANELS[h], cur = here === h || (h === 'shop.html' && /^(product|subscribe|find)\.html/.test(here)) || (h === 'stories.html' && here.startsWith('stories.html')) || (h === 'visit.html' && /^(menu|events)\.html/.test(here)) ? ' aria-current="page"' : '';
       if (!pn) return `<a href="${h}"${cur}>${l}</a>`;
       const lab = l === 'Bija' ? `<span class="vh">Bija</span>${WORDMARK}` : l;
-      return `<span class="has-pn"><a href="${h}"${cur} aria-haspopup="true" aria-expanded="false">${lab}<i class="crt" aria-hidden="true"></i></a><span class="pn" role="group" aria-label="${pn[0]}"><b class="pn-t">${pn[0]}</b><span class="pn-g">${pn[1].map(([ph, pl, img], i) => `<a href="${ph}" style="--i:${i}"><img${WHOLE.has(img) ? ' class="whole"' : ''} src="photos/shop/${img}-600.webp" alt="" loading="lazy" decoding="async"><span>${pl}</span></a>`).join('')}</span><span class="pn-f"><span><a href="https://www.instagram.com/bija.london/" rel="noopener">Instagram</a><a href="https://www.tiktok.com/@bijalondon" rel="noopener">TikTok</a></span><span>© Bija Coffee</span></span></span></span>`;
+      return `<span class="has-pn"><a href="${h}"${cur} aria-haspopup="true" aria-expanded="false">${lab}<i class="crt" aria-hidden="true"></i></a><span class="pn" role="group" aria-label="${pn[0]}"><b class="pn-t">${pn[0]}</b>${pn[1] === 'islands' ? islandsPanel() : `<span class="pn-g">${pn[1].map(([ph, pl, img], i) => `<a href="${ph}" style="--i:${i}"><img${WHOLE.has(img) ? ' class="whole"' : ''} src="photos/shop/${img}-600.webp" alt="" loading="lazy" decoding="async"><span>${pl}</span></a>`).join('')}</span><span class="pn-f"><span><a href="https://www.instagram.com/bija.london/" rel="noopener">Instagram</a><a href="https://www.tiktok.com/@bijalondon" rel="noopener">TikTok</a></span><span>© Bija Coffee</span></span>`}</span></span>`;
     };
     return `<span class="nl">${CAP.slice(0, 3).map(link).join('')}</span><a class="mid" href="./" aria-label="Bija home"><span class="mid-k">${ICON.mark}</span><span class="mid-w">${WORDMARK}</span></a><span class="nr">${CAP.slice(3).map(link).join('')}</span>`;
   }
