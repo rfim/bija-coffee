@@ -144,8 +144,8 @@
   // the website's look: floating capsule header, pill buttons, full-screen moving heroes (chosen by the owner).
   // ?look=now shows the previous look for the visit, for comparison; ?look=delta comes back.
   // page transition options: ?vt=1..5 on any link tries one for the visit (1 lift is the default until the owner picks)
-  // the Kerinci card's motion (?kfx=1..3 for the visit): 1 breathe (default), 2 dawn, 3 depth
-  try { const q = new URLSearchParams(location.search).get('kfx'); if (/^[1-3]$/.test(q || '')) sessionStorage.setItem('bija.kfx', q); document.documentElement.dataset.kfx = sessionStorage.getItem('bija.kfx') || '1'; } catch { document.documentElement.dataset.kfx = '1'; }
+  // the Kerinci card's motion: each visit picks one of 1 breathe, 2 dawn, 3 depth at random and keeps it for the visit (?kfx=1..3 fixes one)
+  try { const q = new URLSearchParams(location.search).get('kfx'); if (/^[1-3]$/.test(q || '')) sessionStorage.setItem('bija.kfx', q); let v = sessionStorage.getItem('bija.kfx'); if (!v) { v = String(1 + Math.floor(Math.random() * 3)); sessionStorage.setItem('bija.kfx', v); } document.documentElement.dataset.kfx = v; } catch { document.documentElement.dataset.kfx = '1'; }
   // 3 depth: the card leans towards the pointer
   document.addEventListener('pointermove', (e) => { if (document.documentElement.dataset.kfx !== '3' || e.pointerType !== 'mouse') return; const c = e.target.closest && e.target.closest('.hb-tall'); document.querySelectorAll('.hb-tall').forEach((k) => { if (k !== c) { k.style.removeProperty('--rx'); k.style.removeProperty('--ry'); return; } const r = k.getBoundingClientRect(); k.style.setProperty('--ry', (((e.clientX - r.left) / r.width - .5) * 14).toFixed(2) + 'deg'); k.style.setProperty('--rx', ((.5 - (e.clientY - r.top) / r.height) * 12).toFixed(2) + 'deg'); }); }, { passive: true });
   // the ij motion: each time it plays, one of 2 handshake, 3 embrace, 4 bow, 5 heartbeat at random; ?ij=1..5 fixes one for the visit
