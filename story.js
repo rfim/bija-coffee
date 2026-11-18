@@ -13,17 +13,13 @@
   const kb = document.querySelector('.kb'), steps = kb ? [...kb.querySelectorAll('.kb-step')] : [], bars = kb ? [...kb.querySelectorAll('.kb-bar i')] : [];
   const setStep = (n) => { if (!kb || kb.dataset.s === String(n)) return; kb.dataset.s = n; steps.forEach((s, i) => s.classList.toggle('on', i === n - 1)); bars.forEach((b, i) => b.classList.toggle('on', i < n)); };
   if (kb) setStep(calm ? 5 : 1);
-  // the headline scrambles into its words, like letters settling on a departures board
-  const scramble = (el) => {
-    const nodes = []; const walk = (n) => n.childNodes.forEach((c) => { if (c.nodeType === 3 && c.textContent.trim()) nodes.push(c); else if (c.nodeType === 1) walk(c); }); walk(el);
-    const G = 'abcdefghijklmnopqrstuvwxyzKAWUNGBIJA·/ʒɪ', total = nodes.reduce((t, n) => t + n.textContent.length, 0), t0 = performance.now(), dur = 900;
-    const finals = nodes.map((n) => n.textContent);
-    const step = (now) => { const k = Math.min(1, (now - t0) / dur); let idx = 0;
-      nodes.forEach((n, ni) => { const f = finals[ni]; let out = ''; for (let c = 0; c < f.length; c++, idx++) { const ch = f[c]; out += (ch === ' ' || idx / total < k * 1.15 - .15) ? ch : G[(Math.random() * G.length) | 0]; } n.textContent = out; });
-      if (k < 1) requestAnimationFrame(step); else nodes.forEach((n, ni) => (n.textContent = finals[ni])); };
-    requestAnimationFrame(step);
-  };
-  const title = document.querySelector('.sp-hero .sp-big'); if (title && !calm) scramble(title);
+  // the hero's archive mood (?sfx=1..3 for the visit; ink by default until the owner picks)
+  { let v = '1'; try { const q = new URLSearchParams(location.search).get('sfx'); if (/^[1-3]$/.test(q || '')) sessionStorage.setItem('bija.sfx', q); v = sessionStorage.getItem('bija.sfx') || '1'; } catch {}
+    document.documentElement.dataset.sfx = v;
+    const t = document.querySelector('.sp-hero .sp-big');
+    if (t) { let n = 0; const wrap = (el) => [...el.childNodes].forEach((c) => { if (c.nodeType === 3) { const f = document.createDocumentFragment(); c.textContent.split(/(\s+)/).forEach((w) => { if (!w) return; if (/^\s+$/.test(w)) f.append(w); else { const s = document.createElement('span'); s.className = 'w'; s.style.setProperty('--i', n++); s.textContent = w; f.append(s); } }); c.replaceWith(f); } else if (c.nodeType === 1 && !c.classList.contains('w')) { c.classList.add('w'); c.style.setProperty('--i', n++); } }); wrap(t); }
+    const hero = document.querySelector('.sp-hero');
+    if (hero && v === '3') hero.insertAdjacentHTML('afterbegin', '<svg class="sx-route" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true"><path d="M60 470 C 250 380, 380 520, 520 420 S 800 160, 940 120"/><path class="ln" d="M60 470 C 250 380, 380 520, 520 420 S 800 160, 940 120"/><circle cx="60" cy="470" r="4" style="animation-delay:.2s"/><circle cx="520" cy="420" r="4" style="animation-delay:1.1s"/><circle cx="940" cy="120" r="4" style="animation-delay:2.1s"/><text x="74" y="500" style="animation-delay:.3s">Mocha</text><text x="534" y="452" style="animation-delay:1.2s">Java</text><text x="836" y="104" style="animation-delay:2.2s">St James’s</text></svg>'); }
   if (calm) { steps.forEach((s) => s.classList.add('on')); return; }
   const pols = [...document.querySelectorAll('[data-sp]')], rails = [...document.querySelectorAll('.sp-rail')];
   let q = false;
