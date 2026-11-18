@@ -1,7 +1,7 @@
 <!doctype html><html lang="en-GB"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><script>/* one layout on every phone: the design is set on the iPhone 13 Pro Max (428 points wide), so phones from 320 to 440 wide lay the page out at 428 and the browser scales it to fit. Same proportions on a 360 Galaxy, a 384 S24 Ultra or a 390 iPhone. Tablets and computers keep their own width. Android's system-bar sizes come from Capacitor in screen units, so --vpk converts them to page units. */
 (function () { try { var m = document.querySelector('meta[name=viewport]'), fit = function () { var w = Math.min(screen.width, screen.height), port = !matchMedia('(orientation: landscape)').matches; var on = w >= 320 && w <= 440 && port && w !== 428; m.setAttribute('content', on ? 'width=428,viewport-fit=cover' : 'width=device-width,initial-scale=1,viewport-fit=cover'); document.documentElement.style.setProperty('--vpk', on ? String(428 / w) : '1'); }; fit(); addEventListener('orientationchange', function () { setTimeout(fit, 60); }); } catch (e) {} })();
 /* the opening (the mark and hello) plays on every open; cover the page from the first frame so Home never flashes before it (app-motion.js lifts the cover, and so does a safety timer) */
-(function () { try { if (sessionStorage.getItem('mo.splash') || matchMedia('(prefers-reduced-motion: reduce)').matches || window.__BIJA_TEST_NO_MOTION) return; var h = document.documentElement; h.classList.add('mo-boot'); setTimeout(function () { h.classList.remove('mo-boot'); }, 2500); } catch (e) {} })();</script><meta name="theme-color" content="#111111"><meta http-equiv="Content-Security-Policy" content="base-uri 'none'; object-src 'none'"><style>:root{color-scheme:light;box-sizing:border-box;}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+(function () { try { if (sessionStorage.getItem('mo.splash') || matchMedia('(prefers-reduced-motion: reduce)').matches || window.__BIJA_TEST_NO_MOTION) return; var h = document.documentElement; h.classList.add('mo-boot'); setTimeout(function () { h.classList.remove('mo-boot'); }, 2500); } catch (e) {} })();</script><meta name="theme-color" content="#ffffff"><meta http-equiv="Content-Security-Policy" content="base-uri 'none'; object-src 'none'"><style>:root{color-scheme:light;box-sizing:border-box;}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Bija Coffee</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="robots" content="noindex, nofollow">
@@ -1549,30 +1549,6 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
 .mh-seg button { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; background: transparent; font: 600 14px var(--sans); color: var(--ink); cursor: pointer; transition: background-color .25s ease, color .25s ease; }
 .mh-seg button .mh-mark { width: 18px; height: 18px; }
 .mh-seg button[aria-selected="true"] { background: #0b0b0b; color: #fff; }
-
-/* ===== One design system with the website: cream paper, ink black, the serif for headings, the dark header and a dark
-   capsule bar like the website's menu. Customer app only; the back office keeps its working look ===== */
-body:not(.barista-view) { --paper: #f4f0e7; --card: #ebe5d8; --tile: #ebe5d8; --ink: #111111; --muted: #6a665e; --line: rgba(17, 17, 17, .14); --accent: #111111; --accent-ink: #f4f0e7; --site-serif: 'Libre Baskerville', Georgia, serif; background: #f4f0e7; color: #111; }
-body:not(.barista-view) #main :is(h2.wn-h, h2.ptitle, .sec-h h2, .mcat h2, .mcat h3.cat-h, .sec > h2) { font: 400 24px/1.15 var(--site-serif) !important; letter-spacing: -.01em; text-transform: none; }
-body:not(.barista-view) #main .mcat-h { font: 400 24px/1.15 var(--site-serif) !important; letter-spacing: -.01em; text-transform: none; }
-body:not(.barista-view) #main .menu h4 { font: 400 17px/1.25 var(--site-serif) !important; letter-spacing: 0; }
-body:not(.barista-view) #main .name { font-family: var(--site-serif) !important; font-weight: 400 !important; letter-spacing: -.01em; }
-/* the header: the website's dark, with the cream Kawung and wordmark */
-body:not(.barista-view) .top { background: #111 !important; color: #f4f0e7; border-bottom: 0 !important; box-shadow: 0 1px 0 rgba(244, 240, 231, .08); }
-@media (max-width: 760px) { body:not(.barista-view) .top { left: 0; right: 0; padding-left: max(16px, var(--sa-left, 0px)) !important; padding-right: max(16px, var(--sa-right, 0px)) !important; } }
-body:not(.barista-view) .top :is(.logo, .mark, .brand, .brand h1, .wordmark, .site-link) { color: #f4f0e7 !important; }
-body:not(.barista-view) .top .mark svg { color: #f4f0e7; }
-body:not(.barista-view) .top .mark :is(circle, path) { stroke: currentColor; }
-body:not(.barista-view) .top .hav { background: #f4f0e7 !important; color: #111 !important; }
-body:not(.barista-view) .top .hav svg { color: #111; }
-/* the bar: a dark capsule like the website's menu, the Order button a dark disc with the cream Kawung */
-body:not(.barista-view) .bnav { background: rgba(17, 17, 17, .92) !important; border: 0 !important; box-shadow: 0 10px 30px rgba(0, 0, 0, .22) !important; backdrop-filter: blur(12px); }
-body:not(.barista-view) .bnav button.side { color: rgba(244, 240, 231, .62) !important; }
-body:not(.barista-view) .bnav button.side :is(svg, .ico) { color: inherit; }
-body:not(.barista-view) .bnav button.side[aria-current="page"], body:not(.barista-view) .bnav button.side.on, body:not(.barista-view) .bnav button.side[aria-pressed="true"] { color: #f4f0e7 !important; background: rgba(244, 240, 231, .1) !important; }
-body:not(.barista-view) .bnav .fab { background: #111 !important; color: #f4f0e7 !important; box-shadow: 0 0 0 4px #f4f0e7, 0 0 0 5px rgba(17, 17, 17, .14), 0 8px 20px rgba(0, 0, 0, .25) !important; }
-body:not(.barista-view) .bnav .fab + span, body:not(.barista-view) .bnav .fabw span { color: rgba(244, 240, 231, .78) !important; }
-
 </style>
 
 <div class="wrap" id="wrap">
