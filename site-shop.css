@@ -768,7 +768,7 @@ a:hover > .arr circle, button:hover > .arr circle, a:focus-visible > .arr circle
 }
 @media (max-width: 1180px) { .look-d .shead .mainnav :is(.nl, .nr, .has-pn) { display: contents; } .look-d .shead .mainnav .pn { display: none; } }
 @media (prefers-reduced-motion: reduce) { .look-d .shead .pn, .look-d .shead .pn *, .look-d .shead .pn::before { transition: none !important; } }
-@media (min-width: 1181px) and (max-width: 1500px) { .look-d .shead .mainnav a:not(.mid) { padding: 10px 10px; } }
+@media (min-width: 1181px) and (max-width: 1500px) { .look-d .shead .mainnav :is(.nl, .nr, .has-pn) > a { padding: 0 10px; } }
 
 /* preview header spacing: Help on the left, Order ahead and the bag on the right, the capsule centred between them with room either side;
    capsule and buttons share one height and one centre line, and the Kawung hangs just below the capsule */
@@ -781,7 +781,63 @@ a:hover > .arr circle, button:hover > .arr circle, a:focus-visible > .arr circle
   .look-d .shead .iconbtn { width: 44px; }
   .look-d .shead .mainnav { height: 44px; align-self: center; }
   .look-d .shead .mainnav .nl, .look-d .shead .mainnav .nr { height: 44px; }
-  .look-d .shead .mainnav a:not(.mid) { padding: 0 11px; height: 32px; display: inline-flex; align-items: center; }
+  .look-d .shead .mainnav :is(.nl, .nr, .has-pn) > a { padding: 0 11px; height: 32px; display: inline-flex; align-items: center; }
   .look-d .shead .mainnav .mid { margin: -8px 14px; position: relative; top: 9px; }
 }
-@media (min-width: 1181px) and (max-width: 1366px) { .look-d .shead .mainnav a:not(.mid) { padding: 0 8px; font-size: 12.5px; } .look-d .shead .mainnav .mid { margin-inline: 10px; } }
+@media (min-width: 1181px) and (max-width: 1366px) { .look-d .shead .mainnav :is(.nl, .nr, .has-pn) > a { padding: 0 8px; font-size: 12.5px; } .look-d .shead .mainnav .mid { margin-inline: 10px; } }
+
+/* preview home hero: a side panel of cards like the reference, in Bija's type and colours; hidden unless ?look=delta, and on phones */
+.hb { display: none; }
+@media (min-width: 1001px) {
+  .look-d .ed-hero .top { grid-template-columns: minmax(0, 1fr) minmax(0, 440px); grid-template-areas: "h hb" "c hb"; align-items: end; row-gap: 22px; }
+  .look-d .ed-hero .top > div:first-child { grid-area: h; } .look-d .ed-hero .top > div:nth-child(2) { grid-area: c; }
+  .look-d .ed-hero .top > div:nth-child(2) .lead { max-width: 52ch; }
+  .look-d .hb { grid-area: hb; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 52px 168px auto; gap: 10px; }
+  .look-d .hb a { position: relative; overflow: hidden; border-radius: 18px; background: rgba(17, 17, 17, .72); backdrop-filter: blur(12px); color: #f4f0e7; text-decoration: none; transition: transform .6s cubic-bezier(.22, 1, .36, 1), background .4s ease; }
+  .look-d .hb a:hover { transform: translateY(-3px); background: rgba(17, 17, 17, .86); }
+  .look-d .hb .hb-pill { grid-column: 1; grid-row: 1; display: flex; align-items: center; justify-content: space-between; padding: 0 18px 0 20px; border-radius: 999px; font: 400 17px/1 var(--serif); }
+  .look-d .hb .arr { width: 20px; height: 20px; margin: 0; }
+  .look-d .hb .hb-bag { grid-column: 1; grid-row: 2; display: flex; flex-direction: column; justify-content: space-between; padding: 14px 16px; }
+  .look-d .hb .hb-bag img { height: 104px; width: 100%; object-fit: contain; transition: transform .9s cubic-bezier(.22, 1, .36, 1); }
+  .look-d .hb .hb-tall { grid-column: 2; grid-row: 1 / 3; padding: 0; border: 6px solid rgba(17, 17, 17, .72); }
+  .look-d .hb .hb-tall img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 12px; transition: transform 1.2s cubic-bezier(.22, 1, .36, 1); }
+  .look-d .hb .hb-tall::after { content: ""; position: absolute; inset: 0; border-radius: 12px; background: linear-gradient(0deg, rgba(0, 0, 0, .55), transparent 50%); }
+  .look-d .hb .hb-tall span { position: absolute; z-index: 1; left: 14px; bottom: 12px; }
+  .look-d .hb span { font: 400 17px/1.2 var(--serif); }
+  .look-d .hb .hb-wide { grid-column: 1 / -1; grid-row: 3; display: grid; grid-template-columns: 150px 1fr 22px; gap: 16px; align-items: center; padding: 16px 18px 16px 16px; }
+  .look-d .hb .hb-wide img { width: 150px; height: 96px; object-fit: contain; background: #efe7d6; border-radius: 10px; padding: 6px; transition: transform .9s cubic-bezier(.22, 1, .36, 1); }
+  .look-d .hb .hb-wide b { display: block; font-weight: 400; margin-bottom: 6px; }
+  .look-d .hb .hb-wide small { display: block; font: 400 13px/1.45 var(--sans); color: rgba(244, 240, 231, .62); }
+  .look-d .hb .hb-wide .arr { align-self: start; margin-top: 2px; }
+  .look-d .hb a:hover img { transform: scale(1.04); }
+  .look-d .hb a:hover .arr svg { animation: blencong-glow 1.3s ease 1; }
+  /* the cards arrive one after another as the page opens */
+  .look-d .hb > * { animation: hb-in .9s cubic-bezier(.22, 1, .36, 1) both; } .look-d .hb > :nth-child(2) { animation-delay: .12s; } .look-d .hb > :nth-child(3) { animation-delay: .24s; } .look-d .hb > :nth-child(4) { animation-delay: .36s; }
+  @keyframes hb-in { from { opacity: 0; transform: translateY(14px); } }
+}
+@media (prefers-reduced-motion: reduce) { .look-d .hb > * { animation: none; } .look-d .hb a, .look-d .hb img { transition: none; } }
+
+/* preview menu, six items: a small caret marks the three with a panel; on phones the panel links are listed under their item */
+.look-d .shead .crt { display: inline-block; width: 6px; height: 6px; margin-left: 7px; border-right: 1.3px solid currentColor; border-bottom: 1.3px solid currentColor; transform: translateY(-2px) rotate(45deg); opacity: .7; transition: transform .4s cubic-bezier(.22, 1, .36, 1); }
+@media (min-width: 1181px) {
+  .look-d .shead .has-pn:hover .crt, .look-d .shead .has-pn:focus-within .crt { transform: translateY(1px) rotate(225deg); }
+  .look-d .shead .mainnav :is(.nl, .nr, .has-pn) > a { padding: 0 14px; }
+}
+@media (max-width: 1180px) {
+  .look-d .shead .crt { display: none; }
+  .look-d .shead .mainnav .pn { display: block; padding: 0 0 6px 18px; }
+  .look-d .shead .mainnav .pn :is(.pn-t, .pn-f, img) { display: none; }
+  .look-d .shead .mainnav .pn-g { display: block; }
+  .look-d .shead .mainnav :is(.nl, .nr, .has-pn) > a { font: 400 22px/1.15 var(--serif); padding: 16px 4px; }
+  .look-d .shead .mainnav .pn-g a { display: block; font: 400 15px/1.2 var(--sans); padding: 9px 4px; border-bottom: 0; color: rgba(244, 240, 231, .72); }
+}
+/* the hero panel lines up with the header's edges */
+.look-d .ed-hero > .wrap { width: 100%; max-width: 1440px; }
+.look-d .hb .hb-bag .pimg { background: none; height: 108px; display: grid; place-items: center; }
+.look-d .hb .hb-bag .pimg svg { height: 108px; width: auto; }
+
+/* phones: the preview hero starts below the floating header */
+@media (max-width: 1000px) { .look-d .ed-hero { height: auto !important; min-height: 100svh; } .look-d .ed-hero > .wrap { padding-top: calc(var(--hdr, 77px) + 28px); } }
+/* the award card in the hero panel: the badge on its own dark disc */
+.look-d .hb .hb-wide img.badge { width: 96px; height: 96px; padding: 0; border-radius: 50%; background: #000; object-fit: cover; transform: none; }
+@media (min-width: 1001px) { .look-d .hb .hb-wide:has(img.badge) { grid-template-columns: 96px 1fr 22px; } }

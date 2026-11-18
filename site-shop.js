@@ -142,22 +142,21 @@
   if (LOOK) document.documentElement.classList.add('look-d');
   // the preview's menu: two equal halves with the Kawung exactly in the middle; Shop, Coffee stories, Indonesian roots and Visit
   // open a panel on hover or focus, as in the reference: the capsule grows into a dark card with a title, three picture links and the socials
+  const CAP = [['stories.html', 'Bija Coffee'], ['shop.html', 'Shop'], ['gifts.html', 'Gifts'], ['offices.html', 'Events'], ['rewards.html', 'Rewards'], ['visit.html', 'Visit']];
   const PANELS = {
-    'shop.html': ['Shop Bija', [['shop.html', 'All coffee', 'bag-old-brown-java'], ['subscribe.html', 'The Beans Club', 'bag-mandheling'], ['gifts.html', 'Gifts and gift cards', 'cups']]],
-    'stories.html': ['Coffee stories', [['stories.html#java', 'How coffee reached Java', 'bromo-engraving'], ['stories.html#house', 'Two forests, one cup', 'house-blend-tile'], ['stories.html#identity', 'The seed and the pattern', 'identity-tile']]],
-    'stories.html#roots': ['Indonesian roots', [['stories.html#roots', 'Sumatra · Mount Kerinci', 'kerinci'], ['stories.html#roots', 'Java · Mount Bromo', 'bromo'], ['stories.html#roots', 'Bali · Mount Batur', 'batur']]],
+    'stories.html': ['Bija Coffee', [['stories.html', 'Coffee stories', 'bromo-engraving'], ['stories.html#roots', 'Indonesian roots', 'kerinci'], ['stories.html#community', 'Communities', 'living-wall']]],
+    'shop.html': ['Shop', [['shop.html', 'All coffee', 'bag-old-brown-java'], ['subscribe.html', 'The Beans Club', 'bag-mandheling'], ['find.html', 'Find your kopi', 'cups']]],
     'visit.html': ['Visit Bija', [['visit.html', 'Find us in Piccadilly', 'shopfront'], ['menu.html', 'The café menu', 'kopi-tubruk'], ['events.html', "What's on", 'interior']]],
   };
   // artwork, labels and bags are shown whole inside the card; landscape photos fill it
   const WHOLE = new Set(['bag-old-brown-java', 'bag-mandheling', 'cups', 'bromo-engraving', 'house-blend-tile', 'identity-tile', 'kopi-tubruk', 'card-aceh-gayo']);
   function capsule(here) {
     const link = ([h, l]) => {
-      const pn = PANELS[h], cur = here === h || (h === 'shop.html' && here.startsWith('product.html')) ? ' aria-current="page"' : '';
-      if (!pn) return `<a href="${h}"${cur}>${l === 'Events & catering' ? 'Events' : l}</a>`;
-      return `<span class="has-pn"><a href="${h}"${cur} aria-haspopup="true">${l}</a><span class="pn" role="group" aria-label="${pn[0]}"><b class="pn-t">${pn[0]}</b><span class="pn-g">${pn[1].map(([ph, pl, img], i) => `<a href="${ph}" style="--i:${i}"><img${WHOLE.has(img) ? ' class="whole"' : ''} src="photos/shop/${img}-600.webp" alt="" loading="lazy" decoding="async"><span>${pl}</span></a>`).join('')}</span><span class="pn-f"><span><a href="https://www.instagram.com/bija.london/" rel="noopener">Instagram</a><a href="https://www.tiktok.com/@bijalondon" rel="noopener">TikTok</a></span><span>© Bija Coffee</span></span></span></span>`;
+      const pn = PANELS[h], cur = here === h || (h === 'shop.html' && /^(product|subscribe|find)\.html/.test(here)) || (h === 'stories.html' && here.startsWith('stories.html')) || (h === 'visit.html' && /^(menu|events)\.html/.test(here)) ? ' aria-current="page"' : '';
+      if (!pn) return `<a href="${h}"${cur}>${l}</a>`;
+      return `<span class="has-pn"><a href="${h}"${cur} aria-haspopup="true">${l}<i class="crt" aria-hidden="true"></i></a><span class="pn" role="group" aria-label="${pn[0]}"><b class="pn-t">${pn[0]}</b><span class="pn-g">${pn[1].map(([ph, pl, img], i) => `<a href="${ph}" style="--i:${i}"><img${WHOLE.has(img) ? ' class="whole"' : ''} src="photos/shop/${img}-600.webp" alt="" loading="lazy" decoding="async"><span>${pl}</span></a>`).join('')}</span><span class="pn-f"><span><a href="https://www.instagram.com/bija.london/" rel="noopener">Instagram</a><a href="https://www.tiktok.com/@bijalondon" rel="noopener">TikTok</a></span><span>© Bija Coffee</span></span></span></span>`;
     };
-    const half = Math.ceil(NAV.length / 2);
-    return `<span class="nl">${NAV.slice(0, half).map(link).join('')}</span><a class="mid" href="./" aria-label="Bija home">${ICON.mark}</a><span class="nr">${NAV.slice(half).map(link).join('')}</span>`;
+    return `<span class="nl">${CAP.slice(0, 3).map(link).join('')}</span><a class="mid" href="./" aria-label="Bija home">${ICON.mark}</a><span class="nr">${CAP.slice(3).map(link).join('')}</span>`;
   }
   function header() {
     const here = location.pathname.split('/').pop() + location.search;
@@ -278,7 +277,7 @@
     // the redesign preview: a page that opens on a full-screen hero lets the floating header sit over it
     if (LOOK) { const first = document.querySelector('main')?.firstElementChild; if (first && first.matches('.ed-hero, .hero2')) document.documentElement.classList.add('hd-over'); }
     // the home hero stops short of the screen's foot so the award strip shows on the first screen
-    if (LOOK) { const hero = document.querySelector('main > .ed-hero'), aw = hero?.nextElementSibling; if (aw?.matches('.ed-award')) { const fit = () => { hero.style.height = Math.max(520, innerHeight - hero.getBoundingClientRect().top - scrollY - aw.offsetHeight) + 'px'; }; fit(); addEventListener('resize', fit, { passive: true }); } }
+    if (LOOK) { const hero = document.querySelector('main > .ed-hero'), aw = hero?.nextElementSibling; if (aw?.matches('.ed-award')) { const fit = () => { hero.style.height = innerWidth > 1000 ? Math.max(520, innerHeight - hero.getBoundingClientRect().top - scrollY - aw.offsetHeight) + 'px' : ''; }; fit(); addEventListener('resize', fit, { passive: true }); } }
     // after the header, footer and product cards are in place: draw the Kawung marks and measure the header
     drawMarks(); setTimeout(arrPulse, 0);
     // pages place sticky bars under the header with --hdr: keep it equal to the header's real height
