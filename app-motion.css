@@ -4,11 +4,18 @@
 /* launch: the mark draws, fills, opens like a Kawung flower, then wipes away */
 html.mo-boot body::after { content: ""; position: fixed; inset: 0; z-index: 100; background: #fff; }
 .mo-splash { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: #fff; pointer-events: none; }
-.mo-splash svg { width: 104px; height: 104px; overflow: visible; }
-.mo-splash .r circle { stroke-dasharray: 158; stroke-dashoffset: 158; animation: mo-draw .5s var(--mo-out) forwards; transform-box: fill-box; transform-origin: center; }
-.mo-splash .r circle:nth-child(2) { animation-delay: .07s; } .mo-splash .r circle:nth-child(3) { animation-delay: .14s; } .mo-splash .r circle:nth-child(4) { animation-delay: .21s; }
-.mo-splash .d circle { transform: scale(0); transform-box: fill-box; transform-origin: center; animation: mo-dot .32s var(--mo-spring) .5s forwards; }
-.mo-splash .r { animation: mo-open .4s var(--mo-out) .82s forwards; transform-origin: 50px 50px; }
+.mo-splash .mo-lk { display: grid; justify-items: center; gap: 18px; color: #0b0b0b; }
+.mo-splash .mo-kw { width: 92px; height: 92px; opacity: 0; transform: scale(.86) rotate(-45deg); animation: mo-kw-in .7s var(--mo-out) .05s forwards; }
+.mo-splash .mo-wm { height: 34px; width: auto; overflow: visible; opacity: 0; transform: translateY(10px); animation: mo-wm-in .55s var(--mo-out) .45s forwards; }
+.mo-splash .mo-wm path { transform-box: fill-box; transform-origin: 50% 100%; }
+.mo-splash.mo-ij2 .wm-i { animation: ij2-i 1.1s cubic-bezier(.45, 0, .2, 1) .85s both; } .mo-splash.mo-ij2 .wm-j { animation: ij2-j 1.1s cubic-bezier(.45, 0, .2, 1) .85s both; }
+.mo-splash.mo-ij5 .wm-i { animation: ij5-i 1.1s cubic-bezier(.45, 0, .2, 1) .85s both; } .mo-splash.mo-ij5 .wm-j { animation: ij5-j 1.1s cubic-bezier(.45, 0, .2, 1) .85s both; }
+@keyframes mo-kw-in { to { opacity: 1; transform: none; } }
+@keyframes mo-wm-in { to { opacity: 1; transform: none; } }
+@keyframes ij2-i { 0%, 100% { transform: none; } 30% { transform: translateX(14%); } 42% { transform: translateX(14%) translateY(-4%); } 54% { transform: translateX(14%) translateY(3%); } 66% { transform: translateX(14%); } }
+@keyframes ij2-j { 0%, 100% { transform: none; } 30% { transform: translateX(-10%); } 42% { transform: translateX(-10%) translateY(-4%); } 54% { transform: translateX(-10%) translateY(3%); } 66% { transform: translateX(-10%); } }
+@keyframes ij5-i { 0%, 100% { transform: none; } 20%, 50% { transform: translateX(8%) scale(1.08); } 35%, 65% { transform: translateX(4%) scale(1); } }
+@keyframes ij5-j { 0%, 100% { transform: none; } 20%, 50% { transform: translateX(-6%) scale(1.08); } 35%, 65% { transform: translateX(-3%) scale(1); } }
 .mo-splash.out { opacity: 0; transform: scale(1.06); transition: opacity .38s ease, transform .38s ease; }
 /* onboarding (app.html onbMaybe): first open, not signed in. Black, white type, the last word in a white block, the
    site's coffee photos in an arched frame. Screens leave to the side before the next arrives; words come in from soft focus. */
