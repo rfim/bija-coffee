@@ -2916,18 +2916,18 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
     const showInstall = S.demo && /^https?:$/.test(location.protocol) && !matchMedia('(display-mode: standalone)').matches && store.get('bija.install') !== 'no' && (S.installEvt || ios);
     const xmas = [9, 10, 11].includes(new Date().getMonth());
     const slides = [
-      { img: 'photos/feature-2.jpg', ey: 'Order ahead', t: 'Skip the queue', act: 'data-act="tab" data-v="order"' },
-      { img: 'photos/feature-3.jpg', ey: 'New', t: 'Scan your coffee', act: 'data-act="scan-open"' },
-      { img: 'photos/feature-1.jpg', ey: 'Introducing', t: 'The Beans Club', act: 'data-act="tab" data-v="club"' },
-      { img: 'photos/shop-2.jpg', ey: xmas ? 'Limited edition' : 'Gifts', t: `${xmas ? 'Christmas gift' : 'Gift'} cards from £5`, act: 'data-act="tab" data-v="gifts"' },
-      { img: 'photos/shop-3.jpg', ey: 'Secret St James\'s', t: 'Find the hidden streets', act: 'data-act="tab" data-v="secret"' },
+      { img: 'shop/latte-pour', pos: '50% 40%', ey: 'Order ahead', t: 'Skip the queue', act: 'data-act="tab" data-v="order"' },
+      { img: 'shop/card-aceh-gayo', pos: '50% 30%', ey: 'Scan & discover', t: 'Every bag has a story', act: 'data-act="scan-open"' },
+      { img: 'shop/bag-old-brown-java', pos: '50% 55%', ey: 'Beans Club · 10% off', t: 'Fresh beans, on repeat', act: 'data-act="tab" data-v="club"' },
+      { img: 'shop/cups', pos: '42% 50%', ey: xmas ? 'Christmas · from £5' : 'Gift cards from £5', t: xmas ? 'A gift from Indonesia' : 'Give a little Indonesia', act: 'data-act="tab" data-v="gifts"' },
+      { img: 'shop/entrance', pos: '50% 50%', ey: 'Secret St James\'s', t: 'Find the hidden lanes', act: 'data-act="tab" data-v="secret"' },
     ];
     const ini = name ? esc(name.trim().charAt(0).toLocaleUpperCase('en-GB')) : `<svg viewBox="-2 -2 104 104" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="7"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg>`;
     return `<p class="hsub">${esc(window.BijaGreet().sub)}</p>
       ${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
       ${active ? '' : S.dietEdit === 'home' ? dietNudge('home') : forYou(st)}
       <h2 class="wn-h">What's new</h2>
-      <div class="promos wn" aria-label="What's new">${slides.map((x, i) => `<button class="slide wn-c" ${x.act}>${slidePic(x.img, i)}<span class="sl"><span class="ey">${esc(x.ey)}</span><b>${esc(x.t)}</b></span></button>`).join('')}</div>
+      <div class="promos wn" aria-label="What's new">${slides.map((x, i) => `<button class="slide wn-c" ${x.act}>${slidePic(x.img, i, x.pos)}<span class="sl"><span class="ey">${esc(x.ey)}</span><b>${esc(x.t)}</b></span></button>`).join('')}</div>
       <div class="dots" aria-hidden="true">${slides.map((_, k) => `<i${k ? '' : ' class="on"'}></i>`).join('')}</div>`;
   }
   // "Your usual?": the main item of the last collected order (the priciest drink, else the priciest line); a first-timer gets the signature drink
@@ -2979,8 +2979,11 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
     return name ? `${q}, ${name.trim()}?` : `${q}?`;
   }
   // carousel photos: 600px WebP (JPEG fallback) where a smaller variant exists; only the first slide loads eagerly
-  function slidePic(src, i) {
-    const att = `alt="" decoding="async" width="600" height="480" ${i ? 'loading="lazy"' : 'fetchpriority="high"'}`;
+  function slidePic(src, i, pos) {
+    const att = `alt="" decoding="async" width="600" height="480" ${i ? 'loading="lazy"' : 'fetchpriority="high"'}${pos ? ` style="object-position:${esc(pos)}"` : ''}`;
+    // Bija's own shop photography (photos/shop): the 1200 px picture on today's phones, 600 px where that is plenty
+    const sh = String(src).match(/^shop\/([a-z0-9-]+)$/);
+    if (sh) return `<picture><source type="image/webp" srcset="photos/shop/${sh[1]}-600.webp 600w, photos/shop/${sh[1]}.webp 1200w" sizes="92vw"><img src="photos/shop/${sh[1]}.jpg" ${att}></picture>`;
     const m = String(src).match(/^photos\/(feature-\d|shop-3|founder)\.jpg$/);
     return m ? `<picture><source type="image/webp" srcset="photos/${m[1]}-600.webp"><img src="photos/${m[1]}-600.jpg" ${att}></picture>` : `<img src="${esc(src)}" ${att}>`;
   }
@@ -3795,52 +3798,53 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
   // ----- Stories: Our story, Indonesian roots and coffee stories in one place (paraphrased from Bija's own shop pages, Nov 2026) -----
   const STORIES = [
     { ch: 'Our story', id: 'idea', img: 'shopfront', eb: 'The idea', t: 'A little corner of Indonesia in London.', p: [
-      'Everything starts with the coffee: distinctive Indonesian origins, roasted with care and prepared with precision. Yet what grows around it matters just as much: a genuine welcome, an unhurried conversation, a reason to linger.',
-      'Black and white give Bija a crisp, timeless face to the street. Inside, amber light, pale wood and flower-shaped lamps soften the mood, and a living wall of succulents brings a breath of nature to the mezzanine.',
-      'We want the richness of Indonesian coffee culture to travel beyond our door: through the beans you brew at home, the stories you read and the coffee we bring to your gatherings.'] },
+      'Great Indonesian coffee, a proper welcome and a reason to stay a little longer. That’s Bija.',
+      'Black and white on the street; amber light, pale wood and flower-shaped lamps inside, with a living wall of succulents upstairs.',
+      'And beyond our door: beans for your kitchen, stories for your curiosity, coffee for your gatherings.'] },
     { ch: 'Our story', id: 'people', img: 'latte-pour', eb: 'The people', t: 'The people behind your cup.', p: [
-      'A café begins as an idea, but it only comes alive through people. Devi founded Bija with a clear ambition: to introduce more people to Indonesian specialty coffee and to give it a welcoming home in London.',
-      'Our baristas turn that idea into something you can taste, from choosing the grind to making time for a conversation, united by a wish to build a café people want to return to.'] },
+      'Devi started Bija to give Indonesian specialty coffee a home in London. Our baristas make it feel like one.',
+      'From the grind to the small talk, it’s the care in the details that brings people back.'] },
     { ch: 'Our story', id: 'seed', img: 'cups', eb: 'Our identity', t: 'A seed. A pattern. A sense of belonging.', p: [
-      'For us, the seed is a point of departure: the coffee bean, the potential it holds and the connections that can grow around a shared cup.',
-      'The repeating, interlocking forms of Batik Kawung bring an Indonesian design reference into our visual language. In the logo they resolve into a clean geometric mark: a small pattern with a generous sense of connection.',
-      'The identity stays black and white. Warm cream makes room for reading, the café’s amber light comes through in photography, and each origin card carries its own colour.'] },
-    { ch: 'Our story', id: 'award', img: 'award-2025', fit: true, bg: '#0b0b0b', eb: 'London Coffee Festival 2025', t: 'A small café. A shared milestone.', p: [
-      'Bija was named Best New Coffee Shop at the London Coffee Festival Awards 2025. The awards were decided by public vote, which made the recognition all the more meaningful.',
-      'Every visit, conversation and recommendation helped a little corner of Indonesia find its place in London. The next chapter is the everyday work: welcoming people in and sharing the character of Indonesian coffee.'] },
-    { ch: 'Indonesian roots', id: 'roots', img: 'indonesia-tile', fit: true, bg: '#0b0b0b', eb: 'Indonesian roots', t: 'Many islands. One extraordinary coffee culture.', p: [
-      'Volcanic slopes, rainforest and highland farming communities: each of Indonesia’s coffee regions has its own history and its own growing conditions.',
-      'By the USDA’s 2025/26 figures, Indonesia is the world’s fourth-largest coffee producer. A global count in November 2025, reported by IndonesiaBaik, also ranked it first for the sheer number of coffee shops, from modern cafés to the humble warung kopi.'] },
+      'Bija means seed: the bean, its potential, and everything that grows around a shared cup.',
+      'Our mark comes from Batik Kawung, four intertwined forms that resolve into one simple sign of connection.',
+      'The identity stays black and white. The colour comes from the café’s light and each origin’s card.'] },
+    { ch: 'Our story', id: 'award', img: 'award-2025', fit: true, bg: '#0b0b0b', eb: 'London Coffee Festival 2025', t: 'Best New Coffee Shop. Voted by you.', p: [
+      'Named Best New Coffee Shop at the London Coffee Festival Awards 2025, by public vote.',
+      'Every visit, chat and recommendation got us there. Thank you. Now back to the coffee.'] },
+    { ch: 'Indonesian roots', id: 'roots', img: 'indonesia-tile', fit: true, bg: '#0b0b0b', eb: 'Indonesian roots', t: 'Many islands. One coffee culture.', p: [
+      'Volcanoes, rainforest and farming families: every region brings its own history to the cup.',
+      'Indonesia is the world’s fourth-largest coffee producer (USDA, 2025/26), and by one November 2025 count, reported by IndonesiaBaik, home to more coffee shops than anywhere, from sleek cafés to the humble warung kopi.'] },
     { ch: 'Indonesian roots', id: 'sumatra', img: 'kerinci', wide: true, eb: '01 · Sumatra · Mount Kerinci', t: 'The Island of Gold.', go: 'beans', p: [
-      'Sumatra was once linked to the Sanskrit name Suvarnadvipa, the “Island of Gold”. The Bukit Barisan range runs down its western flank, where rainforest climbs into cool highlands, and the national parks of Kerinci Seblat, Gunung Leuser and Bukit Barisan Selatan shelter vital forest habitat.',
-      'Coffee spread across the island in the nineteenth century, partly through forced cultivation under Dutch colonial rule in West Sumatra. Today its growing regions, among them Aceh, Lake Toba and Kerinci, each bring their own terrain, communities and ways of processing.',
-      'From Sumatra at Bija: Sumatra Mandheling, Sumatra Lintong and, soon, Aceh Gayo.'] },
-    { ch: 'Indonesian roots', id: 'java', img: 'bromo', wide: true, eb: '02 · Java · Mount Bromo', t: 'The island that gave coffee a name.', go: 'beans', p: [
-      'Java is Indonesia’s most populous island, home to more than half the nation at the 2020 census. Beyond its cities lie farmed plains, volcanic slopes and mountain forest, with coffee flourishing in the cooler uplands.',
-      'Coffee had already travelled far to get here. Arabica is native to Ethiopia; across the Red Sea, Yemen became a hub of cultivation and trade, and the harbour of Mocha lent its name to the drink centuries before it evoked chocolate.',
-      'Arabica seedlings reached Batavia, today’s Jakarta, in 1696, but floods destroyed that first planting. A second introduction in 1699 took hold and spread through West Java’s Priangan highlands; exports began in 1711. So close did the bond become that “java” is still another word for coffee.',
-      'Around 1706 living plants were sent from Java to Amsterdam’s Hortus botanical garden, and cuttings from there helped carry cultivation across the world. These routes were also forged by colonial power: coffee enriched the Dutch East India Company while local communities bore forced cultivation and tightly controlled trade.',
-      'From Java at Bija: Old Brown Java and our House Blend.'] },
-    { ch: 'Indonesian roots', id: 'bali', img: 'batur', wide: true, eb: '03 · Bali · Mount Batur', t: 'Coffee among the clouds.', p: [
-      'In Bali’s Kintamani highlands, coffee grows more than 900 metres up the volcanic flanks of Mount Batur: cool air, fertile soil, shade trees overhead and other crops planted alongside.',
-      'The tradition reaches back to the early nineteenth century. Farmers organise through subak abian, customary groups that bind agriculture to community and spiritual life, and in 2008 Kintamani Arabica became Indonesia’s first registered geographical indication.',
-      'From Bali at Bija: Bali Kintamani, coming soon.'] },
-    { ch: 'Coffee stories', id: 'house', img: 'house-blend-tile', fit: true, bg: '#3a240f', eb: 'Our House Blend', t: 'Two forests. One considered cup.', go: 'beans', p: [
-      'Naturally processed Arabica from Cisurupan in West Java meets specialty-grade Robusta from the Petungkriyono Forest in Central Java. The Arabica supplies chocolate, grapefruit and sweet raisin; the Robusta lends a darker register of pine, spice and clove.',
-      'In Cisurupan, coffee grows in shaded home gardens, and through the Little Fireface Project farmers and conservationists protect the endangered Javan slow loris. In Petungkriyono, SwaraOwa works with the communities around the home of the Javan gibbon. Both coffees are Wildlife Friendly® certified.',
-      'Sourced and roasted with our partner Kindred Forest. Drink it black to explore its layers, or with milk for a mellower, rounder cup.'] },
-    { ch: 'Coffee stories', id: 'gayo', img: 'card-aceh-gayo', fit: true, bg: '#4a0f2a', eb: 'Coming soon', t: 'The next chapter: Aceh Gayo.', go: 'beans', p: [
-      'A rich, fruit-forward natural from the Asman Gayo Mill near Takengon, in the highlands of Aceh: cacao, cooked cranberry, cola and dried plum, with a candied sweetness and a gently boozy acidity.',
-      'The mill works with smallholders from the Pantan Musara villages, communities who rebuilt their farms after being displaced. We will tell their story more fully once the coffee arrives.'] },
-    { ch: 'Coffee stories', id: 'tubruk', img: 'kopi-tubruk', eb: 'At our counter', t: 'Kopi tubruk, and a little patience.', p: [
-      'Javanese-style coffee with the grounds in the cup. Let it settle for two minutes, then enjoy its full depth. Ask for it at the bar, alongside our Kopi Susu Aren.'] },
+      'Rainforest rising into cool highlands, and coffees with deep, wild character.',
+      'Once called Suvarnadvipa, the “Island of Gold”, Sumatra runs along the Bukit Barisan range, sheltering the forests of Kerinci Seblat, Gunung Leuser and Bukit Barisan Selatan.',
+      'Coffee spread here in the nineteenth century, partly through forced cultivation under Dutch rule. Today Aceh, Lake Toba and Kerinci each grow their own style.',
+      'Try it: Sumatra Mandheling, Sumatra Lintong and, soon, Aceh Gayo.'] },
+    { ch: 'Indonesian roots', id: 'java', img: 'bromo', wide: true, eb: '02 · Java · Mount Bromo', t: 'The island that named coffee.', go: 'beans', p: [
+      'Order a “cup of java” and you’re naming this island.',
+      'Coffee came a long way first: from Ethiopia, across the Red Sea to Yemen and the port of Mocha.',
+      'Seedlings reached Batavia, now Jakarta, in 1696; floods took the first planting, the second in 1699 took hold. Exports began in 1711.',
+      'Cuttings from Java later travelled via Amsterdam to farms around the world. The story has a darker side too: colonial forced cultivation, borne by local communities.',
+      'Try it: Old Brown Java and our House Blend.'] },
+    { ch: 'Indonesian roots', id: 'bali', img: 'batur', wide: true, eb: '03 · Bali · Mount Batur', t: 'Coffee above the clouds.', p: [
+      'Over 900 metres up Mount Batur: cool air, rich volcanic soil, coffee grown beneath shade trees.',
+      'Farmers organise through subak abian, traditional groups that tie farming to community and faith. In 2008 Kintamani Arabica became Indonesia’s first registered geographical indication.',
+      'Try it: Bali Kintamani, coming soon.'] },
+    { ch: 'Coffee stories', id: 'house', img: 'house-blend-tile', fit: true, bg: '#3a240f', eb: 'Our House Blend', t: 'Two forests. One cup.', go: 'beans', p: [
+      'Chocolate, grapefruit and raisin up front; pine, spice and clove to finish.',
+      'Natural Arabica from Cisurupan, West Java, where farmers protect the Javan slow loris. Forest Robusta from Petungkriyono, Central Java, home of the Javan gibbon. Both Wildlife Friendly® certified.',
+      'Sourced and roasted with Kindred Forest. Black to taste every layer, with milk for something rounder.'] },
+    { ch: 'Coffee stories', id: 'gayo', img: 'card-aceh-gayo', fit: true, bg: '#4a0f2a', eb: 'Coming soon', t: 'Next up: Aceh Gayo.', go: 'beans', p: [
+      'Cacao, cooked cranberry, cola and dried plum. Sweet, a little boozy, completely moreish.',
+      'A natural from the Asman Gayo Mill near Takengon, grown by smallholders in the Pantan Musara villages who rebuilt their farms after being displaced.'] },
+    { ch: 'Coffee stories', id: 'tubruk', img: 'kopi-tubruk', eb: 'At our counter', t: 'Kopi tubruk. Worth the wait.', p: [
+      'Javanese-style, grounds in the cup. Give it two minutes to settle, then enjoy every bit of depth. Ask at the bar.'] },
   ];
   const STORY_CH = ['Our story', 'Indonesian roots', 'Coffee stories'];
   function storiesPage() {
     const pic = (x) => `<picture><source type="image/webp" srcset="photos/shop/${x.img}-600.webp"><img src="photos/shop/${x.img}.jpg" alt="" loading="lazy" decoding="async"${x.fit ? ' class="fit"' : ''}></picture>`;
     return `<section class="stx">
       <span class="eyebrow">Stories</span><h2 class="stx-h">From seed to cup.</h2>
-      <p class="stx-lead">Behind each coffee we pour lies a chain of people, places and improbable voyages. Here are the ones we find ourselves telling across the counter.</p>
+      <p class="stx-lead">Every cup has a journey behind it. Here are our favourites.</p>
       <div class="stx-chips" role="navigation" aria-label="Chapters">${STORY_CH.map((c, i) => `<button data-act="st-jump" data-v="${i}">${esc(c)}</button>`).join('')}</div>
       ${STORY_CH.map((c, i) => `<h3 class="stx-ch" id="stx-ch-${i}">${esc(c)}</h3>${STORIES.filter((x) => x.ch === c).map((x) => `
         <article class="stx-card"><div class="stx-ph${x.wide ? ' wide' : ''}"${x.bg ? ` style="background:${x.bg}"` : ''}>${pic(x)}</div>
@@ -3864,16 +3868,16 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
     const order = [1, 2, 3, 4, 5, 6, 0], full = { Sun: 'Sunday', Mon: 'Monday', Tue: 'Tuesday', Wed: 'Wednesday', Thu: 'Thursday', Fri: 'Friday', Sat: 'Saturday' };
     return `<section class="stx vx">
       <div class="vx-hero">${shopPic('shopfront', 'Bija’s shopfront on St James’s Market')}</div>
-      <span class="eyebrow">Visit Bija</span><h2 class="stx-h">Your coffee stop in Piccadilly.</h2>
+      <span class="eyebrow">Visit Bija</span><h2 class="stx-h">Come and see us.</h2>
       <p class="vx-open ${o.open ? 'on' : ''}" role="status"><i aria-hidden="true"></i>${esc(o.text)}</p>
-      <p class="stx-lead">2a St James’s Market, London SW1Y 4AH. Two minutes on foot from Piccadilly Circus and the Eros statue.</p>
+      <p class="stx-lead">2a St James’s Market, SW1Y 4AH. Two minutes from Piccadilly Circus.</p>
       <div class="vx-acts"><a class="btn" href="${MAPS}" target="_blank" rel="noopener">Directions</a><a class="btn ghost" href="tel:+442046033086">Call</a></div>
       <h3 class="stx-ch">Opening hours</h3>
       <ul class="vx-hours">${order.map((d) => `<li${d === today ? ' class="now"' : ''}><span>${full[DAYS[d]]}</span><span>${ukTime(HOURS[d][0])} – ${ukTime(HOURS[d][1])}</span></li>`).join('')}</ul>
       <h3 class="stx-ch">Getting here</h3>
       <ul class="vx-hours"><li><span>Piccadilly Circus</span><span>2 min · Piccadilly, Bakerloo</span></li><li><span>Leicester Square</span><span>7 min · Piccadilly, Northern</span></li></ul>
       <h3 class="stx-ch">Inside</h3>
-      <p class="stx-lead">We opened our doors in November 2024. Warm lighting, pale wood and our flower-shaped lamps set the mood, and upstairs a living wall of succulents brings greenery to the mezzanine. Try kopi tubruk, Kopi Susu Aren or a turmeric drink, with cakes, pastries and light bites.</p>
+      <p class="stx-lead">Open since November 2024. Warm light, pale wood, flower-shaped lamps and a living wall upstairs. Come for kopi tubruk or a Kopi Susu Aren; stay for the cake.</p>
       <div class="vx-strip">${['interior', 'living-wall', 'window', 'entrance', 'cups'].map((x) => `<div>${shopPic(x)}</div>`).join('')}</div>
       <h3 class="stx-ch">What people say</h3>
       <div class="vx-rev">${REVIEWS.map(([q, w]) => `<figure><span aria-label="Five stars">★★★★★</span><blockquote>${esc(q)}</blockquote><figcaption>${esc(w)}</figcaption></figure>`).join('')}</div>
@@ -3884,7 +3888,7 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
     const card = (h, t) => `<div><h4>${esc(h)}</h4><p>${esc(t)}</p></div>`;
     return `<section class="stx">
       <span class="eyebrow">Community</span><h2 class="stx-h">Come for the coffee. Find your people.</h2>
-      <p class="stx-lead">Runners, cyclists, neighbours and musicians all spend time at Bija. The coffee brings us together; the people make each visit their own.</p>
+      <p class="stx-lead">Runners, riders, neighbours, musicians. The coffee brings us together; you make it Bija.</p>
       <article class="stx-card"><div class="stx-ph" style="background:#0b0b0b">${shopPic('award-2025', 'Best New Coffee Shop, London Coffee Festival Awards 2025', 'fit')}</div><div class="stx-tx"><span class="eyebrow">London Coffee Festival 2025</span><h4>Best New Coffee Shop</h4><p>Decided by public vote, and shared with everyone who has made Bija part of their day.</p><button class="btn sm ghost" data-act="tab" data-v="stories">Read the story</button></div></article>
       <h3 class="stx-ch">Around the café</h3>
       <div class="cx-grid">
@@ -3916,7 +3920,7 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
     return `<section class="stx">
       <div class="vx-hero">${shopPic('catering', 'Bija coffee and pastries laid out for a meeting', 'low')}</div>
       <span class="eyebrow">Events &amp; catering</span><h2 class="stx-h">Coffee with character, served with soul.</h2>
-      <p class="stx-lead">We bring Bija’s Indonesian coffee to corporate meetings, conferences and private celebrations: anything from delivered coffee and pastries to a full signature-drinks service, with equipment, trained baristas and set-up planned around your timings.</p>
+      <p class="stx-lead">From coffee and pastries at your meeting to a full signature-drinks bar at your party. Kit, baristas and set-up all handled.</p>
       <h3 class="stx-ch">Packages</h3>
       ${PACKS.map((k) => `<article class="ex-pack"><span class="eyebrow">${esc(k.who)}</span><h4>${esc(k.id)}</h4><p class="ex-price"><b>${esc(k.price)}</b> · ${esc(k.min)}</p><ul>${k.inc.map((x) => `<li>${esc(x)}</li>`).join('')}</ul><button class="btn sm ghost" data-act="ev-pack" data-v="${esc(k.id)}">Choose ${esc(k.id)}</button></article>`).join('')}
       <p class="stx-lead ex-fine">Every package can be tailored. Final prices depend on the length of the event, guest numbers and service; VAT for Business+ is confirmed in your quote.</p>
@@ -5110,10 +5114,10 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
     }
     const W = (t) => t.split(' ').map((w, i, a) => `<span class="ob-w${i === a.length - 1 ? ' ob-hl' : ''}" style="--i:${i}">${esc(w)}</span>`).join(' ');
     const P = [
-      { h: 'Skip the queue.', p: "Order on your way and collect at the bar in St James's Market.", img: 'photos/shop/cups.webp', pos: '58% 50%' },
-      { h: 'Earn as you sip.', p: '10 points for every £1, plus stamps and rewards on your Bija Card.', img: 'photos/shop/latte-pour.webp', pos: '50% 45%' },
-      { h: 'Beans at home.', p: 'Subscribe in a few taps. 10% off and free UK delivery.', img: 'photos/shop/bag-mandheling.webp', pos: '50% 50%' },
-      { h: 'Make it yours.', p: 'Save your usual, keep your points and see every order in one place.' },
+      { h: 'Skip the queue.', p: 'Order on your way. Collect at the bar.', img: 'photos/shop/cups.webp', pos: '58% 50%' },
+      { h: 'Earn as you sip.', p: '10 points per £1, a stamp on every drink, the tenth on us.', img: 'photos/shop/latte-pour.webp', pos: '50% 45%' },
+      { h: 'Beans at home.', p: '10% off, free UK delivery. Pause any time.', img: 'photos/shop/bag-old-brown-java.webp', pos: '50% 55%' },
+      { h: 'Make it yours.', p: 'Your usual, your points, every order. One place.' },
     ];
     const o = document.createElement('div'); o.className = 'ob'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true'); o.setAttribute('aria-label', 'Welcome to Bija'); o.tabIndex = -1;
     o.innerHTML = `<div class="ob-top"><button class="ob-back" type="button" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H5M11 6l-6 6 6 6"/></svg></button><button class="ob-skip" type="button">Skip</button></div>`
