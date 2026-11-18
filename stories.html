@@ -249,6 +249,32 @@ main.stage .exh { background: transparent !important; transition: color .8s ease
 .st-more { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 30px !important; opacity: 1 !important; }
 @media (max-width: 760px) { .exh .arcs { height: 56vw; min-height: 240px; } .exh .st-long aside { position: sticky !important; top: calc(var(--hdr, 77px) + 64px) !important; z-index: 2; background: inherit; padding-bottom: 12px; } .exh.ed-cream .st-long aside { background: var(--paper); } .exh.ed-dark .st-long aside { background: var(--inv); } .exh .st-long aside h2 { font-size: 24px; margin: 4px 0 8px; } .exh .st-long aside .eyebrow, .exh .vo-btn { display: none; } .exh .arc figcaption small { display: none; } }
 @media (prefers-reduced-motion: reduce) { .exh .arc, .exh .arc-ph img { transition: none; } }
+
+/* ===== the opening: Mount Kerinci shown whole at its true panoramic shape, so it stays sharp at every size; the dusk sky above
+   carries the words, and the mountain breathes: summit smoke, low cloud drifting through the valleys, first light passing ===== */
+.look-d .st-hero { height: auto !important; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0; background: linear-gradient(#0e0f12 0%, #1a1c21 45%, #2b2d33 100%); }
+.look-d .st-hero > .wrap { position: relative; padding: calc(var(--hdr, 77px) + clamp(36px, 7vh, 90px)) clamp(16px, 3vw, 40px) 0; max-width: 1440px; }
+.look-d .st-hero .top { position: relative; z-index: 3; align-items: end; padding-bottom: clamp(8px, 2vh, 24px); }
+.look-d .st-hero .ph.kv { position: relative; inset: auto; margin: 0 calc(50% - 50vw); width: 100vw; border-radius: 0; aspect-ratio: auto; background: none; overflow: visible; }
+.look-d .st-hero .ph.kv::after { display: none; }
+.kv-frame { position: relative; overflow: hidden; aspect-ratio: 2172 / 724; -webkit-mask: linear-gradient(transparent 0, #000 22%, #000 88%, transparent); mask: linear-gradient(transparent 0, #000 22%, #000 88%, transparent); }
+.kv-frame picture, .kv-frame img { position: absolute; inset: 0; width: 100% !important; height: 100% !important; object-fit: cover; display: block; }
+.look-d .st-hero .kv-frame img { animation: kv-dawn 3.2s ease both, kv-drift 26s ease-in-out 3.2s infinite alternate !important; transform-origin: 44% 45%; }
+@keyframes kv-dawn { from { filter: brightness(.45) saturate(.6); transform: scale(1.03); } to { filter: none; transform: scale(1.03); } }
+@keyframes kv-drift { from { transform: scale(1.03); } to { transform: scale(1.06) translateX(-.6%); } }
+.kv-smoke i { position: absolute; left: 43.6%; top: 44%; width: var(--s); height: var(--s); margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2); border-radius: 50%; background: radial-gradient(closest-side, rgba(238, 232, 222, .75), rgba(238, 232, 222, 0)); filter: blur(3px); opacity: 0; animation: kv-puff 5.5s ease-out var(--d) infinite; }
+@keyframes kv-puff { 0% { opacity: 0; transform: translate(0, 0) scale(.5); } 18% { opacity: .9; } 100% { opacity: 0; transform: translate(var(--dx), -18vh) scale(3.2); } }
+.kv-cloud { position: absolute; left: -30%; width: 160%; pointer-events: none; background: radial-gradient(40% 50% at 30% 50%, rgba(235, 228, 220, .5), transparent 70%), radial-gradient(35% 45% at 75% 55%, rgba(235, 228, 220, .4), transparent 70%); filter: blur(10px); }
+.kv-cloud.c1 { top: 58%; height: 22%; animation: kv-cloud 70s linear infinite; }
+.kv-cloud.c2 { top: 70%; height: 18%; opacity: .7; animation: kv-cloud 95s linear -40s infinite reverse; }
+@keyframes kv-cloud { from { transform: translateX(-12%); } to { transform: translateX(12%); } }
+.kv-light { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: soft-light; background: radial-gradient(30% 60% at var(--lx, 20%) 40%, rgba(255, 214, 160, .55), transparent 70%); animation: kv-light 16s ease-in-out infinite alternate; }
+@keyframes kv-light { from { --lx: 15%; } to { --lx: 80%; } }
+@property --lx { syntax: '<percentage>'; inherits: false; initial-value: 20%; }
+.kv-cap { position: absolute; right: clamp(16px, 3vw, 40px); bottom: 14%; z-index: 2; font: italic 400 13px/1 var(--serif); color: rgba(244, 240, 231, .7); }
+.look-d .st-hero .ed-wy-garuda { top: -6%; right: 7%; z-index: 3; }
+@media (max-width: 760px) { .look-d .st-hero { justify-content: flex-start; min-height: 0; } .look-d .st-hero > .wrap { padding-top: calc(var(--hdr, 77px) + 32px); } .look-d .st-hero .lead { font-size: 15px; } .kv-frame { aspect-ratio: 4 / 3; margin-top: -4%; } .kv-frame img { object-position: 44% 50%; } .kv-smoke i { left: 44%; } .kv-cap { bottom: 10%; font-size: 12px; } .look-d .st-hero .ed-wy-garuda { display: none; } }
+@media (prefers-reduced-motion: reduce) { .look-d .st-hero .kv-frame img, .kv-smoke i, .kv-cloud, .kv-light { animation: none !important; } .kv-smoke i { display: none; } }
 </style>
 </head>
 <body class="shop-page">
@@ -261,7 +287,7 @@ main.stage .exh { background: transparent !important; transition: color .8s ease
 <div><span class="eyebrow">Coffee stories</span><h1 id="h">Every cup has a past.</h1></div>
 <div><p class="lead">Behind each coffee we pour lies a chain of people, places and improbable voyages. These are the stories we find ourselves telling across the counter, set down here for anyone curious enough to follow a bean back to where it began.</p></div>
 </div>
-<div class="ph ed-sky"><span class="ed-wy ed-wy-garuda" data-decor="" data-once="" data-wayang="garuda"></span><picture><source sizes="100vw" srcset="photos/shop/kerinci-600.webp 600w, photos/shop/kerinci.webp 1200w, photos/shop/kerinci-2048.webp 2172w" type="image/webp"/><img alt="Mount Kerinci, Sumatra, above the clouds" decoding="async" fetchpriority="high" height="400" src="photos/shop/kerinci.jpg" width="1200"/></picture></div>
+<div class="ph ed-sky kv"><span class="ed-wy ed-wy-garuda" data-decor="" data-once="" data-wayang="garuda"></span><div class="kv-frame"><picture><source sizes="100vw" srcset="photos/shop/kerinci-600.webp 600w, photos/shop/kerinci.webp 1200w, photos/shop/kerinci-2048.webp 2172w" type="image/webp"/><img alt="Mount Kerinci, Sumatra, at first light above the clouds" decoding="async" fetchpriority="high" width="2172" height="724" src="photos/shop/kerinci-2048.webp"/></picture><span class="kv-smoke" aria-hidden="true"><i style="--d:0s;--dx:-30px;--s:46px"></i><i style="--d:1.1s;--dx:-12px;--s:38px"></i><i style="--d:2.2s;--dx:-40px;--s:54px"></i><i style="--d:3.3s;--dx:-20px;--s:42px"></i><i style="--d:4.4s;--dx:-48px;--s:50px"></i></span><span class="kv-cloud c1" aria-hidden="true"></span><span class="kv-cloud c2" aria-hidden="true"></span><span class="kv-light" aria-hidden="true"></span></div><span class="kv-cap" aria-hidden="true">Mount Kerinci, Sumatra · 3,805 m</span></div>
 </div>
 </section>
 <nav aria-label="Chapters" class="ed-dark st-toc">
