@@ -150,7 +150,7 @@
   ijPick();
   document.addEventListener('pointerover', (e) => { const t = e.target.closest && e.target.closest('.mid, .shead .brand, .has-pn > a, .sfoot .wordmark'); if (t && !t.contains(e.relatedTarget)) ijPick(); }, { passive: true });
   document.addEventListener('focusin', (e) => { if (e.target.closest && e.target.closest('.mid')) ijPick(); });
-  try { const v = new URLSearchParams(location.search).get('vt'); if (/^[1-5]$/.test(v || '')) { sessionStorage.setItem('bija.vt', v); document.documentElement.dataset.vt = v; } } catch {}
+  try { const v = new URLSearchParams(location.search).get('vt'); if (/^([1-9]|1[0-5])$/.test(v || '')) { sessionStorage.setItem('bija.vt', v); document.documentElement.dataset.vt = v; } } catch {}
   const LOOK = (() => { let v = ''; try { v = new URLSearchParams(location.search).get('look') || sessionStorage.getItem('bija.look') || ''; if (v === 'delta') { sessionStorage.removeItem('bija.look'); v = ''; } else if (v === 'now') sessionStorage.setItem('bija.look', v); } catch {} return v === 'now' ? '' : 'd'; })();
   document.documentElement.classList.toggle('look-d', !!LOOK);
   // the preview's menu: two equal halves with the Kawung exactly in the middle; Shop, Coffee stories, Indonesian roots and Visit
