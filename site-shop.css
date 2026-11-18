@@ -1058,3 +1058,15 @@ html[data-vt="15"]::view-transition-new(root) { animation: vt-lamp-in 1.1s ease 
   .look-d .shead .pn-isl .isl-c { padding: 7px 0; font-size: 12.5px; }
 }
 @media (min-width: 1181px) { .look-d .shead .pn-t .wordmark { display: block; height: 30px; width: auto; color: #f4f0e7; margin-top: 2px; } }
+/* the centre disc sits on the capsule's centre line, standing out the same amount above and below */
+@media (min-width: 1181px) {
+  .look-d .shead .mainnav .mid { top: 0; margin: -8px 14px; align-self: center; }
+  .look-d .shead .mainnav .mid::before { top: 0; height: 60px; -webkit-mask-image: none; mask-image: none; background: rgba(17, 17, 17, .78); box-shadow: none; }
+  .look-d .shead .mainnav .mid::after { top: 30px; }
+}
+@media (min-width: 1181px) { .look-d .shead .mainnav .mid::before { -webkit-mask-image: linear-gradient(#000 8px, transparent 8px, transparent 52px, #000 52px); mask-image: linear-gradient(#000 8px, transparent 8px, transparent 52px, #000 52px); } }
+@media (min-width: 1181px) {
+  .look-d .shead .mainnav .mid::after { top: 52px; height: 52px; border-radius: 0 0 30px 30px; transform: scaleY(.15); transform-origin: top center; }
+  .look-d .shead .mainnav .mid:is(:hover, :focus-visible)::before { opacity: 1; -webkit-mask-image: linear-gradient(#000 8px, transparent 8px); mask-image: linear-gradient(#000 8px, transparent 8px); }
+  .look-d .shead .mainnav .mid .mid-w { top: 60px; }
+}
