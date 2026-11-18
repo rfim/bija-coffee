@@ -263,9 +263,26 @@
       els.forEach((el) => io.observe(el));
     }
     // rotate the announcement messages
-    const msgs = [...document.querySelectorAll('.announce .msg')];
-    if (msgs.length > 1 && !reduce()) { let i = 0; setInterval(() => { if (document.hidden || msgs[i].contains(document.activeElement)) return; msgs[i].setAttribute('aria-hidden', 'true'); msgs[i].inert = true; i = (i + 1) % msgs.length; msgs[i].removeAttribute('aria-hidden'); msgs[i].inert = false; }, 5000); }
-    else msgs.slice(1).forEach((m) => m.remove());
+    // the announcement bar's motion (?annfx=1..5 tries another for this visit; 1 rise is the default until the owner picks):
+    // 1 rise (fade and lift), 2 roll (the line rolls up like a departures board), 3 ticker (one slow continuous ribbon, paused on hover),
+    // 4 cascade (the new line arrives word by word), 5 blencong (a Kawung turns and glows gold, then the line fades in beside it)
+    const ANN_FX = (() => { let v = ''; try { v = new URLSearchParams(location.search).get('annfx') || sessionStorage.getItem('bija.annfx') || ''; if (/^[1-5]$/.test(v)) sessionStorage.setItem('bija.annfx', v); } catch {} return /^[1-5]$/.test(v) ? v : '1'; })();
+    const bar = document.querySelector('.announce'), msgs = [...document.querySelectorAll('.announce .msg')];
+    if (bar) bar.dataset.annfx = ANN_FX;
+    if (bar && ANN_FX === '3' && msgs.length > 1 && !reduce()) {
+      // one ribbon: every line in a row with a Kawung between, the whole run twice so the loop is seamless; the copy is hidden from screen readers
+      const run = msgs.map((m) => `<span class="ann-it">${m.innerHTML}</span><span class="ann-k" aria-hidden="true">${KAWUNG}</span>`).join('');
+      bar.innerHTML = `<div class="ann-track"><div class="ann-run">${run}</div><div class="ann-run" aria-hidden="true" inert>${run}</div></div>`;
+    } else if (msgs.length > 1 && !reduce()) {
+      if (ANN_FX === '4') msgs.forEach((m) => { let n = 0; [...m.childNodes].forEach((c) => { if (c.nodeType === 3) { const f = document.createDocumentFragment(); c.textContent.split(/(\s+)/).forEach((w) => { if (!w) return; if (/^\s+$/.test(w)) f.append(w); else { const sp = document.createElement('span'); sp.className = 'ann-w'; sp.style.setProperty('--d', `${n++ * 55}ms`); sp.textContent = w; f.append(sp); } }); c.replaceWith(f); } else { c.classList.add('ann-w'); c.style.setProperty('--d', `${n++ * 55}ms`); } }); });
+      let k = null; if (ANN_FX === '5') { bar.insertAdjacentHTML('afterbegin', `<span class="ann-k ann-lamp" aria-hidden="true">${KAWUNG}</span>`); k = bar.firstElementChild; }
+      let i = 0;
+      setInterval(() => {
+        if (document.hidden || msgs[i].contains(document.activeElement) || bar.matches(':hover')) return;
+        msgs[i].setAttribute('aria-hidden', 'true'); msgs[i].inert = true; i = (i + 1) % msgs.length; msgs[i].removeAttribute('aria-hidden'); msgs[i].inert = false;
+        if (k) { k.classList.remove('lit'); void k.offsetWidth; k.classList.add('lit'); }
+      }, 5000);
+    } else msgs.slice(1).forEach((m) => m.remove());
     paint();
   }
 

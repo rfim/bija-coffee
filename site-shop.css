@@ -655,13 +655,45 @@ a:hover > .arr circle, button:hover > .arr circle, a:focus-visible > .arr circle
 .shop-page main .ed-hero h1 { max-width: none; font-size: clamp(30px, 4.6vw, 70px) !important; }
 @media (max-width: 760px) { .shop-page main .ed-hero h1 { font-size: clamp(30px, 8.4vw, 40px) !important; } }
 
-/* computers: a two-level header like Bija's shop. The mark sits centred on top with Help, Order ahead and the bag on the right; the menu has its own centred row beneath */
+
+/* announcement bar motion options (site-shop.js, ?annfx=); transform and opacity only, nothing under reduced motion */
+.announce { position: relative; overflow: hidden; }
+.announce .ann-k { display: inline-block; width: 13px; height: 13px; vertical-align: -2px; color: inherit; }
+.announce .ann-k svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.announce .ann-k circle { fill: none; stroke: currentColor; stroke-width: 7; }
+/* 2 roll */
+.announce[data-annfx="2"] .msg { transition: opacity .45s ease, transform .7s cubic-bezier(.32, .72, 0, 1); }
+.announce[data-annfx="2"] .msg[aria-hidden="true"] { transform: translateY(-110%); }
+.announce[data-annfx="2"] .msg:not([aria-hidden]) ~ .msg[aria-hidden="true"] { transform: translateY(110%); }
+/* 3 ticker */
+.announce[data-annfx="3"] { display: block; padding: 0; }
+.announce[data-annfx="3"] .ann-track { display: flex; width: max-content; height: 100%; align-items: center; animation: ann-tick 60s linear infinite; }
+.announce[data-annfx="3"]:hover .ann-track, .announce[data-annfx="3"]:focus-within .ann-track { animation-play-state: paused; }
+.announce[data-annfx="3"] .ann-run { display: flex; align-items: center; gap: 28px; padding-right: 28px; white-space: nowrap; }
+@keyframes ann-tick { to { transform: translate3d(-50%, 0, 0); } }
+/* 4 cascade */
+.announce[data-annfx="4"] .msg, .announce[data-annfx="4"] .msg[aria-hidden="true"] { transform: none; transition: opacity .22s ease; }
+.announce[data-annfx="4"] .msg[aria-hidden="true"] .ann-w { transition-duration: .2s; transition-delay: 0ms; }
+.announce[data-annfx="4"] .ann-w { display: inline-block; opacity: 0; transform: translateY(6px); transition: opacity .5s ease calc(var(--d, 0ms) + 240ms), transform .7s cubic-bezier(.22, 1, .36, 1) calc(var(--d, 0ms) + 240ms); }
+.announce[data-annfx="4"] .msg:not([aria-hidden]) .ann-w { opacity: 1; transform: none; }
+/* 5 blencong */
+.announce[data-annfx="5"] { grid-template-columns: auto auto; justify-content: center; column-gap: 10px; }
+.announce[data-annfx="5"] .ann-lamp { grid-area: 1 / 1; }
+.announce[data-annfx="5"] .msg { grid-area: 1 / 2; transform: none; transition: opacity .6s ease .35s; }
+.announce[data-annfx="5"] .msg[aria-hidden="true"] { transition: opacity .3s ease; }
+.announce[data-annfx="5"] .ann-lamp.lit { animation: ann-lamp 1.4s ease 1; }
+.announce[data-annfx="5"] .ann-lamp.lit circle { animation: blencong-gold 1.4s ease 1; }
+@keyframes ann-lamp { 0% { transform: rotate(0); filter: none; } 40% { filter: drop-shadow(0 0 4px rgba(226, 178, 58, .8)); } 100% { transform: rotate(90deg); filter: none; } }
+@media (prefers-reduced-motion: reduce) { .announce .ann-track, .announce .ann-lamp, .announce .ann-lamp circle { animation: none !important; } .announce .ann-w { transition: none !important; } }
+
+/* computers: the announcement bar is the first level; the header is the second, on one line: Bija's mark and name on the left,
+   the menu centred on the page, Help, Order ahead and the bag on the right */
 @media (min-width: 1181px) {
-  .shead .in { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); grid-template-rows: 70px 44px; height: auto; min-height: 0; row-gap: 0; }
-  .shead .menuslot { grid-column: 1; grid-row: 1; }
-  .shead .brand { grid-column: 2; grid-row: 1; justify-self: center; }
+  .shead .in { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+  .shead .brand { grid-column: 1; grid-row: 1; justify-self: start; flex-direction: row; align-items: center; gap: 12px; }
+  .shead .brand svg { width: 30px; height: 30px; }
+  .shead .brand .wordmark { height: 26px; }
+  .shead .mainnav { grid-column: 2; grid-row: 1; justify-content: center; }
   .shead .hact { grid-column: 3; grid-row: 1; justify-self: end; }
-  .shead .mainnav { grid-column: 1 / -1; grid-row: 2; justify-content: center; align-self: stretch; align-items: center; border-top: 1px solid rgba(244, 240, 231, .1); }
-  .shead .mainnav a { padding: 13px 14px; }
-  #shop-top { height: 153px; }
+  #shop-top { height: 115px; }
 }
