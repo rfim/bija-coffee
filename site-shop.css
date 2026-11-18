@@ -912,3 +912,90 @@ a:hover > .arr svg, button:hover > .arr svg, a:focus-visible > .arr svg, .btn.ar
   .look-d .shead .mainnav .pn .pn-isl + .pn-f { display: block; } .look-d .shead .mainnav .pn .pn-f > span:last-child { display: none; }
   .look-d .shead .mainnav .pn .pn-f a { display: block; font: 400 15px/1.2 var(--sans); padding: 9px 4px; border-bottom: 0; color: rgba(244, 240, 231, .72); }
 }
+
+/* page transition options (html[data-vt], ?vt=1..5): 1 lift (default) · 2 fade · 3 slide · 4 depth · 5 card stack */
+html[data-vt="2"]::view-transition-old(root) { animation: vt-fade-out .35s ease both; }
+html[data-vt="2"]::view-transition-new(root) { animation: vt-fade-in .55s ease both; }
+html[data-vt="3"]::view-transition-old(root) { animation: vt-slide-out .45s cubic-bezier(.4, 0, .2, 1) both; }
+html[data-vt="3"]::view-transition-new(root) { animation: vt-slide-in .6s cubic-bezier(.22, 1, .36, 1) both; }
+html[data-vt="4"]::view-transition-old(root) { animation: vt-depth-out .4s ease both; }
+html[data-vt="4"]::view-transition-new(root) { animation: vt-depth-in .65s cubic-bezier(.22, 1, .36, 1) .05s both; }
+html[data-vt="5"]::view-transition-old(root) { animation: vt-stack-under .7s cubic-bezier(.22, 1, .36, 1) both; }
+html[data-vt="5"]::view-transition-new(root) { animation: vt-stack-over .7s cubic-bezier(.22, 1, .36, 1) both; z-index: 1; }
+@keyframes vt-fade-out { to { opacity: 0; } } @keyframes vt-fade-in { from { opacity: 0; } }
+@keyframes vt-slide-out { to { opacity: 0; transform: translateX(-6%); } } @keyframes vt-slide-in { from { opacity: 0; transform: translateX(6%); } }
+@keyframes vt-depth-out { to { opacity: 0; transform: scale(.96); } } @keyframes vt-depth-in { from { opacity: 0; transform: scale(1.035); } }
+@keyframes vt-stack-under { to { opacity: .35; transform: scale(.97); } } @keyframes vt-stack-over { from { transform: translateY(100%); } }
+
+/* Rewards: room between the reward cards and the dark levels band */
+.rewards { margin-bottom: clamp(48px, 6vw, 88px); }
+
+/* the "ij" in Bija: two people leaning in to each other. The i and the j lean together, heads meeting, and the j's tail wraps
+   under the i, then they settle back. Plays when the stacked logo appears in the centre of the menu, and on hovering a wordmark */
+.wordmark .wm-i, .wordmark .wm-j { transform-box: fill-box; transform-origin: 50% 100%; }
+.look-d .shead .mainnav .mid:is(:hover, :focus-visible) .mid-w .wm-i, .shead .brand:hover .wm-i, .look-d .shead .has-pn > a:hover .wm-i, .sfoot .wordmark:hover .wm-i { animation: hug-i 1.6s cubic-bezier(.45, 0, .2, 1) .25s 1 both; }
+.look-d .shead .mainnav .mid:is(:hover, :focus-visible) .mid-w .wm-j, .shead .brand:hover .wm-j, .look-d .shead .has-pn > a:hover .wm-j, .sfoot .wordmark:hover .wm-j { animation: hug-j 1.6s cubic-bezier(.45, 0, .2, 1) .25s 1 both; }
+@keyframes hug-i { 0%, 100% { transform: none; } 40%, 62% { transform: translateX(4%) rotate(9deg); } }
+@keyframes hug-j { 0%, 100% { transform: none; } 40%, 62% { transform: translateX(-6%) rotate(-7deg); } }
+@media (prefers-reduced-motion: reduce) { .wordmark .wm-i, .wordmark .wm-j { animation: none !important; } }
+
+/* the centre disc: the same dark as the capsule, not a blacker patch; only the part below the capsule is drawn, so nothing doubles up */
+@media (min-width: 1181px) {
+  .look-d .shead .mainnav .mid::before { top: 0; height: 60px; width: 60px; border-radius: 50%; background: rgba(17, 17, 17, .78); backdrop-filter: blur(10px); box-shadow: none; -webkit-mask-image: linear-gradient(transparent 43px, #000 43px); mask-image: linear-gradient(transparent 43px, #000 43px); transition: opacity .25s ease; }
+  .look-d .shead .mainnav .mid::after { top: 43px; height: 54px; background: rgba(17, 17, 17, .78); backdrop-filter: blur(10px); border-radius: 0 0 30px 30px; transform: scaleY(.3); }
+  .look-d .shead .mainnav .mid:is(:hover, :focus-visible)::before { opacity: 0; }
+}
+
+/* ===== Menu panels like the reference: a separate card floating under the capsule ===== */
+@media (min-width: 1181px) {
+  .look-d .shead .pn { top: calc(100% + 12px); left: 50%; right: auto; width: min(980px, calc(100vw - 80px)); transform: translateX(-50%); padding: 30px 30px 20px; display: grid; grid-template-columns: minmax(170px, .8fr) 2.4fr; grid-template-rows: 1fr auto; column-gap: 28px; row-gap: 22px; z-index: 0; }
+  .look-d .shead .pn::before { background: rgba(17, 17, 17, .9); backdrop-filter: blur(16px); transform: translateY(-10px) scale(.985); opacity: 0; transform-origin: top center; transition: transform .55s cubic-bezier(.22, 1, .36, 1), opacity .3s ease; }
+  .look-d .shead .has-pn.open > .pn::before { transform: none; opacity: 1; }
+  .look-d .shead .pn-t { grid-column: 1; grid-row: 1; align-self: start; font-size: clamp(30px, 2.6vw, 40px); line-height: 1.05; }
+  .look-d .shead .pn > .pn-g { grid-column: 2; grid-row: 1; gap: 16px; }
+  .look-d .shead .pn-g img { aspect-ratio: 4 / 3; }
+  .look-d .shead .pn-g a span { text-align: center; color: rgba(244, 240, 231, .62); transition: color .3s ease; }
+  .look-d .shead .pn-g a:hover span { color: #f4f0e7; }
+  .look-d .shead .pn-f { grid-column: 1 / -1; grid-row: 2; padding-top: 16px; }
+  .look-d .shead .pn-soc { display: flex; gap: 10px; }
+  .look-d .shead .pn-soc a { width: 36px; height: 36px; padding: 0; display: grid; place-items: center; border-radius: 50%; background: rgba(244, 240, 231, .12); color: #f4f0e7; transition: background .3s ease, transform .4s cubic-bezier(.22, 1, .36, 1); }
+  .look-d .shead .pn-soc a:hover { background: rgba(244, 240, 231, .24); transform: translateY(-2px); }
+  .look-d .shead .pn-soc svg { width: 18px; height: 18px; }
+  .look-d .shead .pn-more { display: flex; gap: 18px; } .look-d .shead .pn-more a { padding: 0; background: none; color: rgba(244, 240, 231, .7); font: 400 12.5px/1 var(--sans); }
+  .look-d .shead .pn-more a:hover { color: #f4f0e7; }
+  /* the islands panel keeps its three columns beside the title */
+  .look-d .shead .pn > .pn-isl { grid-column: 2; margin: 0; }
+  .look-d .shead .pn-isl .isl-h img { aspect-ratio: 16 / 7; }
+  /* moving from one item to the next: the card stays, only its contents change */
+  .look-d .shead .mainnav.pn-swap .pn::before { transition: none; }
+  .look-d .shead .mainnav.pn-swap .pn { transition: opacity .18s ease, visibility 0s; }
+}
+@media (max-width: 1180px) { .look-d .shead .mainnav .pn-soc, .look-d .shead .mainnav .pn-more { display: none; } }
+
+/* ===== Phones: the centre mark grows down into the stacked logo with the ij leaning in, like the computer menu ===== */
+@media (max-width: 1180px) {
+  .look-d .shead .brand { position: relative; overflow: visible; background: rgba(17, 17, 17, .78) !important; backdrop-filter: blur(10px); box-shadow: 0 0 0 1px rgba(244, 240, 231, .14); }
+  .look-d .shead .brand .wordmark { display: block !important; position: absolute; left: 50%; top: 100%; height: 17px; width: auto; color: #f4f0e7; opacity: 0; transform: translate(-50%, -12px); pointer-events: none; }
+  .look-d .shead .brand::after { content: ""; position: absolute; z-index: -1; left: 0; right: 0; top: 50%; height: calc(50% + 30px); border-radius: 0 0 26px 26px; background: rgba(17, 17, 17, .78); backdrop-filter: blur(10px); opacity: 0; transform: scaleY(.3); transform-origin: top center; }
+  .look-d .shead .brand.logo-play::after { animation: mlogo-bg 2.6s cubic-bezier(.22, 1, .36, 1) both; }
+  .look-d .shead .brand.logo-play .wordmark { animation: mlogo 2.6s cubic-bezier(.22, 1, .36, 1) both; }
+  .look-d .shead .brand.logo-play .wm-i { animation: hug-i 1.6s cubic-bezier(.45, 0, .2, 1) .45s 1 both; }
+  .look-d .shead .brand.logo-play .wm-j { animation: hug-j 1.6s cubic-bezier(.45, 0, .2, 1) .45s 1 both; }
+  @keyframes mlogo { 0% { opacity: 0; transform: translate(-50%, -12px); } 14%, 82% { opacity: 1; transform: translate(-50%, 4px); } 100% { opacity: 0; transform: translate(-50%, -12px); } }
+  @keyframes mlogo-bg { 0% { opacity: 0; transform: scaleY(.3); } 12%, 84% { opacity: 1; transform: none; } 100% { opacity: 0; transform: scaleY(.3); } }
+}
+@media (prefers-reduced-motion: reduce) { .look-d .shead .brand.logo-play :is(.wordmark, .wm-i, .wm-j), .look-d .shead .brand.logo-play::after { animation: none !important; } }
+/* "ij" options ([data-ij], ?ij=1..5, remembered for the visit): 1 lean in (default) · 2 handshake · 3 embrace · 4 bow · 5 heartbeat.
+   Only the motion's name changes; when and how long it plays stays the same */
+[data-ij="2"] .wordmark .wm-i { animation-name: ij2-i !important; } [data-ij="2"] .wordmark .wm-j { animation-name: ij2-j !important; }
+[data-ij="3"] .wordmark .wm-i { animation-name: ij3-i !important; } [data-ij="3"] .wordmark .wm-j { animation-name: ij3-j !important; }
+[data-ij="4"] .wordmark .wm-i { animation-name: ij4-i !important; } [data-ij="4"] .wordmark .wm-j { animation-name: ij4-j !important; }
+[data-ij="5"] .wordmark .wm-i { animation-name: ij5-i !important; } [data-ij="5"] .wordmark .wm-j { animation-name: ij5-j !important; }
+@keyframes ij2-i { 0%, 100% { transform: none; } 30% { transform: translateX(14%); } 42% { transform: translateX(14%) translateY(-4%); } 54% { transform: translateX(14%) translateY(3%); } 66% { transform: translateX(14%); } }
+@keyframes ij2-j { 0%, 100% { transform: none; } 30% { transform: translateX(-10%); } 42% { transform: translateX(-10%) translateY(-4%); } 54% { transform: translateX(-10%) translateY(3%); } 66% { transform: translateX(-10%); } }
+@keyframes ij3-i { 0%, 100% { transform: none; } 40%, 64% { transform: translateX(10%) scaleY(.94); } }
+@keyframes ij3-j { 0%, 100% { transform: none; } 40%, 64% { transform: translateX(-8%) rotate(-14deg); } }
+@keyframes ij4-i { 0%, 100% { transform: none; } 35%, 55% { transform: rotate(16deg) translateY(4%); } }
+@keyframes ij4-j { 0%, 100% { transform: none; } 35%, 55% { transform: rotate(-12deg) translateY(4%); } }
+@keyframes ij5-i { 0%, 100% { transform: none; } 20%, 50% { transform: translateX(8%) scale(1.08); } 35%, 65% { transform: translateX(4%) scale(1); } }
+@keyframes ij5-j { 0%, 100% { transform: none; } 20%, 50% { transform: translateX(-6%) scale(1.08); } 35%, 65% { transform: translateX(-3%) scale(1); } }
