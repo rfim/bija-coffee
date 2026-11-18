@@ -144,3 +144,14 @@
 .say svg { width: 14px; height: 14px; } .say:hover { transform: translateY(-1px); } .say.playing { animation: say-pulse 1s ease infinite; }
 @keyframes say-pulse { 50% { box-shadow: 0 0 0 6px rgba(17, 17, 17, .12); } }
 @media (prefers-reduced-motion: reduce) { .say.playing { animation: none; } }
+/* moving between the four story pages: the photos fly to their new places and swap pictures, the menu pill slides,
+   and the headline scrambles into its new words (story.js) */
+.sp-hero .pol:nth-of-type(1) { view-transition-name: sp-pol-1; } .sp-hero .pol:nth-of-type(2) { view-transition-name: sp-pol-2; }
+.sp-hero .pol:nth-of-type(3) { view-transition-name: sp-pol-3; } .sp-hero .pol:nth-of-type(4) { view-transition-name: sp-pol-4; }
+.sp-crumbs a[aria-current="page"] { view-transition-name: sp-crumb; }
+.sp-hero .sp-big { view-transition-name: sp-title; }
+::view-transition-group(sp-pol-1), ::view-transition-group(sp-pol-2), ::view-transition-group(sp-pol-3), ::view-transition-group(sp-pol-4) { animation-duration: .9s; animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
+::view-transition-group(sp-pol-2), ::view-transition-group(sp-pol-4) { animation-delay: .06s; }
+::view-transition-group(sp-crumb) { animation-duration: .55s; animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
+::view-transition-old(sp-title) { animation: vt-fade-out .2s ease both; } ::view-transition-new(sp-title) { animation: none; }
+.sp-big .scr { color: #d9b45a; opacity: .85; }

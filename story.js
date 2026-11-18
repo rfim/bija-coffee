@@ -13,6 +13,17 @@
   const kb = document.querySelector('.kb'), steps = kb ? [...kb.querySelectorAll('.kb-step')] : [], bars = kb ? [...kb.querySelectorAll('.kb-bar i')] : [];
   const setStep = (n) => { if (!kb || kb.dataset.s === String(n)) return; kb.dataset.s = n; steps.forEach((s, i) => s.classList.toggle('on', i === n - 1)); bars.forEach((b, i) => b.classList.toggle('on', i < n)); };
   if (kb) setStep(calm ? 5 : 1);
+  // the headline scrambles into its words, like letters settling on a departures board
+  const scramble = (el) => {
+    const nodes = []; const walk = (n) => n.childNodes.forEach((c) => { if (c.nodeType === 3 && c.textContent.trim()) nodes.push(c); else if (c.nodeType === 1) walk(c); }); walk(el);
+    const G = 'abcdefghijklmnopqrstuvwxyzKAWUNGBIJA·/ʒɪ', total = nodes.reduce((t, n) => t + n.textContent.length, 0), t0 = performance.now(), dur = 900;
+    const finals = nodes.map((n) => n.textContent);
+    const step = (now) => { const k = Math.min(1, (now - t0) / dur); let idx = 0;
+      nodes.forEach((n, ni) => { const f = finals[ni]; let out = ''; for (let c = 0; c < f.length; c++, idx++) { const ch = f[c]; out += (ch === ' ' || idx / total < k * 1.15 - .15) ? ch : G[(Math.random() * G.length) | 0]; } n.textContent = out; });
+      if (k < 1) requestAnimationFrame(step); else nodes.forEach((n, ni) => (n.textContent = finals[ni])); };
+    requestAnimationFrame(step);
+  };
+  const title = document.querySelector('.sp-hero .sp-big'); if (title && !calm) scramble(title);
   if (calm) { steps.forEach((s) => s.classList.add('on')); return; }
   const pols = [...document.querySelectorAll('[data-sp]')], rails = [...document.querySelectorAll('.sp-rail')];
   let q = false;

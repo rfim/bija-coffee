@@ -23,7 +23,7 @@
     // drawn the way the mark was made: a guide circle and axes, four equal circles, the Kawung, then Bija with the i and j meeting
     const s = D.createElement('div'); s.className = 'mo-splash mo-build'; s.setAttribute('aria-hidden', 'true');
     const C = [[50, 25], [75, 50], [50, 75], [25, 50]].map(([x, y]) => `<circle class="mo-c" cx="${x}" cy="${y}" r="25"/>`).join('');
-    s.innerHTML = `<div class="mo-lk"><div class="mo-con"><svg class="mo-cs" viewBox="-14 -14 128 128"><g transform="translate(50 50) scale(.978) translate(-50 -50)"><circle class="mo-g" cx="50" cy="50" r="50"/><path class="mo-ax" d="M-10 50H110M50 -10V110"/>${C}</g></svg>${KW}</div>${WM}<p class="mo-cap"><span>Four equal circles.</span><span>One seed.</span><span>A place to meet.</span></p></div>`;
+    s.innerHTML = `<div class="mo-lk"><div class="mo-con"><svg class="mo-cs" viewBox="-14 -14 128 128"><g transform="translate(50 50) scale(.978) translate(-50 -50)"><circle class="mo-g" cx="50" cy="50" r="50"/><path class="mo-ax" d="M-10 50H110M50 -10V110"/>${C}</g></svg>${KW}</div>${WM}<p class="mo-cap"><span>Four circles. One seed.</span><span>A place to meet.</span></p></div>`;
     D.body.appendChild(s); M.splash = s; H.classList.remove('mo-boot');
     const end = () => { if (!s.isConnected || s.classList.contains('out')) return; s.classList.add('out'); setTimeout(() => s.remove(), 400); };
     addEventListener('pointerdown', end, { once: true, capture: true }); setTimeout(end, 3000);
