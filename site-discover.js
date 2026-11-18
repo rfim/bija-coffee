@@ -120,7 +120,7 @@
           <g class="rd" stroke-width="22"><path d="M0 70 L390 36"/><path d="M366 40 V380"/><path d="M462 30 V380"/><path d="M20 112 H600"/><path d="M200 206 H600"/><path d="M0 330 H600"/></g>
           <path class="walk" d="M396 40 L372 56 V140 L404 152"/>
           <g transform="translate(396 34)"><circle r="13" fill="#0b0b0b"/><path d="M-7 0 H7 M-6 -5 a7 7 0 0 1 12 0 M-6 5 a7 7 0 0 0 12 0" stroke="#fff" stroke-width="1.6" fill="none"/></g>
-          <g transform="translate(412 156)"><circle r="20" fill="#0b0b0b"/><g transform="translate(-12 -12) scale(.24)" fill="none" stroke="#fff" stroke-width="7"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></g>
+          <g transform="translate(412 156)"><circle r="20" fill="#0b0b0b"/><use href="#bija-kw-b" x="-12" y="-12" width="24" height="24" style="color:#fff"/></g>
           <g aria-hidden="true"><text x="60" y="52" transform="rotate(-5 60 52)">PICCADILLY</text><text x="420" y="26">PICCADILLY CIRCUS</text><text x="40" y="104">JERMYN STREET</text><text x="210" y="198">CHARLES II STREET</text><text x="40" y="322">PALL MALL</text><text x="356" y="300" transform="rotate(-90 356 300)">REGENT ST ST JAMES'S</text><text x="476" y="300" transform="rotate(-90 476 300)">HAYMARKET</text><text x="380" y="214" style="font-size:8px">ST JAMES'S MARKET</text><text x="438" y="186" style="font-weight:700;fill:#0b0b0b;font-size:11px">BIJA</text><text x="12" y="88" style="font-size:8px">← GREEN PARK</text><text x="520" y="100" style="font-size:8px">LEICESTER SQ →</text></g>
         </svg>`;
   // fill [data-streetmap] and [data-minimap] slots on any page that loads this file

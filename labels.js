@@ -7,7 +7,7 @@
   const BEANS = ['house', 'mandheling', 'lintong', 'java', 'gayo', 'kintamani'];
   // L7160 geometry in millimetres
   const COLS = 3, ROWS = 7, W = 63.5, H = 38.1, TOP = 15.15, LEFT = 7.25, PITCH_X = 66.04, PITCH_Y = 38.1;
-  const MARK = '<svg viewBox="-2 -2 104 104" aria-hidden="true"><g fill="none" stroke="#000" stroke-width="8"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg>';
+  const MARK = '<svg viewBox="-2 -2 104 104" aria-hidden="true"><use href="#bija-kw-b" width="100" height="100" style="color:#000"/></svg>';
   const londonToday = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
   const short = (ymd) => new Date(ymd + 'T12:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Europe/London' });
   const clean = (v, max) => String(v || '').replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, max);

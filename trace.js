@@ -5,7 +5,7 @@
   const S = window.BijaShop;
   const root = document.getElementById('passport');
   const esc = S ? S.esc : (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const MARK = '<g fill="none" stroke="currentColor" stroke-width="3"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g>';
+  const MARK = '<use href="#bija-kw" width="100" height="100"/>';
   const mark = (cls) => `<svg class="${cls}" viewBox="-2 -2 104 104" aria-hidden="true" focusable="false">${MARK}</svg>`;
 
   // ---------- reading the code ----------
