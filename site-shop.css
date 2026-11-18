@@ -853,3 +853,33 @@ a:hover > .arr svg, button:hover > .arr svg, a:focus-visible > .arr svg, .btn.ar
 /* the first menu item is Bija's wordmark, nothing else */
 .look-d .shead .mainnav .wordmark { display: block; width: auto; height: 11px; margin: 0; color: inherit; }
 @media (max-width: 1180px) { .look-d .shead .mainnav .wordmark { height: 24px; } }
+
+/* ===== Page transitions on every page: the old page lifts away, the new one settles in; the header and the announcement bar stay put.
+   Uses the browser's cross-page view transitions (Chrome, Edge, Safari 18.2+); other browsers simply change page. ===== */
+@view-transition { navigation: auto; }
+.announce { view-transition-name: site-announce; }
+.shead { view-transition-name: site-head; }
+::view-transition-old(root) { animation: vt-out .26s ease both; }
+::view-transition-new(root) { animation: vt-in .55s cubic-bezier(.22, 1, .36, 1) .06s both; }
+::view-transition-group(site-head), ::view-transition-group(site-announce) { animation-duration: 0s; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-10px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(14px); } }
+@media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; } }
+
+/* ===== Preview centre mark: a black disc with Bija's cream Kawung; on hover it grows downwards into the stacked logo, mark over wordmark ===== */
+@media (min-width: 1181px) {
+  .look-d .shead .mainnav .mid { position: relative; background: none; box-shadow: none; color: #f4f0e7; overflow: visible; isolation: isolate; }
+  .look-d .shead .mainnav .mid::before, .look-d .shead .mainnav .mid::after { content: ""; position: absolute; left: 0; width: 60px; z-index: -1; background: #111; }
+  .look-d .shead .mainnav .mid::before { top: 0; height: 60px; border-radius: 50%; box-shadow: 0 6px 20px rgba(0, 0, 0, .3), 0 0 0 1px rgba(244, 240, 231, .14); }
+  .look-d .shead .mainnav .mid::after { top: 30px; height: 64px; border-radius: 0 0 30px 30px; transform: translateY(-34px) scaleY(.4); transform-origin: top center; opacity: 0; transition: transform .55s cubic-bezier(.22, 1, .36, 1), opacity .25s ease; }
+  .look-d .shead .mainnav .mid:hover { background: none; }
+  .look-d .shead .mainnav .mid .mid-k svg { width: 38px; height: 38px; color: #f4f0e7; display: block; transition: transform .55s cubic-bezier(.22, 1, .36, 1); }
+  .look-d .shead .mainnav .mid .mid-w { position: absolute; left: 50%; top: 62px; transform: translate(-50%, -8px); opacity: 0; transition: opacity .3s ease, transform .55s cubic-bezier(.22, 1, .36, 1); pointer-events: none; }
+  .look-d .shead .mainnav .mid .mid-w .wordmark { display: block; height: 20px; width: auto; color: #f4f0e7; }
+  .look-d .shead .mainnav .mid:is(:hover, :focus-visible)::after { transform: none; opacity: 1; }
+  .look-d .shead .mainnav .mid:is(:hover, :focus-visible) .mid-k svg { transform: translateY(-2px) scale(.92); }
+  .look-d .shead .mainnav .mid:is(:hover, :focus-visible) .mid-w { opacity: 1; transform: translate(-50%, 0); transition-delay: .08s; }
+}
+@media (prefers-reduced-motion: reduce) { .look-d .shead .mainnav .mid :is(.mid-k svg, .mid-w), .look-d .shead .mainnav .mid::after { transition: none; } }
+@media (max-width: 1180px) { .look-d .shead .mainnav .mid .mid-w { display: none; } }
+@media (max-width: 1180px) { .look-d .shead .brand { background: #111; box-shadow: 0 0 0 1px rgba(244, 240, 231, .16); } .look-d .shead .brand svg { color: #f4f0e7; } }

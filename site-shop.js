@@ -162,7 +162,7 @@
       const lab = l === 'Bija' ? `<span class="vh">Bija</span>${WORDMARK}` : l;
       return `<span class="has-pn"><a href="${h}"${cur} aria-haspopup="true" aria-expanded="false">${lab}<i class="crt" aria-hidden="true"></i></a><span class="pn" role="group" aria-label="${pn[0]}"><b class="pn-t">${pn[0]}</b><span class="pn-g">${pn[1].map(([ph, pl, img], i) => `<a href="${ph}" style="--i:${i}"><img${WHOLE.has(img) ? ' class="whole"' : ''} src="photos/shop/${img}-600.webp" alt="" loading="lazy" decoding="async"><span>${pl}</span></a>`).join('')}</span><span class="pn-f"><span><a href="https://www.instagram.com/bija.london/" rel="noopener">Instagram</a><a href="https://www.tiktok.com/@bijalondon" rel="noopener">TikTok</a></span><span>© Bija Coffee</span></span></span></span>`;
     };
-    return `<span class="nl">${CAP.slice(0, 3).map(link).join('')}</span><a class="mid" href="./" aria-label="Bija home">${ICON.mark}</a><span class="nr">${CAP.slice(3).map(link).join('')}</span>`;
+    return `<span class="nl">${CAP.slice(0, 3).map(link).join('')}</span><a class="mid" href="./" aria-label="Bija home"><span class="mid-k">${ICON.mark}</span><span class="mid-w">${WORDMARK}</span></a><span class="nr">${CAP.slice(3).map(link).join('')}</span>`;
   }
   function header() {
     const here = location.pathname.split('/').pop() + location.search;
