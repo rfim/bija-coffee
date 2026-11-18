@@ -25,24 +25,28 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-
 /* Coffee stories, laid out like the home page: dark and cream bands, a numbered chapter bar, long reads with the picture beside them */
 .st-hero .ph { margin-top: clamp(36px, 4vw, 56px); border-radius: 18px 18px 0 0; overflow: hidden; aspect-ratio: 16 / 6.5; background: #1d1d1d; }
 .st-hero .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
-/* the chapter bar: all ten chapters fit as equal segments. The one you are reading opens to show its name and fills with
-   your progress through it; the ones you have read stay lit; a hover or focus shows any chapter's name */
-.st-toc { position: sticky; top: var(--hdr, 0px); z-index: 5; background: rgba(17, 17, 17, .92); backdrop-filter: blur(10px); border-top: 1px solid rgba(244, 240, 231, .12); border-bottom: 1px solid rgba(244, 240, 231, .12); }
-.st-toc ol { display: flex; gap: 4px; margin: 0; padding: 10px 0 12px; list-style: none; }
-.st-toc li { flex: 1 1 0; min-width: 0; transition: flex-grow .7s cubic-bezier(.22, 1, .36, 1); }
-.st-toc li.on { flex-grow: 4.2; }
-.st-toc a { position: relative; display: flex; gap: 8px; align-items: baseline; min-width: 0; padding: 4px 2px 10px; color: rgba(244, 240, 231, .55); text-decoration: none; font: 500 13px/1.2 var(--sans); white-space: nowrap; transition: color .4s ease; }
-.st-toc a b { flex: none; font: 400 12px/1 var(--serif); color: rgba(244, 240, 231, .5); transition: color .4s ease; }
-.st-toc a .t { min-width: 0; overflow: hidden; text-overflow: ellipsis; opacity: 0; transform: translateY(4px); transition: opacity .45s ease, transform .6s cubic-bezier(.22, 1, .36, 1); }
-.st-toc li.on a .t, .st-toc a:hover .t, .st-toc a:focus-visible .t { opacity: 1; transform: none; }
-.st-toc a::before, .st-toc a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px; }
-.st-toc a::before { background: rgba(244, 240, 231, .16); }
-.st-toc a::after { background: var(--paper); transform: scaleX(var(--p, 0)); transform-origin: left; transition: transform .25s linear; }
-.st-toc li.done a::after { --p: 1; }
-.st-toc li.on a, .st-toc li.on a b, .st-toc a:hover, .st-toc a:hover b { color: var(--paper); }
-.st-toc li.on a::after { background: #d9b45a; }
-@media (max-width: 760px) { .st-toc ol { gap: 3px; } .st-toc li.on { flex-grow: 6; } .st-toc a { font-size: 12px; gap: 6px; } }
-@media (prefers-reduced-motion: reduce) { .st-toc li, .st-toc a .t, .st-toc a::after { transition: none; } }
+/* the chapter bar as a spice route: ten ports on a dotted voyage line. A gold Kawung sails along as you read and the route
+   behind it turns gold; the port you are in opens to show its chapter; ports already passed keep a gold dot */
+.st-toc { position: sticky; top: var(--hdr, 0px); z-index: 5; background: rgba(17, 17, 17, .94); backdrop-filter: blur(10px); border-top: 1px solid rgba(244, 240, 231, .12); border-bottom: 1px solid rgba(244, 240, 231, .12); }
+.st-toc .wrap { position: relative; }
+.st-toc ol { position: relative; display: flex; margin: 0; padding: 22px 0 10px; list-style: none; }
+.st-toc ol::before { content: ""; position: absolute; left: 0; right: 0; top: 22px; border-top: 1.5px dotted rgba(244, 240, 231, .32); }
+.st-toc .sea { position: absolute; left: 0; top: 21px; height: 2px; width: var(--sx, 0px); background: linear-gradient(90deg, rgba(217, 180, 90, .3), #d9b45a); border-radius: 2px; transition: width .2s linear; }
+.st-toc .ship { position: absolute; top: 14px; left: var(--sx, 0px); width: 18px; height: 18px; margin-left: -9px; color: #d9b45a; transform: rotate(var(--rot, 0deg)); transition: left .2s linear; filter: drop-shadow(0 0 6px rgba(217, 180, 90, .45)); }
+.st-toc .ship svg { display: block; width: 100%; height: 100%; }
+.st-toc li { flex: 1 1 0; min-width: 0; transition: flex-grow .8s cubic-bezier(.22, 1, .36, 1); }
+.st-toc li.on { flex-grow: 3.4; }
+.st-toc a { position: relative; display: block; min-width: 0; padding: 12px 6px 4px 0; color: rgba(244, 240, 231, .5); text-decoration: none; white-space: nowrap; transition: color .4s ease; }
+.st-toc a::before { content: ""; position: absolute; left: 0; top: -4px; width: 7px; height: 7px; margin-left: -3px; border-radius: 50%; background: #111; box-shadow: 0 0 0 1.5px rgba(244, 240, 231, .45); transition: background .4s ease, box-shadow .4s ease, transform .5s cubic-bezier(.2, 1.4, .4, 1); }
+.st-toc li.done a::before { background: #d9b45a; box-shadow: 0 0 0 1.5px #d9b45a; }
+.st-toc li.on a::before { transform: scale(0); }
+.st-toc a b { display: inline; font: 400 12px/1 var(--serif); margin-right: 6px; }
+.st-toc a i { font: italic 400 12.5px/1.3 var(--serif); }
+.st-toc a .t { display: block; margin-top: 5px; overflow: hidden; text-overflow: ellipsis; font: 500 13px/1.2 var(--sans); color: var(--paper); opacity: 0; max-height: 0; transform: translateY(-4px); transition: opacity .45s ease, transform .6s cubic-bezier(.22, 1, .36, 1), max-height .6s ease; }
+.st-toc li.on a { color: #d9b45a; } .st-toc li.on a .t { opacity: 1; max-height: 20px; transform: none; }
+.st-toc a:hover, .st-toc a:focus-visible { color: var(--paper); }
+@media (max-width: 760px) { .st-toc a i { display: none; } .st-toc li.on { flex-grow: 5; } .st-toc li.on a i { display: inline; } .st-toc a .t { font-size: 12px; } }
+@media (prefers-reduced-motion: reduce) { .st-toc li, .st-toc a .t, .st-toc .sea, .st-toc .ship { transition: none; } }
 .ed :is(h2) { scroll-margin-top: 140px; } .ed, .ed-award { scroll-margin-top: calc(var(--hdr, 72px) + 52px); }
 .st-long { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 6vw, 110px); align-items: start; }
 .st-long aside { position: sticky; top: calc(var(--hdr, 72px) + 76px); }
@@ -101,8 +105,8 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-
   </section>
 
   <nav class="ed-dark st-toc" aria-label="Chapters">
-    <div class="wrap"><ol>
-      <li><a href="#java"><b>01</b><span class="t">How coffee reached Java</span></a></li><li><a href="#roots"><b>02</b><span class="t">Indonesian roots</span></a></li><li><a href="#house"><b>03</b><span class="t">Two forests, one cup</span></a></li><li><a href="#gayo"><b>04</b><span class="t">Aceh Gayo</span></a></li><li><a href="#concept"><b>05</b><span class="t">The idea</span></a></li><li><a href="#identity"><b>06</b><span class="t">The seed and the pattern</span></a></li><li><a href="#award"><b>07</b><span class="t">An award we share</span></a></li><li><a href="#people"><b>08</b><span class="t">The people</span></a></li><li><a href="#community"><b>09</b><span class="t">Communities</span></a></li><li><a href="#events"><b>10</b><span class="t">Events &amp; catering</span></a></li>
+    <div class="wrap"><ol><span class="sea" aria-hidden="true"></span><span class="ship" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#bija-kw-b" width="100" height="100"/></svg></span>
+      <li><a href="#java"><b>01</b><i>Mocha</i><span class="t">How coffee reached Java</span></a></li><li><a href="#roots"><b>02</b><i>The islands</i><span class="t">Indonesian roots</span></a></li><li><a href="#house"><b>03</b><i>West Java</i><span class="t">Two forests, one cup</span></a></li><li><a href="#gayo"><b>04</b><i>Aceh</i><span class="t">Aceh Gayo</span></a></li><li><a href="#concept"><b>05</b><i>London</i><span class="t">The idea</span></a></li><li><a href="#identity"><b>06</b><i>Batik</i><span class="t">The seed and the pattern</span></a></li><li><a href="#award"><b>07</b><i>The festival</i><span class="t">An award we share</span></a></li><li><a href="#people"><b>08</b><i>St James’s</i><span class="t">The people</span></a></li><li><a href="#community"><b>09</b><i>Piccadilly</i><span class="t">Communities</span></a></li><li><a href="#events"><b>10</b><i>Your table</i><span class="t">Events &amp; catering</span></a></li>
     </ol></div>
   </nav>
 
@@ -236,6 +240,10 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-
     secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top <= line) cur = i; });
     items.forEach((li, i) => { li.classList.toggle('on', i === cur || (cur < 0 && i === 0)); li.classList.toggle('done', i < cur); });
     links.forEach((a, i) => { if (i !== cur) { a.style.removeProperty('--p'); return; } const r = secs[i].getBoundingClientRect(); a.style.setProperty('--p', Math.min(1, Math.max(0, (line - r.top) / r.height)).toFixed(3)); });
+    // the ship: between this port and the next, by how far through the chapter you are
+    const ol = document.querySelector('.st-toc ol'); if (ol) { const c = Math.max(0, cur), r = secs[c].getBoundingClientRect(), p = cur < 0 ? 0 : Math.min(1, Math.max(0, (line - r.top) / r.height));
+      const x0 = items[c].offsetLeft, x1 = items[c + 1] ? items[c + 1].offsetLeft : ol.clientWidth, x = x0 + (x1 - x0) * p;
+      ol.style.setProperty('--sx', x.toFixed(1) + 'px'); ol.style.setProperty('--rot', ((c + p) * 90).toFixed(1) + 'deg'); }
   };
   addEventListener('scroll', () => { if (!q) { q = true; requestAnimationFrame(tick); } }, { passive: true }); addEventListener('resize', tick); tick();
 })();
