@@ -306,6 +306,15 @@ main.stage .exh { background: transparent !important; transition: color .8s ease
   .cc .cc-spec { text-align: center; }
 }
 @media (max-width: 760px) and (prefers-reduced-motion: reduce) { .exh .arc.inl { opacity: 1; } }
+
+/* phones: a slim route bar, and plates with room to breathe so the picture reads clearly */
+@media (max-width: 760px) {
+  .st-toc ol { padding: 16px 0 4px; } .st-toc ol::before { top: 16px; } .st-toc .sea { top: 15px; } .st-toc .ship { top: 8px; }
+  .st-toc a { padding: 8px 4px 2px 0; } .st-toc a .t { display: none; }
+  .exh .arc.inl { margin: 40px auto 22px; }
+  .exh .arc.inl .arc-ph { padding: 10px; } .exh .arc.inl .arc-ph::after { inset: 10px; }
+  .exh .arc.inl.on .arc-ph img { filter: none; transform: none; }
+}
 </style>
 </head>
 <body class="shop-page">
@@ -445,7 +454,7 @@ main.stage .exh { background: transparent !important; transition: color .8s ease
   const go = (i) => { idx = i; const p = P[i]; if (!p) return end(); playing = p; mark(p); const s = p.closest('section');
     secs.forEach((x) => x.querySelector('.vo-btn')?.classList.toggle('on', x === s)); btn = s.querySelector('.vo-btn');
     bar.querySelector('.t').innerHTML = `<i>${chapterName(s).split('·')[0].trim()}</i>${(headOf(p)?.textContent || s.querySelector('h2')?.textContent || '').trim()}`;
-    { const r = p.getBoundingClientRect(); scrollTo({ top: scrollY + r.top + r.height / 2 - (innerHeight + readTop()) / 2, behavior: calm ? 'auto' : 'smooth' }); } audio.src = p.dataset.vo; audio.play().catch(() => end()); };
+    { const f = p.previousElementSibling, r = p.getBoundingClientRect(); const top = (f && f.classList.contains('inl')) ? scrollY + f.getBoundingClientRect().top - readTop() - 18 : scrollY + r.top + r.height / 2 - (innerHeight + readTop()) / 2; scrollTo({ top, behavior: calm ? 'auto' : 'smooth' }); } audio.src = p.dataset.vo; audio.play().catch(() => end()); };
   const end = () => { audio.pause(); playing = null; idx = -1; bar.classList.remove('show'); secs.forEach((x) => x.querySelector('.vo-btn')?.classList.remove('on')); tick(); };
   audio.addEventListener('ended', () => go(idx + 1));
   audio.addEventListener('timeupdate', () => bar.style.setProperty('--vp', audio.duration ? (audio.currentTime / audio.duration).toFixed(3) : 0));
