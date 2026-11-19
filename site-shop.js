@@ -428,5 +428,5 @@
 })();
 
 // the menu marks the page you are on, inside the panels too, so the phone menu can light it
-(() => { const mark = () => { const here = location.pathname.split('/').pop() || 'index.html'; document.querySelectorAll('.mainnav .pn a[href]').forEach((a) => { if (a.getAttribute('href').split('#')[0] === here) a.setAttribute('aria-current', 'page'); }); };
+(() => { const mark = () => { const here = location.pathname.split('/').pop() || 'index.html'; document.querySelectorAll('.mainnav .pn a[href]:not(.isl-h)').forEach((a) => { if (a.getAttribute('href').split('#')[0] === here) a.setAttribute('aria-current', 'page'); }); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mark); else mark(); setTimeout(mark, 600); })();
