@@ -228,3 +228,25 @@
   main figure, main picture, main .ph { margin-inline: auto; }
   .sp-crumbs { margin-inline: auto; justify-content: center; }
 }
+
+/* Brand identity opens on the Bija wordmark (its ij plays as the page opens, and again on tap); The concept opens on the Kawung */
+.hero-mark { display: block; margin: 0 auto 30px; padding: 0; border: 0; background: none; color: var(--paper); cursor: pointer; }
+.hero-mark .wordmark { display: block; height: clamp(96px, 13vw, 176px); width: auto; margin: 0 auto; overflow: visible; }
+.hero-mark .wordmark :is(.wm-i, .wm-j) { fill: #d9b45a; animation: hug-i 1.6s cubic-bezier(.45, 0, .2, 1) .9s 1 both; }
+.hero-mark .wordmark .wm-j { animation-name: hug-j; }
+.hero-mark { animation: hm-in 1.4s cubic-bezier(.22, 1, .36, 1) .1s both; }
+@keyframes hm-in { from { opacity: 0; transform: translateY(18px) scale(.96); } to { opacity: 1; transform: none; } }
+.hero-kw { display: block; width: clamp(120px, 15vw, 190px); margin: 0 auto 30px; color: var(--paper); animation: kw-bloom 1.8s cubic-bezier(.22, 1, .36, 1) .1s both; }
+.hero-kw svg { display: block; width: 100%; height: auto; animation: kw-glow 1.6s ease 1.6s both; }
+@keyframes kw-bloom { from { opacity: 0; transform: scale(.55) rotate(-45deg); } to { opacity: 1; transform: none; } }
+@keyframes kw-glow { 0% { color: var(--paper); filter: none; } 45% { color: #d9b45a; filter: drop-shadow(0 0 18px rgba(217, 180, 90, .55)); } 100% { color: var(--paper); filter: none; } }
+@media (prefers-reduced-motion: reduce) { .hero-mark, .hero-mark .wordmark :is(.wm-i, .wm-j), .hero-kw, .hero-kw svg { animation: none !important; } }
+/* phones: the opening screen is full straight away, not a dark screen to scroll through */
+@media (max-width: 760px) {
+  .sp-hero { min-height: 0; padding: calc(var(--hdr, 77px) + 76px) 16px 64px; }
+  .sp-hero .rv { opacity: 1 !important; transform: none !important; }
+}
+@media (max-width: 760px) {
+  .sp-hero .pol.keep { position: relative !important; inset: auto !important; display: block; margin: 0 auto 22px; transform: rotate(-3deg) !important; animation: none !important; opacity: 1 !important; }
+  .sp-hero:has(.pol.keep) { align-content: start; }
+}

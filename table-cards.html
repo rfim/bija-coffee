@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Table cards · Coffee stories · Bija Coffee</title>
+<link rel="stylesheet" href="fonts/fonts-site.css">
+<style>
+:root { --ink: #111; --paper: #f4f0e7; --muted: #6a665e; --gold: #8a6514; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #e9e3d6; color: var(--ink); font: 400 15px/1.5 Inter, system-ui, sans-serif; }
+header { max-width: 1000px; margin: 0 auto; padding: 40px 16px 8px; text-align: center; }
+header h1 { font: 400 34px/1.15 "Libre Baskerville", Georgia, serif; margin: 0 0 8px; }
+header p { margin: 0 auto; max-width: 60ch; color: #4a4740; }
+header button { margin-top: 18px; padding: 12px 22px; border: 0; border-radius: 999px; background: var(--ink); color: var(--paper); font: 500 14px/1 Inter, sans-serif; cursor: pointer; }
+main { max-width: 1000px; margin: 0 auto; padding: 24px 16px 60px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+.card { background: var(--paper); border-radius: 6px; overflow: hidden; display: grid; grid-template-rows: auto 1fr auto; text-align: center; box-shadow: 0 10px 24px rgba(17, 17, 17, .12); break-inside: avoid; }
+.card .ph { aspect-ratio: 16 / 9; background: #1b1b1b; } .card .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.card .tx { padding: 18px 18px 6px; }
+.card .ey { margin: 0; font: 600 11px/1.3 Inter, sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+.card h2 { margin: 8px 0 6px; font: 400 21px/1.25 "Libre Baskerville", Georgia, serif; }
+.card .hint { margin: 0; font-size: 13px; color: var(--muted); }
+.card .qr { width: 120px; height: 120px; margin: 10px auto 20px; padding: 6px; background: #fff; border-radius: 6px; }
+@media print { body { background: #fff; } header { display: none; } main { grid-template-columns: 1fr 1fr; gap: 8mm; padding: 0; } .card { box-shadow: none; border: .3mm solid #ccc; } }
+</style>
+</head>
+<body>
+<header><h1>Coffee stories, at the table</h1><p>One card per chapter. A guest scans the code to read the chapter on their phone, or to listen to it. Print, cut, and stand them on the tables.</p><button type="button" id="pr">Print the cards</button></header>
+<main>
+<article class="card"><div class="ph"><img src="photos/shop/hist-mocha.webp" alt=""></div><div class="tx"><p class="ey">Chapter 01 · Origins &amp; journeys</p><h2>Have you bean to Indonesia?</h2><p class="hint">Scan to read or listen to this chapter on your phone.</p></div><img class="qr" src="art/qr/stories-java.svg" alt="QR code for this chapter" width="120" height="120"></article>
+<article class="card"><div class="ph"><img src="photos/shop/bromo-engraving-600.webp" alt=""></div><div class="tx"><p class="ey">Chapter 02 · Indonesian roots</p><h2>Many islands. One extraordinary coffee culture.</h2><p class="hint">Scan to read or listen to this chapter on your phone.</p></div><img class="qr" src="art/qr/stories-roots.svg" alt="QR code for this chapter" width="120" height="120"></article>
+<article class="card"><div class="ph"><img src="photos/shop/house-botanical-600.webp" alt=""></div><div class="tx"><p class="ey">Chapter 03 · Our House Blend</p><h2>Two forests. One considered cup.</h2><p class="hint">Scan to read or listen to this chapter on your phone.</p></div><img class="qr" src="art/qr/stories-house.svg" alt="QR code for this chapter" width="120" height="120"></article>
+<article class="card"><div class="ph"><img src="photos/shop/card-aceh-gayo-600.webp" alt=""></div><div class="tx"><p class="ey">Chapter 04 · Coming soon</p><h2>The next chapter: Aceh Gayo.</h2><p class="hint">Scan to read or listen to this chapter on your phone.</p></div><img class="qr" src="art/qr/stories-gayo.svg" alt="QR code for this chapter" width="120" height="120"></article>
+<article class="card"><div class="ph"><img src="photos/shop/interior-600.webp" alt=""></div><div class="tx"><p class="ey">Chapter 05 · The idea</p><h2>A little corner of Indonesia in London.</h2><p class="hint">Scan to read or listen to this chapter on your phone.</p></div><img class="qr" src="art/qr/stories-concept.svg" alt="QR code for this chapter" width="120" height="120"></article>
+<article class="card"><div class="ph"><img src="photos/shop/pronunciation-600.webp" alt=""></div><div class="tx"><p class="ey">Chapter 06 · Our identity</p><h2>A seed. A pattern. A sense of belonging.</h2><p class="hint">Scan to read or listen to this chapter on your phone.</p></div><img class="qr" src="art/qr/stories-identity.svg" alt="QR code for this chapter" width="120" height="120"></article>
+<article class="card"><div class="ph"><img src="photos/shop/award-2025-600.webp" alt=""></div><div class="tx"><p class="ey">Chapter 07 · London Coffee Festival 2025</p><h2>A small café. A shared milestone.</h2><p class="hint">Scan to read or listen to this chapter on your phone.</p></div><img class="qr" src="art/qr/stories-award.svg" alt="QR code for this chapter" width="120" height="120"></article>
+<article class="card"><div class="ph"><img src="photos/shop/devi-600.webp" alt=""></div><div class="tx"><p class="ey">Chapter 08 · The people</p><h2>The people behind your cup.</h2><p class="hint">Scan to read or listen to this chapter on your phone.</p></div><img class="qr" src="art/qr/stories-people.svg" alt="QR code for this chapter" width="120" height="120"></article>
+<article class="card"><div class="ph"><img src="photos/shop/living-wall-600.webp" alt=""></div><div class="tx"><p class="ey">Chapter 09 · Communities &amp; partners</p><h2>Come for the coffee. Find your people.</h2><p class="hint">Scan to read or listen to this chapter on your phone.</p></div><img class="qr" src="art/qr/stories-community.svg" alt="QR code for this chapter" width="120" height="120"></article>
+<article class="card"><div class="ph"><img src="photos/shop/catering-600.webp" alt=""></div><div class="tx"><p class="ey">Chapter 10 · Events &amp; catering</p><h2>Coffee with character, served with soul.</h2><p class="hint">Scan to read or listen to this chapter on your phone.</p></div><img class="qr" src="art/qr/stories-events.svg" alt="QR code for this chapter" width="120" height="120"></article>
+</main>
+<script src="table-cards.js"></script>
+</body>
+</html>

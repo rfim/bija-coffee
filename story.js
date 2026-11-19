@@ -1,7 +1,7 @@
 /* Our story pages: reveal on scroll, drifting photos, the sliding rail, the Kawung construction and the ij meeting. */
 (() => {
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const io = 'IntersectionObserver' in window ? new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -10% 0px' }) : null;
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: matchMedia('(max-width: 760px)').matches ? '0px 0px 6% 0px' : '0px 0px -10% 0px' }) : null;
   document.querySelectorAll('.rv').forEach((e) => (io && !calm ? io.observe(e) : e.classList.add('in')));
   // the ij come together when the section is in view
   const ij = document.querySelector('.ij');
@@ -50,3 +50,7 @@
   addEventListener('scroll', () => { if (!q) { q = true; requestAnimationFrame(tick); } }, { passive: true });
   addEventListener('resize', tick, { passive: true }); tick();
 })();
+
+/* the hero wordmark: one of the four ij motions at random as the page opens, another on each tap */
+(() => { const b = document.querySelector('.hero-mark'); if (!b) return; const pick = () => { b.dataset.ij = 2 + Math.floor(Math.random() * 4); };
+  pick(); b.addEventListener('click', () => { const w = b.querySelector('.wordmark'); pick(); w.querySelectorAll('.wm-i, .wm-j').forEach((e) => { e.style.animation = 'none'; void e.getBoundingClientRect(); e.style.animation = ''; e.style.animationDelay = '0s'; }); }); })();

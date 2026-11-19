@@ -17,3 +17,4 @@ identity.html
 people.html
 drinks.html
 communities.html
+table-cards.html
