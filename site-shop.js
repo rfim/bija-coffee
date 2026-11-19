@@ -189,12 +189,14 @@
     };
     return `<span class="nl">${CAP.slice(0, 3).map(link).join('')}</span><a class="mid" href="./" aria-label="Bija home"><span class="mid-k">${ICON.mark}</span><span class="mid-w">${WORDMARK}</span></a><span class="nr">${CAP.slice(3).map(link).join('')}</span>`;
   }
+  // phones only: the menu offers the app view and the download, nothing switches by itself
+  const MAPP = `<span class="m-app"><a class="m-app-b" href="app.html?view=app">Switch to app view</a><a class="m-app-b alt" href="install.html">Download the app</a></span>`;
   function header() {
     const here = location.pathname.split('/').pop() + location.search;
     return `<header class="shead"><div class="wrap in">
       <span class="menuslot"><button class="iconbtn menubtn" aria-expanded="false" aria-controls="mainnav" aria-label="Menu">${ICON.menu}</button></span>
       <a class="brand" href="./" aria-label="Bija home">${ICON.mark}${WORDMARK}</a>
-      <nav class="mainnav" id="mainnav" aria-label="Main">${LOOK ? capsule(here) : NAV.map(([h, l]) => `<a href="${h}" ${here === h || (h === 'shop.html' && here === 'shop.html') || (here.startsWith('product.html') && h === 'shop.html') ? 'aria-current="page"' : ''}>${l}</a>`).join('')}</nav>
+      <nav class="mainnav" id="mainnav" aria-label="Main">${LOOK ? capsule(here) : NAV.map(([h, l]) => `<a href="${h}" ${here === h || (h === 'shop.html' && here === 'shop.html') || (here.startsWith('product.html') && h === 'shop.html') ? 'aria-current="page"' : ''}>${l}</a>`).join('')}${MAPP}</nav>
       ${LOOK ? '<div class="hleft"><a class="hlink" href="help.html">Help</a></div>' : ''}
       <div class="hact"><a class="hlink hidesm" href="help.html">Help</a><a class="btn sm ghost hidesm" href="app.html?view=app">Order ahead</a>${cartBtn()}</div>
     </div></header>`;

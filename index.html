@@ -13,17 +13,8 @@
 <title>Bija Coffee · Indonesian specialty coffee, London</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <script>
-/* One link, two modes: phones and tablets (touch-only or ≤1024px wide) open the app; computers get the website.
-   ?view=site or ?view=app overrides it and is remembered on this device. */
-(function () {
-  try {
-    var q = new URLSearchParams(location.search).get('view');
-    if (q === 'site' || q === 'app') localStorage.setItem('bija.view', q);
-    var v = q || localStorage.getItem('bija.view');
-    var handheld = matchMedia('(max-width: 1024px), (hover: none) and (pointer: coarse)').matches;
-    if (v === 'app' || (v !== 'site' && handheld)) location.replace('app.html');
-  } catch (e) {}
-})();
+/* Everyone gets the website, phones included. The app view opens only when asked (?view=app, or the menu's "Switch to app view" on a phone). */
+(function () { try { if (new URLSearchParams(location.search).get('view') === 'app') location.replace('app.html?view=app'); } catch (e) {} })();
 </script>
 <script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
 if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>

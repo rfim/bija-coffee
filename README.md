@@ -7,7 +7,8 @@ Live (GitHub Pages): https://rfim.github.io/bija-coffee/
 ## What's here
 | File | What it is |
 |---|---|
-| `index.html` | Website. Phones and tablets are sent to the app; `?view=site` / `?view=app` overrides (remembered per device). |
+| `index.html` | Website, on every device. The app view opens only when asked: `?view=app`, or "Switch to app view" / "Download the app" at the top of the phone menu. |
+| `audio/stories/` | Coffee stories narration, one MP3 per paragraph. `SCRIPT.md` is the recording script: to use Bu Devi's voice, record each paragraph and overwrite the file of the same name. |
 | `app.html` | Installable web app (PWA): order ahead with per-drink options, beans, Bija Card points, rewards and challenges, gift cards, Secret St James's, and a Barista view (queue, members, gift cards, finance, insights, Maheera, menu). On GitHub Pages it runs in demo mode: data stays in each browser. |
 | `shop.html`, `product.html?id=`, `subscribe.html`, `rewards.html`, `checkout.html`, `delivery.html` | Web shop, Grind-style: beans by grind, one-off or Beans Club subscription (10% off, every 2, 3 or 4 weeks, change, skip, pause or cancel up to 3 days before each dispatch), basket drawer, demo checkout (no payment taken), Royal Mail Tracked 48 £3.95 or free on orders of £30 or more, click & collect. Shared code in `site-shop.js` / `site-shop.css`. The basket (`bija.shop.cart`) and orders (`bija.shop.orders`) are shared with the app, where staff dispatch them and the points land on the Bija Card. |
 | `privacy.html`, `accessibility.html` | UK GDPR privacy notice and WCAG 2.2 AA accessibility statement (drafts for Bija to approve). |
