@@ -51,6 +51,3 @@
   addEventListener('resize', tick, { passive: true }); tick();
 })();
 
-/* the hero wordmark: one of the four ij motions at random as the page opens, another on each tap */
-(() => { const b = document.querySelector('.hero-mark'); if (!b) return; const pick = () => { b.dataset.ij = 2 + Math.floor(Math.random() * 4); };
-  pick(); b.addEventListener('click', () => { const w = b.querySelector('.wordmark'); pick(); w.querySelectorAll('.wm-i, .wm-j').forEach((e) => { e.style.animation = 'none'; void e.getBoundingClientRect(); e.style.animation = ''; e.style.animationDelay = '0s'; }); }); })();

@@ -426,3 +426,7 @@
   window.BijaShop = { P, GRINDS, PLANS, BREW, SUB_OFF, POST, FREE_AT, PTS, byId, unit, canSub, cart, saveCart, add, lines, totals, count, card, bagArt, bgFor, kind, money, esc, store, toast, markCycle, openCart, closeCart, paint, backend };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount); else mount();
 })();
+
+// the menu marks the page you are on, inside the panels too, so the phone menu can light it
+(() => { const mark = () => { const here = location.pathname.split('/').pop() || 'index.html'; document.querySelectorAll('.mainnav .pn a[href]').forEach((a) => { if (a.getAttribute('href').split('#')[0] === here) a.setAttribute('aria-current', 'page'); }); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mark); else mark(); setTimeout(mark, 600); })();

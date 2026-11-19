@@ -317,11 +317,13 @@ main.stage .exh { background: transparent !important; transition: color .8s ease
 }
 
 /* each chapter carries a QR code: scan it from a screen or a table card to carry on reading on a phone */
-.qr-go { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 18px 10px; padding: 5px 12px 5px 5px; border-radius: 12px; border: 1px solid var(--line, rgba(17, 17, 17, .14)); vertical-align: top; }
-.qr-go img { flex: none; width: 52px; height: 52px; padding: 3px; border-radius: 6px; background: #fff; }
+.vo-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 4px 0 18px; } .vo-row .vo-btn { margin: 0; }
+.qr-go { display: inline-flex; flex-direction: row-reverse; align-items: center; gap: 10px; margin: 0; padding: 0; border: 0; opacity: .55; transition: opacity .4s ease; text-align: right; }
+.qr-go:hover { opacity: 1; }
+.qr-go img { flex: none; width: 46px; height: 46px; padding: 3px; border-radius: 5px; background: #fff; }
 .qr-go span { font: 400 12px/1.35 var(--sans); opacity: .78; max-width: 17ch; } .qr-go b { display: block; font: 400 14px/1.2 var(--serif); opacity: 1; margin-bottom: 2px; }
-.ed-dark .qr-go { border-color: rgba(244, 240, 231, .16); }
-@media (max-width: 760px) { .qr-go { display: none; } }
+
+@media (max-width: 760px) { .qr-go { display: none; } .vo-row { justify-content: center; } }
 </style>
 </head>
 <body class="shop-page">
@@ -471,7 +473,7 @@ main.stage .exh { background: transparent !important; transition: color .8s ease
   secs.forEach((s) => { const h2 = s.querySelector('h2'); if (!h2) return; const b = document.createElement('button'); b.type = 'button'; b.className = 'vo-btn';
     b.innerHTML = `${play}<span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span>Listen to this chapter</span>`;
     b.addEventListener('click', () => { if (b.classList.contains('on')) return end(); bar.classList.add('show'); go(P.indexOf(s.querySelector('p[data-vo]'))); });
-    h2.insertAdjacentElement('afterend', b); });
+    h2.insertAdjacentElement('afterend', b); const q = b.nextElementSibling; if (q && q.classList.contains('qr-go')) { const r = document.createElement('div'); r.className = 'vo-row'; b.before(r); r.append(b, q); } });
 })();
 </script>
 <script>
