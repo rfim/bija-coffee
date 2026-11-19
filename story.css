@@ -216,3 +216,15 @@
 .cwall h3 { margin: 0 6px 6px; font: 400 20px/1.2 var(--serif); }
 .cwall p { margin: 0 6px; font-size: 14px; line-height: 1.55; color: #3d3a34; }
 @media (prefers-reduced-motion: reduce) { .cwall .cw { opacity: 1; transform: none; transition: none; } }
+
+/* phones: one centred column on every story page; nothing sits side by side */
+@media (max-width: 760px) {
+  main { text-align: center; }
+  main :is(h1, h2, h3, p, .lead, blockquote) { margin-inline: auto; text-wrap: balance; }
+  main :is(ul, ol) { list-style-position: inside; padding-left: 0; }
+  .sp-rail { display: grid; grid-template-columns: minmax(0, 1fr); gap: 26px; transform: none !important; }
+  .sp-rail figure { width: 100%; max-width: 400px; margin-inline: auto; }
+  .sp-rail img { aspect-ratio: 4 / 3; }
+  main figure, main picture, main .ph { margin-inline: auto; }
+  .sp-crumbs { margin-inline: auto; justify-content: center; }
+}

@@ -275,6 +275,37 @@ main.stage .exh { background: transparent !important; transition: color .8s ease
 .look-d .st-hero .ed-wy-garuda { top: -6%; right: 7%; z-index: 3; }
 @media (max-width: 760px) { .look-d .st-hero { justify-content: flex-start; min-height: 0; } .look-d .st-hero > .wrap { padding-top: calc(var(--hdr, 77px) + 32px); } .look-d .st-hero .lead { font-size: 15px; } .kv-frame { aspect-ratio: 4 / 3; margin-top: -4%; } .kv-frame img { object-position: 44% 50%; } .kv-smoke i { left: 44%; } .kv-cap { bottom: 10%; font-size: 12px; } .look-d .st-hero .ed-wy-garuda { display: none; } }
 @media (prefers-reduced-motion: reduce) { .look-d .st-hero .kv-frame img, .kv-smoke i, .kv-cloud, .kv-light { animation: none !important; } .kv-smoke i { display: none; } }
+
+/* phones: one centred column, a museum walk. Title, Listen, then each plate above the paragraph it belongs to; the one you are reading is lit */
+@media (max-width: 760px) {
+  .look-d .st-hero > .wrap { text-align: center; }
+  .look-d .st-hero .lead { margin-inline: auto; }
+  .exh .st-long aside { position: static !important; background: none !important; padding: 0; text-align: center; }
+  .exh .st-long aside .eyebrow { display: block; }
+  .exh .st-long aside h2 { font-size: 31px; line-height: 1.12; margin: 10px auto 16px; max-width: 16ch; text-wrap: balance; }
+  .exh .vo-btn { display: inline-flex !important; margin: 0 auto 8px; }
+  .exh .arcs { display: none; }
+  .exh .st-text { text-align: center; }
+  .exh .st-text > h3 { margin: 44px auto 0; max-width: 20ch; text-wrap: balance; }
+  .exh .st-text > p { margin: 0 auto 22px; max-width: 34em; }
+  .exh .arc.inl { position: relative; inset: auto; display: block; width: 100%; max-width: 400px; margin: 26px auto 20px; opacity: .38; transform: none; pointer-events: auto; transition: opacity .8s ease; }
+  .exh .arc.inl.on { opacity: 1; }
+  .exh .arc.inl .arc-ph { aspect-ratio: 4 / 3; }
+  .exh .arc.inl .arc-ph img { height: 100%; }
+  .exh .arc.inl figcaption { margin: 12px auto 0; text-align: center; padding: 10px 0 0; border-left: 0; justify-items: center; position: relative; }
+  .exh .arc.inl figcaption::before { content: ""; position: absolute; top: 0; left: 50%; width: 28px; height: 2px; margin-left: -14px; background: #b08a3e; }
+  .exh .arc.inl figcaption small { display: block !important; }
+  .exh .arc.inl figcaption .pl { display: block; }
+  .cc .cc-body, .isles article, .comm div, .st-comm-top { text-align: center; }
+  .exh .st-text .btn, .exh .st-text .ed-link { margin-inline: auto; }
+}
+@media (max-width: 760px) {
+  .cc .cc-body { padding: 9% 8% 0 !important; width: auto !important; text-align: center; }
+  .cc :is(.cc-ey, .cc-t, .cc-p, .cc-spec, .cc-two, .cc-join) { margin-inline: auto; }
+  .cc .cc-notes { justify-content: center; }
+  .cc .cc-spec { text-align: center; }
+}
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) { .exh .arc.inl { opacity: 1; } }
 </style>
 </head>
 <body class="shop-page">
@@ -452,6 +483,14 @@ window.readTop = window.readTop || (() => (document.querySelector(".shead")?.off
   const tick = () => { q = false; const line = innerHeight * .62; let cur = null; ch.forEach((s) => { if (s.getBoundingClientRect().top < line) cur = s; });
     const first = ch[0].getBoundingClientRect().top > line; main.classList.toggle('dk', !first && !!cur && cur.classList.contains('ed-dark')); main.classList.toggle('in-ch', !first); };
   addEventListener('scroll', () => { if (!q) { q = true; requestAnimationFrame(tick); } }, { passive: true }); tick();
+})();
+</script>
+<script>
+/* phones: move each plate in front of the paragraph it illustrates, so the chapter reads as one centred, stacked walk */
+(() => { if (!matchMedia('(max-width: 760px)').matches) return;
+  document.querySelectorAll('.exh').forEach((sec) => { const used = new Set();
+    sec.querySelectorAll('.st-text p[data-plate]').forEach((p) => { const k = p.dataset.plate; if (used.has(k)) return; used.add(k);
+      const f = sec.querySelector(`.arcs .arc[data-k="${k}"]`); if (!f) return; f.classList.add('inl'); p.before(f); }); });
 })();
 </script>
 </body>

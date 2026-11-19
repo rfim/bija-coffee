@@ -1123,3 +1123,14 @@ html[data-vt="15"]::view-transition-new(root) { animation: vt-lamp-in 1.1s ease 
   .mainnav .m-app .m-app-b.alt { background: rgba(244, 240, 231, .12); color: #f4f0e7 !important; }
   .mainnav:not(.open) .m-app { display: none; }
 }
+
+/* phones: the footer is one centred column too */
+@media (max-width: 760px) {
+  .sfoot { text-align: center; }
+  .sfoot .cols { grid-template-columns: minmax(0, 1fr); gap: 34px; }
+  .sfoot nav a { padding: 6px 0; }
+  .sfoot .news form, .sfoot .news .row { justify-content: center; margin-inline: auto; }
+  .sfoot :is(.soc, .social, .legal, .fine, .bot) { justify-content: center; text-align: center; }
+  .sfoot nav button { display: block; margin-inline: auto; text-align: center; }
+  .ed-head { flex-direction: column; align-items: center; text-align: center; gap: 14px; }
+}
