@@ -2,18 +2,24 @@
 (function () { try { var m = document.querySelector('meta[name=viewport]'), fit = function () { var w = Math.min(screen.width, screen.height), port = !matchMedia('(orientation: landscape)').matches; var on = w >= 320 && w <= 440 && port && w !== 428; m.setAttribute('content', on ? 'width=428,viewport-fit=cover' : 'width=device-width,initial-scale=1,viewport-fit=cover'); document.documentElement.style.setProperty('--vpk', on ? String(428 / w) : '1'); }; fit(); addEventListener('orientationchange', function () { setTimeout(fit, 60); }); } catch (e) {} })();
 /* the opening (the mark and hello) plays on every open; cover the page from the first frame so Home never flashes before it (app-motion.js lifts the cover, and so does a safety timer) */
 (function () { try { if (sessionStorage.getItem('mo.splash') || matchMedia('(prefers-reduced-motion: reduce)').matches || window.__BIJA_TEST_NO_MOTION) return; var h = document.documentElement; h.classList.add('mo-boot'); setTimeout(function () { h.classList.remove('mo-boot'); }, 2500); } catch (e) {} })();</script><meta name="theme-color" content="#ffffff"><meta http-equiv="Content-Security-Policy" content="base-uri 'none'; object-src 'none'"><style>:root{color-scheme:light;box-sizing:border-box;}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
-/* home: Bija at your event, the featured card */
-.feat { position: relative; display: block; width: 100%; margin: 4px 0 22px; padding: 0; border: 0; border-radius: 22px; overflow: hidden; background: #111; color: #f4f0e7; text-align: left; cursor: pointer; aspect-ratio: 4 / 3.3; }
-.feat picture, .feat img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.feat::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,.82) 100%); }
-.feat-tx { position: absolute; z-index: 1; left: 18px; right: 18px; bottom: 18px; display: grid; gap: 6px; }
-.feat-ey { font: 600 11.5px/1 var(--sans, Inter, sans-serif); letter-spacing: .14em; text-transform: uppercase; color: #d9b45a; display: flex; align-items: center; gap: 6px; }
-.feat-wm .wordmark { height: 15px; width: auto; display: block; color: #d9b45a; } .feat-wm .wordmark path { fill: currentColor; }
-.feat b { font: 400 25px/1.15 "Libre Baskerville", Georgia, serif; }
-.feat-s { font: 400 13.5px/1.4 var(--sans, Inter, sans-serif); color: rgba(244,240,231,.8); }
-.feat-go { justify-self: start; margin-top: 6px; padding: 9px 14px; border-radius: 999px; background: #f4f0e7; color: #111; font: 500 13px/1 var(--sans, Inter, sans-serif); }
-.feat:active { transform: scale(.985); }
 .ex-ey { display: inline-flex; align-items: center; gap: 6px; } .ex-ey .feat-wm .wordmark { height: 14px; color: currentColor; }
+
+/* What's new: Aceh Gayo drawn as its own card (plum and the Gayo weave) rather than a cropped picture of one */
+.slide.wn-c.wn-aceh { background: #3c0f2a; color: #f4f0e7; }
+.slide.wn-aceh .ac-pat { position: absolute; top: 0; right: 0; bottom: 0; width: 46%; background: url(photos/shop/gayo-pattern.png) center top / 100% auto repeat-y; opacity: .55; -webkit-mask: linear-gradient(90deg, transparent, #000 60%); mask: linear-gradient(90deg, transparent, #000 60%); }
+.slide.wn-aceh .ac-n { position: absolute; left: 18px; top: 22px; font: 400 15px/1 "Libre Baskerville", Georgia, serif; font-style: italic; color: #d9a35a; }
+.slide.wn-aceh::after { background: linear-gradient(180deg, transparent 40%, rgba(30, 6, 20, .7)); }
+.ey-wm { display: inline-block; vertical-align: -1px; } .ey-wm .wordmark { height: 11px; width: auto; display: block; color: #fff; }
+/* Christmas: a red ribbon, a gold bow and slow gold snow over the gift card picture */
+.slide.wn-c.wn-xmas::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(20, 52, 34, .35), rgba(60, 10, 10, .15) 50%, rgba(0, 0, 0, .55)); }
+.slide.wn-xmas .xm-rib { position: absolute; z-index: 2; inset: 0; pointer-events: none; background: linear-gradient(90deg, transparent calc(70% - 12px), #9c1c1c calc(70% - 12px), #c42a2a 70%, #9c1c1c calc(70% + 12px), transparent calc(70% + 12px)), linear-gradient(180deg, transparent calc(30% - 12px), #9c1c1c calc(30% - 12px), #c42a2a 30%, #9c1c1c calc(30% + 12px), transparent calc(30% + 12px)); }
+.slide.wn-xmas .xm-rib::before, .slide.wn-xmas .xm-rib::after { content: ""; position: absolute; top: 30%; left: 70%; width: 46px; height: 32px; border: 7px solid #d9b45a; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; margin-top: -26px; filter: drop-shadow(0 3px 5px rgba(0, 0, 0, .35)); }
+.slide.wn-xmas .xm-rib::before { margin-left: -50px; transform: rotate(-24deg); } .slide.wn-xmas .xm-rib::after { margin-left: 4px; transform: rotate(24deg); }
+.slide.wn-xmas .sl::before { content: ""; position: absolute; z-index: 3; }
+.slide.wn-xmas .xm-snow { position: absolute; z-index: 2; inset: -100% 0 0; background-image: radial-gradient(2px 2px at 12% 8%, #f1d98c 60%, transparent), radial-gradient(1.6px 1.6px at 36% 22%, #fff 60%, transparent), radial-gradient(2.4px 2.4px at 58% 14%, #f1d98c 60%, transparent), radial-gradient(1.6px 1.6px at 82% 30%, #fff 60%, transparent), radial-gradient(2px 2px at 24% 42%, #fff 60%, transparent), radial-gradient(2.2px 2.2px at 70% 46%, #f1d98c 60%, transparent), radial-gradient(1.6px 1.6px at 46% 60%, #fff 60%, transparent), radial-gradient(2px 2px at 90% 66%, #f1d98c 60%, transparent), radial-gradient(1.8px 1.8px at 8% 76%, #fff 60%, transparent), radial-gradient(2.2px 2.2px at 62% 84%, #fff 60%, transparent); background-size: 100% 50%; animation: xm-fall 14s linear infinite; opacity: .9; }
+.slide.wn-xmas .sl { z-index: 3; } .slide.wn-xmas .sl .ey { color: #f1d98c; } .slide.wn-xmas .xm-knot { }
+@keyframes xm-fall { to { transform: translateY(50%); } }
+@media (prefers-reduced-motion: reduce) { .slide.wn-xmas .xm-snow { animation: none; } }
 </style></head><body>
 <title>Bija Coffee</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -2970,18 +2976,18 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
     const xmas = [9, 10, 11].includes(new Date().getMonth());
     const slides = [
       { img: 'shop/latte-pour', pos: '50% 40%', ey: 'Order ahead', t: 'Skip the queue', act: 'data-act="tab" data-v="order"' },
-      { img: 'shop/card-aceh-gayo', pos: '50% 30%', ey: 'Scan & discover', t: 'Every bag has a story', act: 'data-act="scan-open"' },
+      { img: 'shop/card-aceh-gayo', ey: 'Scan & discover', t: 'Every bag has a story', act: 'data-act="scan-open"', cls: 'wn-aceh' },
+      { img: 'shop/catering-people', pos: '50% 35%', ey: 'Bija at your event', t: 'Catering, from £11.50 a head', act: 'data-act="tab" data-v="events"' },
       { img: 'shop/bag-old-brown-java', pos: '50% 55%', ey: 'Beans Club · 10% off', t: 'Fresh beans, on repeat', act: 'data-act="tab" data-v="club"' },
-      { img: 'shop/cups', pos: '42% 50%', ey: xmas ? 'Christmas · from £5' : 'Gift cards from £5', t: xmas ? 'A gift from Indonesia' : 'Give a little Indonesia', act: 'data-act="tab" data-v="gifts"' },
+      { img: 'shop/cups', pos: '42% 50%', ey: xmas ? 'Christmas · from £5' : 'Gift cards from £5', t: xmas ? 'A gift from Indonesia' : 'Give a little Indonesia', act: 'data-act="tab" data-v="gifts"', cls: xmas ? 'wn-xmas' : '' },
       { img: 'shop/entrance', pos: '50% 50%', ey: 'Secret St James\'s', t: 'Find the hidden lanes', act: 'data-act="tab" data-v="secret"' },
     ];
     const ini = name ? esc(name.trim().charAt(0).toLocaleUpperCase('en-GB')) : `<svg viewBox="-2 -2 104 104" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="7"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg>`;
     return `<p class="hsub">${esc(window.BijaGreet().sub)}</p>
       ${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
       ${active ? '' : S.dietEdit === 'home' ? dietNudge('home') : forYou(st)}
-      <button class="feat" data-act="tab" data-v="events" aria-label="Bija at your event: catering from £11.50 a head">${slidePic('shop/catering-people', 1, '50% 35%')}<span class="feat-tx"><span class="feat-ey"><span class="feat-wm">${WORDMARK}</span> at your event</span><b>We bring the coffee bar to you.</b><span class="feat-s">Catering for meetings and celebrations · from £11.50 a head</span><span class="feat-go">Plan your event →</span></span></button>
       <h2 class="wn-h">What's new</h2>
-      <div class="promos wn wnfx-${S.wnfx}" aria-label="What's new">${slides.map((x, i) => `<button class="slide wn-c" ${x.act}>${slidePic(x.img, i, x.pos)}<span class="sl"><span class="ey">${esc(x.ey)}</span><b>${esc(x.t)}</b></span></button>`).join('')}</div>
+      <div class="promos wn wnfx-${S.wnfx}" aria-label="What's new">${slides.map((x, i) => `<button class="slide wn-c ${x.cls || ''}" ${x.act}>${x.cls === 'wn-aceh' ? '<span class="ac-pat" aria-hidden="true"></span><span class="ac-n" aria-hidden="true">Aceh Gayo</span>' : slidePic(x.img, i, x.pos)}${x.cls === 'wn-xmas' ? '<span class="xm-snow" aria-hidden="true"></span><span class="xm-rib" aria-hidden="true"></span>' : ''}<span class="sl"><span class="ey">${x.ey.replace(/^Bija /, '') === x.ey ? esc(x.ey) : `<span class="ey-wm">${WORDMARK}</span> ${esc(x.ey.replace(/^Bija /, ''))}`}</span><b>${esc(x.t)}</b></span></button>`).join('')}</div>
       <div class="dots" aria-hidden="true">${slides.map((_, k) => `<i${k ? '' : ' class="on"'}></i>`).join('')}</div>`;
   }
   // "Your usual?": the main item of the last collected order (the priciest drink, else the priciest line); a first-timer gets the signature drink
