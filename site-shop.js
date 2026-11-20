@@ -163,7 +163,7 @@
   const PANELS = {
     'stories.html': ['Bija', [['our-story.html', 'Our story', 'shared-table'], ['concept.html', 'The concept', 'design-facade'], ['identity.html', 'Brand identity', 'mark-studies'], ['people.html', 'The people', 'barista-olive']], [['stories.html', 'Coffee stories'], ['drinks.html', 'Speciality drinks'], ['communities.html', 'Communities']]],
     'shop.html': ['Shop by island', 'islands'],
-    'catering.html': ['Events and catering', [['catering.html', 'Catering packages', 'catering-people'], ['offices.html', 'Bija for offices', 'catering'], ['events.html', "What's on", 'interior']]],
+    'catering.html': ['Bija at your event', [['catering.html', 'Coffee for your event', 'catering-people'], ['offices.html', 'Coffee for your office', 'catering'], ['events.html', "What's on at Bija", 'interior']]],
     'visit.html': ['Visit Bija', [['visit.html', 'Find us in Piccadilly', 'shopfront'], ['menu.html', 'The café menu', 'kopi-tubruk'], ['events.html', "What's on", 'interior']]],
   };
   // artwork, labels and bags are shown whole inside the card; landscape photos fill it
