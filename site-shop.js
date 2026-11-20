@@ -431,3 +431,12 @@
 // the menu marks the page you are on, inside the panels too, so the phone menu can light it
 (() => { const mark = () => { const here = location.pathname.split('/').pop() || 'index.html'; document.querySelectorAll('.mainnav .pn a[href]:not(.isl-h)').forEach((a) => { if (a.getAttribute('href').split('#')[0] === here) a.setAttribute('aria-current', 'page'); }); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mark); else mark(); setTimeout(mark, 600); })();
+
+// the open menu is as tall as the screen below the header, scrolls on its own, and the page behind does not move
+(() => {
+  const fit = () => { const n = document.getElementById('mainnav'); if (!n) return; const open = n.classList.contains('open') && matchMedia('(max-width: 1180px)').matches;
+    document.documentElement.classList.toggle('mnav-lock', open); if (open) n.style.setProperty('--mnav-h', Math.max(240, innerHeight - n.getBoundingClientRect().top) + 'px'); };
+  document.addEventListener('click', (e) => { if (e.target.closest && e.target.closest('.menubtn')) requestAnimationFrame(fit); });
+  addEventListener('resize', fit);
+  new MutationObserver((ms) => { if (ms.some((m) => m.target.id === 'mainnav')) fit(); }).observe(document.documentElement, { subtree: true, attributes: true, attributeFilter: ['class'] });
+})();

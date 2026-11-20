@@ -11,13 +11,8 @@
 .slide.wn-aceh::after { background: linear-gradient(180deg, transparent 40%, rgba(30, 6, 20, .7)); }
 .ey-wm { display: inline-block; vertical-align: -1px; } .ey-wm .wordmark { height: 11px; width: auto; display: block; color: #fff; }
 /* Christmas: a red ribbon, a gold bow and slow gold snow over the gift card picture */
-.slide.wn-c.wn-xmas::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(20, 52, 34, .35), rgba(60, 10, 10, .15) 50%, rgba(0, 0, 0, .55)); }
-.slide.wn-xmas .xm-rib { position: absolute; z-index: 2; inset: 0; pointer-events: none; background: linear-gradient(90deg, transparent calc(70% - 12px), #9c1c1c calc(70% - 12px), #c42a2a 70%, #9c1c1c calc(70% + 12px), transparent calc(70% + 12px)), linear-gradient(180deg, transparent calc(30% - 12px), #9c1c1c calc(30% - 12px), #c42a2a 30%, #9c1c1c calc(30% + 12px), transparent calc(30% + 12px)); }
-.slide.wn-xmas .xm-rib::before, .slide.wn-xmas .xm-rib::after { content: ""; position: absolute; top: 30%; left: 70%; width: 46px; height: 32px; border: 7px solid #d9b45a; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; margin-top: -26px; filter: drop-shadow(0 3px 5px rgba(0, 0, 0, .35)); }
-.slide.wn-xmas .xm-rib::before { margin-left: -50px; transform: rotate(-24deg); } .slide.wn-xmas .xm-rib::after { margin-left: 4px; transform: rotate(24deg); }
-.slide.wn-xmas .sl::before { content: ""; position: absolute; z-index: 3; }
 .slide.wn-xmas .xm-snow { position: absolute; z-index: 2; inset: -100% 0 0; background-image: radial-gradient(2px 2px at 12% 8%, #f1d98c 60%, transparent), radial-gradient(1.6px 1.6px at 36% 22%, #fff 60%, transparent), radial-gradient(2.4px 2.4px at 58% 14%, #f1d98c 60%, transparent), radial-gradient(1.6px 1.6px at 82% 30%, #fff 60%, transparent), radial-gradient(2px 2px at 24% 42%, #fff 60%, transparent), radial-gradient(2.2px 2.2px at 70% 46%, #f1d98c 60%, transparent), radial-gradient(1.6px 1.6px at 46% 60%, #fff 60%, transparent), radial-gradient(2px 2px at 90% 66%, #f1d98c 60%, transparent), radial-gradient(1.8px 1.8px at 8% 76%, #fff 60%, transparent), radial-gradient(2.2px 2.2px at 62% 84%, #fff 60%, transparent); background-size: 100% 50%; animation: xm-fall 14s linear infinite; opacity: .9; }
-.slide.wn-xmas .sl { z-index: 3; } .slide.wn-xmas .sl .ey { color: #f1d98c; } .slide.wn-xmas .xm-knot { }
+.slide.wn-xmas .sl { z-index: 3; }
 @keyframes xm-fall { to { transform: translateY(50%); } }
 @media (prefers-reduced-motion: reduce) { .slide.wn-xmas .xm-snow { animation: none; } }
 </style></head><body>
@@ -2979,7 +2974,7 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
       { img: 'shop/card-aceh-gayo', ey: 'Scan & discover', t: 'Every bag has a story', act: 'data-act="scan-open"', cls: 'wn-aceh' },
       { img: 'shop/catering-people', pos: '50% 35%', ey: 'Bija at your event', t: 'Catering, from £11.50 a head', act: 'data-act="tab" data-v="events"' },
       { img: 'shop/bag-old-brown-java', pos: '50% 55%', ey: 'Beans Club · 10% off', t: 'Fresh beans, on repeat', act: 'data-act="tab" data-v="club"' },
-      { img: 'shop/cups', pos: '42% 50%', ey: xmas ? 'Christmas · from £5' : 'Gift cards from £5', t: xmas ? 'A gift from Indonesia' : 'Give a little Indonesia', act: 'data-act="tab" data-v="gifts"', cls: xmas ? 'wn-xmas' : '' },
+      { img: 'shop/cups', pos: '42% 50%', ey: xmas ? 'Christmas · from £5' : 'Gift cards from £5', t: xmas ? 'A gift from Indonesia 🎅' : 'Give a little Indonesia', act: 'data-act="tab" data-v="gifts"', cls: xmas ? 'wn-xmas' : '' },
       { img: 'shop/entrance', pos: '50% 50%', ey: 'Secret St James\'s', t: 'Find the hidden lanes', act: 'data-act="tab" data-v="secret"' },
     ];
     const ini = name ? esc(name.trim().charAt(0).toLocaleUpperCase('en-GB')) : `<svg viewBox="-2 -2 104 104" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="7"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg>`;
@@ -2987,7 +2982,7 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
       ${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
       ${active ? '' : S.dietEdit === 'home' ? dietNudge('home') : forYou(st)}
       <h2 class="wn-h">What's new</h2>
-      <div class="promos wn wnfx-${S.wnfx}" aria-label="What's new">${slides.map((x, i) => `<button class="slide wn-c ${x.cls || ''}" ${x.act}>${x.cls === 'wn-aceh' ? '<span class="ac-pat" aria-hidden="true"></span><span class="ac-n" aria-hidden="true">Aceh Gayo</span>' : slidePic(x.img, i, x.pos)}${x.cls === 'wn-xmas' ? '<span class="xm-snow" aria-hidden="true"></span><span class="xm-rib" aria-hidden="true"></span>' : ''}<span class="sl"><span class="ey">${x.ey.replace(/^Bija /, '') === x.ey ? esc(x.ey) : `<span class="ey-wm">${WORDMARK}</span> ${esc(x.ey.replace(/^Bija /, ''))}`}</span><b>${esc(x.t)}</b></span></button>`).join('')}</div>
+      <div class="promos wn wnfx-${S.wnfx}" aria-label="What's new">${slides.map((x, i) => `<button class="slide wn-c ${x.cls || ''}" ${x.act}>${x.cls === 'wn-aceh' ? '<span class="ac-pat" aria-hidden="true"></span><span class="ac-n" aria-hidden="true">Aceh Gayo</span>' : slidePic(x.img, i, x.pos)}${x.cls === 'wn-xmas' ? '<span class="xm-snow" aria-hidden="true"></span>' : ''}<span class="sl"><span class="ey">${x.ey.replace(/^Bija /, '') === x.ey ? esc(x.ey) : `<span class="ey-wm">${WORDMARK}</span> ${esc(x.ey.replace(/^Bija /, ''))}`}</span><b>${esc(x.t)}</b></span></button>`).join('')}</div>
       <div class="dots" aria-hidden="true">${slides.map((_, k) => `<i${k ? '' : ' class="on"'}></i>`).join('')}</div>`;
   }
   // "Your usual?": the main item of the last collected order (the priciest drink, else the priciest line); a first-timer gets the signature drink

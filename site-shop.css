@@ -1182,3 +1182,9 @@ html[data-vt="15"]::view-transition-new(root) { animation: vt-lamp-in 1.1s ease 
 .pn-wm { display: inline-block; vertical-align: baseline; } .pn-wm .wordmark { height: .78em; width: auto; display: inline-block; vertical-align: -0.02em; overflow: visible; }
 .bwm { display: inline-block; } .bwm .wordmark { height: .8em; width: auto; vertical-align: -0.04em; overflow: visible; }
 @media (max-width: 760px) { .hero2 .wrap { text-align: center; } .hero2 .wrap p { margin-inline: auto; } .hero2 .ctas { justify-content: center; } }
+
+/* phones and tablets: the open menu fits the screen and scrolls inside itself; the page behind stays still */
+@media (max-width: 1180px) {
+  .shead .mainnav.open { max-height: var(--mnav-h, calc(100dvh - 120px)); overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px)); }
+  html.mnav-lock, html.mnav-lock body { overflow: hidden; }
+}
