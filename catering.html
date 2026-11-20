@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<script>try{var d=document.documentElement,v=sessionStorage.getItem('bija.vt')||(Math.random()<.5?'11':'14');d.dataset.vt=v;if(!/[?&]look=now/.test(location.search)&&(sessionStorage.getItem('bija.look')!=='now'||/[?&]look=delta/.test(location.search)))d.classList.add('look-d')}catch(e){}</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Bija events and catering: Indonesian specialty coffee, pastries and a full signature-drinks service for corporate meetings, conferences and private gatherings in London. Packages from £11.50 per person.">
+<title>Events and catering · Bija Coffee</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script>/* preload the four fonts the page uses first (skipped on file://, where font preloads fail CORS) */
+if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-400', 'inter-latin-600'].forEach((f) => { const l = document.createElement('link'); l.rel = 'preload'; l.as = 'font'; l.type = 'font/woff2'; l.crossOrigin = ''; l.href = 'fonts/' + f + '-normal.woff2'; document.head.appendChild(l); });</script>
+<link rel="stylesheet" href="fonts/fonts-site.css">
+<link rel="stylesheet" href="site-shop.css">
+<script src="site-shop.js" defer></script>
+<link rel="stylesheet" href="site-consent.css">
+<script src="site-consent.js" defer></script>
+<script src="site-backoffice.js" defer></script>
+<style>
+/* offices: 8px spacing grid, three type sizes per section */
+.offer { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .offer { grid-template-columns: minmax(0, 1fr); } }
+.offer > div { background: var(--tile); border-radius: 16px; padding: 32px; display: grid; gap: 8px; align-content: start; }
+.offer h3 { margin: 0; font: 400 24px/1.1 var(--disp); }
+.offer p { margin: 0; color: #3d3d3d; }
+.offer .ptag { margin-top: 8px; }
+.facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .facts { grid-template-columns: minmax(0, 1fr); } }
+.facts li { border-top: 2px solid var(--ink); padding-top: 16px; }
+.facts b { display: block; font: 400 24px/1.1 var(--disp); margin-bottom: 8px; }
+.facts span { color: #3d3d3d; }
+.enq { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 48px; align-items: start; }
+@media (max-width: 900px) { .enq { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
+.enq form { display: grid; gap: 24px; background: var(--tile); border-radius: 16px; padding: clamp(24px, 4vw, 40px); }
+.enq .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+@media (max-width: 640px) { .enq .two { grid-template-columns: minmax(0, 1fr); } }
+.enq .field label, .enq .field legend { font-size: 16px; }
+.enq .hint, .enq .err, .enq .check { font-size: 14px; }
+.enq textarea.inp { min-height: 128px; resize: vertical; }
+.enq .ints { display: grid; gap: 0; margin-top: 8px; }
+.enq .check { padding: 8px 0; min-height: 44px; align-items: center; }
+.enq .done { margin: 0; font-weight: 600; }
+.enq .done:empty { display: none; }
+.aside p { margin: 0 0 16px; color: #3d3d3d; max-width: 46ch; }
+.aside a { font-weight: 600; }
+
+/* catering: three packages, a breakfast and a corporate story, one enquiry */
+.duo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: center; }
+.duo.flip > :first-child { order: 2; }
+@media (max-width: 860px) { .duo, .duo.flip { grid-template-columns: minmax(0, 1fr); text-align: center; } .duo.flip > :first-child { order: 0; } .duo p { margin-inline: auto; } }
+.duo .ph img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 18px; display: block; }
+.duo h2 { font: 400 clamp(30px, 3.6vw, 48px)/1.1 var(--disp); margin: 10px 0 16px; }
+.duo p { color: #3d3d3d; max-width: 52ch; }
+.pk { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 960px) { .pk { grid-template-columns: minmax(0, 1fr); } }
+.pk > div { background: var(--tile); border-radius: 18px; padding: 32px; display: grid; gap: 10px; align-content: start; text-align: left; }
+.pk > div.hi { background: #111; color: #f4f0e7; } .pk > div.hi p, .pk > div.hi li { color: rgba(244, 240, 231, .82); }
+.pk .for { font: 600 12px/1.3 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: #6a665e; } .pk .hi .for { color: #d9b45a; }
+.pk h3 { margin: 0; font: 400 34px/1.05 var(--disp); }
+.pk .price { font: 400 20px/1.3 var(--disp); } .pk .min { margin: 0; font-size: 14px; color: #6a665e; } .pk .hi .min { color: rgba(244, 240, 231, .6); }
+.pk ul { margin: 6px 0 4px; padding-left: 18px; display: grid; gap: 6px; color: #3d3d3d; }
+.pk .btn { justify-self: start; margin-top: 8px; }
+.pk .hi .btn { background: #f4f0e7; color: #111 !important; border-color: #f4f0e7; }
+@media (max-width: 760px) { .pk > div { text-align: center; justify-items: center; } .pk ul { list-style-position: inside; padding-left: 0; } .pk .btn { justify-self: center; } }
+.small { font-size: 14px; color: #6a665e; margin-top: 18px; text-align: center; }
+</style>
+</head>
+<body class="shop-page">
+<a class="skip" href="#main">Skip to content</a>
+<div id="shop-top"></div>
+<main id="main">
+  <section class="hero2" aria-labelledby="h">
+    <picture><source type="image/webp" srcset="photos/shop/catering-header-600.webp 600w, photos/shop/catering-header.webp 1200w" sizes="(max-width: 860px) 100vw, 50vw"><img width="1200" height="1600" src="photos/shop/catering-header.jpg" alt="Bija coffee and pastries laid out for an event" loading="lazy" decoding="async" style="object-position:50% 60%"></picture>
+    <div class="wrap"><span class="eyebrow">Events and catering</span><h1 id="h">Bija coffee for your event.</h1>
+      <p>Bring Bija’s Indonesian coffee experience to your corporate meeting, conference or private gathering. Thoughtful coffee, food and service, shaped around your event.</p>
+      <div class="ctas"><a class="btn" href="#enquire">Plan your event</a><a class="btn ghost" href="#packages">See the packages</a></div></div>
+  </section>
+
+  <div class="kband" aria-hidden="true" style="margin-top:0"><span data-mk></span></div>
+
+  <div class="wrap">
+    <section class="sec duo" aria-labelledby="bf-h">
+      <div class="ph"><picture><source type="image/webp" srcset="photos/shop/catering-detail-600.webp 600w, photos/shop/catering-detail.webp 1200w" sizes="(max-width: 860px) 100vw, 50vw"><img width="1200" height="1600" src="photos/shop/catering-detail.jpg" alt="Coffee and pastries served for a breakfast gathering" loading="lazy" decoding="async" style="object-position:50% 50%"></picture></div>
+      <div><span class="eyebrow">Breakfast</span><h2 id="bf-h">Breakfast, made for your gathering.</h2>
+        <p>Our breakfast service brings coffee, pastries and refreshments to your gathering. Guests can enjoy a fresh cup and something to eat while they meet and catch up.</p>
+        <p>Tell us about your timings, guest numbers and dietary requirements. We’ll help you plan the food and drinks, with service that suits your occasion.</p>
+        <a class="ed-link" href="#enquire">Enquire about catering <span class="arr" aria-hidden="true">↗</span></a></div>
+    </section>
+
+    <section class="sec duo flip" aria-labelledby="corp-h">
+      <div class="ph"><picture><source type="image/webp" srcset="photos/shop/catering-people-600.webp 600w, photos/shop/catering-people.webp 1200w" sizes="(max-width: 860px) 100vw, 50vw"><img width="1200" height="1600" src="photos/shop/catering-people.jpg" alt="Guests enjoying Bija coffee at a corporate event" loading="lazy" decoding="async" style="object-position:50% 50%"></picture></div>
+      <div><span class="eyebrow">Corporate coffee and catering</span><h2 id="corp-h">Coffee delivered to your event.</h2>
+        <p>We offer delivered coffee and pastries as well as a full signature-drinks service. Depending on your package, we provide professional equipment, trained baristas and supplies, with setup and cleanup planned around your event.</p>
+        <p>We welcome one-off gatherings and regular corporate bookings. Tell us the date, venue and number of guests, and we’ll help you choose the service and prepare a quote.</p></div>
+    </section>
+
+    <section class="sec" id="packages" aria-labelledby="pk-h">
+      <div class="sec-h"><div><span class="eyebrow">Packages tailored to your gathering</span><h2 id="pk-h">Choose your catering package.</h2><p>Choose a starting point, then let us shape the menu and service around your guests.</p></div></div>
+      <div class="pk">
+        <div><span class="for">Private events and gatherings</span><h3>Personal</h3><span class="price">From £11.50 per person + VAT</span><p class="min">Minimum order: 20 servings</p>
+          <ul><li>Freshly brewed Indonesian filter coffee</li><li>One croissant or muffin per person</li><li>Cups, stirrers, milk and sugar</li><li>Delivery to your venue</li><li>Optional seasonal cold-pressed juice at an additional cost</li></ul>
+          <a class="btn sm" href="#enquire" data-pk="Personal">Request a quote</a></div>
+        <div class="hi"><span class="for">Office meetings and team gatherings</span><h3>Business</h3><span class="price">From £13.50 per person + VAT</span><p class="min">Minimum order: 30 servings</p>
+          <ul><li>Expanded premium coffee options</li><li>One croissant or muffin per person</li><li>Savoury pastry rolls and a fruit selection</li><li>Custom menu planning</li><li>Optional cold-pressed juice at an additional cost</li></ul>
+          <a class="btn sm" href="#enquire" data-pk="Business">Request a quote</a></div>
+        <div><span class="for">Large events and corporate partnerships</span><h3>Business+</h3><span class="price">From £25 per person</span><p class="min">Minimum commitment: 40+ people</p>
+          <ul><li>Complete selection of our signature drinks</li><li>Extended service hours, with possible additional fees</li><li>Priority booking and dedicated support</li><li>Expanded catering: packed lunches, or salad, quiches, rolls and filo pastries</li></ul>
+          <a class="btn sm" href="#enquire" data-pk="Business+">Request a quote</a></div>
+      </div>
+      <p class="small">All packages can be customised. Final prices depend on event duration, guest numbers and service requirements. Business+ VAT treatment will be confirmed in your quote. Optional extras and extended service may carry additional charges.</p>
+    </section>
+
+    <section class="sec" id="enquire" aria-labelledby="enq-h">
+      <div class="enq">
+        <div class="aside">
+          <div class="sec-h"><div><span class="eyebrow">Plan your event</span><h2 id="enq-h">Let’s make it a Bija occasion.</h2></div></div>
+          <p>Tell us the date, venue, guest numbers and what you have in mind. We’ll help you choose the right menu and service. Sending an enquiry does not confirm a booking.</p>
+          <p>The form opens your email app with the message ready to send; nothing is sent or stored by this page. Or email <a href="mailto:info@bijalondon.co.uk">info@bijalondon.co.uk</a>, or call <a href="tel:+442046033086">+44 20 4603 3086</a>.</p>
+        </div>
+        <form id="enq" novalidate>
+          <div class="two">
+            <div class="field"><label for="e-name">Name</label><input class="inp" id="e-name" name="name" autocomplete="name" required aria-describedby="e-name-err"><p class="err" id="e-name-err"></p></div>
+            <div class="field"><label for="e-email">Email</label><input class="inp" id="e-email" name="email" type="email" autocomplete="email" required aria-describedby="e-email-err"><p class="err" id="e-email-err"></p></div>
+          </div>
+          <div class="field"><label for="e-co">Company or organisation <span class="hint">Optional</span></label><input class="inp" id="e-co" name="company" autocomplete="organization"></div>
+          <div class="two">
+            <div class="field"><label for="e-date">Event date <span class="hint">Optional</span></label><input class="inp" id="e-date" name="date" type="date"></div>
+            <div class="field"><label for="e-guests">Number of guests <span class="hint">Optional</span></label><input class="inp" id="e-guests" name="guests" type="number" min="1" inputmode="numeric"></div>
+          </div>
+          <div class="field"><label for="e-pk">Package preference</label><select class="inp" id="e-pk" name="package"><option>Help me choose</option><option>Personal</option><option>Business</option><option>Business+</option></select></div>
+          <div class="field"><label for="e-msg">Venue, timing, dietary requirements and anything else we should know</label><textarea class="inp" id="e-msg" name="message" maxlength="1500"></textarea><p class="hint">Please avoid including sensitive personal information.</p></div>
+          <div><button class="btn" type="submit">Send event enquiry</button></div>
+          <p class="done" id="e-done" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </div>
+</main>
+<script src="catering.js" defer></script>
+<div id="shop-foot"></div>
+</body>
+</html>
