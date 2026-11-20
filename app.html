@@ -2977,6 +2977,7 @@ body.barista-view:has(#mhorb) #main { padding-bottom: calc(96px + var(--sa-botto
       { img: 'shop/cups', pos: '42% 50%', ey: xmas ? 'Christmas · from £5' : 'Gift cards from £5', t: xmas ? 'A gift from Indonesia 🎅' : 'Give a little Indonesia', act: 'data-act="tab" data-v="gifts"', cls: xmas ? 'wn-xmas' : '' },
       { img: 'shop/entrance', pos: '50% 50%', ey: 'Secret St James\'s', t: 'Find the hidden lanes', act: 'data-act="tab" data-v="secret"' },
     ];
+    if (xmas) slides.unshift(...slides.splice(slides.findIndex((x) => x.cls === 'wn-xmas'), 1));
     const ini = name ? esc(name.trim().charAt(0).toLocaleUpperCase('en-GB')) : `<svg viewBox="-2 -2 104 104" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="7"><circle cx="50" cy="25" r="25"/><circle cx="75" cy="50" r="25"/><circle cx="50" cy="75" r="25"/><circle cx="25" cy="50" r="25"/></g></svg>`;
     return `<p class="hsub">${esc(window.BijaGreet().sub)}</p>
       ${active ? `<button class="panel stack" data-act="tab" data-v="orders" style="width:100%;text-align:left;margin-bottom:12px"><div class="row between"><span><span class="code">${esc(active.code)}</span> · ${esc(active.slot || '')}</span><span class="pill ${active.status}">${STATUS[active.status]}</span></div><div class="track">${[1, 2, 3].map((i) => `<span class="${i <= { received: 1, brewing: 2, ready: 3 }[active.status] ? 'on' : ''}"></span>`).join('')}</div><span class="hint">${active.status === 'ready' ? 'Ready at the bar. Show your code.' : 'We\'re on it. This updates live.'}</span></button>` : ''}
