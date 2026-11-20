@@ -159,11 +159,11 @@
   document.documentElement.classList.toggle('look-d', !!LOOK);
   // the preview's menu: two equal halves with the Kawung exactly in the middle; Shop, Coffee stories, Indonesian roots and Visit
   // open a panel on hover or focus, as in the reference: the capsule grows into a dark card with a title, three picture links and the socials
-  const CAP = [['stories.html', 'Bija'], ['shop.html', 'Shop'], ['gifts.html', 'Gifts'], ['offices.html', 'Events'], ['rewards.html', 'Rewards'], ['visit.html', 'Visit']];
+  const CAP = [['stories.html', 'Bija'], ['shop.html', 'Shop'], ['gifts.html', 'Gifts'], ['catering.html', 'Catering'], ['rewards.html', 'Rewards'], ['visit.html', 'Visit']];
   const PANELS = {
     'stories.html': ['Bija', [['our-story.html', 'Our story', 'shared-table'], ['concept.html', 'The concept', 'design-facade'], ['identity.html', 'Brand identity', 'mark-studies'], ['people.html', 'The people', 'barista-olive']], [['stories.html', 'Coffee stories'], ['drinks.html', 'Speciality drinks'], ['communities.html', 'Communities']]],
     'shop.html': ['Shop by island', 'islands'],
-    'offices.html': ['Events', [['catering.html', 'Events and catering', 'catering-people'], ['offices.html', 'Bija for offices', 'catering'], ['events.html', "What's on", 'interior']]],
+    'catering.html': ['Events and catering', [['catering.html', 'Catering packages', 'catering-people'], ['offices.html', 'Bija for offices', 'catering'], ['events.html', "What's on", 'interior']]],
     'visit.html': ['Visit Bija', [['visit.html', 'Find us in Piccadilly', 'shopfront'], ['menu.html', 'The café menu', 'kopi-tubruk'], ['events.html', "What's on", 'interior']]],
   };
   // artwork, labels and bags are shown whole inside the card; landscape photos fill it
@@ -183,7 +183,7 @@
   const socRow = () => `<span class="pn-soc">${SOC.map(([h, l, g]) => `<a href="${h}" rel="noopener" aria-label="${l}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${g}</svg></a>`).join('')}</span>`;
   function capsule(here) {
     const link = ([h, l]) => {
-      const pn = PANELS[h], cur = here === h || (h === 'shop.html' && /^(product|subscribe|find)\.html/.test(here)) || (h === 'stories.html' && /^(stories|our-story|concept|identity|people)\.html/.test(here)) || (h === 'visit.html' && /^menu\.html/.test(here)) || (h === 'offices.html' && /^(catering|events)\.html/.test(here)) ? ' aria-current="page"' : '';
+      const pn = PANELS[h], cur = here === h || (h === 'shop.html' && /^(product|subscribe|find)\.html/.test(here)) || (h === 'stories.html' && /^(stories|our-story|concept|identity|people)\.html/.test(here)) || (h === 'visit.html' && /^menu\.html/.test(here)) || (h === 'catering.html' && /^(offices|events)\.html/.test(here)) ? ' aria-current="page"' : '';
       if (!pn) return `<a href="${h}"${cur}>${l}</a>`;
       const lab = l === 'Bija' ? `<span class="vh">Bija</span>${WORDMARK}` : l;
       return `<span class="has-pn"><a href="${h}"${cur} aria-haspopup="true" aria-expanded="false">${lab}<i class="crt" aria-hidden="true"></i></a><span class="pn" role="group" aria-label="${pn[0]}"><b class="pn-t">${pn[0] === 'Bija' ? `<span class="vh">Bija</span>${WORDMARK}` : pn[0]}</b>${pn[1] === 'islands' ? islandsPanel() : `<span class="pn-g">${pn[1].map(([ph, pl, img], i) => `<a href="${ph}" style="--i:${i}"><img${WHOLE.has(img) ? ' class="whole"' : ''} src="photos/shop/${img}-600.webp" alt="" loading="lazy" decoding="async"><span>${pl}</span></a>`).join('')}</span><span class="pn-f">${socRow()}${pn[2] ? `<span class="pn-more">${pn[2].map(([mh, ml]) => `<a href="${mh}">${ml}</a>`).join('')}</span>` : '<span>© Bija Coffee</span>'}</span>`}</span></span>`;
