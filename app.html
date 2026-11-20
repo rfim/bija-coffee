@@ -15,6 +15,12 @@
 .slide.wn-xmas .sl { z-index: 3; }
 @keyframes xm-fall { to { transform: translateY(50%); } }
 @media (prefers-reduced-motion: reduce) { .slide.wn-xmas .xm-snow { animation: none; } }
+
+/* date and number boxes side by side: equal widths, equal heights, text on the left (iOS gives date inputs its own width and centres them) */
+.ex-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; align-items: end; }
+.ex-two .f { min-width: 0; }
+.ex-two input, .ex-form input[type="date"] { width: 100%; min-width: 0; max-width: 100%; box-sizing: border-box; height: 52px; -webkit-appearance: none; appearance: none; text-align: left; }
+.ex-form input[type="date"]::-webkit-date-and-time-value { text-align: left; }
 </style></head><body>
 <title>Bija Coffee</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">

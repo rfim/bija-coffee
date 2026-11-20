@@ -78,6 +78,11 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-
 }
 @media (min-width: 761px) { .pk-hint { display: none; } }
 .small { font-size: 14px; color: #6a665e; margin-top: 18px; text-align: center; }
+
+/* date and number boxes: equal, neat, left-aligned on iPhone too */
+.enq .two > .field { min-width: 0; }
+.enq input[type="date"], .enq input[type="number"] { width: 100%; min-width: 0; max-width: 100%; box-sizing: border-box; height: 52px; -webkit-appearance: none; appearance: none; text-align: left; }
+.enq input[type="date"]::-webkit-date-and-time-value { text-align: left; }
 </style>
 </head>
 <body class="shop-page">
