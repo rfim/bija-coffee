@@ -65,6 +65,18 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-
 .pk .btn { justify-self: start; margin-top: 8px; }
 .pk .hi .btn { background: #f4f0e7; color: #111 !important; border-color: #f4f0e7; }
 @media (max-width: 760px) { .pk > div { text-align: center; justify-items: center; } .pk ul { list-style-position: inside; padding-left: 0; } .pk .btn { justify-self: center; } }
+/* phones: a slim bar to the enquiry, always to hand until the form is on screen; packages in a swipe row */
+.cat-bar { display: none; }
+@media (max-width: 760px) {
+  .cat-bar { position: fixed; z-index: 30; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-radius: 999px; background: #111; color: #f4f0e7; text-decoration: none; box-shadow: 0 12px 30px rgba(0, 0, 0, .3); transition: transform .5s cubic-bezier(.22, 1, .36, 1), opacity .4s ease; }
+  .cat-bar span { flex: 1; display: grid; gap: 2px; } .cat-bar b { font: 400 18px/1.2 var(--disp); } .cat-bar small { font: 400 12.5px/1.2 var(--sans); color: rgba(244, 240, 231, .65); } .cat-bar i { font-style: normal; color: #d9b45a; font-size: 20px; }
+  .cat-bar.away { transform: translateY(140%); opacity: 0; pointer-events: none; }
+  .pk { grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 84%; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 16px 12px; margin: 0 -16px; scrollbar-width: none; }
+  .pk > div { scroll-snap-align: center; }
+  .pk-hint { display: block; text-align: center; font-size: 13px; color: #6a665e; margin: -4px 0 14px; }
+  main { padding-bottom: 72px; }
+}
+@media (min-width: 761px) { .pk-hint { display: none; } }
 .small { font-size: 14px; color: #6a665e; margin-top: 18px; text-align: center; }
 </style>
 </head>
@@ -99,6 +111,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-
 
     <section class="sec" id="packages" aria-labelledby="pk-h">
       <div class="sec-h"><div><span class="eyebrow">Three ways to start</span><h2 id="pk-h">Pick a package. We’ll make it yours.</h2><p>Choose a starting point, then let us shape the menu and service around your guests.</p></div></div>
+      <p class="pk-hint">Swipe to compare the three packages</p>
       <div class="pk">
         <div><span class="for">Private events and gatherings</span><h3>Personal</h3><span class="price">From £11.50 per person + VAT</span><p class="min">Minimum order: 20 servings</p>
           <ul><li>Freshly brewed Indonesian filter coffee</li><li>One croissant or muffin per person</li><li>Cups, stirrers, milk and sugar</li><li>Delivery to your venue</li><li>Optional seasonal cold-pressed juice at an additional cost</li></ul>
@@ -139,6 +152,7 @@ if (location.protocol !== 'file:') ['libre-baskerville-latin-400', 'inter-latin-
     </section>
   </div>
 </main>
+<a class="cat-bar" href="#enquire" aria-label="Plan your event: send us an enquiry"><span><b>Plan your event</b><small>Free quote · reply by email</small></span><i aria-hidden="true">→</i></a>
 <script src="catering.js" defer></script>
 <div id="shop-foot"></div>
 </body>

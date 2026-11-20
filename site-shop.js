@@ -191,7 +191,7 @@
     return `<span class="nl">${CAP.slice(0, 3).map(link).join('')}</span><a class="mid" href="./" aria-label="Bija home"><span class="mid-k">${ICON.mark}</span><span class="mid-w">${WORDMARK}</span></a><span class="nr">${CAP.slice(3).map(link).join('')}</span>`;
   }
   // phones only: the menu offers the app view and the download, nothing switches by itself
-  const MAPP = `<span class="m-app"><a class="m-app-b" href="app.html?view=app">Switch to app view</a><a class="m-app-b alt" href="install.html">Download the app</a></span>`;
+  const MAPP = `<span class="m-app"><a class="m-app-b" href="app.html?view=app">Switch to app view</a><a class="m-app-b alt" href="install.html">Download the app</a></span><a class="m-cat" href="catering.html"><img src="photos/shop/catering-people-600.webp" alt="" width="72" height="72" loading="lazy"><span><b>Catering for your event</b><small>Coffee, pastries and our baristas · from £11.50 a head</small></span><i aria-hidden="true">→</i></a>`;
   function header() {
     const here = location.pathname.split('/').pop() + location.search;
     return `<header class="shead"><div class="wrap in">

@@ -13,3 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     done.textContent = 'Your email app should now open with your enquiry. Press send there to reach us. If nothing opened, email info@bijalondon.co.uk.';
   });
 });
+
+// phones: hide the Plan your event bar while the form is on screen
+(() => { const bar = document.querySelector('.cat-bar'), f = document.getElementById('enquire'); if (!bar || !f || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver((es) => es.forEach((e) => bar.classList.toggle('away', e.isIntersecting)), { threshold: .15 }).observe(f); })();
