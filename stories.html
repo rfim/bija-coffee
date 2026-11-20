@@ -333,6 +333,22 @@ main.stage .exh { background: transparent !important; transition: color .8s ease
   .st-toc .st-now i { font-style: italic; color: #d9b45a; margin-right: 8px; }
 }
 @media (min-width: 761px) { .st-toc .st-now { display: none; } }
+
+/* phones: the House Blend and Aceh Gayo cards take the room they need; the weave and the leaves sit behind, never over the words */
+@media (max-width: 760px) {
+  .exh .arc.inl .arc-ph:has(.cc) { aspect-ratio: auto !important; height: auto !important; padding: 0 !important; background: none !important; box-shadow: none !important; } .exh .arc.inl .arc-ph:has(.cc)::after { content: none; }
+  .exh .arc.inl .cc { height: auto !important; aspect-ratio: auto !important; padding: 0 0 26px; }
+  .exh .arc.inl .cc.cc-house { min-height: 0; }
+  .exh .arc.inl .cc .cc-badge { position: static; display: block; width: 64px; margin: 0 auto 12px; }
+  .exh .arc.inl .cc .cc-two { justify-content: center; text-align: left; }
+  .exh .arc.inl .cc-house .cc-art { z-index: 0; }
+  .exh .arc.inl .cc .cc-body { width: auto !important; padding: 36px 22px 8px !important; text-align: center; }
+  .exh .arc.inl .cc-gayo .cc-pat { width: 34%; right: -10%; top: -6%; bottom: auto; opacity: .22; }
+  .exh .arc.inl .cc-gayo .cc-mark { opacity: .25; }
+  .exh .arc.inl .cc-house .cc-art { width: 70%; right: -22%; bottom: -14%; opacity: .3; }
+  .exh .arc.inl .cc :is(.cc-notes, .cc-spec) { margin-inline: auto; justify-content: center; flex-wrap: wrap; }
+  .exh .arc.inl .cc .cc-spec { width: 100%; max-width: 360px; }
+}
 </style>
 </head>
 <body class="shop-page">
