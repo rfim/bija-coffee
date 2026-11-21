@@ -448,3 +448,11 @@
   addEventListener('hashchange', close); addEventListener('pageshow', (e) => { if (e.persisted) close(); });
   addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 })();
+
+// safety net: a page transition never holds the page for more than 1.5s, and a page shown again never stays locked
+(() => {
+  addEventListener('pagereveal', (e) => { const t = e.viewTransition; if (t) { const k = setTimeout(() => { try { t.skipTransition(); } catch {} }, 1500); t.finished.finally(() => clearTimeout(k)); } });
+  addEventListener('pageswap', (e) => { const t = e.viewTransition; if (t) setTimeout(() => { try { t.skipTransition(); } catch {} }, 1500); });
+  const free = () => { const d = document.getElementById('drawer'); if (!(d && d.classList.contains('open'))) document.documentElement.style.overflow = ''; if (!document.getElementById('mainnav')?.classList.contains('open')) document.documentElement.classList.remove('mnav-lock'); };
+  addEventListener('pageshow', free); document.addEventListener('visibilitychange', () => { if (!document.hidden) free(); });
+})();
