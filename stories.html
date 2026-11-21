@@ -349,6 +349,9 @@ main.stage .exh { background: transparent !important; transition: color .8s ease
   .exh .arc.inl .cc :is(.cc-notes, .cc-spec) { margin-inline: auto; justify-content: center; flex-wrap: wrap; }
   .exh .arc.inl .cc .cc-spec { width: 100%; max-width: 360px; }
 }
+
+/* phones: no live blur behind the sticky bars (they are nearly solid already); blur under scrolling content is the costliest thing a phone can paint */
+@media (max-width: 760px) { .st-toc, .vo-bar { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; } .st-toc { background: #151515; } }
 </style>
 </head>
 <body class="shop-page">
@@ -472,12 +475,13 @@ main.stage .exh { background: transparent !important; transition: color .8s ease
   const secs = [...new Set(P.map((p) => p.closest('section')))];
   const headOf = (p) => { let h = p.previousElementSibling; while (h && h.tagName !== 'H3') h = h.previousElementSibling; return h; };
   const litHead = (p) => { let h = p.previousElementSibling; while (h && h.classList.contains('arc')) h = h.previousElementSibling; return h && h.tagName === 'H3' ? h : null; };
-  const mark = (p) => { secs.forEach((s) => s.querySelectorAll('.now, .now-h').forEach((e) => e.classList.remove('now', 'now-h'))); if (!p) return; p.classList.add('now'); litHead(p)?.classList.add('now-h'); const sec = p.closest('section'), k = p.dataset.plate; if (k != null) sec.querySelectorAll('.arc').forEach((f) => f.classList.toggle('on', f.dataset.k === k)); };
+  let marked;
+  const mark = (p) => { if (p === marked) return; marked = p; secs.forEach((s) => s.querySelectorAll('.now, .now-h').forEach((e) => e.classList.remove('now', 'now-h'))); if (!p) return; p.classList.add('now'); litHead(p)?.classList.add('now-h'); const sec = p.closest('section'), k = p.dataset.plate; if (k != null) sec.querySelectorAll('.arc').forEach((f) => f.classList.toggle('on', f.dataset.k === k)); };
   if (!calm) secs.forEach((s) => s.classList.add('vo-focus'));
   // reading by scrolling: the paragraph nearest the middle of the screen
   let playing = null, q = false;
-  const tick = () => { q = false; if (playing) return; let best = null, bd = 1e9; P.forEach((p) => { const r = p.getBoundingClientRect(), d = Math.abs(r.top + r.height / 2 - (innerHeight + readTop()) / 2); if (d < bd) { bd = d; best = p; } }); mark(best); };
-  addEventListener('scroll', () => { if (!q) { q = true; requestAnimationFrame(tick); } }, { passive: true }); tick();
+  const tick = () => { q = false; if (playing) return; let best = null, bd = 1e9; const mid = (innerHeight + readTop()) / 2; P.forEach((p) => { const r = p.getBoundingClientRect(), d = Math.abs(r.top + r.height / 2 - mid); if (d < bd) { bd = d; best = p; } }); mark(best); };
+  let lastT = 0, tq = 0; addEventListener('scroll', () => { if (q) return; const now = performance.now(), wait = Math.max(0, 120 - (now - lastT)); q = true; clearTimeout(tq); tq = setTimeout(() => requestAnimationFrame(() => { lastT = performance.now(); tick(); }), wait); }, { passive: true }); tick();
   // the player
   const play = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>', pause = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg>', stop = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10H7z" fill="currentColor"/></svg>';
   const bar = document.createElement('div'); bar.className = 'vo-bar'; bar.setAttribute('role', 'region'); bar.setAttribute('aria-label', 'Reading aloud');
@@ -544,7 +548,7 @@ window.readTop = window.readTop || (() => (document.querySelector(".shead")?.off
   const S = [...document.querySelectorAll('section.exh')]; let last = null;
   const upd = () => { const line = (document.querySelector('.st-toc')?.getBoundingClientRect().bottom || 120) + 40; let cur = null; S.forEach((s) => { if (s.getBoundingClientRect().top < line) cur = s; });
     if (cur === last) return; last = cur; if (!cur) { now.textContent = ''; return; } const n = (cur.querySelector('.eyebrow')?.textContent.match(/\d+/) || [''])[0]; now.innerHTML = `<i>${n}</i>${cur.querySelector('h2')?.textContent.trim() || ''}`; };
-  addEventListener('scroll', () => requestAnimationFrame(upd), { passive: true }); upd(); })();
+  let uq = false; addEventListener('scroll', () => { if (!uq) { uq = true; requestAnimationFrame(() => { uq = false; upd(); }); } }, { passive: true }); upd(); })();
 </script>
 </body>
 </html>

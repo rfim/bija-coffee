@@ -440,3 +440,11 @@
   addEventListener('resize', fit);
   new MutationObserver((ms) => { if (ms.some((m) => m.target.id === 'mainnav')) fit(); }).observe(document.documentElement, { subtree: true, attributes: true, attributeFilter: ['class'] });
 })();
+
+// any link in the menu closes it and frees the page, including links that only jump within this page; never leave the page locked
+(() => {
+  const close = () => { const n = document.getElementById('mainnav'); if (n && n.classList.contains('open')) { n.classList.remove('open'); document.querySelector('.menubtn')?.setAttribute('aria-expanded', 'false'); } document.documentElement.classList.remove('mnav-lock'); };
+  document.addEventListener('click', (e) => { const a = e.target.closest && e.target.closest('#mainnav a[href]'); if (a) close(); });
+  addEventListener('hashchange', close); addEventListener('pageshow', (e) => { if (e.persisted) close(); });
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+})();
