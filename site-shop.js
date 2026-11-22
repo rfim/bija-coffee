@@ -121,9 +121,9 @@
     gayo: { k: 'rgba(214,150,80,.32)', ks: 88, c: '#3d0026', isl: 'Sumatra', story: 'From the highlands of Aceh, where the smallholders of Pantan Musara rebuilt their farms.', ch: 'gayo' },
     kintamani: { k: 'rgba(255,230,160,.34)', ks: 104, c: '#cc7a00', isl: 'Bali', story: 'Grown by 377 smallholders among Bali’s orange trees, in harmony with the land.', ch: 'roots' },
   };
-  const setArt = (p) => `<span class="lbl-fan">${p.contains.map((id, i) => { const q = byId(id), l = LABEL[id]; return `<span class="lbl lbl-f" style="--c:${l.c};--i:${i};--kc:${l.k};--ks:${l.ks * .8}px"><span class="lbl-m"></span><span class="lbl-o">Indonesia / ${esc(l.isl)}</span><span class="lbl-n">${esc(q.name)}</span></span>`; }).join('')}</span>`;
-  const giftArt = () => `<span class="lbl" style="--c:#151515"><span class="lbl-m" style="--kc:rgba(217,180,90,.35)"></span><span class="lbl-o" style="color:#d9b45a">A bag a month · 3 months</span><span class="lbl-n">Gift subscription</span></span>`;
-  const labelArt = (p) => { const l = LABEL[p.id]; return `<span class="lbl" style="--c:${l.c};--kc:${l.k};--ks:${l.ks}px"><span class="lbl-m"></span><span class="lbl-o">Indonesia / ${esc(l.isl)}</span><span class="lbl-n">${esc(p.name)}</span></span>`; };
+  const setArt = (p) => `<span class="lbl-fan">${p.contains.map((id, i) => { const q = byId(id), l = LABEL[id]; return `<span class="lbl lbl-f" style="--c:${l.c};--i:${i}"><span class="lbl-m" style="background-image:url(photos/shop/motif-${id}.webp)"></span><span class="lbl-o">Indonesia / ${esc(l.isl)}</span><span class="lbl-n">${esc(q.name)}</span></span>`; }).join('')}</span>`;
+  const giftArt = () => `<span class="lbl" style="--c:#151515"><span class="lbl-m" style="background-image:url(photos/shop/motif-house.webp);opacity:.28"></span><span class="lbl-o" style="color:#d9b45a">A bag a month · 3 months</span><span class="lbl-n">Gift subscription</span></span>`;
+  const labelArt = (p) => { const l = LABEL[p.id]; return `<span class="lbl" style="--c:${l.c}"><span class="lbl-m" style="background-image:url(photos/shop/motif-${p.id}.webp)"></span><span class="lbl-o">Indonesia / ${esc(l.isl)}</span><span class="lbl-n">${esc(p.name)}</span></span>`; };
   function card(p, o = {}) {
     const plan = o.plan || 'once', link = `product.html?id=${p.id}`;
     const btn = p.soon ? `<button class="btn ghost" data-notify="${p.id}">Notify me</button>`
