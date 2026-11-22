@@ -112,15 +112,27 @@
   const bgFor = (p) => (p.art.set ? '#ecebe8' : (p.art.bag === '#0b0b0b' || p.art.bag === '#2a2a2a') ? '#f2f2f0' : '#dfdeda');
   const kind = (p) => ({ origin: `Single origin · ${p.where}`, blend: 'Blend · Indonesia', set: 'Set · 3 × 200 g', gift: 'Gift · 3 months' }[p.type]);
 
+  // the Shopify labels: each coffee's colour, its batik and the unfurling frame; a line of its story sells it
+  const LABEL = {
+    house: { c: '#3d2500', isl: 'Java', story: 'Two forests, one cup, grown with farmers who protect the endangered Javan slow loris.', ch: 'house' },
+    mandheling: { c: '#7f947b', isl: 'Sumatra', story: 'Named after the Mandailing people of North Sumatra, who have grown it for generations.', ch: 'roots' },
+    lintong: { c: '#b21919', isl: 'Sumatra', story: 'Grown above Lake Toba, the largest volcanic lake on Earth.', ch: 'roots' },
+    java: { c: '#995c2d', isl: 'Java', story: 'Aged in the monsoon winds, the old way, for its deep brown colour and low acidity.', ch: 'java' },
+    gayo: { c: '#3d0026', isl: 'Sumatra', story: 'From the highlands of Aceh, where the smallholders of Pantan Musara rebuilt their farms.', ch: 'gayo' },
+    kintamani: { c: '#cc7a00', isl: 'Bali', story: 'Grown by 377 smallholders among Bali’s orange trees, in harmony with the land.', ch: 'roots' },
+  };
+  const setArt = (p) => `<span class="lbl-fan">${p.contains.map((id, i) => { const q = byId(id), l = LABEL[id]; return `<span class="lbl lbl-f" style="--c:${l.c};--i:${i}"><span class="lbl-m" style="background-image:url(photos/shop/motif-${id}.webp)"></span><span class="lbl-o">Indonesia / ${esc(l.isl)}</span><span class="lbl-n">${esc(q.name)}</span></span>`; }).join('')}</span>`;
+  const giftArt = () => `<span class="lbl" style="--c:#151515"><span class="lbl-m" style="background-image:url(photos/shop/motif-house.webp);opacity:.3"></span><span class="lbl-o" style="color:#d9b45a">A bag a month · 3 months</span><span class="lbl-n">Gift subscription</span></span>`;
+  const labelArt = (p) => { const l = LABEL[p.id]; return `<span class="lbl" style="--c:${l.c}"><span class="lbl-m" style="background-image:url(photos/shop/motif-${p.id}.webp)"></span><span class="lbl-o">Indonesia / ${esc(l.isl)}</span><span class="lbl-n">${esc(p.name)}</span></span>`; };
   function card(p, o = {}) {
     const plan = o.plan || 'once', link = `product.html?id=${p.id}`;
     const btn = p.soon ? `<button class="btn ghost" data-notify="${p.id}">Notify me</button>`
       : `<button class="btn" data-add="${p.id}" data-plan="${plan}" aria-label="Add ${esc(p.name)} to basket${plan !== 'once' ? ', ' + PLANS[plan].toLowerCase() : ''}">${plan !== 'once' ? 'Subscribe' : 'Add to basket'}</button>`;
     const price = plan !== 'once' && canSub(p) ? `${money(unit(p, plan))} <small>${esc(p.size)}</small>` : `${money(p.price)} <small>${esc(p.size)}</small>`;
     return `<article class="pcard ${p.soon ? 'soon' : ''}" data-type="${p.type}">
-      <a class="pimg" href="${link}" style="--pbg:${bgFor(p)}" tabindex="-1" aria-hidden="true">${bagArt(p)}${p.soon ? '<span class="flag">Coming soon</span>' : p.type === 'set' ? '<span class="flag">Set · save £3</span>' : p.type === 'gift' ? '<span class="flag">Gift</span>' : ''}</a>
+      <a class="pimg has-lbl" href="${link}" style="--pbg:transparent" tabindex="-1" aria-hidden="true">${LABEL[p.id] ? labelArt(p) : p.type === 'set' ? setArt(p) : giftArt()}${p.soon ? '<span class="flag">Coming soon</span>' : p.type === 'set' ? '<span class="flag">Set · save £3</span>' : p.type === 'gift' ? '<span class="flag">Gift</span>' : ''}</a>
       <div class="pbody"><span class="ptag">${esc(kind(p))}</span><h3><a href="${link}">${esc(p.name)}</a></h3>
-        <p class="pnotes">${p.notes.map(esc).join(' · ')}</p>
+        <p class="pnotes">${p.notes.map(esc).join(' · ')}</p>${LABEL[p.id] ? `<p class="pstory">${esc(LABEL[p.id].story)} <a href="stories.html#${LABEL[p.id].ch}">Read its story</a></p>` : ''}
         <div class="prow"><span class="pprice">${price}</span><p class="psub">${p.soon ? 'Be first to know when it lands' : p.type === 'gift' ? 'Prepaid, delivery included' : plan !== 'once' ? `Save 10% · ${PLANS[plan].toLowerCase()} · free delivery` : `${money(unit(p, '2w'))} on subscription`}</p>${btn}</div></div>
     </article>`;
   }
