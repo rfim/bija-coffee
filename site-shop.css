@@ -1207,17 +1207,17 @@ html[data-vt="15"]::view-transition-new(root) { animation: vt-lamp-in 1.1s ease 
 /* shop: the coffee is its label (colour, batik, Bija's unfurling frame), as on the Shopify site */
 .pimg.has-lbl { aspect-ratio: 1.45; background: none; overflow: visible; }
 .lbl { position: absolute; inset: 0; background: var(--c); -webkit-mask: url(art/bija-unfurling-frame.svg) 0 0 / 100% 100% no-repeat; mask: url(art/bija-unfurling-frame.svg) 0 0 / 100% 100% no-repeat; overflow: hidden; transform-origin: 0 50%; transition: transform .9s cubic-bezier(.22, 1, .36, 1); }
-.lbl-m { position: absolute; top: -8%; bottom: -8%; right: -4%; width: 50%; background-size: auto 100%; background-position: left center; opacity: .55; -webkit-mask: linear-gradient(90deg, transparent, #000 30%); mask: linear-gradient(90deg, transparent, #000 30%); transition: transform 2.4s cubic-bezier(.22, 1, .36, 1), opacity .8s ease; }
+.lbl-m { position: absolute; top: -12%; bottom: -12%; right: -6%; width: 58%; background: var(--kc, rgba(255,255,255,.2)); -webkit-mask: url(art/kawung-tile.svg) 0 0 / var(--ks, 60px) var(--ks, 60px) repeat, linear-gradient(90deg, transparent, #000 40%); -webkit-mask-composite: source-in; mask: url(art/kawung-tile.svg) 0 0 / var(--ks, 60px) var(--ks, 60px) repeat, linear-gradient(90deg, transparent, #000 40%); mask-composite: intersect; transition: transform 2.4s cubic-bezier(.22, 1, .36, 1), opacity .8s ease; }
 .lbl::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, .14) 50%, transparent 65%); transform: translateX(-110%); transition: transform 1.3s cubic-bezier(.22, 1, .36, 1); }
 .lbl-o { position: absolute; left: 12%; top: 28%; font: 600 11px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: rgba(255, 255, 255, .9); }
 .lbl-n { position: absolute; left: 12%; top: 38%; right: 30%; font: 400 clamp(24px, 2.3vw, 34px)/1.04 var(--disp); color: #fff; }
-.pcard:hover .lbl { transform: rotate(-.8deg) scale(1.015); } .pcard:hover .lbl-m { transform: translateX(-7%) scale(1.06); opacity: .75; } .pcard:hover .lbl::after { transform: translateX(110%); }
+.pcard:hover .lbl { transform: rotate(-.8deg) scale(1.015); } .pcard:hover .lbl-m { transform: translateX(-7%) rotate(-3deg) scale(1.06); } .pcard:hover .lbl::after { transform: translateX(110%); }
 /* the label unfurls into view, left to right */
 .pcard .lbl { clip-path: inset(0 0 0 0); }
 .pgrid .pcard.srv:not(.in) .lbl { clip-path: inset(0 100% 0 0); }
 .pgrid .pcard .lbl { transition: transform .9s cubic-bezier(.22, 1, .36, 1), clip-path 1.2s cubic-bezier(.65, 0, .35, 1); }
-.pstory { margin: 10px 0 0; font: italic 400 14.5px/1.5 var(--disp); color: #3d3d3d; }
-.pstory a { font: 500 13px/1 var(--sans); font-style: normal; color: var(--ink); white-space: nowrap; }
+.pstory { margin: 10px 0 0; font: italic 400 14.5px/1.5 var(--disp); color: inherit; opacity: .85; }
+.pstory a { font: 500 13px/1 var(--sans); font-style: normal; color: inherit; white-space: nowrap; }
 @media (prefers-reduced-motion: reduce) { .lbl, .lbl-m, .lbl::after { transition: none !important; } .pgrid .pcard.srv:not(.in) .lbl { clip-path: none; } }
 
 .lbl-fan { position: absolute; inset: 0; }
